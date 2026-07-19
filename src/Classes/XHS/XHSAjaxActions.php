@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 小红书 AJAX 处理器 — v19.2.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_XHS_Ajax_Actions
+final class XHSAjaxActions
 {
     /**
      * 注册 AJAX 钩子。
@@ -52,7 +54,7 @@ final class Linked3_XHS_Ajax_Actions
             }
         }
 
-        $generator = new Linked3_XHS_Generator();
+        $generator = new XHSGenerator();
         $result = $generator->generate_script($params);
 
         if (is_wp_error($result)) {

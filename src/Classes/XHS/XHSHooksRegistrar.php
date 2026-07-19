@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 小红书钩子注册器 — v19.2.
  *
@@ -12,12 +14,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_XHS_Hooks_Registrar
+final class XHSHooksRegistrar
 {
     public static function register()
     : void {
         // AJAX 处理器
-        Linked3_XHS_Ajax_Actions::register();
+        XHSAjaxActions::register();
 
         // 在 linked3/init 钩子中注册视觉脚本生成器
         add_action('linked3/init', [__CLASS__, 'register_visual_generator'], 20);
@@ -46,7 +48,7 @@ final class Linked3_XHS_Hooks_Registrar
     : void {
         if (class_exists('Linked3\\Classes\\Visual\\VisualScriptRegistry')) {
             \Linked3\Classes\Visual\VisualScriptRegistry::register_generator(
-                new Linked3_XHS_Generator()
+                new XHSGenerator()
             );
         }
     }

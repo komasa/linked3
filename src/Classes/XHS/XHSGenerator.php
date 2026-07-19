@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 小红书脚本生成器 — v19.2 视觉生态新成员.
  *
@@ -24,7 +26,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_XHS_Generator implements VisualScriptGeneratorInterface
+final class XHSGenerator implements VisualScriptGeneratorInterface
 {
     /**
      * 小红书系统提示词模板 — 吸收独立生成器的 prompt 精华。

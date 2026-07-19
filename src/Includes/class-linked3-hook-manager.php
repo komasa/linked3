@@ -106,8 +106,8 @@ final class Linked3_Hook_Manager
         do_action('linked3/register_hooks', $version);
 
         // v19.2: 小红书模块注册
-        if (class_exists('Linked3\\Classes\\XHS\\Linked3_XHS_Hooks_Registrar')) {
-            \Linked3\Classes\XHS\Linked3_XHS_Hooks_Registrar::register();
+        if (class_exists('Linked3\\Classes\\XHS\\XHSHooksRegistrar')) {
+            \Linked3\Classes\XHS\XHSHooksRegistrar::register();
         }
 
         // ============================================================
