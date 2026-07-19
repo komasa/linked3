@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Prompt Engine — v5.6.0.5
  *
@@ -15,13 +17,13 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Prompt_Engine {
-    private static ?Linked3_Prompt_Engine $instance = null;
+class PromptEngine {
+    private static ?PromptEngine $instance = null;
     private array $templates = [];
     private array $abVariants = [];
     private array $performance = []; // ['template_id' => ['calls'=>0, 'avg_score'=>0]]
 
-    public static function instance(): Linked3_Prompt_Engine {
+    public static function instance(): PromptEngine {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

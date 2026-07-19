@@ -130,8 +130,8 @@ final class Linked3_Hook_Manager
         }
 
         // v8.3.0 M6: 多平台适配 AJAX (切换平台预览)
-        if (class_exists('\Linked3\Includes\Linked3_Platform_Adapter')) {
-            add_action('wp_ajax_linked3_switch_platform', ['\Linked3\Classes\AI\Pipeline\Linked3_Platform_Adapter', 'ajax_switch_platform']);
+        if (class_exists('\Linked3\Includes\PlatformAdapter')) {
+            add_action('wp_ajax_linked3_switch_platform', ['\Linked3\Classes\AI\Pipeline\PlatformAdapter', 'ajax_switch_platform']);
         }
 
         // Hard-registered module hooks. Each wrapped in try/catch so a single

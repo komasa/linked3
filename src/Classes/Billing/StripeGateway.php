@@ -275,7 +275,7 @@ class Linked3_Quota_Interceptor {
             return ['allowed' => true, 'plan' => $plan, 'quota' => 'unlimited'];
         }
 
-        $meter = Linked3_Token_Meter::instance();
+        $meter = TokenMeter::instance();
         $used = $meter->getMonthlyUsage($userId);
         $remaining = $quota - $used;
 

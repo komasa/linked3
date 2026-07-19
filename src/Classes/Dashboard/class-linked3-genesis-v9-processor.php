@@ -107,7 +107,7 @@ final class Linked3_Genesis_V9_Processor
             }
 
             $fpExtractor = class_exists('\Linked3_FP_Extractor') ? new \Linked3_FP_Extractor() : null;
-            $assembler = class_exists('\Linked3_Prompt_Assembler') ? new \Linked3_Prompt_Assembler() : null;
+            $assembler = class_exists('\PromptAssembler') ? new \PromptAssembler() : null;
 
             $results = [];
             $pqsScores = [];

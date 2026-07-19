@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Stream Output — v5.6.0.6
  *
@@ -15,12 +17,12 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Stream_Output {
-    private static ?Linked3_Stream_Output $instance = null;
+class StreamOutput {
+    private static ?StreamOutput $instance = null;
     private bool $active = false;
     private string $buffer = '';
 
-    public static function instance(): Linked3_Stream_Output {
+    public static function instance(): StreamOutput {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -115,7 +117,7 @@ class Linked3_Stream_Output {
  */
 class Linked3_Cost_Reporter {
     public static function getReport(string $period = 'monthly', ?int $userId = null): array {
-        $meter = Linked3_Token_Meter::instance();
+        $meter = TokenMeter::instance();
         $date = $period === 'monthly' ? current_time('Y-m') : current_time('Y-m-d');
 
         $report = [

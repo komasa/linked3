@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Provider Failover — v5.6.0.2
  *
@@ -15,14 +17,14 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Provider_Failover {
-    private static ?Linked3_Provider_Failover $instance = null;
+class ProviderFailover {
+    private static ?ProviderFailover $instance = null;
     private array $failoverChain = [];  // ['siliconflow' => ['deepseek', 'zhipu', 'openai']]
     private array $failureCounts = [];   // ['siliconflow' => 3]
     private int $circuitThreshold = 5;   // 连续失败5次打开熔断
     private int $circuitResetTime = 300; // 熔断5分钟后半开重试
 
-    public static function instance(): Linked3_Provider_Failover {
+    public static function instance(): ProviderFailover {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -108,7 +110,7 @@ class Linked3_Provider_Failover {
      * 负载均衡: 根据健康度和延迟选择最优 Provider。
      */
     public function selectByLoadBalance(array $providers): string {
-        $healthCheck = Linked3_Provider_Health_Check::instance();
+        $healthCheck = ProviderHealthCheck::instance();
         return $healthCheck->selectBest($providers);
     }
 

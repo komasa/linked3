@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Token Meter — v5.6.0.3
  *
@@ -15,11 +17,11 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Token_Meter {
-    private static ?Linked3_Token_Meter $instance = null;
+class TokenMeter {
+    private static ?TokenMeter $instance = null;
     private array $usage = []; // 内存缓存, 持久化到 option
 
-    public static function instance(): Linked3_Token_Meter {
+    public static function instance(): TokenMeter {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

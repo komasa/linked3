@@ -43,7 +43,7 @@ class Linked3_Genesis_Patch_Stage2
 
             $fpUseAi = ($genMode2 === 'ai');
             $fpExtractor = class_exists('\Linked3\Classes\Genesis\Linked3_FP_Extractor') ? new \Linked3_FP_Extractor() : null;
-            $assembler = class_exists('\Linked3\Classes\Genesis\Linked3_Prompt_Assembler') ? new \Linked3_Prompt_Assembler() : null;
+            $assembler = class_exists('\Linked3\Classes\Genesis\PromptAssembler') ? new \PromptAssembler() : null;
 
             $results = [];
             $pqsScores = [];

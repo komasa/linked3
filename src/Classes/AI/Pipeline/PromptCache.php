@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 AI Pipeline Bootstrap — v5.6.0.8~0.9
  *
@@ -16,12 +18,12 @@ if (!defined('ABSPATH')) exit;
  * Linked3 Prompt Cache — v5.6.0.8
  * 缓存 AI 响应 (相同 prompt+model 在 TTL 内复用)
  */
-class Linked3_Prompt_Cache {
-    private static ?Linked3_Prompt_Cache $instance = null;
+class PromptCache {
+    private static ?PromptCache $instance = null;
     private int $ttl = 3600; // 1小时
     private int $maxItems = 500;
 
-    public static function instance(): Linked3_Prompt_Cache {
+    public static function instance(): PromptCache {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -74,15 +76,15 @@ class Linked3_AI_Pipeline_Bootstrap {
         $container = linked3_container();
 
         // 注册 AI 管线服务
-        $container->set('ai.provider_health', fn() => Linked3_Provider_Health_Check::instance());
-        $container->set('ai.failover', fn() => Linked3_Provider_Failover::instance());
-        $container->set('ai.token_meter', fn() => Linked3_Token_Meter::instance());
-        $container->set('ai.key_pool', fn() => Linked3_Key_Pool::instance());
-        $container->set('ai.prompt_engine', fn() => Linked3_Prompt_Engine::instance());
+        $container->set('ai.provider_health', fn() => ProviderHealthCheck::instance());
+        $container->set('ai.failover', fn() => ProviderFailover::instance());
+        $container->set('ai.token_meter', fn() => TokenMeter::instance());
+        $container->set('ai.key_pool', fn() => KeyPool::instance());
+        $container->set('ai.prompt_engine', fn() => PromptEngine::instance());
         $container->set('ai.content_scorer', fn() => new Linked3_Content_Quality_Scorer());
-        $container->set('ai.stream', fn() => Linked3_Stream_Output::instance());
+        $container->set('ai.stream', fn() => StreamOutput::instance());
         $container->set('ai.cost_reporter', fn() => new Linked3_Cost_Reporter());
-        $container->set('ai.prompt_cache', fn() => Linked3_Prompt_Cache::instance());
+        $container->set('ai.prompt_cache', fn() => PromptCache::instance());
 
         // 注册核心事件
         linked3_subscribe('linked3.ai.token.consumed', function(Linked3_Event $evt) {

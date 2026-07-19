@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AI\Pipeline;
 if (!defined('ABSPATH')) exit;
 /**
@@ -8,7 +10,7 @@ if (!defined('ABSPATH')) exit;
  * @subpackage Linked3.Classes.AI.Pipeline
  * @since      27.1.0
  */
-final class Linked3_Provider_Registry
+final class ProviderRegistry
 {
     const BUILTIN_PROVIDERS = [
         'siliconflow' => ['name' => 'SiliconFlow', 'api_base' => 'https://api.siliconflow.cn/v1', 'has_default_key' => true, 'default_model' => 'Qwen/Qwen2.5-7B-Instruct'],

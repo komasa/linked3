@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Three-Layer Prompt Assembler v8.1.0 — M2 三层 Prompt 架构
  *
@@ -17,7 +19,7 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Prompt_Assembler
+class PromptAssembler
 {
     /**
      * v9.1.0-task3 — Seed 冲突优先级规则

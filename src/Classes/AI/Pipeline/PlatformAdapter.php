@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Platform Adapter v8.3.0 — M6 多平台适配
  *
@@ -20,7 +22,7 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Platform_Adapter
+class PlatformAdapter
 {
     /**
      * 平台白名单

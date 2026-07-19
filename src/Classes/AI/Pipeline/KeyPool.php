@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Key Pool — v5.6.0.4
  *
@@ -15,13 +17,13 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Key_Pool {
-    private static ?Linked3_Key_Pool $instance = null;
+class KeyPool {
+    private static ?KeyPool $instance = null;
     private array $keys = [];       // ['siliconflow' => ['sk-xxx', 'sk-yyy', ...]]
     private array $keyStatus = [];  // ['sk-xxx' => ['status'=>'active', 'rate_limited_until'=>0, 'calls'=>0]]
     private int $rotationIndex = 0;
 
-    public static function instance(): Linked3_Key_Pool {
+    public static function instance(): KeyPool {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

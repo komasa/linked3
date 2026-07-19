@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Provider Health Check — v5.6.0.1
  *
@@ -15,8 +17,8 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Provider_Health_Check {
-    private static ?Linked3_Provider_Health_Check $instance = null;
+class ProviderHealthCheck {
+    private static ?ProviderHealthCheck $instance = null;
     private array $health = [];        // ['siliconflow' => ['status'=>'healthy', 'latency'=>120, 'time'=>1234567890]]
     private array $responseTimes = []; // ['siliconflow' => [120, 150, 130, ...]] 滑动窗口100次
     private int $maxSamples = 100;
@@ -24,7 +26,7 @@ class Linked3_Provider_Health_Check {
     private int $degradedThreshold = 2000; // 2秒以上标记 degraded
     private int $unhealthyThreshold = 5000; // 5秒以上标记 unhealthy
 
-    public static function instance(): Linked3_Provider_Health_Check {
+    public static function instance(): ProviderHealthCheck {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
