@@ -155,7 +155,7 @@ final class RestController
 
     public static function usage($req)
     {
-        return rest_ensure_response((new \Linked3\Classes\Dashboard\Linked3_Dashboard())->overview());
+        return rest_ensure_response((new \Linked3\Classes\Dashboard\Dashboard())->overview());
     }
 
     public static function tasks($req)

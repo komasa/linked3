@@ -21,8 +21,8 @@ if (!defined('ABSPATH')) exit;
 class Linked3_Genesis_Patch_V1006 {
 
     // G2.3: Updated to reference Action classes instead of Legacy God Class
-    const ORIG_SEED_CLASS = 'Linked3\\Classes\\Dashboard\\Ajax\\Actions\\Linked3_Dashboard_Genesis_Actions';
-    const ORIG_V9_CLASS = 'Linked3\\Classes\\Dashboard\\Ajax\\Actions\\Linked3_Dashboard_GenesisV9_Actions';
+    const ORIG_SEED_CLASS = 'Linked3\\Classes\\Dashboard\\Ajax\\Actions\\DashboardGenesisActions';
+    const ORIG_V9_CLASS = 'Linked3\\Classes\\Dashboard\\Ajax\\Actions\\DashboardGenesisV9Actions';
 
     public static function register() : void {
         // G5.1: Removed override chain — endpoints are now registered by Action classes.

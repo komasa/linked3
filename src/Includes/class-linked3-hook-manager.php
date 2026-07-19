@@ -143,7 +143,7 @@ final class Linked3_Hook_Manager
             'Chat'          => '\\Linked3\\Classes\\Chat\\ChatHooksRegistrar',
             'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\AutoGPTHooksRegistrar',
             'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\WcFormsSpeechHooksRegistrar',
-            'Dashboard'       => '\\Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Hooks_Registrar',
+            'Dashboard'       => '\\Linked3\\Classes\\Dashboard\\DashboardHooksRegistrar',
             'Distribute'      => '\\Linked3\\Classes\\Distribute\\DistributeHooksRegistrar',
             'Metabox'         => '\\Linked3\\Classes\\Admin\\PostMetabox',
             'UpdateChecker'   => '\\Linked3\\Classes\\Admin\\UpdateChecker',

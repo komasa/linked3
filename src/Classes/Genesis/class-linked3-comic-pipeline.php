@@ -1,7 +1,7 @@
 <?php
 namespace Linked3\Classes\Genesis;
 use Linked3\Classes\Content\Pipeline\ContentPipelineInterface;
-use Linked3\Classes\Dashboard\Linked3_Genesis_Processor;
+use Linked3\Classes\Dashboard\GenesisProcessor;
 if (!defined('ABSPATH')) exit;
 
 final class Linked3_Comic_Pipeline implements ContentPipelineInterface
@@ -19,7 +19,7 @@ final class Linked3_Comic_Pipeline implements ContentPipelineInterface
     public function generate(array $context, ?callable $progressCb = null): array
     {
         if ($progressCb) $progressCb(5, 'preflight', __('预检中...', 'linked3'));
-        $result = Linked3_Genesis_Processor::genesisGenerateMultiInternal($context['script'], $context['style_id'], $context['platform'], $context['panel_count'], $progressCb, $context['extra_options']);
+        $result = GenesisProcessor::genesisGenerateMultiInternal($context['script'], $context['style_id'], $context['platform'], $context['panel_count'], $progressCb, $context['extra_options']);
         if ($progressCb) $progressCb(100, 'done', __('完成', 'linked3'));
         return ['panels' => $result['panels'] ?? [], 'total_panels' => $result['total_panels'] ?? 0, 'style' => $context['style_id'], 'platform' => $context['platform']];
     }

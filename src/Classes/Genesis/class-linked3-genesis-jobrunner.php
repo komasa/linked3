@@ -264,7 +264,7 @@ class Linked3_Genesis_JobRunner
             self::updateProgress($jobId, 5, 'preflight', '预检: 验证 API 配置...');
 
             // v7.1.8: 修复命名空间问题 — 必须用全限定名
-            $registrarClass = '\\Linked3\\Classes\\Dashboard\\Linked3_Genesis_Processor';
+            $registrarClass = '\\Linked3\\Classes\\Dashboard\\GenesisProcessor';
 
             if (method_exists($registrarClass, 'genesisPreflightCheck')) {
                 $preflight = $registrarClass::genesisPreflightCheck();
@@ -310,7 +310,7 @@ class Linked3_Genesis_JobRunner
     private static function executeGeneration(string $jobId, string $script, string $styleId, string $platform, string $panelCountRaw, array $extraOptions = []): array
     {
         // v7.1.8: 修复命名空间问题 — 必须用全限定名
-        $registrarClass = '\\Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Ajax_Registrar';
+        $registrarClass = '\\Linked3\\Classes\\Dashboard\\DashboardAjaxRegistrar';
 
         if (method_exists($registrarClass, 'genesisGenerateMultiInternal')) {
             return $registrarClass::genesisGenerateMultiInternal($script, $styleId, $platform, $panelCountRaw, [self::class, 'on_generation_progress'], $extraOptions);
