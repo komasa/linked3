@@ -21,7 +21,7 @@ namespace Linked3\Classes\Dashboard;
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\SEO\Keyword\KeywordManager;
 use Linked3\Classes\Core\AIDispatcher;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 

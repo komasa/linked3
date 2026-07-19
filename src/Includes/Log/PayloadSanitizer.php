@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Payload Sanitizer — strips secrets from data before it hits the log file.
  *
@@ -17,7 +19,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Payload_Sanitizer
+final class PayloadSanitizer
 {
     const SECRET_KEYS = [
         'api_key', 'apikey', 'api-key',

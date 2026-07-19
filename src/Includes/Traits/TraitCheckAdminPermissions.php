@@ -1,10 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Trait: enforce admin capability + nonce on AJAX handlers.
  *
  * Usage in an Action class:
  *   class My_Action {
- *       use Trait_Check_Admin_Permissions;
+ *       use TraitCheckAdminPermissions;
  *       public function handle() : void {
  *           $this->verify('my_action_nonce');
  *           // ... business logic
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-trait Trait_Check_Admin_Permissions
+trait TraitCheckAdminPermissions
 {
     /**
      * @param string      $action     Nonce action name.

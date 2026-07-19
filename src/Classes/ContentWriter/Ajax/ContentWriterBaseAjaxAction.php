@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\ContentWriter\Ajax;
 
-use Linked3\Includes\Traits\Trait_Check_Admin_Permissions;
-use Linked3\Includes\Traits\Trait_Send_WP_Error;
-use Linked3\Includes\Traits\Trait_Check_Plan_Access;
+use Linked3\Includes\Traits\TraitCheckAdminPermissions;
+use Linked3\Includes\Traits\TraitSendWPError;
+use Linked3\Includes\Traits\TraitCheckPlanAccess;
 use Linked3\Classes\Core\TokenManager;
 use Linked3\Classes\Core\AIDispatcher;
 

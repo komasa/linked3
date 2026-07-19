@@ -105,7 +105,7 @@ class E2eTestRunner {
 
         $this->registerTest('logger_writes', function() {
             $logFile = trailingslashit(WP_CONTENT_DIR) . 'linked3-logs/linked3-' . current_time('Y-m-d') . '.log';
-            Linked3_Logger::instance()->info('E2E test log entry');
+            Logger::instance()->info('E2E test log entry');
             return file_exists($logFile);
         }, 'infrastructure');
 
@@ -144,7 +144,7 @@ class Linked3_Health_Monitor {
             // 基础设施
             'container'       => $container->has('logger'),
             'event_bus'       => class_exists('\Linked3\Classes\E2E\Linked3_Event_Bus'),
-            'logger'          => class_exists('\Linked3\Classes\E2E\Linked3_Logger'),
+            'logger'          => class_exists('\Linked3\Classes\E2E\Logger'),
             'error_handler'   => class_exists('\Linked3\Classes\E2E\Linked3_Error_Handler'),
             // Agent
             'agent_orchestrator' => $container->has('agent.orchestrator'),

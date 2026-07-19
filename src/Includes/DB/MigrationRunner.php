@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Migration runner — versioned, idempotent, self-healing.
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Migration_Runner
+final class MigrationRunner
 {
     /**
      * Versioned migration callbacks. Key = version string; value = callable.
@@ -45,7 +47,7 @@ final class Linked3_Migration_Runner
         // 1) If stored version is 0 (fresh install) or older than code,
         //    create all tables + stamp the version.
         if (version_compare($stored, LINKED3_DB_VERSION, '<')) {
-            Linked3_Schema::create_all();
+            Schema::create_all();
 
             foreach (self::migrations() as $version => $cb) {
                 if (version_compare($stored, $version, '<')) {
@@ -59,7 +61,7 @@ final class Linked3_Migration_Runner
         // 2) Self-heal: even if versions match, verify tables exist.
         //    Cheap probe — checks INFORMATION_SCHEMA for one table.
         if (self::are_tables_missing()) {
-            Linked3_Schema::create_all();
+            Schema::create_all();
         }
     }
 
@@ -69,7 +71,7 @@ final class Linked3_Migration_Runner
     public static function are_tables_missing()
     {
         global $wpdb;
-        $names = Linked3_Schema::qualified_names();
+        $names = Schema::qualified_names();
         if (empty($names)) {
             return false;
         }

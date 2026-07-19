@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -36,7 +36,7 @@ final class CSDNDistributor implements DistributeAdapterInterface
             'source_url' => $post_data['url'] ?? '',
         ];
 
-        $resp = Linked3_Safe_Remote::post('https://bizapi.csdn.net/blog-console-api/v1/blog/save', [
+        $resp = SafeRemote::post('https://bizapi.csdn.net/blog-console-api/v1/blog/save', [
             'timeout' => 30,
             'headers' => ['Cookie' => $token, 'Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -59,7 +59,7 @@ final class CSDNDistributor implements DistributeAdapterInterface
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Cookie', 'linked3-ai')];
         // v3.0.0: 真实 ping CSDN 用户接口验证 Cookie
-        $resp = Linked3_Safe_Remote::get('https://bizapi.csdn.net/user-api/v1/user/info', [
+        $resp = SafeRemote::get('https://bizapi.csdn.net/user-api/v1/user/info', [
             'timeout' => 15,
             'headers' => ['Cookie' => $token],
             'allowed_hosts' => ['bizapi.csdn.net'],

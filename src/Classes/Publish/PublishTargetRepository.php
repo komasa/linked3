@@ -4,12 +4,12 @@ declare(strict_types=1);
 /**
  * Publish Target Repository — CRUD on linked3_publish_targets with Crypto.
  *
- * v4.5.4: now extends Linked3_Base_Repository. Custom encrypt/decrypt +
+ * v4.5.4: now extends BaseRepository. Custom encrypt/decrypt +
  * plan-limit logic is preserved. The all_for_user/get/get_default methods
  * keep user-scoping (Base_Repository only filters by PK).
  *
  * All sensitive fields (app_password, db_password, webhook_secret) are
- * encrypted via Linked3_Crypto before storage and decrypted on read.
+ * encrypted via Crypto before storage and decrypted on read.
  *
  * @package Linked3
  * @subpackage Classes\Publish
@@ -17,13 +17,13 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Publish;
 
-use Linked3\Includes\DB\Linked3_Base_Repository;
+use Linked3\Includes\DB\BaseRepository;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class PublishTargetRepository extends Linked3_Base_Repository
+final class PublishTargetRepository extends BaseRepository
 {
     const SENSITIVE_FIELDS = ['app_password', 'db_password', 'webhook_secret'];
 
@@ -232,10 +232,10 @@ final class PublishTargetRepository extends Linked3_Base_Repository
      */
     private function encrypt_config(array $config)
     {
-        if (class_exists('\\Linked3\\Includes\\Linked3_Crypto')) {
+        if (class_exists('\\Linked3\\Includes\\Crypto')) {
             foreach (self::SENSITIVE_FIELDS as $field) {
                 if (!empty($config[$field])) {
-                    $enc = \Linked3\Includes\Linked3_Crypto::encrypt($config[$field]);
+                    $enc = \Linked3\Includes\Crypto::encrypt($config[$field]);
                     if ($enc !== null) {
                         $config[$field] = $enc;
                     }
@@ -255,10 +255,10 @@ final class PublishTargetRepository extends Linked3_Base_Repository
         if (!is_array($config)) {
             return [];
         }
-        if (class_exists('\\Linked3\\Includes\\Linked3_Crypto')) {
+        if (class_exists('\\Linked3\\Includes\\Crypto')) {
             foreach (self::SENSITIVE_FIELDS as $field) {
                 if (!empty($config[$field])) {
-                    $dec = \Linked3\Includes\Linked3_Crypto::decrypt($config[$field]);
+                    $dec = \Linked3\Includes\Crypto::decrypt($config[$field]);
                     if ($dec !== null) {
                         $config[$field] = $dec;
                     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * AutoGPT Task Repository — CRUD on linked3_tasks + linked3_task_queue.
  *
- * v4.5.4: now extends Linked3_Base_Repository for the linked3_tasks table.
+ * v4.5.4: now extends BaseRepository for the linked3_tasks table.
  * Queue methods (enqueue/dequeue/mark_queue_done) operate on
  * linked3_task_queue and use $wpdb directly (a second repository could
  * be created for the queue table in the future).
@@ -17,13 +17,13 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\AutoGPT;
 
-use Linked3\Includes\DB\Linked3_Base_Repository;
+use Linked3\Includes\DB\BaseRepository;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class AutoGPTTaskRepository extends Linked3_Base_Repository
+final class AutoGPTTaskRepository extends BaseRepository
 {
     const VALID_TYPES = ['content-writing', 'content-enhancement', 'content-indexing', 'comment-reply', 'collect-rewrite'];
     const VALID_STATUS = ['active', 'paused', 'deleted'];

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Admin;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -71,7 +71,7 @@ final class UpdateChecker
         update_option(LINKED3_OPTION_PREFIX . 'last_update_check', time());
 
         try {
-            $resp = Linked3_Safe_Remote::get($api_url . '?version=' . LINKED3_VERSION, [
+            $resp = SafeRemote::get($api_url . '?version=' . LINKED3_VERSION, [
                 'timeout' => 10,
                 'allowed_hosts' => [wp_parse_url($api_url, PHP_URL_HOST)],
             ]);

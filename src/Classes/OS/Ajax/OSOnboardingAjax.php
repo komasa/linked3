@@ -91,10 +91,10 @@ class OSOnboardingAjax {
         try {
             // v18复审: 接收用户输入参数
             $user_input = [
-                'profession'  => Linked3_Request::string('profession', ''),
-                'track'       => Linked3_Request::string('track', ''),
-                'goal'        => Linked3_Request::string('goal', ''),
-                'platform'    => Linked3_Request::string('platform', '公众号'),
+                'profession'  => Request::string('profession', ''),
+                'track'       => Request::string('track', ''),
+                'goal'        => Request::string('goal', ''),
+                'platform'    => Request::string('platform', '公众号'),
                 'current_day' => intval($_POST['current_day'] ?? 1),
             ];
 
@@ -127,25 +127,25 @@ class OSOnboardingAjax {
      */
     private static function extract_params(): array {
         return [
-            'engineer_type' => Linked3_Request::string('engineer_type', ''),
-            'target' => Linked3_Request::textarea('target'),
-            'json_raw' => Linked3_Request::textarea('json_raw'),
-            'result_a' => Linked3_Request::textarea('result_a'),
-            'result_b' => Linked3_Request::textarea('result_b'),
-            'content_type' => Linked3_Request::string('content_type', 'T1'),
-            'chart_type' => Linked3_Request::string('chart_type', ''),
-            'scene' => Linked3_Request::string('scene', ''),
-            'module_id' => Linked3_Request::string('module_id', ''),
-            'frequency' => Linked3_Request::string('frequency', 'MF'),
+            'engineer_type' => Request::string('engineer_type', ''),
+            'target' => Request::textarea('target'),
+            'json_raw' => Request::textarea('json_raw'),
+            'result_a' => Request::textarea('result_a'),
+            'result_b' => Request::textarea('result_b'),
+            'content_type' => Request::string('content_type', 'T1'),
+            'chart_type' => Request::string('chart_type', ''),
+            'scene' => Request::string('scene', ''),
+            'module_id' => Request::string('module_id', ''),
+            'frequency' => Request::string('frequency', 'MF'),
             'day' => intval($_POST['day'] ?? 1),
-            'state' => Linked3_Request::string('state', ''),
-            'text_type' => Linked3_Request::string('text_type', ''),
-            'target_text' => Linked3_Request::textarea('target_text'),
-            'cognitive_level' => Linked3_Request::string('cognitive_level', ''),
-            'reader_type' => Linked3_Request::string('reader_type', ''),
-            'reverse_result' => Linked3_Request::textarea('reverse_result'),
-            'prompt' => Linked3_Request::textarea('prompt'),
-            'flywheel_data' => Linked3_Request::textarea('flywheel_data'),
+            'state' => Request::string('state', ''),
+            'text_type' => Request::string('text_type', ''),
+            'target_text' => Request::textarea('target_text'),
+            'cognitive_level' => Request::string('cognitive_level', ''),
+            'reader_type' => Request::string('reader_type', ''),
+            'reverse_result' => Request::textarea('reverse_result'),
+            'prompt' => Request::textarea('prompt'),
+            'flywheel_data' => Request::textarea('flywheel_data'),
         ];
     }
 

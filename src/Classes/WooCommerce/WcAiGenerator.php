@@ -148,9 +148,9 @@ final class WcAiGenerator
             return ['ok' => false, 'message' => sprintf(__('%s API Key 未配置,请在语音 → Provider 密钥中设置。', 'linked3'), ucfirst($provider))];
         }
 
-        // Decrypt if necessary (Linked3_Crypto::decrypt is a no-op on plaintext).
-        if (class_exists('\\Linked3\\Includes\\Linked3_Crypto')) {
-            $api_key = \Linked3\Includes\Linked3_Crypto::decrypt($api_key);
+        // Decrypt if necessary (Crypto::decrypt is a no-op on plaintext).
+        if (class_exists('\\Linked3\\Includes\\Crypto')) {
+            $api_key = \Linked3\Includes\Crypto::decrypt($api_key);
         }
 
         // Build prompt from product name + short description.
@@ -166,7 +166,7 @@ final class WcAiGenerator
 
         // Call OpenAI Images API via Safe_Remote.
         $endpoint = 'https://api.openai.com/v1/images/generations';
-        $resp = \Linked3\Includes\Http\Linked3_Safe_Remote::post($endpoint, [
+        $resp = \Linked3\Includes\Http\SafeRemote::post($endpoint, [
             'timeout' => 60,
             'headers' => [
                 'Content-Type'  => 'application/json',

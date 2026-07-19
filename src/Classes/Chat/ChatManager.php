@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Chat;
 
 use Linked3\Classes\Chat\Storage\ChatStorage;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -29,8 +29,8 @@ final class ChatManager
     public static function instance() : mixed {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -252,8 +252,8 @@ final class ChatManager
      */
     private function log($level, $message)
     : void {
-        if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            Linked3_Logger::instance()->log('chat', $level, $message);
+        if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            Logger::instance()->log('chat', $level, $message);
         }
     }
 }

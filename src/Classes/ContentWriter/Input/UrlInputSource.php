@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Input;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 if (!defined('ABSPATH')) exit;
@@ -28,7 +28,7 @@ final class UrlInputSource implements InputSourceInterface
             if ($count >= $limit) break;
             $url = esc_url_raw($url);
             if (empty($url)) continue;
-            $resp = Linked3_Safe_Remote::get($url, [
+            $resp = SafeRemote::get($url, [
                 'timeout' => 20,
                 'allowed_hosts' => [wp_parse_url($url, PHP_URL_HOST)],
             ]);

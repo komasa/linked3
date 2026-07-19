@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Collect Source Repository — CRUD on linked3_collect_sources.
  *
- * v4.5.4: now extends Linked3_Base_Repository. The custom `all_for_user` /
+ * v4.5.4: now extends BaseRepository. The custom `all_for_user` /
  * `get` / `mark_fetched` methods are kept (they have user-scoping logic that
  * Base_Repository does not). The `create` / `update` / `delete` methods
  * delegate to the base class for $wpdb->insert/update/delete with prepare.
@@ -15,13 +15,13 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Collect;
 
-use Linked3\Includes\DB\Linked3_Base_Repository;
+use Linked3\Includes\DB\BaseRepository;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class CollectSourceRepository extends Linked3_Base_Repository
+final class CollectSourceRepository extends BaseRepository
 {
     /**
      * {@inheritdoc}

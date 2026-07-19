@@ -70,8 +70,8 @@ abstract class PipelineStage implements PipelineStageInterface
      */
     protected function log(string $level, string $message, array $context = []): void
     {
-        if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            \Linked3\Includes\Log\Linked3_Logger::instance()->log('pipeline', $level, $message, $context);
+        if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            \Linked3\Includes\Log\Logger::instance()->log('pipeline', $level, $message, $context);
         }
     }
 }

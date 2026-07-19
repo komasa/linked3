@@ -62,7 +62,7 @@ class OSVisualAnalyticsAjax {
                 : [];
 
             // 按图示类型获取统计 (若前端传了 chart_type)
-            $chart_type = Linked3_Request::string('chart_type', '');
+            $chart_type = Request::string('chart_type', '');
             $type_stats = [];
             if (!empty($chart_type) && method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_stats_by_chart_type')) {
                 $type_stats = Linked3_Svg_Meta_Stats::get_stats_by_chart_type($chart_type);
@@ -154,25 +154,25 @@ class OSVisualAnalyticsAjax {
      */
     private static function extract_params(): array {
         return [
-            'engineer_type' => Linked3_Request::string('engineer_type', ''),
-            'target' => Linked3_Request::textarea('target'),
-            'json_raw' => Linked3_Request::textarea('json_raw'),
-            'result_a' => Linked3_Request::textarea('result_a'),
-            'result_b' => Linked3_Request::textarea('result_b'),
-            'content_type' => Linked3_Request::string('content_type', 'T1'),
-            'chart_type' => Linked3_Request::string('chart_type', ''),
-            'scene' => Linked3_Request::string('scene', ''),
-            'module_id' => Linked3_Request::string('module_id', ''),
-            'frequency' => Linked3_Request::string('frequency', 'MF'),
+            'engineer_type' => Request::string('engineer_type', ''),
+            'target' => Request::textarea('target'),
+            'json_raw' => Request::textarea('json_raw'),
+            'result_a' => Request::textarea('result_a'),
+            'result_b' => Request::textarea('result_b'),
+            'content_type' => Request::string('content_type', 'T1'),
+            'chart_type' => Request::string('chart_type', ''),
+            'scene' => Request::string('scene', ''),
+            'module_id' => Request::string('module_id', ''),
+            'frequency' => Request::string('frequency', 'MF'),
             'day' => intval($_POST['day'] ?? 1),
-            'state' => Linked3_Request::string('state', ''),
-            'text_type' => Linked3_Request::string('text_type', ''),
-            'target_text' => Linked3_Request::textarea('target_text'),
-            'cognitive_level' => Linked3_Request::string('cognitive_level', ''),
-            'reader_type' => Linked3_Request::string('reader_type', ''),
-            'reverse_result' => Linked3_Request::textarea('reverse_result'),
-            'prompt' => Linked3_Request::textarea('prompt'),
-            'flywheel_data' => Linked3_Request::textarea('flywheel_data'),
+            'state' => Request::string('state', ''),
+            'text_type' => Request::string('text_type', ''),
+            'target_text' => Request::textarea('target_text'),
+            'cognitive_level' => Request::string('cognitive_level', ''),
+            'reader_type' => Request::string('reader_type', ''),
+            'reverse_result' => Request::textarea('reverse_result'),
+            'prompt' => Request::textarea('prompt'),
+            'flywheel_data' => Request::textarea('flywheel_data'),
         ];
     }
 

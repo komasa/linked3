@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Includes;
 if (!defined('ABSPATH')) exit;
 /**
@@ -8,7 +10,7 @@ if (!defined('ABSPATH')) exit;
  * @subpackage Linked3.Includes
  * @since      27.1.0
  */
-final class Linked3_Request
+final class Request
 {
     public static function string($key, $default = '', $source = 'any') { $v = self::raw($key, $source); return $v === null ? $default : sanitize_text_field(wp_unslash($v)); }
     public static function textarea($key, $default = '') { $v = self::raw($key, 'post'); return $v === null ? $default : sanitize_textarea_field(wp_unslash($v)); }

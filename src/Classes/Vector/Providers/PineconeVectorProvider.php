@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Vector\Providers;
 
 use Linked3\Classes\Vector\VectorProviderInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -51,7 +51,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
                 'metadata' => (object) ($v['metadata'] ?? new \stdClass()),
             ];
         }
-        $resp = Linked3_Safe_Remote::post("{$host}/vectors/upsert", [
+        $resp = SafeRemote::post("{$host}/vectors/upsert", [
             'timeout' => 30,
             'headers' => [
                 'Api-Key' => $key,
@@ -80,7 +80,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
         if (!empty($filters['post_type'])) {
             $body['filter'] = ['post_type' => ['$eq' => sanitize_text_field($filters['post_type'])]];
         }
-        $resp = Linked3_Safe_Remote::post("{$host}/query", [
+        $resp = SafeRemote::post("{$host}/query", [
             'timeout' => 30,
             'headers' => [
                 'Api-Key' => $key,
@@ -108,7 +108,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
         $key = $config['api_key'] ?? '';
         $host = rtrim($config['index_host'] ?? '', '/');
         if (!$key || !$host) return ['ok' => false, 'message' => __('缺少 api_key / index_host。', 'linked3')];
-        $resp = Linked3_Safe_Remote::post("{$host}/vectors/delete", [
+        $resp = SafeRemote::post("{$host}/vectors/delete", [
             'timeout' => 30,
             'headers' => ['Api-Key' => $key, 'Content-Type' => 'application/json', 'X-Pinecone-API-Version' => '2024-07'],
             'body' => wp_json_encode(['ids' => array_map('strval', $ids)]),
@@ -128,7 +128,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
         if (!$provider) return new \WP_Error('no_provider', __('无嵌入 Provider。', 'linked3'));
         $payload = $provider->format_embed_payload($text, ['model' => $config['embed_model'] ?? 'text-embedding-3-small'], $config);
         $url = $provider->build_api_url('embed', $config);
-        $resp = Linked3_Safe_Remote::post($url, [
+        $resp = SafeRemote::post($url, [
             'timeout' => 30,
             'headers' => $provider->get_api_headers($config),
             'body' => wp_json_encode($payload),

@@ -21,8 +21,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\License;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -40,7 +40,7 @@ final class LicenseService
     /** @var self|null */
     private static $instance;
 
-    /** @var Linked3_Logger */
+    /** @var Logger */
     private $log;
 
     /** @var string|null Cached plan. */
@@ -48,7 +48,7 @@ final class LicenseService
 
     private function __construct()
     {
-        $this->log = Linked3_Logger::instance();
+        $this->log = Logger::instance();
     }
 
     /**
@@ -58,8 +58,8 @@ final class LicenseService
     {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -124,8 +124,8 @@ final class LicenseService
             return '';
         }
         // v0.2.0 Crypto class encrypts on save; old plain values pass through.
-        if (class_exists('\\Linked3\\Includes\\Linked3_Crypto') && strpos($stored, 'enc::') === 0) {
-            $dec = \Linked3\Includes\Linked3_Crypto::decrypt($stored);
+        if (class_exists('\\Linked3\\Includes\\Crypto') && strpos($stored, 'enc::') === 0) {
+            $dec = \Linked3\Includes\Crypto::decrypt($stored);
             return $dec !== null ? $dec : '';
         }
         return $stored;
@@ -143,8 +143,8 @@ final class LicenseService
             return;
         }
         $stored = $key;
-        if (class_exists('\\Linked3\\Includes\\Linked3_Crypto')) {
-            $enc = \Linked3\Includes\Linked3_Crypto::encrypt($key);
+        if (class_exists('\\Linked3\\Includes\\Crypto')) {
+            $enc = \Linked3\Includes\Crypto::encrypt($key);
             if ($enc !== null) {
                 $stored = $enc;
             }
@@ -182,7 +182,7 @@ final class LicenseService
             }
         } catch (\Throwable $e) {
             // 远程激活失败,静默处理 — 不阻塞 key 保存
-            if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
+            if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
                 $this->log->warning('license', '远程激活失败 (非阻塞): ' . $e->getMessage());
             }
         }
@@ -315,7 +315,7 @@ final class LicenseService
             'signature'    => $signature,
         ];
 
-        $response = Linked3_Safe_Remote::post($url, [
+        $response = SafeRemote::post($url, [
             'timeout' => 15,
             'headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -384,7 +384,7 @@ final class LicenseService
             'signature'        => $signature,
         ];
 
-        $response = Linked3_Safe_Remote::post($url, [
+        $response = SafeRemote::post($url, [
             'timeout' => 15,
             'headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json'],
             'body'    => wp_json_encode($body),

@@ -6,7 +6,7 @@ declare(strict_types=1);
  *
  * Migrates v2.9.6 baidu-hotwords.php (function-style, license-gated,
  * GBK encoding juggling). Key improvements over v2.9.6:
- *   - All HTTP via Linked3_Safe_Remote (no raw cURL, SSL verify ON)
+ *   - All HTTP via SafeRemote (no raw cURL, SSL verify ON)
  *   - License gate moved up to the AJAX layer (this class is transport-only)
  *   - Hotwords cached 6h in transient to cut external calls
  *   - Default-off network errors (no fatal on outage)
@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Keyword;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -80,7 +80,7 @@ final class Hotwords
         // v2.9.6 used the JSONP HTML-scrape path; modern Baidu exposes a
         // JSON feed we can consume directly with Safe_Remote.
         $url = 'https://www.baidu.com/s?wd=' . rawurlencode('热搜');
-        $response = Linked3_Safe_Remote::get($url, [
+        $response = SafeRemote::get($url, [
             'timeout' => 12,
             'allowed_hosts' => ['www.baidu.com'],
         ]);
@@ -102,7 +102,7 @@ final class Hotwords
      */
     private static function fetch_bing() : mixed     {
         $url = 'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
-        $response = Linked3_Safe_Remote::get($url, [
+        $response = SafeRemote::get($url, [
             'timeout' => 12,
             'allowed_hosts' => ['www.bing.com'],
         ]);
@@ -123,7 +123,7 @@ final class Hotwords
     private static function fetch_google() : mixed {
         // Google Trends RSS for CN region (read-only public feed).
         $url = 'https://trends.google.com/trends/trendingsearches/daily/rss?geo=CN';
-        $response = Linked3_Safe_Remote::get($url, [
+        $response = SafeRemote::get($url, [
             'timeout' => 12,
             'allowed_hosts' => ['trends.google.com'],
         ]);

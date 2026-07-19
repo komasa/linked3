@@ -9,7 +9,7 @@ declare(strict_types=1);
  * string the site publishes at /{key}.txt so Bing can verify ownership.
  *
  * Mirrors v2.9.6 push_to_bing (which used raw cURL + SSL off; this
- * version routes through Linked3_Safe_Remote with SSL verify ON).
+ * version routes through SafeRemote with SSL verify ON).
  *
  * @package Linked3
  * @subpackage Classes\SEO\Push
@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Push;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -68,7 +68,7 @@ final class PushEngineBing implements PushEngine
             'urlList'     => array_values(array_map('esc_url_raw', $urls)),
         ];
 
-        $response = Linked3_Safe_Remote::post('https://www.bing.com/indexnow', [
+        $response = SafeRemote::post('https://www.bing.com/indexnow', [
             'timeout'       => 15,
             'headers'       => ['Content-Type' => 'application/json; charset=utf-8'],
             'body'          => wp_json_encode($payload),

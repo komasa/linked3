@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -35,7 +35,7 @@ final class TelegramDistributor implements DistributeAdapterInterface
         $text = sprintf("<b>%s</b>\n\n%s\n\n<a href=\"%s\">%s</a>",
             esc_html($title), esc_html(mb_substr($excerpt, 0, 300)), esc_url($url), esc_html__('阅读全文', 'linked3'));
 
-        $resp = Linked3_Safe_Remote::post("https://api.telegram.org/bot{$token}/sendMessage", [
+        $resp = SafeRemote::post("https://api.telegram.org/bot{$token}/sendMessage", [
             'timeout' => 30,
             'body' => [
                 'chat_id' => $chat_id,
@@ -58,7 +58,7 @@ final class TelegramDistributor implements DistributeAdapterInterface
         $token = $config['bot_token'] ?? '';
         $chat_id = $config['chat_id'] ?? '';
         if (!$token || !$chat_id) return ['ok' => false, 'message' => __('缺少 Bot Token 或 Chat ID。', 'linked3')];
-        $resp = Linked3_Safe_Remote::post("https://api.telegram.org/bot{$token}/sendChatAction", [
+        $resp = SafeRemote::post("https://api.telegram.org/bot{$token}/sendChatAction", [
             'timeout' => 15,
             'body' => ['chat_id' => $chat_id, 'action' => 'typing'],
             'allowed_hosts' => ['api.telegram.org'],

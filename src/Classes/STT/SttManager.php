@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\STT;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -68,7 +68,7 @@ final class SttManager
         $body .= "Content-Type: " . $this->mimeType($file_path) . "\r\n\r\n" . $file_content . "\r\n";
         $body .= "--{$boundary}--\r\n";
 
-        $resp = Linked3_Safe_Remote::post($url, [
+        $resp = SafeRemote::post($url, [
             'timeout' => 120,
             'headers' => [
                 'Authorization' => 'Bearer ' . $key,

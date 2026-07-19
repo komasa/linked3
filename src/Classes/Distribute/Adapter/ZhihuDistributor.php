@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -52,7 +52,7 @@ final class ZhihuDistributor implements DistributeAdapterInterface
         ];
         if ($column_id) $body['column_id'] = $column_id;
 
-        $resp = Linked3_Safe_Remote::post($api_url, [
+        $resp = SafeRemote::post($api_url, [
             'timeout' => 30,
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
@@ -85,7 +85,7 @@ final class ZhihuDistributor implements DistributeAdapterInterface
         }
         // 验证: GET {api_url}/me (MCP 服务通常提供 /me 端点)
         $me_url = rtrim($api_url, '/') . '/me';
-        $resp = Linked3_Safe_Remote::get($me_url, [
+        $resp = SafeRemote::get($me_url, [
             'timeout' => 10,
             'headers' => ['Authorization' => 'Bearer ' . $token],
         ]);

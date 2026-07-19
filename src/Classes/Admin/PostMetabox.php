@@ -300,7 +300,7 @@ final class PostMetabox
                     }
                     $prompt = "为文章《{$title}》生成一张配图,风格: 现代简约,横版";
                     $url = 'https://api.openai.com/v1/images/generations';
-                    $resp = \Linked3\Includes\Http\Linked3_Safe_Remote::post($url, [
+                    $resp = \Linked3\Includes\Http\SafeRemote::post($url, [
                         'timeout' => 60,
                         'headers' => ['Authorization' => 'Bearer ' . $keys['openai'], 'Content-Type' => 'application/json'],
                         'body' => wp_json_encode(['model' => 'dall-e-3', 'prompt' => $prompt, 'n' => 1, 'size' => '1792x1024']),

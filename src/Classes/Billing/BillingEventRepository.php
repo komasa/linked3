@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Billing;
 
-use Linked3\Includes\DB\Linked3_Base_Repository;
+use Linked3\Includes\DB\BaseRepository;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class BillingEventRepository extends Linked3_Base_Repository
+final class BillingEventRepository extends BaseRepository
 {
     /**
      * {@inheritdoc}

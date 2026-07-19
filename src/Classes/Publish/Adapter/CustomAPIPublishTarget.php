@@ -18,8 +18,8 @@ namespace Linked3\Classes\Publish\Adapter;
 
 use Linked3\Classes\Publish\PublishTargetInterface;
 use Linked3\Classes\Publish\PublishConfig;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -63,10 +63,10 @@ final class CustomAPIPublishTarget implements PublishTargetInterface
 
         $max_attempts = (int) PublishConfig::get('retry.max_attempts', 3);
         $backoff = (int) PublishConfig::get('retry.backoff_base', 60);
-        $log = Linked3_Logger::instance();
+        $log = Logger::instance();
 
         for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {
-            $resp = Linked3_Safe_Remote::post($url, [
+            $resp = SafeRemote::post($url, [
                 'timeout' => 30,
                 'headers' => $headers,
                 'body'    => $payload,
@@ -123,7 +123,7 @@ final class CustomAPIPublishTarget implements PublishTargetInterface
             $headers['X-Linked3-Nonce'] = $nonce;
         }
         // Send a ping event — receiver should respond 200 with {"ok":true}.
-        $resp = Linked3_Safe_Remote::post($url, [
+        $resp = SafeRemote::post($url, [
             'timeout' => 15,
             'headers' => $headers,
             'body' => $payload,

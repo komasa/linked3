@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -35,7 +35,7 @@ final class RedditDistributor implements DistributeAdapterInterface
             'text' => $post_data['content'] ?? '',
             'url' => $post_data['url'] ?? '',
         ];
-        $resp = Linked3_Safe_Remote::post('https://oauth.reddit.com/api/submit', [
+        $resp = SafeRemote::post('https://oauth.reddit.com/api/submit', [
             'timeout' => 30,
             'headers' => ['Authorization' => 'Bearer ' . $token, 'User-Agent' => 'Linked3/1.0', 'Content-Type' => 'application/x-www-form-urlencoded'],
             'body' => http_build_query($body),
@@ -53,7 +53,7 @@ final class RedditDistributor implements DistributeAdapterInterface
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
         // v3.0.0: 真实 ping Reddit API 验证 token
-        $resp = Linked3_Safe_Remote::get('https://oauth.reddit.com/api/v1/me', [
+        $resp = SafeRemote::get('https://oauth.reddit.com/api/v1/me', [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Bearer ' . $token, 'User-Agent' => 'Linked3/1.0'],
             'allowed_hosts' => ['oauth.reddit.com'],

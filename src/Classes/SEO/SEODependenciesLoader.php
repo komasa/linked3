@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Mirrors Content Writer's loader pattern: pure require_once, file_exists
  * guarded, file list declared statically for ordering clarity. Loaded
  * eagerly via the hard-registered entry in
- * Linked3_Dependency_Loader::$core_files (see v0.4.1).
+ * DependencyLoader::$core_files (see v0.4.1).
  *
  * @package Linked3
  * @subpackage Classes\SEO

@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -63,7 +63,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
             $ck, $cs, $at, $ats
         );
 
-        $resp = Linked3_Safe_Remote::post('https://api.twitter.com/2/tweets', [
+        $resp = SafeRemote::post('https://api.twitter.com/2/tweets', [
             'timeout' => 30,
             'headers' => [
                 'Authorization' => $auth_header,
@@ -101,7 +101,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
             $ck, $cs, $at, $ats
         );
 
-        $resp = Linked3_Safe_Remote::get('https://api.twitter.com/2/users/me', [
+        $resp = SafeRemote::get('https://api.twitter.com/2/users/me', [
             'timeout' => 15,
             'headers' => ['Authorization' => $auth_header],
             'allowed_hosts' => ['api.twitter.com'],

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Includes;
 if (!defined('ABSPATH')) exit;
 /**
@@ -8,7 +10,7 @@ if (!defined('ABSPATH')) exit;
  * @subpackage Linked3.Includes
  * @since      27.1.0
  */
-final class Linked3_Config_Registry
+final class ConfigRegistry
 {
     const AI_DEFAULT_TIMEOUT = 30; const AI_MAX_RETRIES = 3; const AI_MAX_TOKENS_DEFAULT = 4096; const AI_TEMPERATURE_DEFAULT = 0.7;
     const RATE_LIMIT_FREE = 100; const RATE_LIMIT_PRO = 1000; const RATE_LIMIT_PREMIUM = 10000;

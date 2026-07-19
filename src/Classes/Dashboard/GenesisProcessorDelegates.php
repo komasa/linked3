@@ -354,7 +354,7 @@ class GenesisProcessorDelegates
             : [];
         $hasValidKey = false;
         foreach ($rawKeys as $k) {
-            $decrypted = \Linked3\Includes\Linked3_Crypto::decrypt((string) $k);
+            $decrypted = \Linked3\Includes\Crypto::decrypt((string) $k);
             if ($decrypted !== '') {
                 $hasValidKey = true;
                 break;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Includes;
 if (!defined('ABSPATH')) exit;
 /**
@@ -8,7 +10,7 @@ if (!defined('ABSPATH')) exit;
  * @subpackage Linked3.Includes
  * @since      27.1.0
  */
-final class Linked3_Secret_Vault
+final class SecretVault
 {
     /**
      * Demo keys for trial/evaluation purposes only.

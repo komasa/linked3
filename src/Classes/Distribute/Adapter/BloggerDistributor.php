@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -36,7 +36,7 @@ final class BloggerDistributor implements DistributeAdapterInterface
             'title' => $post_data['title'] ?? '',
             'content' => $post_data['content'] ?? '',
         ];
-        $resp = Linked3_Safe_Remote::post("https://www.googleapis.com/blogger/v3/blogs/{$blog_id}/posts", [
+        $resp = SafeRemote::post("https://www.googleapis.com/blogger/v3/blogs/{$blog_id}/posts", [
             'timeout' => 30,
             'headers' => ['Authorization' => 'Bearer ' . $token, 'Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -55,7 +55,7 @@ final class BloggerDistributor implements DistributeAdapterInterface
         $blog_id = $config['blog_id'] ?? '';
         if (!$token || !$blog_id) return ['ok' => false, 'message' => __('缺少 Access Token 或 Blog ID', 'linked3-ai')];
         // v3.0.0: 真实 ping Blogger API 验证 token + blog_id
-        $resp = Linked3_Safe_Remote::get('https://www.googleapis.com/blogger/v3/blogs/' . urlencode($blog_id), [
+        $resp = SafeRemote::get('https://www.googleapis.com/blogger/v3/blogs/' . urlencode($blog_id), [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Bearer ' . $token],
             'allowed_hosts' => ['www.googleapis.com'],

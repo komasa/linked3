@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 AJAX endpoints registry for the v0.0.x foundation phase.
  *
  * Design intent (fixes linked v2.9.6's 22+ nopriv AJAX epidemic):
- *   - Every privileged endpoint uses wp_ajax_* (NOT nopriv) + Trait_Check_Admin_Permissions.
+ *   - Every privileged endpoint uses wp_ajax_* (NOT nopriv) + TraitCheckAdminPermissions.
  *   - The only nopriv endpoints permitted are the floating chat widget's
- *     public entry, guarded by Trait_Check_Frontend_Permissions::verify_public()
+ *     public entry, guarded by TraitCheckFrontendPermissions::verify_public()
  *     (nonce + IP rate-limit, no privileged work).
  *   - This file is the single place where v0.0.x endpoints live. Modules
  *     starting in v0.1.1 register their own via `linked3/hook_registrars`.
@@ -33,7 +35,7 @@ if (!defined('ABSPATH')) {
  *   - proxy                    (anyone → SSRF proxy)
  *   - auto_seo_answer_question (public AI chat without quota)
  */
-final class Linked3_Disallowed_Nopriv_Actions
+final class DisallowedNoprivActions
 {
     // NOTE: cannot use `const LIST` — `list` is a PHP reserved keyword
     // (language construct for array destructuring) and case-insensitive,
@@ -100,4 +102,4 @@ final class Linked3_Disallowed_Nopriv_Actions
 }
 
 // Register the watchdog as soon as this file loads.
-Linked3_Disallowed_Nopriv_Actions::register();
+DisallowedNoprivActions::register();

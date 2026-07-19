@@ -40,8 +40,8 @@ final class AddonManager
     {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -78,8 +78,8 @@ final class AddonManager
                 try {
                     $addon->execute();
                 } catch (\Throwable $e) {
-                    if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-                        \Linked3\Includes\Log\Linked3_Logger::instance()->error('general', "Addon {$slug} failed: " . $e->getMessage());
+                    if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+                        \Linked3\Includes\Log\Logger::instance()->error('general', "Addon {$slug} failed: " . $e->getMessage());
                     }
                 }
             }

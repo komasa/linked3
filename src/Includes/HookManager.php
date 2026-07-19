@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Layer 2/3: Hook Manager.
  * Centralises handler instantiation + hook registration.
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Hook_Manager
+final class HookManager
 {
     /**
      * @param string $version
@@ -24,7 +26,7 @@ final class Linked3_Hook_Manager
     public static function register_hooks($version)
     : void {
         // i18n — always on.
-        $i18n = new Linked3_I18n();
+        $i18n = new I18n();
         add_action('init', [$i18n, 'load_textdomain'], 0);
 
         // v8.1.0: Seed DNA CPT 注册
@@ -55,7 +57,7 @@ final class Linked3_Hook_Manager
         }
 
         // Activation check — DB version alignment, self-heal.
-        add_action('admin_init', ['Linked3\\Includes\\Linked3_Activator', 'check_for_updates'], 10);
+        add_action('admin_init', ['Linked3\\Includes\\Activator', 'check_for_updates'], 10);
 
         // Tools menu — AJAX security audit (v0.0.8).
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
@@ -157,8 +159,8 @@ final class Linked3_Hook_Manager
             } catch (\Throwable $e) {
                 // Log + show admin notice so the site owner knows which module
                 // failed without losing all other menus.
-                if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-                    \Linked3\Includes\Log\Linked3_Logger::instance()->critical('general', "Module {$label} register() failed: " . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+                if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->critical('general', "Module {$label} register() failed: " . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
                 }
                 self::$registrar_errors[] = sprintf('[%s] %s', $label, $e->getMessage());
             }
@@ -181,12 +183,12 @@ final class Linked3_Hook_Manager
                 }
                 add_action('init', [$addon_mgr, 'init_all'], 20);
             } catch (\Throwable $e) {
-                if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-                    \Linked3\Includes\Log\Linked3_Logger::instance()->error('general', 'Addon_Manager init failed: ' . $e->getMessage());
+                if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->error('general', 'Addon_Manager init failed: ' . $e->getMessage());
                 }
             }
         }
-        if (!empty(self::$registrar_errors) || (class_exists('\\Linked3\\Includes\\Linked3_Dependency_Loader') && !empty(\Linked3\Includes\Linked3_Dependency_Loader::$load_errors))) {
+        if (!empty(self::$registrar_errors) || (class_exists('\\Linked3\\Includes\\DependencyLoader') && !empty(\Linked3\Includes\DependencyLoader::$load_errors))) {
             add_action('admin_notices', [__CLASS__, 'show_registrar_errors']);
         }
     }
@@ -206,8 +208,8 @@ final class Linked3_Hook_Manager
             echo '<li><code>' . esc_html($err) . '</code></li>';
         }
         // Also show Dependency_Loader load_errors (per-file require failures).
-        if (class_exists('\\Linked3\\Includes\\Linked3_Dependency_Loader') && !empty(\Linked3\Includes\Linked3_Dependency_Loader::$load_errors)) {
-            foreach (\Linked3\Includes\Linked3_Dependency_Loader::$load_errors as $err) {
+        if (class_exists('\\Linked3\\Includes\\DependencyLoader') && !empty(\Linked3\Includes\DependencyLoader::$load_errors)) {
+            foreach (\Linked3\Includes\DependencyLoader::$load_errors as $err) {
                 echo '<li><code>' . esc_html($err) . '</code></li>';
             }
         }
@@ -304,8 +306,8 @@ final class Linked3_Hook_Manager
      */
     public static function daily_health_check()
     : void {
-        if (class_exists('Linked3\\Includes\\Linked3_Activator')) {
-            Linked3_Activator::check_for_updates();
+        if (class_exists('Linked3\\Includes\\Activator')) {
+            Activator::check_for_updates();
         }
     }
 
@@ -330,8 +332,8 @@ final class Linked3_Hook_Manager
      */
     public static function prune_logs()
     : void {
-        if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            \Linked3\Includes\Log\Linked3_Logger::instance()->prune(30);
+        if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            \Linked3\Includes\Log\Logger::instance()->prune(30);
         }
     }
 
@@ -379,8 +381,8 @@ final class Linked3_Hook_Manager
         }
 
         if (empty($hot_words)) {
-            if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-                \Linked3\Includes\Log\Linked3_Logger::instance()->warning('cron', '定时热词采集失败: 无结果');
+            if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+                \Linked3\Includes\Log\Logger::instance()->warning('cron', '定时热词采集失败: 无结果');
             }
             return;
         }
@@ -406,8 +408,8 @@ final class Linked3_Hook_Manager
             update_option(LINKED3_OPTION_PREFIX . 'kw_tail_library', array_slice($merged_tail, 0, 500));
         }
 
-        if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            \Linked3\Includes\Log\Linked3_Logger::instance()->info('cron', sprintf(
+        if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            \Linked3\Includes\Log\Logger::instance()->info('cron', sprintf(
                 '定时关键词任务完成: 采集 %d 热词, 生成 %d 长尾词',
                 count($hot_words),
                 count($tail_words)

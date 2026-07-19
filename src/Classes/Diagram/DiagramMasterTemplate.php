@@ -64,7 +64,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplate_Interface {
             $this->container = linked3_container();
             $this->logger = $this->container->has('logger')
                 ? $this->container->get('logger')
-                : (class_exists('\Linked3\Classes\Diagram\Linked3_Logger') ? Linked3_Logger::instance() : null);
+                : (class_exists('\Linked3\Classes\Diagram\Logger') ? Logger::instance() : null);
         }
     }
 

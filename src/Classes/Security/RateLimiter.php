@@ -184,5 +184,5 @@ final class RateLimiter
 }
 
 // Register the defence-in-depth AJAX watcher as soon as the file loads.
-// This mirrors the pattern used by Linked3_Disallowed_Nopriv_Actions.
+// This mirrors the pattern used by DisallowedNoprivActions.
 add_action('admin_init', [RateLimiter::class, 'maybe_gate_linked3_ajax'], 0);

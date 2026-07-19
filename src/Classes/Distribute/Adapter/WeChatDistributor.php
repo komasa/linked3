@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -45,7 +45,7 @@ final class WeChatDistributor implements DistributeAdapterInterface
             'content_source_url' => $post_data['url'] ?? '',
             'digest' => mb_substr($post_data['excerpt'] ?? '', 0, 120),
         ];
-        $resp = Linked3_Safe_Remote::post("https://api.weixin.qq.com/cgi-bin/draft/add?access_token={$token}", [
+        $resp = SafeRemote::post("https://api.weixin.qq.com/cgi-bin/draft/add?access_token={$token}", [
             'timeout' => 30,
             'headers' => ['Content-Type' => 'application/json'],
             'body' => wp_json_encode(['articles' => [$article]]),
@@ -78,7 +78,7 @@ final class WeChatDistributor implements DistributeAdapterInterface
         $cache_key = 'linked3_wechat_token_' . md5($app_id);
         $cached = get_transient($cache_key);
         if ($cached && is_string($cached)) return $cached;
-        $resp = Linked3_Safe_Remote::get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$app_id}&secret={$app_secret}", [
+        $resp = SafeRemote::get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$app_id}&secret={$app_secret}", [
             'timeout' => 15,
             'allowed_hosts' => ['api.weixin.qq.com'],
         ]);

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -46,7 +46,7 @@ final class XiaohongshuDistributor implements DistributeAdapterInterface
             'type' => 'normal',
         ];
 
-        $resp = Linked3_Safe_Remote::post($api_url, [
+        $resp = SafeRemote::post($api_url, [
             'timeout' => 30,
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,

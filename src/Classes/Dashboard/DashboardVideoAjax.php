@@ -85,8 +85,8 @@ class DashboardVideoAjax
         }
 
         // v5.3.3: 诊断日志 — 记录请求开始时间 + 参数, 便于排查 "Failed to fetch"
-        if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            $log = \Linked3\Includes\Log\Linked3_Logger::instance();
+        if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            $log = \Linked3\Includes\Log\Logger::instance();
             if ($log) {
                 $log->info('video', 'AJAX video_generate_script start', [
                     'title' => mb_substr($title, 0, 80),

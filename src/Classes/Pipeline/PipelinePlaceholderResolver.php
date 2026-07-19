@@ -57,8 +57,8 @@ final class PipelinePlaceholderResolver
             $unmatched = $matches[1];
         }
 
-        if (!empty($unmatched) && class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            \Linked3\Includes\Log\Linked3_Logger::instance()->debug(
+        if (!empty($unmatched) && class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            \Linked3\Includes\Log\Logger::instance()->debug(
                 'pipeline',
                 'Unmatched placeholders in template',
                 ['unmatched' => $unmatched]

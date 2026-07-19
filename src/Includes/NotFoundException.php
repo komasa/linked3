@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 /**
- * NotFoundException — thrown by Linked3_Container::get() when no factory
+ * NotFoundException — thrown by Container::get() when no factory
  * is registered for the requested ID.
  *
  * v4.5.3: removed `implements \Psr\Container\NotFoundExceptionInterface`
@@ -18,6 +20,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_NotFoundException extends \Exception
+class NotFoundException extends \Exception
 {
 }

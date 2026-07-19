@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\SEO\Keyword;
 
 use Linked3\Classes\Core\AIDispatcher;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -30,7 +30,7 @@ final class KeywordManager
     private $log;
 
     public function __construct() {
-        $this->log = Linked3_Logger::instance();
+        $this->log = Logger::instance();
     }
 
     /**
@@ -267,7 +267,7 @@ final class KeywordManager
      */
     private function fetch_baidu_suggest($seed, $limit) : mixed {
         $url = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' . urlencode($seed) . '&json=1&p=3';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,  // v3.2.0: 降 timeout
             'allowed_hosts' => ['sp0.baidu.com'],
         ]);
@@ -304,7 +304,7 @@ final class KeywordManager
      */
     private function fetch_baidu_hot($limit) : mixed {
         $url = 'https://top.baidu.com/api/board?platform=wise&tab=realtime';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['top.baidu.com'],
             'skip_ssrf' => true,
@@ -327,7 +327,7 @@ final class KeywordManager
      */
     private function fetch_weibo_hot($limit) : mixed     {
         $url = 'https://weibo.com/ajax/side/hotSearch';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['weibo.com'],
             'skip_ssrf' => true,
@@ -350,7 +350,7 @@ final class KeywordManager
     private function fetch_bilibili_hot($limit)
     {
         $url = 'https://api.bilibili.com/x/web-interface/search/square?limit=' . $limit;
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['api.bilibili.com'],
             'skip_ssrf' => true,
@@ -373,7 +373,7 @@ final class KeywordManager
     private function fetch_toutiao_hot($limit)
     {
         $url = 'https://www.toutiao.com/hot-event/hot-board/?origin=toutiao_pc';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['www.toutiao.com'],
             'skip_ssrf' => true,
@@ -396,7 +396,7 @@ final class KeywordManager
     private function fetch_zhihu_hot($limit)
     {
         $url = 'https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=50&desktop=true';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['www.zhihu.com'],
             'skip_ssrf' => true,
@@ -422,7 +422,7 @@ final class KeywordManager
     {
         // Google Trends RSS for daily trends (geo = worldwide)
         $url = 'https://trends.google.com/trending/rss?geo=';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['trends.google.com'],
             'skip_ssrf' => true,
@@ -447,7 +447,7 @@ final class KeywordManager
     private function fetch_sogou_hot($limit)
     {
         $url = 'https://v2.sohu.com/public-api/yinqing/hot-search-list';
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 3,
             'allowed_hosts' => ['v2.sohu.com'],
             'skip_ssrf' => true,

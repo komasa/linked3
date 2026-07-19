@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Trait: enforce logged-in user + nonce on FRONTEND AJAX handlers
  * (e.g. floating chat widget when restricted to logged-in users).
  *
- * For anonymous-allowed endpoints, use Trait_Check_Frontend_Permissions::verify_public()
+ * For anonymous-allowed endpoints, use TraitCheckFrontendPermissions::verify_public()
  * which enforces nonce + IP rate-limit but NOT login.
  *
  * @package Linked3
@@ -16,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-trait Trait_Check_Frontend_Permissions
+trait TraitCheckFrontendPermissions
 {
     /**
      * Enforce login + nonce.

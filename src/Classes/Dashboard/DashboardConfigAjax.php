@@ -38,7 +38,7 @@ class DashboardConfigAjax
 
         // 调用 /models
         $url = rtrim($base, '/') . '/models';
-        $resp = \Linked3\Includes\Http\Linked3_Safe_Remote::get($url, [
+        $resp = \Linked3\Includes\Http\SafeRemote::get($url, [
             'timeout' => 15,
             'headers' => [
                 'Authorization' => 'Bearer ' . $key,
@@ -161,7 +161,7 @@ class DashboardConfigAjax
 
         // GET /v1/models 拉取模型列表,过滤出图片模型
         $url = rtrim($base, '/') . '/models';
-        $resp = \Linked3\Includes\Http\Linked3_Safe_Remote::get($url, [
+        $resp = \Linked3\Includes\Http\SafeRemote::get($url, [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Bearer ' . $api_key],
             'allowed_hosts' => [wp_parse_url($base, PHP_URL_HOST)],

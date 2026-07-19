@@ -10,9 +10,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Linked3_Crypto is loaded by the dependency loader (v0.2.0+). The class
+// Crypto is loaded by the dependency loader (v0.2.0+). The class
 // exists check is defensive — settings.php can be included early.
-$crypto_available = class_exists('\Linked3\Includes\Linked3_Crypto');
+$crypto_available = class_exists('\Linked3\Includes\Crypto');
 
 // Read current settings (default-seeded by migration 0.4.1). Sensitive
 // fields are stored encrypted (v0.5.0 hardening) — decrypt for display.
@@ -24,24 +24,24 @@ $indexnow_key = (string) get_option(LINKED3_OPTION_PREFIX . 'push_indexnow_key',
 $baidu = [
     'site'  => (string) ($raw_baidu['site'] ?? ''),
     'token' => $crypto_available && !empty($raw_baidu['token'])
-        ? \Linked3\Includes\Linked3_Crypto::decrypt((string) $raw_baidu['token'])
+        ? \Linked3\Includes\Crypto::decrypt((string) $raw_baidu['token'])
         : (string) ($raw_baidu['token'] ?? ''),
 ];
 $toutiao = [
     'site'          => (string) ($raw_toutiao['site'] ?? ''),
     'user_name'     => $crypto_available && !empty($raw_toutiao['user_name'])
-        ? \Linked3\Includes\Linked3_Crypto::decrypt((string) $raw_toutiao['user_name'])
+        ? \Linked3\Includes\Crypto::decrypt((string) $raw_toutiao['user_name'])
         : (string) ($raw_toutiao['user_name'] ?? ''),
     'resource_name' => $crypto_available && !empty($raw_toutiao['resource_name'])
-        ? \Linked3\Includes\Linked3_Crypto::decrypt((string) $raw_toutiao['resource_name'])
+        ? \Linked3\Includes\Crypto::decrypt((string) $raw_toutiao['resource_name'])
         : (string) ($raw_toutiao['resource_name'] ?? ''),
 ];
 $google = [
     'client_email' => $crypto_available && !empty($raw_google['client_email'])
-        ? \Linked3\Includes\Linked3_Crypto::decrypt((string) $raw_google['client_email'])
+        ? \Linked3\Includes\Crypto::decrypt((string) $raw_google['client_email'])
         : (string) ($raw_google['client_email'] ?? ''),
     'private_key'  => $crypto_available && !empty($raw_google['private_key'])
-        ? \Linked3\Includes\Linked3_Crypto::decrypt((string) $raw_google['private_key'])
+        ? \Linked3\Includes\Crypto::decrypt((string) $raw_google['private_key'])
         : (string) ($raw_google['private_key'] ?? ''),
 ];
 $cfg = [];
@@ -57,14 +57,14 @@ $available_adapters = \Linked3\Classes\SEO\Adapter\SEOAdapterDetector::available
 
 if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['linked3_seo_settings_nonce'])), 'linked3_seo_settings')) {
     // Encrypt sensitive fields before persisting (v0.5.0 hardening, §5).
-    // Linked3_Crypto::encrypt is idempotent (encrypts plaintext, leaves
+    // Crypto::encrypt is idempotent (encrypts plaintext, leaves
     // "enc::" payloads unchanged) and fails-open (returns plaintext if
     // OpenSSL is unavailable) so the plugin still works on legacy hosts.
     $baidu_token_raw = sanitize_text_field($_POST['baidu_token'] ?? '');
     $baidu = [
         'site'  => sanitize_text_field($_POST['baidu_site'] ?? ''),
         'token' => $baidu_token_raw !== '' && $crypto_available
-            ? \Linked3\Includes\Linked3_Crypto::encrypt($baidu_token_raw)
+            ? \Linked3\Includes\Crypto::encrypt($baidu_token_raw)
             : $baidu_token_raw,
     ];
     update_option(LINKED3_OPTION_PREFIX . 'push_baidu', $baidu);
@@ -76,10 +76,10 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
     $toutiao = [
         'site'          => sanitize_text_field($_POST['toutiao_site'] ?? ''),
         'user_name'     => $toutiao_user_raw !== '' && $crypto_available
-            ? \Linked3\Includes\Linked3_Crypto::encrypt($toutiao_user_raw)
+            ? \Linked3\Includes\Crypto::encrypt($toutiao_user_raw)
             : $toutiao_user_raw,
         'resource_name' => $toutiao_resource_raw !== '' && $crypto_available
-            ? \Linked3\Includes\Linked3_Crypto::encrypt($toutiao_resource_raw)
+            ? \Linked3\Includes\Crypto::encrypt($toutiao_resource_raw)
             : $toutiao_resource_raw,
     ];
     update_option(LINKED3_OPTION_PREFIX . 'push_toutiao', $toutiao);
@@ -90,10 +90,10 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
     $google_key_raw   = sanitize_textarea_field($_POST['google_private_key'] ?? '');
     $google = [
         'client_email' => $google_email_raw !== '' && $crypto_available
-            ? \Linked3\Includes\Linked3_Crypto::encrypt($google_email_raw)
+            ? \Linked3\Includes\Crypto::encrypt($google_email_raw)
             : $google_email_raw,
         'private_key'  => $google_key_raw !== '' && $crypto_available
-            ? \Linked3\Includes\Linked3_Crypto::encrypt($google_key_raw)
+            ? \Linked3\Includes\Crypto::encrypt($google_key_raw)
             : $google_key_raw,
     ];
     update_option(LINKED3_OPTION_PREFIX . 'push_google', $google);

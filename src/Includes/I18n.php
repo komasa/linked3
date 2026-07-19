@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Internationalisation. Loads .mo files from /languages.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_I18n
+final class I18n
 {
     /**
      * @return void

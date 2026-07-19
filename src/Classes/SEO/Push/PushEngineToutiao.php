@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Push;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Linked3_Crypto;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Crypto;
 
 
 
@@ -45,14 +45,14 @@ final class PushEngineToutiao implements PushEngine
     private function config() : mixed {
         $defaults = (array) get_option(LINKED3_OPTION_PREFIX . 'push_toutiao', []);
         $defaults = (array) apply_filters('linked3/push_toutiao_config', $defaults);
-        // Decrypt Shenma access credentials at read-time (Linked3_Crypto::decrypt
+        // Decrypt Shenma access credentials at read-time (Crypto::decrypt
         // is a no-op on plaintext). user_name + resource_name are the API
         // identity pair — same sensitivity as a username/password tuple.
         if (!empty($defaults['user_name'])) {
-            $defaults['user_name'] = Linked3_Crypto::decrypt((string) $defaults['user_name']);
+            $defaults['user_name'] = Crypto::decrypt((string) $defaults['user_name']);
         }
         if (!empty($defaults['resource_name'])) {
-            $defaults['resource_name'] = Linked3_Crypto::decrypt((string) $defaults['resource_name']);
+            $defaults['resource_name'] = Crypto::decrypt((string) $defaults['resource_name']);
         }
         return $defaults;
     }
@@ -77,7 +77,7 @@ final class PushEngineToutiao implements PushEngine
         );
         $body = implode("\n", array_map('esc_url_raw', $urls));
 
-        $response = Linked3_Safe_Remote::post($endpoint, [
+        $response = SafeRemote::post($endpoint, [
             'timeout'       => 20,
             'headers'       => ['Content-Type' => 'text/plain'],
             'body'          => $body,

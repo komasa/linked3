@@ -9,7 +9,7 @@ declare(strict_types=1);
  */
 
 namespace Linked3\Classes\AutoGPT\Cron;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -52,7 +52,7 @@ final class AutoGPTCron
             }
         }
         $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
-        $log = Linked3_Logger::instance();
+        $log = Logger::instance();
         $due = $repo->get_due_tasks();
         $log->info('cron', sprintf('AutoGPT: %d due tasks', count($due)));
 
@@ -179,7 +179,7 @@ final class AutoGPTCron
     private static function process_standalone_retry(array $item)
     : void {
         $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
-        $log = Linked3_Logger::instance();
+        $log = Logger::instance();
         $payload = $item['payload'] ?? [];
         $type = $payload['type'] ?? '';
 
@@ -272,7 +272,7 @@ final class AutoGPTCron
      */
     private static function trip_breaker($repo, array $task, $message)
     : void {
-        $log = Linked3_Logger::instance();
+        $log = Logger::instance();
         // Persist the consecutive-failure count in an option (not transient)
         // so it survives cache eviction / object-cache flush. The counter is
         // reset to 0 on any successful run (see run()).

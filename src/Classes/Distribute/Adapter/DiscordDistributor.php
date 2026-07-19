@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -44,7 +44,7 @@ final class DiscordDistributor implements DistributeAdapterInterface
         ];
         if ($image) $payload['embeds'][0]['image'] = ['url' => $image];
 
-        $resp = Linked3_Safe_Remote::post($webhook, [
+        $resp = SafeRemote::post($webhook, [
             'timeout' => 30,
             'headers' => ['Content-Type' => 'application/json'],
             'body' => wp_json_encode($payload),
@@ -62,7 +62,7 @@ final class DiscordDistributor implements DistributeAdapterInterface
     public function test(array $config) : mixed {
         $webhook = $config['webhook_url'] ?? '';
         if (!$webhook) return ['ok' => false, 'message' => __('缺少 Webhook URL。', 'linked3')];
-        $resp = Linked3_Safe_Remote::post($webhook, [
+        $resp = SafeRemote::post($webhook, [
             'timeout' => 15,
             'headers' => ['Content-Type' => 'application/json'],
             'body' => wp_json_encode(['content' => '🔗 Linked3 connection test — you can delete this message.']),

@@ -6,7 +6,7 @@ declare(strict_types=1);
  *
  * Mirrors v2.9.6 batch_push pattern (one entry point that fans out to
  * all configured engines). Hardening over v2.9.6:
- *   - All HTTP via Linked3_Safe_Remote (SSL verify ON, no raw cURL)
+ *   - All HTTP via SafeRemote (SSL verify ON, no raw cURL)
  *   - Per-engine circuit breaker: 5 failures in 5 min → cooldown 1h
  *   - Every push logged to linked3_push_logs (success / fail / message)
  *   - Plan gating delegated to the AJAX action layer (Push_Manager does
@@ -20,7 +20,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\SEO\Push;
 
 use Linked3\Classes\SEO\SEOConfig;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -32,11 +32,11 @@ final class PushManager
     /** @var self|null */
     private static $instance;
 
-    /** @var Linked3_Logger */
+    /** @var Logger */
     private $log;
 
     private function __construct() {
-        $this->log = Linked3_Logger::instance();
+        $this->log = Logger::instance();
     }
 
     /**
@@ -45,8 +45,8 @@ final class PushManager
     public static function instance() : mixed {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;

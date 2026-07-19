@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Base Repository — abstract data-access layer for Linked3.
  *
@@ -34,7 +36,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-abstract class Linked3_Base_Repository
+abstract class BaseRepository
 {
     /** @var \wpdb|null Cached WP database handle. */
     protected $wpdb;
@@ -95,11 +97,11 @@ abstract class Linked3_Base_Repository
      * child repositories that define a static `query(array $filters)` method
      * (e.g. Push_Log_Repository).
      *
-     * @return Linked3_Query_Builder
+     * @return QueryBuilder
      */
-    public function builder(): Linked3_Query_Builder
+    public function builder(): QueryBuilder
     {
-        return new Linked3_Query_Builder($this->get_table(), $this->wpdb);
+        return new QueryBuilder($this->get_table(), $this->wpdb);
     }
 
     /**

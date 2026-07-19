@@ -6,7 +6,7 @@ declare(strict_types=1);
  *
  * Implementations are responsible for:
  *   - Building the engine-specific request URL, headers, and body
- *   - Calling Linked3_Safe_Remote (never raw wp_remote_*)
+ *   - Calling SafeRemote (never raw wp_remote_*)
  *   - Parsing the response into a normalised result array
  *
  * Implementations are NOT responsible for:

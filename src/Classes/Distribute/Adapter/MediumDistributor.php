@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -33,7 +33,7 @@ final class MediumDistributor implements DistributeAdapterInterface
             'content' => $post_data['content'] ?? '',
             'tags' => [],
         ];
-        $resp = Linked3_Safe_Remote::post('https://api.medium.com/v1/posts', [
+        $resp = SafeRemote::post('https://api.medium.com/v1/posts', [
             'timeout' => 30,
             'headers' => ['Authorization' => 'Bearer ' . $token, 'Content-Type' => 'application/json', 'Accept' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -51,7 +51,7 @@ final class MediumDistributor implements DistributeAdapterInterface
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Integration Token', 'linked3-ai')];
         // v3.0.0: 真实 ping Medium API 验证 token
-        $resp = Linked3_Safe_Remote::get('https://api.medium.com/v1/me', [
+        $resp = SafeRemote::get('https://api.medium.com/v1/me', [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Bearer ' . $token, 'Accept' => 'application/json'],
             'allowed_hosts' => ['api.medium.com'],

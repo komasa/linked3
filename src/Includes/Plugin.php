@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Main plugin class. Intentionally thin — delegates everything to the
  * three-layer orchestrator (DependencyLoader → HookManager → ModuleInitializer).
@@ -13,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Plugin
+final class Plugin
 {
     private static $instance = null;
 
@@ -57,12 +59,12 @@ final class Linked3_Plugin
     public function run()
     : void {
         // 1) Load all required files (pure require_once, no hooks).
-        Linked3_Dependency_Loader::load();
+        DependencyLoader::load();
 
         // 2) Register all WordPress hooks (instantiates handlers, registers actions).
-        Linked3_Hook_Manager::register_hooks($this->version);
+        HookManager::register_hooks($this->version);
 
         // 3) Initialize sub-systems (dashboard, modules, etc).
-        Linked3_Module_Initializer::init($this->version);
+        ModuleInitializer::init($this->version);
     }
 }

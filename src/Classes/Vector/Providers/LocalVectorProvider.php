@@ -180,7 +180,7 @@ final class LocalVectorProvider implements VectorProviderInterface
             $provider = \Linked3\Classes\Core\Providers\ProviderFactory::instance()->make($config['provider'] ?? 'openai');
             $payload = $provider->format_embed_payload($text, ['model' => $config['embed_model'] ?? 'text-embedding-3-small'], $config);
             $url = $provider->build_api_url('embed', $config);
-            $resp = \Linked3\Includes\Http\Linked3_Safe_Remote::post($url, [
+            $resp = \Linked3\Includes\Http\SafeRemote::post($url, [
                 'timeout' => 30,
                 'headers' => $provider->get_api_headers($config),
                 'body' => wp_json_encode($payload),

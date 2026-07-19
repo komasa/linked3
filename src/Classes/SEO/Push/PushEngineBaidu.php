@@ -18,8 +18,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Push;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Linked3_Crypto;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Crypto;
 
 
 
@@ -48,11 +48,11 @@ final class PushEngineBaidu implements PushEngine
     private function config() : mixed {
         $defaults = (array) get_option(LINKED3_OPTION_PREFIX . 'push_baidu', []);
         $defaults = (array) apply_filters('linked3/push_baidu_config', $defaults);
-        // Decrypt the token at read-time (Linked3_Crypto::decrypt is a
+        // Decrypt the token at read-time (Crypto::decrypt is a
         // no-op on plaintext, so legacy options still work after the
         // v0.5.0 hardening).
         if (!empty($defaults['token'])) {
-            $defaults['token'] = Linked3_Crypto::decrypt((string) $defaults['token']);
+            $defaults['token'] = Crypto::decrypt((string) $defaults['token']);
         }
         return $defaults;
     }
@@ -76,7 +76,7 @@ final class PushEngineBaidu implements PushEngine
         );
         $body = implode("\n", array_map('esc_url_raw', $urls));
 
-        $response = Linked3_Safe_Remote::post($endpoint, [
+        $response = SafeRemote::post($endpoint, [
             'timeout'       => 20,
             'headers'       => ['Content-Type' => 'text/plain'],
             'body'          => $body,

@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Publish\Adapter;
 
 use Linked3\Classes\Publish\PublishTargetInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -94,14 +94,14 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
         // POST (新建) 或 PUT (更新)
         if ($remote_id) {
             $endpoint .= '/' . (int) $remote_id;
-            $resp = Linked3_Safe_Remote::put($endpoint, [
+            $resp = SafeRemote::put($endpoint, [
                 'timeout' => 30,
                 'headers' => $headers,
                 'body'    => wp_json_encode($body),
                 'allowed_hosts' => [$host],
             ]);
         } else {
-            $resp = Linked3_Safe_Remote::post($endpoint, [
+            $resp = SafeRemote::post($endpoint, [
                 'timeout' => 30,
                 'headers' => $headers,
                 'body'    => wp_json_encode($body),
@@ -136,7 +136,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
             return ['ok' => false, 'message' => __('缺少站点 URL/用户名/应用密码。', 'linked3')];
         }
         $auth = 'Basic ' . base64_encode($user . ':' . $app_pass);
-        $resp = Linked3_Safe_Remote::get($url . '/wp-json/wp/v2/users/me', [
+        $resp = SafeRemote::get($url . '/wp-json/wp/v2/users/me', [
             'timeout' => 15,
             'headers' => ['Authorization' => $auth],
             'allowed_hosts' => [wp_parse_url($url, PHP_URL_HOST)],
@@ -163,7 +163,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
             if (!$name) continue;
             // 按 slug 查找 (slug = sanitize_title)
             $slug = sanitize_title($name);
-            $resp = Linked3_Safe_Remote::get($url . '/wp-json/wp/v2/' . $taxonomy . '?slug=' . urlencode($slug), [
+            $resp = SafeRemote::get($url . '/wp-json/wp/v2/' . $taxonomy . '?slug=' . urlencode($slug), [
                 'timeout' => 10,
                 'headers' => $headers,
                 'allowed_hosts' => [$host],
@@ -175,7 +175,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
                 continue;
             }
             // 不存在,创建
-            $create_resp = Linked3_Safe_Remote::post($url . '/wp-json/wp/v2/' . $taxonomy, [
+            $create_resp = SafeRemote::post($url . '/wp-json/wp/v2/' . $taxonomy, [
                 'timeout' => 10,
                 'headers' => $headers,
                 'body' => wp_json_encode(['name' => $name]),
@@ -211,7 +211,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
 
         @unlink($tmp);
 
-        $resp = Linked3_Safe_Remote::post($url . '/wp-json/wp/v2/media', [
+        $resp = SafeRemote::post($url . '/wp-json/wp/v2/media', [
             'timeout' => 60,
             'headers' => [
                 'Authorization' => $auth,

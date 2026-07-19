@@ -45,15 +45,15 @@ class OSDbSchema {
     /**
      * 创建数据库表
      *
-     * v16.0.5: Now delegates to the main Linked3_Schema::create_all().
+     * v16.0.5: Now delegates to the main Schema::create_all().
      * The V18 table definitions have been consolidated into the main
      * Schema class to ensure they are created during activation alongside
      * all other plugin tables, with proper SQLite/Playground compatibility.
      */
     public static function create_tables(): void {
-        if (class_exists('Linked3\\Includes\\DB\\Linked3_Schema')) {
+        if (class_exists('Linked3\\Includes\\DB\\Schema')) {
             // Re-run create_all() — it's idempotent via dbDelta.
-            \Linked3\Includes\DB\Linked3_Schema::create_all();
+            \Linked3\Includes\DB\Schema::create_all();
         }
         update_option('linked3_v18_db_version', '15.0.0');
     }

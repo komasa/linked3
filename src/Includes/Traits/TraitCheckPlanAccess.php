@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Trait: enforce plan-level access on AJAX/REST handlers.
  *
@@ -7,7 +9,7 @@
  *
  * Usage:
  *   class My_Premium_Action {
- *       use Trait_Check_Plan_Access;
+ *       use TraitCheckPlanAccess;
  *       public function handle() : void {
  *           $this->require_plan('pro'); // 始终返回 true (v2.9.0)
  *           // ... 业务逻辑
@@ -24,7 +26,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-trait Trait_Check_Plan_Access
+trait TraitCheckPlanAccess
 {
     /**
      * v2.9.0: 本地模式所有功能开放,no-op 返回 true。

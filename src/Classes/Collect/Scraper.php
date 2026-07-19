@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\Collect;
 
 use Linked3\Classes\Publish\PublishConfig;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -27,11 +27,11 @@ if (!defined('ABSPATH')) {
 }
 final class Scraper
 {
-    /** @var Linked3_Logger */
+    /** @var Logger */
     private $log;
 
     public function __construct() {
-        $this->log = Linked3_Logger::instance();
+        $this->log = Logger::instance();
     }
 
     /**
@@ -49,7 +49,7 @@ final class Scraper
         $this->throttle($url);
 
         $ua = $this->pick_ua();
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 25,
             'headers' => [
                 'User-Agent'      => $ua,

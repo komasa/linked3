@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Deactivator. Clears crons, flushes rewrite rules.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Deactivator
+final class Deactivator
 {
     /**
      * @return void

@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 use Linked3\Classes\STT\SttManager; // phpcs:ignore -- reserved for future STT feature
-use Linked3\Includes\Traits\{Trait_Check_Admin_Permissions, Trait_Check_Plan_Access, Trait_Send_WP_Error};
+use Linked3\Includes\Traits\{TraitCheckAdminPermissions, TraitCheckPlanAccess, TraitSendWPError};
 
 final class WcFormsSpeechHooksRegistrar
 {

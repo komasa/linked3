@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -38,7 +38,7 @@ final class JuejinDistributor implements DistributeAdapterInterface
             'source_url' => $post_data['url'] ?? '',
         ];
 
-        $resp = Linked3_Safe_Remote::post('https://api.juejin.cn/content_api/v1/article/publish', [
+        $resp = SafeRemote::post('https://api.juejin.cn/content_api/v1/article/publish', [
             'timeout' => 30,
             'headers' => ['Authorization' => 'Bearer ' . $token, 'Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -61,7 +61,7 @@ final class JuejinDistributor implements DistributeAdapterInterface
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
         // v3.0.0: 真实 ping 掘金用户接口验证 token (注意: 掘金实际用 cookie 鉴权,Bearer 可能不通)
-        $resp = Linked3_Safe_Remote::get('https://api.juejin.cn/user_api/v1/user/get', [
+        $resp = SafeRemote::get('https://api.juejin.cn/user_api/v1/user/get', [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Bearer ' . $token],
             'allowed_hosts' => ['api.juejin.cn'],

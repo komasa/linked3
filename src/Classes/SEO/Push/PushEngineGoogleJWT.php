@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Push;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Linked3_Crypto;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Crypto;
 
 
 
@@ -47,15 +47,15 @@ final class PushEngineGoogleJWT implements PushEngine
     private function config() : mixed {
         $defaults = (array) get_option(LINKED3_OPTION_PREFIX . 'push_google', []);
         $defaults = (array) apply_filters('linked3/push_google_config', $defaults);
-        // Decrypt the service-account credentials at read-time (Linked3_Crypto::decrypt
+        // Decrypt the service-account credentials at read-time (Crypto::decrypt
         // is a no-op on plaintext, so legacy options still work). The private_key
         // is the most sensitive credential in the plugin (full SA identity); the
         // client_email is also encrypted for defence-in-depth.
         if (!empty($defaults['client_email'])) {
-            $defaults['client_email'] = Linked3_Crypto::decrypt((string) $defaults['client_email']);
+            $defaults['client_email'] = Crypto::decrypt((string) $defaults['client_email']);
         }
         if (!empty($defaults['private_key'])) {
-            $defaults['private_key'] = Linked3_Crypto::decrypt((string) $defaults['private_key']);
+            $defaults['private_key'] = Crypto::decrypt((string) $defaults['private_key']);
         }
         return $defaults;
     }
@@ -92,7 +92,7 @@ final class PushEngineGoogleJWT implements PushEngine
             if ($url === '') {
                 continue;
             }
-            $response = Linked3_Safe_Remote::post('https://indexing.googleapis.com/v3/urlNotifications:publish', [
+            $response = SafeRemote::post('https://indexing.googleapis.com/v3/urlNotifications:publish', [
                 'timeout'       => 15,
                 'headers'       => [
                     'Content-Type'  => 'application/json',
@@ -137,7 +137,7 @@ final class PushEngineGoogleJWT implements PushEngine
         if ($jwt === '') {
             return '';
         }
-        $response = Linked3_Safe_Remote::post('https://oauth2.googleapis.com/token', [
+        $response = SafeRemote::post('https://oauth2.googleapis.com/token', [
             'timeout'       => 15,
             'headers'       => ['Content-Type' => 'application/x-www-form-urlencoded'],
             'body'          => http_build_query([

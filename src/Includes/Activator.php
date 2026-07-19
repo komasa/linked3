@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Activator. Builds tables, sets DB version, schedules crons.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Activator
+final class Activator
 {
     /**
      * Runs on register_activation_hook.
@@ -57,18 +59,18 @@ final class Linked3_Activator
     : void {
         // Activation runs BEFORE plugins_loaded, so the Dependency_Loader has
         // not run yet. We must manually require the DB classes we need.
-        if (!class_exists('Linked3\\Includes\\DB\\Linked3_Schema')) {
+        if (!class_exists('Linked3\\Includes\\DB\\Schema')) {
             $schema_file = LINKED3_DIR . 'src/Includes/DB/class-linked3-schema.php';
             if (file_exists($schema_file)) require_once $schema_file;
         }
-        if (!class_exists('Linked3\\Includes\\DB\\Linked3_Migration_Runner')) {
+        if (!class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
             $runner_file = LINKED3_DIR . 'src/Includes/DB/class-linked3-migration-runner.php';
             if (file_exists($runner_file)) require_once $runner_file;
         }
 
         // Create all tables + run pending migrations.
-        if (class_exists('Linked3\\Includes\\DB\\Linked3_Migration_Runner')) {
-            \Linked3\Includes\DB\Linked3_Migration_Runner::run_pending();
+        if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
+            \Linked3\Includes\DB\MigrationRunner::run_pending();
         } else {
             // Fallback: just stamp the version so check_for_updates picks it up later.
             update_option(LINKED3_DB_VERSION_OPTION, LINKED3_DB_VERSION);
@@ -199,8 +201,8 @@ final class Linked3_Activator
             return;
         }
         switch_to_blog($blog_id);
-        if (class_exists('Linked3\\Includes\\DB\\Linked3_Migration_Runner')) {
-            \Linked3\Includes\DB\Linked3_Migration_Runner::run_pending();
+        if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
+            \Linked3\Includes\DB\MigrationRunner::run_pending();
         } else {
             update_option(LINKED3_DB_VERSION_OPTION, LINKED3_DB_VERSION);
         }
@@ -221,8 +223,8 @@ final class Linked3_Activator
         try {
             // Delegate to the migration runner (v0.1.2) which handles version
             // comparison + self-heal probe.
-            if (class_exists('Linked3\\Includes\\DB\\Linked3_Migration_Runner')) {
-                \Linked3\Includes\DB\Linked3_Migration_Runner::run_pending();
+            if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
+                \Linked3\Includes\DB\MigrationRunner::run_pending();
             }
 
             // v3.3.0: 升级时也填入默认 provider 配置 (无需重新激活)
@@ -247,8 +249,8 @@ final class Linked3_Activator
      */
     public static function are_tables_missing()
     {
-        if (class_exists('Linked3\\Includes\\DB\\Linked3_Migration_Runner')) {
-            return \Linked3\Includes\DB\Linked3_Migration_Runner::are_tables_missing();
+        if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
+            return \Linked3\Includes\DB\MigrationRunner::are_tables_missing();
         }
         return false;
     }
@@ -258,8 +260,8 @@ final class Linked3_Activator
      */
     public static function run_migrations()
     : void {
-        if (class_exists('Linked3\\Includes\\DB\\Linked3_Migration_Runner')) {
-            \Linked3\Includes\DB\Linked3_Migration_Runner::run_pending();
+        if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
+            \Linked3\Includes\DB\MigrationRunner::run_pending();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Linked3\Classes\Dashboard;
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\SEO\Keyword\KeywordManager;
 use Linked3\Classes\Core\AIDispatcher;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -373,7 +373,7 @@ final class GenesisProcessor
             : [];
         $apiKey = '';
         foreach ($rawKeys as $k) {
-            $decrypted = \Linked3\Includes\Linked3_Crypto::decrypt((string) $k);
+            $decrypted = \Linked3\Includes\Crypto::decrypt((string) $k);
             if ($decrypted !== '') {
                 $apiKey = $decrypted;
                 break;
@@ -407,8 +407,8 @@ final class GenesisProcessor
                 $url     = $provider->build_api_url('chat', $config);
                 // v27.1.1: Validate host against Safe_Remote allow-list before cURL
                 $url_host = strtolower((string) wp_parse_url($url, PHP_URL_HOST));
-                $allowed  = method_exists('\Linked3\Includes\Http\Linked3_Safe_Remote', 'get_allowed_hosts')
-                    ? \Linked3\Includes\Http\Linked3_Safe_Remote::get_allowed_hosts()
+                $allowed  = method_exists('\Linked3\Includes\Http\SafeRemote', 'get_allowed_hosts')
+                    ? \Linked3\Includes\Http\SafeRemote::get_allowed_hosts()
                     : [];
                 if ($url_host !== '' && !in_array($url_host, $allowed, true)) {
                     $handles[$i] = null;

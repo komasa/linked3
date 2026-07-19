@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\ContentWriter;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -83,7 +83,7 @@ final class ImageInjector
         $key = $config['api_key'] ?? '';
         if (!$key) return [];
         $url = 'https://api.pexels.com/v1/search?query=' . urlencode($keyword) . '&per_page=' . (int) $count;
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 15,
             'headers' => ['Authorization' => $key],
             'allowed_hosts' => ['api.pexels.com'],
@@ -107,7 +107,7 @@ final class ImageInjector
         $key = $config['api_key'] ?? '';
         if (!$key) return [];
         $url = 'https://pixabay.com/api/?key=' . $key . '&q=' . urlencode($keyword) . '&per_page=' . (int) $count . '&image_type=photo';
-        $resp = Linked3_Safe_Remote::get($url, ['timeout' => 15, 'allowed_hosts' => ['pixabay.com']]);
+        $resp = SafeRemote::get($url, ['timeout' => 15, 'allowed_hosts' => ['pixabay.com']]);
         if (is_wp_error($resp)) return [];
         $body = json_decode(wp_remote_retrieve_body($resp), true);
         $out = [];
@@ -124,7 +124,7 @@ final class ImageInjector
         $key = $config['api_key'] ?? '';
         if (!$key) return [];
         $url = 'https://api.unsplash.com/search/photos?query=' . urlencode($keyword) . '&per_page=' . (int) $count;
-        $resp = Linked3_Safe_Remote::get($url, [
+        $resp = SafeRemote::get($url, [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Client-ID ' . $key],
             'allowed_hosts' => ['api.unsplash.com'],

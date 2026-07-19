@@ -30,7 +30,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -86,7 +86,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
         ];
         $api_params['sign'] = $this->compute_signature($api_params, $app_secret);
 
-        $resp = Linked3_Safe_Remote::post(self::API_BASE, [
+        $resp = SafeRemote::post(self::API_BASE, [
             'timeout' => 60,
             'body'    => $api_params,
             'allowed_hosts' => ['api.alibaba.com'],
@@ -126,7 +126,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
         ];
         $api_params['sign'] = $this->compute_signature($api_params, $app_secret);
 
-        $resp = Linked3_Safe_Remote::post(self::API_BASE, [
+        $resp = SafeRemote::post(self::API_BASE, [
             'timeout' => 15,
             'body'    => $api_params,
             'allowed_hosts' => ['api.alibaba.com'],
@@ -181,7 +181,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
         $body .= '--' . $boundary . "--\r\n";
         @unlink($tmp);
 
-        $resp = Linked3_Safe_Remote::post(self::API_BASE, [
+        $resp = SafeRemote::post(self::API_BASE, [
             'timeout' => 60,
             'headers' => ['Content-Type' => 'multipart/form-data; boundary=' . $boundary],
             'body'    => $body,

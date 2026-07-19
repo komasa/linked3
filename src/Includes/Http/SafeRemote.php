@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Safe_Remote — replaces the deprecated SSRF-vulnerable proxy.php from
  * linked v2.9.6 (which had CURLOPT_FOLLOWLOCATION=true + SSL_VERIFYPEER=false
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Safe_Remote
+final class SafeRemote
 {
     /** @var array<string> Default allow-list of public push endpoints. */
     private static $default_hosts = [

@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Push;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -60,7 +60,7 @@ final class PushEngineIndexnow implements PushEngine
             'keyLocation' => trailingslashit(site_url()) . $key . '.txt',
             'urlList'     => array_values(array_map('esc_url_raw', $urls)),
         ];
-        $response = Linked3_Safe_Remote::post('https://api.indexnow.org/IndexNow', [
+        $response = SafeRemote::post('https://api.indexnow.org/IndexNow', [
             'timeout'       => 15,
             'headers'       => ['Content-Type' => 'application/json; charset=utf-8'],
             'body'          => wp_json_encode($payload),

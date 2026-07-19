@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Chat\Ajax;
-    use \Linked3\Includes\Traits\Trait_Check_Frontend_Permissions;
-    use \Linked3\Includes\Traits\Trait_Send_WP_Error;
+    use \Linked3\Includes\Traits\TraitCheckFrontendPermissions;
+    use \Linked3\Includes\Traits\TraitSendWPError;
 
 
 if (!defined('ABSPATH')) exit;

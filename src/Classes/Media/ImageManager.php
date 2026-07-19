@@ -19,8 +19,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Media;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -32,7 +32,7 @@ final class ImageManager
     private $log;
 
     public function __construct() {
-        $this->log = Linked3_Logger::instance();
+        $this->log = Logger::instance();
     }
 
     /**
@@ -162,7 +162,7 @@ final class ImageManager
             'size' => $size,
             'quality' => 'standard',
         ];
-        $resp = Linked3_Safe_Remote::post('https://api.openai.com/v1/images/generations', [
+        $resp = SafeRemote::post('https://api.openai.com/v1/images/generations', [
             'timeout' => 60,
             'headers' => ['Authorization' => 'Bearer ' . $key, 'Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -192,7 +192,7 @@ final class ImageManager
         if (!empty($settings['siliconflow_negative_prompt'])) {
             $body['negative_prompt'] = $settings['siliconflow_negative_prompt'];
         }
-        $resp = Linked3_Safe_Remote::post('https://api.siliconflow.cn/v1/images/generations', [
+        $resp = SafeRemote::post('https://api.siliconflow.cn/v1/images/generations', [
             'timeout' => 60,
             'headers' => ['Authorization' => 'Bearer ' . $key, 'Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
@@ -219,7 +219,7 @@ final class ImageManager
                 'n' => 1,
             ],
         ];
-        $resp = Linked3_Safe_Remote::post('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', [
+        $resp = SafeRemote::post('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', [
             'timeout' => 60,
             'headers' => ['Authorization' => 'Bearer ' . $key, 'Content-Type' => 'application/json', 'X-DashScope-Async' => 'enable'],
             'body' => wp_json_encode($body),
@@ -234,7 +234,7 @@ final class ImageManager
         if (!$task_id) return ['ok' => false, 'url' => '', 'message' => __('未返回 task_id', 'linked3-ai')];
         // 轮询结果 (简化:等待 10 秒后查询)
         sleep(10);
-        $poll = Linked3_Safe_Remote::get("https://dashscope.aliyuncs.com/api/v1/tasks/{$task_id}", [
+        $poll = SafeRemote::get("https://dashscope.aliyuncs.com/api/v1/tasks/{$task_id}", [
             'timeout' => 15,
             'headers' => ['Authorization' => 'Bearer ' . $key],
             'allowed_hosts' => ['dashscope.aliyuncs.com'],
@@ -255,7 +255,7 @@ final class ImageManager
      */
     public function fetch_from_station($station_url, $count = 5) : mixed     {
         if (empty($station_url)) return [];
-        $resp = Linked3_Safe_Remote::get($station_url, [
+        $resp = SafeRemote::get($station_url, [
             'timeout' => 15,
             'allowed_hosts' => [wp_parse_url($station_url, PHP_URL_HOST)],
         ]);

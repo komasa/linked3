@@ -405,7 +405,7 @@ $linked3_bootstrap_error = null;
 // autoload triggers a ParseError (e.g. a required file has a syntax error),
 // class_exists itself throws and we must catch it here.
 try {
-    $linked3_core_available = class_exists('Linked3\\Includes\\Linked3_Plugin');
+    $linked3_core_available = class_exists('Linked3\\Includes\\Plugin');
 } catch (\Throwable $e) {
     $linked3_bootstrap_error = sprintf(
         __('Linked3 自动加载错误:%s (位于 %s:%d)', 'linked3'),
@@ -421,7 +421,7 @@ if (!$linked3_core_available) {
         $linked3_bootstrap_error = sprintf(
             /* translators: %s: class name. */
             __('Linked3 核心类 %s 无法加载。请检查 src/autoload.php 和 src/Includes/class-linked3-plugin.php 是否存在且可读。', 'linked3'),
-            'Linked3\\Includes\\Linked3_Plugin'
+            'Linked3\\Includes\\Plugin'
         );
     }
 } else {
@@ -429,8 +429,8 @@ if (!$linked3_core_available) {
     // produce a silent fatal. We catch + record + surface via admin_notice.
     register_activation_hook(LINKED3_FILE, static function () use (&$linked3_bootstrap_error) {
         try {
-            if (class_exists('Linked3\\Includes\\Linked3_Activator')) {
-                \Linked3\Includes\Linked3_Activator::activate();
+            if (class_exists('Linked3\\Includes\\Activator')) {
+                \Linked3\Includes\Activator::activate();
             }
         } catch (\Throwable $e) {
             $linked3_bootstrap_error = sprintf(
@@ -457,8 +457,8 @@ if (!$linked3_core_available) {
             );
         }
     });
-    register_deactivation_hook(LINKED3_FILE, ['Linked3\\Includes\\Linked3_Deactivator', 'deactivate']);
-    register_uninstall_hook(LINKED3_FILE, ['Linked3\\Includes\\Linked3_Uninstaller', 'uninstall']);
+    register_deactivation_hook(LINKED3_FILE, ['Linked3\\Includes\\Deactivator', 'deactivate']);
+    register_uninstall_hook(LINKED3_FILE, ['Linked3\\Includes\\Uninstaller', 'uninstall']);
 
     add_action('plugins_loaded', static function () use (&$linked3_bootstrap_error) {
         // v6.0.0: 最终启动序列 (统一调用所有 Phase)
@@ -503,7 +503,7 @@ if (!$linked3_core_available) {
         }
 
         try {
-            \Linked3\Includes\Linked3_Plugin::instance()->run();
+            \Linked3\Includes\Plugin::instance()->run();
         } catch (\Throwable $e) {
             $linked3_bootstrap_error = sprintf(
                 __('Linked3 启动失败:%s (位于 %s:%d)', 'linked3'),

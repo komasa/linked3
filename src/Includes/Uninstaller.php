@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Uninstaller. Called when user clicks "Delete" in Plugins screen.
  * Removes all tables + options + crons. No soft-delete.
@@ -22,7 +24,7 @@ if (!defined('LINKED3_DB_VERSION_OPTION')) {
     define('LINKED3_DB_VERSION_OPTION', 'linked3_db_version');
 }
 
-final class Linked3_Uninstaller
+final class Uninstaller
 {
     /**
      * @return void
@@ -33,8 +35,8 @@ final class Linked3_Uninstaller
 
         // 1) Drop tables (v5.0.0 schema — 16 tables, fetched dynamically
         //    from Schema::qualified_names() so new tables are auto-included).
-        if (class_exists('Linked3\\Includes\\DB\\Linked3_Schema')) {
-            $tables = \Linked3\Includes\DB\Linked3_Schema::qualified_names();
+        if (class_exists('Linked3\\Includes\\DB\\Schema')) {
+            $tables = \Linked3\Includes\DB\Schema::qualified_names();
         } else {
             $tables = [];
         }
@@ -147,8 +149,8 @@ final class Linked3_Uninstaller
             foreach ($sites as $blog_id) {
                 switch_to_blog($blog_id);
                 // Drop tables on each blog.
-                if (class_exists('Linked3\\Includes\\DB\\Linked3_Schema')) {
-                    $blog_tables = \Linked3\Includes\DB\Linked3_Schema::qualified_names();
+                if (class_exists('Linked3\\Includes\\DB\\Schema')) {
+                    $blog_tables = \Linked3\Includes\DB\Schema::qualified_names();
                     if (!empty($blog_tables)) {
                         $blog_sql = "DROP TABLE IF EXISTS " . implode(', ', array_map('esc_sql', $blog_tables));
                         $wpdb->query($blog_sql);

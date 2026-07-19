@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 
 namespace Linked3\Classes\Publish;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -48,8 +48,8 @@ final class PublishManager
     public static function instance() : mixed {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -231,6 +231,6 @@ final class PublishManager
         $subject = sprintf(__('[Linked3] 发布目标「%s」熔断器已触发', 'linked3'), $target['name']);
         $msg = sprintf(__("Publish target %s (ID %d, type %s) has failed 5 times in 5 minutes and was temporarily disabled.\n\nCheck the target configuration or remote site availability.", 'linked3'), $target['name'], $target['id'], $target['type']);
         wp_mail($email, $subject, $msg);
-        Linked3_Logger::instance()->critical('publish', "Target {$target['id']} circuit open", $target);
+        Logger::instance()->critical('publish', "Target {$target['id']} circuit open", $target);
     }
 }

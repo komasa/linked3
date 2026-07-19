@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Database schema — 12 tables powering linked3.0.
  *
@@ -32,7 +34,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Schema
+final class Schema
 {
     /** @return string[] Table names (unqualified; caller adds $wpdb->prefix). */
     public static function tables()
@@ -255,7 +257,7 @@ final class Linked3_Schema
             ) {$charset};",
 
             // 10) Publish targets — multi-destination publish config (v0.5.1).
-            //     config encrypted at rest via Linked3_Crypto (holds remote creds).
+            //     config encrypted at rest via Crypto (holds remote creds).
             "CREATE TABLE {$p}linked3_publish_targets (
                 id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
                 user_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,

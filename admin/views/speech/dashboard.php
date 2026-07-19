@@ -6,18 +6,18 @@ if (!defined('ABSPATH')) exit;
 // usage text + shortcode docs, but the TTS shortcode + REST endpoint could
 // never authenticate because no provider key was set).
 
-$crypto_available = class_exists('\Linked3\Includes\Linked3_Crypto');
+$crypto_available = class_exists('\Linked3\Includes\Crypto');
 $keys_raw = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
 $tts_provider = get_option(LINKED3_OPTION_PREFIX . 'tts_provider', 'openai');
 $tts_model    = get_option(LINKED3_OPTION_PREFIX . 'tts_model', 'tts-1');
 $stt_provider = get_option(LINKED3_OPTION_PREFIX . 'stt_provider', 'openai');
 $stt_model    = get_option(LINKED3_OPTION_PREFIX . 'stt_model', 'whisper-1');
 
-// Decrypt keys for display (Linked3_Crypto::decrypt is a no-op on plaintext).
+// Decrypt keys for display (Crypto::decrypt is a no-op on plaintext).
 $keys_display = [];
 foreach ($keys_raw as $provider => $key) {
     $keys_display[$provider] = ($crypto_available && !empty($key))
-        ? \Linked3\Includes\Linked3_Crypto::decrypt((string) $key)
+        ? \Linked3\Includes\Crypto::decrypt((string) $key)
         : (string) $key;
 }
 
@@ -38,7 +38,7 @@ if (isset($_POST['linked3_speech_settings_nonce']) && wp_verify_nonce(sanitize_t
     foreach (['openai', 'deepseek', 'azure', 'kimi'] as $p) {
         $val = sanitize_text_field($_POST['key_' . $p] ?? '');
         if ($val === '') continue;
-        $keys_raw[$p] = $crypto_available ? \Linked3\Includes\Linked3_Crypto::encrypt($val) : $val;
+        $keys_raw[$p] = $crypto_available ? \Linked3\Includes\Crypto::encrypt($val) : $val;
         $keys_display[$p] = $val;
     }
     update_option(LINKED3_OPTION_PREFIX . 'provider_keys', $keys_raw);

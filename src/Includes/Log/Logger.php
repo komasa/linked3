@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Logger.
  *
@@ -16,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Logger
+final class Logger
 {
     const LEVELS = ['debug' => 100, 'info' => 200, 'notice' => 250, 'warning' => 300, 'error' => 400, 'critical' => 500, 'alert' => 550, 'emergency' => 600];
     const CHANNELS = ['ai', 'cron', 'license', 'billing', 'security', 'publish', 'collect', 'chat', 'vector', 'general'];
@@ -60,8 +62,8 @@ final class Linked3_Logger
     {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -107,7 +109,7 @@ final class Linked3_Logger
         }
 
         if ($this->sanitize && !empty($context)) {
-            $context = Linked3_Payload_Sanitizer::sanitize_for_logging($context);
+            $context = PayloadSanitizer::sanitize_for_logging($context);
         }
 
         $line = sprintf(

@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\Billing;
 
 use Linked3\Classes\License\LicenseService;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -106,7 +106,7 @@ final class SubscriptionManager
 
         $url = rtrim($base, '/') . '/api/billing/subscription/status';
         $key = LicenseService::instance()->license_key();
-        $response = Linked3_Safe_Remote::post($url, [
+        $response = SafeRemote::post($url, [
             'timeout' => 15,
             'headers' => ['Content-Type' => 'application/json'],
             'body' => wp_json_encode(['license_key' => $key, 'site_url' => site_url()]),
@@ -133,7 +133,7 @@ final class SubscriptionManager
         // Revoke local license + clear plan cache.
         LicenseService::instance()->revoke();
         delete_option(LINKED3_OPTION_PREFIX . 'grace_started_at');
-        Linked3_Logger::instance()->warning('billing', 'License downgraded to Free after grace period exhausted');
+        Logger::instance()->warning('billing', 'License downgraded to Free after grace period exhausted');
     }
 
     /**

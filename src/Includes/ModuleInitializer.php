@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Layer 3/3: Module Initializer.
  * Bootstraps dashboard + sub-systems that need eager init.
@@ -13,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Module_Initializer
+final class ModuleInitializer
 {
     /**
      * @param string $version

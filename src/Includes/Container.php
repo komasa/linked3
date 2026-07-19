@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 DI Container — lightweight dependency injection container.
  *
@@ -37,7 +39,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Container
+final class Container
 {
     /** @var array<string, callable> Factory closures keyed by FQCN. */
     private $factories = [];
@@ -112,7 +114,7 @@ final class Linked3_Container
             // PSR-11: throw NotFoundExceptionInterface when the entry does
             // not exist. We do NOT auto-wire — every class must be
             // explicitly registered.
-            throw new Linked3_NotFoundException(
+            throw new NotFoundException(
                 sprintf('No factory registered for "%s".', $id)
             );
         }
@@ -185,9 +187,9 @@ final class Linked3_Container
 
         // v4.4.6 — the remaining 10 singletons.
         $this->set(
-            \Linked3\Includes\Log\Linked3_Logger::class,
-            static function (): \Linked3\Includes\Log\Linked3_Logger {
-                return \Linked3\Includes\Log\Linked3_Logger::instance_without_container();
+            \Linked3\Includes\Log\Logger::class,
+            static function (): \Linked3\Includes\Log\Logger {
+                return \Linked3\Includes\Log\Logger::instance_without_container();
             }
         );
         $this->set(
@@ -256,10 +258,10 @@ final class Linked3_Container
  * deleted the dead file. This bridge is now the canonical definition.
  *
  * @since 10.7.7
- * @return \Linked3\Includes\Linked3_Container
+ * @return \Linked3\Includes\Container
  */
 if ( ! function_exists( 'linked3_container' ) ) {
     function linked3_container() {
-        return \Linked3\Includes\Linked3_Container::instance();
+        return \Linked3\Includes\Container::instance();
     }
 }

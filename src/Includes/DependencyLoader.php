@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Layer 1/3: Dependency Loader.
  *
@@ -37,7 +39,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Dependency_Loader
+final class DependencyLoader
 {
     /** @var string[] Per-file load errors (Populated when a require_once throws). */
     public static $load_errors = [];

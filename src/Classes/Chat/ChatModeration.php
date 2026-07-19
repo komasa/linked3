@@ -27,8 +27,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\Chat;
 
 use Linked3\Classes\Security\RateLimiter;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -168,7 +168,7 @@ final class ChatModeration
         }
 
         try {
-            $resp = Linked3_Safe_Remote::post(self::MODERATION_URL, [
+            $resp = SafeRemote::post(self::MODERATION_URL, [
                 'timeout'       => 10,
                 'headers'       => [
                     'Content-Type'  => 'application/json',
@@ -315,8 +315,8 @@ final class ChatModeration
      */
     private function log_block($layer, $detail)
     : void {
-        if (class_exists('\\Linked3\\Includes\\Log\\Linked3_Logger')) {
-            Linked3_Logger::instance()->warning('chat', 'Moderation block: ' . $layer . ' — ' . $detail);
+        if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
+            Logger::instance()->warning('chat', 'Moderation block: ' . $layer . ' — ' . $detail);
         }
     }
 }

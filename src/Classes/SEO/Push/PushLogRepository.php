@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Push log repository — CRUD on linked3_push_logs.
  *
- * v4.5.4: now extends Linked3_Base_Repository for standard CRUD.
+ * v4.5.4: now extends BaseRepository for standard CRUD.
  * Backward-compatible static wrappers are preserved so existing call
  * sites (e.g. `PushLogRepository::insert(...)`) keep working.
  *
@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Push;
 
-use Linked3\Includes\DB\Linked3_Base_Repository;
+use Linked3\Includes\DB\BaseRepository;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class PushLogRepository extends Linked3_Base_Repository
+final class PushLogRepository extends BaseRepository
 {
     /** @var self|null Singleton for backward-compat static methods. */
     private static $instance;

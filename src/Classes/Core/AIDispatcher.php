@@ -24,9 +24,9 @@ namespace Linked3\Classes\Core;
 
 use Linked3\Classes\Core\Providers\ProviderFactory;
 use Linked3\Classes\Security\RateLimiter;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
-use Linked3\Includes\Log\Linked3_Logger;
-use Linked3\Includes\Linked3_Crypto;
+use Linked3\Includes\Http\SafeRemote;
+use Linked3\Includes\Log\Logger;
+use Linked3\Includes\Crypto;
 
 
 
@@ -38,7 +38,7 @@ final class AIDispatcher
     /** @var self|null */
     private static $instance;
 
-    /** @var Linked3_Logger */
+    /** @var Logger */
     private $log;
 
     /** @var ProviderFactory */
@@ -54,7 +54,7 @@ final class AIDispatcher
     const CIRCUIT_THRESHOLD = 5;
 
     private function __construct() {
-        $this->log     = Linked3_Logger::instance();
+        $this->log     = Logger::instance();
         $this->factory = ProviderFactory::instance();
         $this->tokens  = class_exists('\\Linked3\\Classes\\Core\\TokenManager')
             ? TokenManager::instance()
@@ -64,7 +64,7 @@ final class AIDispatcher
     /**
      * Get the singleton instance.
      *
-     * v4.4.2: delegates to the Linked3_Container so call sites can be
+     * v4.4.2: delegates to the Container so call sites can be
      * migrated to dependency injection gradually. Existing `::instance()`
      * call sites continue to work unchanged.
      *
@@ -73,8 +73,8 @@ final class AIDispatcher
     public static function instance() : mixed {
         if (null === self::$instance) {
             // If the DI container is loaded, use it (enables test overrides).
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -93,7 +93,7 @@ final class AIDispatcher
      * (Container::get() → factory → ::instance() → Container::get() …).
      *
      * @return self
-     * @internal Called only by Linked3_Container::register_defaults().
+     * @internal Called only by Container::register_defaults().
      */
     public static function instance_without_container() : mixed     {
         if (null === self::$instance) {
@@ -238,7 +238,7 @@ final class AIDispatcher
             $started = microtime(true);
             // v5.2.9: 支持调用方动态传入 timeout
             $custom_timeout = isset($options['timeout']) ? (int) $options['timeout'] : $provider->default_timeout();
-            $response = Linked3_Safe_Remote::post($url, [
+            $response = SafeRemote::post($url, [
                 'timeout'     => $custom_timeout,
                 'headers'     => $headers,
                 'body'        => wp_json_encode($payload),
@@ -321,7 +321,7 @@ final class AIDispatcher
 
         // Resolve API key(s) — supports multi-key rotation. Each key is
         // decrypted at the boundary (Constitution §5: AES-256-GCM at rest).
-        // Linked3_Crypto::decrypt() returns the input unchanged for legacy
+        // Crypto::decrypt() returns the input unchanged for legacy
         // plaintext entries, so this is forward-compatible.
         $raw_keys = !empty($config['api_keys']) ? (array) $config['api_keys'] : (isset($config['api_key']) ? [$config['api_key']] : []);
         // 如果调用方没传 key,从保存的 provider_keys 读
@@ -338,7 +338,7 @@ final class AIDispatcher
         }
         $keys = [];
         foreach ($raw_keys as $k) {
-            $decrypted = Linked3_Crypto::decrypt((string) $k);
+            $decrypted = Crypto::decrypt((string) $k);
             if ($decrypted !== '') {
                 $keys[] = $decrypted;
             }
@@ -358,7 +358,7 @@ final class AIDispatcher
         $started = microtime(true);
         // v5.2.9: 支持调用方动态传入 timeout (长文需要更长超时)
         $request_timeout = isset($options['timeout']) ? (int) $options['timeout'] : $provider->default_timeout();
-        $response = Linked3_Safe_Remote::post($url, [
+        $response = SafeRemote::post($url, [
             'timeout'     => $request_timeout,
             'headers'     => $headers,
             'body'        => wp_json_encode($payload),

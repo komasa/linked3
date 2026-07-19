@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -34,7 +34,7 @@ final class WeiboDistributor implements DistributeAdapterInterface
         $url = $post_data['url'] ?? '';
         $text = mb_substr($content . ' ' . $url, 0, 140);
 
-        $resp = Linked3_Safe_Remote::post('https://api.weibo.com/2/statuses/share.json', [
+        $resp = SafeRemote::post('https://api.weibo.com/2/statuses/share.json', [
             'timeout' => 30,
             'body' => [
                 'access_token' => $token,
@@ -59,7 +59,7 @@ final class WeiboDistributor implements DistributeAdapterInterface
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
         // v3.0.0: 真实 ping 微博 API 验证 token
-        $resp = Linked3_Safe_Remote::get('https://api.weibo.com/2/account/get_uid.json?access_token=' . urlencode($token), [
+        $resp = SafeRemote::get('https://api.weibo.com/2/account/get_uid.json?access_token=' . urlencode($token), [
             'timeout' => 15,
             'allowed_hosts' => ['api.weibo.com'],
         ]);

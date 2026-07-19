@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Input;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 if (!defined('ABSPATH')) exit;
@@ -24,7 +24,7 @@ final class RssInputSource implements InputSourceInterface
         if (empty($feed_url)) {
             return [];
         }
-        $response = Linked3_Safe_Remote::get($feed_url, [
+        $response = SafeRemote::get($feed_url, [
             'timeout' => 20,
             'allowed_hosts' => [wp_parse_url($feed_url, PHP_URL_HOST)],
         ]);

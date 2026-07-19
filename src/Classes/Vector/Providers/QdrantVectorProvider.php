@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Vector\Providers;
 
 use Linked3\Classes\Vector\VectorProviderInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -28,7 +28,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
         if (!$url) return ['ok' => false, 'message' => __('缺少 host_url。', 'linked3')];
         $headers = ['Content-Type' => 'application/json'];
         if ($key) $headers['api-key'] = $key;
-        $resp = Linked3_Safe_Remote::get($url . '/collections', [
+        $resp = SafeRemote::get($url . '/collections', [
             'timeout' => 15,
             'headers' => $headers,
             'allowed_hosts' => [wp_parse_url($url, PHP_URL_HOST)],
@@ -48,7 +48,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
         $body = wp_json_encode([
             'vectors' => ['size' => (int) $dimensions, 'distance' => 'Cosine'],
         ]);
-        $resp = Linked3_Safe_Remote::put("{$url}/collections/" . sanitize_key($name), [
+        $resp = SafeRemote::put("{$url}/collections/" . sanitize_key($name), [
             'timeout' => 30,
             'headers' => $headers,
             'body' => $body,
@@ -75,7 +75,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
                 'payload' => array_merge(['string_id' => (string) $v['id']], (array) ($v['metadata'] ?? [])),
             ];
         }
-        $resp = Linked3_Safe_Remote::put("{$url}/collections/" . sanitize_key($index) . "/points?wait=true", [
+        $resp = SafeRemote::put("{$url}/collections/" . sanitize_key($index) . "/points?wait=true", [
             'timeout' => 30,
             'headers' => $headers,
             'body' => wp_json_encode(['points' => $points]),
@@ -101,7 +101,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
         if (!empty($filters['post_type'])) {
             $body['filter'] = ['must' => [['key' => 'post_type', 'match' => ['value' => sanitize_text_field($filters['post_type'])]]]];
         }
-        $resp = Linked3_Safe_Remote::post("{$url}/collections/" . sanitize_key($index) . "/points/search", [
+        $resp = SafeRemote::post("{$url}/collections/" . sanitize_key($index) . "/points/search", [
             'timeout' => 30,
             'headers' => $headers,
             'body' => wp_json_encode($body),
@@ -129,7 +129,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
         $headers = ['Content-Type' => 'application/json'];
         if ($key) $headers['api-key'] = $key;
         $point_ids = array_map(static function ($id) { return abs(crc32((string) $id)); }, $ids);
-        $resp = Linked3_Safe_Remote::post("{$url}/collections/" . sanitize_key($index) . "/points/delete?wait=true", [
+        $resp = SafeRemote::post("{$url}/collections/" . sanitize_key($index) . "/points/delete?wait=true", [
             'timeout' => 30,
             'headers' => $headers,
             'body' => wp_json_encode(['points' => $point_ids]),
@@ -148,7 +148,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
         if (!$provider) return new \WP_Error('no_provider', __('无嵌入 Provider。', 'linked3'));
         $payload = $provider->format_embed_payload($text, ['model' => $config['embed_model'] ?? 'text-embedding-3-small'], $config);
         $url = $provider->build_api_url('embed', $config);
-        $resp = Linked3_Safe_Remote::post($url, [
+        $resp = SafeRemote::post($url, [
             'timeout' => 30,
             'headers' => $provider->get_api_headers($config),
             'body' => wp_json_encode($payload),

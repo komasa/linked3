@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Query Builder — fluent chain for $wpdb SELECT queries.
  *
@@ -30,7 +32,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Query_Builder
+final class QueryBuilder
 {
     /** @var string */
     private $table;

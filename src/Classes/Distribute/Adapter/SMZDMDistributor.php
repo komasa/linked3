@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Distribute\Adapter;
 
 use Linked3\Classes\Distribute\DistributeAdapterInterface;
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 
 
@@ -46,7 +46,7 @@ final class SMZDMDistributor implements DistributeAdapterInterface
             'source_url' => $post_data['url'] ?? '',
         ];
 
-        $resp = Linked3_Safe_Remote::post($api_url, [
+        $resp = SafeRemote::post($api_url, [
             'timeout' => 30,
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
@@ -78,7 +78,7 @@ final class SMZDMDistributor implements DistributeAdapterInterface
             return ['ok' => false, 'message' => __('缺少 MCP API 地址或 Access Token', 'linked3-ai')];
         }
         $me_url = rtrim($api_url, '/') . '/me';
-        $resp = Linked3_Safe_Remote::get($me_url, [
+        $resp = SafeRemote::get($me_url, [
             'timeout' => 10,
             'headers' => ['Authorization' => 'Bearer ' . $token],
         ]);

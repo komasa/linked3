@@ -136,7 +136,7 @@ final class WcTokenPackage
         $user_id = (int) $order->get_user_id();
         if (!$user_id) {
             // 记录日志,无用户无法授权
-            \Linked3\Includes\Log\Linked3_Logger::instance()->warning('wc_token', "Order #{$order_id} has no user, cannot grant tokens");
+            \Linked3\Includes\Log\Logger::instance()->warning('wc_token', "Order #{$order_id} has no user, cannot grant tokens");
             return;
         }
 
@@ -169,14 +169,14 @@ final class WcTokenPackage
         if ($total_tokens > 0) {
             $current_balance = (int) get_user_meta($user_id, self::META_USER_BALANCE, true);
             update_user_meta($user_id, self::META_USER_BALANCE, $current_balance + $total_tokens);
-            \Linked3\Includes\Log\Linked3_Logger::instance()->info('wc_token', "Granted {$total_tokens} tokens to user #{$user_id} (order #{$order_id})");
+            \Linked3\Includes\Log\Logger::instance()->info('wc_token', "Granted {$total_tokens} tokens to user #{$user_id} (order #{$order_id})");
         }
 
         // 套餐升级 (写 user_meta,License_Service 读)
         if ($plan_to_grant) {
             update_user_meta($user_id, '_linked3_granted_plan', $plan_to_grant);
             update_user_meta($user_id, '_linked3_granted_at', current_time('mysql'));
-            \Linked3\Includes\Log\Linked3_Logger::instance()->info('wc_token', "Upgraded user #{$user_id} to {$plan_to_grant} (order #{$order_id})");
+            \Linked3\Includes\Log\Logger::instance()->info('wc_token', "Upgraded user #{$user_id} to {$plan_to_grant} (order #{$order_id})");
         }
 
         // 标记已授权

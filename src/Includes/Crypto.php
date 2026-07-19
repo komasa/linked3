@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Crypto — AES-256-GCM symmetric encryption for secrets at rest.
  *
@@ -31,7 +33,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Crypto
+final class Crypto
 {
     /** Marker prefix — decrypt() short-circuits if absent. */
     const PREFIX = 'enc::';

@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Replaces v2.9.6's publish_to_remote_database() which used raw mysqli
  * (not portable, leaked credentials in error messages). This version:
  *   - Uses a throwaway $wpdb instance configured for the remote DSN
- *   - Stores credentials encrypted via Linked3_Crypto (AES-256-GCM)
+ *   - Stores credentials encrypted via Crypto (AES-256-GCM)
  *   - Inserts into wp_posts + wp_postmeta + wp_term_relationships
  *
  * @package Linked3

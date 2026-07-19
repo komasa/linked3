@@ -47,8 +47,8 @@ final class TokenManager
         if (null === self::$instance) {
             // v4.4.2: delegate to the DI container when available (enables
             // test overrides via set_instance()).
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;

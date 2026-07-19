@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Includes;
 if (!defined('ABSPATH')) exit;
 /**
@@ -8,22 +10,22 @@ if (!defined('ABSPATH')) exit;
  * @subpackage Linked3.Includes
  * @since      27.1.0
  */
-final class Linked3_Service_Locator
+final class ServiceLocator
 {
     const SERVICE_MAP = [
         'dispatcher' => 'Linked3\Classes\Core\AIDispatcher',
         'token_manager' => 'Linked3\Classes\Core\TokenManager',
         'license' => 'Linked3\Classes\License\LicenseService',
-        'logger' => 'Linked3\Includes\Log\Linked3_Logger',
-        'container' => 'Linked3\Includes\Linked3_Container',
-        'options' => 'Linked3\Includes\Linked3_Option_Repository',
-        'secrets' => 'Linked3\Includes\Linked3_Secret_Vault',
-        'request' => 'Linked3\Includes\Linked3_Request',
-        'perf' => 'Linked3\Includes\Linked3_Performance_Monitor',
-        'config' => 'Linked3\Includes\Linked3_Config_Registry',
-        'http' => 'Linked3\Includes\Http\Linked3_Safe_Remote',
-        'crypto' => 'Linked3\Includes\Linked3_Crypto',
-        'guard' => 'Linked3\Includes\Linked3_Ajax_Guard',
+        'logger' => 'Linked3\Includes\Log\Logger',
+        'container' => 'Linked3\Includes\Container',
+        'options' => 'Linked3\Includes\OptionRepository',
+        'secrets' => 'Linked3\Includes\SecretVault',
+        'request' => 'Linked3\Includes\Request',
+        'perf' => 'Linked3\Includes\PerformanceMonitor',
+        'config' => 'Linked3\Includes\ConfigRegistry',
+        'http' => 'Linked3\Includes\Http\SafeRemote',
+        'crypto' => 'Linked3\Includes\Crypto',
+        'guard' => 'Linked3\Includes\AjaxGuard',
         'vector' => 'Linked3\Classes\Vector\VectorFactory',
         'chat' => 'Linked3\Classes\Chat\ChatManager',
         'publish' => 'Linked3\Classes\Publish\PublishManager',
@@ -32,7 +34,7 @@ final class Linked3_Service_Locator
         'schema' => 'Linked3\Classes\SEO\Schema\SchemaMarkup',
         'push' => 'Linked3\Classes\SEO\Push\PushManager',
     ];
-    public static function get($name) { if (!isset(self::SERVICE_MAP[$name])) return null; $fqcn = self::SERVICE_MAP[$name]; if (class_exists('Linked3\Includes\Linked3_Container')) { $c = Linked3_Container::instance(); if ($c->has($fqcn)) return $c->get($fqcn); } if (method_exists($fqcn, 'instance')) return $fqcn::instance(); if (class_exists($fqcn)) return new $fqcn(); return null; }
+    public static function get($name) { if (!isset(self::SERVICE_MAP[$name])) return null; $fqcn = self::SERVICE_MAP[$name]; if (class_exists('Linked3\Includes\Container')) { $c = Container::instance(); if ($c->has($fqcn)) return $c->get($fqcn); } if (method_exists($fqcn, 'instance')) return $fqcn::instance(); if (class_exists($fqcn)) return new $fqcn(); return null; }
     public static function has($name) { return isset(self::SERVICE_MAP[$name]); }
     public static function fqcn($name) { return self::SERVICE_MAP[$name] ?? null; }
     public static function names() { return array_keys(self::SERVICE_MAP); }

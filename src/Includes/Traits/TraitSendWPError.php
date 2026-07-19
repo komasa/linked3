@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Trait: unified WP_Error / exception → JSON response helpers.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-trait Trait_Send_WP_Error
+trait TraitSendWPError
 {
     /**
      * @param \WP_Error|string $error

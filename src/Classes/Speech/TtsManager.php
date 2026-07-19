@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Speech;
 
-use Linked3\Includes\Http\Linked3_Safe_Remote;
+use Linked3\Includes\Http\SafeRemote;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -66,7 +66,7 @@ final class TtsManager
             'input' => mb_substr($text, 0, 4096),
         ]);
 
-        $resp = Linked3_Safe_Remote::post($url, [
+        $resp = SafeRemote::post($url, [
             'timeout' => 60,
             'headers' => [
                 'Authorization' => 'Bearer ' . $key,

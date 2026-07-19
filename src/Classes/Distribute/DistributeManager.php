@@ -16,7 +16,7 @@ declare(strict_types=1);
  */
 
 namespace Linked3\Classes\Distribute;
-use Linked3\Includes\Log\Linked3_Logger;
+use Linked3\Includes\Log\Logger;
 
 
 
@@ -77,8 +77,8 @@ final class DistributeManager
     public static function instance() : mixed {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
-            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
-                $container = \Linked3\Includes\Linked3_Container::instance();
+            if (class_exists('\\Linked3\\Includes\\Container')) {
+                $container = \Linked3\Includes\Container::instance();
                 if ($container->has(self::class)) {
                     self::$instance = $container->get(self::class);
                     return self::$instance;
@@ -143,7 +143,7 @@ final class DistributeManager
         ];
 
         $results = [];
-        $log = Linked3_Logger::instance();
+        $log = Logger::instance();
         $target_platforms = empty($platforms) ? array_keys($configs) : $platforms;
 
         foreach ($target_platforms as $platform) {
@@ -216,7 +216,7 @@ final class DistributeManager
         if ($count >= self::CB_FAIL_THRESHOLD) {
             // 触发熔断,冷却 5 分钟
             set_transient('linked3_dist_cb_open_' . $platform, 1, self::CB_COOLDOWN);
-            $log = Linked3_Logger::instance();
+            $log = Logger::instance();
             $log->warning('distribute', "Platform {$platform} circuit OPENED after {$count} failures");
         }
     }
