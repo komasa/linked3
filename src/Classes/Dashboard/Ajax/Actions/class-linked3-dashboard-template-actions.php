@@ -1,7 +1,7 @@
 <?php
 namespace Linked3\Classes\Dashboard\Ajax\Actions;
 use Linked3\Classes\Dashboard\Ajax\Linked3_Dashboard_Base_Ajax_Action;
-use Linked3\Classes\Templates\Linked3_Template_Manager;
+use Linked3\Classes\Templates\TemplateManager;
 
 if (!defined('ABSPATH')) exit;
 
@@ -44,7 +44,7 @@ class Linked3_Dashboard_Template_Actions extends Linked3_Dashboard_Base_Ajax_Act
             wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
 
-        $mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        $mgr = new \Linked3\Classes\Templates\TemplateManager();
         $config = [
             'tone'      => sanitize_text_field(wp_unslash($_POST['tone'] ?? 'professional')),
             'complexity'=> sanitize_text_field(wp_unslash($_POST['complexity'] ?? 'intermediate')),
@@ -73,7 +73,7 @@ class Linked3_Dashboard_Template_Actions extends Linked3_Dashboard_Base_Ajax_Act
             wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
 
-        $mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        $mgr = new \Linked3\Classes\Templates\TemplateManager();
         $config = [
             'tone'      => sanitize_text_field(wp_unslash($_POST['tone'] ?? 'professional')),
             'complexity'=> sanitize_text_field(wp_unslash($_POST['complexity'] ?? 'intermediate')),
@@ -103,7 +103,7 @@ class Linked3_Dashboard_Template_Actions extends Linked3_Dashboard_Base_Ajax_Act
             wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
 
-        $mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        $mgr = new \Linked3\Classes\Templates\TemplateManager();
         $ok = $mgr->delete((int) ($_POST['index'] ?? 0));
         wp_send_json_success(['deleted' => $ok]);
     }
@@ -123,7 +123,7 @@ class Linked3_Dashboard_Template_Actions extends Linked3_Dashboard_Base_Ajax_Act
         }
 
         $idx = (int) ($_POST['index'] ?? 0);
-        $mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        $mgr = new \Linked3\Classes\Templates\TemplateManager();
         // v2.9.0: 支持 get_all() 完整索引 (内置 + 自定义)
         // 若 index 在自定义范围内 (>= 内置数量),用 get_custom 取
         // 否则用 get_all() 取全局索引

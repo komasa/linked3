@@ -5,7 +5,7 @@
  * 修复点:
  *   1. 失败时入队 (enqueue) 而非静默丢弃 — 让 AutoGPT 队列真正起作用
  *   2. AutoGPT → Distribute 显式集成 — 任务 config 增加 distribute_platforms[]
- *   3. 模板改用 Linked3_Template_Manager (统一数据源,与 content tab 一致)
+ *   3. 模板改用 TemplateManager (统一数据源,与 content tab 一致)
  *
  * @package Linked3
  * @subpackage Classes\AutoGPT\Processors
@@ -39,8 +39,8 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
         $processed = 0;
         $errors = [];
 
-        // v3.0.0: 统一用 Linked3_Template_Manager (与内容写作 tab 一致)
-        $tplMgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        // v3.0.0: 统一用 TemplateManager (与内容写作 tab 一致)
+        $tplMgr = new \Linked3\Classes\Templates\TemplateManager();
         $all_templates = $tplMgr->get_all();
         $tplConfig = [];
         $tpl_id = (int) ($cfg['template_id'] ?? 0);

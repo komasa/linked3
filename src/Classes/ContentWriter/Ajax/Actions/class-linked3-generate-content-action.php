@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) exit;
  *   - gen_title/gen_meta/gen_tags/gen_excerpt/gen_keyword: SEO 元数据自动生成开关
  *
  * 工作流:
- *   1. 读模板配置 (Linked3_Template_Manager::get_all())
+ *   1. 读模板配置 (TemplateManager::get_all())
  *   2. 应用高级设置 (HTML 格式 / AI 摘要 / 标签 / 时间段)
  *   3. 调用 AI 生成正文
  *   4. Markdown→HTML 兜底转换
@@ -90,10 +90,10 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
         ];
         $length_cfg = $length_map[$content_length] ?? $length_map['medium'];
 
-        // 加载模板配置 (v2.6.0: Linked3_Template_Manager — 内置 5 个 + 用户自定义)
+        // 加载模板配置 (v2.6.0: TemplateManager — 内置 5 个 + 用户自定义)
         $config = [];
-        if ($template_id > 0 && class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
-            $tpl_mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        if ($template_id > 0 && class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+            $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
             $all_templates = $tpl_mgr->get_all();
             $idx = $template_id - 1;
             if (isset($all_templates[$idx])) {

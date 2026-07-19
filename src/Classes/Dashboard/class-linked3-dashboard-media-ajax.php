@@ -365,8 +365,8 @@ class Linked3_Dashboard_Media_Ajax
 
             // v5.3.3: 同步到云模板视觉提示词
             $synced = 0;
-            if ($sync_to_templates && !empty($result['prompts']) && class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
-                $tpl_mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+            if ($sync_to_templates && !empty($result['prompts']) && class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+                $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
                 foreach ($result['prompts'] as $p) {
                     if (empty($p['prompt'])) continue;
                     $tpl_mgr->add(

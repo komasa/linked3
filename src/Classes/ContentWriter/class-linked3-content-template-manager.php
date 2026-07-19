@@ -16,8 +16,8 @@ if (!defined('ABSPATH')) {
 final class Linked3_Content_Template_Manager
 {
     // v4.8.0: share the canonical starter-template definitions with
-    // Linked3_Template_Manager so both managers stay in sync.
-    use \Linked3\Classes\Templates\Linked3_Template_Seed_Trait;
+    // TemplateManager so both managers stay in sync.
+    use \Linked3\Classes\Templates\TemplateSeedTrait;
 
     /**
      * @return array  v4.8.0: delegates to the shared seed trait.

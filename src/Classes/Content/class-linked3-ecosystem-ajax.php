@@ -589,9 +589,9 @@ class Linked3_Ecosystem_Ajax {
         }
 
         // 委托 Template_Manager (若存在)
-        if (class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
+        if (class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
             try {
-                $mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+                $mgr = new \Linked3\Classes\Templates\TemplateManager();
                 $templates = $mgr->get_by_category($category);
                 if (!empty($templates)) return $templates[0];
             } catch (\Throwable $e) {}

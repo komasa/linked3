@@ -486,9 +486,9 @@ class Linked3_Cloud_Template_Factory {
         }
 
         // 委托 Template_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\Linked3_Template_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\TemplateManager')) {
             try {
-                $mgr = new \Linked3_Template_Manager();
+                $mgr = new \TemplateManager();
                 if (method_exists($mgr, 'get_by_category')) {
                     $templates = $mgr->get_by_category($category);
                     if (!empty($templates)) return $templates[0];

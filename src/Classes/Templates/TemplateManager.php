@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 云模板管理 — 迁移 v2.9.6 yunmub.php (AI_Template_Manager)。
  *
@@ -10,7 +12,7 @@
  */
 
 namespace Linked3\Classes\Templates;
-    use \Linked3\Classes\Templates\Linked3_Template_Seed_Trait;
+    use \Linked3\Classes\Templates\TemplateSeedTrait;
 
 
 
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Template_Manager
+final class TemplateManager
 {
     /**
      * 预置模板(本地)。v4.8.0: delegates to the shared seed trait.

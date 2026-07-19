@@ -2,7 +2,7 @@
 
 namespace Linked3\Classes\Dashboard;
 
-use Linked3\Classes\Templates\Linked3_Template_Manager;
+use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 
 

@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 /**
  * Shared starter-template seed data.
  *
  * v4.8.0: extracted the preset template definitions into a single trait so
- * both Linked3_Template_Manager (option-based) and
+ * both TemplateManager (option-based) and
  * Linked3_Content_Template_Manager (DB-based) share the same source of
  * truth for starter templates. This resolves P1-3 (duplicate template
  * definitions diverging over time).
@@ -22,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-trait Linked3_Template_Seed_Trait
+trait TemplateSeedTrait
 {
     /**
      * The canonical list of starter templates.

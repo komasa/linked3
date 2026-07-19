@@ -547,8 +547,8 @@ final class Linked3_Keyword_Manager
 
         // 加载模板配置 (v2.6.0: 统一索引规则 — template_id 是 get_all() 的 1-based 索引)
         $tpl_config = [];
-        if ($template_id > 0 && class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
-            $tpl_mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        if ($template_id > 0 && class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+            $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
             $all = $tpl_mgr->get_all();
             $idx = $template_id - 1; // 1-based → 0-based
             if (isset($all[$idx])) {

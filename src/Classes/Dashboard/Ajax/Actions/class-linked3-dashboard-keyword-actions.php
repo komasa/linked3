@@ -2,7 +2,7 @@
 namespace Linked3\Classes\Dashboard\Ajax\Actions;
 use Linked3\Classes\Dashboard\Ajax\Linked3_Dashboard_Base_Ajax_Action;
 use Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager;
-use Linked3\Classes\Templates\Linked3_Template_Manager;
+use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 
 if (!defined('ABSPATH')) exit;
@@ -79,8 +79,8 @@ class Linked3_Dashboard_Keyword_Actions extends Linked3_Dashboard_Base_Ajax_Acti
 
                 // v5.1.4: 从管线模板读取提示词 (不再硬编码)
                 $ai_prompt = '';
-                if (class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
-                    $tpl_mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+                if (class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+                    $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
                     $pipe_templates = $tpl_mgr->get_pipeline_templates('hotword');
                     if (!empty($pipe_templates)) {
                         $tpl = $pipe_templates[0];

@@ -89,9 +89,17 @@ class PSR4Migrator:
         return sorted(directory.rglob('*.php'))
     
     def find_references(self, old_class: str, search_root: Path) -> list[Path]:
-        """Find all files that reference the old class name."""
+        """Find all files that reference the old class name.
+        
+        Searches the entire project root (covers src/, admin/, lib/, root files)
+        but skips dependency and VCS directories.
+        """
         references = []
+        skip_dirs = {'vendor', 'node_modules', '.git', '.svn', 'cache', 'tmp'}
         for php_file in self.find_all_php_files(search_root):
+            # Skip files inside dependency/VCS directories
+            if any(part in skip_dirs for part in php_file.parts):
+                continue
             try:
                 content = php_file.read_text(encoding='utf-8', errors='replace')
                 if old_class in content:
@@ -127,8 +135,8 @@ class PSR4Migrator:
         if not namespace:
             return {'skipped': True, 'reason': 'No namespace found', 'file': str(filepath)}
         
-        # Find all references to the old class name
-        search_root = self.root / 'src'
+        # Find all references to the old class name across the entire project
+        search_root = self.root
         references = self.find_references(old_class, search_root)
         
         migration_info = {

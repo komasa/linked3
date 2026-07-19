@@ -60,8 +60,8 @@ class Linked3_Dashboard_Video_Ajax
 
         // v5.3.2: 从管线模板读取视频脚本提示词 (不再依赖 Placeholder_Resolver, 由 Generator 内部解析)
         $custom_prompt = '';
-        if ($video_template_idx !== '' && class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
-            $tpl_mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+        if ($video_template_idx !== '' && class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+            $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
             $video_templates = $tpl_mgr->get_pipeline_templates('video_script');
             $idx = (int) $video_template_idx;
             if (isset($video_templates[$idx])) {
@@ -119,8 +119,8 @@ class Linked3_Dashboard_Video_Ajax
 
                 // v5.3.3: 同步图片提示词到云模板视觉提示词
                 $synced = 0;
-                if ($sync_frames_to_templates && !empty($frames) && class_exists('\\Linked3\\Classes\\Templates\\Linked3_Template_Manager')) {
-                    $tpl_mgr = new \Linked3\Classes\Templates\Linked3_Template_Manager();
+                if ($sync_frames_to_templates && !empty($frames) && class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+                    $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
                     foreach ($frames as $f) {
                         if ($f['type'] !== 'image' || empty($f['visual_prompt'])) continue;
                         $tpl_mgr->add(

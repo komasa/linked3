@@ -86,10 +86,10 @@ trait Linked3_Content_Ecosystem_Trait {
         if (!empty($context['template'])) {
             return is_array($context['template']) ? $context['template'] : ['name' => $context['template']];
         }
-        if (class_exists('\Linked3\Classes\Content\Linked3_Template_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\TemplateManager')) {
             try {
                 $category = $context['template_category'] ?? 'content';
-                $mgr = new \Linked3_Template_Manager();
+                $mgr = new \TemplateManager();
                 if (method_exists($mgr, 'get_by_category')) {
                     $templates = $mgr->get_by_category($category);
                     if (!empty($templates)) return $templates[0];
