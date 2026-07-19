@@ -290,7 +290,7 @@ require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAsyncRunner.php';
 // -----------------------------------------------------------------------------
 $_linked3_preload_files = [
     LINKED3_DIR . 'src/Includes/functions-events.php',
-    LINKED3_DIR . 'src/Includes/class-linked3-container.php',
+    LINKED3_DIR . 'src/Includes/Container.php',
 ];
 foreach ($_linked3_preload_files as $_linked3_preload_file) {
     if (file_exists($_linked3_preload_file)) {
@@ -377,7 +377,7 @@ require_once LINKED3_DIR . 'src/Classes/CognitiveOS/COSEngine.php';
 require_once LINKED3_DIR . 'src/Classes/CognitiveOS/Ajax/COSAjax.php';
 
 // G7增量: 推荐引擎AJAX接口注册 (v16.0.27)
-$g7_ajax_file = LINKED3_DIR . 'src/Classes/Genesis/class-linked3-genesis-recommendation-ajax.php';
+$g7_ajax_file = LINKED3_DIR . 'src/Classes/Genesis/GenesisRecommendationAjax.php';
 if (file_exists($g7_ajax_file)) {
     require_once $g7_ajax_file;
 }
