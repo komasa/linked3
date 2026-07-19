@@ -57,7 +57,7 @@ final class GenesisProcessor
      *
      * 这个方法返回数据而非发送 JSON, 可被:
      *   1. ajax_genesis_generate_multi (同步模式, 兼容旧前端)
-     *   2. Linked3_Genesis_JobRunner::runJob (异步模式, 推荐)
+     *   2. GenesisJobRunner::runJob (异步模式, 推荐)
      *
      * @param string $script 剧本
      * @param string $styleId 风格 ID
@@ -107,7 +107,7 @@ final class GenesisProcessor
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
         $jobId = sanitize_text_field($_POST['job_id'] ?? $_GET['job_id'] ?? '');
         if (empty($jobId)) wp_send_json_error(['message' => __('缺少 job_id', 'linked3-ai')]);
-        $status = \Linked3_Genesis_JobRunner::pollJob($jobId);
+        $status = \GenesisJobRunner::pollJob($jobId);
         if ($status['status'] === 'not_found') {
             wp_send_json_error(['message' => $status['message'], 'error_type' => 'job_not_found']);
         }
@@ -122,7 +122,7 @@ final class GenesisProcessor
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
         $jobId = sanitize_text_field($_POST['job_id'] ?? '');
-        $ok = \Linked3_Genesis_JobRunner::cancelJob($jobId);
+        $ok = \GenesisJobRunner::cancelJob($jobId);
         wp_send_json_success(['cancelled' => $ok]);
     }
     /**
@@ -130,7 +130,7 @@ final class GenesisProcessor
      */
     public static function cron_genesis_run_job(int $jobId)
     : void {
-        \Linked3_Genesis_JobRunner::runJob($jobId);
+        \GenesisJobRunner::runJob($jobId);
     }
     // ============================================================
     // v8.0.0: Seed DNA AJAX 端点
@@ -147,12 +147,12 @@ final class GenesisProcessor
         $styleId = sanitize_text_field($_POST['style'] ?? 'exorcism_dark_ink');
         $seedName = sanitize_text_field($_POST['seed_name'] ?? '未命名 Seed');
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
-        $styleConfig = \Linked3_Genesis_StyleEngine::load($styleId);
+        $styleConfig = \GenesisStyleEngine::load($styleId);
         $styleName = $styleConfig['name_cn'] ?? $styleId;
         try {
-            $dna = \Linked3_Genesis_SeedDNA::generate($script, $styleId, $styleName);
+            $dna = \GenesisSeedDNA::generate($script, $styleId, $styleName);
             $dna['name'] = $seedName;
-            $seedId = \Linked3_Genesis_SeedDNA::save($dna);
+            $seedId = \GenesisSeedDNA::save($dna);
             wp_send_json_success([
                 'seed_id'   => $seedId,
                 'seed_name' => $seedName,
@@ -171,10 +171,10 @@ final class GenesisProcessor
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
-        // v9.1.2: 优先用 CPT (Linked3_Genesis_Seed_CPT::listAll), 内部已合并旧 option 存储
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_Seed_CPT') && method_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_Seed_CPT', 'listAll')) {
+        // v9.1.2: 优先用 CPT (GenesisSeedCPT::listAll), 内部已合并旧 option 存储
+        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT', 'listAll')) {
             try {
-                $seeds = \Linked3_Genesis_Seed_CPT::listAll();
+                $seeds = \GenesisSeedCPT::listAll();
                 wp_send_json_success(['seeds' => $seeds]);
                 return;
             } catch (\Throwable $e) {
@@ -184,11 +184,11 @@ final class GenesisProcessor
                 // 落入下面的兜底
             }
         }
-        // 兜底: 旧 option 存储 (Linked3_Genesis_SeedDNA::getAll)
+        // 兜底: 旧 option 存储 (GenesisSeedDNA::getAll)
         $seeds = [];
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_SeedDNA')) {
+        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA')) {
             try {
-                $legacy = (array) \Linked3_Genesis_SeedDNA::getAll();
+                $legacy = (array) \GenesisSeedDNA::getAll();
                 foreach ($legacy as $dna) {
                     $sid = $dna['seed_id'] ?? '';
                     if (empty($sid)) continue;
@@ -216,19 +216,19 @@ final class GenesisProcessor
         if (empty($seedId)) wp_send_json_error(['message' => __('seed_id 不能为空', 'linked3-ai')], 400);
         $ok = false;
         // 1) CPT 删除
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_Seed_CPT')) {
+        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT')) {
             try {
-                $seed = \Linked3_Genesis_Seed_CPT::get($seedId);
+                $seed = \GenesisSeedCPT::get($seedId);
                 if (!empty($seed['post_id'])) {
-                    $ok = \Linked3_Genesis_Seed_CPT::trash($seed['post_id']);
+                    $ok = \GenesisSeedCPT::trash($seed['post_id']);
                 }
             } catch (\Throwable $e) {
                 // 落入兜底
             }
         }
         // 2) 旧 option 删除
-        if (!$ok && class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_SeedDNA') && method_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_SeedDNA', 'delete')) {
-            try { $ok = (bool) \Linked3_Genesis_SeedDNA::delete($seedId); } catch (\Throwable $e) {}
+        if (!$ok && class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA', 'delete')) {
+            try { $ok = (bool) \GenesisSeedDNA::delete($seedId); } catch (\Throwable $e) {}
         }
         wp_send_json_success(['deleted' => $ok]);
     }
@@ -244,17 +244,17 @@ final class GenesisProcessor
         if (empty($seedId)) wp_send_json_error(['message' => __('seed_id 不能为空', 'linked3-ai')], 400);
         $json = null;
         // 1) CPT 导出
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_Seed_CPT')) {
+        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT')) {
             try {
-                $seed = \Linked3_Genesis_Seed_CPT::get($seedId);
+                $seed = \GenesisSeedCPT::get($seedId);
                 if (!empty($seed)) {
                     $json = wp_json_encode($seed, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 }
             } catch (\Throwable $e) {}
         }
         // 2) 旧 option 导出
-        if (empty($json) && class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_SeedDNA') && method_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_SeedDNA', 'exportJSON')) {
-            try { $json = \Linked3_Genesis_SeedDNA::exportJSON($seedId); } catch (\Throwable $e) {}
+        if (empty($json) && class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA', 'exportJSON')) {
+            try { $json = \GenesisSeedDNA::exportJSON($seedId); } catch (\Throwable $e) {}
         }
         wp_send_json_success(['json' => $json, 'seed_id' => $seedId]);
     }
@@ -299,10 +299,10 @@ final class GenesisProcessor
             'genesis' => [
                 'classes_loaded' => [
                     'AIDispatcher'           => class_exists('\Linked3\Classes\Dashboard\AIDispatcher'),
-                    'Linked3_Genesis_AtomIndex'       => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_AtomIndex'),
+                    'GenesisAtomIndex'       => class_exists('\Linked3\Classes\Dashboard\GenesisAtomIndex'),
                     'Linked3_Genesis_PromptAssembler' => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PromptAssembler'),
                     'Linked3_Genesis_PQSChecker'      => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PQSChecker'),
-                    'Linked3_Genesis_JobRunner'       => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_JobRunner'),
+                    'GenesisJobRunner'       => class_exists('\Linked3\Classes\Dashboard\GenesisJobRunner'),
                 ],
                 'preflight'      => self::genesisPreflightCheck(),
             ],

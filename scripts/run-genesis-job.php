@@ -5,7 +5,7 @@
  * 用法: php run-genesis-job.php <job_id> <wp_load_path>
  *
  * 这个脚本在独立 PHP 进程中执行任务, 不受 web server 超时限制。
- * 由 Linked3_Genesis_JobRunner::spawnCli() 调用。
+ * 由 GenesisJobRunner::spawnCli() 调用。
  */
 
 if ($argc < 3) {
@@ -31,11 +31,11 @@ require $wpLoadPath;
 @ini_set('memory_limit', '1024M');
 
 // 执行任务
-if (class_exists('Linked3_Genesis_JobRunner')) {
-    Linked3_Genesis_JobRunner::runJob($jobId);
+if (class_exists('GenesisJobRunner')) {
+    GenesisJobRunner::runJob($jobId);
     echo "Job $jobId completed.\n";
     exit(0);
 } else {
-    fwrite(STDERR, "Linked3_Genesis_JobRunner class not found\n");
+    fwrite(STDERR, "GenesisJobRunner class not found\n");
     exit(1);
 }

@@ -16,8 +16,8 @@ class GenesisProcessorDelegates
         // v8.0.0: 加载 seed DNA (如果指定)
         $seedId = $extraOptions['seed_id'] ?? '';
         $seedDNA = null;
-        if (!empty($seedId) && class_exists('\Linked3_Genesis_SeedDNA')) {
-            $seedDNA = \Linked3_Genesis_SeedDNA::get($seedId);
+        if (!empty($seedId) && class_exists('\GenesisSeedDNA')) {
+            $seedDNA = \GenesisSeedDNA::get($seedId);
             if ($seedDNA && $progressCb) {
                 $progressCb(3, 'seed_loaded', '已加载 Seed DNA: ' . ($seedDNA['name'] ?? $seedId));
             }
@@ -53,7 +53,7 @@ class GenesisProcessorDelegates
             }
         }
         if ($progressCb) $progressCb(5, 'init', '初始化风格配置...');
-        $styleIndex = \Linked3_Genesis_AtomIndex::instance();
+        $styleIndex = \GenesisAtomIndex::instance();
         $styleConfig = $styleIndex->getStyleConfig($styleId);
         $styleName = $styleConfig['name_cn'] ?? $styleId;
         $scriptTrimmed = mb_substr($script, 0, 4000);
@@ -296,8 +296,8 @@ class GenesisProcessorDelegates
             }
             // v7.7.0: 风格污染审计
             $styleAudit = ['contaminated_count' => 0, 'clean_count' => count($results), 'issues' => []];
-            if (class_exists('\Linked3_Genesis_StyleEngine') && !empty($results)) {
-                $styleAudit = \Linked3_Genesis_StyleEngine::auditNodes($styleId, $results);
+            if (class_exists('\GenesisStyleEngine') && !empty($results)) {
+                $styleAudit = \GenesisStyleEngine::auditNodes($styleId, $results);
             }
             return [
                 'panels'      => $results,
@@ -383,7 +383,7 @@ class GenesisProcessorDelegates
         }
         // 5. Genesis 核心类
         $requiredClasses = [
-            'Linked3_Genesis_AtomIndex',
+            'GenesisAtomIndex',
             'Linked3_Genesis_PromptAssembler',
             'Linked3_Genesis_PQSChecker',
             'Linked3_Genesis_AtomSelector',

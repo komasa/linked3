@@ -68,8 +68,8 @@ $instance               = $instance               ?? 'default';
 // v11.0: 按 instance 过滤风格 — 漫画脚本(genesis)只显示S/Y/G漫画基因, 图示脚本(charts)只显示F图示基因
 // 公理2: 漫画视觉基因(S/Y/G)与图示基因(F)正交, 不可混入
 $panel_styles = [];
-if (class_exists('Linked3_Genesis_AtomIndex')) {
-    $idx = Linked3_Genesis_AtomIndex::instance();
+if (class_exists('GenesisAtomIndex')) {
+    $idx = GenesisAtomIndex::instance();
     $raw = $idx->getStyles();
     if (isset($raw['styles']) && is_array($raw['styles'])) {
         foreach ($raw['styles'] as $sid => $sinfo) {

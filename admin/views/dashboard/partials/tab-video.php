@@ -24,8 +24,8 @@ $ajax_url = admin_url('admin-ajax.php');
 
 // 加载画风风格列表 (与漫画脚本共享)
 $styles = [];
-if (class_exists('Linked3_Genesis_AtomIndex')) {
-    $idx = Linked3_Genesis_AtomIndex::instance();
+if (class_exists('GenesisAtomIndex')) {
+    $idx = GenesisAtomIndex::instance();
     $raw = $idx->getStyles();
     if (isset($raw['styles']) && is_array($raw['styles'])) {
         foreach ($raw['styles'] as $sid => $sinfo) {
@@ -38,8 +38,8 @@ if (class_exists('Linked3_Genesis_AtomIndex')) {
 
 // 加载Motion Prompt选项
 $motionOptions = [];
-if (class_exists('Linked3_Motion_Prompt_Engine')) {
-    $motionOptions = Linked3_Motion_Prompt_Engine::get_all_options();
+if (class_exists('MotionPromptEngine')) {
+    $motionOptions = MotionPromptEngine::get_all_options();
 }
 ?>
 

@@ -48,7 +48,7 @@ final class ContentPipelineRegistry
         self::$initialized = true;
         $defaults = [
             'article' => \Linked3\Classes\ContentWriter\ArticlePipeline::class,
-            'comic'   => \Linked3\Classes\Genesis\Linked3_Comic_Pipeline::class,
+            'comic'   => \Linked3\Classes\Genesis\ComicPipeline::class,
             'diagram' => \Linked3\Classes\Diagram\DiagramPipeline::class,
             'video'   => \Linked3\Classes\Media\VideoPipeline::class,
             'xhs'     => \Linked3\Classes\XHS\Linked3_XHS_Pipeline::class,

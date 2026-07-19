@@ -88,7 +88,7 @@ class PromptAssembler
     public function assemble(array $shot_data): array
     {
         // 获取场景专属骨架
-        $skeleton = Linked3_Skeleton_Library::get($shot_data['scene_type'] ?? 'documentary_photo');
+        $skeleton = SkeletonLibrary::get($shot_data['scene_type'] ?? 'documentary_photo');
 
         // L1: META 层 — 从 Seed 提取 VisualDNA + Lock + 场景签名
         $meta = $this->build_meta($shot_data, $skeleton);
@@ -376,7 +376,7 @@ class PromptAssembler
     {
         $out = [];
         foreach ($seed_refs as $ref) {
-            $seed = Linked3_Genesis_Seed_CPT::get_by_seed_id($ref);
+            $seed = GenesisSeedCPT::get_by_seed_id($ref);
             if (!$seed) {
                 // 向后兼容旧 option 存储缺失场景: 给空骨架保持下游不崩
                 $seed = ['visual_dna' => [], 'lock' => [], 'priority' => [], 'seed_category' => ''];

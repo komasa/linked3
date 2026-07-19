@@ -24,8 +24,8 @@ $ajax_url = admin_url('admin-ajax.php');
 
 $styles = [];
 $stats  = [];
-if (class_exists('Linked3_Genesis_AtomIndex')) {
-    $idx    = Linked3_Genesis_AtomIndex::instance();
+if (class_exists('GenesisAtomIndex')) {
+    $idx    = GenesisAtomIndex::instance();
     $raw    = $idx->getStyles();
     // _index.json 返回 {version, total_styles, architecture, styles:{...}}
     // 漫画脚本只显示漫画视觉风格 (usage_code 以 S/Y/G 开头), 排除图示风格 (F开头)

@@ -112,9 +112,9 @@ class OSGenesisBridge {
         }
 
         // 如果Genesis SeedDNA存在，保存到库
-        if (class_exists('\Linked3\Classes\OS\Linked3_Genesis_SeedDNA')) {
+        if (class_exists('\Linked3\Classes\OS\GenesisSeedDNA')) {
             $seed_id = 'reverse_' . wp_generate_password(8, false);
-            Linked3_Genesis_SeedDNA::save($seed_id, $seed);
+            GenesisSeedDNA::save($seed_id, $seed);
             $seed['seed_id'] = $seed_id;
         }
 
@@ -253,7 +253,7 @@ class OSGenesisBridge {
             'bridge_version' => '16.0.0',
             'genesis_available' => class_exists('\Linked3\Classes\OS\Linked3_Genesis_Engine_V7'),
             'reverse_available' => class_exists('\Linked3\Classes\OS\Linked3_Reverse_Engine'),
-            'seed_dna_available' => class_exists('\Linked3\Classes\OS\Linked3_Genesis_SeedDNA'),
+            'seed_dna_available' => class_exists('\Linked3\Classes\OS\GenesisSeedDNA'),
             'closed_loop_ready' => class_exists('\Linked3\Classes\OS\Linked3_Genesis_Engine_V7') && class_exists('\Linked3\Classes\OS\Linked3_Reverse_Engine'),
         ];
     }

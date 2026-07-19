@@ -34,10 +34,10 @@ class GenesisV9Stages
             ob_start();
         }
         if (($l1_type === 'auto' || $l2_column === 'auto' || $l3_soul === 'auto')
-            && class_exists('\Linked3_Scene_Axis')
-            && method_exists('\Linked3\Classes\Dashboard\Linked3_Scene_Axis', 'auto_detect_from_script')) {
+            && class_exists('\SceneAxis')
+            && method_exists('\Linked3\Classes\Dashboard\SceneAxis', 'auto_detect_from_script')) {
             try {
-                $detected = \Linked3_Scene_Axis::auto_detect_from_script($script);
+                $detected = \SceneAxis::auto_detect_from_script($script);
                 if ($l1_type === 'auto') $l1_type = $detected['l1'];
                 if ($l2_column === 'auto') $l2_column = $detected['l2'];
                 if ($l3_soul === 'auto') $l3_soul = $detected['l3'];
@@ -54,13 +54,13 @@ class GenesisV9Stages
             $useAi = ($genMode === 'ai' || $genMode === 'hybrid');
             $storyData = null;
             $storySource = 'none';
-            if (class_exists('\Linked3_Story_Pipeline')) {
+            if (class_exists('\StoryPipeline')) {
                 try {
-                    $storyData = \Linked3_Story_Pipeline::parse($scriptTrimmed, ['use_ai' => $useAi]);
+                    $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => $useAi]);
                     $storySource = $useAi ? 'ai' : 'local';
                 } catch (\Throwable $eL) {
                     try {
-                        $storyData = \Linked3_Story_Pipeline::parse($scriptTrimmed, ['use_ai' => false]);
+                        $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => false]);
                         $storySource = $useAi ? 'local_fallback' : 'local';
                     } catch (\Throwable $eL2) {
                         $storyData = null;
@@ -105,15 +105,15 @@ class GenesisV9Stages
             }
 
             $skeletonId = 'documentary_photo';
-            if (class_exists('\Linked3_Scene_Axis')) {
+            if (class_exists('\SceneAxis')) {
                 try {
-                    $skeletonId = \Linked3_Scene_Axis::route_skeleton($l1_type, $l2_column, $l3_soul);
+                    $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
                 } catch (\Throwable $e) {}
             }
 
             $autoSeeds = [];
             $autoSeedRefs = [];
-            if (class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_Seed_CPT') && method_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_Seed_CPT', 'create')) {
+            if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT', 'create')) {
                 if (!empty($characters) && is_array($characters)) {
                     foreach ($characters as $idx => $char) {
                         $charName = is_array($char) ? ($char['name'] ?? $char['id'] ?? '') : (string)$char;
@@ -126,7 +126,7 @@ class GenesisV9Stages
                         $seedId = 'C' . ($idx + 1) . '_' . mb_substr($charName, 0, 4, 'UTF-8') . '_v1';
                         $existing = null;
                         try {
-                            $existing = \Linked3_Genesis_Seed_CPT::get_by_seed_id($seedId);
+                            $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
                         } catch (\Throwable $e) {}
 
                         if (!$existing) {
@@ -158,7 +158,7 @@ class GenesisV9Stages
                                     'project_ref'    => '',
                                 ];
 
-                                $postId = \Linked3_Genesis_Seed_CPT::create($postData);
+                                $postId = \GenesisSeedCPT::create($postData);
                                 if (!is_wp_error($postId)) {
                                     $autoSeeds[] = [
                                         'seed_id'   => $seedId,
@@ -191,7 +191,7 @@ class GenesisV9Stages
                     $sceneSeedId = 'S1_' . mb_substr($theme, 0, 4, 'UTF-8') . '_v1';
                     $existingScene = null;
                     try {
-                        $existingScene = \Linked3_Genesis_Seed_CPT::get_by_seed_id($sceneSeedId);
+                        $existingScene = \GenesisSeedCPT::get_by_seed_id($sceneSeedId);
                     } catch (\Throwable $e) {}
 
                     if (!$existingScene) {
@@ -209,7 +209,7 @@ class GenesisV9Stages
                                 'parent_seed'    => '',
                                 'project_ref'    => '',
                             ];
-                            $postId = \Linked3_Genesis_Seed_CPT::create($postData);
+                            $postId = \GenesisSeedCPT::create($postData);
                             if (!is_wp_error($postId)) {
                                 $autoSeeds[] = [
                                     'seed_id'   => $sceneSeedId,
@@ -297,7 +297,7 @@ class GenesisV9Stages
 
         try {
             $fpUseAi = ($genMode2 === 'ai');
-            $fpExtractor = class_exists('\Linked3_FP_Extractor') ? new \Linked3_FP_Extractor() : null;
+            $fpExtractor = class_exists('\FPExtractor') ? new \FPExtractor() : null;
             $assembler = class_exists('\PromptAssembler') ? new \PromptAssembler() : null;
 
             $results = [];
@@ -326,8 +326,8 @@ class GenesisV9Stages
                     }
 
                     $color = '';
-                    if (class_exists('\Linked3_Story_Pipeline')) {
-                        try { $color = \Linked3_Story_Pipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
+                    if (class_exists('\StoryPipeline')) {
+                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
                     }
 
                     $shotData = [
@@ -400,8 +400,8 @@ class GenesisV9Stages
                     $shotData['prompt'] = $assembled['prompt'];
 
                     $pqs = ['passed_count' => 0, 'total' => 13];
-                    if (class_exists('\Linked3_Quality_Loop')) {
-                        try { $pqs = \Linked3_Quality_Loop::pqs_check($shotData); } catch (\Throwable $e) {}
+                    if (class_exists('\QualityLoop')) {
+                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) {}
                     }
 
                     $pqsScores[] = $pqs['passed_count'] ?? 0;
@@ -445,8 +445,8 @@ class GenesisV9Stages
             }
 
             $batchReport = null;
-            if (class_exists('\Linked3_Quality_Loop') && count($results) > 1) {
-                try { $batchReport = \Linked3_Quality_Loop::batch_consistency_check($results); } catch (\Throwable $e) {}
+            if (class_exists('\QualityLoop') && count($results) > 1) {
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) {}
             }
 
             if (function_exists('ob_end_clean')) {

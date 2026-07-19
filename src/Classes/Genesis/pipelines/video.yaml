@@ -5,17 +5,17 @@ description: "视频脚本生产管线 — Beat弧线 + Motion"
 
 steps:
   - name: load_seed
-    handler: "Linked3_Video_Factory::pipeline_load_seed"
+    handler: "VideoFactory::pipeline_load_seed"
     optional: false
   - name: compile
-    handler: "Linked3_Video_Factory::pipeline_compile"
+    handler: "VideoFactory::pipeline_compile"
     optional: false
   - name: project
-    handler: "Linked3_Video_Factory::pipeline_project"
+    handler: "VideoFactory::pipeline_project"
     optional: false
   - name: quality_check
-    handler: "Linked3_Video_Factory::pipeline_quality_check"
+    handler: "VideoFactory::pipeline_quality_check"
     optional: true
   - name: platform_adapt
-    handler: "Linked3_Video_Factory::pipeline_adapt"
+    handler: "VideoFactory::pipeline_adapt"
     optional: true

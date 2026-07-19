@@ -28,30 +28,30 @@ final class Linked3_Hook_Manager
         add_action('init', [$i18n, 'load_textdomain'], 0);
 
         // v8.1.0: Seed DNA CPT 注册
-        if (class_exists('\Linked3\Includes\Linked3_Genesis_Seed_CPT')) {
-            add_action('init', ['\Linked3\Classes\Genesis\Linked3_Genesis_Seed_CPT', 'register'], 5);
+        if (class_exists('\Linked3\Includes\GenesisSeedCPT')) {
+            add_action('init', ['\Linked3\Classes\Genesis\GenesisSeedCPT', 'register'], 5);
         }
 
         // v8.2.0: Story Pipeline + Scene Axis AJAX hooks (M3 + M4)
         // 所有 handler 内部自带 check_ajax_referer + current_user_can('edit_posts').
-        if (class_exists('\Linked3\Includes\Linked3_Story_Pipeline')) {
-            add_action('wp_ajax_linked3_import_script',   ['\Linked3\Classes\Genesis\Linked3_Story_Pipeline', 'ajax_import_script']);
-            add_action('wp_ajax_linked3_parse_story',     ['\Linked3\Classes\Genesis\Linked3_Story_Pipeline', 'ajax_parse_story']);
-            add_action('wp_ajax_linked3_detect_characters',['\Linked3\Classes\Genesis\Linked3_Story_Pipeline', 'ajax_detect_characters']);
+        if (class_exists('\Linked3\Includes\StoryPipeline')) {
+            add_action('wp_ajax_linked3_import_script',   ['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_import_script']);
+            add_action('wp_ajax_linked3_parse_story',     ['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_parse_story']);
+            add_action('wp_ajax_linked3_detect_characters',['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_detect_characters']);
         }
-        if (class_exists('\Linked3\Includes\Linked3_Scene_Axis')) {
-            add_action('wp_ajax_linked3_get_scene_axes',  ['\Linked3\Classes\Genesis\Linked3_Scene_Axis', 'ajax_get_axes']);
-            add_action('wp_ajax_linked3_route_skeleton',  ['\Linked3\Classes\Genesis\Linked3_Scene_Axis', 'ajax_route_skeleton']);
+        if (class_exists('\Linked3\Includes\SceneAxis')) {
+            add_action('wp_ajax_linked3_get_scene_axes',  ['\Linked3\Classes\Genesis\SceneAxis', 'ajax_get_axes']);
+            add_action('wp_ajax_linked3_route_skeleton',  ['\Linked3\Classes\Genesis\SceneAxis', 'ajax_route_skeleton']);
         }
 
         // v8.1.0 M1.2+M1.3: Seed DNA Admin UI + Export 层
-        if (class_exists('\Linked3\Includes\Linked3_Seed_Admin')) {
-            add_action('admin_menu', ['\Linked3\Classes\Genesis\Linked3_Seed_Admin', 'register_menu'], 20);
-            add_action('admin_post_linked3_seed_bulk', ['\Linked3\Classes\Genesis\Linked3_Seed_Admin', 'handle_bulk_post']);
-            add_action('wp_ajax_linked3_save_seed', ['\Linked3\Classes\Genesis\Linked3_Seed_Admin', 'ajax_save_seed']);
-            add_action('wp_ajax_linked3_trash_all_seeds', ['\Linked3\Classes\Genesis\Linked3_Seed_Admin', 'ajax_trash_all']);
-            add_action('wp_ajax_linked3_download_seed', ['\Linked3\Classes\Genesis\Linked3_Seed_Admin', 'ajax_download_seed']);
-            add_action('wp_ajax_linked3_export_batch_seeds', ['\Linked3\Classes\Genesis\Linked3_Seed_Admin', 'ajax_export_batch']);
+        if (class_exists('\Linked3\Includes\SeedAdmin')) {
+            add_action('admin_menu', ['\Linked3\Classes\Genesis\SeedAdmin', 'register_menu'], 20);
+            add_action('admin_post_linked3_seed_bulk', ['\Linked3\Classes\Genesis\SeedAdmin', 'handle_bulk_post']);
+            add_action('wp_ajax_linked3_save_seed', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_save_seed']);
+            add_action('wp_ajax_linked3_trash_all_seeds', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_trash_all']);
+            add_action('wp_ajax_linked3_download_seed', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_download_seed']);
+            add_action('wp_ajax_linked3_export_batch_seeds', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_export_batch']);
         }
 
         // Activation check — DB version alignment, self-heal.
@@ -123,10 +123,10 @@ final class Linked3_Hook_Manager
         }
 
         // v8.3.0 M5: 质量闭环 AJAX (PQS / 批量一致性 / 劣化诊断)
-        if (class_exists('\Linked3\Includes\Linked3_Quality_Loop')) {
-            add_action('wp_ajax_linked3_pqs_check', ['\Linked3\Classes\Genesis\Linked3_Quality_Loop', 'ajax_pqs_check']);
-            add_action('wp_ajax_linked3_batch_check', ['\Linked3\Classes\Genesis\Linked3_Quality_Loop', 'ajax_batch_check']);
-            add_action('wp_ajax_linked3_diagnose', ['\Linked3\Classes\Genesis\Linked3_Quality_Loop', 'ajax_diagnose']);
+        if (class_exists('\Linked3\Includes\QualityLoop')) {
+            add_action('wp_ajax_linked3_pqs_check', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_pqs_check']);
+            add_action('wp_ajax_linked3_batch_check', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_batch_check']);
+            add_action('wp_ajax_linked3_diagnose', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_diagnose']);
         }
 
         // v8.3.0 M6: 多平台适配 AJAX (切换平台预览)

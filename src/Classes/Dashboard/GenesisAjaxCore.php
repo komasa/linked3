@@ -100,10 +100,10 @@ class GenesisAjaxCore
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
-        if (!class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_AtomIndex')) {
+        if (!class_exists('\Linked3\Classes\Dashboard\GenesisAtomIndex')) {
             wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3-ai')]);
         }
-        $index = \Linked3_Genesis_AtomIndex::instance();
+        $index = \GenesisAtomIndex::instance();
         $styles = $index->getStyles();
         $stats = $index->getStats();
         wp_send_json_success([
@@ -278,7 +278,7 @@ class GenesisAjaxCore
             ]);
         }
         // 创建任务 (不触发执行, 只创建)
-        $jobInfo = \Linked3_Genesis_JobRunner::startJob([
+        $jobInfo = \GenesisJobRunner::startJob([
             'script'          => $script,
             'style'           => $styleId,
             'platform'        => $platform,
@@ -312,10 +312,10 @@ class GenesisAjaxCore
                 fastcgi_finish_request();
             }
             // 此时浏览器已收到响应, 后续代码在后台执行
-            \Linked3_Genesis_JobRunner::runJob($jobId);
+            \GenesisJobRunner::runJob($jobId);
         } else {
             // cron / cli / lazy: 只触发, 不阻塞
-            \Linked3_Genesis_JobRunner::triggerExecution($jobId);
+            \GenesisJobRunner::triggerExecution($jobId);
             wp_send_json_success([
                 'job_id'           => $jobId,
                 'status'           => 'pending',

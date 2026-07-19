@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) exit;
 // 统计SEED DNA数量
 $seed_count = 0;
 $seed_categories = [];
-if (class_exists('Linked3_Seed_Admin') || class_exists('Linked3_Genesis_Seed_CPT')) {
+if (class_exists('SeedAdmin') || class_exists('GenesisSeedCPT')) {
     try {
         $seeds_query = new WP_Query([
             'post_type' => 'linked3_seed',

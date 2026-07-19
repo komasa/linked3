@@ -14,7 +14,7 @@ declare(strict_types=1);
  *
  * 跨生态共享 (v10.7.0):
  *   • get_shared_template_for_script() — 输出脚本生态可消费的 style/structure/palette
- *   • 脚本工厂通过 Linked3_Script_Factory_Base::consume_cloud_template() 拉取
+ *   • 脚本工厂通过 ScriptFactoryBase::consume_cloud_template() 拉取
  *
  * @package Linked3\Content
  * @since 10.5.3

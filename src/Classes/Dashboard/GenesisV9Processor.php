@@ -29,10 +29,10 @@ final class GenesisV9Processor
         $seedRefs = array_filter(array_map('sanitize_text_field', explode(',', $_POST['seed_refs'] ?? '')));
 
         if (($l1_type === 'auto' || $l2_column === 'auto' || $l3_soul === 'auto')
-            && class_exists('\Linked3_Scene_Axis')
-            && method_exists('\Linked3\Classes\Dashboard\Linked3_Scene_Axis', 'auto_detect_from_script')) {
+            && class_exists('\SceneAxis')
+            && method_exists('\Linked3\Classes\Dashboard\SceneAxis', 'auto_detect_from_script')) {
             try {
-                $detected = \Linked3_Scene_Axis::auto_detect_from_script($script);
+                $detected = \SceneAxis::auto_detect_from_script($script);
                 if ($l1_type === 'auto') $l1_type = $detected['l1'];
                 if ($l2_column === 'auto') $l2_column = $detected['l2'];
                 if ($l3_soul === 'auto') $l3_soul = $detected['l3'];
@@ -57,16 +57,16 @@ final class GenesisV9Processor
 
             $storyData = null;
             $storySource = 'none';
-            if (class_exists('\Linked3_Story_Pipeline')) {
+            if (class_exists('\StoryPipeline')) {
                 try {
-                    $storyData = \Linked3_Story_Pipeline::parse($scriptTrimmed, ['use_ai' => true]);
+                    $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => true]);
                     $storySource = 'ai';
                 } catch (\Throwable $eA) {
                     if (function_exists('error_log')) {
                         error_log('[linked3 v9] Story Parser AI failed, fallback to local: ' . $eA->getMessage());
                     }
                     try {
-                        $storyData = \Linked3_Story_Pipeline::parse($scriptTrimmed, ['use_ai' => false]);
+                        $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => false]);
                         $storySource = 'local_fallback';
                     } catch (\Throwable $eL) {
                         $storyData = null;
@@ -101,14 +101,14 @@ final class GenesisV9Processor
             }
 
             $skeletonId = 'documentary_photo';
-            if (class_exists('\Linked3_Scene_Axis')) {
+            if (class_exists('\SceneAxis')) {
                 try {
-                    $skeletonId = \Linked3_Scene_Axis::route_skeleton($l1_type, $l2_column, $l3_soul);
+                    $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
                 } catch (\Throwable $e) {
                 }
             }
 
-            $fpExtractor = class_exists('\Linked3_FP_Extractor') ? new \Linked3_FP_Extractor() : null;
+            $fpExtractor = class_exists('\FPExtractor') ? new \FPExtractor() : null;
             $assembler = class_exists('\PromptAssembler') ? new \PromptAssembler() : null;
 
             $results = [];
@@ -137,8 +137,8 @@ final class GenesisV9Processor
                     }
 
                     $color = '';
-                    if (class_exists('\Linked3_Story_Pipeline')) {
-                        try { $color = \Linked3_Story_Pipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
+                    if (class_exists('\StoryPipeline')) {
+                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
                     }
 
                     $shotData = [
@@ -168,8 +168,8 @@ final class GenesisV9Processor
                     }
 
                     $pqs = ['passed_count' => 0, 'total' => 13];
-                    if (class_exists('\Linked3_Quality_Loop')) {
-                        try { $pqs = \Linked3_Quality_Loop::pqs_check($shotData); } catch (\Throwable $e) {}
+                    if (class_exists('\QualityLoop')) {
+                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) {}
                     }
 
                     $pqsScores[] = $pqs['passed_count'] ?? 0;
@@ -216,8 +216,8 @@ final class GenesisV9Processor
             }
 
             $batchReport = null;
-            if (class_exists('\Linked3_Quality_Loop') && count($results) > 1) {
-                try { $batchReport = \Linked3_Quality_Loop::batch_consistency_check($results); } catch (\Throwable $e) {}
+            if (class_exists('\QualityLoop') && count($results) > 1) {
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) {}
             }
 
             wp_send_json_success([

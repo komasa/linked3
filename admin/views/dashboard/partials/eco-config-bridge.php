@@ -20,8 +20,8 @@ $bridge_local_templates = (array) get_option(LINKED3_OPTION_PREFIX . 'cloud_temp
 $bridge_img_settings = (array) get_option(LINKED3_OPTION_PREFIX . 'image_settings', []);
 // 加载画风库 (复用视觉生态)
 $bridge_styles = [];
-if (class_exists('Linked3_Genesis_AtomIndex')) {
-    $_idx = Linked3_Genesis_AtomIndex::instance();
+if (class_exists('GenesisAtomIndex')) {
+    $_idx = GenesisAtomIndex::instance();
     $_raw = $_idx->getStyles();
     if (isset($_raw['styles']) && is_array($_raw['styles'])) {
         foreach ($_raw['styles'] as $_sid => $_sinfo) {

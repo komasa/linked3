@@ -47,17 +47,17 @@ visual_genes:
 
 steps:
   - name: load_seed
-    handler: "Linked3_Comic_Factory::pipeline_load_seed"
+    handler: "ComicFactory::pipeline_load_seed"
     optional: false
   - name: compile
-    handler: "Linked3_Comic_Factory::pipeline_compile"
+    handler: "ComicFactory::pipeline_compile"
     optional: false
   - name: project
-    handler: "Linked3_Comic_Factory::pipeline_project"
+    handler: "ComicFactory::pipeline_project"
     optional: false
   - name: quality_check
-    handler: "Linked3_Comic_Factory::pipeline_quality_check"
+    handler: "ComicFactory::pipeline_quality_check"
     optional: true
   - name: platform_adapt
-    handler: "Linked3_Comic_Factory::pipeline_adapt"
+    handler: "ComicFactory::pipeline_adapt"
     optional: true

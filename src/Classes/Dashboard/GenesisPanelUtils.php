@@ -97,7 +97,7 @@ class GenesisPanelUtils
             return [];
         }
 
-        $styleIndex = \Linked3_Genesis_AtomIndex::instance();
+        $styleIndex = \GenesisAtomIndex::instance();
         $styleConfig = $styleIndex->getStyleConfig($styleId);
         $styleName = $styleConfig['name_cn'] ?? $styleId;
 

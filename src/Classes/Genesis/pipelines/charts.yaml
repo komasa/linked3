@@ -5,17 +5,17 @@ description: "图文脚本生产管线 — 4Band结构"
 
 steps:
   - name: load_seed
-    handler: "Linked3_Charts_Factory::pipeline_load_seed"
+    handler: "ChartsFactory::pipeline_load_seed"
     optional: false
   - name: compile
-    handler: "Linked3_Charts_Factory::pipeline_compile"
+    handler: "ChartsFactory::pipeline_compile"
     optional: false
   - name: project
-    handler: "Linked3_Charts_Factory::pipeline_project"
+    handler: "ChartsFactory::pipeline_project"
     optional: false
   - name: quality_check
-    handler: "Linked3_Charts_Factory::pipeline_quality_check"
+    handler: "ChartsFactory::pipeline_quality_check"
     optional: true
   - name: platform_adapt
-    handler: "Linked3_Charts_Factory::pipeline_adapt"
+    handler: "ChartsFactory::pipeline_adapt"
     optional: true
