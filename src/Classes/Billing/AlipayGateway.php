@@ -5,7 +5,6 @@ declare(strict_types=1);
  * Linked3_Alipay_Gateway — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
- */
 
 namespace Linked3\Classes\Billing;
 
