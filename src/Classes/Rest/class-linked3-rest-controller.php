@@ -168,7 +168,7 @@ final class Linked3_Rest_Controller
         if (empty($text)) {
             return new \WP_Error('bad_request', __('需要文本内容。', 'linked3'), ['status' => 400]);
         }
-        $tts = new \Linked3\Classes\Speech\Linked3_TTS_Manager();
+        $tts = new \Linked3\Classes\Speech\TtsManager();
         $result = $tts->synthesize($text, sanitize_text_field($req->get_param('voice') ?? 'alloy'), [
             'provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'),
             'api_key' => '',

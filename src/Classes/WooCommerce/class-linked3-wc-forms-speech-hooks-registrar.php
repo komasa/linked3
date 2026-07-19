@@ -9,7 +9,7 @@
 namespace Linked3\Classes\WooCommerce;
 
 use Linked3\Classes\AIForms\Linked3_AI_Form_Manager;
-use Linked3\Classes\Speech\Linked3_TTS_Manager;
+use Linked3\Classes\Speech\TtsManager;
 
 
 if (!defined('ABSPATH')) {
@@ -32,7 +32,7 @@ final class Linked3_WC_Forms_Speech_Hooks_Registrar
         add_action('wp_ajax_linked3_form_submit', [Linked3_AI_Form_Manager::class, 'handle_submission']);
 
         // TTS shortcode.
-        Linked3_TTS_Manager::register_shortcode();
+        TtsManager::register_shortcode();
 
         // WC AJAX (admin only).
         add_action('wp_ajax_linked3_wc_generate_desc', [__CLASS__, 'wc_generate_desc']);
@@ -114,7 +114,7 @@ final class Linked3_WC_Forms_Speech_Hooks_Registrar
         $text = sanitize_textarea_field($_POST['text'] ?? '');
         $voice = sanitize_text_field($_POST['voice'] ?? 'alloy');
         if (empty($text)) wp_send_json_error(['message' => __('文本为空。', 'linked3')], 400);
-        $tts = new \Linked3\Classes\Speech\Linked3_TTS_Manager();
+        $tts = new \Linked3\Classes\Speech\TtsManager();
         $config = [
             'provider' => sanitize_text_field($_POST['provider'] ?? 'openai'),
             'api_key' => '',
