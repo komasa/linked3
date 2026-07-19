@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Visual AI Caller Trait — v19.2.1 视觉生态共享层.
  *
@@ -36,7 +38,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-trait Linked3_Visual_AI_Caller_Trait
+trait VisualAICallerTrait
 {
     /**
      * 调用 AI 并返回原始文本内容。

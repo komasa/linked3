@@ -44,8 +44,8 @@ final class Linked3_XHS_Hooks_Registrar
      */
     public static function register_visual_generator($version)
     : void {
-        if (class_exists('Linked3\\Classes\\Visual\\Linked3_Visual_Script_Registry')) {
-            \Linked3\Classes\Visual\Linked3_Visual_Script_Registry::register_generator(
+        if (class_exists('Linked3\\Classes\\Visual\\VisualScriptRegistry')) {
+            \Linked3\Classes\Visual\VisualScriptRegistry::register_generator(
                 new Linked3_XHS_Generator()
             );
         }

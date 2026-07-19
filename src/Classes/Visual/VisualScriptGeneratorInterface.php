@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Visual Script Generator Interface — v19.2 统一视觉生态接口契约.
  *
@@ -22,7 +24,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Visual_Script_Generator_Interface
+interface VisualScriptGeneratorInterface
 {
     /**
      * 生成视觉脚本内容（文本部分）。

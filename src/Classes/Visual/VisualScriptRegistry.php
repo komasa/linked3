@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Visual Script Registry — v19.2 视觉脚本注册表.
  *
  * 统一管理所有视觉脚本生成器（小红书/漫画/图示/视频）。
- * 每个生成器实现 Linked3_Visual_Script_Generator_Interface 接口。
+ * 每个生成器实现 VisualScriptGeneratorInterface 接口。
  * 注册表提供查询、获取、列举功能。
  *
  * @package Linked3
@@ -16,18 +18,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Visual_Script_Registry
+final class VisualScriptRegistry
 {
-    /** @var array<string, Linked3_Visual_Script_Generator_Interface> */
+    /** @var array<string, VisualScriptGeneratorInterface> */
     private static $generators = [];
 
     /**
      * 注册一个视觉脚本生成器。
      *
-     * @param Linked3_Visual_Script_Generator_Interface $generator
+     * @param VisualScriptGeneratorInterface $generator
      * @return void
      */
-    public static function register_generator(Linked3_Visual_Script_Generator_Interface $generator)
+    public static function register_generator(VisualScriptGeneratorInterface $generator)
     : void {
         $platform = $generator->platform();
         self::$generators[$platform] = $generator;
@@ -37,7 +39,7 @@ final class Linked3_Visual_Script_Registry
      * 获取指定平台的生成器。
      *
      * @param string $platform
-     * @return Linked3_Visual_Script_Generator_Interface|null
+     * @return VisualScriptGeneratorInterface|null
      */
     public static function get($platform) : mixed {
         return self::$generators[$platform] ?? null;
@@ -46,7 +48,7 @@ final class Linked3_Visual_Script_Registry
     /**
      * 获取所有已注册的生成器。
      *
-     * @return array<string, Linked3_Visual_Script_Generator_Interface>
+     * @return array<string, VisualScriptGeneratorInterface>
      */
     public static function all() : mixed     {
         return self::$generators;

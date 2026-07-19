@@ -16,7 +16,7 @@
 
 namespace Linked3\Classes\XHS;
 
-use Linked3\Classes\Visual\Linked3_Visual_Script_Generator_Interface;
+use Linked3\Classes\Visual\VisualScriptGeneratorInterface;
 use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 
 
@@ -24,7 +24,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_XHS_Generator implements Linked3_Visual_Script_Generator_Interface
+final class Linked3_XHS_Generator implements VisualScriptGeneratorInterface
 {
     /**
      * 小红书系统提示词模板 — 吸收独立生成器的 prompt 精华。
