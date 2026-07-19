@@ -28,7 +28,7 @@ final class SEODependenciesLoader
     : void {
         $files = [
             // v0.4.1 — config registry
-            'Classes/SEO/SeoConfig.php',
+            'Classes/SEO/SEOConfig.php',
 
             // v0.4.2 — keyword extraction (TF-IDF + TextRank + Chinese regex + hotwords)
             'Classes/SEO/Keyword/Hotwords.php',
@@ -49,17 +49,17 @@ final class SEODependenciesLoader
             // v0.4.5 — Schema Markup (JSON-LD)
             'Classes/SEO/Schema/SchemaBuilder.php',
             'Classes/SEO/Schema/SchemaArticle.php',
-            'Classes/SEO/Schema/SchemaBlogposting.php',
-            'Classes/SEO/Schema/SchemaFaq.php',
+            'Classes/SEO/Schema/SchemaBlogPosting.php',
+            'Classes/SEO/Schema/SchemaFAQ.php',
             'Classes/SEO/Schema/SchemaProduct.php',
-            'Classes/SEO/Schema/SchemaHowto.php',
+            'Classes/SEO/Schema/SchemaHowTo.php',
             'Classes/SEO/Schema/SchemaMarkup.php',
 
             // v0.4.6 — multi-search-engine push (5 engines via Safe_Remote)
             'Classes/SEO/Push/PushEngine.php',
             'Classes/SEO/Push/PushEngineBaidu.php',
             'Classes/SEO/Push/PushEngineBing.php',
-            'Classes/SEO/Push/PushEngineGoogleJwt.php',
+            'Classes/SEO/Push/PushEngineGoogleJWT.php',
             'Classes/SEO/Push/PushEngineToutiao.php',
             'Classes/SEO/Push/PushEngineIndexnow.php',
             'Classes/SEO/Push/PushEngineFactory.php',
@@ -70,26 +70,26 @@ final class SEODependenciesLoader
             'Classes/SEO/Hooks/IndexnowSavePostHook.php',
 
             // v0.4.9 — SEO scorecard
-            'Classes/SEO/Scoring/SeoScorecard.php',
+            'Classes/SEO/Scoring/SEOScorecard.php',
 
             // v0.4.10 — SEO adapter (Yoast / RankMath / AIOSEO compat)
-            'Classes/SEO/Adapter/SeoAdapter.php',
-            'Classes/SEO/Adapter/SeoAdapterYoast.php',
-            'Classes/SEO/Adapter/SeoAdapterRankmath.php',
-            'Classes/SEO/Adapter/SeoAdapterAioseo.php',
-            'Classes/SEO/Adapter/SeoAdapterDetector.php',
+            'Classes/SEO/Adapter/SEOAdapter.php',
+            'Classes/SEO/Adapter/SEOAdapterYoast.php',
+            'Classes/SEO/Adapter/SEOAdapterRankMath.php',
+            'Classes/SEO/Adapter/SEOAdapterAIOSEO.php',
+            'Classes/SEO/Adapter/SEOAdapterDetector.php',
 
             // v4.7.0 — GEO Enhancer (AI search engine optimization / llms.txt)
-            'Classes/SEO/GeoEnhancer.php',
+            'Classes/SEO/GEOEnhancer.php',
 
             // AJAX base + actions (v0.4.7 retry + v0.4.9 scorecard + manual push)
-            'Classes/SEO/Ajax/SeoBaseAjaxAction.php',
+            'Classes/SEO/Ajax/SEOBaseAjaxAction.php',
             'Classes/SEO/Ajax/Actions/PushRetryAction.php',
             'Classes/SEO/Ajax/Actions/PushNowAction.php',
-            'Classes/SEO/Ajax/Actions/SeoScoreAction.php',
+            'Classes/SEO/Ajax/Actions/SEOScoreAction.php',
 
             // v0.4.1 — hooks registrar (always last so it can see all classes)
-            'Classes/SEO/SeoHooksRegistrar.php',
+            'Classes/SEO/SEOHooksRegistrar.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

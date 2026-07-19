@@ -19,7 +19,7 @@ final class ChatDependenciesLoader
         $files = [
             'Classes/Chat/Storage/ChatStorage.php',
             'Classes/Chat/Triggers/ChatTriggerEngine.php',
-            'Classes/Chat/RagRetriever.php',
+            'Classes/Chat/RAGRetriever.php',
             'Classes/Chat/ChatModeration.php',
             'Classes/Chat/ChatManager.php',
             'Classes/Chat/Shortcode/ChatShortcode.php',

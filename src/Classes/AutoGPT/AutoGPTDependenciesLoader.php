@@ -19,20 +19,20 @@ final class AutoGPTDependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/AutoGPT/AutogptTaskRepository.php',
+            'Classes/AutoGPT/AutoGPTTaskRepository.php',
             'Classes/AutoGPT/Processors/AutogptProcessor.php',
             'Classes/AutoGPT/Processors/ContentWritingProcessor.php',
             'Classes/AutoGPT/Processors/ContentEnhancementProcessor.php',
             'Classes/AutoGPT/Processors/ContentIndexingProcessor.php',
             'Classes/AutoGPT/Processors/CommentReplyProcessor.php',
-            'Classes/AutoGPT/Processors/AutogptProcessorFactory.php',
-            'Classes/AutoGPT/Cron/AutogptCron.php',
-            'Classes/AutoGPT/Ajax/AutogptBaseAjaxAction.php',
-            'Classes/AutoGPT/Ajax/Actions/AutogptCreateTaskAction.php',
-            'Classes/AutoGPT/Ajax/Actions/AutogptListTasksAction.php',
-            'Classes/AutoGPT/Ajax/Actions/AutogptToggleTaskAction.php',
-            'Classes/AutoGPT/Ajax/Actions/AutogptDeleteTaskAction.php',
-            'Classes/AutoGPT/AutogptHooksRegistrar.php',
+            'Classes/AutoGPT/Processors/AutoGPTProcessorFactory.php',
+            'Classes/AutoGPT/Cron/AutoGPTCron.php',
+            'Classes/AutoGPT/Ajax/AutoGPTBaseAjaxAction.php',
+            'Classes/AutoGPT/Ajax/Actions/AutoGPTCreateTaskAction.php',
+            'Classes/AutoGPT/Ajax/Actions/AutoGPTListTasksAction.php',
+            'Classes/AutoGPT/Ajax/Actions/AutoGPTToggleTaskAction.php',
+            'Classes/AutoGPT/Ajax/Actions/AutoGPTDeleteTaskAction.php',
+            'Classes/AutoGPT/AutoGPTHooksRegistrar.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

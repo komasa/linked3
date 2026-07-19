@@ -21,13 +21,13 @@ final class DistributeDependenciesLoader
             'Classes/Distribute/Adapter/TwitterDistributor.php',
             'Classes/Distribute/Adapter/TelegramDistributor.php',
             'Classes/Distribute/Adapter/DiscordDistributor.php',
-            'Classes/Distribute/Adapter/WechatDistributor.php',
+            'Classes/Distribute/Adapter/WeChatDistributor.php',
             'Classes/Distribute/Adapter/XiaohongshuDistributor.php',
             'Classes/Distribute/Adapter/ZhihuDistributor.php',  // v3.2.0 恢复
-            'Classes/Distribute/Adapter/SmzdmDistributor.php',  // v3.2.0 恢复
+            'Classes/Distribute/Adapter/SMZDMDistributor.php',  // v3.2.0 恢复
             'Classes/Distribute/Adapter/WeiboDistributor.php',
             'Classes/Distribute/Adapter/JuejinDistributor.php',
-            'Classes/Distribute/Adapter/CsdnDistributor.php',
+            'Classes/Distribute/Adapter/CSDNDistributor.php',
             'Classes/Distribute/Adapter/BloggerDistributor.php',
             'Classes/Distribute/Adapter/MediumDistributor.php',
             'Classes/Distribute/Adapter/RedditDistributor.php',
