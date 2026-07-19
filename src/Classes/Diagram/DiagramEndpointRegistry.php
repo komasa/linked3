@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram Endpoint & Followup System — v6.3.0
  *
@@ -24,11 +26,11 @@ if (!defined('ABSPATH')) exit;
 // v6.3.0.1: 6种Endpoint注册表
 // =================================================================
 
-class Linked3_Diagram_Endpoint_Registry {
-    private static ?Linked3_Diagram_Endpoint_Registry $instance = null;
+class DiagramEndpointRegistry {
+    private static ?DiagramEndpointRegistry $instance = null;
     private array $endpoints = [];
 
-    public static function instance(): Linked3_Diagram_Endpoint_Registry {
+    public static function instance(): DiagramEndpointRegistry {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -119,11 +121,11 @@ class Linked3_Diagram_Endpoint_DecisionTree {
     public function select(string $context): array {
         foreach ($this->rules as $keyword => $typeId) {
             if (strpos($context, $keyword) !== false) {
-                $ep = Linked3_Diagram_Endpoint_Registry::instance()->get($typeId);
+                $ep = DiagramEndpointRegistry::instance()->get($typeId);
                 return ['selected' => $typeId, 'endpoint' => $ep];
             }
         }
-        $default = Linked3_Diagram_Endpoint_Registry::instance()->get('Flywheel');
+        $default = DiagramEndpointRegistry::instance()->get('Flywheel');
         return ['selected' => 'Flywheel', 'endpoint' => $default];
     }
 }

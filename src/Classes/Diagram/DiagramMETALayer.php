@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram 三层提示词架构 — v6.2.0
  *
@@ -24,7 +26,7 @@ if (!defined('ABSPATH')) exit;
 // v6.2.0.1: META视觉定义层
 // =================================================================
 
-class Linked3_Diagram_META_Layer {
+class DiagramMETALayer {
     /**
      * 构建META层 (6要素锚点)。
      */
@@ -162,12 +164,12 @@ class Linked3_Diagram_Validation_Layer {
 // =================================================================
 
 class Linked3_Diagram_Prompt_Compiler {
-    private Linked3_Diagram_META_Layer $metaLayer;
+    private DiagramMETALayer $metaLayer;
     private Linked3_Diagram_Script_Layer $scriptLayer;
     private Linked3_Diagram_Validation_Layer $validationLayer;
 
     public function __construct() {
-        $this->metaLayer = new Linked3_Diagram_META_Layer();
+        $this->metaLayer = new DiagramMETALayer();
         $this->scriptLayer = new Linked3_Diagram_Script_Layer();
         $this->validationLayer = new Linked3_Diagram_Validation_Layer();
     }

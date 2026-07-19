@@ -21,8 +21,8 @@ if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) 
 
 // 获取结构列表
 $structures = [];
-if (class_exists('\\Linked3\\Classes\\Diagram\\Linked3_Diagram_Structure_Registry')) {
-    $structures = \Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry::all();
+if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry')) {
+    $structures = \Linked3\Classes\Diagram\DiagramStructureRegistry::all();
 }
 
 // v27.17.9-fix1: 获取复合杠杆列表 (17种高级+复合能力)

@@ -3,8 +3,8 @@ if (!defined('ABSPATH')) exit;
 
 // 获取图示结构列表 (8种结构替代旧4Band一刀切)
 $structures = [];
-if (class_exists('\\Linked3\\Classes\\Diagram\\Linked3_Diagram_Structure_Registry')) {
-    $structures = \Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry::all();
+if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry')) {
+    $structures = \Linked3\Classes\Diagram\DiagramStructureRegistry::all();
 }
 $structure_count = count($structures);
 if ($structure_count === 0) {

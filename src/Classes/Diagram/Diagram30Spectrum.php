@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram 30 Spectrum & Commercial Hardening — v6.5.0
  *
@@ -24,11 +26,11 @@ if (!defined('ABSPATH')) exit;
 // v6.5.0.1: 30种图示全谱引擎
 // =================================================================
 
-class Linked3_Diagram_30_Spectrum {
-    private static ?Linked3_Diagram_30_Spectrum $instance = null;
+class Diagram30Spectrum {
+    private static ?Diagram30Spectrum $instance = null;
     private array $spectrum = [];
 
-    public static function instance(): Linked3_Diagram_30_Spectrum {
+    public static function instance(): Diagram30Spectrum {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -350,19 +352,19 @@ class Linked3_Diagram_E2E_TestSuite {
     }
 
     private function testMasterTemplate(): array {
-        $ok = class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_Master_Template');
+        $ok = class_exists('\Linked3\Classes\Diagram\DiagramMasterTemplate');
         return ['passed' => $ok, 'msg' => $ok ? 'OK' : '主模板缺失'];
     }
     private function testTypeRegistry(): array {
-        $count = Linked3_Diagram_Type_Registry::instance()->getStats()['total'] ?? 0;
+        $count = DiagramTypeRegistry::instance()->getStats()['total'] ?? 0;
         return ['passed' => $count === 16, 'msg' => "16种图示: {$count}/16"];
     }
     private function testSpectrum30(): array {
-        $count = Linked3_Diagram_30_Spectrum::instance()->count();
+        $count = Diagram30Spectrum::instance()->count();
         return ['passed' => $count === 30, 'msg' => "30种全谱: {$count}/30"];
     }
     private function testEndpoint6(): array {
-        $count = count(Linked3_Diagram_Endpoint_Registry::instance()->all());
+        $count = count(DiagramEndpointRegistry::instance()->all());
         return ['passed' => $count === 6, 'msg' => "6种Endpoint: {$count}/6"];
     }
     private function testValidation13Dim(): array {
@@ -374,7 +376,7 @@ class Linked3_Diagram_E2E_TestSuite {
         return ['passed' => $ok, 'msg' => $ok ? 'OK' : '编译器缺失'];
     }
     private function testSeedSystem(): array {
-        $ok = class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_CharacterSeed_Manager') && class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_ProductSeed_Manager');
+        $ok = class_exists('\Linked3\Classes\Diagram\DiagramCharacterSeedManager') && class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_ProductSeed_Manager');
         return ['passed' => $ok, 'msg' => $ok ? 'OK' : 'Seed系统缺失'];
     }
     private function testCommercialHardening(): array {
@@ -402,7 +404,7 @@ class Linked3_Diagram_Production_Bootstrap {
         $container = linked3_container();
 
         // v6.5.0: 30种全谱 + 商业加固
-        $container->set('diagram.spectrum_30', fn() => Linked3_Diagram_30_Spectrum::instance());
+        $container->set('diagram.spectrum_30', fn() => Diagram30Spectrum::instance());
         $container->set('diagram.base_reuse', fn() => new Linked3_Diagram_BaseReuse_Flywheel());
         $container->set('diagram.3d_ar', fn() => new Linked3_Diagram_3D_AR_Subsystem());
         $container->set('diagram.visual_script_transform', fn() => new Linked3_Diagram_VisualScript_Transform());
@@ -420,7 +422,7 @@ class Linked3_Diagram_Production_Bootstrap {
         linked3_dispatch('linked3.diagram.production.ready', [
             'version' => LINKED3_VERSION,
             'e2e_pass_rate' => $testResult['pass_rate'],
-            'spectrum_count' => Linked3_Diagram_30_Spectrum::instance()->count(),
+            'spectrum_count' => Diagram30Spectrum::instance()->count(),
         ]);
     }
 }

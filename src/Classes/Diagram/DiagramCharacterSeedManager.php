@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram Visual DNA & Seed System — v6.4.0
  *
@@ -24,11 +26,11 @@ if (!defined('ABSPATH')) exit;
 // v6.4.0.1: CharacterSeed管理器
 // =================================================================
 
-class Linked3_Diagram_CharacterSeed_Manager {
-    private static ?Linked3_Diagram_CharacterSeed_Manager $instance = null;
+class DiagramCharacterSeedManager {
+    private static ?DiagramCharacterSeedManager $instance = null;
     private array $seeds = [];
 
-    public static function instance(): Linked3_Diagram_CharacterSeed_Manager {
+    public static function instance(): DiagramCharacterSeedManager {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -316,7 +318,7 @@ class Linked3_Diagram_Loop_Character_Integration {
     ];
 
     public function iterate(array $diagram, string $seedId, int $maxIter = 3): array {
-        $charMgr = Linked3_Diagram_CharacterSeed_Manager::instance();
+        $charMgr = DiagramCharacterSeedManager::instance();
         $history = [];
 
         for ($i = 1; $i <= $maxIter; $i++) {
@@ -337,7 +339,7 @@ class Linked3_Diagram_Loop_Character_Integration {
     }
 
     private function autoFixCharacter(array $diagram, string $seedId): array {
-        $charMgr = Linked3_Diagram_CharacterSeed_Manager::instance();
+        $charMgr = DiagramCharacterSeedManager::instance();
         $seed = $charMgr->get($seedId);
         if ($seed) {
             $diagram['character_seed_applied'] = $seedId;

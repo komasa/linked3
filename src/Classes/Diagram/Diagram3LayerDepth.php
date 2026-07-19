@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram 3Layer Depth — v6.1.0.3
  *
@@ -11,7 +13,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_3Layer_Depth {
+class Diagram3LayerDepth {
     /**
      * 构建3层深度结构。
      */
@@ -120,10 +122,10 @@ class Linked3_Diagram_4Layer_Anchor {
  * 图示选择决策树 (委托给 Type_Registry)
  */
 class Linked3_Diagram_Selection_DecisionTree {
-    private Linked3_Diagram_Type_Registry $registry;
+    private DiagramTypeRegistry $registry;
 
     public function __construct() {
-        $this->registry = Linked3_Diagram_Type_Registry::instance();
+        $this->registry = DiagramTypeRegistry::instance();
     }
 
     /**
@@ -405,9 +407,9 @@ class Linked3_Diagram_Bootstrap {
         self::$booted = true;
 
         $container = linked3_container();
-        $container->set('diagram.master_template', fn() => new Linked3_Diagram_Master_Template());
-        $container->set('diagram.type_registry', fn() => Linked3_Diagram_Type_Registry::instance());
-        $container->set('diagram.depth_3layer', fn() => new Linked3_Diagram_3Layer_Depth());
+        $container->set('diagram.master_template', fn() => new DiagramMasterTemplate());
+        $container->set('diagram.type_registry', fn() => DiagramTypeRegistry::instance());
+        $container->set('diagram.depth_3layer', fn() => new Diagram3LayerDepth());
         $container->set('diagram.anchor_4layer', fn() => new Linked3_Diagram_4Layer_Anchor());
         $container->set('diagram.decision_tree', fn() => new Linked3_Diagram_Selection_DecisionTree());
         $container->set('diagram.complexity_reduction', fn() => new Linked3_Diagram_Complexity_Reduction());
@@ -416,7 +418,7 @@ class Linked3_Diagram_Bootstrap {
         $container->set('diagram.validation_13dim', fn() => new Linked3_Diagram_Validation_13Dim());
 
         // v6.2.0: 三层提示词架构
-        $container->set('diagram.meta_layer', fn() => new Linked3_Diagram_META_Layer());
+        $container->set('diagram.meta_layer', fn() => new DiagramMETALayer());
         $container->set('diagram.script_layer', fn() => new Linked3_Diagram_Script_Layer());
         $container->set('diagram.validation_layer', fn() => new Linked3_Diagram_Validation_Layer());
         $container->set('diagram.prompt_compiler', fn() => new Linked3_Diagram_Prompt_Compiler());
@@ -427,7 +429,7 @@ class Linked3_Diagram_Bootstrap {
         $container->set('diagram.failure_handbook', fn() => new Linked3_Diagram_Failure_Handbook());
 
         // v6.3.0: Endpoint与追问系统
-        $container->set('diagram.endpoint_registry', fn() => Linked3_Diagram_Endpoint_Registry::instance());
+        $container->set('diagram.endpoint_registry', fn() => DiagramEndpointRegistry::instance());
         $container->set('diagram.endpoint_decision_tree', fn() => new Linked3_Diagram_Endpoint_DecisionTree());
         $container->set('diagram.followup_registry', fn() => Linked3_Diagram_Followup_Registry::instance());
         $container->set('diagram.footer_registry', fn() => Linked3_Diagram_Footer_Registry::instance());
@@ -438,7 +440,7 @@ class Linked3_Diagram_Bootstrap {
         $container->set('diagram.visual_frequency', fn() => new Linked3_Diagram_Visual_Frequency());
 
         // v6.4.0: 视觉DNA与Seed系统
-        $container->set('diagram.character_seed', fn() => Linked3_Diagram_CharacterSeed_Manager::instance());
+        $container->set('diagram.character_seed', fn() => DiagramCharacterSeedManager::instance());
         $container->set('diagram.product_seed', fn() => Linked3_Diagram_ProductSeed_Manager::instance());
         $container->set('diagram.seed_reference', fn() => new Linked3_Diagram_Seed_Reference());
         $container->set('diagram.seed_lock', fn() => new Linked3_Diagram_Seed_Lock());

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram Type Registry — v6.1.0.2
  *
@@ -20,12 +22,12 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Type_Registry {
-    private static ?Linked3_Diagram_Type_Registry $instance = null;
+class DiagramTypeRegistry {
+    private static ?DiagramTypeRegistry $instance = null;
     private array $types = [];
     private array $decisionTree = [];
 
-    public static function instance(): Linked3_Diagram_Type_Registry {
+    public static function instance(): DiagramTypeRegistry {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

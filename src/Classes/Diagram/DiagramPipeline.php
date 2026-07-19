@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Diagram;
 use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
 if (!defined('ABSPATH')) exit;
 
-final class Linked3_Diagram_Pipeline implements Linked3_Content_Pipeline_Interface
+final class DiagramPipeline implements Linked3_Content_Pipeline_Interface
 {
     public static function type(): string { return 'diagram'; }
     public static function label(): string { return __('知识图谱', 'linked3'); }
@@ -37,7 +39,7 @@ final class Linked3_Diagram_Pipeline implements Linked3_Content_Pipeline_Interfa
     public function generate(array $context, ?callable $progressCb = null): array
     {
         if ($progressCb) $progressCb(50, 'generating', __('生成图示脚本...', 'linked3'));
-        if (!class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_Master_Template')) throw new \RuntimeException(__('图示引擎未加载', 'linked3'));
+        if (!class_exists('\Linked3\Classes\Diagram\DiagramMasterTemplate')) throw new \RuntimeException(__('图示引擎未加载', 'linked3'));
         
         // v27.17.9-fix1: 根据结构选择生成 zones (替代旧4Band硬编码)
         $structure_id = $context['structure'] ?? 'auto';
@@ -45,8 +47,8 @@ final class Linked3_Diagram_Pipeline implements Linked3_Content_Pipeline_Interfa
         if ($structure_id === 'auto' || $structure_id === '4band') {
             // 自动模式: 使用默认4Band或由 Master_Template 决定
             $zones = ['hook', 'body', 'proof', 'cta'];
-        } elseif (class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry')) {
-            $struct = \Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry::get($structure_id);
+        } elseif (class_exists('\Linked3\Classes\Diagram\DiagramStructureRegistry')) {
+            $struct = \Linked3\Classes\Diagram\DiagramStructureRegistry::get($structure_id);
             if ($struct && isset($struct['zones'])) {
                 $zones = $struct['zones'];
             }
@@ -66,7 +68,7 @@ final class Linked3_Diagram_Pipeline implements Linked3_Content_Pipeline_Interfa
             'cfg_risk'      => $context['cfg_risk'] ?? false,
             'composite_levers' => $context['composite_levers'] ?? [],
         ];
-        $template = new \Linked3_Diagram_Master_Template();
+        $template = new \DiagramMasterTemplate();
         $result = $template->generate($config);
         if ($progressCb) $progressCb(100, 'done', __('完成', 'linked3'));
         return ['diagram' => $result, 'config' => $config];

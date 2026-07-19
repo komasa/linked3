@@ -361,7 +361,7 @@ add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever
 
 // v19.51: 图示结构注册表 — 8 种结构 + 智能匹配
 require_once LINKED3_DIR . 'src/Classes/Diagram/class-linked3-diagram-structure-registry.php';
-add_action('plugins_loaded', ['\\Linked3\\Classes\\Diagram\\Linked3_Diagram_Structure_Registry', 'init'], 7);
+add_action('plugins_loaded', ['\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry', 'init'], 7);
 
 // G3.2: Unified Content Pipeline
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/interface-linked3-content-pipeline.php";

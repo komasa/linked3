@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Diagram Structure Registry — v19.52 图示结构注册表（统一架构）.
  *
@@ -26,7 +28,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Diagram_Structure_Registry
+class DiagramStructureRegistry
 {
     /** @var array<string, array> 注册的结构 */
     private static $structures = [];

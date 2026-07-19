@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Diagram Master Template
  * 知识图谱型图示主模板 — 带状切片全景图核心
@@ -24,7 +26,7 @@ if (!defined('ABSPATH')) {
 /**
  * 图示主模板接口
  */
-interface Linked3_Diagram_Master_Template_Interface {
+interface DiagramMasterTemplate_Interface {
     public function generate(array $config): array;
     public function validate(array $diagram): array;
     public function getSignature(): string;
@@ -42,7 +44,7 @@ interface Linked3_Diagram_Master_Template_Interface {
  *   Endpoint: 右下角终点图示
  *   Footer: 底部全局价值观
  */
-class Linked3_Diagram_Master_Template implements Linked3_Diagram_Master_Template_Interface {
+class DiagramMasterTemplate implements DiagramMasterTemplate_Interface {
     const SIGNATURE = '带状切片全景图(独立线框模块+微观饱和卡片+精准图文咬合)';
     const GLOBAL_PRIMARY = '#2F4F4F';
     const BACKGROUND = '#F8F8FF';

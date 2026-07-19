@@ -47,7 +47,7 @@ class Linked3_Dashboard_Media_Ajax
         }
 
         // 检查 Diagram 引擎是否可用
-        if (!class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Master_Template')) {
+        if (!class_exists('\Linked3\Classes\Dashboard\DiagramMasterTemplate')) {
             wp_send_json_error(['message' => __('图示引擎未加载 (需要 v6.1.0+)', 'linked3-ai')]);
         }
 
@@ -90,7 +90,7 @@ class Linked3_Dashboard_Media_Ajax
             ];
 
             // 调用 Master Template 生成
-            $template = new \Linked3_Diagram_Master_Template();
+            $template = new \DiagramMasterTemplate();
             $result = $template->generate($config);
 
             // 13维校验
@@ -102,15 +102,15 @@ class Linked3_Dashboard_Media_Ajax
 
             // 图示类型信息
             $typeInfo = [];
-            if (class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Type_Registry')) {
-                $registry = \Linked3_Diagram_Type_Registry::instance();
+            if (class_exists('\Linked3\Classes\Dashboard\DiagramTypeRegistry')) {
+                $registry = \DiagramTypeRegistry::instance();
                 $typeInfo = $registry->get($diagramType);
             }
 
             // Endpoint 信息
             $endpointInfo = [];
-            if (class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Endpoint_Registry')) {
-                $endpointInfo = \Linked3_Diagram_Endpoint_Registry::instance()->get($endpointType);
+            if (class_exists('\Linked3\Classes\Dashboard\DiagramEndpointRegistry')) {
+                $endpointInfo = \DiagramEndpointRegistry::instance()->get($endpointType);
             }
 
             wp_send_json_success([
@@ -170,11 +170,11 @@ class Linked3_Dashboard_Media_Ajax
         $types16 = [];
         $spectrum30 = [];
 
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Type_Registry')) {
-            $types16 = \Linked3_Diagram_Type_Registry::instance()->all();
+        if (class_exists('\Linked3\Classes\Dashboard\DiagramTypeRegistry')) {
+            $types16 = \DiagramTypeRegistry::instance()->all();
         }
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_30_Spectrum')) {
-            $spectrum30 = \Linked3_Diagram_30_Spectrum::instance()->all();
+        if (class_exists('\Linked3\Classes\Dashboard\Diagram30Spectrum')) {
+            $spectrum30 = \Diagram30Spectrum::instance()->all();
         }
 
         wp_send_json_success([
@@ -213,7 +213,7 @@ class Linked3_Dashboard_Media_Ajax
             $topic = self::extractShortTitle($content);
         }
 
-        if (!class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Master_Template')) {
+        if (!class_exists('\Linked3\Classes\Dashboard\DiagramMasterTemplate')) {
             wp_send_json_error(['message' => __('图示引擎未加载 (需要 v6.1.0+)', 'linked3-ai')]);
         }
 
@@ -267,7 +267,7 @@ class Linked3_Dashboard_Media_Ajax
                     ];
 
                     // 调用 Master Template 生成单个模块的 Prompt
-                    $template = new \Linked3_Diagram_Master_Template();
+                    $template = new \DiagramMasterTemplate();
                     $result = $template->generate($moduleConfig);
 
                     $prompts[] = [

@@ -151,8 +151,8 @@ class Linked3_Charts_Factory {
             $band_visual_hints = [];
 
             foreach ($structure_zones as $zone_key) {
-                if (class_exists('\\Linked3\\Classes\\Diagram\\Linked3_Diagram_Structure_Registry')) {
-                    $text_overlay = \Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry::suggest_text($structure_id, $zone_key, $segment);
+                if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry')) {
+                    $text_overlay = \Linked3\Classes\Diagram\DiagramStructureRegistry::suggest_text($structure_id, $zone_key, $segment);
                 } else {
                     $text_overlay = $scene_title;
                 }
@@ -248,16 +248,16 @@ class Linked3_Charts_Factory {
 
     private function select_structure_for_scene(string $scene_content, int $scene_idx, int $scene_total): string
     {
-        if (class_exists('\\Linked3\\Classes\\Diagram\\Linked3_Diagram_Structure_Registry')) {
-            return \Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry::match_best($scene_content);
+        if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry')) {
+            return \Linked3\Classes\Diagram\DiagramStructureRegistry::match_best($scene_content);
         }
         return '4band';
     }
 
     private function get_structure_config(string $structure_id): array
     {
-        if (class_exists('\\Linked3\\Classes\\Diagram\\Linked3_Diagram_Structure_Registry')) {
-            $config = \Linked3\Classes\Diagram\Linked3_Diagram_Structure_Registry::get($structure_id);
+        if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry')) {
+            $config = \Linked3\Classes\Diagram\DiagramStructureRegistry::get($structure_id);
             if ($config) {
                 return $config;
             }
