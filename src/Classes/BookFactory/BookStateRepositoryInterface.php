@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Linked3_Book_State_Repository_Interface — extracted from BookAICallerInterface.php during PSR-4 migration.
  *
  * @package Linked3\Classes\BookFactory
+ */
 
 namespace Linked3\Classes\BookFactory;
 
