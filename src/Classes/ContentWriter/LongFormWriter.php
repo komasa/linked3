@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 长文分段写作器 — v3.3.0 真正的分段分步撰写
  *
@@ -22,7 +24,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Long_Form_Writer
+final class LongFormWriter
 {
     /**
      * 阶段 A: 生成大纲
@@ -133,8 +135,8 @@ final class Linked3_Long_Form_Writer
 
         // v17.0: 加载风格DNA
         $style_prompt = '';
-        if ($style_dna && class_exists('\Linked3\Classes\ContentWriter\Linked3_System_Instruction_Builder')) {
-            $style = \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder::get_style_dna($style_dna);
+        if ($style_dna && class_exists('\Linked3\Classes\ContentWriter\SystemInstructionBuilder')) {
+            $style = \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder::get_style_dna($style_dna);
             if (!empty($style['prompt_dna'])) {
                 $style_prompt = "\n## 写作风格DNA\n" . $style['prompt_dna'] . "\n";
             }

@@ -1,7 +1,9 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Ajax\Actions;
-use Linked3\Classes\ContentWriter\Ajax\Linked3_Content_Writer_Base_Ajax_Action;
-use Linked3\Classes\ContentWriter\Prompt\Linked3_Excerpt_Prompt_Builder;
+use Linked3\Classes\ContentWriter\Ajax\ContentWriterBaseAjaxAction;
+use Linked3\Classes\ContentWriter\Prompt\ExcerptPromptBuilder;
 
 
 if (!defined('ABSPATH')) exit;
@@ -13,14 +15,14 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Generate_Excerpt_Action extends Linked3_Content_Writer_Base_Ajax_Action
+final class GenerateExcerptAction extends ContentWriterBaseAjaxAction
 {
     public function handle()
     : void {
         $title = sanitize_text_field($_POST['title'] ?? '');
         $keyword = sanitize_text_field($_POST['keyword'] ?? '');
         if (!$title) $this->send_error(__('需要标题。', 'linked3'), 400);
-        $prompt = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_Excerpt_Prompt_Builder())->build(['title' => $title, 'keyword' => $keyword]);
+        $prompt = (new \Linked3\Classes\ContentWriter\Prompt\ExcerptPromptBuilder())->build(['title' => $title, 'keyword' => $keyword]);
         try { // v19.3.0: AI 调用容错
             $result = $this->dispatcher()->chat(
                 [['role' => 'user', 'content' => $prompt]],

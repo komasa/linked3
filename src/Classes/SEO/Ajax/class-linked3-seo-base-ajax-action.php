@@ -2,7 +2,7 @@
 /**
  * SEO module AJAX base action.
  *
- * Mirrors Linked3_Content_Writer_Base_Ajax_Action: shared nonce/cap gate
+ * Mirrors ContentWriterBaseAjaxAction: shared nonce/cap gate
  * + plan gate. Concrete subclasses declare their own NONCE_ACTION and
  * CAPABILITY constants + a handle() method.
  *

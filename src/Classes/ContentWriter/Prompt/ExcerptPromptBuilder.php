@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Prompt;
 if (!defined('ABSPATH')) exit;
 /**
@@ -8,7 +10,7 @@ if (!defined('ABSPATH')) exit;
  * @subpackage Linked3.Classes.ContentWriter.Prompt
  * @since      27.1.0
  */
-final class Linked3_Excerpt_Prompt_Builder {
+final class ExcerptPromptBuilder {
     public function build(array $params) : mixed {
         $title = $params['title'] ?? '';
         $keyword = $params['keyword'] ?? '';

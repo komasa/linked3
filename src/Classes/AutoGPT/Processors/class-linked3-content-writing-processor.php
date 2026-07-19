@@ -24,10 +24,10 @@ if (!defined('ABSPATH')) {
 }
 
 use Linked3\Classes\ContentWriter\{
-    Linked3_Content_Template_Manager,
-    Prompt\Linked3_System_Instruction_Builder,
-    Prompt\Linked3_User_Prompt_Builder,
-    Prompt\Linked3_Markdown_Html_Converter
+    ContentTemplateManager,
+    Prompt\SystemInstructionBuilder,
+    Prompt\UserPromptBuilder,
+    Prompt\MarkdownHtmlConverter
 };
 final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Processor_Interface
 {
@@ -83,14 +83,14 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                         $tplConfig['custom_content_prompt']
                     );
                 } else {
-                    $sys = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder())->build([
+                    $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([
                         'tone' => $tplConfig['tone'] ?? 'professional',
                         'language' => 'zh-CN',
                         'complexity' => $tplConfig['complexity'] ?? 'intermediate',
                         'seo_focus' => true,
                         'require_html' => $require_html,
                     ]);
-                    $user = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_User_Prompt_Builder())->build([
+                    $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build([
                         'keyword' => $keyword, 'word_count' => $word_count,
                     ]);
                 }
@@ -117,8 +117,8 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                 $content = $result['content'];
 
                 // HTML 兜底
-                if ($require_html && class_exists('\\Linked3\\Classes\\ContentWriter\\Prompt\\Linked3_Markdown_Html_Converter')) {
-                    $content = Linked3_Markdown_Html_Converter::convert($content, true);
+                if ($require_html && class_exists('\\Linked3\\Classes\\ContentWriter\\Prompt\\MarkdownHtmlConverter')) {
+                    $content = MarkdownHtmlConverter::convert($content, true);
                 }
                 // AI 标识符后缀
                 if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
@@ -161,9 +161,9 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
 
                 // v3.1.0: 生成 SEO 元数据 (5 类: title/meta/keyword/excerpt/tags)
                 // AutoGPT 默认全部生成,与 Content Writer UI 路径一致
-                if ($post_id && class_exists('\\Linked3\\Classes\\ContentWriter\\Linked3_SEO_Meta_Generator')) {
+                if ($post_id && class_exists('\\Linked3\\Classes\\ContentWriter\\SeoMetaGenerator')) {
                     try {
-                        $seo_meta = \Linked3\Classes\ContentWriter\Linked3_SEO_Meta_Generator::generate_all([
+                        $seo_meta = \Linked3\Classes\ContentWriter\SeoMetaGenerator::generate_all([
                             'title' => $post['post_title'],
                             'topic' => $keyword,
                             'keywords' => $keyword,
@@ -178,7 +178,7 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                             'gen_excerpt' => true,
                             'gen_tags' => true,
                         ]);
-                        \Linked3\Classes\ContentWriter\Linked3_SEO_Meta_Generator::save_to_post($post_id, $seo_meta);
+                        \Linked3\Classes\ContentWriter\SeoMetaGenerator::save_to_post($post_id, $seo_meta);
                         $errors[] = "SEO 元数据已生成 (meta/keyword/excerpt/tags)";
                     } catch (\Throwable $e) {
                         $errors[] = "SEO 元数据生成失败: " . $e->getMessage();
@@ -186,9 +186,9 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                 }
 
                 // v3.1.0: 图片注入 (AutoGPT 文章也配图)
-                if ($post_id && !empty($cfg['inject_images']) && class_exists('\\Linked3\\Classes\\ContentWriter\\Linked3_Image_Injector')) {
+                if ($post_id && !empty($cfg['inject_images']) && class_exists('\\Linked3\\Classes\\ContentWriter\\ImageInjector')) {
                     try {
-                        $injector = new \Linked3\Classes\ContentWriter\Linked3_Image_Injector();
+                        $injector = new \Linked3\Classes\ContentWriter\ImageInjector();
                         // 读全局图片设置
                         $img_settings = (array) get_option(LINKED3_OPTION_PREFIX . 'image_settings', []);
                         $img_count = (int) ($img_settings['image_count'] ?? 1);

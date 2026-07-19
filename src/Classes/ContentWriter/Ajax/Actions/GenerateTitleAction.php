@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Ajax\Actions;
-use Linked3\Classes\ContentWriter\Ajax\Linked3_Content_Writer_Base_Ajax_Action;
+use Linked3\Classes\ContentWriter\Ajax\ContentWriterBaseAjaxAction;
 use Linked3\Classes\License\PlanDefinitions;
 use Linked3\Classes\License\LicenseService;
 
@@ -14,7 +16,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Generate_Title_Action extends Linked3_Content_Writer_Base_Ajax_Action
+final class GenerateTitleAction extends ContentWriterBaseAjaxAction
 {
     public function handle()
     : void {

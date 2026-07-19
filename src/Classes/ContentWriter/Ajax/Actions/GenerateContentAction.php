@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Ajax\Actions;
-use Linked3\Classes\ContentWriter\Ajax\Linked3_Content_Writer_Base_Ajax_Action;
-use Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder;
-use Linked3\Classes\ContentWriter\Prompt\Linked3_User_Prompt_Builder;
-use Linked3\Classes\ContentWriter\Prompt\Linked3_Markdown_Html_Converter;
+use Linked3\Classes\ContentWriter\Ajax\ContentWriterBaseAjaxAction;
+use Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder;
+use Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder;
+use Linked3\Classes\ContentWriter\Prompt\MarkdownHtmlConverter;
 use Linked3\Classes\Core\Linked3_AI_Enhancer;
 
 
@@ -27,7 +29,7 @@ if (!defined('ABSPATH')) exit;
  *   6. 图片注入
  *   7. 保存草稿/发布 (含分类/作者)
  */
-final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_Ajax_Action
+final class GenerateContentAction extends ContentWriterBaseAjaxAction
 {
     public function handle()
     : void {
@@ -152,7 +154,7 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
                 );
             }
         } else {
-            $user = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_User_Prompt_Builder())->build([
+            $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build([
                 'keyword' => $keyword, 'title' => $title, 'word_count' => $word_count,
             ]);
         }
@@ -175,7 +177,7 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
 
         // System prompt 根据 HTML 设置调整 — 无论 default 还是 custom 模式都生效
         if ($prompt_mode !== 'custom') {
-            $sys = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder())->build([
+            $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([
                 'tone' => $tone, 'language' => 'zh-CN', 'complexity' => $complexity, 'seo_focus' => true,
                 'require_html' => $require_html,
             ]);
@@ -223,8 +225,8 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
             $tags_str = '';
 
             // HTML 格式兜底
-            if ($require_html && class_exists('\\Linked3\\Classes\\ContentWriter\\Prompt\\Linked3_Markdown_Html_Converter')) {
-                $content = Linked3_Markdown_Html_Converter::convert($content, true);
+            if ($require_html && class_exists('\\Linked3\\Classes\\ContentWriter\\Prompt\\MarkdownHtmlConverter')) {
+                $content = MarkdownHtmlConverter::convert($content, true);
             }
 
             // AI 标识符后缀

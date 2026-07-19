@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Content Writer module — dependency loader.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Content_Writer_Dependencies_Loader
+final class ContentWriterDependenciesLoader
 {
     public static function load()
     : void {

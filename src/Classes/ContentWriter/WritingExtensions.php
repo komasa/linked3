@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Writing Center Extensions — fills feature gaps.
  *
@@ -16,7 +18,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 
 if (!defined('ABSPATH')) exit;
 
-final class Linked3_Writing_Extensions
+final class WritingExtensions
 {
     /**
      * AI quality scoring — deep evaluation beyond word count.
@@ -124,4 +126,4 @@ final class Linked3_Writing_Extensions
     }
 }
 
-add_action('init', [Linked3_Writing_Extensions::class, 'register'], 20);
+add_action('init', [WritingExtensions::class, 'register'], 20);

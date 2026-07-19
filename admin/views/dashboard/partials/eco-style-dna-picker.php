@@ -12,10 +12,10 @@ if (!defined('ABSPATH')) exit;
 
 // v17.2: 加载写作风格DNA — 兼容命名空间和直接类名
 $writing_styles = [];
-if (class_exists('Linked3\\Classes\\ContentWriter\\Prompt\\Linked3_System_Instruction_Builder')) {
-    $writing_styles = \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder::get_style_options();
-} elseif (class_exists('Linked3_System_Instruction_Builder')) {
-    $writing_styles = Linked3_System_Instruction_Builder::get_style_options();
+if (class_exists('Linked3\\Classes\\ContentWriter\\Prompt\\SystemInstructionBuilder')) {
+    $writing_styles = \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder::get_style_options();
+} elseif (class_exists('SystemInstructionBuilder')) {
+    $writing_styles = SystemInstructionBuilder::get_style_options();
 }
 
 // v17.2: 兜底 — 即使类不存在也显示选择器(用硬编码选项)

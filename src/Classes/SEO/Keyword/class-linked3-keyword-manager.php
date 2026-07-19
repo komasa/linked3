@@ -582,14 +582,14 @@ final class Linked3_Keyword_Manager
                     );
                 } else {
                     // 用 ContentWriter 的 prompt 构造器 + 模板
-                    $sys = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder())->build([
+                    $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([
                         'tone' => $tpl_config['tone'] ?? 'professional',
                         'language' => 'zh-CN',
                         'complexity' => $tpl_config['complexity'] ?? 'intermediate',
                         'seo_focus' => true,
                         'require_html' => $require_html,
                     ]);
-                    $user = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_User_Prompt_Builder())->build([
+                    $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build([
                         'keyword' => $keyword,
                         'word_count' => $tpl_config['word_count'] ?? 1200,
                     ]);

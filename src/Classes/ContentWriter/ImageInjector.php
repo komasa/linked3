@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Image injector — fetches and embeds images into generated content.
  *
@@ -17,7 +19,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Image_Injector
+final class ImageInjector
 {
     /**
      * Insert N images into the article at natural breakpoints (after H2).

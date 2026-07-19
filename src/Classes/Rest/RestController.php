@@ -139,8 +139,8 @@ final class RestController
             return new \WP_Error('bad_request', __('需要关键词或标题。', 'linked3'), ['status' => 400]);
         }
         // Delegate to Content Writer's AI dispatcher directly.
-        $sys = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder())->build([]);
-        $user = (new \Linked3\Classes\ContentWriter\Prompt\Linked3_User_Prompt_Builder())->build(['keyword' => $keyword, 'title' => $title, 'word_count' => 1200]);
+        $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([]);
+        $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build(['keyword' => $keyword, 'title' => $title, 'word_count' => 1200]);
         try {
             $result = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance()->chat(
                 [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],

@@ -5,7 +5,7 @@ declare(strict_types=1);
  *
  * v4.8.0: extracted the preset template definitions into a single trait so
  * both TemplateManager (option-based) and
- * Linked3_Content_Template_Manager (DB-based) share the same source of
+ * ContentTemplateManager (DB-based) share the same source of
  * truth for starter templates. This resolves P1-3 (duplicate template
  * definitions diverging over time).
  *

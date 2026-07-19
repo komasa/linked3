@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Base AJAX action — shared nonce/cap/quota/plan gate for all Content Writer actions.
  *
@@ -20,7 +22,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-abstract class Linked3_Content_Writer_Base_Ajax_Action
+abstract class ContentWriterBaseAjaxAction
 {
     const NONCE_ACTION = 'linked3_content_writer';
     const CAPABILITY = 'edit_posts';
@@ -69,10 +71,10 @@ abstract class Linked3_Content_Writer_Base_Ajax_Action
     }
 
     /**
-     * @return Linked3_Content_Template_Manager
+     * @return ContentTemplateManager
      */
     protected function templates()
     : Linked3 {
-        return new \Linked3\Classes\ContentWriter\Linked3_Content_Template_Manager();
+        return new \Linked3\Classes\ContentWriter\ContentTemplateManager();
     }
 }

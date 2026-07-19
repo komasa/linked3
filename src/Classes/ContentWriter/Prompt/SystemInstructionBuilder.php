@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * System instruction builder v17.0 — 写作风格DNA + 反AI人类化
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_System_Instruction_Builder
+final class SystemInstructionBuilder
 {
     /**
      * @var array 写作风格DNA缓存

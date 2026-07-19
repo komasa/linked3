@@ -3,7 +3,7 @@
  * SEO hooks registrar — binds save_post, admin menu, AJAX actions, and
  * the wp_head schema-output hook.
  *
- * Mirrors Linked3_Content_Writer_Hooks_Registrar:
+ * Mirrors ContentWriterHooksRegistrar:
  *   - register() registers everything statically; safe to call multiple times.
  *   - Admin menu renders via LINKED3_DIR/admin/views/seo/*.
  *

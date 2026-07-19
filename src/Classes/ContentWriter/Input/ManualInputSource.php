@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Input;
 if (!defined('ABSPATH')) exit;
 
@@ -10,7 +12,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Manual_Input_Source implements Linked3_Input_Source_Interface
+final class ManualInputSource implements InputSourceInterface
 {
     public function slug() : string { return 'manual'; }
     public function label() : mixed { return __('手动输入', 'linked3'); }

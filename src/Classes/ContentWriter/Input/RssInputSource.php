@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter\Input;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_RSS_Input_Source implements Linked3_Input_Source_Interface
+final class RssInputSource implements InputSourceInterface
 {
     public function slug() : string { return 'rss'; }
     public function label() : mixed { return __('RSS 订阅源', 'linked3'); }

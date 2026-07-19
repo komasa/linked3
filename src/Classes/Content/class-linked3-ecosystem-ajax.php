@@ -177,8 +177,8 @@ class Linked3_Ecosystem_Ajax {
         $humanize_modules = json_decode($_POST['humanize_modules'] ?? '[]', true) ?: [];
         
         // v17.2: 注入风格DNA到系统指令
-        if ($style_dna && class_exists('\Linked3\Classes\Content\Linked3_System_Instruction_Builder')) {
-            $builder = new \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder();
+        if ($style_dna && class_exists('\Linked3\Classes\Content\SystemInstructionBuilder')) {
+            $builder = new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder();
             $system_instruction = $builder->build([
                 'role' => '专业内容写作',
                 'tone' => $tone,
@@ -613,9 +613,9 @@ class Linked3_Ecosystem_Ajax {
 
     private static function generate_content(string $topic, array $keywords, array $template = [], string $tone = 'professional', int $word_count = 800): string {
         // 委托 Long_Form_Writer (若存在)
-        if (class_exists('\Linked3\Classes\Content\Linked3_Long_Form_Writer')) {
+        if (class_exists('\Linked3\Classes\Content\LongFormWriter')) {
             try {
-                $writer = new \Linked3_Long_Form_Writer();
+                $writer = new \LongFormWriter();
                 if (method_exists($writer, 'generate')) {
                     $result = $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count, 'tone' => $tone]);
                     if (is_string($result) && !empty($result)) return $result;
@@ -669,10 +669,10 @@ class Linked3_Ecosystem_Ajax {
         if (!empty($ai_content)) {
             // v11.8.0: 若require_html但AI仍返回Markdown, 用转换器降级处理
             if (!empty($adv_settings['require_html'])
-                && class_exists('\Linked3\Classes\Content\Linked3_Markdown_Html_Converter')
+                && class_exists('\Linked3\Classes\Content\MarkdownHtmlConverter')
                 && strpos($ai_content, '<') === false) {
                 try {
-                    $ai_content = \Linked3_Markdown_Html_Converter::convert($ai_content);
+                    $ai_content = \MarkdownHtmlConverter::convert($ai_content);
                 } catch (\Throwable $e) {}
             }
             // v11.8.0: 追加AI标识符后缀(全局设置)

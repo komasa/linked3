@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Init Stream Action — starts an SSE streaming generation, caches chunks
  * for resume. The actual chunk flushing is handled by a dedicated SSE endpoint.
@@ -9,14 +11,14 @@
 
 namespace Linked3\Classes\ContentWriter\Ajax\Actions;
 
-use Linked3\Classes\ContentWriter\Ajax\Linked3_Content_Writer_Base_Ajax_Action;
+use Linked3\Classes\ContentWriter\Ajax\ContentWriterBaseAjaxAction;
 
 
 
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Init_Stream_Action extends Linked3_Content_Writer_Base_Ajax_Action
+final class InitStreamAction extends ContentWriterBaseAjaxAction
 {
     public function handle() : mixed {
         $keyword = sanitize_text_field($_POST['keyword'] ?? '');

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SEO 元数据生成器 — v3.1.0
  *
@@ -24,7 +26,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_SEO_Meta_Generator
+final class SeoMetaGenerator
 {
     /**
      * 生成全部 5 类 SEO 元数据。

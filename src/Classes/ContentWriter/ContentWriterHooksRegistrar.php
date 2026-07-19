@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Content Writer hooks registrar — binds all AJAX actions + admin menu.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Content_Writer_Hooks_Registrar
+final class ContentWriterHooksRegistrar
 {
     /**
      * @return void
@@ -21,19 +23,19 @@ final class Linked3_Content_Writer_Hooks_Registrar
     : void {
         // Ensure default templates exist for the current user.
         add_action('admin_init', static function () {
-            (new Linked3_Content_Template_Manager())->ensure_defaults(get_current_user_id());
+            (new ContentTemplateManager())->ensure_defaults(get_current_user_id());
         });
 
         // v19.50.1: linked3_seo_system_prompt 钩子由 MetaLever_Hooks_Registrar 统一注册
 
         // Register AJAX actions (all admin-only, nonce+cap+plan gated via base class).
         $actions = [
-            'linked3_generate_content' => Ajax\Actions\Linked3_Generate_Content_Action::class,
-            'linked3_generate_title'   => Ajax\Actions\Linked3_Generate_Title_Action::class,
-            'linked3_generate_meta'    => Ajax\Actions\Linked3_Generate_Meta_Action::class,
-            'linked3_generate_tags'    => Ajax\Actions\Linked3_Generate_Tags_Action::class,
-            'linked3_generate_excerpt' => Ajax\Actions\Linked3_Generate_Excerpt_Action::class,
-            'linked3_init_stream'      => Ajax\Actions\Linked3_Init_Stream_Action::class,
+            'linked3_generate_content' => Ajax\Actions\GenerateContentAction::class,
+            'linked3_generate_title'   => Ajax\Actions\GenerateTitleAction::class,
+            'linked3_generate_meta'    => Ajax\Actions\GenerateMetaAction::class,
+            'linked3_generate_tags'    => Ajax\Actions\GenerateTagsAction::class,
+            'linked3_generate_excerpt' => Ajax\Actions\GenerateExcerptAction::class,
+            'linked3_init_stream'      => Ajax\Actions\InitStreamAction::class,
         ];
         foreach ($actions as $action => $class) {
             add_action('wp_ajax_' . $action, [new $class(), 'dispatch']);
@@ -59,7 +61,7 @@ final class Linked3_Content_Writer_Hooks_Registrar
         if (!current_user_can('edit_posts')) {
             return;
         }
-        $templates = (new Linked3_Content_Template_Manager())->get_for_user(get_current_user_id());
+        $templates = (new ContentTemplateManager())->get_for_user(get_current_user_id());
         include LINKED3_DIR . 'admin/views/content-writer/editor.php';
     }
 }

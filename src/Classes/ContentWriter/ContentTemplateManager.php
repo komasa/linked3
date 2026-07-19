@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Content template manager — CRUD on linked3_content_templates table.
  *
@@ -13,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Content_Template_Manager
+final class ContentTemplateManager
 {
     // v4.8.0: share the canonical starter-template definitions with
     // TemplateManager so both managers stay in sync.

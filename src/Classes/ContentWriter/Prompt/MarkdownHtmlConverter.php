@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Markdown → HTML 强制转换器 (兜底保障)
  *
@@ -34,7 +36,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Markdown_Html_Converter
+final class MarkdownHtmlConverter
 {
     /** @var array 临时存储代码块占位符 (避免闭包 use) */
     private static $code_blocks = [];

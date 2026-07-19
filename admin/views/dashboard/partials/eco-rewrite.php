@@ -19,8 +19,8 @@ $ajax_url = admin_url('admin-ajax.php');
 
 // 加载风格DNA
 $writing_styles = [];
-if (class_exists('Linked3_System_Instruction_Builder')) {
-    $writing_styles = \Linked3\Classes\ContentWriter\Prompt\Linked3_System_Instruction_Builder::get_style_options();
+if (class_exists('SystemInstructionBuilder')) {
+    $writing_styles = \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder::get_style_options();
 }
 ?>
 

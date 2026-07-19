@@ -137,7 +137,7 @@ final class Linked3_Hook_Manager
         // Hard-registered module hooks. Each wrapped in try/catch so a single
         // module fatal cannot take down the entire admin menu.
         $registrars = [
-            'ContentWriter' => '\\Linked3\\Classes\\ContentWriter\\Linked3_Content_Writer_Hooks_Registrar',
+            'ContentWriter' => '\\Linked3\\Classes\\ContentWriter\\ContentWriterHooksRegistrar',
             'SEO'           => '\\Linked3\\Classes\\SEO\\Linked3_SEO_Hooks_Registrar',
             'Publish'       => '\\Linked3\\Classes\\Publish\\Linked3_Publish_Collect_Hooks_Registrar',
             'Chat'          => '\\Linked3\\Classes\\Chat\\Linked3_Chat_Hooks_Registrar',

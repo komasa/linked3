@@ -113,9 +113,9 @@ class Linked3_Content_Writer_Factory {
         $word_count = $brief['word_count'] ?? 800;
 
         // 委托 Long_Form_Writer (若存在)
-        if (class_exists('\Linked3\Classes\Content\Linked3_Long_Form_Writer')) {
+        if (class_exists('\Linked3\Classes\Content\LongFormWriter')) {
             try {
-                $writer = new \Linked3_Long_Form_Writer();
+                $writer = new \LongFormWriter();
                 if (method_exists($writer, 'generate')) {
                     return $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count]);
                 }

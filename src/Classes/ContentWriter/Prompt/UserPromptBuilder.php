@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * User prompt builder — crafts the per-article user prompt.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_User_Prompt_Builder
+final class UserPromptBuilder
 {
     /**
      * @param array $params {keyword, title, outline, word_count, references, extra_instructions}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Input source interface — pluggable content input (RSS / CSV / URL / manual).
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Input_Source_Interface
+interface InputSourceInterface
 {
     /**
      * @return string Source slug.
