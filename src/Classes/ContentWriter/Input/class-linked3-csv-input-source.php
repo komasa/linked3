@@ -1,0 +1,42 @@
+<?php
+namespace Linked3\Classes\ContentWriter\Input;
+if (!defined('ABSPATH')) exit;
+
+/**
+ * Csv input source.
+ *
+ * @package    Linked3
+ * @subpackage Linked3.Classes.ContentWriter.Input
+ * @since      27.1.0
+ */
+
+final class Linked3_CSV_Input_Source implements Linked3_Input_Source_Interface
+{
+    public function slug() : string { return 'csv'; }
+    public function label() : mixed { return __('CSV 文件', 'linked3'); }
+
+    public function fetch(array $config, $limit = 10) : mixed {
+        $file = $config['file_path'] ?? '';
+        if (empty($file) || !file_exists($file)) {
+            return [];
+        }
+        $handle = fopen($file, 'r');
+        if (!$handle) return [];
+        $items = [];
+        $count = 0;
+        $headers = fgetcsv($handle);
+        while (($row = fgetcsv($handle)) !== false) {
+            if ($count >= $limit) break;
+            $assoc = array_combine($headers, $row);
+            $items[] = [
+                'title'   => $assoc['title'] ?? '',
+                'content' => $assoc['content'] ?? '',
+                'url'     => $assoc['url'] ?? '',
+                'guid'    => md5(($assoc['title'] ?? '') . ($assoc['url'] ?? '') . $count),
+            ];
+            $count++;
+        }
+        fclose($handle);
+        return $items;
+    }
+}

@@ -1,0 +1,154 @@
+/**
+ * Linked3 Ecosystem Layout — v16.0.17
+ * [公理α: H↓ 消除屏幕适配不确定性] [公理β: dim↓ 0维Grid替代N维media query]
+ *
+ * CSS Grid 自适应布局: 单一配置源, 自动响应 320px~2560px 全尺寸
+ * 依赖: linked3-wansheng2.css (v16.0.18 设计 token)
+ */
+
+/* ============ 布局 Token (引用风格 token) ============ */
+:root {
+    --lk3-eco-grid-min: 280px;          /* 卡片最小宽度 */
+    --lk3-eco-grid-gap: 16px;           /* 卡片间距 */
+    --lk3-eco-grid-max-col: 4;          /* 最大列数 (大屏) */
+    --lk3-eco-sidebar-w: 220px;         /* 侧栏宽度 */
+    --lk3-eco-breakpoint-tablet: 1024px;
+    --lk3-eco-breakpoint-mobile: 640px;
+}
+
+/* ============ 生态面板主容器 ============ */
+.linked3-eco-wrap {
+    display: grid;
+    grid-template-columns: var(--lk3-eco-sidebar-w) 1fr;
+    gap: var(--lk3-eco-grid-gap);
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* ============ 子导航侧栏 ============ */
+.linked3-eco-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: sticky;
+    top: 32px;
+    align-self: start;
+}
+
+/* ============ 内容区网格 (自适应核心) ============ */
+.linked3-eco-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--lk3-eco-grid-min), 1fr));
+    gap: var(--lk3-eco-grid-gap);
+}
+
+/* ============ 卡片基础 ============ */
+.linked3-eco-card {
+    background: var(--lk3-ws2-card-bg, #fff);
+    border: 1px solid var(--lk3-ws2-border, #e5e7eb);
+    border-radius: var(--lk3-ws2-radius-md, 8px);
+    padding: 16px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.linked3-eco-card:hover {
+    box-shadow: var(--lk3-ws2-shadow-md, 0 4px 12px rgba(0,0,0,0.08));
+    transform: translateY(-2px);
+}
+
+/* ============ 信息图网格 (v16.0.17 核心) ============ */
+.linked3-eco-infographic {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--lk3-eco-grid-min), 1fr));
+    gap: var(--lk3-eco-grid-gap);
+    margin: 16px 0;
+}
+
+.linked3-eco-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background: var(--lk3-ws2-surface, #f9fafb);
+    border-radius: var(--lk3-ws2-radius-sm, 6px);
+    border-left: 3px solid var(--lk3-ws2-accent, #3B82F6);
+}
+
+/* ============ 进度条容器 ============ */
+.linked3-eco-progress-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+/* ============ 按钮组 ============ */
+.linked3-eco-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+/* ============ 表单网格 ============ */
+.linked3-eco-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* ============ 结果展示网格 ============ */
+.linked3-eco-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 12px 0;
+}
+
+/* ============ 平板适配 (≤1024px) ============ */
+@media (max-width: 1024px) {
+    .linked3-eco-wrap {
+        grid-template-columns: 1fr;
+    }
+    .linked3-eco-nav {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+    .linked3-eco-nav-item {
+        white-space: nowrap;
+    }
+}
+
+/* ============ 移动端适配 (≤640px) ============ */
+@media (max-width: 640px) {
+    :root {
+        --lk3-eco-grid-min: 100%;
+        --lk3-eco-grid-gap: 10px;
+    }
+    .linked3-eco-card {
+        padding: 12px;
+    }
+    .linked3-eco-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .linked3-eco-btn-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .linked3-eco-btn-group .linked3-eco-btn {
+        width: 100%;
+    }
+}
+
+/* ============ 超宽屏 (≥1920px) ============ */
+@media (min-width: 1920px) {
+    :root {
+        --lk3-eco-grid-min: 320px;
+    }
+    .linked3-eco-wrap {
+        max-width: 1920px;
+    }
+}

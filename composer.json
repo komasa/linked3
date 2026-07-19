@@ -1,0 +1,49 @@
+{
+    "name": "linked3/linked3-ai",
+    "description": "Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "version": "27.3.4",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "friendsofphp/php-cs-fixer": "^3.49"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "test:unit": "phpunit --testsuite=Unit --colors=always",
+        "test:integration": "phpunit --testsuite=Integration --colors=always",
+        "test:coverage": "phpunit --coverage-html reports/coverage",
+        "lint": "php-cs-fixer fix --dry-run --diff",
+        "lint:fix": "php-cs-fixer fix",
+        "sniff": "phpcs --standard=PSR12 src/ tests/"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts-descriptions": {
+        "test": "Run all PHPUnit tests.",
+        "test:unit": "Run only the Unit test suite.",
+        "test:coverage": "Run tests and generate HTML coverage report in reports/coverage.",
+        "lint": "Dry-run PHP-CS-Fixer to preview formatting changes.",
+        "lint:fix": "Apply PSR-12 formatting fixes automatically.",
+        "sniff": "Run PHP_CodeSniffer with PSR-12 standard."
+    }
+}

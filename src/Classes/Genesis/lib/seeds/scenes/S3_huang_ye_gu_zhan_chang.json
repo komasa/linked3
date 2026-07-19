@@ -1,0 +1,10 @@
+{
+    "id": "S3",
+    "name": "荒野古战场",
+    "base_prompt": "ancient battlefield wasteland, broken stones, dry grass, distant smoke signals, orange dusk sky, scattered weapons",
+    "weather": "dusk_dry",
+    "time": "dusk",
+    "lighting_default": "orange_fire_glow_gray_ambient",
+    "mood_base": "desolate, tense, epic",
+    "atmosphere_keywords": ["broken banners", "dust clouds", "orange horizon", "scattered bones", "dry wind"]
+}

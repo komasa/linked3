@@ -1,0 +1,14 @@
+{
+    "id": "C5",
+    "name": "神秘人",
+    "base_prompt": "mysterious hooded figure, face obscured by shadow, tall 185cm, dark hooded cloak, only chin visible",
+    "variants": {
+        "watching": "standing still, arms hidden, observing from distance",
+        "revealing": "hood falling back, revealing scarred face, cold smirk",
+        "fighting": "dual daggers drawn, swift stance, cloak billowing",
+        "vanishing": "dissolving into black mist, only afterimage remaining"
+    },
+    "negative_base": "bright, cheerful, cartoon, deformed, visible face fully",
+    "costume_default": "black hooded cloak, dark leather armor, knee boots",
+    "accessories": ["dual daggers", "smoke bombs", "masked ring"]
+}

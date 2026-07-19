@@ -1,0 +1,172 @@
+{
+  "name_cn": "水彩·柔彩绘本",
+  "name_en": "Soft Watercolor Illustration",
+  "category": "插画-水彩",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F0E6D2",
+        "ratio": "25%",
+        "use": "米白纸底"
+      },
+      {
+        "hex": "#A8C8E8",
+        "ratio": "20%",
+        "use": "淡蓝水彩"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#F4C2C2",
+        "ratio": "15%",
+        "use": "柔粉晕染"
+      },
+      {
+        "hex": "#C8E6C9",
+        "ratio": "10%",
+        "use": "淡绿点缀"
+      }
+    ],
+    "accent": [
+      "#E6E6FA",
+      "#FFB6C1"
+    ],
+    "mood_tone": "柔彩通透,水彩晕染"
+  },
+  "line_style": "无明确线条,水彩边缘柔和扩散,铅笔淡描",
+  "render": "传统水彩+湿画法,watercolor wash texture",
+  "atmosphere": [
+    "温柔",
+    "梦幻",
+    "清新",
+    "治愈",
+    "童趣"
+  ],
+  "lighting": "散射柔光+留白,低对比通透",
+  "symbols": [
+    "水彩晕染",
+    "花瓣",
+    "气泡",
+    "彩虹",
+    "羽毛"
+  ],
+  "patterns": [
+    "水彩湿画",
+    "颜色渐变",
+    "留白透气"
+  ],
+  "prompt_keywords": "Soft watercolor illustration, delicate wash technique, gentle color bleeding, dreamy atmosphere, light and airy composition, children's book aesthetic, hand-painted texture",
+  "negative_keywords": "dark horror, gothic, cyberpunk, neon, photorealistic, 3d render, sharp lines, heavy shadows",
+  "suitable_genres": [
+    "童话",
+    "治愈",
+    "梦幻",
+    "儿童",
+    "生活"
+  ],
+  "scene_whitelist": [
+    "溪边嬉戏",
+    "窗台多肉",
+    "甜品厨房",
+    "森林小屋",
+    "萤火森林",
+    "云朵之上",
+    "雨后彩虹",
+    "秋千树下",
+    "海边贝壳",
+    "蝴蝶花园",
+    "花田午后",
+    "秋叶小径",
+    "花房午后",
+    "海边拾贝",
+    "茶会花园",
+    "彩虹瀑布",
+    "星空露营",
+    "星空帐篷",
+    "春樱树下",
+    "森林蘑菇",
+    "晨雾牧场",
+    "图书馆角落",
+    "溪边石桥",
+    "春日野餐",
+    "窗台阳光"
+  ],
+  "scene_blacklist": [
+    "恐怖场景",
+    "血腥",
+    "赛博朋克",
+    "哥特暗黑",
+    "科幻太空",
+    "古宅雨夜",
+    "工厂机械",
+    "暗黑肖像"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "主角花田漫步",
+      "location": "花田午后",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角在花田中漫步,裙摆拂过花瓣,阳光温柔",
+      "mood": "温柔梦幻",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "主角窗边阅读",
+      "location": "窗台阳光",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角在窗边阅读,猫咪蜷缩身旁,茶杯冒热气",
+      "mood": "治愈清新",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "主角雨后寻宝",
+      "location": "雨后彩虹",
+      "characters": [
+        "主角",
+        "伙伴"
+      ],
+      "action": "主角与伙伴在彩虹下寻找四叶草,笑声清脆",
+      "mood": "童趣愉悦",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "主角星空许愿",
+      "location": "星空帐篷",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角在星空下的帐篷旁许愿,萤火虫环绕",
+      "mood": "梦幻释然",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A figure strolls through a sunlit flower field, dress brushing past petals, soft watercolor wash technique with gentle color bleeding, dreamy atmosphere, light and airy composition, children's book aesthetic --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 水彩·柔彩绘本\n✅ 允许场景: 花田/窗台/彩虹/星空/森林 (从故事原文提取)\n❌ 禁止场景: 恐怖/血腥/赛博朋克/哥特暗黑/科幻\n❌ 禁止照抄: 不要用'古宅雨夜',必须用柔彩治愈场景\n氛围: 温柔梦幻,水彩晕染",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use soft watercolor scenes (flower fields, windows, rainbows). Do NOT use horror, gore, cyberpunk, or 'ancient mansion'. Emphasize delicate wash technique and dreamy atmosphere.",
+  "meta_prompt": "Soft watercolor illustration, delicate wash technique, gentle color bleeding, dreamy atmosphere, light and airy composition, children's book aesthetic",
+  "cognitive_level": {
+    "primary": "R",
+    "reader_profile": "文艺爱好者·放松治愈",
+    "content_adaptation": "入门级治愈系, 大众可放松欣赏"
+  },
+  "reader_constraint": {
+    "reader_state": "治愈寻求者·期待温柔画面",
+    "reader_mode": "放松式疗愈",
+    "reader_expectation": "水彩晕染+柔和色彩+治愈氛围"
+  },
+  "visual_frequency": {
+    "HF": "主体人物/可爱元素/温暖光点(高频治愈锚点)",
+    "MF": "场景环境/植物花卉/柔和渐变(中频治愈叙事)",
+    "LF": "水彩留白/淡色晕染/背景虚化(低频温柔)",
+    "color_mapping": {
+      "HF": "#FFB6C1",
+      "MF": "#87CEEB",
+      "LF": "#D3D3D3"
+    },
+    "progression": "HF樱粉聚焦治愈主体, MF天青环绕温柔叙事, LF雾灰留白衬柔和"
+  }
+}

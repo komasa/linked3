@@ -1,0 +1,65 @@
+{
+  "name_cn": "Rams极简风",
+  "name_en": "Rams Minimal",
+  "category": "商业生产级信息图-G5规范融合",
+  "version": "1.0.0",
+  "source": "G5 Track B-05 Dieter Rams融合",
+  "color_palette": {
+    "primary": "#000000",
+    "accent": "#E85D04",
+    "background": "#FFFFFF",
+    "description": "Rams: 黑#000000+中性灰+橙#E85D04"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准字体"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层信息密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用用户",
+    "content_adaptation": "通用场景"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息获取"
+  },
+  "prompt_keywords": "Dieter Rams less but better, pure color blocks, neutral palette, geometric precision, honest design, no decoration",
+  "negative_keywords": "3D render, photorealistic, complex textures",
+  "suitable_genres": [
+    "通用图示",
+    "知识图谱",
+    "信息图"
+  ],
+  "scene_whitelist": [
+    "通用",
+    "知识",
+    "信息"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "Rams极简风: G5 Track B-05 Dieter Rams融合",
+  "style_constraint_en": "Rams Minimal ONLY. Dieter Rams less but better, pure color blocks, neutral palette, geometric preci",
+  "meta_prompt": "dieter rams less but better, pure color blocks, neutral palette, geometric precision, honest design, no decoration, #000000 primary, #FFFFFF background, professional infographic",
+  "prompt_example": "dieter rams less but better, pure color blocks, neutral palette, geometric precision, honest design, no decoration, #000000 primary color, #FFFFFF background, HarmonyOS Sans typography, 3-layer hierarchy, numbered badges. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G5 Track B-05 Dieter Rams融合"
+}

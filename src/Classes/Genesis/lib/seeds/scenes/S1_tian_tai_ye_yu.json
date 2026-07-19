@@ -1,0 +1,10 @@
+{
+    "id": "S1",
+    "name": "天台夜雨",
+    "base_prompt": "rooftop at night, heavy rain, neon city lights reflecting on wet surface, chain-link fence, water puddles, dramatic sky",
+    "weather": "heavy_rain",
+    "time": "night",
+    "lighting_default": "neon_rim_light",
+    "mood_base": "melancholy, tense, urban noir",
+    "atmosphere_keywords": ["rain streaks", "neon reflections", "wet concrete", "distant city lights", "dark clouds"]
+}

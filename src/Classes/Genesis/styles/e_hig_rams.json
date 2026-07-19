@@ -1,0 +1,65 @@
+{
+  "name_cn": "HIG Rams原子",
+  "name_en": "HIG-Rams Atoms",
+  "category": "商业生产级信息图-G6原子重组",
+  "version": "1.0.0",
+  "source": "G6 Track E-02 原子化重组",
+  "color_palette": {
+    "primary": "#000000",
+    "accent": "#E85D04",
+    "background": "#FFFFFF",
+    "description": "HIG+Rams: 中性+毛玻璃"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准字体"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层信息密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用用户",
+    "content_adaptation": "通用场景"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息获取"
+  },
+  "prompt_keywords": "HIG frosted glass blur, Rams less but better, squircle corners, neutral palette, single accent, maximum negative space",
+  "negative_keywords": "3D render, photorealistic, complex textures",
+  "suitable_genres": [
+    "通用图示",
+    "知识图谱",
+    "信息图"
+  ],
+  "scene_whitelist": [
+    "通用",
+    "知识",
+    "信息"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "HIG Rams原子: G6 Track E-02 原子化重组",
+  "style_constraint_en": "HIG-Rams Atoms ONLY. HIG frosted glass blur, Rams less but better, squircle corners, neutral palette,",
+  "meta_prompt": "hig frosted glass blur, rams less but better, squircle corners, neutral palette, single accent, maximum negative space, #000000 primary, #FFFFFF background, professional infographic",
+  "prompt_example": "hig frosted glass blur, rams less but better, squircle corners, neutral palette, single accent, maximum negative space, #000000 primary color, #FFFFFF background, HarmonyOS Sans typography, 3-layer hierarchy, numbered badges. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G6 Track E-02 原子化重组"
+}

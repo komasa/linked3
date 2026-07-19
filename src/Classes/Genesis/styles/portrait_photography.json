@@ -1,0 +1,169 @@
+{
+  "name_cn": "写真摄影·人像特写",
+  "name_en": "Portrait Photography",
+  "category": "真人-写真",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F5E6D3",
+        "ratio": "30%",
+        "use": "柔光肤色"
+      },
+      {
+        "hex": "#4A3B2A",
+        "ratio": "20%",
+        "use": "深褐背景"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#D4A574",
+        "ratio": "15%",
+        "use": "暖调光影"
+      },
+      {
+        "hex": "#8B7355",
+        "ratio": "10%",
+        "use": "中调过渡"
+      }
+    ],
+    "accent": [
+      "#FFF8DC",
+      "#2C1810"
+    ],
+    "mood_tone": "柔美暖调,人像聚焦"
+  },
+  "line_style": "无线条,真实摄影质感,浅景深虚化",
+  "render": "数码摄影+柔光滤镜,bokeh background",
+  "atmosphere": [
+    "柔美",
+    "细腻",
+    "温暖",
+    "亲密",
+    "真实"
+  ],
+  "lighting": "柔光箱+反光板,低对比柔和,黄金时刻",
+  "symbols": [
+    "柔光",
+    "浅景深",
+    "bokeh",
+    "自然光",
+    "反光板"
+  ],
+  "patterns": [
+    "光斑虚化",
+    "肤色渐变",
+    "背景模糊"
+  ],
+  "prompt_keywords": "Professional portrait photography, soft natural lighting, shallow depth of field, beautiful bokeh, skin retouching, golden hour warmth, intimate atmosphere",
+  "negative_keywords": "cartoon, anime, illustration, painting, dark horror, gothic, cyberpunk, neon, harsh shadows",
+  "suitable_genres": [
+    "人像",
+    "写真",
+    "生活",
+    "情感",
+    "纪实"
+  ],
+  "scene_whitelist": [
+    "海边日落",
+    "阳台晨光",
+    "壁炉旁",
+    "化妆间",
+    "楼梯回眸",
+    "休息区沙发",
+    "花园午后",
+    "影棚白背景",
+    "窗边自然光",
+    "户外逆光",
+    "书房暖灯",
+    "走廊转身",
+    "更衣室",
+    "艺术画廊",
+    "咖啡馆角落",
+    "城市天台",
+    "楼梯转角",
+    "复古卧室",
+    "影棚柔光",
+    "林间小径",
+    " studio灰调",
+    "门口剪影",
+    "户外黄金时刻",
+    "工作室"
+  ],
+  "scene_blacklist": [
+    "恐怖场景",
+    "血腥",
+    "赛博朋克",
+    "哥特暗黑",
+    "科幻太空",
+    "古宅雨夜",
+    "工厂机械"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "人物窗边沉思",
+      "location": "窗边自然光",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物靠在窗边,阳光洒在脸上,眼神温柔",
+      "mood": "柔美温暖",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "人物咖啡馆阅读",
+      "location": "咖啡馆角落",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物在咖啡馆角落翻阅书籍,咖啡冒热气",
+      "mood": "宁静亲密",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "人物户外漫步",
+      "location": "花园午后",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物在花园中漫步,花瓣飘落,笑靥如花",
+      "mood": "愉悦真实",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "人物海边远眺",
+      "location": "海边日落",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物站在海边,夕阳染红天际,背影温柔",
+      "mood": "释然温暖",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A person leans against a window bathed in soft natural light, golden hour warmth illuminating their face, shallow depth of field with beautiful bokeh background, intimate portrait photography, skin retouching, warm tones --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 写真摄影·人像特写\n✅ 允许场景: 影棚/窗边/咖啡馆/花园/海边 (从故事原文提取)\n❌ 禁止场景: 恐怖/血腥/赛博朋克/哥特暗黑\n❌ 禁止照抄: 不要用'古宅雨夜',必须用柔美人像场景\n氛围: 柔美细腻,人像聚焦",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use soft portrait photography scenes (studios, windows, cafes). Do NOT use horror, gore, or 'ancient mansion'. Emphasize shallow depth of field and soft lighting.",
+  "meta_prompt": "Professional portrait photography, soft natural lighting, shallow depth of field, beautiful bokeh, golden hour warmth, intimate atmosphere",
+  "cognitive_level": {
+    "primary": "R",
+    "reader_profile": "大众读者·情感共鸣",
+    "content_adaptation": "入门级人像, 大众可直观感受"
+  },
+  "reader_constraint": {
+    "reader_state": "观众·期待人物之美",
+    "reader_mode": "情感共鸣",
+    "reader_expectation": "柔光人像+自然质感+情感表达"
+  },
+  "visual_frequency": {
+    "HF": "面部表情/眼神光/皮肤质感(高频情感锚点)",
+    "MF": "发型服饰/姿态构图/手部细节(中频人物叙事)",
+    "LF": "背景虚化/环境光晕/暗部过渡(低频氛围)",
+    "color_mapping": {
+      "HF": "#FFF8E7",
+      "MF": "#D4A574",
+      "LF": "#3D2817"
+    },
+    "progression": "HF锁定面部情感中心, MF延伸人物整体, LF柔化背景氛围"
+  }
+}

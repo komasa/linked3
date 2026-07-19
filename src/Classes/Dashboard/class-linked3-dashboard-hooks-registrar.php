@@ -1,0 +1,122 @@
+<?php
+/**
+ * Dashboard Hooks Registrar — v4.3.9 facade.
+ *
+ * This class is now a thin orchestrator that delegates to two sibling
+ * registrars split out of the original 951-line god class:
+ *
+ *   - Linked3_Dashboard_Menu_Registrar  (menu + render + settings + sanitize + license hook)
+ *   - Linked3_Dashboard_Ajax_Registrar  (25 wp_ajax_* handlers)
+ *
+ * The split is internal — Hook_Manager still calls
+ * `Linked3_Dashboard_Hooks_Registrar::register()` and the public contract
+ * is unchanged. Existing `add_action` references (e.g. from admin views)
+ * continue to resolve because the AJAX handlers moved to
+ * `Linked3_Dashboard_Ajax_Registrar` and are registered against that
+ * class name — the JavaScript in admin/views still POSTs to the same
+ * `wp_ajax_linked3_*` action slugs, which is all WordPress cares about.
+ *
+ * @package Linked3
+ * @subpackage Classes\Dashboard
+ */
+
+namespace Linked3\Classes\Dashboard;
+
+use Linked3\Classes\Addons\Linked3_Addon_Manager;
+use Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon;
+use Linked3\Classes\Addons\Linked3_Consent_Compliance_Addon;
+use Linked3\Classes\Rest\Linked3_Rest_Controller;
+
+
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+final class Linked3_Dashboard_Hooks_Registrar
+{
+    /**
+     * Register the Dashboard module's hooks.
+     *
+     * Order matters:
+     *   1. REST controller (provides /wp-json/linked3/v1/* routes).
+     *   2. Addons (init_all runs at priority 20 on `init`).
+     *   3. Menu + settings (admin_init + admin_menu).
+     *   4. AJAX handlers (wp_ajax_*).
+     *
+     * Each delegation is wrapped in a try/catch so a failure in one
+     * registrar cannot take down the others — matching the defensive
+     * style of Hook_Manager::register_hooks().
+     *
+     * @return void
+     */
+    public static function register()
+    : void {
+        // 1) REST API.
+        try {
+            if (class_exists(Linked3_Rest_Controller::class)) {
+                Linked3_Rest_Controller::register();
+            }
+        } catch (\Throwable $e) {
+            self::log_failure('REST controller', $e);
+        }
+
+        // 2) Addons.
+        try {
+            if (class_exists(Linked3_Addon_Manager::class)) {
+                $mgr = Linked3_Addon_Manager::instance();
+                if (class_exists(Linked3_IP_Anonymization_Addon::class)) {
+                    $mgr->register(new \Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon());
+                }
+                if (class_exists(Linked3_Consent_Compliance_Addon::class)) {
+                    $mgr->register(new \Linked3\Classes\Addons\Linked3_Consent_Compliance_Addon());
+                }
+                add_action('init', [$mgr, 'init_all'], 20);
+            }
+        } catch (\Throwable $e) {
+            self::log_failure('Addons', $e);
+        }
+
+        // 3) Menu + settings + license hook.
+        try {
+            if (class_exists(Linked3_Dashboard_Menu_Registrar::class)) {
+                Linked3_Dashboard_Menu_Registrar::register();
+            }
+        } catch (\Throwable $e) {
+            self::log_failure('Menu registrar', $e);
+        }
+
+        // 4) AJAX handlers.
+        try {
+            if (class_exists(\Linked3\Classes\Dashboard\Ajax\Linked3_Dashboard_Ajax_Registrar::class)) {
+                \Linked3\Classes\Dashboard\Ajax\Linked3_Dashboard_Ajax_Registrar::register();
+            } elseif (class_exists(Linked3_Dashboard_Ajax_Registrar::class)) {
+                Linked3_Dashboard_Ajax_Registrar::register();
+            }
+        } catch (\Throwable $e) {
+            self::log_failure('AJAX registrar', $e);
+        }
+    }
+
+    /**
+     * Record a registrar-initialisation failure to the error log so the
+     * site owner can diagnose it. We deliberately do NOT surface these as
+     * admin notices here — Hook_Manager::show_registrar_errors() already
+     * catches the top-level register() call and displays the error.
+     *
+     * @param string     $label Which sub-registrar failed.
+     * @param \Throwable $e     The caught exception.
+     * @return void
+     */
+    private static function log_failure(string $label, \Throwable $e)
+    : void {
+        if (function_exists('error_log')) {
+            error_log(sprintf(
+                '[linked3] Dashboard %s register() failed: %s (in %s:%d)',
+                $label,
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
+            ));
+        }
+    }
+}

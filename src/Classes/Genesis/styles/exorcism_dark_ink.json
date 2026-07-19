@@ -1,0 +1,212 @@
+{
+  "name_cn": "驱魔录·暗黑水墨",
+  "name_en": "Exorcism Dark Ink-Wash",
+  "category": "东方灵异",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#2D3748",
+        "ratio": "25%",
+        "use": "夜空背景"
+      },
+      {
+        "hex": "#1A1A1A",
+        "ratio": "20%",
+        "use": "深影轮廓"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#D4A574",
+        "ratio": "15%",
+        "use": "灯笼暖光"
+      },
+      {
+        "hex": "#8B4513",
+        "ratio": "10%",
+        "use": "木质纹理"
+      }
+    ],
+    "accent": [
+      "#FF6B35",
+      "#4A5568"
+    ],
+    "mood_tone": "高对比暗调,暖光点缀"
+  },
+  "line_style": "粗粝硬朗+水墨毛边,2-3px轮廓+0.5-1px细节",
+  "render": "水墨晕染+数字厚涂,ink-bleed texture",
+  "atmosphere": [
+    "阴森",
+    "肃杀",
+    "神秘",
+    "压抑",
+    "宿命"
+  ],
+  "lighting": "侧光+点光源(灯笼/火),高对比chiaroscuro",
+  "symbols": [
+    "桃木剑",
+    "铜钱串",
+    "符箓",
+    "八卦",
+    "斗笠",
+    "佛珠"
+  ],
+  "patterns": [
+    "回纹",
+    "云纹",
+    "鳞片纹",
+    "兽面纹"
+  ],
+  "prompt_keywords": "Chinese dark ink-wash realistic manga style, fusion of traditional Chinese ink painting texture, Japanese dark manga high-contrast dramatic lighting, chiaroscuro, ink-bleed texture, bold brush strokes",
+  "negative_keywords": "bright, cheerful, pastel, anime, cute, 3d render, photorealistic, western architecture",
+  "suitable_genres": [
+    "灵异",
+    "驱魔",
+    "悬疑",
+    "武侠",
+    "仙侠"
+  ],
+  "scene_whitelist": [
+    "山涧溪流",
+    "深山古道",
+    "雾中石像",
+    "石阶古道",
+    "古树参天",
+    "荒草地",
+    "破败牌坊",
+    "古战场遗址",
+    "深山雷击木",
+    "断桥残雪",
+    "荒坟野冢",
+    "断崖石桥",
+    "古井旁",
+    "乱葬岗",
+    "月下荒原",
+    "山神庙",
+    "荒野茶棚",
+    "幽谷深处",
+    "荒野客栈",
+    "荒村废墟",
+    "雨夜山径",
+    "破庙残垣",
+    "破败祠堂",
+    "野狐洞",
+    "竹林深处",
+    "渡口码头",
+    "悬崖绝壁",
+    "山巅云海",
+    "密林深处",
+    "山洞秘境"
+  ],
+  "scene_blacklist": [
+    "现代都市",
+    "摩天大楼",
+    "科幻场景",
+    "西方哥特建筑",
+    "赛博朋克街道",
+    "太空场景",
+    "现代办公室",
+    "时尚秀场",
+    "摄影棚"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "主角抵达事发地",
+      "location": "荒村入口",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角背着法器踏入荒废村落,乌鸦惊飞",
+      "mood": "阴森压抑",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "主角探查异象",
+      "location": "破败祠堂",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角在祠堂内点燃符纸,观察墙上的诡异刻痕",
+      "mood": "神秘紧张",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "主角遭遇邪祟",
+      "location": "古井旁",
+      "characters": [
+        "主角",
+        "邪祟"
+      ],
+      "action": "主角拔出桃木剑与井中涌出的黑影对峙",
+      "mood": "肃杀对决",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "主角封印离去",
+      "location": "山径出口",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角收剑入鞘,踏上归途,身后雾气散去",
+      "mood": "释然收束",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A lone exorcist stands at the entrance of an abandoned village at dusk, crows scattering from withered branches overhead, the exorcist gripping a peach-wood sword with tense fingers, ink-wash texture with high contrast chiaroscuro, moody wide shot from eye level with rule of thirds composition, dark atmospheric Chinese ink painting style --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 驱魔录·暗黑水墨\n✅ 允许场景: 荒村/深山/破庙/古道/竹林 (从故事原文提取)\n❌ 禁止场景: 现代都市/科幻/西方建筑/赛博朋克\n❌ 禁止照抄: 不要默认用'雨夜古宅',必须根据故事内容选择场景\n氛围: 阴森肃杀,水墨质感",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Do NOT default to 'rainy ancient mansion' unless the story explicitly mentions it. Use dark ink-wash style with Chinese supernatural atmosphere. Do NOT use modern cities, sci-fi, or Western architecture.",
+  "meta_prompt": "Chinese dark ink-wash manga style, traditional ink painting texture, high-contrast chiaroscuro lighting, bold brush strokes, supernatural atmosphere, muted earth tones with warm accent light",
+  "scene_templates": [
+    {
+      "scene": "荒村废墟",
+      "mood": "阴森荒凉",
+      "lighting": "月光冷照+残火余烬",
+      "composition": "三分法,废墟占2/3"
+    },
+    {
+      "scene": "深山古道",
+      "mood": "神秘幽深",
+      "lighting": "树影斑驳+雾气弥漫",
+      "composition": "引导线,古道延伸"
+    },
+    {
+      "scene": "破败祠堂",
+      "mood": "肃杀压抑",
+      "lighting": "烛光摇曳+阴影深重",
+      "composition": "中心构图,祠堂居中"
+    },
+    {
+      "scene": "雨夜山径",
+      "mood": "凄冷孤寂",
+      "lighting": "闪电瞬光+雨幕朦胧",
+      "composition": "对角线,山径斜上"
+    },
+    {
+      "scene": "竹林深处",
+      "mood": "幽静诡谲",
+      "lighting": "竹影筛光+暗绿调",
+      "composition": "垂直线,竹林挺立"
+    }
+  ],
+  "cognitive_level": {
+    "primary": "E",
+    "reader_profile": "文化研究者·深度解读志怪",
+    "content_adaptation": "专家级文化符号解读, 需传统文化底蕴"
+  },
+  "reader_constraint": {
+    "reader_state": "文化探索者·期待志怪美学深度",
+    "reader_mode": "深度解读",
+    "reader_expectation": "水墨意境+志怪符号+东方神秘"
+  },
+  "visual_frequency": {
+    "HF": "符箓/妖物核心/朱砂印记(高频符号锚点)",
+    "MF": "水墨晕染/衣袂飘动/山石轮廓(中频意境)",
+    "LF": "留白/远山/雾气(低频禅意)",
+    "color_mapping": {
+      "HF": "#CC0000",
+      "MF": "#4A4A4A",
+      "LF": "#0D0D0D"
+    },
+    "progression": "HF朱砂点睛破墨色, MF水墨晕染造意境, LF留白生禅意"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "name_cn": "吉卜力·手绘童话",
+  "name_en": "Ghibli Handpainted Fairytale",
+  "category": "日系动画",
+  "usage_code": "Y08",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "Studio Ghibli: 千与千寻/龙猫/哈尔的移动城堡/风之谷",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F4E4C1",
+        "ratio": "25%",
+        "use": "温暖米黄+手绘底"
+      },
+      {
+        "hex": "#5B8C5A",
+        "ratio": "20%",
+        "use": "自然绿+森林色"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#4A90D9",
+        "ratio": "15%",
+        "use": "天空蓝+清澈"
+      },
+      {
+        "hex": "#D4A574",
+        "ratio": "12%",
+        "use": "木色棕+温暖"
+      }
+    ],
+    "accent": [
+      "#C44536",
+      "#E8A87C"
+    ],
+    "mood_tone": "温暖自然色+手绘质感, 治愈童话"
+  },
+  "line_style": "手绘铅笔线+水彩晕染, 线条柔和有温度, 非完美规整",
+  "render": "水彩手绘+赛璐璐动画风, 温暖色调+自然光晕, 手绘纹理",
+  "atmosphere": [
+    "温暖",
+    "治愈",
+    "奇幻",
+    "自然",
+    "怀旧"
+  ],
+  "lighting": "自然漫射光+金色夕阳光+森林透光, 温暖柔和",
+  "symbols": [
+    "云朵",
+    "草地",
+    "风",
+    "光斑",
+    "小精灵",
+    "旧物件",
+    "食物"
+  ],
+  "patterns": [
+    "水彩晕染",
+    "手绘草纹",
+    "云朵层次",
+    "木纹质感"
+  ],
+  "scene_templates": [
+    {
+      "scene": "夏日田野",
+      "mood": "自由快乐",
+      "lighting": "明亮日光+云影",
+      "composition": "广角远景+人物居中"
+    },
+    {
+      "scene": "老屋室内",
+      "mood": "温馨怀旧",
+      "lighting": "窗光+暖灯",
+      "composition": "室内全景+生活细节"
+    },
+    {
+      "scene": "奇幻森林",
+      "mood": "神秘好奇",
+      "lighting": "林间透光+光斑",
+      "composition": "纵深构图+小路引导"
+    },
+    {
+      "scene": "夕阳归途",
+      "mood": "温暖感动",
+      "lighting": "金色夕阳+逆光",
+      "composition": "侧面剪影+长影"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "方正筑紫圆 / Tsukushi Maru Gothic",
+    "sfx_style": "手写圆润体, 柔和描边, 自然大小",
+    "caption_style": "圆体, 温暖深棕, 手写感"
+  },
+  "layout": {
+    "panel_grid_default": "4格温馨网格",
+    "gutter_style": "柔和白边, 圆角",
+    "splash_page": "全页风景大格用于场景建立",
+    "panel_shape": "圆角矩形+自然过渡"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "全年龄·治愈系爱好者",
+    "content_adaptation": "温暖叙事型, 需读者感受自然与生活之美"
+  },
+  "reader_constraint": {
+    "reader_state": "放松治愈·渴望温暖",
+    "reader_mode": "慢速沉浸+细节发现",
+    "reader_expectation": "手绘温暖+自然光影+生活细节"
+  },
+  "visual_frequency": {
+    "HF": "光斑/云朵/草纹/小精灵(高频自然装饰)",
+    "MF": "人物动作/表情/互动(中频生活叙事)",
+    "LF": "天空渐变/远景轮廓/留白(低频氛围底色)",
+    "color_mapping": {
+      "HF": "#E8A87C",
+      "MF": "#5B8C5A",
+      "LF": "#F4E4C1"
+    },
+    "progression": "HF散布营造自然感, MF聚焦人物生活, LF大面积天空留白"
+  }
+}

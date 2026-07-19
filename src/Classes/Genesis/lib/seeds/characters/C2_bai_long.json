@@ -1,0 +1,14 @@
+{
+    "id": "C2",
+    "name": "白龙",
+    "base_prompt": "mythical white dragon in human form, long silver-white hair, golden horns, pale luminous skin, golden eyes with slit pupils",
+    "variants": {
+        "calm": "serene expression, hands clasped, ethereal glow",
+        "rage": "eyes blazing gold, scales appearing on skin, hair swirling, thunder around",
+        "wounded": "blood on white robe, pained expression, clutching chest",
+        "transformation": "half-dragon half-human, wings emerging, scales crawling up arms"
+    },
+    "negative_base": "cute, chibi, cartoon, deformed, modern clothing",
+    "costume_default": "white flowing robes with gold trim, bare feet",
+    "accessories": ["golden collar", "jade pendant", "dragon scale bracelet"]
+}

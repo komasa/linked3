@@ -1,0 +1,98 @@
+{
+  "name_cn": "学会写作2.0全融合图谱",
+  "name_en": "Xuehui 2.0 Full Fusion Map",
+  "category": "商业生产级信息图-融合技法",
+  "version": "1.0.0",
+  "source": "G6 Track C 演化结晶 - 学会写作2.0六大融合技法全运用",
+
+  "color_palette": {
+    "primary": "#31ACF4",
+    "primary_light": "#CDE2FA",
+    "primary_lighter": "#E8F0FC",
+    "accent": "#FA9960",
+    "accent_light": "#FCDED2",
+    "auxiliary": "#A088FF",
+    "auxiliary_light": "#DFDAFF",
+    "text_primary": "#393939",
+    "text_secondary": "#CCCCCC",
+    "text_title": "#000000",
+    "background": "#FFFFFF",
+    "description": "五色分区编码: 蓝#31ACF4(系统) 橙#FA9960(选题) 紫#A088FF(标题) 绿#2EA86B(素材) 红#E04F5F(传播)"
+  },
+
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_family_secondary": "OPPOSans",
+    "font_sizes": {
+      "main_title": "36pt",
+      "module_title": "24pt",
+      "subtitle": "20pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "HarmonyOS Sans(主) + OPPOSans(辅), 6级字号层次, 三层密度分层(核心24pt+/次级14pt/细节10pt)"
+  },
+
+  "layout": {
+    "canvas_ratio": "3:4 (A3竖版, 1786x2526px)",
+    "module_count_default": 6,
+    "hierarchy_layers": 3,
+    "card_style": "rounded rectangle, border-radius 8px, 多布局共存",
+    "card_background": "light tints per region (blue/orange/purple/green/red zones)",
+    "spacing": "generous whitespace between regions, cross-region connector lines",
+    "badges": "semantic icons on key nodes (book=input, brain=think, pen=output)",
+    "description": "六布局共存: 顶部线性流程主轴+左上放射导图+中部树状层级+右侧矩阵网格+底部环形闭环+跨模块连接线"
+  },
+
+  "visual_frequency": {
+    "HF": "核心观点大字(24pt+) + 主色强调 + 语义图标 (前1/3画面)",
+    "MF": "次级要点中字(14pt) + 功能色分区 (中段叙事)",
+    "LF": "细节说明小字(10pt) + 浅色背景 (底部收束)",
+    "color_mapping": {
+      "HF": "#31ACF4",
+      "MF": "#FA9960",
+      "LF": "#A088FF"
+    },
+    "progression": "多布局分区呈现, 跨模块连接线形成知识网络, 闭环循环表达迭代过程"
+  },
+
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "内容创作者·知识工作者·需要系统性方法论全景",
+    "content_adaptation": "复杂知识体系全景可视化, 需读者有内容创作基础, 多布局融合需深度研读"
+  },
+
+  "reader_constraint": {
+    "reader_state": "系统学习者·渴望掌握完整方法论体系",
+    "reader_mode": "研读模式(深度学习+笔记+跨模块关联)",
+    "reader_expectation": "6大模块完整体系 + 多布局融合 + 跨模块逻辑关联 + 闭环迭代表达"
+  },
+
+  "prompt_keywords": "multi-layout fusion knowledge map, linear flow axis, radial mind map, tree hierarchy, matrix grid, circular loop, color-zoned regions, semantic icons, 3-layer font hierarchy, cross-region connectors, balanced composition, professional infographic",
+
+  "negative_keywords": "single layout, chaotic, cluttered, overlapping, unreadable, 3D render, photorealistic, dark background, handwritten",
+
+  "suitable_genres": ["复杂知识体系", "方法论全景", "学科地图", "系统性知识梳理", "复合方法论"],
+
+  "scene_whitelist": ["知识体系全景", "方法论总览", "学科地图", "系统梳理", "复合知识结构"],
+
+  "scene_blacklist": ["简单知识", "单一主题", "真人摄影", "艺术插画"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 学会写作2.0全融合图谱\n✅ 必须: 六布局共存(线性+放射+树状+矩阵+网状+环形) + 五色分区编码 + 语义图标 + 三层密度分层 + 跨模块连接线 + 闭环循环表达\n❌ 禁止: 单一布局 + 混乱堆砌 + 信息过载 + 3D渲染 + 写实照片",
+
+  "style_constraint_en": "IMPORTANT: Multi-layout fusion map ONLY. Six layouts coexist (linear+radial+tree+matrix+network+circular). Five-color zone coding (blue/orange/purple/green/red). Semantic icons on nodes. 3-layer font hierarchy. Cross-region connectors. NO single layout, NO chaotic stacking.",
+
+  "meta_prompt": "multi-layout fusion knowledge map, linear flow axis top, radial mind map left, tree hierarchy center, matrix grid right, circular loop bottom, color-zoned regions blue orange purple green red, semantic icons, 3-layer font hierarchy 24pt 14pt 10pt, cross-region connectors, balanced composition, professional infographic, HarmonyOS Sans typography",
+
+  "prompt_example": "Full fusion knowledge map, top linear flow axis (input→think→output), left radial mind map (system thinking 6 branches), center tree hierarchy (topic 8 techniques), right matrix grid (title 8 techniques comparison), bottom circular loop (START→ENDLESS), color-zoned regions blue #31ACF4 orange #FA9960 purple #A088FF green #2EA86B red #E04F5F, semantic icons on nodes, 3-layer font hierarchy (core 24pt bold, secondary 14pt, detail 10pt), cross-region connector lines, balanced composition, HarmonyOS Sans typography, professional infographic. --ar 3:4 --s 300 --style raw --fusion full",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G6 Track C演化结晶 - 学会写作2.0六大融合技法(多布局共存/色彩分区/图标语义/密度分层/连接线/闭环表达)"
+}

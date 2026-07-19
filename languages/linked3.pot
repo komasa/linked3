@@ -1,0 +1,213 @@
+# Linked3 AI Translation Template
+# Copyright (C) 2024-2026 Linked3 Group
+# This file is distributed under the same license as the Linked3 AI package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Linked3 AI 4.4.5\n"
+"Report-Msgid-Bugs-To: https://linked3.com/support\n"
+"POT-Creation-Date: 2026-06-20T15:30:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Linked3 POT Generator 1.0\n"
+"X-Domain: linked3\n"
+
+#. translators: %s: PHP version.
+#: linked3.php:52
+msgid "Linked3 AI requires PHP 7.4 or higher. You are running %s. Please upgrade PHP."
+msgstr ""
+
+#. Dashboard tab labels (v4.4.1 router).
+#: admin/views/dashboard/tabs.php:18
+msgid "总览"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:19
+msgid "API 设置"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:20
+msgid "内容写作"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:21
+msgid "关键词生成"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:22
+msgid "云模板"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:23
+msgid "图片设置"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:24
+msgid "视频脚本"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:25
+msgid "SEO 优化"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:26
+msgid "发布与采集"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:27
+msgid "AI 对话"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:28
+msgid "自动 Agent"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:29
+msgid "任务队列"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:30
+msgid "社交分发"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:31
+msgid "电商与表单"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:32
+msgid "语音 TTS/STT"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:33
+msgid "授权与套餐"
+msgstr ""
+
+#: admin/views/dashboard/tabs.php:34
+msgid "安全审计"
+msgstr ""
+
+#. translators: %s: tab slug.
+#: admin/views/dashboard/tabs.php:79
+msgid "未知标签 \"%s\" — partial 文件不存在。"
+msgstr ""
+
+#. AJAX handler error/success messages (v4.4.5 i18n pass).
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:87
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:106
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:125
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:138
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:163
+msgid "无权限"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:89
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:108
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:127
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:140
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:165
+msgid "安全校验失败"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:154
+msgid "模板未找到"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:168
+msgid "需要 Provider"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:179
+msgid "请先填写该 Provider 的 API Key"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:190
+msgid "无 API 地址"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:203
+msgid "请求失败: "
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:311
+msgid "已保存"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:328
+msgid "Provider 配置已保存"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:355
+msgid "SEO 增强配置已保存"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:403
+msgid "已同步 N 个模型 (共 M 个可用)"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:420
+msgid "未配置 API Key"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:447
+msgid "视频脚本已生成"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:487
+msgid "大纲已生成"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:523
+msgid "段落已生成"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:558
+msgid "GEO 设置已保存"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:578
+msgid "llms.txt 已重新生成"
+msgstr ""
+
+#: src/Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php:614
+msgid "AI 搜索引擎 API key 已保存"
+msgstr ""
+
+#. Hook Manager notices.
+#: src/Includes/class-linked3-hook-manager.php:120
+msgid "部分模块加载失败,其他菜单仍可用。"
+msgstr ""
+
+#. Cron schedule labels.
+#: src/Includes/class-linked3-hook-manager.php:205
+msgid "每 10 分钟(Linked3)"
+msgstr ""
+
+#: src/Includes/class-linked3-hook-manager.php:209
+msgid "每 30 分钟(Linked3)"
+msgstr ""
+
+#. Safe_Remote error messages.
+#: src/Includes/Http/class-linked3-safe-remote.php:133
+msgid "URL 为空。"
+msgstr ""
+
+#: src/Includes/Http/class-linked3-safe-remote.php:138
+msgid "URL 格式错误:缺少主机。"
+msgstr ""
+
+#: src/Includes/Http/class-linked3-safe-remote.php:168
+msgid "主机 %s 不在白名单。"
+msgstr ""
+
+#: src/Includes/Http/class-linked3-safe-remote.php:191
+msgid "%s 的熔断器已开启,请稍后重试。"
+msgstr ""
+
+#: src/Includes/Http/class-linked3-safe-remote.php:253
+msgid "禁止直接 IP 访问私有/保留地址段。"
+msgstr ""
+
+#: src/Includes/Http/class-linked3-safe-remote.php:269
+msgid "主机 %s 解析到私有/保留 IP %s。"
+msgstr ""

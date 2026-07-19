@@ -1,0 +1,176 @@
+{
+  "name_cn": "影视剧照·电影质感",
+  "name_en": "Cinematic Film Still",
+  "category": "真人-影视",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#1A1A1A",
+        "ratio": "25%",
+        "use": "深影"
+      },
+      {
+        "hex": "#2C3E50",
+        "ratio": "20%",
+        "use": "冷调中景"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#E67E22",
+        "ratio": "12%",
+        "use": "暖光点缀"
+      },
+      {
+        "hex": "#34495E",
+        "ratio": "10%",
+        "use": "环境色"
+      }
+    ],
+    "accent": [
+      "#F39C12",
+      "#7F8C8D"
+    ],
+    "mood_tone": "电影级冷暖对比"
+  },
+  "line_style": "无描边+写实光影,photographic",
+  "render": "电影级渲染+景深虚化,cinematic bokeh",
+  "atmosphere": [
+    "紧张",
+    "悬疑",
+    "真实",
+    "戏剧",
+    "沉浸"
+  ],
+  "lighting": "三点布光+体积光+色温对比,cinematic lighting",
+  "symbols": [
+    "手电筒",
+    "卷宗",
+    "枪械",
+    "咖啡杯",
+    "雨伞",
+    "手机"
+  ],
+  "patterns": [
+    "景深虚化",
+    "镜头光晕",
+    "胶片颗粒",
+    "色差"
+  ],
+  "prompt_keywords": "Cinematic film still, dramatic three-point lighting, shallow depth of field, film grain texture, color graded with teal and orange, anamorphic lens flare, photorealistic",
+  "negative_keywords": "anime, cartoon, watercolor, ink wash, ukiyo-e, cyberpunk neon, fantasy magic, ancient mansion",
+  "suitable_genres": [
+    "悬疑",
+    "犯罪",
+    "剧情",
+    "动作",
+    "惊悚"
+  ],
+  "scene_whitelist": [
+    "法庭现场",
+    "案发现场",
+    "仓库",
+    "办公室",
+    "酒店走廊",
+    "机场候机厅",
+    "监狱探视室",
+    "天台边缘",
+    "警察局",
+    "公寓客厅",
+    "地铁车厢",
+    "实验室",
+    "停车场",
+    "法庭",
+    "法院台阶",
+    "码头",
+    "天台",
+    "加油站",
+    "新闻发布厅",
+    "学校教室",
+    "雨夜小巷",
+    "公园长椅",
+    "公路",
+    "餐厅",
+    "酒店大堂",
+    "医院走廊",
+    "审讯室"
+  ],
+  "scene_blacklist": [
+    "奇幻魔法",
+    "科幻太空",
+    "古宅",
+    "竹林",
+    "神社",
+    "赛博朋克",
+    "浮世绘"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "侦探到达现场",
+      "location": "案发现场",
+      "characters": [
+        "侦探"
+      ],
+      "action": "侦探穿过警戒线,俯身检查证据",
+      "mood": "紧张悬疑",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "侦探审问嫌疑人",
+      "location": "审讯室",
+      "characters": [
+        "侦探",
+        "嫌疑人"
+      ],
+      "action": "侦探在强光下审问嫌疑人,烟雾缭绕",
+      "mood": "压抑对峙",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "侦探追捕凶手",
+      "location": "雨夜小巷",
+      "characters": [
+        "侦探",
+        "凶手"
+      ],
+      "action": "侦探在小巷追捕凶手,水花四溅",
+      "mood": "激烈紧迫",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "侦探结案",
+      "location": "办公室",
+      "characters": [
+        "侦探"
+      ],
+      "action": "侦探在办公室整理卷宗,窗外天明",
+      "mood": "疲惫释然",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A lone detective examines a crime scene under flickering fluorescent lights, rain streaking the warehouse windows behind, the detective crouching with a flashlight in tense fingers, shot in a moody wide angle from eye level with rule of thirds composition, cinematic film still atmosphere with desaturated tones and deep shadows --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 影视剧照·电影质感\n✅ 允许场景: 现实场景/办公室/街道/室内 (根据故事内容)\n❌ 禁止场景: 奇幻/科幻 (除非故事明确要求)\n❌ 禁止照抄: 不要用'雨夜古宅',必须用现实场景\n氛围: 电影质感,真实光影",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use realistic scenes. Do NOT use fantasy or sci-fi scenes unless the story explicitly requires them. Do NOT default to 'ancient mansion'. Adapt to the story's actual setting.",
+  "meta_prompt": "Cinematic film still, dramatic three-point lighting, shallow depth of field, teal and orange color grade, film grain, photorealistic",
+  "cognitive_level": {
+    "primary": "R",
+    "reader_profile": "影迷·情感共鸣",
+    "content_adaptation": "入门级情感叙事, 大众可直观理解"
+  },
+  "reader_constraint": {
+    "reader_state": "观众·期待电影级画面冲击",
+    "reader_mode": "旁观式共情",
+    "reader_expectation": "戏剧光影+叙事张力+情感留白"
+  },
+  "visual_frequency": {
+    "HF": "人物面部表情/关键道具/光源直射区(高频情感锚点)",
+    "MF": "场景环境/服装质感/中景构图(中频叙事)",
+    "LF": "远景虚化/氛围光晕/暗部细节(低频氛围)",
+    "color_mapping": {
+      "HF": "#FFD700",
+      "MF": "#D4A574",
+      "LF": "#3D2817"
+    },
+    "progression": "HF聚焦人物情感中心, MF环绕叙事环境, LF边缘氛围烘托"
+  }
+}

@@ -1,0 +1,955 @@
+/**
+ * Linked3 AI Admin — v11.0 极简顶级设计系统
+ *
+ * 设计公理: 顶级设计 = 信息熵减 + 系统降维
+ * 设计参照: Linear / Vercel / Stripe / Notion — "无设计感的设计"
+ *
+ * 核心原则:
+ *   1. 单色系: 中性灰阶(9级) + 单一主色(#0F172A墨黑) + 单一强调色(#3B82F6)
+ *   2. 零重阴影: 仅用1px边框 + 背景色差分区, 不用box-shadow
+ *   3. tabular-nums: 所有数字等宽对齐
+ *   4. 8px栅格: 所有间距为8的倍数
+ *   5. 字体层级: 4级(标题13/正文13/辅助12/微标11), 不超过4种字号
+ *   6. 圆角统一: 全局6px, 按钮4px, 输入框4px
+ *   7. 过渡克制: 仅color/background 150ms, 不做transform动画
+ *
+ * @version 17.2.0
+ * @date 2026-06-28
+ */
+
+/* ============================================================
+   1. 设计令牌 (Design Tokens)
+   ============================================================ */
+:root {
+    /* 中性灰阶 (9级, 从白到黑) */
+    --lk3-gray-50:  #FAFAFA;
+    --lk3-gray-100: #F4F4F5;
+    --lk3-gray-200: #E4E4E7;
+    --lk3-gray-300: #D4D4D8;
+    --lk3-gray-400: #A1A1AA;
+    --lk3-gray-500: #71717A;
+    --lk3-gray-600: #52525B;
+    --lk3-gray-700: #3F3F46;
+    --lk3-gray-800: #27272A;
+    --lk3-gray-900: #18181B;
+
+    /* 主色 (墨黑 — 顶级SaaS标配) */
+    --lk3-primary:    #0F172A;
+    --lk3-primary-hover: #18181B;
+
+    /* 强调色 (仅用于主按钮/链接/选中态) */
+    --lk3-accent:       #3B82F6;
+    --lk3-accent-hover: #2563EB;
+
+    /* 语义色 (仅用于状态指示, 不用于装饰) */
+    --lk3-success: #10B981;
+    --lk3-warning: #F59E0B;
+    --lk3-danger:  #EF4444;
+
+    /* 圆角 */
+    --lk3-radius-sm: 4px;
+    --lk3-radius:    6px;
+    --lk3-radius-lg: 8px;
+
+    /* 间距 (8px栅格) */
+    --lk3-space-1: 4px;
+    --lk3-space-2: 8px;
+    --lk3-space-3: 12px;
+    --lk3-space-4: 16px;
+    --lk3-space-5: 20px;
+    --lk3-space-6: 24px;
+    --lk3-space-8: 32px;
+
+    /* 字体 */
+    --lk3-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    --lk3-font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+
+    /* 过渡 */
+    --lk3-transition: 150ms ease;
+}
+
+/* ============================================================
+   2. 基础重置
+   ============================================================ */
+.linked3-admin-wrap,
+.linked3-admin-wrap * {
+    box-sizing: border-box;
+}
+
+.linked3-admin-wrap {
+    font-family: var(--lk3-font);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--lk3-gray-800);
+    background: var(--lk3-gray-50);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.linked3-admin-wrap h1,
+.linked3-admin-wrap h2,
+.linked3-admin-wrap h3,
+.linked3-admin-wrap h4 {
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+/* 数字等宽对齐 */
+.linked3-admin-wrap .lk3-num,
+.linked3-admin-wrap input[type="number"],
+.linked3-admin-wrap .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+/* ============================================================
+   3. 导航与Tab (v12.0 极简顶级 — 参照Linear/Notion/Vercel)
+   ============================================================ */
+.linked3-admin-wrap .nav-tab-wrapper {
+    border-bottom: 1px solid var(--lk3-gray-200);
+    padding: 0 var(--lk3-space-4);
+    margin: 0 0 var(--lk3-space-5) 0;
+    background: #FFFFFF;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 2px;
+    -webkit-overflow-scrolling: touch;
+}
+.linked3-admin-wrap .nav-tab-wrapper::-webkit-scrollbar { height: 3px; }
+.linked3-admin-wrap .nav-tab-wrapper::-webkit-scrollbar-thumb { background: var(--lk3-gray-300); border-radius: 2px; }
+
+.linked3-admin-wrap .nav-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: var(--lk3-space-3) var(--lk3-space-4);
+    margin: 0;
+    color: var(--lk3-gray-500);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color var(--lk3-transition), border-color var(--lk3-transition), background var(--lk3-transition);
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.linked3-admin-wrap .nav-tab:hover {
+    color: var(--lk3-gray-900);
+    background: var(--lk3-gray-50);
+    border-bottom-color: var(--lk3-gray-300);
+}
+
+.linked3-admin-wrap .nav-tab-active,
+.linked3-admin-wrap .nav-tab.nav-tab-active {
+    color: var(--lk3-gray-900);
+    border-bottom: 2px solid var(--lk3-gray-900);
+    background: transparent;
+    font-weight: 600;
+}
+
+/* v12.0: Super-Tab 色标系统 — 每个TAB独立色标 */
+.linked3-admin-wrap .nav-tab.linked3-super-tab .linked3-tab-icon {
+    font-size: 16px;
+    line-height: 1;
+    transition: opacity var(--lk3-transition);
+}
+.linked3-admin-wrap .nav-tab.linked3-super-tab:hover .linked3-tab-icon {
+    opacity: 1 !important;
+}
+.linked3-admin-wrap .nav-tab.linked3-super-tab.linked3-super-tab-active .linked3-tab-icon {
+    opacity: 1 !important;
+}
+
+/* v12.0: TAB面包屑描述条 */
+.linked3-tab-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--lk3-gray-50);
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    margin: 0 0 var(--lk3-space-4) 0;
+}
+
+/* ============================================================
+   4. 卡片与容器 (零阴影, 边框分区)
+   ============================================================ */
+.linked3-admin-wrap .lk3-card,
+.linked3-admin-wrap .postbox,
+.linked3-admin-wrap .lk3-stage {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    padding: var(--lk3-space-5);
+    margin-bottom: var(--lk3-space-4);
+    box-shadow: none;
+}
+
+.linked3-admin-wrap .lk3-stage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--lk3-space-3);
+    padding-bottom: var(--lk3-space-3);
+    border-bottom: 1px solid var(--lk3-gray-100);
+}
+
+.linked3-admin-wrap .lk3-stage-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+    display: flex;
+    align-items: center;
+    gap: var(--lk3-space-2);
+}
+
+.linked3-admin-wrap .lk3-stage-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.linked3-admin-wrap .lk3-stage-desc {
+    font-size: 12px;
+    color: var(--lk3-gray-500);
+    margin: 0 0 var(--lk3-space-4) 0;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   5. 表单控件 (统一极简)
+   ============================================================ */
+.linked3-admin-wrap .lk3-form-label,
+.linked3-admin-wrap .lk3-form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--lk3-gray-700);
+    margin-bottom: var(--lk3-space-1);
+    letter-spacing: 0;
+}
+
+.linked3-admin-wrap .lk3-form-control,
+.linked3-admin-wrap select,
+.linked3-admin-wrap input[type="text"],
+.linked3-admin-wrap input[type="number"],
+.linked3-admin-wrap input[type="url"],
+.linked3-admin-wrap textarea {
+    width: 100%;
+    padding: var(--lk3-space-2) var(--lk3-space-3);
+    font-size: 13px;
+    font-family: var(--lk3-font);
+    color: var(--lk3-gray-800);
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    transition: border-color var(--lk3-transition), box-shadow var(--lk3-transition);
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.linked3-admin-wrap .lk3-form-control:hover,
+.linked3-admin-wrap select:hover,
+.linked3-admin-wrap input[type="text"]:hover,
+.linked3-admin-wrap input[type="number"]:hover,
+.linked3-admin-wrap textarea:hover {
+    border-color: var(--lk3-gray-400);
+}
+
+.linked3-admin-wrap .lk3-form-control:focus,
+.linked3-admin-wrap select:focus,
+.linked3-admin-wrap input[type="text"]:focus,
+.linked3-admin-wrap input[type="number"]:focus,
+.linked3-admin-wrap textarea:focus {
+    border-color: var(--lk3-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.linked3-admin-wrap select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717A' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+    cursor: pointer;
+}
+
+.linked3-admin-wrap textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+}
+
+/* 表单网格 */
+.linked3-admin-wrap .lk3-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--lk3-space-3);
+}
+
+/* ============================================================
+   6. 按钮 (极简, 仅3级)
+   ============================================================ */
+.linked3-admin-wrap .lk3-btn,
+.linked3-admin-wrap .button,
+.linked3-admin-wrap .button-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--lk3-space-1);
+    padding: var(--lk3-space-2) var(--lk3-space-4);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--lk3-font);
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    background: #FFFFFF;
+    color: var(--lk3-gray-700);
+    cursor: pointer;
+    transition: all var(--lk3-transition);
+    line-height: 1.4;
+    text-decoration: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.linked3-admin-wrap .lk3-btn:hover,
+.linked3-admin-wrap .button:hover {
+    background: var(--lk3-gray-50);
+    border-color: var(--lk3-gray-400);
+    color: var(--lk3-gray-900);
+}
+
+.linked3-admin-wrap .lk3-btn-primary,
+.linked3-admin-wrap .button-primary,
+.linked3-admin-wrap .button.button-primary {
+    background: var(--lk3-primary);
+    border-color: var(--lk3-primary);
+    color: #FFFFFF;
+}
+
+.linked3-admin-wrap .lk3-btn-primary:hover,
+.linked3-admin-wrap .button-primary:hover {
+    background: var(--lk3-primary-hover);
+    border-color: var(--lk3-primary-hover);
+    color: #FFFFFF;
+}
+
+.linked3-admin-wrap .lk3-btn-sm,
+.linked3-admin-wrap .button-small {
+    padding: var(--lk3-space-1) var(--lk3-space-3);
+    font-size: 12px;
+}
+
+.linked3-admin-wrap .lk3-btn:disabled,
+.linked3-admin-wrap .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ============================================================
+   7. 标签与徽章 (克制色块)
+   ============================================================ */
+.linked3-admin-wrap .lk3-tag,
+.linked3-admin-wrap .lk3-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--lk3-space-2);
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: var(--lk3-radius-sm);
+    background: var(--lk3-gray-100);
+    color: var(--lk3-gray-600);
+    border: 1px solid var(--lk3-gray-200);
+    line-height: 1.5;
+}
+
+.linked3-admin-wrap .lk3-tag-success { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+.linked3-admin-wrap .lk3-tag-warning { background: #FFFBEB; color: #B45309; border-color: #FDE68A; }
+.linked3-admin-wrap .lk3-tag-danger  { background: #FEF2F2; color: #B91C1C; border-color: #FECACA; }
+.linked3-admin-wrap .lk3-tag-info    { background: #FAFAFA; color: #1D4ED8; border-color: #E4E4E7; }
+
+/* ============================================================
+   8. SEED 卡片网格
+   ============================================================ */
+.linked3-admin-wrap .lk3-seed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--lk3-space-3);
+}
+
+.linked3-admin-wrap .lk3-seed-card {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    padding: var(--lk3-space-3);
+    cursor: pointer;
+    transition: border-color var(--lk3-transition), background var(--lk3-transition);
+    position: relative;
+}
+
+.linked3-admin-wrap .lk3-seed-card:hover {
+    border-color: var(--lk3-gray-400);
+    background: var(--lk3-gray-50);
+}
+
+.linked3-admin-wrap .lk3-seed-card.selected {
+    border-color: var(--lk3-accent);
+    background: #FAFAFA;
+}
+
+.linked3-admin-wrap .lk3-seed-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+    margin-bottom: var(--lk3-space-1);
+}
+
+.linked3-admin-wrap .lk3-seed-card-desc {
+    font-size: 11px;
+    color: var(--lk3-gray-500);
+    line-height: 1.5;
+}
+
+.linked3-admin-wrap .lk3-seed-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lk3-space-1);
+    min-height: 28px;
+    padding: var(--lk3-space-2);
+    background: var(--lk3-gray-50);
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-sm);
+}
+
+/* ============================================================
+   9. 三轴路由卡片
+   ============================================================ */
+.linked3-admin-wrap .lk3-axis-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--lk3-space-3);
+}
+
+@media (max-width: 768px) {
+    .linked3-admin-wrap .lk3-axis-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.linked3-admin-wrap .lk3-axis-card {
+    background: var(--lk3-gray-50);
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    padding: var(--lk3-space-3);
+}
+
+.linked3-admin-wrap .lk3-axis-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--lk3-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--lk3-space-2);
+}
+
+/* ============================================================
+   10. 画风风格库融合面板 (SFP v2)
+   ============================================================ */
+.linked3-admin-wrap .lk3-sfp-v2 {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    padding: var(--lk3-space-4);
+    margin-bottom: var(--lk3-space-4);
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--lk3-space-3);
+    padding-bottom: var(--lk3-space-3);
+    border-bottom: 1px solid var(--lk3-gray-100);
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-meta {
+    font-size: 11px;
+    color: var(--lk3-gray-400);
+    font-variant-numeric: tabular-nums;
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--lk3-gray-700);
+    margin-bottom: var(--lk3-space-1);
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-label-hint {
+    font-weight: 400;
+    color: var(--lk3-gray-400);
+    font-size: 11px;
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-select {
+    width: 100%;
+    padding: var(--lk3-space-2) var(--lk3-space-3);
+    font-size: 13px;
+    color: var(--lk3-gray-800);
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    transition: border-color var(--lk3-transition);
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717A' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+    cursor: pointer;
+}
+
+.linked3-admin-wrap .lk3-sfp-v2-select:focus {
+    border-color: var(--lk3-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================================
+   11. 状态与提示
+   ============================================================ */
+.linked3-admin-wrap .lk3-status {
+    font-size: 12px;
+    color: var(--lk3-gray-500);
+    font-variant-numeric: tabular-nums;
+}
+
+.linked3-admin-wrap .lk3-status-success { color: var(--lk3-success); }
+.linked3-admin-wrap .lk3-status-error   { color: var(--lk3-danger); }
+.linked3-admin-wrap .lk3-status-warning { color: var(--lk3-warning); }
+
+.linked3-admin-wrap .lk3-notice {
+    padding: var(--lk3-space-3) var(--lk3-space-4);
+    border-radius: var(--lk3-radius);
+    font-size: 12px;
+    margin-bottom: var(--lk3-space-3);
+    border: 1px solid;
+}
+
+.linked3-admin-wrap .lk3-notice-info {
+    background: #FAFAFA;
+    border-color: #E4E4E7;
+    color: #0F172A;
+}
+
+.linked3-admin-wrap .lk3-notice-success {
+    background: #ECFDF5;
+    border-color: #A7F3D0;
+    color: #065F46;
+}
+
+.linked3-admin-wrap .lk3-notice-warning {
+    background: #FFFBEB;
+    border-color: #FDE68A;
+    color: #92400E;
+}
+
+.linked3-admin-wrap .lk3-notice-error {
+    background: #FEF2F2;
+    border-color: #FECACA;
+    color: #991B1B;
+}
+
+/* ============================================================
+   12. 进度与加载
+   ============================================================ */
+.linked3-admin-wrap .lk3-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--lk3-gray-200);
+    border-top-color: var(--lk3-accent);
+    border-radius: 50%;
+    animation: lk3-spin 600ms linear infinite;
+}
+
+@keyframes lk3-spin {
+    to { transform: rotate(360deg); }
+}
+
+.linked3-admin-wrap .lk3-progress {
+    width: 100%;
+    height: 4px;
+    background: var(--lk3-gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.linked3-admin-wrap .lk3-progress-bar {
+    height: 100%;
+    background: var(--lk3-accent);
+    transition: width 300ms ease;
+}
+
+/* ============================================================
+   13. 结果输出区
+   ============================================================ */
+.linked3-admin-wrap .lk3-result {
+    background: var(--lk3-gray-50);
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    padding: var(--lk3-space-4);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--lk3-gray-700);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.linked3-admin-wrap .lk3-result pre {
+    font-family: var(--lk3-font-mono);
+    font-size: 12px;
+    background: var(--lk3-gray-900);
+    color: var(--lk3-gray-100);
+    padding: var(--lk3-space-3);
+    border-radius: var(--lk3-radius-sm);
+    overflow-x: auto;
+    margin: var(--lk3-space-2) 0;
+}
+
+/* ============================================================
+   14. 模态弹窗
+   ============================================================ */
+.linked3-admin-wrap .lk3-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    backdrop-filter: blur(2px);
+}
+
+.linked3-admin-wrap .lk3-modal {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-lg);
+    padding: var(--lk3-space-5);
+    max-width: 720px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.linked3-admin-wrap .lk3-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--lk3-space-4);
+    padding-bottom: var(--lk3-space-3);
+    border-bottom: 1px solid var(--lk3-gray-100);
+}
+
+.linked3-admin-wrap .lk3-modal-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+}
+
+.linked3-admin-wrap .lk3-modal-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--lk3-gray-400);
+    cursor: pointer;
+    padding: var(--lk3-space-1);
+    line-height: 1;
+    transition: color var(--lk3-transition);
+}
+
+.linked3-admin-wrap .lk3-modal-close:hover {
+    color: var(--lk3-gray-900);
+}
+
+/* ============================================================
+   15. 工具类
+   ============================================================ */
+.linked3-admin-wrap .lk3-text-muted { color: var(--lk3-gray-500); }
+.linked3-admin-wrap .lk3-text-sm    { font-size: 12px; }
+.linked3-admin-wrap .lk3-text-xs    { font-size: 11px; }
+.linked3-admin-wrap .lk3-font-mono  { font-family: var(--lk3-font-mono); }
+.linked3-admin-wrap .lk3-mt-2 { margin-top: var(--lk3-space-2); }
+.linked3-admin-wrap .lk3-mt-4 { margin-top: var(--lk3-space-4); }
+.linked3-admin-wrap .lk3-mb-2 { margin-bottom: var(--lk3-space-2); }
+.linked3-admin-wrap .lk3-mb-4 { margin-bottom: var(--lk3-space-4); }
+
+/* ============================================================
+   16. 滚动条 (极简)
+   ============================================================ */
+.linked3-admin-wrap ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.linked3-admin-wrap ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.linked3-admin-wrap ::-webkit-scrollbar-thumb {
+    background: var(--lk3-gray-300);
+    border-radius: 4px;
+}
+
+.linked3-admin-wrap ::-webkit-scrollbar-thumb:hover {
+    background: var(--lk3-gray-400);
+}
+
+/* ============================================================
+   17. 写作生态组件 (v17.0 — 参照Linear/Notion二级三级导航)
+   ============================================================ */
+
+/* 二级导航: 子面板切换 (eco-subtabs) */
+.linked3-eco-subtabs {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    margin: 0 0 16px 0;
+    padding: 0;
+    border-bottom: 1px solid var(--lk3-gray-200);
+}
+.linked3-eco-subtab {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--lk3-gray-500);
+    text-decoration: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    transition: color var(--lk3-transition), border-color var(--lk3-transition), background var(--lk3-transition);
+    border-radius: 0;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.linked3-eco-subtab:hover {
+    color: var(--lk3-gray-900);
+    background: var(--lk3-gray-50);
+}
+.linked3-eco-subtab.active {
+    color: var(--lk3-gray-900);
+    border-bottom: 2px solid var(--lk3-gray-900);
+    font-weight: 600;
+}
+
+/* 卡片容器 */
+.linked3-eco-card {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius);
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.linked3-eco-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+    margin: 0 0 8px 0;
+}
+
+/* 按钮 */
+.linked3-eco-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #FFFFFF;
+    color: var(--lk3-gray-600);
+    transition: all var(--lk3-transition);
+    text-decoration: none;
+    line-height: 1.4;
+}
+.linked3-eco-btn:hover {
+    background: var(--lk3-gray-50);
+    border-color: var(--lk3-gray-400);
+    color: var(--lk3-gray-900);
+}
+.linked3-eco-btn-primary,
+.linked3-eco-btn.linked3-eco-btn-primary {
+    background: var(--lk3-primary);
+    color: #FFFFFF;
+    border-color: var(--lk3-primary);
+}
+.linked3-eco-btn-primary:hover {
+    background: var(--lk3-primary-hover);
+    border-color: var(--lk3-primary-hover);
+    color: #FFFFFF;
+}
+.linked3-eco-btn-secondary {
+    background: #FFFFFF;
+    color: var(--lk3-gray-600);
+    border-color: var(--lk3-gray-300);
+}
+.linked3-eco-btn-sm {
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
+/* 输入框/下拉 */
+.linked3-eco-input,
+.linked3-eco-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    font-size: 13px;
+    background: #FFFFFF;
+    color: var(--lk3-gray-800);
+    transition: border-color var(--lk3-transition), box-shadow var(--lk3-transition);
+    font-family: inherit;
+}
+.linked3-eco-input:hover,
+.linked3-eco-select:hover {
+    border-color: var(--lk3-gray-400);
+}
+.linked3-eco-input:focus,
+.linked3-eco-select:focus {
+    outline: none;
+    border-color: var(--lk3-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 数据流可视化 */
+.linked3-eco-flow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+.linked3-eco-flow-step {
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--lk3-gray-600);
+    background: var(--lk3-gray-100);
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-sm);
+    white-space: nowrap;
+}
+.linked3-eco-flow-step.active {
+    background: var(--lk3-primary);
+    color: #FFFFFF;
+    border-color: var(--lk3-primary);
+}
+.linked3-eco-flow-arrow {
+    color: var(--lk3-gray-400);
+    font-size: 14px;
+}
+
+/* 进度条 */
+.linked3-eco-progress {
+    width: 100%;
+    height: 6px;
+    background: var(--lk3-gray-100);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.linked3-eco-progress-bar {
+    height: 100%;
+    background: var(--lk3-primary);
+    border-radius: 3px;
+    transition: width 300ms ease;
+    width: 0%;
+}
+
+/* 5阶段进度 */
+.linked3-eco-phase {
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--lk3-gray-500);
+    background: var(--lk3-gray-100);
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-sm);
+    transition: all var(--lk3-transition);
+}
+.linked3-eco-phase.active {
+    background: var(--lk3-primary);
+    color: #FFFFFF;
+    border-color: var(--lk3-primary);
+}
+.linked3-eco-phase.done {
+    background: var(--lk3-success);
+    color: #FFFFFF;
+    border-color: var(--lk3-success);
+}
+
+/* 表单网格 */
+.linked3-eco-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+/* 表单标签 */
+.lk3-form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--lk3-gray-700);
+    margin-bottom: 4px;
+}
+.lk3-form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    font-size: 13px;
+    background: #FFFFFF;
+    color: var(--lk3-gray-800);
+    transition: border-color var(--lk3-transition), box-shadow var(--lk3-transition);
+    font-family: inherit;
+}
+.lk3-form-control:hover {
+    border-color: var(--lk3-gray-400);
+}
+.lk3-form-control:focus {
+    outline: none;
+    border-color: var(--lk3-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================================
+   18. 响应式
+   ============================================================ */
+@media (max-width: 782px) {
+    .linked3-admin-wrap .lk3-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .linked3-admin-wrap .lk3-seed-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}

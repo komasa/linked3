@@ -1,0 +1,122 @@
+{
+  "name_cn": "扁平插画·现代设计",
+  "name_en": "Flat Illustration Modern",
+  "category": "现代插画",
+  "usage_code": "Y12",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "现代扁平插画: Behance/Dribbble主流/Freepik商业插画",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFFFFF",
+        "ratio": "30%",
+        "use": "干净白底+现代留白"
+      },
+      {
+        "hex": "#2D3436",
+        "ratio": "15%",
+        "use": "深灰线条+现代沉稳"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#6C5CE7",
+        "ratio": "12%",
+        "use": "现代紫+设计感"
+      },
+      {
+        "hex": "#00B894",
+        "ratio": "10%",
+        "use": "清新绿+活力"
+      }
+    ],
+    "accent": [
+      "#FD79A8",
+      "#FDCB6E"
+    ],
+    "mood_tone": "低饱和现代色+干净平涂, 简约设计"
+  },
+  "line_style": "极细线或无线稿(0-1px), 几何化形状, 现代设计感",
+  "render": "纯平涂色块+几何形状, 无渐变无阴影, 干净利落, 矢量质感",
+  "atmosphere": [
+    "现代",
+    "简约",
+    "清新",
+    "专业",
+    "友好"
+  ],
+  "lighting": "无光影, 平涂均匀, 设计感色彩",
+  "symbols": [
+    "几何形状",
+    "图标",
+    "抽象元素",
+    "渐变色块",
+    "圆点"
+  ],
+  "patterns": [
+    "平涂色块",
+    "几何图案",
+    "渐变叠加",
+    "点阵装饰"
+  ],
+  "scene_templates": [
+    {
+      "scene": "办公场景",
+      "mood": "专业高效",
+      "lighting": "平涂均匀",
+      "composition": "中景+几何化人物"
+    },
+    {
+      "scene": "城市生活",
+      "mood": "清新现代",
+      "lighting": "平涂均匀",
+      "composition": "广角+扁平建筑"
+    },
+    {
+      "scene": "人物互动",
+      "mood": "友好温暖",
+      "lighting": "平涂均匀",
+      "composition": "中景+简约人物"
+    },
+    {
+      "scene": "概念表达",
+      "mood": "清晰理性",
+      "lighting": "平涂均匀",
+      "composition": "中心+抽象元素"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Inter / SF Pro / 思源黑体",
+    "sfx_style": "无拟声词, 用图标/符号替代",
+    "caption_style": "Inter, 圆角气泡, 简约设计"
+  },
+  "layout": {
+    "panel_grid_default": "3-4格简约网格",
+    "gutter_style": "宽白边(4-6px), 透气留白",
+    "splash_page": "全页扁平大格用于概念表达",
+    "panel_shape": "圆角矩形+几何形"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "全年龄·现代设计爱好者",
+    "content_adaptation": "简约概念叙事, 需读者欣赏扁平美学与设计感"
+  },
+  "reader_constraint": {
+    "reader_state": "轻松愉悦·渴望简约美感",
+    "reader_mode": "匀速阅读+设计欣赏",
+    "reader_expectation": "扁平色块+几何形状+现代色彩+简约设计"
+  },
+  "visual_frequency": {
+    "HF": "几何形状/图标/色块(高频设计元素)",
+    "MF": "人物/场景/概念(中频叙事推进)",
+    "LF": "纯色背景/留白(低频简约底色)",
+    "color_mapping": {
+      "HF": "#6C5CE7",
+      "MF": "#2D3436",
+      "LF": "#FFFFFF"
+    },
+    "progression": "HF均匀分布设计感, MF推进简约叙事, LF大面积留白透气"
+  }
+}

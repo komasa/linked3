@@ -1,0 +1,65 @@
+{
+  "name_cn": "万兴层次布局",
+  "name_en": "WX Hierarchical",
+  "category": "商业生产级信息图-G6万兴垂直",
+  "version": "1.0.0",
+  "source": "G6 Track D-06 万兴垂直深耕",
+  "color_palette": {
+    "primary": "#1B3A5C",
+    "accent": "#31ACF4",
+    "background": "#FFFFFF",
+    "description": "万兴层次: 深蓝→浅蓝"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准字体"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层信息密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用用户",
+    "content_adaptation": "通用场景"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息获取"
+  },
+  "prompt_keywords": "EdrawMax hierarchical auto-layout, top-down tree, balanced subtrees, elbow connectors, level indicators, expand/collapse",
+  "negative_keywords": "3D render, photorealistic, complex textures",
+  "suitable_genres": [
+    "通用图示",
+    "知识图谱",
+    "信息图"
+  ],
+  "scene_whitelist": [
+    "通用",
+    "知识",
+    "信息"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "万兴层次布局: G6 Track D-06 万兴垂直深耕",
+  "style_constraint_en": "WX Hierarchical ONLY. EdrawMax hierarchical auto-layout, top-down tree, balanced subtrees, elbow conne",
+  "meta_prompt": "edrawmax hierarchical auto-layout, top-down tree, balanced subtrees, elbow connectors, level indicators, expand/collapse, #1B3A5C primary, #FFFFFF background, professional infographic",
+  "prompt_example": "edrawmax hierarchical auto-layout, top-down tree, balanced subtrees, elbow connectors, level indicators, expand/collapse, #1B3A5C primary color, #FFFFFF background, HarmonyOS Sans typography, 3-layer hierarchy, numbered badges. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G6 Track D-06 万兴垂直深耕"
+}

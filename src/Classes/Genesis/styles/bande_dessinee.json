@@ -1,0 +1,124 @@
+{
+  "name_cn": "法比BD·欧洲叙事",
+  "name_en": "Franco-Belgian BD",
+  "category": "欧系漫画",
+  "usage_code": "G07",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "法比BD: 高卢英雄传/Lucky Luke/Thorgal/Spirou",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F5E6D3",
+        "ratio": "25%",
+        "use": "温暖米底+欧洲质感"
+      },
+      {
+        "hex": "#2C3E50",
+        "ratio": "20%",
+        "use": "深蓝墨线+沉稳"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#E74C3C",
+        "ratio": "12%",
+        "use": "经典红+欧洲暖色"
+      },
+      {
+        "hex": "#27AE60",
+        "ratio": "10%",
+        "use": "自然绿+清新"
+      }
+    ],
+    "accent": [
+      "#F39C12",
+      "#8E44AD"
+    ],
+    "mood_tone": "温暖欧洲色调+沉稳墨线, 经典叙事"
+  },
+  "line_style": "中等墨线(1-2px)+柔和排线+手绘质感, 笔触温润有度",
+  "render": "水彩+彩色铅笔+线稿, 温暖平涂+柔和渐变, 欧洲手绘质感",
+  "atmosphere": [
+    "经典",
+    "温暖",
+    "幽默",
+    "冒险",
+    "叙事"
+  ],
+  "lighting": "自然光+暖色调+柔和阴影, 欧洲午后光感",
+  "symbols": [
+    "古堡",
+    "酒馆",
+    "马匹",
+    "盔甲",
+    "地图",
+    "旗帜",
+    "面包"
+  ],
+  "patterns": [
+    "水彩渐变",
+    "石墙纹理",
+    "木纹质感",
+    "织物花纹"
+  ],
+  "scene_templates": [
+    {
+      "scene": "中世纪村庄",
+      "mood": "温暖日常",
+      "lighting": "午后日光+暖光",
+      "composition": "全景+建筑群"
+    },
+    {
+      "scene": "酒馆聚会",
+      "mood": "热闹幽默",
+      "lighting": "暖灯+烛光",
+      "composition": "室内全景+人物群"
+    },
+    {
+      "scene": "荒野冒险",
+      "mood": "勇敢探索",
+      "lighting": "日光+云影",
+      "composition": "广角+行进队伍"
+    },
+    {
+      "scene": "古堡对峙",
+      "mood": "紧张戏剧",
+      "lighting": "侧光+明暗",
+      "composition": "仰视+建筑纵深"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Georgia / Palatino / 思源宋体",
+    "sfx_style": "手写圆体, 柔和描边, 经典大小",
+    "caption_style": "Palatino, 白底黑字, 圆角框"
+  },
+  "layout": {
+    "panel_grid_default": "4-6格叙事网格",
+    "gutter_style": "中等白边(2-3px), 规整",
+    "splash_page": "全页叙事大格用于场景建立",
+    "panel_shape": "标准矩形+少量圆角"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "全年龄·欧洲叙事爱好者",
+    "content_adaptation": "经典冒险叙事, 需读者欣赏欧洲手绘质感与幽默"
+  },
+  "reader_constraint": {
+    "reader_state": "轻松愉悦·渴望经典冒险",
+    "reader_mode": "匀速阅读+幽默感受",
+    "reader_expectation": "温暖水彩+经典线条+幽默叙事+欧洲质感"
+  },
+  "visual_frequency": {
+    "HF": "建筑细节/物件/服饰(高频叙事信息)",
+    "MF": "人物表情/动作/对话(中频叙事推进)",
+    "LF": "天空/地面/远景(低频背景底色)",
+    "color_mapping": {
+      "HF": "#E74C3C",
+      "MF": "#2C3E50",
+      "LF": "#F5E6D3"
+    },
+    "progression": "HF均匀分布丰富信息, MF推进幽默叙事, LF大面积暖色底"
+  }
+}

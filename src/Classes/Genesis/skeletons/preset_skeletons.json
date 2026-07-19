@@ -1,0 +1,345 @@
+{
+  "_meta": {
+    "version": "8.1.0",
+    "milestone": "M2.2",
+    "description": "12 套场景专属骨架库 — 按 L1 类型 / L2 栏目 / L3 灵魂路由。en_template 中的 {negative} 占位会被替换为对应 skeleton 的 negative_default 值。",
+    "placeholders": [
+      "{subject}",
+      "{action}",
+      "{location}",
+      "{mood}",
+      "{camera}",
+      "{ratio}",
+      "{stylize}",
+      "{color}",
+      "{signature}",
+      "{negative}"
+    ],
+    "default_skeleton": "documentary_photo",
+    "v18_patch": "能知约束+视觉频率+认知层级注入 (2026-06-26)"
+  },
+  "documentary_photo": {
+    "skeleton_id": "documentary_photo",
+    "name_cn": "纪实摄影·新闻质感",
+    "name_en": "Documentary Photography",
+    "category": "真人-纪实",
+    "en_template": "documentary photography, {subject} at {location}, {action}, natural light, {mood} atmosphere, {color}, shot on Leica M11, {camera}, {signature} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "3:2",
+    "s_default": 250,
+    "quality_default": 1,
+    "negative_default": "studio lighting, posed, retouched, cartoon, anime, fantasy, sci-fi, glamour, text, watermark, oversaturated",
+    "signature_default": "candid photojournalism, high ISO grain, true-to-life color",
+    "color_default": "natural muted documentary tones, slight desaturation, true-to-life color",
+    "applicable_scenes": [
+      "纪实人文",
+      "新闻现场",
+      "社会事件",
+      "无灵魂纪实",
+      "基建工程",
+      "民生报道"
+    ],
+    "reader_constraint": {
+      "reader_state": "信息获取者·期待真实记录",
+      "reader_mode": "信息获取",
+      "reader_expectation": "真实场景+自然光线+客观叙事",
+      "constraint_en": "documentary authenticity, natural lighting, objective narrative"
+    }
+  },
+  "watercolor_healing": {
+    "skeleton_id": "watercolor_healing",
+    "name_cn": "水彩治愈·宫崎骏",
+    "name_en": "Watercolor Healing",
+    "category": "绘画-治愈",
+    "en_template": "hand-painted watercolor, soft pastel palette {color}, {subject} in {location}, {action} with gentle warmth, {mood} atmosphere, {signature} influence, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "4:3",
+    "s_default": 400,
+    "quality_default": 1,
+    "negative_default": "harsh lines, dark themes, violence, scary, photorealistic, 3d render, oversaturated, neon",
+    "signature_default": "Studio Ghibli, Hayao Miyazaki",
+    "color_default": "soft pastels, warm cream, sage green, dusty rose, gentle warmth",
+    "applicable_scenes": [
+      "治愈系",
+      "宫崎骏",
+      "温情",
+      "童年",
+      "田园",
+      "日常"
+    ],
+    "reader_constraint": {
+      "reader_state": "治愈寻求者·期待温柔画面",
+      "reader_mode": "放松式疗愈",
+      "reader_expectation": "水彩晕染+柔和色彩+治愈氛围",
+      "constraint_en": "healing warmth, soft watercolor, gentle emotional resonance"
+    }
+  },
+  "noir_comic": {
+    "skeleton_id": "noir_comic",
+    "name_cn": "暗黑悬疑·黑色电影",
+    "name_en": "Noir Comic",
+    "category": "绘画-暗黑",
+    "en_template": "noir comic style, high contrast ink and shadow, {subject} in {location}, {action}, {mood} atmosphere, dramatic chiaroscuro lighting, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "2:3",
+    "s_default": 600,
+    "quality_default": 1,
+    "negative_default": "bright pastel, cheerful, cute, cartoonish, soft lighting, sunny, daytime",
+    "signature_default": "Frank Miller, Sin City",
+    "color_default": "monochrome with selective red accent, deep blacks, smoky greys",
+    "applicable_scenes": [
+      "暗黑悬疑",
+      "犯罪",
+      "惊悚",
+      "黑色电影",
+      "侦探",
+      "阴谋"
+    ],
+    "reader_constraint": {
+      "reader_state": "悬疑爱好者·期待暗黑叙事",
+      "reader_mode": "沉浸式追读",
+      "reader_expectation": "高对比墨色+戏剧光影+悬疑张力",
+      "constraint_en": "noir suspense, high contrast drama, mysterious tension"
+    }
+  },
+  "flat_humor": {
+    "skeleton_id": "flat_humor",
+    "name_cn": "扁平幽默·网络梗",
+    "name_en": "Flat Humor Illustration",
+    "category": "绘画-幽默",
+    "en_template": "flat vector illustration, bold outlines, {subject} in {location}, {action}, {mood} comedic atmosphere, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "1:1",
+    "s_default": 150,
+    "quality_default": 1,
+    "negative_default": "realistic, photorealistic, complex shading, 3d render, dark themes, gore",
+    "signature_default": "xkcd, The Oatmeal, simplified cartoon",
+    "color_default": "limited flat palette, primary red yellow blue, clean fills",
+    "applicable_scenes": [
+      "幽默搞笑",
+      "网络梗",
+      "科普",
+      "段子",
+      "吐槽",
+      "职场"
+    ],
+    "reader_constraint": {
+      "reader_state": "轻松读者·期待幽默解压",
+      "reader_mode": "轻松式娱乐",
+      "reader_expectation": "扁平矢量+幽默表达+明快色彩",
+      "constraint_en": "playful humor, flat vector comedy, lighthearted tone"
+    }
+  },
+  "floral_column": {
+    "skeleton_id": "floral_column",
+    "name_cn": "花色专栏·穆夏装饰",
+    "name_en": "Floral Art Nouveau Column",
+    "category": "绘画-装饰",
+    "en_template": "art nouveau illustration, ornate floral borders, {subject} in {location}, {action}, {mood} ethereal atmosphere, decorative composition, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "2:3",
+    "s_default": 700,
+    "quality_default": 1,
+    "negative_default": "modern minimalist, sci-fi, photorealistic, harsh lines, flat shading",
+    "signature_default": "Alphonse Mucha, Art Nouveau",
+    "color_default": "rich botanical palette, gold accents, muted earth tones, sage and rose",
+    "applicable_scenes": [
+      "花色专栏",
+      "Mucha",
+      "装饰艺术",
+      "唯美",
+      "植物",
+      "女性肖像"
+    ],
+    "reader_constraint": {
+      "reader_state": "唯美读者·期待装饰雅致",
+      "reader_mode": "审美沉浸",
+      "reader_expectation": "新艺术花卉+装饰边框+优雅氛围",
+      "constraint_en": "art nouveau elegance, ornate beauty, refined aesthetic"
+    }
+  },
+  "cyber_neon": {
+    "skeleton_id": "cyber_neon",
+    "name_cn": "赛博霓虹·未来都市",
+    "name_en": "Cyber Neon",
+    "category": "绘画-科幻",
+    "en_template": "cyberpunk neon scene, rain-soaked streets, holographic signage, {subject} in {location}, {action}, {mood} dystopian atmosphere, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "21:9",
+    "s_default": 800,
+    "quality_default": 1,
+    "negative_default": "rural, daytime, sunny, cheerful, pastoral, soft pastel, vintage",
+    "signature_default": "Blade Runner, Syd Mead",
+    "color_default": "electric magenta, cyan, deep purple, neon glow, wet reflections",
+    "applicable_scenes": [
+      "赛博朋克",
+      "未来科技",
+      "霓虹",
+      "暗夜都市",
+      "黑客",
+      "义体"
+    ],
+    "reader_constraint": {
+      "reader_state": "科技探索者·期待赛博冲击",
+      "reader_mode": "沉浸式探索",
+      "reader_expectation": "霓虹光影+赛博朋克+高密度信息",
+      "constraint_en": "cyberpunk immersion, neon futurism, tech-savvy audience"
+    }
+  },
+  "eastern_guocho": {
+    "skeleton_id": "eastern_guocho",
+    "name_cn": "东方国潮·传统新生",
+    "name_en": "Eastern Guochao",
+    "category": "绘画-国风",
+    "en_template": "chinese guochao illustration, traditional pattern motifs, {subject} in {location}, {action}, {mood} majestic atmosphere, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "3:4",
+    "s_default": 650,
+    "quality_default": 1,
+    "negative_default": "western fantasy, sci-fi, modern corporate, photorealistic, anime",
+    "signature_default": "Dunhuang mural, Guochao illustration",
+    "color_default": "Chinese red, glazed yellow, blue-green landscape, gold leaf accents",
+    "applicable_scenes": [
+      "国潮",
+      "传统文化",
+      "东方美学",
+      "中国风",
+      "节庆",
+      "神话"
+    ],
+    "reader_constraint": {
+      "reader_state": "国潮爱好者·期待东方气韵",
+      "reader_mode": "文化自豪式鉴赏",
+      "reader_expectation": "国潮插画+传统纹样+大气磅礴",
+      "constraint_en": "guochao pride, traditional motifs, majestic cultural identity"
+    }
+  },
+  "pet_cute": {
+    "skeleton_id": "pet_cute",
+    "name_cn": "萌宠治愈·卡哇伊",
+    "name_en": "Pet Cute Kawaii",
+    "category": "绘画-萌系",
+    "en_template": "kawaii pet illustration, soft round shapes, big sparkling eyes, {subject} in {location}, {action}, {mood} heartwarming atmosphere, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "1:1",
+    "s_default": 500,
+    "quality_default": 1,
+    "negative_default": "scary, realistic anatomy, dark, violent, sharp edges, gore",
+    "signature_default": "Sanrio, kawaii aesthetic",
+    "color_default": "candy pink, mint green, baby blue, cream, soft glow",
+    "applicable_scenes": [
+      "萌宠",
+      "治愈",
+      "可爱",
+      "动物",
+      "日常",
+      "陪伴"
+    ],
+    "reader_constraint": {
+      "reader_state": "萌宠爱好者·期待治愈可爱",
+      "reader_mode": "情感投射式疗愈",
+      "reader_expectation": "可爱萌宠+圆润造型+暖心氛围",
+      "constraint_en": "kawaii healing, adorable warmth, emotional comfort"
+    }
+  },
+  "business_clean": {
+    "skeleton_id": "business_clean",
+    "name_cn": "商业简洁·企业编辑",
+    "name_en": "Business Clean Editorial",
+    "category": "真人-商业",
+    "en_template": "clean editorial photography, minimalist composition, {subject} in {location}, {action}, {mood} professional atmosphere, soft studio lighting, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "16:9",
+    "s_default": 200,
+    "quality_default": 1,
+    "negative_default": "cluttered, dark, moody, fantasy, cartoon, oversaturated, grain",
+    "signature_default": "Apple keynote, corporate editorial",
+    "color_default": "neutral whites, soft grays, subtle blue accent, clean highlights",
+    "applicable_scenes": [
+      "商业",
+      "企业",
+      "产品",
+      "科技",
+      "发布会",
+      "办公"
+    ],
+    "reader_constraint": {
+      "reader_state": "商务人士·期待专业清晰",
+      "reader_mode": "信息高效获取",
+      "reader_expectation": "极简构图+专业质感+信息清晰",
+      "constraint_en": "professional clarity, editorial precision, business-grade quality"
+    }
+  },
+  "child_picture_book": {
+    "skeleton_id": "child_picture_book",
+    "name_cn": "儿童绘本·童趣插画",
+    "name_en": "Children Picture Book",
+    "category": "绘画-童趣",
+    "en_template": "children's picture book illustration, playful brush textures, {subject} in {location}, {action}, {mood} whimsical atmosphere, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "4:3",
+    "s_default": 450,
+    "quality_default": 1,
+    "negative_default": "scary, dark, violent, complex, photorealistic, mature themes, gore",
+    "signature_default": "Eric Carle, Beatrix Potter",
+    "color_default": "primary colors, bright cheerful palette, crayon texture, soft edges",
+    "applicable_scenes": [
+      "儿童",
+      "绘本",
+      "童话",
+      "亲子",
+      "启蒙",
+      "寓言"
+    ],
+    "reader_constraint": {
+      "reader_state": "亲子读者·期待童趣想象",
+      "reader_mode": "亲子共读式沉浸",
+      "reader_expectation": "童书插画+趣味笔触+奇幻氛围",
+      "constraint_en": "childlike wonder, playful imagination, whimsical storytelling"
+    }
+  },
+  "epic_cinematic": {
+    "skeleton_id": "epic_cinematic",
+    "name_cn": "史诗电影感·宏大叙事",
+    "name_en": "Epic Cinematic Still",
+    "category": "真人-电影",
+    "en_template": "epic cinematic still, sweeping wide composition, {subject} in {location}, {action}, {mood} grand atmosphere, dramatic atmospheric lighting, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "21:9",
+    "s_default": 750,
+    "quality_default": 1,
+    "negative_default": "snapshot, candid, low quality, flat lighting, cartoon, oversaturated",
+    "signature_default": "Denis Villeneuve, Roger Deakins",
+    "color_default": "teal and orange, desaturated earth tones, dramatic shadows",
+    "applicable_scenes": [
+      "史诗",
+      "电影感",
+      "宏大叙事",
+      "壮丽场景",
+      "战争",
+      "冒险"
+    ],
+    "reader_constraint": {
+      "reader_state": "影迷·期待史诗震撼",
+      "reader_mode": "沉浸式观影",
+      "reader_expectation": "史诗构图+宏大氛围+戏剧光影",
+      "constraint_en": "epic grandeur, cinematic spectacle, dramatic immersion"
+    }
+  },
+  "minimalist_zen": {
+    "skeleton_id": "minimalist_zen",
+    "name_cn": "极简禅意·留白意境",
+    "name_en": "Minimalist Zen",
+    "category": "绘画-禅意",
+    "en_template": "zen minimalist composition, generous negative space, {subject} in {location}, {action}, {mood} tranquil atmosphere, soft natural light, {signature} influence, {color}, {camera} --ar {ratio} --s {stylize} --style raw --no {negative}, {reader_constraint}",
+    "ar_default": "1:1",
+    "s_default": 100,
+    "quality_default": 1,
+    "negative_default": "cluttered, ornate, busy, neon, harsh contrast, oversaturated",
+    "signature_default": "sumi-e ink painting, wabi-sabi",
+    "color_default": "off-white, ink black, single muted accent, soft rice paper tone",
+    "applicable_scenes": [
+      "极简",
+      "禅意",
+      "留白",
+      "东方意境",
+      "茶道",
+      "静物"
+    ],
+    "reader_constraint": {
+      "reader_state": "禅修者·期待极简顿悟",
+      "reader_mode": "冥想式顿悟",
+      "reader_expectation": "极简留白+禅意空灵+墨色克制",
+      "constraint_en": "zen minimalism, meditative stillness, contemplative emptiness"
+    }
+  }
+}

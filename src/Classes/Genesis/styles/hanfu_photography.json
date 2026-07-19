@@ -1,0 +1,178 @@
+{
+  "name_cn": "古风汉服·国风摄影",
+  "name_en": "Hanfu Photography",
+  "category": "真人-古风",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F5DEB3",
+        "ratio": "25%",
+        "use": "暖米底色"
+      },
+      {
+        "hex": "#8B4513",
+        "ratio": "20%",
+        "use": "木质环境"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#DC143C",
+        "ratio": "12%",
+        "use": "朱红衣袂"
+      },
+      {
+        "hex": "#556B2F",
+        "ratio": "10%",
+        "use": "青绿山水"
+      }
+    ],
+    "accent": [
+      "#FFD700",
+      "#4B0082"
+    ],
+    "mood_tone": "暖调古韵,朱红青绿"
+  },
+  "line_style": "无描边+柔焦光晕,soft focus",
+  "render": "古风摄影+柔光滤镜+花瓣特效,hanfu photography",
+  "atmosphere": [
+    "古韵",
+    "诗意",
+    "唯美",
+    "典雅",
+    "清雅"
+  ],
+  "lighting": "自然光+逆光+金色光晕,golden hour",
+  "symbols": [
+    "团扇",
+    "油纸伞",
+    "古琴",
+    "书卷",
+    "玉佩",
+    "步摇"
+  ],
+  "patterns": [
+    "云纹",
+    "缠枝纹",
+    "花鸟纹",
+    "水波纹"
+  ],
+  "prompt_keywords": "Hanfu photography, traditional Chinese clothing, soft natural lighting, golden hour glow, floral elements, elegant classical aesthetic, shallow depth of field, romantic atmosphere",
+  "negative_keywords": "modern city, cyberpunk, sci-fi, western architecture, neon, ancient mansion horror, dark ink wash, ukiyo-e",
+  "suitable_genres": [
+    "古风",
+    "汉服",
+    "国风",
+    "言情",
+    "宫廷"
+  ],
+  "scene_whitelist": [
+    "竹林小径",
+    "雪中梅林",
+    "庭院深深",
+    "秋枫古道",
+    "月下楼台",
+    "山居别业",
+    "茶马古道",
+    "绣楼闺阁",
+    "江南水乡",
+    "御花园",
+    "古建筑回廊",
+    "古琴台",
+    "书院讲堂",
+    "科举考场",
+    "长亭短亭",
+    "棋亭",
+    "诗会雅集",
+    "丝绸作坊",
+    "书院斋房",
+    "长街灯会",
+    "春日花园",
+    "山间溪流",
+    "古城墙下",
+    "河畔柳荫",
+    "石拱桥",
+    "茶室雅间",
+    "荷塘月色",
+    "古道长亭",
+    "桃花林"
+  ],
+  "scene_blacklist": [
+    "现代都市",
+    "科幻场景",
+    "西方建筑",
+    "赛博朋克",
+    "雨夜古宅",
+    "废墟",
+    "教堂"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "书生赴京赶考",
+      "location": "古道长亭",
+      "characters": [
+        "书生"
+      ],
+      "action": "书生背着书箱走在古道,柳枝轻摇",
+      "mood": "悠然古韵",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "书生遇佳人",
+      "location": "桃花林",
+      "characters": [
+        "书生",
+        "佳人"
+      ],
+      "action": "书生与佳人在桃花林相遇,花瓣纷飞",
+      "mood": "浪漫唯美",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "书生科举",
+      "location": "书院斋房",
+      "characters": [
+        "书生"
+      ],
+      "action": "书生在书院奋笔疾书,烛光摇曳",
+      "mood": "专注紧张",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "书生归乡",
+      "location": "江南水乡",
+      "characters": [
+        "书生",
+        "佳人"
+      ],
+      "action": "书生与佳人泛舟湖上,远山如黛",
+      "mood": "圆满诗意",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A scholar in flowing hanfu stands beneath blooming peach branches at dawn, soft pink petals drifting across the traditional garden path, the scholar holding a bamboo scroll with serene expression, shot in a medium shot from eye level with rule of thirds composition, elegant Chinese classical photography style with soft natural light --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 古风汉服·国风摄影\n✅ 允许场景: 古道/桃花林/水乡/庭院/古建筑 (从故事原文提取)\n❌ 禁止场景: 现代都市/科幻/西方建筑/赛博朋克\n❌ 禁止照抄: 不要用'雨夜古宅',必须用古风唯美场景\n氛围: 古韵诗意,国风美学",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use ancient Chinese scenes (old paths, peach groves, water towns). Do NOT use modern cities, sci-fi, or 'rainy ancient mansion'. Adapt to the story's actual setting in a hanfu context.",
+  "meta_prompt": "Hanfu photography, traditional Chinese clothing, soft golden hour lighting, floral elements, elegant classical aesthetic, shallow depth of field",
+  "cognitive_level": {
+    "primary": "R",
+    "reader_profile": "传统文化爱好者·审美古风",
+    "content_adaptation": "入门级古风审美, 大众可直观欣赏"
+  },
+  "reader_constraint": {
+    "reader_state": "古风爱好者·期待汉服之美",
+    "reader_mode": "审美沉浸",
+    "reader_expectation": "汉服质感+古风场景+东方雅韵"
+  },
+  "visual_frequency": {
+    "HF": "汉服纹样/人物面部/发饰细节(高频审美锚点)",
+    "MF": "服饰整体/姿态构图/场景搭配(中频古风叙事)",
+    "LF": "远景建筑/自然光影/氛围虚化(低频意境)",
+    "color_mapping": {
+      "HF": "#FFD700",
+      "MF": "#CC3333",
+      "LF": "#2F4F4F"
+    },
+    "progression": "HF聚焦汉服细节之美, MF古风构图叙事, LF远景意境烘托"
+  }
+}

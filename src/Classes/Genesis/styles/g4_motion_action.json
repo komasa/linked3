@@ -1,0 +1,65 @@
+{
+  "name_cn": "动态行动卡",
+  "name_en": "Motion Action Card",
+  "category": "商业生产级信息图-G4动态化",
+  "version": "1.0.0",
+  "source": "G4-04 动态化扩展演化结晶",
+  "color_palette": {
+    "primary": "#0F0F1E",
+    "accent": "#FA9960",
+    "background": "#0F0F1E",
+    "description": "动态: 深色#0F0F1E+橙#FA9960 CTA+红#E04F5F紧迫"
+  },
+  "typography": {
+    "font_family_primary": "OPPOSans",
+    "font_sizes": {
+      "main_title": "32pt",
+      "body": "16pt"
+    },
+    "description": "无衬线动态字体"
+  },
+  "layout": {
+    "canvas_ratio": "9:16",
+    "module_count_default": 3,
+    "description": "单卡居中+动态暗示"
+  },
+  "visual_frequency": {
+    "HF": "大标题",
+    "MF": "CTA按钮",
+    "LF": "紧迫徽章",
+    "description": "动态行动引导"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "营销受众",
+    "content_adaptation": "短视频封面"
+  },
+  "reader_constraint": {
+    "reader_state": "决策",
+    "reader_mode": "快速",
+    "reader_expectation": "行动号召"
+  },
+  "prompt_keywords": "motion hint, animated arrow, pulsing glow, countdown timer, particle drift, dynamic light streaks",
+  "negative_keywords": "static, flat, minimal, calm",
+  "suitable_genres": [
+    "短视频封面",
+    "动态广告",
+    "故事流"
+  ],
+  "scene_whitelist": [
+    "营销",
+    "转化",
+    "活动"
+  ],
+  "scene_blacklist": [
+    "学术",
+    "深度阅读"
+  ],
+  "style_constraint_cn": "动态行动卡: 动态暗示+脉冲CTA+紧迫徽章",
+  "style_constraint_en": "Motion action card ONLY. Dynamic hints with pulsing CTA.",
+  "meta_prompt": "motion action card, single centered card, animated arrow pointing to CTA, pulsing glow button, countdown timer, particle drift, dark #0F0F1E background, orange #FA9960 CTA. --ar 9:16 --s 300 --style raw --motion hint",
+  "prompt_example": true,
+  "commercial_grade": true,
+  "production_ready": "G4-04动态化演化结晶",
+  "reference_source": ""
+}

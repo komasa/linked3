@@ -1,0 +1,171 @@
+{
+  "name_cn": "暗黑肖像·哥特人像",
+  "name_en": "Dark Gothic Portrait",
+  "category": "真人-暗黑",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#1A1A1A",
+        "ratio": "35%",
+        "use": "深黑背景"
+      },
+      {
+        "hex": "#2C1810",
+        "ratio": "20%",
+        "use": "暗褐主体"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#8B0000",
+        "ratio": "12%",
+        "use": "暗红点缀"
+      },
+      {
+        "hex": "#4A2C2A",
+        "ratio": "10%",
+        "use": "深褐过渡"
+      }
+    ],
+    "accent": [
+      "#C0C0C0",
+      "#800020"
+    ],
+    "mood_tone": "暗黑高对比,哥特神秘"
+  },
+  "line_style": "无线条,暗调摄影,高对比阴影",
+  "render": "暗调摄影+哥特后期,dark moody processing",
+  "atmosphere": [
+    "神秘",
+    "压抑",
+    "哥特",
+    "暗黑",
+    "诡谲"
+  ],
+  "lighting": "单点光源+深阴影,极高对比chiaroscuro",
+  "symbols": [
+    "烛光",
+    "暗影",
+    "十字架",
+    "玫瑰",
+    "锁链"
+  ],
+  "patterns": [
+    "暗调渐变",
+    "高对比阴影",
+    "神秘光斑"
+  ],
+  "prompt_keywords": "Dark gothic portrait photography, extreme low-key lighting, deep shadows, mysterious atmosphere, chiaroscuro effect, moody processing, somber tones",
+  "negative_keywords": "bright, cheerful, pastel, sunny, fashion, glamour, cartoon, anime, cyberpunk, neon",
+  "suitable_genres": [
+    "哥特",
+    "暗黑",
+    "神秘",
+    "恐怖",
+    "人像"
+  ],
+  "scene_whitelist": [
+    "暗调书房",
+    "阁楼阴影",
+    "烟雾缭绕",
+    "破碎镜前",
+    "暗室独坐",
+    "地下墓室",
+    "古堡内部",
+    "石壁地牢",
+    "雨夜窗边",
+    "枯树下",
+    "镜中倒影",
+    "枯萎花园",
+    "破碎镜厅",
+    "烛光密室",
+    "暗红帷幔",
+    "地下室",
+    "枯井底部",
+    "暗巷墙角",
+    "废弃教堂",
+    "暗影走廊",
+    "废弃工厂",
+    "雨夜窗前",
+    "废墟中",
+    "暗室烛光",
+    "钟楼内部"
+  ],
+  "scene_blacklist": [
+    "明亮场景",
+    "现代都市",
+    "自然田园",
+    "赛博朋克",
+    "时尚秀场",
+    "阳光海滩",
+    "古宅雨夜(除非故事明确)"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "人物烛光独坐",
+      "location": "烛光密室",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物在烛光中独坐,半张脸隐入暗影",
+      "mood": "神秘压抑",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "人物暗廊行走",
+      "location": "暗影走廊",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物在暗影走廊中行走,脚步声回荡",
+      "mood": "诡谲紧张",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "人物镜前对峙",
+      "location": "破碎镜厅",
+      "characters": [
+        "人物",
+        "镜像"
+      ],
+      "action": "人物在破碎镜前与自己的镜像对峙",
+      "mood": "暗黑对决",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "人物融入暗影",
+      "location": "暗室深处",
+      "characters": [
+        "人物"
+      ],
+      "action": "人物缓缓融入暗影,只剩轮廓",
+      "mood": "超脱诡谲",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A figure sits alone in a candlelit chamber, half their face swallowed by deep shadow, extreme low-key lighting with single source illumination, mysterious gothic atmosphere, chiaroscuro effect, moody dark processing --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 暗黑肖像·哥特人像\n✅ 允许场景: 烛光密室/暗影走廊/废弃教堂/地下墓室 (从故事原文提取)\n❌ 禁止场景: 明亮场景/现代都市/自然田园/赛博朋克\n❌ 禁止照抄: 不要用'古宅雨夜'(除非故事明确),必须用暗黑哥特场景\n氛围: 哥特神秘,暗调高对比",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use dark gothic scenes (candlelit rooms, shadowy corridors). Do NOT use bright scenes, modern cities, or default 'ancient mansion'. Emphasize extreme low-key lighting and chiaroscuro.",
+  "meta_prompt": "Dark gothic portrait photography, extreme low-key lighting, deep shadows, mysterious atmosphere, chiaroscuro effect, moody processing, somber tones",
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "艺术鉴赏者·凝视人性",
+    "content_adaptation": "进阶肖像解读, 需审美判断力"
+  },
+  "reader_constraint": {
+    "reader_state": "鉴赏者·期待深邃人性表达",
+    "reader_mode": "凝视式审视",
+    "reader_expectation": "明暗对比+面部细节+情绪张力"
+  },
+  "visual_frequency": {
+    "HF": "面部高光区/眼神光/皮肤纹理(高频凝视焦点)",
+    "MF": "服饰褶皱/手部姿态/肩颈线条(中频人物叙事)",
+    "LF": "背景暗部/环境虚化/阴影渐变(低频氛围)",
+    "color_mapping": {
+      "HF": "#E8E8E8",
+      "MF": "#A0A0A0",
+      "LF": "#1A1A1A"
+    },
+    "progression": "HF锁定面部三角区, MF延伸至肢体语言, LF吞噬背景留想象"
+  }
+}

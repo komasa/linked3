@@ -1,0 +1,61 @@
+{
+  "name_cn": "水墨纪实风",
+  "name_en": "Ink Documentary",
+  "category": "商业生产级信息图-G4国风",
+  "version": "1.0.0",
+  "source": "G4-02",
+  "color_palette": {
+    "primary": "#1C1C1C",
+    "accent": "#C0392B",
+    "background": "#F5EFE0",
+    "description": "水墨纪实风配色"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用",
+    "content_adaptation": "通用"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息"
+  },
+  "prompt_keywords": "ink wash painting, splash ink, calligraphy headline, red seal, minimalist",
+  "negative_keywords": "3D render, photorealistic",
+  "suitable_genres": [
+    "通用图示"
+  ],
+  "scene_whitelist": [
+    "通用"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "水墨纪实风: ink wash painting, splash ink, calligraphy headline, red sea",
+  "style_constraint_en": "Ink Documentary: ink wash painting, splash ink, calligraphy headline, red sea",
+  "meta_prompt": "ink wash painting, splash ink, calligraphy headline, red seal, minimalist, #1C1C1C primary, #F5EFE0 background",
+  "prompt_example": "ink wash painting, splash ink, calligraphy headline, red seal, minimalist, #1C1C1C primary, #F5EFE0 background, HarmonyOS Sans. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G4-02"
+}

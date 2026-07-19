@@ -1,0 +1,91 @@
+<?php
+/**
+ * Vector Provider Factory — singleton-cached.
+ *
+ * @package Linked3
+ * @subpackage Classes\Vector
+ */
+
+namespace Linked3\Classes\Vector;
+
+use Linked3\Classes\Vector\Providers\Linked3_Local_Vector_Provider;
+
+
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+final class Linked3_Vector_Factory
+{
+    private static $instance;
+    private $instances = [];
+
+    public static function instance() : mixed {
+        if (null === self::$instance) {
+            // v4.4.6: delegate to the DI container when available.
+            if (class_exists('\\Linked3\\Includes\\Linked3_Container')) {
+                $container = \Linked3\Includes\Linked3_Container::instance();
+                if ($container->has(self::class)) {
+                    self::$instance = $container->get(self::class);
+                    return self::$instance;
+                }
+            }
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Construct the singleton WITHOUT going through the container.
+     *
+     * v4.4.6: used by the container's factory to avoid infinite recursion.
+     *
+     * @return self
+     * @internal
+     */
+    public static function instance_without_container() : mixed     {
+        if (null === self::$instance) self::$instance = new self();
+        return self::$instance;
+    }
+
+    private function __construct() {
+        $this->register('local', static function () { return new \Linked3\Classes\Vector\Providers\Linked3_Local_Vector_Provider(); });
+
+        // v4.8.1: register Pinecone + Qdrant directly here (was in
+        // Chat_Dependencies_Loader, which is the wrong owner — disabling
+        // Chat would lose Vector cloud providers). The class_exists guards
+        // make this safe even if the provider files are not loaded yet.
+        if (class_exists('\\Linked3\\Classes\\Vector\\Providers\\Linked3_Pinecone_Vector_Provider')) {
+            $this->register('pinecone', static function () {
+                return new \Linked3\Classes\Vector\Providers\Linked3_Pinecone_Vector_Provider();
+            });
+        }
+        if (class_exists('\\Linked3\\Classes\\Vector\\Providers\\Linked3_Qdrant_Vector_Provider')) {
+            $this->register('qdrant', static function () {
+                return new \Linked3\Classes\Vector\Providers\Linked3_Qdrant_Vector_Provider();
+            });
+        }
+
+        // Allow Pro addons to register additional providers (OpenAI etc.).
+        do_action_ref_array('linked3/register_vector_providers', [&$this]);
+    }
+
+    public function register($slug, callable $builder)
+    : void {
+        $this->instances[$slug . '_builder'] = $builder;
+    }
+
+    public function make($slug) : mixed {
+        if (isset($this->instances[$slug])) return $this->instances[$slug];
+        if (!isset($this->instances[$slug . '_builder'])) return null;
+        $obj = call_user_func($this->instances[$slug . '_builder']);
+        $this->instances[$slug] = $obj;
+        return $obj;
+    }
+
+    public function slugs() : mixed     {
+        return array_filter(array_keys($this->instances), function ($k) {
+            return substr($k, -8) === '_builder';
+        });
+    }
+}

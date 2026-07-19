@@ -1,0 +1,68 @@
+<?php
+/**
+ * Main plugin class. Intentionally thin — delegates everything to the
+ * three-layer orchestrator (DependencyLoader → HookManager → ModuleInitializer).
+ *
+ * @package Linked3
+ * @subpackage Includes
+ */
+
+namespace Linked3\Includes;
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+final class Linked3_Plugin
+{
+    private static $instance = null;
+
+    /** @var string */
+    private $version;
+
+    /**
+     * @param string $version
+     */
+    private function __construct($version) {
+        $this->version = $version;
+    }
+
+    /**
+     * Singleton accessor — no args on subsequent calls.
+     *
+     * @param string $version Optional, only used on first call.
+     * @return self
+     */
+    public static function instance($version = '')
+    {
+        if (null === self::$instance) {
+            self::$instance = new self($version ?: LINKED3_VERSION);
+        }
+        return self::$instance;
+    }
+
+    /**
+     * @return string
+     */
+    public function version()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Bootstrap entry. Three static calls — main class owns no require/hook.
+     *
+     * @return void
+     */
+    public function run()
+    : void {
+        // 1) Load all required files (pure require_once, no hooks).
+        Linked3_Dependency_Loader::load();
+
+        // 2) Register all WordPress hooks (instantiates handlers, registers actions).
+        Linked3_Hook_Manager::register_hooks($this->version);
+
+        // 3) Initialize sub-systems (dashboard, modules, etc).
+        Linked3_Module_Initializer::init($this->version);
+    }
+}

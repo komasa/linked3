@@ -1,0 +1,10 @@
+{
+    "id": "S5",
+    "name": "地府阴间",
+    "base_prompt": "void of pure darkness, floating golden chains, blood-red ritual marks, green ghost fire, no ground visible",
+    "weather": "void",
+    "time": "none",
+    "lighting_default": "ghost_fire_point_light",
+    "mood_base": "horror, oppressive, underworld",
+    "atmosphere_keywords": ["floating chains", "green will-o-wisp", "red runes", "absolute darkness", "echoing silence"]
+}

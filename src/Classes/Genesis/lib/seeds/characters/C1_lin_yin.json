@@ -1,0 +1,15 @@
+{
+    "id": "C1",
+    "name": "林隐",
+    "base_prompt": "25yo female, short black hair, sharp eyes, scar left brow, slim athletic build 170cm",
+    "variants": {
+        "calm": "straight posture, lips pressed, focused gaze, hands relaxed",
+        "angry": "gritting teeth, clenched fist, deep frown, aggressive stance",
+        "sad": "teary eyes, hunched shoulders, trembling lips, rain on face",
+        "determined": "jaw set, eyes blazing, fist raised, leaning forward",
+        "exhausted": "sweating, panting, half-lidded eyes, slumped posture"
+    },
+    "negative_base": "smiling, bright, sunny, cartoon, deformed, extra fingers, bad anatomy",
+    "costume_default": "dark tactical jacket, black cargo pants, combat boots",
+    "accessories": ["scarf", "earpiece", "combat knife"]
+}

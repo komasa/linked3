@@ -1,0 +1,63 @@
+# Linked3 漫画脚本生产管线 (v11.0)
+name: comic
+version: "11.0.0"
+description: "漫画脚本生产管线 — 5层架构 + v11.0三基因(画风×布局×画幅)"
+
+# v11.0: 漫画视觉三基因定义 (参照图示脚本大格局补全)
+visual_genes:
+  # 基因1: 画风风格 (S/Y/G codes, 排除F图示基因)
+  style_gene:
+    type: "画风基因"
+    codes: ["S01-S06", "Y01-Y12", "G01-G08"]
+    exclude: ["F01-F57"]
+    source: "styles/*.json"
+  # 基因2: 分镜布局 (新增, 参照图示脚本layout)
+  layout_gene:
+    type: "分镜布局基因"
+    options:
+      auto: "AI自动适配"
+      grid-4: "四格网格(经典漫画)"
+      grid-6: "六格网格(快节奏)"
+      grid-8: "八格网格(密集动作)"
+      splash: "全页大格(高潮/扉页)"
+      full-width: "通栏横幅(宽幅场景)"
+      vertical-strip: "竖条漫(Webtoon)"
+      manga-classic: "日漫经典(2×3变格)"
+      bd-european: "欧漫条带(3行横条)"
+      cinematic-widescreen: "电影宽屏(16:9)"
+      dynamic-asymmetric: "动态非对称(美漫英雄)"
+  # 基因3: 画幅比例 (新增, 参照图示脚本aspect-ratio)
+  aspect_gene:
+    type: "画幅比例基因"
+    options: ["3:4", "1:1", "4:3", "16:9", "9:16", "2:3"]
+  # 基因4: 渲染技法 (新增, 影响画面质感)
+  render_gene:
+    type: "渲染技法基因"
+    options:
+      auto: "跟随画风风格"
+      cel-shading: "赛璐璐平涂(日漫)"
+      ink-wash: "水墨渲染(东方)"
+      watercolor: "水彩渲染(绘本)"
+      oil-painting: "油画质感(写实)"
+      digital-painting: "数码绘画(主流)"
+      pencil-sketch: "铅笔素描(草稿)"
+      halftone-print: "半调印刷(复古美漫)"
+      flat-design: "扁平设计(极简)"
+      3d-render: "3D渲染(CG)"
+
+steps:
+  - name: load_seed
+    handler: "Linked3_Comic_Factory::pipeline_load_seed"
+    optional: false
+  - name: compile
+    handler: "Linked3_Comic_Factory::pipeline_compile"
+    optional: false
+  - name: project
+    handler: "Linked3_Comic_Factory::pipeline_project"
+    optional: false
+  - name: quality_check
+    handler: "Linked3_Comic_Factory::pipeline_quality_check"
+    optional: true
+  - name: platform_adapt
+    handler: "Linked3_Comic_Factory::pipeline_adapt"
+    optional: true

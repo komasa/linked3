@@ -1,0 +1,103 @@
+{
+  "meta_mother_version": "M2-G3",
+  "description": "meta的meta·真理探索系统元母体提示词库 — 嵌入自 genesis_meta2_M2_G3 母版",
+  "axioms": {
+    "axiom_1_meta_entropy_reduction": "元熵减: 从众多真理探索系统中萃取探索真理的元规律，把无限种探索方式坍缩为可分类的元类型",
+    "axiom_2_meta_dimension_reduction": "元降维: 把探索真理这件事本身降维为探索方式分类→系统原型生成→元规律提炼→新系统创造四阶"
+  },
+  "core_nucleus": "探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎",
+  "meta_laws": {
+    "falsifiability": "可证伪: 真理必须可被证伪，不可证伪的不是真理而是信仰",
+    "transmissibility": "可传递: 真理必须可被传递，不可传递的不是真理而是直觉",
+    "embodiment": "可具现: 真理必须可被具现，不可具现的不是真理而是空想",
+    "evolvability": "可进化: 真理必须可被进化，不可进化的不是真理而是教条",
+    "protectability": "可守护: 真理必须可被守护，不可守护的不是真理而是流言"
+  },
+  "commands": {
+    "/meta2": "元母体总入口 — 显示元母体能力概览",
+    "/meta2 classify": "第一阶: 探索方式分类 — 推荐最佳探索原型",
+    "/meta2 prototype": "第二阶: 系统原型生成 — 生成完整探索系统配置",
+    "/meta2 extract": "第三阶: 元规律提炼 — 评估探索结果的元规律合规性",
+    "/meta2 create": "第四阶: 新系统创造 — 按六步创造法生成新探索系统",
+    "/meta2 laws": "显示5大元规律",
+    "/meta2 prototypes": "显示9大探索原型",
+    "/meta2 info": "显示元母体元信息",
+    "/meta2 axioms": "显示双公理",
+    "/meta2 nucleus": "显示绝对信息核",
+    "/meta2 stages": "显示4阶元流程",
+    "/meta2 version": "显示元母体版本",
+    "/meta2 help": "显示帮助",
+    "/meta2 example": "显示使用示例",
+    "/meta2 best_practice": "显示最佳实践",
+    "/meta2 faq": "显示常见问题"
+  },
+  "prompts": {
+    "meta_classify": {
+      "name": "探索方式分类",
+      "desc": "根据探索意图推荐最佳探索原型",
+      "text": "你是真理探索系统元母体的第一阶·探索方式分类引擎。\n\n## 任务\n根据用户的探索意图，从9大探索原型中推荐最佳探索方式。\n\n## 9大探索原型\n1. book(写书式): 通过写书发现真理 — 系统化知识整理\n2. experimental(实验式): 通过实验发现真理 — 假设验证\n3. observational(观察式): 通过观察发现真理 — 现象记录\n4. deductive(推演式): 通过逻辑推演发现真理 — 数学/哲学\n5. meditative(冥想式): 通过内观发现真理 — 东方智慧\n6. dialogic(对话式): 通过对话发现真理 — 苏格拉底法\n7. practical(实践式): 通过实践发现真理 — 实用主义\n8. artistic(艺术式): 通过艺术发现真理 — 美学路径\n9. computational(计算式): 通过计算发现真理 — 计算科学\n10. synthetic(综合式): 多维度并行探索 — 复杂真理\n\n## 用户探索意图\n{intent}\n\n## 输出格式(JSON)\n{\n  \"recommended\": \"原型key\",\n  \"alternatives\": [\"备选1\", \"备选2\"],\n  \"reasoning\": \"推荐理由\",\n  \"custom_params\": {}\n}\n只输出JSON，不要解释。"
+    },
+    "meta_generate": {
+      "name": "系统原型生成",
+      "desc": "根据原型key生成完整探索系统配置",
+      "text": "你是真理探索系统元母体的第二阶·系统原型生成引擎。\n\n## 任务\n根据指定的原型key，生成完整的探索系统配置。\n\n## 原型key\n{prototype_key}\n\n## 输出格式(JSON)\n{\n  \"prototype\": \"原型key\",\n  \"name\": \"原型名称\",\n  \"process\": [\"步骤1\", \"步骤2\", ...],\n  \"prompt_overrides\": {},\n  \"output_template\": \"模板名\",\n  \"law_focus\": [\"元规律1\", \"元规律2\"]\n}\n只输出JSON，不要解释。"
+    },
+    "meta_extract": {
+      "name": "元规律提炼",
+      "desc": "评估探索结果的5大元规律合规性",
+      "text": "你是真理探索系统元母体的第三阶·元规律提炼引擎。\n\n## 任务\n评估探索结果是否符合5大元规律，给出评分与改进建议。\n\n## 5大元规律\n1. 可证伪: 真理必须可被证伪\n2. 可传递: 真理必须可被传递\n3. 可具现: 真理必须可被具现\n4. 可进化: 真理必须可被进化\n5. 可守护: 真理必须可被守护\n\n## 探索结果\n{result_text}\n\n## 输出格式(JSON)\n{\n  \"scores\": {\n    \"falsifiability\": 0-100,\n    \"transmissibility\": 0-100,\n    \"embodiment\": 0-100,\n    \"evolvability\": 0-100,\n    \"protectability\": 0-100\n  },\n  \"overall_score\": 0-100,\n  \"compliant\": true/false,\n  \"improvements\": [\"改进建议1\", \"改进建议2\"]\n}\n只输出JSON，不要解释。"
+    },
+    "meta_create": {
+      "name": "新系统创造",
+      "desc": "按六步创造法生成新探索系统",
+      "text": "你是真理探索系统元母体的第四阶·新系统创造引擎。\n\n## 任务\n按六步创造法生成新的真理探索系统。\n\n## 六步创造法\n1. 需求分析: 分析新系统要探索的真理类型\n2. 原型选择: 从9大原型中选择基础原型\n3. 参数定制: 定制系统参数\n4. 流程设计: 设计探索流程\n5. 元规律校验: 校验是否符合5大元规律\n6. 系统命名: 命名并归档\n\n## 输入\n系统名称: {system_name}\n应用领域: {domain}\n\n## 输出格式(JSON)\n{\n  \"system_name\": \"系统名称\",\n  \"base_prototype\": \"基础原型\",\n  \"parameters\": {},\n  \"process_steps\": [],\n  \"law_compliance\": {},\n  \"description\": \"系统描述\"\n}\n只输出JSON，不要解释。"
+    },
+    "meta_step0_classify": {
+      "name": "Step0 元分类 (流水线前置)",
+      "desc": "写书流水线前置步骤 — 自动分类探索意图并推荐原型",
+      "text": "你是真理探索系统元母体的流水线前置分类器。\n\n## 任务\n分析用户的写书意图，判断是否需要切换到非写书式探索原型。\n\n## 判断规则\n- 如果意图明确是写书/知识整理/学习总结，保持 book 原型\n- 如果意图偏向实验验证，推荐 experimental\n- 如果意图偏向逻辑推演，推荐 deductive\n- 如果意图偏向意识探索，推荐 meditative\n- 如果意图复杂多维，推荐 synthetic\n\n## 用户意图\n{book_title}\n\n## 输出格式(JSON)\n{\n  \"recommended_prototype\": \"原型key\",\n  \"keep_book_pipeline\": true/false,\n  \"reasoning\": \"判断理由\",\n  \"adjusted_params\": {}\n}\n只输出JSON，不要解释。"
+    }
+  },
+  "prototype_prompts": {
+    "book": {
+      "prompt_override": "请以系统化、结构化、逻辑严密的方式探索{book_title}，整理知识体系，萃取真理内核",
+      "process_prompt": "按照 演示→探索→大纲→扩写→拼接→审阅 六步流程，系统化探索真理"
+    },
+    "experimental": {
+      "prompt_override": "请以严谨、可复现、数据驱动的方式探索{book_title}，提出假设并设计实验验证",
+      "process_prompt": "按照 假设提出→实验设计→实验执行→数据分析→结论提炼→复现验证 六步流程，通过实验发现真理"
+    },
+    "observational": {
+      "prompt_override": "请以客观、细致、模式导向的方式探索{book_title}，系统观察并记录现象",
+      "process_prompt": "按照 观察准备→系统观察→记录整理→模式识别→规律提炼→理论构建 六步流程，通过观察发现真理"
+    },
+    "deductive": {
+      "prompt_override": "请以严密、形式化、无矛盾的方式探索{book_title}，从公理出发逻辑推演",
+      "process_prompt": "按照 公理确立→定义概念→推演规则→定理证明→体系构建→一致性检验 六步流程，通过推演发现真理"
+    },
+    "meditative": {
+      "prompt_override": "请以内观、觉知、非二元的方式探索{book_title}，通过静心内观发现真理",
+      "process_prompt": "按照 静心准备→专注内观→觉知观察→洞察涌现→智慧提炼→实践验证 六步流程，通过冥想发现真理"
+    },
+    "dialogic": {
+      "prompt_override": "请以追问、辩证、启发式的方式探索{book_title}，通过对话揭示真理",
+      "process_prompt": "按照 话题确立→提问引导→回应分析→矛盾揭示→共识提炼→新知生成 六步流程，通过对话发现真理"
+    },
+    "practical": {
+      "prompt_override": "请以实用、迭代、效果导向的方式探索{book_title}，在实践中发现真理",
+      "process_prompt": "按照 需求识别→方案设计→实践执行→效果评估→经验提炼→迭代优化 六步流程，通过实践发现真理"
+    },
+    "artistic": {
+      "prompt_override": "请以感性、象征、多义性的方式探索{book_title}，通过艺术表达发现真理",
+      "process_prompt": "按照 灵感捕捉→素材积累→创作表达→作品反思→美学提炼→真理具现 六步流程，通过艺术发现真理"
+    },
+    "computational": {
+      "prompt_override": "请以形式化、可计算、可复现的方式探索{book_title}，通过计算模拟发现真理",
+      "process_prompt": "按照 问题形式化→算法设计→计算执行→结果分析→模式发现→理论构建 六步流程，通过计算发现真理"
+    },
+    "synthetic": {
+      "prompt_override": "请以多维、整合、系统化的方式探索{book_title}，多维度并行发现真理",
+      "process_prompt": "按照 维度分析→原型组合→并行探索→结果整合→综合判断→元规律校验 六步流程，综合多种方式发现真理"
+    }
+  }
+}

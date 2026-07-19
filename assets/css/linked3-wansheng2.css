@@ -1,0 +1,277 @@
+/**
+ * Linked3 Wansheng-2 Visual Style — v16.0.18
+ * [公理α: H↓ 消除"这工具专业吗"不确定性] [公理β: dim↓ 1维token替代N处inline style]
+ *
+ * 万兴2风格: 深色卡片 + 渐变CTA + 圆角分层 + 微动效
+ * 设计参考: 万兴科技产品视觉语言 v2 (2024)
+ */
+
+/* ============ 设计 Token (单一配置源) ============ */
+:root {
+    /* 主色 — 万兴蓝紫渐变 */
+    --lk3-ws2-primary: #6366f1;
+    --lk3-ws2-primary-dark: #4f46e5;
+    --lk3-ws2-primary-light: #818cf8;
+    --lk3-ws2-accent: #06b6d4;
+    --lk3-ws2-gradient: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+    --lk3-ws2-gradient-hover: linear-gradient(135deg, #4f46e5 0%, #0891b2 100%);
+
+    /* 语义色 */
+    --lk3-ws2-success: #10B981;
+    --lk3-ws2-warning: #F59E0B;
+    --lk3-ws2-danger: #EF4444;
+    --lk3-ws2-info: #3B82F6;
+
+    /* 中性色 — 深色卡片体系 */
+    --lk3-ws2-card-bg: #ffffff;
+    --lk3-ws2-card-bg-dark: #18181B;
+    --lk3-ws2-surface: #FAFAFA;
+    --lk3-ws2-surface-hover: #F4F4F5;
+    --lk3-ws2-border: #E4E4E7;
+    --lk3-ws2-border-strong: #D4D4D8;
+    --lk3-ws2-text-primary: #0f172a;
+    --lk3-ws2-text-secondary: #52525B;
+    --lk3-ws2-text-muted: #A1A1AA;
+    --lk3-ws2-text-inverse: #ffffff;
+
+    /* 圆角分层 */
+    --lk3-ws2-radius-sm: 6px;
+    --lk3-ws2-radius-md: 8px;
+    --lk3-ws2-radius-lg: 12px;
+    --lk3-ws2-radius-xl: 16px;
+    --lk3-ws2-radius-full: 9999px;
+
+    /* 阴影分层 */
+    --lk3-ws2-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --lk3-ws2-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+    --lk3-ws2-shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
+    --lk3-ws2-shadow-glow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+
+    /* 间距 */
+    --lk3-ws2-space-xs: 4px;
+    --lk3-ws2-space-sm: 8px;
+    --lk3-ws2-space-md: 16px;
+    --lk3-ws2-space-lg: 24px;
+    --lk3-ws2-space-xl: 32px;
+
+    /* 字体 */
+    --lk3-ws2-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --lk3-ws2-font-mono: "SF Mono", "Fira Code", "Consolas", monospace;
+    --lk3-ws2-font-size-xs: 11px;
+    --lk3-ws2-font-size-sm: 13px;
+    --lk3-ws2-font-size-base: 14px;
+    --lk3-ws2-font-size-lg: 16px;
+    --lk3-ws2-font-size-xl: 20px;
+    --lk3-ws2-font-size-2xl: 24px;
+
+    /* 动效 */
+    --lk3-ws2-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============ 卡片 — 万兴2深色头部 ============ */
+.linked3-eco-card {
+    background: var(--lk3-ws2-card-bg);
+    border: 1px solid var(--lk3-ws2-border);
+    border-radius: var(--lk3-ws2-radius-lg);
+    box-shadow: var(--lk3-ws2-shadow-sm);
+    overflow: hidden;
+    transition: var(--lk3-ws2-transition);
+}
+
+.linked3-eco-card-header {
+    background: var(--lk3-ws2-gradient);
+    color: var(--lk3-ws2-text-inverse);
+    padding: var(--lk3-ws2-space-md) var(--lk3-ws2-space-lg);
+    font-weight: 600;
+    font-size: var(--lk3-ws2-font-size-lg);
+}
+
+.linked3-eco-card-body {
+    padding: var(--lk3-ws2-space-lg);
+}
+
+/* ============ 按钮 — 渐变CTA ============ */
+.linked3-eco-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--lk3-ws2-radius-md);
+    font-size: var(--lk3-ws2-font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--lk3-ws2-transition);
+    background: var(--lk3-ws2-surface);
+    color: var(--lk3-ws2-text-primary);
+    border: 1px solid var(--lk3-ws2-border);
+}
+
+.linked3-eco-btn:hover {
+    background: var(--lk3-ws2-surface-hover);
+    box-shadow: var(--lk3-ws2-shadow-sm);
+}
+
+.linked3-eco-btn-primary {
+    background: var(--lk3-ws2-gradient);
+    color: var(--lk3-ws2-text-inverse);
+    border: none;
+    box-shadow: var(--lk3-ws2-shadow-sm);
+}
+
+.linked3-eco-btn-primary:hover {
+    background: var(--lk3-ws2-gradient-hover);
+    box-shadow: var(--lk3-ws2-shadow-md);
+    transform: translateY(-1px);
+}
+
+.linked3-eco-btn-primary:active {
+    transform: translateY(0);
+}
+
+.linked3-eco-btn-sm {
+    padding: 4px 10px;
+    font-size: var(--lk3-ws2-font-size-xs);
+}
+
+/* ============ 输入框 ============ */
+.linked3-eco-input,
+.linked3-eco-select {
+    padding: 8px 12px;
+    border: 1px solid var(--lk3-ws2-border);
+    border-radius: var(--lk3-ws2-radius-md);
+    font-size: var(--lk3-ws2-font-size-sm);
+    background: var(--lk3-ws2-card-bg);
+    color: var(--lk3-ws2-text-primary);
+    transition: var(--lk3-ws2-transition);
+}
+
+.linked3-eco-input:focus,
+.linked3-eco-select:focus {
+    outline: none;
+    border-color: var(--lk3-ws2-primary);
+    box-shadow: var(--lk3-ws2-shadow-glow);
+}
+
+/* ============ 徽章 ============ */
+.lk3-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--lk3-ws2-radius-full);
+    font-size: var(--lk3-ws2-font-size-xs);
+    font-weight: 500;
+}
+
+.lk3-badge-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--lk3-ws2-success);
+}
+
+.lk3-badge-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--lk3-ws2-warning);
+}
+
+.lk3-badge-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--lk3-ws2-danger);
+}
+
+.lk3-badge-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--lk3-ws2-info);
+}
+
+/* ============ 进度条 — 渐变填充 ============ */
+.linked3-eco-progress {
+    height: 8px;
+    background: var(--lk3-ws2-surface);
+    border-radius: var(--lk3-ws2-radius-full);
+    overflow: hidden;
+}
+
+.linked3-eco-progress-bar {
+    height: 100%;
+    background: var(--lk3-ws2-gradient);
+    border-radius: var(--lk3-ws2-radius-full);
+    transition: width 0.3s ease;
+}
+
+/* ============ 信息图项 — 左侧渐变条 ============ */
+.linked3-eco-info-item {
+    background: var(--lk3-ws2-surface);
+    border-radius: var(--lk3-ws2-radius-md);
+    border-left: 3px solid var(--lk3-ws2-primary);
+    padding: var(--lk3-ws2-space-md);
+    transition: var(--lk3-ws2-transition);
+}
+
+.linked3-eco-info-item:hover {
+    background: var(--lk3-ws2-surface-hover);
+    border-left-color: var(--lk3-ws2-accent);
+    transform: translateX(2px);
+}
+
+/* ============ 导航项 ============ */
+.linked3-eco-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: var(--lk3-ws2-radius-md);
+    color: var(--lk3-ws2-text-secondary);
+    text-decoration: none;
+    font-size: var(--lk3-ws2-font-size-sm);
+    font-weight: 500;
+    transition: var(--lk3-ws2-transition);
+}
+
+.linked3-eco-nav-item:hover {
+    background: var(--lk3-ws2-surface);
+    color: var(--lk3-ws2-text-primary);
+}
+
+.linked3-eco-nav-item.active {
+    background: var(--lk3-ws2-gradient);
+    color: var(--lk3-ws2-text-inverse);
+    box-shadow: var(--lk3-ws2-shadow-sm);
+}
+
+/* ============ 标题 ============ */
+.linked3-eco-section-title {
+    font-size: var(--lk3-ws2-font-size-xl);
+    font-weight: 700;
+    color: var(--lk3-ws2-text-primary);
+    margin: 0 0 var(--lk3-ws2-space-md) 0;
+    padding-bottom: var(--lk3-ws2-space-sm);
+    border-bottom: 2px solid var(--lk3-ws2-border);
+}
+
+/* ============ 空状态 ============ */
+.linked3-eco-empty {
+    text-align: center;
+    padding: var(--lk3-ws2-space-xl);
+    color: var(--lk3-ws2-text-muted);
+}
+
+.linked3-eco-empty-icon {
+    font-size: 48px;
+    margin-bottom: var(--lk3-ws2-space-md);
+    opacity: 0.5;
+}
+
+/* ============ 暗色模式兼容 (防御性) ============ */
+@media (prefers-color-scheme: dark) {
+    .linked3-eco-card:not(.linked3-eco-card-light) {
+        background: var(--lk3-ws2-card-bg-dark);
+        border-color: rgba(255,255,255,0.1);
+        color: var(--lk3-ws2-text-inverse);
+    }
+    .linked3-eco-input,
+    .linked3-eco-select {
+        background: rgba(255,255,255,0.05);
+        color: var(--lk3-ws2-text-inverse);
+        border-color: rgba(255,255,255,0.15);
+    }
+}

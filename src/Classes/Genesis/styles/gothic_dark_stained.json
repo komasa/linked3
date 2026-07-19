@@ -1,0 +1,176 @@
+{
+  "name_cn": "哥特暗黑·尖拱彩窗",
+  "name_en": "Gothic Dark Stained Glass",
+  "category": "西方灵异",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#1C1C1C",
+        "ratio": "30%",
+        "use": "深石暗影"
+      },
+      {
+        "hex": "#2F1B14",
+        "ratio": "20%",
+        "use": "暗木质感"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#8B0000",
+        "ratio": "12%",
+        "use": "血红十字"
+      },
+      {
+        "hex": "#4B0082",
+        "ratio": "10%",
+        "use": "彩窗紫光"
+      }
+    ],
+    "accent": [
+      "#FFD700",
+      "#C0C0C0"
+    ],
+    "mood_tone": "暗黑高对比,彩窗光斑"
+  },
+  "line_style": "尖拱轮廓+繁复雕花,gothic arches",
+  "render": "油画质感+彩窗透光,stained-glass texture",
+  "atmosphere": [
+    "神秘",
+    "压抑",
+    "庄严",
+    "诡谲",
+    "宿命"
+  ],
+  "lighting": "彩窗透光+烛光+体积光,stained glass light",
+  "symbols": [
+    "十字架",
+    "彩窗",
+    "石像鬼",
+    "烛台",
+    "圣经",
+    "玫瑰窗"
+  ],
+  "patterns": [
+    "哥特尖拱",
+    "玫瑰窗",
+    "飞扶壁",
+    "石雕花纹"
+  ],
+  "prompt_keywords": "Gothic dark atmosphere, stained glass windows casting colored light, pointed arches, stone gargoyles, candlelit interiors, religious iconography, oil painting texture, baroque chiaroscuro",
+  "negative_keywords": "modern city, cyberpunk, neon, anime, ukiyo-e, ink wash, bright cheerful, pastel, hanfu",
+  "suitable_genres": [
+    "哥特",
+    "吸血鬼",
+    "宗教",
+    "暗黑",
+    "中世纪"
+  ],
+  "scene_whitelist": [
+    "钟楼",
+    "地下圣殿",
+    "钟楼顶端",
+    "吸血鬼城堡",
+    "地下墓室",
+    "修道院",
+    "塔楼",
+    "圣水池",
+    "墓园石碑",
+    "彩窗长廊",
+    "十字军教堂",
+    "图书馆",
+    "玫瑰窗下",
+    "回廊庭院",
+    "修士静室",
+    "圣物室",
+    "彩色玻璃回廊",
+    "修道院回廊",
+    "大教堂",
+    "古堡大厅",
+    "地牢",
+    "忏悔室",
+    "祭坛前",
+    "石像鬼屋顶",
+    "女巫森林",
+    "黑教堂",
+    "墓园",
+    "管风琴阁"
+  ],
+  "scene_blacklist": [
+    "现代都市",
+    "赛博朋克",
+    "东方建筑",
+    "古宅",
+    "竹林",
+    "自然田园",
+    "时尚秀场"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "主角进入教堂",
+      "location": "大教堂",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角推开教堂木门,彩窗光影洒落",
+      "mood": "庄严神秘",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "主角探查秘辛",
+      "location": "地下墓室",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角在墓室中点燃蜡烛,查看古老碑文",
+      "mood": "压抑诡谲",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "主角对抗黑暗",
+      "location": "钟楼",
+      "characters": [
+        "主角",
+        "黑暗势力"
+      ],
+      "action": "主角在钟楼与黑暗势力对决,钟声回荡",
+      "mood": "宿命对决",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "主角破晓离去",
+      "location": "彩窗长廊",
+      "characters": [
+        "主角"
+      ],
+      "action": "主角穿过彩窗长廊,晨光透过玻璃",
+      "mood": "释然救赎",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A lone figure enters a grand gothic cathedral, stained glass windows casting colored light across the stone floor, the figure holding a candle with trembling hands, oil painting texture with baroque chiaroscuro, moody wide shot from eye level with rule of thirds composition, dark atmospheric gothic style --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 哥特暗黑·尖拱彩窗\n✅ 允许场景: 教堂/古堡/彩窗/地下墓室 (从故事原文提取)\n❌ 禁止场景: 现代都市/东方建筑/自然田园\n❌ 禁止照抄: 不要用'雨夜古宅',必须用哥特建筑场景\n氛围: 神秘压抑,哥特尖拱",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use gothic scenes (churches, castles, stained glass). Do NOT use modern cities, Eastern buildings, or 'ancient mansion'. Adapt to the story's actual setting in a gothic context.",
+  "meta_prompt": "Gothic dark atmosphere, stained glass colored light, pointed arches, stone gargoyles, candlelit interiors, oil painting texture, baroque chiaroscuro",
+  "cognitive_level": {
+    "primary": "E",
+    "reader_profile": "哥特文化爱好者·沉浸暗黑",
+    "content_adaptation": "专家级哥特符号, 需宗教/哥特文化底蕴"
+  },
+  "reader_constraint": {
+    "reader_state": "哥特爱好者·期待暗黑神圣感",
+    "reader_mode": "沉浸式冥想",
+    "reader_expectation": "彩窗光影+哥特符号+神秘庄严"
+  },
+  "visual_frequency": {
+    "HF": "彩窗光斑/哥特尖拱/宗教符号(高频神圣锚点)",
+    "MF": "石柱纹理/暗色服饰/建筑结构(中频哥特叙事)",
+    "LF": "阴影深处/烛光余晖/暗部虚化(低频神秘)",
+    "color_mapping": {
+      "HF": "#FFD700",
+      "MF": "#4B0082",
+      "LF": "#0D0D0D"
+    },
+    "progression": "HF彩窗金光破暗, MF哥特结构撑庄严, LF深渊阴影藏神秘"
+  }
+}

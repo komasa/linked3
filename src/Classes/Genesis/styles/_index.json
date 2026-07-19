@@ -1,0 +1,820 @@
+{
+  "version": "9.0.0",
+  "total_styles": 83,
+  "architecture": "83 styles complete library (G1-G7 full evolution + G8 international comic expansion)",
+  "g7_full": {
+    "version": "G8.0 International Comic Expansion",
+    "date": "2026-06-27",
+    "total_styles": 83,
+    "generations": [
+      "G3-MVP",
+      "G4",
+      "G5-A",
+      "G5-B",
+      "G6-C",
+      "G6-D",
+      "G6-E",
+      "G7-G"
+    ],
+    "engines": 9
+  },
+  "styles": {
+    "a_architecture": {
+      "name_cn": "架构分层图",
+      "name_en": "Architecture Layer",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": true,
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F01"
+    },
+    "a_fishbone": {
+      "name_cn": "鱼骨因果图",
+      "name_en": "Fishbone",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": true,
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F02"
+    },
+    "a_linear_flow": {
+      "name_cn": "线性流程图",
+      "name_en": "Linear Flow",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": "G5 Track A-05演化结晶",
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F03"
+    },
+    "a_matrix_compare": {
+      "name_cn": "矩阵对比图",
+      "name_en": "Matrix Compare",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": true,
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F04"
+    },
+    "a_network_graph": {
+      "name_cn": "网状关系图",
+      "name_en": "Network Graph",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": true,
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F05"
+    },
+    "a_radial_mindmap": {
+      "name_cn": "放射思维导图",
+      "name_en": "Radial Mind Map",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": "G5 Track A-01演化结晶",
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F06"
+    },
+    "a_swimlane": {
+      "name_cn": "泳道流程图",
+      "name_en": "Swimlane Flow",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": true,
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F07"
+    },
+    "a_timeline": {
+      "name_cn": "时间轴导图",
+      "name_en": "Timeline Map",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": true,
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F08"
+    },
+    "a_tree_knowledge": {
+      "name_cn": "树状知识树",
+      "name_en": "Tree Knowledge",
+      "category": "商业生产级信息图-G5图示专项",
+      "production_ready": "G5 Track A-02演化结晶",
+      "g7_track": "G5-A",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F09"
+    },
+    "b_bauhaus_geo": {
+      "name_cn": "包豪斯几何风",
+      "name_en": "Bauhaus Geometric",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F10"
+    },
+    "b_hig_glass": {
+      "name_cn": "HIG毛玻璃卡",
+      "name_en": "HIG Glass Card",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F11"
+    },
+    "b_material_card": {
+      "name_cn": "Material知识卡",
+      "name_en": "Material Knowledge Card",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F12"
+    },
+    "b_material_dash": {
+      "name_cn": "Material仪表盘",
+      "name_en": "Material Dashboard",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F13"
+    },
+    "b_material_fab": {
+      "name_cn": "Material行动卡",
+      "name_en": "Material FAB",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F14"
+    },
+    "b_muji_whitespace": {
+      "name_cn": "Muji留白风",
+      "name_en": "Muji Whitespace",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F15"
+    },
+    "b_rams_minimal": {
+      "name_cn": "Rams极简风",
+      "name_en": "Rams Minimal",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F16"
+    },
+    "b_swiss_data": {
+      "name_cn": "瑞士数据风",
+      "name_en": "Swiss Data",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F17"
+    },
+    "b_swiss_grid": {
+      "name_cn": "瑞士网格风",
+      "name_en": "Swiss Grid",
+      "category": "商业生产级信息图-G5规范融合",
+      "production_ready": true,
+      "g7_track": "G5-B",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F18"
+    },
+    "c_color_zoned": {
+      "name_cn": "色彩分区多模块",
+      "name_en": "Color-Zoned Multi-Module",
+      "category": "商业生产级信息图-G6融合技法",
+      "production_ready": true,
+      "g7_track": "G6-C",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F19"
+    },
+    "c_dual_axis": {
+      "name_cn": "线性放射双轴图",
+      "name_en": "Dual-Axis Map",
+      "category": "商业生产级信息图-G6融合技法",
+      "production_ready": true,
+      "g7_track": "G6-C",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F20"
+    },
+    "c_loop_flow": {
+      "name_cn": "环形闭环流程",
+      "name_en": "Loop-Flow Map",
+      "category": "商业生产级信息图-G6融合技法",
+      "production_ready": true,
+      "g7_track": "G6-C",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F21"
+    },
+    "cinematic_still": {
+      "name_cn": "影视剧照·电影质感",
+      "name_en": "Cinematic Film Still",
+      "category": "真人-影视",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "S01"
+    },
+    "cyberpunk_neon": {
+      "name_cn": "赛博朋克·霓虹未来",
+      "name_en": "Cyberpunk Neon Future",
+      "category": "科幻未来",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G01"
+    },
+    "d_wx_hierarchical": {
+      "name_cn": "万兴层次布局",
+      "name_en": "WX Hierarchical",
+      "category": "商业生产级信息图-G6万兴垂直",
+      "production_ready": true,
+      "g7_track": "G6-D",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F22"
+    },
+    "d_wx_orthogonal": {
+      "name_cn": "万兴正交流程",
+      "name_en": "WX Orthogonal",
+      "category": "商业生产级信息图-G6万兴垂直",
+      "production_ready": true,
+      "g7_track": "G6-D",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F23"
+    },
+    "d_wx_template": {
+      "name_cn": "万兴模板套用",
+      "name_en": "WX Template",
+      "category": "商业生产级信息图-G6万兴垂直",
+      "production_ready": true,
+      "g7_track": "G6-D",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F24"
+    },
+    "d_wx_theme": {
+      "name_cn": "万兴主题色",
+      "name_en": "WX Theme",
+      "category": "商业生产级信息图-G6万兴垂直",
+      "production_ready": true,
+      "g7_track": "G6-D",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F25"
+    },
+    "dark_portrait": {
+      "name_cn": "暗黑肖像·哥特人像",
+      "name_en": "Dark Gothic Portrait",
+      "category": "真人-暗黑",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "S02"
+    },
+    "documentary_photo": {
+      "name_cn": "纪实摄影·新闻质感",
+      "name_en": "Documentary Photography",
+      "category": "真人-纪实",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "S03"
+    },
+    "e_bauhaus_flat": {
+      "name_cn": "包豪斯Flat原子",
+      "name_en": "Bau-Flat Atoms",
+      "category": "商业生产级信息图-G6原子重组",
+      "production_ready": true,
+      "g7_track": "G6-E",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F26"
+    },
+    "e_hig_rams": {
+      "name_cn": "HIG Rams原子",
+      "name_en": "HIG-Rams Atoms",
+      "category": "商业生产级信息图-G6原子重组",
+      "production_ready": true,
+      "g7_track": "G6-E",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F27"
+    },
+    "e_mat_swiss": {
+      "name_cn": "Material瑞士原子",
+      "name_en": "Mat-Swiss Atoms",
+      "category": "商业生产级信息图-G6原子重组",
+      "production_ready": true,
+      "g7_track": "G6-E",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F28"
+    },
+    "e_muji_swiss": {
+      "name_cn": "Muji瑞士原子",
+      "name_en": "Muji-Swiss Atoms",
+      "category": "商业生产级信息图-G6原子重组",
+      "production_ready": true,
+      "g7_track": "G6-E",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F29"
+    },
+    "exorcism_dark_ink": {
+      "name_cn": "驱魔录·暗黑水墨",
+      "name_en": "Exorcism Dark Ink-Wash",
+      "category": "东方灵异",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y01"
+    },
+    "exorcism_ink_variant": {
+      "name_cn": "墨韵·东方灵异",
+      "name_en": "Ink Spirit Variant",
+      "category": "东方灵异",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y02"
+    },
+    "fashion_editorial": {
+      "name_cn": "时尚大片·杂志封面",
+      "name_en": "Fashion Editorial",
+      "category": "真人-时尚",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "S04"
+    },
+    "g4_finance_dash": {
+      "name_cn": "金融仪表盘风",
+      "name_en": "Finance Dashboard",
+      "category": "商业生产级信息图-G4垂直行业",
+      "production_ready": true,
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "finance",
+      "usage_code": "F30"
+    },
+    "g4_high_contrast": {
+      "name_cn": "高对比知识卡",
+      "name_en": "High-Contrast Knowledge Card",
+      "category": "商业生产级信息图-G4无障碍",
+      "production_ready": "G4-06无障碍演化结晶",
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F31"
+    },
+    "g4_ink_documentary": {
+      "name_cn": "水墨纪实风",
+      "name_en": "Ink Documentary",
+      "category": "商业生产级信息图-G4国风",
+      "production_ready": true,
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F32"
+    },
+    "g4_large_print": {
+      "name_cn": "大字号行动卡",
+      "name_en": "Large-Print CTA",
+      "category": "商业生产级信息图-G4无障碍",
+      "production_ready": true,
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F33"
+    },
+    "g4_medical_data": {
+      "name_cn": "医疗数据风",
+      "name_en": "Medical Data",
+      "category": "商业生产级信息图-G4垂直行业",
+      "production_ready": true,
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "medical",
+      "usage_code": "F34"
+    },
+    "g4_motion_action": {
+      "name_cn": "动态行动卡",
+      "name_en": "Motion Action Card",
+      "category": "商业生产级信息图-G4动态化",
+      "production_ready": "G4-04动态化演化结晶",
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F35"
+    },
+    "g4_national_ink": {
+      "name_cn": "国风知识图谱",
+      "name_en": "National Ink Knowledge Map",
+      "category": "商业生产级信息图-G4国风融合",
+      "production_ready": "G4-01国风融合演化结晶",
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F36"
+    },
+    "g4_scroll_long": {
+      "name_cn": "卷轴长图风",
+      "name_en": "Scroll Long-form",
+      "category": "商业生产级信息图-G4国风",
+      "production_ready": true,
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F37"
+    },
+    "g4_tech_motion": {
+      "name_cn": "科技动态面板",
+      "name_en": "Tech Motion Panel",
+      "category": "商业生产级信息图-G4动态",
+      "production_ready": true,
+      "g7_track": "G4",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F38"
+    },
+    "g_cross_industry": {
+      "name_cn": "跨行业通用",
+      "name_en": "Cross-Industry",
+      "category": "商业生产级信息图-G7行业垂直-通用",
+      "production_ready": true,
+      "g7_track": "G7-G",
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F39"
+    },
+    "g_edu_path_loop": {
+      "name_cn": "学习路径闭环",
+      "name_en": "Edu Path Loop",
+      "category": "商业生产级信息图-G7行业垂直-教育",
+      "production_ready": true,
+      "g7_track": "G7-G",
+      "industry": "education",
+      "wondershare_ready": true,
+      "usage_code": "F40"
+    },
+    "g_finance_matrix": {
+      "name_cn": "投资分析矩阵",
+      "name_en": "Finance Matrix",
+      "category": "商业生产级信息图-G7行业垂直-金融",
+      "production_ready": true,
+      "g7_track": "G7-G",
+      "industry": "finance",
+      "wondershare_ready": true,
+      "usage_code": "F41"
+    },
+    "g_legal_tree": {
+      "name_cn": "法条结构树",
+      "name_en": "Legal Tree",
+      "category": "商业生产级信息图-G7行业垂直-法律",
+      "production_ready": true,
+      "g7_track": "G7-G",
+      "industry": "legal",
+      "wondershare_ready": true,
+      "usage_code": "F42"
+    },
+    "g_medical_flow": {
+      "name_cn": "医疗流程数据图",
+      "name_en": "Medical Flow-Data",
+      "category": "商业生产级信息图-G7行业垂直-医疗",
+      "production_ready": true,
+      "g7_track": "G7-G",
+      "industry": "medical",
+      "wondershare_ready": true,
+      "usage_code": "F43"
+    },
+    "gothic_dark_stained": {
+      "name_cn": "哥特暗黑·尖拱彩窗",
+      "name_en": "Gothic Dark Stained Glass",
+      "category": "西方灵异",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G02"
+    },
+    "hanfu_photography": {
+      "name_cn": "古风汉服·国风摄影",
+      "name_en": "Hanfu Photography",
+      "category": "真人-古风",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "S05"
+    },
+    "industry_education": {
+      "name_cn": "教育知识手绘融合图",
+      "name_en": "Education Knowledge Sketch Fusion",
+      "category": "商业生产级信息图-行业垂直-教育",
+      "production_ready": true,
+      "wondershare_ready": true,
+      "industry": "education",
+      "usage_code": "F44"
+    },
+    "industry_finance": {
+      "name_cn": "金融流程仪表盘图谱",
+      "name_en": "Finance Flow Dashboard Map",
+      "category": "商业生产级信息图-行业垂直-金融",
+      "production_ready": true,
+      "wondershare_ready": true,
+      "industry": "finance",
+      "usage_code": "F45"
+    },
+    "industry_legal": {
+      "name_cn": "法律关系时间线图谱",
+      "name_en": "Legal Relationship Timeline Map",
+      "category": "商业生产级信息图-行业垂直-法律",
+      "production_ready": true,
+      "wondershare_ready": true,
+      "industry": "legal",
+      "usage_code": "F46"
+    },
+    "industry_medical": {
+      "name_cn": "医疗融合图谱",
+      "name_en": "Medical Fusion Knowledge Map",
+      "category": "商业生产级信息图-行业垂直-医疗",
+      "production_ready": true,
+      "wondershare_ready": true,
+      "industry": "medical",
+      "usage_code": "F47"
+    },
+    "mvp_action_card": {
+      "name_cn": "极简行动卡风",
+      "name_en": "Action Card",
+      "category": "商业生产级信息图-G3MVP-CTA",
+      "production_ready": true,
+      "g7_track": "G3",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F48"
+    },
+    "mvp_dashboard": {
+      "name_cn": "数据仪表盘风",
+      "name_en": "Data Dashboard",
+      "category": "商业生产级信息图-G3MVP-Proof",
+      "production_ready": true,
+      "g7_track": "G3",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F49"
+    },
+    "mvp_long_infographic": {
+      "name_cn": "信息长图风",
+      "name_en": "Long Infographic",
+      "category": "商业生产级信息图-G3MVP-流程",
+      "production_ready": true,
+      "g7_track": "G3",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F50"
+    },
+    "mvp_magazine": {
+      "name_cn": "杂志编辑风",
+      "name_en": "Magazine Editorial",
+      "category": "商业生产级信息图-G3MVP",
+      "production_ready": true,
+      "g7_track": "G3",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F51"
+    },
+    "mvp_news_documentary": {
+      "name_cn": "新闻纪实风",
+      "name_en": "News Documentary",
+      "category": "商业生产级信息图-G3MVP-Hook",
+      "production_ready": true,
+      "g7_track": "G3",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F52"
+    },
+    "mvp_tech_future": {
+      "name_cn": "科技未来风",
+      "name_en": "Tech Futuristic",
+      "category": "商业生产级信息图-G3MVP-科技",
+      "production_ready": true,
+      "g7_track": "G3",
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F53"
+    },
+    "mvp_whiteboard": {
+      "name_cn": "手绘白板风",
+      "name_en": "Whiteboard",
+      "category": "商业生产级信息图-G3MVP-教育",
+      "production_ready": true,
+      "g7_track": "G3",
+      "industry": "education",
+      "wondershare_ready": false,
+      "usage_code": "F54"
+    },
+    "portrait_photography": {
+      "name_cn": "写真摄影·人像特写",
+      "name_en": "Portrait Photography",
+      "category": "真人-写真",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "S06"
+    },
+    "steampunk_victorian": {
+      "name_cn": "蒸汽朋克·机械维多利亚",
+      "name_en": "Steampunk Victorian",
+      "category": "复古工业",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G03"
+    },
+    "ukiyoe_washoku": {
+      "name_cn": "浮世绘·和风木版",
+      "name_en": "Ukiyo-e Woodblock Print",
+      "category": "和风古典",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y03"
+    },
+    "watercolor_soft": {
+      "name_cn": "水彩·柔彩绘本",
+      "name_en": "Soft Watercolor Illustration",
+      "category": "插画-水彩",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y04"
+    },
+    "wx_smart_layout": {
+      "name_cn": "万兴智能布局图示",
+      "name_en": "Wondershare Smart Layout Diagram",
+      "category": "商业生产级信息图-万兴垂直",
+      "production_ready": true,
+      "wondershare_ready": true,
+      "industry": "",
+      "usage_code": "F55"
+    },
+    "xuehui-infographic": {
+      "name_cn": "学会写作2.0信息图",
+      "name_en": "Xuehui Writing 2.0 Infographic",
+      "category": "商业生产级信息图",
+      "production_ready": true,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F56"
+    },
+    "xuehui_fusion_full": {
+      "name_cn": "学会写作2.0全融合图谱",
+      "name_en": "Xuehui 2.0 Full Fusion Map",
+      "category": "商业生产级信息图-融合技法",
+      "production_ready": true,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "F57"
+    },
+    "zen_minimal_ink": {
+      "name_cn": "极简水墨·留白禅意",
+      "name_en": "Zen Minimal Ink",
+      "category": "文人禅意",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y05"
+    },
+    "shonen_manga": {
+      "name_cn": "少年漫画·热血动态",
+      "name_en": "Shonen Manga Dynamic",
+      "category": "日系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y06"
+    },
+    "shojo_manga": {
+      "name_cn": "少女漫画·梦幻柔焦",
+      "name_en": "Shojo Manga Dreamy",
+      "category": "日系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y07"
+    },
+    "ghibli_handpaint": {
+      "name_cn": "吉卜力·手绘童话",
+      "name_en": "Ghibli Handpainted Fairytale",
+      "category": "日系动画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y08"
+    },
+    "gekiga_realism": {
+      "name_cn": "剧画·写实暗黑",
+      "name_en": "Gekiga Realistic Dark",
+      "category": "日系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y09"
+    },
+    "marvel_hero": {
+      "name_cn": "美漫英雄·粗墨动态",
+      "name_en": "American Superhero Comic",
+      "category": "美系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G04"
+    },
+    "ligne_claire": {
+      "name_cn": "清晰线条·丁丁风",
+      "name_en": "Ligne Claire (Hergé Style)",
+      "category": "欧系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G05"
+    },
+    "moebius_surreal": {
+      "name_cn": "莫比乌斯·超现实细密",
+      "name_en": "Moebius Surreal Detail",
+      "category": "欧系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G06"
+    },
+    "bande_dessinee": {
+      "name_cn": "法比BD·欧洲叙事",
+      "name_en": "Franco-Belgian BD",
+      "category": "欧系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G07"
+    },
+    "webtoon_color": {
+      "name_cn": "韩式条漫·竖屏彩漫",
+      "name_en": "Korean Webtoon Color",
+      "category": "韩系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y10"
+    },
+    "guoman_modern": {
+      "name_cn": "国漫·现代东方",
+      "name_en": "Chinese Modern Manhua",
+      "category": "国系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y11"
+    },
+    "retro_halftone": {
+      "name_cn": "复古半调·美式复古",
+      "name_en": "Retro Halftone American",
+      "category": "美系漫画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "G08"
+    },
+    "flat_illustration": {
+      "name_cn": "扁平插画·现代设计",
+      "name_en": "Flat Illustration Modern",
+      "category": "现代插画",
+      "production_ready": false,
+      "wondershare_ready": false,
+      "industry": "",
+      "usage_code": "Y12"
+    }
+  }
+}

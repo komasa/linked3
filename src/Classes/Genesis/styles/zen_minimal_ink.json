@@ -1,0 +1,174 @@
+{
+  "name_cn": "极简水墨·留白禅意",
+  "name_en": "Zen Minimal Ink",
+  "category": "文人禅意",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FAFAFA",
+        "ratio": "40%",
+        "use": "大量留白"
+      },
+      {
+        "hex": "#2C2C2C",
+        "ratio": "15%",
+        "use": "墨色主体"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#696969",
+        "ratio": "8%",
+        "use": "淡墨渲染"
+      },
+      {
+        "hex": "#D3D3D3",
+        "ratio": "5%",
+        "use": "极淡灰"
+      }
+    ],
+    "accent": [
+      "#8B4513",
+      "#F5DEB3"
+    ],
+    "mood_tone": "极简留白,墨色点睛"
+  },
+  "line_style": "极简线条+大量留白,1px细线+negative space",
+  "render": "宣纸水墨+极简构图,minimalist ink",
+  "atmosphere": [
+    "空灵",
+    "禅意",
+    "宁静",
+    "出尘",
+    "寂寥"
+  ],
+  "lighting": "散射自然光+留白负空间,soft natural light",
+  "symbols": [
+    "枯山水",
+    "茶碗",
+    "竹枝",
+    "孤石",
+    "水滴",
+    "落叶"
+  ],
+  "patterns": [
+    "留白",
+    "枯笔",
+    "飞白",
+    "极简线条"
+  ],
+  "prompt_keywords": "Zen minimalist ink painting, extreme negative space, single brush stroke emphasis, monochrome palette, wabi-sabi aesthetic, meditative composition, xuan-paper texture",
+  "negative_keywords": "busy composition, multiple colors, heavy shadows, cyberpunk, neon, gothic, fashion, ancient mansion horror, complex details",
+  "suitable_genres": [
+    "禅意",
+    "文人",
+    "山水",
+    "静物",
+    "哲思"
+  ],
+  "scene_whitelist": [
+    "竹林小径",
+    "茶室静坐",
+    "山涧溪流",
+    "云海孤峰",
+    "窗前竹影",
+    "溪畔磐石",
+    "月下空庭",
+    "庭院落叶",
+    "江畔孤舟",
+    "空山新雨",
+    "一花一世界",
+    "荷塘残叶",
+    "雪中寒梅",
+    "松下独坐",
+    "古井无波",
+    "山涧清泉",
+    "远山如黛",
+    "孤石枯木",
+    "枯山水庭",
+    "枯山水庭园",
+    "禅堂蒲团",
+    "案头清供",
+    "竹林深处",
+    "松风听涛",
+    "崖边古松",
+    "禅房一隅",
+    "云海日出"
+  ],
+  "scene_blacklist": [
+    "繁华都市",
+    "科幻场景",
+    "复杂建筑",
+    "赛博朋克",
+    "雨夜古宅",
+    "教堂",
+    "时尚秀场"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "行者入山寻道",
+      "location": "枯山水庭",
+      "characters": [
+        "行者"
+      ],
+      "action": "行者静坐枯山水前,观石悟道",
+      "mood": "空灵禅意",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "行者竹林冥想",
+      "location": "竹林深处",
+      "characters": [
+        "行者"
+      ],
+      "action": "行者在竹林中闭目,竹叶飘落肩头",
+      "mood": "宁静出尘",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "行者溪畔顿悟",
+      "location": "山涧溪流",
+      "characters": [
+        "行者"
+      ],
+      "action": "行者观溪水奔流,豁然开朗",
+      "mood": "寂寥顿悟",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "行者归去来兮",
+      "location": "月下空庭",
+      "characters": [
+        "行者"
+      ],
+      "action": "行者月下独归,身影渐淡",
+      "mood": "超脱释然",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A lone practitioner sits in meditation before a dry landscape garden, a single fallen leaf resting on the raked sand, extreme negative space dominating the composition, minimalist ink wash with monochrome palette, wabi-sabi aesthetic, meditative wide shot --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 极简水墨·留白禅意\n✅ 允许场景: 枯山水/竹林/山涧/空庭 (从故事原文提取)\n❌ 禁止场景: 繁华都市/科幻/复杂建筑\n❌ 禁止照抄: 不要用'雨夜古宅',必须用极简禅意场景\n氛围: 空灵留白,水墨禅意",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use zen minimal scenes (gardens, bamboo, streams). Do NOT use busy cities, sci-fi, or 'ancient mansion'. Emphasize negative space and minimalist composition.",
+  "meta_prompt": "Zen minimalist ink painting, extreme negative space, monochrome palette, wabi-sabi aesthetic, meditative composition, xuan-paper texture",
+  "cognitive_level": {
+    "primary": "E",
+    "reader_profile": "禅修者·冥想留白",
+    "content_adaptation": "专家级禅意, 需东方哲学体悟"
+  },
+  "reader_constraint": {
+    "reader_state": "禅修者·期待极简顿悟",
+    "reader_mode": "冥想式顿悟",
+    "reader_expectation": "大量留白+墨色克制+禅意空灵"
+  },
+  "visual_frequency": {
+    "HF": "墨笔核心/一点朱砂/关键意象(高频禅意锚点)",
+    "MF": "墨色渐变/线条延伸/少量文字(中频禅意叙事)",
+    "LF": "大面积留白/淡墨远景/空(低频空灵)",
+    "color_mapping": {
+      "HF": "#FAFAFA",
+      "MF": "#A0A0A0",
+      "LF": "#0D0D0D"
+    },
+    "progression": "HF留白中一点墨破空, MF淡墨延伸叙事, LF大面积留白生禅意"
+  }
+}

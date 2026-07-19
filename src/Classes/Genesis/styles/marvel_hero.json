@@ -1,0 +1,124 @@
+{
+  "name_cn": "美漫英雄·粗墨动态",
+  "name_en": "American Superhero Comic",
+  "category": "美系漫画",
+  "usage_code": "G04",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "Marvel/DC: 蜘蛛侠/蝙蝠侠/X战警/Jim Lee/Todd McFarlane",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFFFFF",
+        "ratio": "25%",
+        "use": "高光+留白"
+      },
+      {
+        "hex": "#0A0A0A",
+        "ratio": "25%",
+        "use": "粗墨线+阴影"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#D62828",
+        "ratio": "15%",
+        "use": "英雄红+冲击"
+      },
+      {
+        "hex": "#003566",
+        "ratio": "12%",
+        "use": "深邃蓝+力量"
+      }
+    ],
+    "accent": [
+      "#FFD60A",
+      "#FF6B35"
+    ],
+    "mood_tone": "高饱和原色+粗墨线, 力量冲击"
+  },
+  "line_style": "粗墨线(2-5px)+交叉排线+墨溅, 笔触粗犷有力, 美式硬边",
+  "render": "赛璐璐平涂+交叉排线阴影+网点, 4-6色高饱和平涂",
+  "atmosphere": [
+    "力量",
+    "英雄",
+    "紧张",
+    "正义",
+    "冲击"
+  ],
+  "lighting": "高对比硬光+聚光灯+能量光效, 戏剧性强光",
+  "symbols": [
+    "冲击星",
+    "速度线",
+    "能量波",
+    "爆炸",
+    "闪电",
+    "汗珠",
+    "怒纹"
+  ],
+  "patterns": [
+    "交叉排线(Ben-Day网点)",
+    "速度线",
+    "冲击星",
+    "墨溅"
+  ],
+  "scene_templates": [
+    {
+      "scene": "英雄登场",
+      "mood": "震撼力量",
+      "lighting": "逆光剪影+聚光",
+      "composition": "低角度仰视+动态姿势"
+    },
+    {
+      "scene": "激战对决",
+      "mood": "紧张冲击",
+      "lighting": "爆炸光+闪电",
+      "composition": "倾斜构图+冲击星"
+    },
+    {
+      "scene": "城市俯瞰",
+      "mood": "孤独守护",
+      "lighting": "月光+城市灯",
+      "composition": "高角度+剪影"
+    },
+    {
+      "scene": "能量爆发",
+      "mood": "力量释放",
+      "lighting": "能量光+放射线",
+      "composition": "中心爆发+速度线"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Impact / Arial Black / 思源黑体 Heavy",
+    "sfx_style": "粗体大写拟声词, 黄底黑字+爆炸外框, 倾斜排列",
+    "caption_style": "Arial Black, 黄底黑字, 方框"
+  },
+  "layout": {
+    "panel_grid_default": "4-6格动态网格",
+    "gutter_style": "粗黑边框(2-3px), 紧凑",
+    "splash_page": "全页大格用于英雄登场/激战",
+    "panel_shape": "矩形+倾斜格+破格+跨页"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "青少年·英雄叙事爱好者",
+    "content_adaptation": "动作英雄叙事, 需读者适应高对比视觉冲击"
+  },
+  "reader_constraint": {
+    "reader_state": "热血激动·渴望力量与正义",
+    "reader_mode": "快速翻阅+关键页停留",
+    "reader_expectation": "粗墨线+高饱和色+动态分镜+英雄力量"
+  },
+  "visual_frequency": {
+    "HF": "冲击星/速度线/拟声词/能量波(高频视觉冲击)",
+    "MF": "人物肌肉/动态姿势/表情(中频叙事支撑)",
+    "LF": "城市背景/天空/网点阴影(低频氛围底色)",
+    "color_mapping": {
+      "HF": "#D62828",
+      "MF": "#0A0A0A",
+      "LF": "#003566"
+    },
+    "progression": "HF集中在动作格爆发, MF支撑英雄动态, LF在过渡格建立场景"
+  }
+}

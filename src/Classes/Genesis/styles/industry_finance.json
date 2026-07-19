@@ -1,0 +1,98 @@
+{
+  "name_cn": "金融流程仪表盘图谱",
+  "name_en": "Finance Flow Dashboard Map",
+  "category": "商业生产级信息图-行业垂直-金融",
+  "version": "1.0.0",
+  "source": "G7 Track G 演化结晶 - 金融财务行业垂直融合",
+
+  "color_palette": {
+    "primary": "#0F1B2D",
+    "primary_light": "#2C3E50",
+    "primary_lighter": "#E8ECF0",
+    "accent": "#D4AF37",
+    "accent_light": "#F4E8B8",
+    "auxiliary": "#00C896",
+    "auxiliary_light": "#B8F0D8",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#90A4AE",
+    "text_title": "#FFFFFF",
+    "background": "#0F1B2D",
+    "description": "金融深蓝金体系: 主深蓝#0F1B2D(专业) + 金#D4AF37(高端) + 绿#00C896(涨) + 红#E74C3C(跌,国际惯例)"
+  },
+
+  "typography": {
+    "font_family_primary": "Noto Serif SC",
+    "font_family_secondary": "Sarasa Mono",
+    "font_sizes": {
+      "main_title": "32pt",
+      "module_title": "20pt",
+      "subtitle": "16pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "Noto Serif SC(标题) + Sarasa Mono(数字), 金融数字等宽对齐, 6级字号层次"
+  },
+
+  "layout": {
+    "canvas_ratio": "16:9 (横版, 1920x1080px)",
+    "module_count_default": 6,
+    "hierarchy_layers": 3,
+    "card_style": "rounded rectangle, border-radius 6px, 金融仪表盘卡片",
+    "card_background": "deep navy #0F1B2D with gold dividers",
+    "spacing": "premium spacing, gold dividers between sections",
+    "badges": "financial icons (currency/trend/risk), candlestick motifs",
+    "description": "金融融合布局: 线性流程(资金流向)+数据仪表盘(KPI/趋势/风险), 金色分隔线, 高端金融美学"
+  },
+
+  "visual_frequency": {
+    "HF": "金融核心指标 + KPI大数字 + 金色强调 (前1/3画面)",
+    "MF": "资金流向 + 趋势图表 + 中性色支撑 (中段叙事)",
+    "LF": "风险提示 + 注释 + 深色背景 (底部收束)",
+    "color_mapping": {
+      "HF": "#D4AF37",
+      "MF": "#00C896",
+      "LF": "#90A4AE"
+    },
+    "progression": "金融流程(顶部)→仪表盘(底部), 涨绿跌红(国际惯例), KPI大数字金色强调"
+  },
+
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "金融从业者·投资者·需要专业数据分析",
+    "content_adaptation": "金融数据可视化, 需符合金融行业规范, 数字精确, 配色专业高端"
+  },
+
+  "reader_constraint": {
+    "reader_state": "金融决策者·需要精确可靠数据",
+    "reader_mode": "分析模式(数据解读+投资决策参考)",
+    "reader_expectation": "金融深蓝金配色 + 等宽数字 + 流程仪表盘复合 + 专业术语"
+  },
+
+  "prompt_keywords": "financial dashboard, premium navy gold palette, Bloomberg terminal aesthetic, KPI cards, candlestick motifs, currency icons, growth arrows, loss indicators, flow chart, data visualization, professional finance infographic, Noto Serif SC typography",
+
+  "negative_keywords": "3D render, shadows, gradients, photorealistic, casual colors, handwritten, sketch, watercolor, cluttered, playful, bright background",
+
+  "suitable_genres": ["资金流向图", "财务流程", "投资分析", "风险矩阵", "金融报告"],
+
+  "scene_whitelist": ["资金流向图", "财务流程+KPI", "投资流程+收益", "风险管控流程", "金融报告"],
+
+  "scene_blacklist": ["真人摄影", "艺术插画", "轻松场景", "非金融场景"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 金融流程仪表盘图谱\n✅ 必须: 金融深蓝金配色 + 等宽数字字体 + 金融图标(货币/趋势/风险) + 流程+仪表盘复合布局 + 涨绿跌红(国际惯例)\n❌ 禁止: 3D渲染 + 阴影 + 渐变 + 轻松配色 + 手绘风格 + 亮色背景\n⚠️ 注意: A股场景需反转涨跌色(涨红跌绿)",
+
+  "style_constraint_en": "IMPORTANT: Financial premium aesthetic ONLY. Deep navy #0F1B2D + gold #D4AF37 palette. Gains green #00C896, losses red #E74C3C (international convention). Monospace digits. Flow + dashboard layout. NO 3D, NO casual colors, NO bright background. NOTE: For A-share market, reverse gain/loss colors.",
+
+  "meta_prompt": "financial flow dashboard map, deep navy #0F1B2D background, gold #D4AF37 accents, gains green #00C896, losses red #E74C3C, white text, top section financial flow with currency icons, bottom section dashboard with KPI cards and trend charts, gold dividers, candlestick motifs, premium Bloomberg terminal aesthetic, Noto Serif SC headers, Sarasa Mono for figures",
+
+  "prompt_example": "Financial flow dashboard map, top section financial flow (capital flow with currency icons), bottom section financial dashboard (KPI cards, trend charts, risk indicators), deep navy #0F1B2D background, gold #D4AF37 accents and dividers, gains green #00C896, losses red #E74C3C, white text, candlestick chart motifs, Noto Serif SC headers (20pt bold), Sarasa Mono for KPI numbers (24pt bold), premium financial aesthetic. --ar 16:9 --s 250 --style raw --industry finance --fusion flow-dash --tool edrawmax",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G7 Track G演化结晶 - 万兴市场金融财务分类对齐, 适配银行/证券/投资/财务场景"
+}

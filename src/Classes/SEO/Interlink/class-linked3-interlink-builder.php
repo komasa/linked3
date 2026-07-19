@@ -1,0 +1,188 @@
+<?php
+/**
+ * Interlink builder — injects internal links into post content + records
+ * edges in linked3_interlink_map.
+ *
+ * Mirrors v2.9.6 auto_interlinking + create_interlink. Hardening over
+ * v2.9.6:
+ *   - 24h edge-cache: re-injecting the same (source,target,anchor) is a
+ *     no-op until the row exists in linked3_interlink_map (UNIQUE constraint).
+ *   - Density guard: max 1 link per N words (default 150, configurable).
+ *   - Skip already-linked anchors (don't double-wrap).
+ *   - All anchors are HTML-escaped; URLs pass through esc_url.
+ *
+ * @package Linked3
+ * @subpackage Classes\SEO\Interlink
+ */
+
+namespace Linked3\Classes\SEO\Interlink;
+
+use Linked3\Classes\SEO\Linked3_SEO_Config;
+use Linked3\Classes\SEO\Keyword\Linked3_Keyword_Extractor;
+
+
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+final class Linked3_Interlink_Builder
+{
+    /**
+     * @var Linked3_Interlink_Strategy|null
+     */
+    private $strategy;
+
+    /**
+     * @param Linked3_Interlink_Strategy|null $strategy Inject for testing; auto-built by default.
+     */
+    public function __construct(Linked3_Interlink_Strategy $strategy = null) {
+        $this->strategy = $strategy;
+    }
+
+    /**
+     * @return Linked3_Interlink_Strategy
+     */
+    private function resolve_strategy() : mixed {
+        if ($this->strategy !== null) {
+            return $this->strategy;
+        }
+        $priority = (string) Linked3_SEO_Config::get('interlink.priority', 'frequent');
+        switch ($priority) {
+            case 'recent':
+                return new Linked3_Interlink_Strategy_Recent();
+            case 'popular':
+                return new Linked3_Interlink_Strategy_Popular();
+            case 'frequent':
+            default:
+                return new Linked3_Interlink_Strategy_Frequent();
+        }
+    }
+
+    /**
+     * Inject internal links into content. Records edges in
+     * linked3_interlink_map (UNIQUE row per source+target+anchor; count
+     * is incremented on duplicate).
+     *
+     * @param string $content
+     * @param int    $source_post_id
+     * @return string
+     */
+    public function inject($content, $source_post_id) : mixed     {
+        $content = (string) $content;
+        if ($content === '') {
+            return $content;
+        }
+        $source_post_id = (int) $source_post_id;
+        if ($source_post_id <= 0) {
+            return $content;
+        }
+
+        $min_length = (int) Linked3_SEO_Config::get('interlink.min_length', 200);
+        $len = function_exists('mb_strlen') ? mb_strlen($content, 'UTF-8') : strlen($content);
+        if ($len < $min_length) {
+            return $content;
+        }
+
+        $max_links = (int) Linked3_SEO_Config::get('interlink.max_links', 5);
+        $density   = (int) Linked3_SEO_Config::get('interlink.density_guard', 150);
+        $word_count = function_exists('mb_str_word_count') ? mb_str_word_count($content) : str_word_count($content);
+        $hard_cap = $max_links;
+        if ($density > 0 && $word_count > 0) {
+            $hard_cap = (int) min($hard_cap, max(1, (int) floor($word_count / $density)));
+        }
+        if ($hard_cap <= 0) {
+            return $content;
+        }
+
+        $post = get_post($source_post_id);
+        if (!$post) {
+            return $content;
+        }
+        $keywords = (new \Linked3\Classes\SEO\Keyword\Linked3_Keyword_Extractor())->extract_keywords($post->post_title . ' ' . wp_strip_all_tags($content), 12);
+
+        $candidates = $this->resolve_strategy()->candidates($source_post_id, $keywords, $hard_cap, 1);
+        if (empty($candidates)) {
+            return $content;
+        }
+
+        $injected = 0;
+        foreach ($candidates as $cand) {
+            if ($injected >= $hard_cap) {
+                break;
+            }
+            $anchor = (string) $cand['anchor'];
+            $url    = (string) $cand['url'];
+            if ($anchor === '' || $url === '') {
+                continue;
+            }
+            // Skip if anchor already appears inside an <a> tag.
+            if (preg_match('#<a[^>]*>[^<]*' . preg_quote($anchor, '#') . '#iu', $content)) {
+                continue;
+            }
+            // Inject into the FIRST occurrence only (case-insensitive).
+            $count = 0;
+            $content = preg_replace(
+                '/' . preg_quote($anchor, '/') . '/u',
+                '<a href="' . esc_url($url) . '">' . esc_html($anchor) . '</a>',
+                $content,
+                1,
+                $count
+            );
+            if ($count > 0) {
+                $this->record_edge($source_post_id, (int) $cand['post_id'], $anchor);
+                $injected++;
+            }
+        }
+        return $content;
+    }
+
+    /**
+     * Record (or increment) an edge in linked3_interlink_map.
+     *
+     * Uses INSERT ... ON DUPLICATE KEY UPDATE count = count + 1 — the table
+     * has UNIQUE (source_post_id, target_post_id, anchor).
+     *
+     * @param int    $source
+     * @param int    $target
+     * @param string $anchor
+     * @return void
+     */
+    public function record_edge($source, $target, $anchor)
+    : void {
+        global $wpdb;
+        $table = $wpdb->prefix . 'linked3_interlink_map';
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (source_post_id, target_post_id, anchor, count)
+             VALUES (%d, %d, %s, 1)
+             ON DUPLICATE KEY UPDATE count = count + 1",
+            (int) $source,
+            (int) $target,
+            $anchor
+        ));
+    }
+
+    /**
+     * Rebuild the entire interlink graph from current post content.
+     * Expensive — only called from admin "Rebuild" action.
+     *
+     * @param int $batch_size  Posts per batch.
+     * @param int $offset      Skip first N posts (for pagination).
+     * @return int Number of posts processed.
+     */
+    public function rebuild_all($batch_size = 50, $offset = 0) : mixed {
+        $q = new \WP_Query([
+            'post_type'        => 'any',
+            'post_status'      => 'publish',
+            'posts_per_page'   => (int) $batch_size,
+            'offset'           => (int) $offset,
+            'orderby'          => 'ID',
+            'order'            => 'ASC',
+            'no_found_rows'    => true,
+            'suppress_filters' => false,
+        ]);
+        foreach ($q->posts as $post) {
+            $this->inject($post->post_content, $post->ID);
+        }
+        return count($q->posts);
+    }
+}
