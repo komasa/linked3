@@ -112,7 +112,7 @@ class COSAjaxEvolve
             'php_version'   => PHP_VERSION,
             'max_execution' => @ini_get('max_execution_time') ?: 'unknown',
             'set_time_limit' => function_exists('set_time_limit'),
-            'ai_dispatcher' => class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Dispatcher'),
+            'ai_dispatcher' => class_exists('\\Linked3\\Classes\\Core\\AIDispatcher'),
             'default_provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'),
             'provider_keys' => [],
             'test_result'   => null,
@@ -128,7 +128,7 @@ class COSAjaxEvolve
         // 尝试一次最小化 AI 调用
         if ($diag['ai_dispatcher']) {
             try {
-                $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+                $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
                 // v20.4-fix11: 诊断测试也绕过陈旧熔断器, 否则熔断器打开时诊断永远失败
                 $result = $dispatcher->chat(
                     [

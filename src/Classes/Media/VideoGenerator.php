@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Media;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -132,7 +132,7 @@ PROMPT;
         try { // v19.3.0: AI 调用容错
         // v19.50: 绞杀模式 — system_prompt 可被元提示词杠杆增强
         $video_system = apply_filters('linked3_video_system_prompt', '你是专业的短视频脚本编剧。', ['task' => 'video_script']);
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'system', 'content' => $video_system], ['role' => 'user', 'content' => $prompt]],
             [
                 'provider'    => $provider,
@@ -318,7 +318,7 @@ PROMPT;
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider'    => $provider,
@@ -455,7 +455,7 @@ PROMPT;
         }
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider'    => $provider,
@@ -574,7 +574,7 @@ PROMPT;
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider' => $provider, 'model' => $model,
@@ -698,7 +698,7 @@ PROMPT;
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider' => $provider, 'model' => $model,
@@ -867,7 +867,7 @@ PROMPT;
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider' => $provider, 'model' => $model,

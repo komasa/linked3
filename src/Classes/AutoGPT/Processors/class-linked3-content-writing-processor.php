@@ -12,8 +12,8 @@
  */
 
 namespace Linked3\Classes\AutoGPT\Processors;
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
-use Linked3\Classes\Core\Linked3_AI_Enhancer;
+use Linked3\Classes\Core\AIDispatcher;
+use Linked3\Classes\Core\AIEnhancer;
 use Linked3\Classes\Publish\Linked3_Publish_Manager;
 use Linked3\Classes\Distribute\Linked3_Distribute_Manager;
 
@@ -56,8 +56,8 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
 
         // v3.0.0: 读高级设置 (HTML 格式等)
         $require_html = false;
-        if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
-            $enhancer = new \Linked3\Classes\Core\Linked3_AI_Enhancer();
+        if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+            $enhancer = new \Linked3\Classes\Core\AIEnhancer();
             $adv = $enhancer->get_settings();
             $require_html = !empty($adv['require_html']);
         }
@@ -101,7 +101,7 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                 if (empty($model)) $model = 'Qwen/Qwen2.5-7B-Instruct';
 
                 try { // v19.3.0: AI 调用容错
-                $result = Linked3_AI_Dispatcher::instance()->chat(
+                $result = AIDispatcher::instance()->chat(
                     [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],
                     [
                         'provider' => $provider, 'model' => $model,
@@ -121,8 +121,8 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                     $content = MarkdownHtmlConverter::convert($content, true);
                 }
                 // AI 标识符后缀
-                if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
-                    $enhancer = new \Linked3\Classes\Core\Linked3_AI_Enhancer();
+                if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+                    $enhancer = new \Linked3\Classes\Core\AIEnhancer();
                     $content = $enhancer->append_identifier_suffix($content);
                 }
 

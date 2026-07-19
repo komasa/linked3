@@ -65,7 +65,7 @@ final class Linked3_Hook_Manager
 
         // Cron handlers (v0.1.10).
         add_action('linked3_daily_health_check', [__CLASS__, 'daily_health_check']);
-        add_action('linked3_token_reset', ['\\Linked3\\Classes\\Core\\Linked3_Token_Manager', 'daily_reset']);
+        add_action('linked3_token_reset', ['\\Linked3\\Classes\\Core\\TokenManager', 'daily_reset']);
         add_action('linked3_sse_cache_cleanup', [__CLASS__, 'cleanup_sse_cache']);
         add_action('linked3_log_prune', [__CLASS__, 'prune_logs']);
         // SEO push-log prune (v0.4.1).

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Base Provider Strategy — shared utilities for every concrete provider.
  *
@@ -23,7 +25,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-abstract class Linked3_Base_Provider_Strategy implements Linked3_Provider_Strategy_Interface
+abstract class BaseProviderStrategy implements ProviderStrategyInterface
 {
     /** @var int Default per-request timeout (seconds). v5.2.9: 60→120 for long-form content. */
     protected $default_timeout = 120;

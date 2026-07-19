@@ -13,8 +13,8 @@ namespace Linked3\Classes\ContentWriter\Ajax;
 use Linked3\Includes\Traits\Trait_Check_Admin_Permissions;
 use Linked3\Includes\Traits\Trait_Send_WP_Error;
 use Linked3\Includes\Traits\Trait_Check_Plan_Access;
-use Linked3\Classes\Core\Linked3_Token_Manager;
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\TokenManager;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -53,7 +53,7 @@ abstract class ContentWriterBaseAjaxAction
     protected function check_quota()
     : void {
         $user_id = get_current_user_id();
-        $check = Linked3_Token_Manager::instance()->check($user_id, '', 1);
+        $check = TokenManager::instance()->check($user_id, '', 1);
         if (!$check['ok']) {
             wp_send_json_error([
                 'code' => 'linked3_quota_exhausted',
@@ -64,10 +64,10 @@ abstract class ContentWriterBaseAjaxAction
     }
 
     /**
-     * @return Linked3_AI_Dispatcher
+     * @return AIDispatcher
      */
     protected function dispatcher() : mixed {
-        return Linked3_AI_Dispatcher::instance();
+        return AIDispatcher::instance();
     }
 
     /**

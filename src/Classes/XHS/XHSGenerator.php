@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\XHS;
 
 use Linked3\Classes\Visual\VisualScriptGeneratorInterface;
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -212,7 +212,7 @@ PROMPT;
         // 旧代码误传单数组导致 PHP ArgumentCountError → WP fatal handler 输出
         // "<p>There has been a critical error...</p>" → 前端 JSON.parse 失败。
         // 同时改用 ::instance() 单例（构造器为 private，new 会再触发 fatal）。
-        $dispatcher = Linked3_AI_Dispatcher::instance();
+        $dispatcher = AIDispatcher::instance();
         // v19.40: 绞杀模式 — system_prompt 通过 apply_filters 可被元提示词杠杆增强
         $base_system_prompt = '你是专业的小红书内容创作者，精通爆款图文笔记创作。必须严格输出JSON格式。';
         $system_prompt = apply_filters('linked3_xhs_system_prompt', $base_system_prompt, $params);

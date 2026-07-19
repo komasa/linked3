@@ -687,10 +687,10 @@ class Linked3_Book_Factory {
         if ( $elapsed < $min_interval ) usleep( (int) ( ( $min_interval - $elapsed ) * 1000000 ) );
         $this->last_api_call = microtime( true );
         try {
-            $dispatcher = Linked3_AI_Dispatcher::instance();
+            $dispatcher = AIDispatcher::instance();
             $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
             $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
-            $config = Linked3_Token_Manager::get_active_config();
+            $config = TokenManager::get_active_config();
             $response = $dispatcher->chat( $messages, $options, $config );
         } catch ( \Throwable $e ) {
             throw new \RuntimeException( 'AI call failed: ' . $e->getMessage(), 0, $e );

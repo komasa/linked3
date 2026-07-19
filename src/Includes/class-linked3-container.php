@@ -165,21 +165,21 @@ final class Linked3_Container
     {
         // v4.4.2 — the 3 core singletons.
         $this->set(
-            \Linked3\Classes\Core\Linked3_AI_Dispatcher::class,
-            static function (): \Linked3\Classes\Core\Linked3_AI_Dispatcher {
-                return \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance_without_container();
+            \Linked3\Classes\Core\AIDispatcher::class,
+            static function (): \Linked3\Classes\Core\AIDispatcher {
+                return \Linked3\Classes\Core\AIDispatcher::instance_without_container();
             }
         );
         $this->set(
-            \Linked3\Classes\Core\Linked3_Token_Manager::class,
-            static function (): \Linked3\Classes\Core\Linked3_Token_Manager {
-                return \Linked3\Classes\Core\Linked3_Token_Manager::instance_without_container();
+            \Linked3\Classes\Core\TokenManager::class,
+            static function (): \Linked3\Classes\Core\TokenManager {
+                return \Linked3\Classes\Core\TokenManager::instance_without_container();
             }
         );
         $this->set(
-            \Linked3\Classes\Core\Providers\Linked3_Provider_Factory::class,
-            static function (): \Linked3\Classes\Core\Providers\Linked3_Provider_Factory {
-                return \Linked3\Classes\Core\Providers\Linked3_Provider_Factory::instance_without_container();
+            \Linked3\Classes\Core\Providers\ProviderFactory::class,
+            static function (): \Linked3\Classes\Core\Providers\ProviderFactory {
+                return \Linked3\Classes\Core\Providers\ProviderFactory::instance_without_container();
             }
         );
 

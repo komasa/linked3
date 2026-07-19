@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\AIForms;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -288,7 +288,7 @@ final class AiFormManager
         if (!empty($form['ai_prompt'])) {
             try {
                 $prompt = $form['ai_prompt'] . "\n\n" . wp_json_encode($values, JSON_UNESCAPED_UNICODE);
-                $result = Linked3_AI_Dispatcher::instance()->chat(
+                $result = AIDispatcher::instance()->chat(
                     [['role' => 'user', 'content' => $prompt]],
                     ['provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'), 'model' => 'gpt-4o-mini', 'temperature' => 0.3, 'max_tokens' => 500, 'module' => 'forms'],
                     ['fallback_providers' => []]

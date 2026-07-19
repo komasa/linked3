@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\V15;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -107,7 +107,7 @@ final class V15ChartPromptGenerator
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider'    => $provider,
@@ -341,7 +341,7 @@ final class V15ChartPromptGenerator
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try { // v19.3.0: AI 调用容错
-        $result = Linked3_AI_Dispatcher::instance()->chat(
+        $result = AIDispatcher::instance()->chat(
             [['role' => 'user', 'content' => $prompt]],
             [
                 'provider'    => $provider,

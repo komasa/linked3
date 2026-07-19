@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AI Dispatcher — single entry point for all AI calls in linked3.0.
  *
@@ -20,7 +22,7 @@
 
 namespace Linked3\Classes\Core;
 
-use Linked3\Classes\Core\Providers\Linked3_Provider_Factory;
+use Linked3\Classes\Core\Providers\ProviderFactory;
 use Linked3\Classes\Security\RateLimiter;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 use Linked3\Includes\Log\Linked3_Logger;
@@ -31,7 +33,7 @@ use Linked3\Includes\Linked3_Crypto;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_AI_Dispatcher
+final class AIDispatcher
 {
     /** @var self|null */
     private static $instance;
@@ -39,10 +41,10 @@ final class Linked3_AI_Dispatcher
     /** @var Linked3_Logger */
     private $log;
 
-    /** @var Linked3_Provider_Factory */
+    /** @var ProviderFactory */
     private $factory;
 
-    /** @var Linked3_Token_Manager|null */
+    /** @var TokenManager|null */
     private $tokens;
 
     /** HTTP status codes that constitution §4 says must evict the API key. */
@@ -53,9 +55,9 @@ final class Linked3_AI_Dispatcher
 
     private function __construct() {
         $this->log     = Linked3_Logger::instance();
-        $this->factory = Linked3_Provider_Factory::instance();
-        $this->tokens  = class_exists('\\Linked3\\Classes\\Core\\Linked3_Token_Manager')
-            ? Linked3_Token_Manager::instance()
+        $this->factory = ProviderFactory::instance();
+        $this->tokens  = class_exists('\\Linked3\\Classes\\Core\\TokenManager')
+            ? TokenManager::instance()
             : null;
     }
 
@@ -217,7 +219,7 @@ final class Linked3_AI_Dispatcher
             }
             $api = $custom_apis[$custom_id];
             // 用 OpenAI-compat provider + 自定义 URL/Model/Key
-            $provider = new \Linked3\Classes\Core\Providers\Linked3_OpenAI_Compat_Provider($slug, '');
+            $provider = new \Linked3\Classes\Core\Providers\OpenAICompatProvider($slug, '');
             // 多 Key 轮询
             $keys = array_filter(array_map('trim', explode("\n", $api['key'])));
             if (empty($keys)) {

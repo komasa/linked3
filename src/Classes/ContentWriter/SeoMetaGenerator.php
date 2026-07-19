@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\ContentWriter;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -73,7 +73,7 @@ final class SeoMetaGenerator
             'tags' => '',
         ];
 
-        $dispatcher = Linked3_AI_Dispatcher::instance();
+        $dispatcher = AIDispatcher::instance();
 
         // 1. 生成标题
         if ($gen_title && empty($title)) {

@@ -6,7 +6,7 @@ use Linked3\Classes\ContentWriter\Ajax\ContentWriterBaseAjaxAction;
 use Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder;
 use Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder;
 use Linked3\Classes\ContentWriter\Prompt\MarkdownHtmlConverter;
-use Linked3\Classes\Core\Linked3_AI_Enhancer;
+use Linked3\Classes\Core\AIEnhancer;
 
 
 if (!defined('ABSPATH')) exit;
@@ -162,8 +162,8 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
         // 高级设置: HTML格式/AI摘要/标签
         $adv_settings = [];
         $enhancer = null;
-        if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
-            $enhancer = new \Linked3\Classes\Core\Linked3_AI_Enhancer();
+        if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+            $enhancer = new \Linked3\Classes\Core\AIEnhancer();
             $adv = $enhancer->get_settings();
             $adv_settings = $adv;
             $user = $enhancer->apply_format_requirements($user, $adv);
@@ -230,7 +230,7 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
             }
 
             // AI 标识符后缀
-            if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
+            if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
                 $content = $enhancer->append_identifier_suffix($content);
             }
 

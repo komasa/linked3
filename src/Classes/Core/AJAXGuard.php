@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AJAX Guard.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_AJAX_Guard
+class AJAXGuard
 {
     /**
      * 已注册的 shutdown handler（防止重复注册）.

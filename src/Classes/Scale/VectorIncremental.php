@@ -155,12 +155,12 @@ class Linked3_i18n_Manager {
 
     public function translateContent(string $content, string $targetLocale): string {
         if ($targetLocale === $this->locale) return $content;
-        if (class_exists('\Linked3\Classes\Scale\Linked3_AI_Dispatcher')) {
+        if (class_exists('\Linked3\Classes\Scale\AIDispatcher')) {
             $langMap = ['zh_CN' => '简体中文', 'zh_TW' => '繁體中文', 'en_US' => 'English', 'ja_JP' => '日本語', 'ko_KR' => '한국어'];
             $targetLang = $langMap[$targetLocale] ?? $targetLocale;
             $prompt = "请将以下内容翻译为{$targetLang}, 保持原文格式:\n\n" . $content;
             try { // v19.3.0: AI 调用容错
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 ['temperature' => 0.3, 'max_tokens' => 4000, 'module' => 'i18n'],
                 ['fallback_providers' => []]
@@ -277,9 +277,9 @@ class Linked3_Batch_Engine {
 class Linked3_Batch_Generate_Handler {
     public function execute(array $payload): array {
         $topic = $payload['topic'];
-        if (class_exists('\Linked3\Classes\Scale\Linked3_AI_Dispatcher')) {
+        if (class_exists('\Linked3\Classes\Scale\AIDispatcher')) {
             try { // v19.3.0: AI 调用容错
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => "请为以下主题生成一篇文章:\n\n" . $topic]],
                 ['temperature' => 0.7, 'max_tokens' => 2000, 'module' => 'batch'],
                 ['fallback_providers' => []]

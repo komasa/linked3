@@ -32,7 +32,7 @@ final class GenerateTagsAction extends ContentWriterBaseAjaxAction
         } catch (\Throwable $e) {
             $this->send_error('AI 调用失败: ' . $e->getMessage(), 502);
         }
-        \Linked3\Classes\Core\Linked3_Token_Manager::instance()->record(get_current_user_id(), '', $result['usage']['total_tokens']);
+        \Linked3\Classes\Core\TokenManager::instance()->record(get_current_user_id(), '', $result['usage']['total_tokens']);
         $tags = array_filter(array_map('trim', explode(',', $result['content'] ?? '')));
         $this->send_success(['tags' => array_slice(array_values($tags), 0, 10)]);
     }

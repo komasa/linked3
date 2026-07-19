@@ -11,8 +11,8 @@ if (!defined('ABSPATH')) exit;
 final class Linked3_Service_Locator
 {
     const SERVICE_MAP = [
-        'dispatcher' => 'Linked3\Classes\Core\Linked3_AI_Dispatcher',
-        'token_manager' => 'Linked3\Classes\Core\Linked3_Token_Manager',
+        'dispatcher' => 'Linked3\Classes\Core\AIDispatcher',
+        'token_manager' => 'Linked3\Classes\Core\TokenManager',
         'license' => 'Linked3\Classes\License\LicenseService',
         'logger' => 'Linked3\Includes\Log\Linked3_Logger',
         'container' => 'Linked3\Includes\Linked3_Container',

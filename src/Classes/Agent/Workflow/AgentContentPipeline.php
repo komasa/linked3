@@ -98,8 +98,8 @@ class AgentContentPipeline implements AgentWorkflowInterface {
 
     private function rewrite(array $collected): array {
         // 委托给现有 AI Dispatcher
-        if (class_exists('\Linked3\Classes\Agent\Workflow\Linked3_AI_Dispatcher')) {
-            $dispatcher = Linked3_AI_Dispatcher::instance();
+        if (class_exists('\Linked3\Classes\Agent\Workflow\AIDispatcher')) {
+            $dispatcher = AIDispatcher::instance();
             $prompt = "请改写以下内容:\n\n" . ($collected['raw_content'] ?: $collected['topic']);
             try { // v19.3.0: AI 调用容错
                 $result = $dispatcher->chat(

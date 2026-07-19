@@ -3,7 +3,7 @@ namespace Linked3\Classes\Dashboard\Ajax\Actions;
 use Linked3\Classes\Dashboard\Ajax\Linked3_Dashboard_Base_Ajax_Action;
 use Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager;
 use Linked3\Classes\Templates\TemplateManager;
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 if (!defined('ABSPATH')) exit;
 
@@ -71,7 +71,7 @@ class Linked3_Dashboard_Keyword_Actions extends Linked3_Dashboard_Base_Ajax_Acti
         $actual_source = $source;
 
         // v5.1.4: 采集源失败时,用管线模板 'hotword' 的提示词做 AI fallback
-        if (empty($keywords) && class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Dispatcher')) {
+        if (empty($keywords) && class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
             try {
                 $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
                 $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
@@ -105,7 +105,7 @@ class Linked3_Dashboard_Keyword_Actions extends Linked3_Dashboard_Base_Ajax_Acti
                 }
 
                 try {
-                    $result = Linked3_AI_Dispatcher::instance()->chat(
+                    $result = AIDispatcher::instance()->chat(
                         [['role' => 'user', 'content' => $ai_prompt]],
                         ['provider' => $provider, 'model' => $model, 'temperature' => 0.9, 'max_tokens' => 500, 'module' => 'keyword'],
                         ['fallback_providers' => [], 'force_bypass_circuit' => true]

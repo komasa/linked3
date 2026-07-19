@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AI 内容增强器 — 原版隐藏功能集合。
  *
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_AI_Enhancer
+final class AIEnhancer
 {
     /**
      * 根据高级设置,在 AI prompt 里追加格式要求。

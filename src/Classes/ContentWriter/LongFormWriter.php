@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\ContentWriter;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -67,7 +67,7 @@ final class LongFormWriter
         try { // v19.3.0: AI 调用容错
             // v19.50: 绞杀模式 — system_prompt 可被元提示词杠杆增强
             $cw_system = apply_filters('linked3_content_writer_system_prompt', '你是专业的内容写作助手。', ['task' => 'content_writer']);
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'system', 'content' => $cw_system], ['role' => 'user', 'content' => $prompt]],
                 [
                     'provider' => $provider, 'model' => $model,
@@ -187,7 +187,7 @@ final class LongFormWriter
         );
 
         try { // v19.3.0: AI 调用容错
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 [
                     'provider' => $provider, 'model' => $model,

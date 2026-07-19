@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Token Manager — quota facade.
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Token_Manager
+final class TokenManager
 {
     const META_USED_TODAY = 'linked3_tokens_used_today';
     const META_RESET_AT   = 'linked3_tokens_reset_at';

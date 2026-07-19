@@ -42,8 +42,8 @@ final class Linked3_AutoGPT_Cron
         set_time_limit(300);
 
         // 时间段限制 (原版隐藏功能)
-        if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
-            $enhancer = new \Linked3\Classes\Core\Linked3_AI_Enhancer();
+        if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+            $enhancer = new \Linked3\Classes\Core\AIEnhancer();
             $settings = $enhancer->get_settings();
             if (!$enhancer->is_within_time_window($settings)) {
                 return; // 不在时间段内,跳过本次执行

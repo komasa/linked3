@@ -91,7 +91,7 @@ class Linked3_Genesis_Panel_Utils
 
     public static function genesisAIGeneratePanels(string $script, int $targetPanels, string $styleId, bool $isAuto): array
     {
-        if (!class_exists('\Linked3\Classes\Core\Linked3_AI_Dispatcher')) {
+        if (!class_exists('\Linked3\Classes\Core\AIDispatcher')) {
             return [];
         }
 
@@ -134,7 +134,7 @@ class Linked3_Genesis_Panel_Utils
 
             $maxTokens = max(4000, $actualTarget * 200 + 500);
 
-            $result = \Linked3_AI_Dispatcher::instance()->chat(
+            $result = \AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 ['provider' => $provider, 'model' => $model, 'temperature' => 0.8, 'max_tokens' => $maxTokens, 'module' => 'genesis'],
                 ['fallback_providers' => ['deepseek', 'zhipu'], 'force_bypass_circuit' => true]

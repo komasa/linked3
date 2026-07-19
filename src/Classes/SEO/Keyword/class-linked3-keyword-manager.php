@@ -14,7 +14,7 @@
 
 namespace Linked3\Classes\SEO\Keyword;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 use Linked3\Includes\Log\Linked3_Logger;
 
@@ -507,7 +507,7 @@ final class Linked3_Keyword_Manager
         );
 
         try {
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 [
                     'provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'),
@@ -558,8 +558,8 @@ final class Linked3_Keyword_Manager
 
         // 读高级设置
         $require_html = false;
-        if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Enhancer')) {
-            $enhancer = new \Linked3\Classes\Core\Linked3_AI_Enhancer();
+        if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+            $enhancer = new \Linked3\Classes\Core\AIEnhancer();
             $adv = $enhancer->get_settings();
             $require_html = !empty($adv['require_html']);
         }
@@ -575,7 +575,7 @@ final class Linked3_Keyword_Manager
                     if (strpos($custom_prompt, '{keyword}') === false) {
                         $prompt = $custom_prompt . "\n\n关键词: " . $keyword;
                     }
-                    $result = Linked3_AI_Dispatcher::instance()->chat(
+                    $result = AIDispatcher::instance()->chat(
                         [['role' => 'user', 'content' => $prompt]],
                         ['temperature' => 0.7, 'max_tokens' => 2000, 'module' => 'keyword_batch'],
                         ['fallback_providers' => []]
@@ -602,7 +602,7 @@ final class Linked3_Keyword_Manager
                     }
 
                     try { // v19.3.0: AI 调用容错
-                        $result = Linked3_AI_Dispatcher::instance()->chat(
+                        $result = AIDispatcher::instance()->chat(
                             [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],
                             ['temperature' => $tpl_config['temperature'] ?? 0.7, 'max_tokens' => $tpl_config['max_tokens'] ?? 2000, 'module' => 'keyword_batch'],
                             ['fallback_providers' => []]
@@ -662,7 +662,7 @@ final class Linked3_Keyword_Manager
     private function append_ai_summary($content)
     {
         try {
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => '为以下文章生成一段100字以内的摘要:\n\n' . mb_substr($content, 0, 2000)]],
                 ['provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'), 'model' => 'gpt-4o-mini', 'temperature' => 0.3, 'max_tokens' => 200, 'module' => 'keyword_batch'],
                 ['fallback_providers' => []]

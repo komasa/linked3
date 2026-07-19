@@ -142,7 +142,7 @@ final class RestController
         $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([]);
         $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build(['keyword' => $keyword, 'title' => $title, 'word_count' => 1200]);
         try {
-            $result = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance()->chat(
+            $result = \Linked3\Classes\Core\AIDispatcher::instance()->chat(
                 [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],
                 ['provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'), 'model' => 'gpt-4o-mini', 'module' => 'rest'],
                 ['fallback_providers' => []]

@@ -34,7 +34,7 @@ final class XHSAjaxActions
     public static function ajax_generate()
     : void {
         // v19.3.0: 使用统一 AJAX 防御层（fatal→JSON + nonce + capability）
-        \Linked3\Classes\Core\Linked3_AJAX_Guard::protect('linked3_xhs', 'edit_posts');
+        \Linked3\Classes\Core\AJAXGuard::protect('linked3_xhs', 'edit_posts');
 
         $params = [
             'topic'        => sanitize_text_field($_POST['topic'] ?? ''),
@@ -73,7 +73,7 @@ final class XHSAjaxActions
     public static function ajax_optimize_prompt()
     : void {
         // v19.3.0: 使用统一 AJAX 防御层
-        \Linked3\Classes\Core\Linked3_AJAX_Guard::protect('linked3_xhs', 'edit_posts');
+        \Linked3\Classes\Core\AJAXGuard::protect('linked3_xhs', 'edit_posts');
 
         $raw_prompt = sanitize_textarea_field($_POST['image_prompt'] ?? '');
         $page_title = sanitize_text_field($_POST['page_title'] ?? '');
@@ -98,7 +98,7 @@ final class XHSAjaxActions
 
         $model = get_option(LINKED3_OPTION_PREFIX . 'default_chat_model', 'gpt-4o-mini');
         // v19.2.1 修复：chat() 三参签名 + 单例 + try/catch（同 generate 路径）
-        $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+        $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
         $messages = [
             ['role' => 'system', 'content' => '你是专业的AI绘画提示词工程师。'],
             ['role' => 'user',   'content' => $optimize_prompt],

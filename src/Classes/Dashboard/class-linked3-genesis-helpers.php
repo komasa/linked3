@@ -33,7 +33,7 @@ class Linked3_Genesis_Helpers
         foreach ($nodes as $i => $node) {
             $prompt = self::genesisBuildNodePrompt($node, $styleName, $platform, $styleId, $seedDNA);
             try {
-                $result = Linked3_AI_Dispatcher::instance()->chat(
+                $result = AIDispatcher::instance()->chat(
                     [['role' => 'user', 'content' => $prompt]],
                     [
                         'provider'          => $providerSlug,

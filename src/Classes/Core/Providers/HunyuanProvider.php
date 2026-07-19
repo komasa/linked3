@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 腾讯混元 (Hunyuan) Provider — 非标协议,独立实现。
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Hunyuan_Provider extends Linked3_Base_Provider_Strategy
+final class HunyuanProvider extends BaseProviderStrategy
 {
     public function slug() : string { return 'hunyuan'; }
 

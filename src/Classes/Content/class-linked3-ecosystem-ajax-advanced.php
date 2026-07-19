@@ -328,7 +328,7 @@ class Linked3_Ecosystem_Ajax_Advanced
         @set_time_limit(300);
 
         $results = [];
-        $ai_available = class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Dispatcher');
+        $ai_available = class_exists('\\Linked3\\Classes\\Core\\AIDispatcher');
         foreach ($topics as $i => $topic) {
             // v10.9.3: 真实AI批量生成 (绞杀假大空"关于X的文章内容...")
             if (!$ai_available) {

@@ -110,7 +110,7 @@ class E2eTestRunner {
         }, 'infrastructure');
 
         $this->registerTest('ai_dispatcher_exists', function() {
-            return class_exists('\Linked3\Classes\E2E\Linked3_AI_Dispatcher');
+            return class_exists('\Linked3\Classes\E2E\AIDispatcher');
         }, 'ai');
 
         $this->registerTest('agent_orchestrator_loaded', function() {

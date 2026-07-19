@@ -228,9 +228,9 @@ class COSEngine
         $ai_status = 'skipped';
 
         // 尝试调用 AI Dispatcher
-        if (class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Dispatcher')) {
+        if (class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
             try {
-                $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+                $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
 
                 // v20.4-fix14: 修复 fix13 的 bug — 不再硬编码 provider=deepseek
                 // fix13 错误地指定 'provider' => 'deepseek', 但用户可能只配置了 siliconflow

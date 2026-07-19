@@ -266,7 +266,7 @@ class Linked3_Genesis_Panel_Renderer
         $maxTokens = max(3000, $maxPanels * 200 + 500);
 
         try {
-            $result = \Linked3_AI_Dispatcher::instance()->chat(
+            $result = \AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 ['provider' => $provider, 'model' => $model, 'temperature' => 0.6, 'max_tokens' => $maxTokens, 'module' => 'genesis'],
                 ['fallback_providers' => ['deepseek', 'zhipu'], 'force_bypass_circuit' => true]
@@ -278,7 +278,7 @@ class Linked3_Genesis_Panel_Renderer
             if (count($nodes) < $minPanels) {
                 $retryPrompt = $prompt . "\n\n【重要提醒】上次只返回了 " . count($nodes) . " 个节点, 不够。这次必须返回正好 " . $maxPanels . " 个节点, node_id 从 1 开始连续。";
                 try { // v19.3.0: AI 调用容错
-                $retry = \Linked3_AI_Dispatcher::instance()->chat(
+                $retry = \AIDispatcher::instance()->chat(
                     [['role' => 'user', 'content' => $retryPrompt]],
                     ['provider' => $provider, 'model' => $model, 'temperature' => 0.8, 'max_tokens' => $maxTokens, 'module' => 'genesis'],
                     ['fallback_providers' => ['deepseek', 'zhipu'], 'force_bypass_circuit' => true]

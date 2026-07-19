@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\ContentWriter;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 if (!defined('ABSPATH')) exit;
 
@@ -38,7 +38,7 @@ final class WritingExtensions
             . "输出格式: 每维度一行, 最后总分。附1-2句改进建议。";
 
         try {
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 ['temperature' => 0.3, 'max_tokens' => 300, 'module' => 'quality_score']
             );
@@ -69,7 +69,7 @@ final class WritingExtensions
         $prompt = ($prompts[$mode] ?? $prompts['polish']) . "\n\n" . $content;
 
         try {
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 ['temperature' => 0.7, 'max_tokens' => 3000, 'module' => 'rewrite']
             );

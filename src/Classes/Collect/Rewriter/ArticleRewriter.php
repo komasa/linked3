@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Collect\Rewriter;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
-use Linked3\Classes\Core\Linked3_Token_Manager;
+use Linked3\Classes\Core\AIDispatcher;
+use Linked3\Classes\Core\TokenManager;
 
 
 
@@ -67,7 +67,7 @@ final class ArticleRewriter
         // owner rather than the shared guest bucket (user_id=0 during cron).
         $user_id = isset($opts['user_id']) ? (int) $opts['user_id'] : get_current_user_id();
         // Quota check.
-        $check = Linked3_Token_Manager::instance()->check($user_id, '', 500);
+        $check = TokenManager::instance()->check($user_id, '', 500);
         if (!$check['ok']) {
             return ['ok' => false, 'content' => '', 'usage' => [], 'message' => __('每日 Token 配额已用完。', 'linked3')];
         }
@@ -78,7 +78,7 @@ final class ArticleRewriter
             $default_provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
             $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
             $default_model = $saved_models[$default_provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [
                     ['role' => 'system', 'content' => $prompt['system']],
                     ['role' => 'user', 'content' => $prompt['user']],

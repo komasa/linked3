@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * OpenAI-compatible provider.
  *
@@ -25,7 +27,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_OpenAI_Compat_Provider extends Linked3_Base_Provider_Strategy
+final class OpenAICompatProvider extends BaseProviderStrategy
 {
     /** @var string */
     private $slug;

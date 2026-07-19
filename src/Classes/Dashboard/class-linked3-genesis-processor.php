@@ -4,7 +4,7 @@ namespace Linked3\Classes\Dashboard;
 
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager;
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 if (!defined('ABSPATH')) {
@@ -296,7 +296,7 @@ final class Linked3_Genesis_Processor
             ],
             'genesis' => [
                 'classes_loaded' => [
-                    'Linked3_AI_Dispatcher'           => class_exists('\Linked3\Classes\Dashboard\Linked3_AI_Dispatcher'),
+                    'AIDispatcher'           => class_exists('\Linked3\Classes\Dashboard\AIDispatcher'),
                     'Linked3_Genesis_AtomIndex'       => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_AtomIndex'),
                     'Linked3_Genesis_PromptAssembler' => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PromptAssembler'),
                     'Linked3_Genesis_PQSChecker'      => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PQSChecker'),
@@ -361,7 +361,7 @@ final class Linked3_Genesis_Processor
     public static function genesisCurlMultiPrompts(array $nodes, string $providerSlug, string $model, string $styleName, string $platform, string $styleId = "", ?array $seedDNA = null): ?array
     {
         // 获取 Provider Strategy
-        $factory = \Linked3\Classes\Core\Providers\Linked3_Provider_Factory::instance();
+        $factory = \Linked3\Classes\Core\Providers\ProviderFactory::instance();
         $provider = $factory->make($providerSlug);
         if (!$provider) return null;
         // 读 API key (从 option, 用 Crypto 解密)

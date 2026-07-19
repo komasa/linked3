@@ -291,7 +291,7 @@ class Linked3_Dashboard_Config_Ajax
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
-        $enhancer = new \Linked3\Classes\Core\Linked3_AI_Enhancer();
+        $enhancer = new \Linked3\Classes\Core\AIEnhancer();
         $input = [
             'require_html' => !empty($_POST['require_html']),
             'require_tag' => !empty($_POST['require_tag']),

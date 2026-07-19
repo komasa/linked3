@@ -177,7 +177,7 @@ final class LocalVectorProvider implements VectorProviderInterface
             // (We intentionally do NOT call AI_Dispatcher::chat() first — that
             // would waste a chat-completion call on every embed, which is
             // especially expensive during bulk reindex on save_post.)
-            $provider = \Linked3\Classes\Core\Providers\Linked3_Provider_Factory::instance()->make($config['provider'] ?? 'openai');
+            $provider = \Linked3\Classes\Core\Providers\ProviderFactory::instance()->make($config['provider'] ?? 'openai');
             $payload = $provider->format_embed_payload($text, ['model' => $config['embed_model'] ?? 'text-embedding-3-small'], $config);
             $url = $provider->build_api_url('embed', $config);
             $resp = \Linked3\Includes\Http\Linked3_Safe_Remote::post($url, [

@@ -272,10 +272,10 @@ class Linked3_Genesis_Logger {
         if (!self::ensure_table()) return false;
         global $wpdb;
         // v19.3.1: 使用 SQL Safety 工具校验表名
-        $safe_table = \Linked3\Classes\Core\Linked3_SQL_Safety::validate_table_name(self::$table);
+        $safe_table = \Linked3\Classes\Core\SQLSafety::validate_table_name(self::$table);
         if ($safe_table === false) return false;
         // SECURITY NOTE v27.0.0 (P9): $safe_table is validated by
-        // Linked3_SQL_Safety::validate_table_name() (regex whitelist + prefix
+        // SQLSafety::validate_table_name() (regex whitelist + prefix
         // check). Table names are identifiers and cannot use $wpdb->prepare()
         // placeholders (those only work for values). Safe to interpolate.
         return $wpdb->query("TRUNCATE TABLE " . $safe_table) !== false;

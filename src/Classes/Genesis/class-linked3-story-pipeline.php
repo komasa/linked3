@@ -125,7 +125,7 @@ class Linked3_Story_Pipeline
      */
     private static function ai_assisted_split(string $script, int $target_panels): array
     {
-        $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance(); // v19.2.1: 单例
+        $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance(); // v19.2.1: 单例
         $prompt = sprintf(
             "你是漫画分镜师。将以下剧本拆分为%d个分镜场景。\n" .
             "返回JSON数组, 每个元素: {location, mood, shots:[{shot,angle,comp,action,dialogue}]}\n" .

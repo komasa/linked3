@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 腾讯 LKE 智能体 Provider — 调用腾讯 LKE (Link Knowledge Engine) 自定义 bot API。
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Tencent_LKE_Provider extends Linked3_Base_Provider_Strategy
+final class TencentLKEProvider extends BaseProviderStrategy
 {
     public function slug() : string { return 'tencent_lke'; }
 

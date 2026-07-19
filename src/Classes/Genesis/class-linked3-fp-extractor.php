@@ -107,7 +107,7 @@ class Linked3_FP_Extractor
      */
     private function ai_extract(string $text, string $styleName): ?array
     {
-        if (!class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Dispatcher')) {
+        if (!class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
             return null;
         }
 
@@ -144,7 +144,7 @@ class Linked3_FP_Extractor
             $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
             $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
-            $result = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance()->chat(
+            $result = \Linked3\Classes\Core\AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 [
                     'provider' => $provider,

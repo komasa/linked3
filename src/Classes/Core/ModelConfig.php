@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Model Config — v19.53 统一 AI 模型配置.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Model_Config
+class ModelConfig
 {
     /**
      * 获取指定 provider 的默认聊天模型.

@@ -144,7 +144,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
 
     public function embed($text, array $config)
     {
-        $provider = \Linked3\Classes\Core\Providers\Linked3_Provider_Factory::instance()->make($config['embed_provider'] ?? 'openai');
+        $provider = \Linked3\Classes\Core\Providers\ProviderFactory::instance()->make($config['embed_provider'] ?? 'openai');
         if (!$provider) return new \WP_Error('no_provider', __('无嵌入 Provider。', 'linked3'));
         $payload = $provider->format_embed_payload($text, ['model' => $config['embed_model'] ?? 'text-embedding-3-small'], $config);
         $url = $provider->build_api_url('embed', $config);

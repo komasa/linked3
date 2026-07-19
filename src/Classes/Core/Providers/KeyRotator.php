@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Key Rotator — round-robin across multiple API keys with fault eviction.
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Key_Rotator
+final class KeyRotator
 {
     const COOL_DOWN_SECS = 600; // 10 minutes
 

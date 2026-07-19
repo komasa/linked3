@@ -238,7 +238,7 @@ final class PostMetabox
         $post_id = (int) ($_POST['post_id'] ?? 0);
 
         try {
-            $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
             // v2.8.0: 用用户配置的默认 Provider,而非硬编码 openai
             $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
             $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
@@ -377,7 +377,7 @@ final class PostMetabox
         $prompt = sprintf($prompts[$action_key], $truncated);
 
         try {
-            $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
             $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
             $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
             $model = $saved_models[$provider] ?? 'gpt-4o-mini';

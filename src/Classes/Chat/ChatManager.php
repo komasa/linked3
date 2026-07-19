@@ -19,7 +19,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-use Linked3\Classes\Core\{Linked3_AI_Dispatcher, Linked3_Token_Manager};
+use Linked3\Classes\Core\{AIDispatcher, TokenManager};
 use Linked3\Classes\License\{LicenseService, PlanDefinitions};
 final class ChatManager
 {
@@ -131,7 +131,7 @@ final class ChatManager
         //    AI_Dispatcher's internal Token_Manager::record() call writes
         //    to the correct (session_id, bot_id) row.
         try {
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 $ai_messages,
                 [
                     'provider'    => $bot_config['provider'] ?? 'openai',
@@ -184,7 +184,7 @@ final class ChatManager
             if ($module_access === false) {
                 return ['ok' => false, 'message' => __('当前套餐不可使用对话功能。', 'linked3')];
             }
-            $check = Linked3_Token_Manager::instance()->check($user_id, '', 100);
+            $check = TokenManager::instance()->check($user_id, '', 100);
             if (!$check['ok']) {
                 return ['ok' => false, 'message' => __('每日 Token 配额已用完。', 'linked3')];
             }

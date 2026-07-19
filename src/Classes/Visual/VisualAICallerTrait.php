@@ -31,7 +31,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Visual;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -61,7 +61,7 @@ trait VisualAICallerTrait
         ]);
 
         try {
-            $dispatcher = Linked3_AI_Dispatcher::instance();
+            $dispatcher = AIDispatcher::instance();
             return $dispatcher->chat($messages, $options, $config);
         } catch (\RuntimeException $e) {
             if (function_exists('linked3_logger')) {

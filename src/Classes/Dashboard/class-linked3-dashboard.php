@@ -24,7 +24,7 @@ final class Linked3_Dashboard
         $plan = $license->plan();
         $user_id = get_current_user_id();
 
-        $tokens_today = \Linked3\Classes\Core\Linked3_Token_Manager::instance()->used_today($user_id);
+        $tokens_today = \Linked3\Classes\Core\TokenManager::instance()->used_today($user_id);
         $quota = \Linked3\Classes\License\PlanDefinitions::feature($plan, 'tokens_daily') ?: 50000;
 
         $usage_table = $wpdb->prefix . 'linked3_usage_logs';

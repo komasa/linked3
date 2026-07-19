@@ -81,7 +81,7 @@ class ProviderFailover {
 
             try {
                 $options['provider'] = $provider;
-                $result = Linked3_AI_Dispatcher::instance()->chat($messages, $options, $config);
+                $result = AIDispatcher::instance()->chat($messages, $options, $config);
                 $this->resetFailures($provider);
                 return $result;
             } catch (Throwable $e) {

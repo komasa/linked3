@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter;
 use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 if (!defined('ABSPATH')) exit;
 
 final class ArticlePipeline implements Linked3_Content_Pipeline_Interface
@@ -31,7 +31,7 @@ final class ArticlePipeline implements Linked3_Content_Pipeline_Interface
         if ($progressCb) $progressCb(10, 'generating', __('正在生成文章...', 'linked3'));
         $prompt = sprintf("请围绕「%s」写一篇约%d字的WordPress博客文章。风格：%s。使用Markdown格式，包含标题、正文、小标题。", $context['keyword'], $context['word_count'], $context['style']);
         try {
-            $result = Linked3_AI_Dispatcher::instance()->chat([['role' => 'user', 'content' => $prompt]], ['provider' => $context['provider'], 'model' => $context['model'], 'temperature' => 0.7, 'max_tokens' => $context['word_count'] * 2, 'module' => 'content_writer']);
+            $result = AIDispatcher::instance()->chat([['role' => 'user', 'content' => $prompt]], ['provider' => $context['provider'], 'model' => $context['model'], 'temperature' => 0.7, 'max_tokens' => $context['word_count'] * 2, 'module' => 'content_writer']);
         } catch (\Throwable $e) { throw new \RuntimeException(__('AI 调用失败: ', 'linked3') . $e->getMessage()); }
         $content = $result['content'] ?? '';
         if (empty($content)) throw new \RuntimeException(__('AI 返回空内容', 'linked3'));

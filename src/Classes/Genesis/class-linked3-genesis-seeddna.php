@@ -58,7 +58,7 @@ class Linked3_Genesis_SeedDNA
         $model = $savedModels[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
         try {
-            $result = \Linked3_AI_Dispatcher::instance()->chat(
+            $result = \AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $prompt]],
                 ['provider' => $provider, 'model' => $model, 'temperature' => 0.5, 'max_tokens' => 2000, 'module' => 'genesis_seed'],
                 ['fallback_providers' => ['deepseek', 'zhipu']]

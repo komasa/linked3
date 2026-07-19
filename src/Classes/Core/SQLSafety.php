@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SQL Safety Helper — v19.3.1 全局 SQL 防御层.
  *
@@ -22,7 +24,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_SQL_Safety
+class SQLSafety
 {
     /**
      * 验证表名只包含安全字符（字母/数字/下划线/连字符）.
@@ -45,7 +47,7 @@ class Linked3_SQL_Safety
      * 安全的表存在性检查 — 替代 SHOW TABLES LIKE '{$table}'.
      *
      * 旧模式：$wpdb->get_var("SHOW TABLES LIKE '{$table}'")
-     * 新模式：Linked3_SQL_Safety::table_exists($table)
+     * 新模式：SQLSafety::table_exists($table)
      *
      * @param string $table  完整表名（含 $wpdb->prefix）
      * @return bool

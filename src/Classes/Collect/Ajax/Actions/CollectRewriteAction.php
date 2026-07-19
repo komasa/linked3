@@ -41,7 +41,7 @@ final class CollectRewriteAction extends CollectBaseAjaxAction
                 $prompt = $opts['custom_prompt'] . "\n\n" . $content;
             }
             try {
-                $result = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance()->chat(
+                $result = \Linked3\Classes\Core\AIDispatcher::instance()->chat(
                     [['role' => 'user', 'content' => $prompt]],
                     [
                         'provider' => $opts['provider'],

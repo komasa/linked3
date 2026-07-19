@@ -174,7 +174,7 @@ class Linked3_Genesis_Processor_Delegates
                 if (empty($promptEn) && $aiDegraded) {
                     $retryPrompt = self::genesisBuildNodePrompt($node, $styleName, $platform, $styleId, $seedDNA);
                     try {
-                        $retryResult = Linked3_AI_Dispatcher::instance()->chat(
+                        $retryResult = AIDispatcher::instance()->chat(
                             [['role' => 'user', 'content' => $retryPrompt]],
                             [
                                 'provider'          => $retryProvider,
@@ -325,9 +325,9 @@ class Linked3_Genesis_Processor_Delegates
     public static function genesisPreflightCheck(): array
     {
         // 1. AI Dispatcher
-        // v7.1.4: 修复 class_exists 误报 — 短名 'Linked3_AI_Dispatcher' 在有 use 别名的命名空间文件里
+        // v7.1.4: 修复 class_exists 误报 — 短名 'AIDispatcher' 在有 use 别名的命名空间文件里
         // 可能返回 false (即使类已加载), 必须用全限定名
-        if (!class_exists('\Linked3\Classes\Core\Linked3_AI_Dispatcher')) {
+        if (!class_exists('\Linked3\Classes\Core\AIDispatcher')) {
             return [
                 'ok'            => false,
                 'message'       => __('AI Dispatcher 未加载, 插件可能未正确激活', 'linked3-ai'),
@@ -367,8 +367,8 @@ class Linked3_Genesis_Processor_Delegates
             ];
         }
         // 4. Provider Factory
-        if (class_exists('\Linked3\Classes\Core\Providers\Linked3_Provider_Factory')) {
-            $factory = \Linked3\Classes\Core\Providers\Linked3_Provider_Factory::instance();
+        if (class_exists('\Linked3\Classes\Core\Providers\ProviderFactory')) {
+            $factory = \Linked3\Classes\Core\Providers\ProviderFactory::instance();
             $provider = $factory->make($providerSlug);
             if (!$provider) {
                 return [

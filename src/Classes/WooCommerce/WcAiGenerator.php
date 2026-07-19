@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\WooCommerce;
 
-use Linked3\Classes\Core\Linked3_AI_Dispatcher;
+use Linked3\Classes\Core\AIDispatcher;
 
 
 
@@ -51,7 +51,7 @@ final class WcAiGenerator
                 $lang, $tone, $name, $short
             );
             try {
-                $result = Linked3_AI_Dispatcher::instance()->chat(
+                $result = AIDispatcher::instance()->chat(
                     [['role' => 'user', 'content' => $prompt]],
                     ['provider' => $opts['provider'] ?? get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'), 'model' => $opts['model'] ?? 'gpt-4o-mini', 'temperature' => 0.8, 'max_tokens' => 1500, 'module' => 'woocommerce'],
                     ['api_key' => $this->get_api_key($opts['provider'] ?? 'openai'), 'fallback_providers' => []]
@@ -92,7 +92,7 @@ final class WcAiGenerator
                 $rating, $product->get_name()
             );
             try {
-                $result = Linked3_AI_Dispatcher::instance()->chat(
+                $result = AIDispatcher::instance()->chat(
                     [['role' => 'user', 'content' => $prompt]],
                     ['provider' => $opts['provider'] ?? get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'), 'model' => $opts['model'] ?? 'gpt-4o-mini', 'temperature' => 0.9, 'max_tokens' => 300, 'module' => 'woocommerce'],
                     ['api_key' => $this->get_api_key($opts['provider'] ?? 'openai'), 'fallback_providers' => []]
@@ -219,10 +219,10 @@ final class WcAiGenerator
 
         // Log the AI call for billing/audit (DALL-E 3 doesn't return tokens;
         // we log 0 tokens so the usage_logs row records the request count).
-        if (class_exists('\\Linked3\\Classes\\Core\\Linked3_Token_Manager')) {
+        if (class_exists('\\Linked3\\Classes\\Core\\TokenManager')) {
             try {
                 $user_id = isset($opts['user_id']) ? (int) $opts['user_id'] : get_current_user_id();
-                \Linked3\Classes\Core\Linked3_Token_Manager::instance()->record($user_id, 'woocommerce', 0);
+                \Linked3\Classes\Core\TokenManager::instance()->record($user_id, 'woocommerce', 0);
             } catch (\Throwable $e) { /* billing is best-effort */ }
         }
 

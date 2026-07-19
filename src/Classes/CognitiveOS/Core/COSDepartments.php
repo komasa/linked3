@@ -127,7 +127,7 @@ class COSDepartments
     private static function generate_variants_via_ai(string $problem, string $generation, int $count, array $baseline, array $info_core): array
     {
         // 检查 AI Dispatcher 是否可用
-        if (!class_exists('\Linked3\Classes\Core\Linked3_AI_Dispatcher')) {
+        if (!class_exists('\Linked3\Classes\Core\AIDispatcher')) {
             return [];
         }
 
@@ -194,7 +194,7 @@ class COSDepartments
         ];
 
         try {
-            $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
             $result = $dispatcher->chat($messages, $options, $config);
             $content = $result['content'] ?? '';
         } catch (\Exception $e) {

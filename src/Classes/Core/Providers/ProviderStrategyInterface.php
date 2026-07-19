@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Provider Strategy Interface.
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Provider_Strategy_Interface
+interface ProviderStrategyInterface
 {
     /**
      * @return string Provider slug, e.g. 'openai', 'deepseek'.

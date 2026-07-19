@@ -655,9 +655,9 @@ class Linked3_Ecosystem_Ajax {
             (array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []),
             ['require_html' => false, 'require_tag' => false, 'enable_ai_summary' => false]
         );
-        if (class_exists('\Linked3\Classes\Content\Linked3_AI_Enhancer')) {
+        if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
             try {
-                $enhancer = new \Linked3_AI_Enhancer();
+                $enhancer = new \AIEnhancer();
                 $prompt = $enhancer->apply_format_requirements($prompt, $adv_settings);
             } catch (\Throwable $e) {}
         } elseif (!empty($adv_settings['require_html'])) {
@@ -676,9 +676,9 @@ class Linked3_Ecosystem_Ajax {
                 } catch (\Throwable $e) {}
             }
             // v11.8.0: 追加AI标识符后缀(全局设置)
-            if (class_exists('\Linked3\Classes\Content\Linked3_AI_Enhancer')) {
+            if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
                 try {
-                    $ai_content = (new \Linked3_AI_Enhancer())->append_identifier_suffix($ai_content);
+                    $ai_content = (new \AIEnhancer())->append_identifier_suffix($ai_content);
                 } catch (\Throwable $e) {}
             }
             return self::self_check_content($ai_content);
@@ -838,11 +838,11 @@ class Linked3_Ecosystem_Ajax {
     }
 
     public static function call_ai_internal(string $prompt, int $max_tokens = 2000): string {
-        if (!class_exists('\\Linked3\\Classes\\Core\\Linked3_AI_Dispatcher')) {
+        if (!class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
             return '';
         }
         try {
-            $dispatcher = \Linked3\Classes\Core\Linked3_AI_Dispatcher::instance();
+            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
             $messages = [['role' => 'user', 'content' => $prompt]];
             $options = ['max_tokens' => $max_tokens, 'temperature' => 0.7];
             $config = [];

@@ -45,7 +45,7 @@ final class GenerateTitleAction extends ContentWriterBaseAjaxAction
             $this->send_error('AI 调用失败: ' . $e->getMessage(), 502);
         }
         $titles = array_filter(array_map('trim', explode("\n", $result['content'])));
-        \Linked3\Classes\Core\Linked3_Token_Manager::instance()->record(get_current_user_id(), '', $result['usage']['total_tokens']);
+        \Linked3\Classes\Core\TokenManager::instance()->record(get_current_user_id(), '', $result['usage']['total_tokens']);
         $this->send_success(['titles' => array_slice(array_values($titles), 0, $count)]);
     }
 }

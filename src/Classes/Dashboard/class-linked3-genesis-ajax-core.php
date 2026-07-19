@@ -204,7 +204,7 @@ class Linked3_Genesis_Ajax_Core
             $providerSlug = $preflight['provider'];
             $savedModels = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
             $model = $savedModels[$providerSlug] ?? 'gpt-3.5-turbo';
-            $result = Linked3_AI_Dispatcher::instance()->chat(
+            $result = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => 'Reply with the single word: OK']],
                 [
                     'provider'   => $providerSlug,
