@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT\Processors;
 if (!defined('ABSPATH')) exit;
 
@@ -10,7 +12,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-interface Linked3_AutoGPT_Processor_Interface
+interface AutoGPTProcessorInterface
 {
     /**
      * @param array $task {id, task_type, config, user_id}

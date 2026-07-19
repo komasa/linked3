@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * v3.2.0: 采集改写 Processor — AutoGPT 工作流编排
  *
@@ -30,7 +32,7 @@ use Linked3\Classes\Distribute\DistributeManager;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Collect_Rewrite_Processor implements Linked3_AutoGPT_Processor_Interface
+final class CollectRewriteProcessor implements AutoGPTProcessorInterface
 {
     public function process(array $task)
     : array {
@@ -44,7 +46,7 @@ final class Linked3_Collect_Rewrite_Processor implements Linked3_AutoGPT_Process
         $count = min(count($urls), 5); // 每次最多处理 5 个 URL
         $processed = 0;
         $errors = [];
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
 
         // 读 default provider
         $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');

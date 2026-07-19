@@ -160,7 +160,7 @@ final class RestController
 
     public static function tasks($req)
     {
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         return rest_ensure_response(['tasks' => $repo->all(get_current_user_id())]);
     }
 

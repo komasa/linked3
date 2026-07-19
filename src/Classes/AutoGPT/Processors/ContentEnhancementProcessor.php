@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Content Enhancement Processor — picks low-SEO-score posts, rewrites them
  * via the Article_Rewriter to improve keyword focus + readability.
@@ -17,7 +19,7 @@ use Linked3\Classes\Collect\Rewriter\ArticleRewriter;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Content_Enhancement_Processor implements Linked3_AutoGPT_Processor_Interface
+final class ContentEnhancementProcessor implements AutoGPTProcessorInterface
 {
     public function process(array $task)
     : array {
@@ -83,7 +85,7 @@ final class Linked3_Content_Enhancement_Processor implements Linked3_AutoGPT_Pro
                 } else {
                     $failed++;
                     // v3.1.0: 失败入队重试
-                    $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+                    $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
                     $repo->enqueue($task['id'], [
                         'type' => 'enhance_retry',
                         'post_id' => $p->ID,
@@ -93,7 +95,7 @@ final class Linked3_Content_Enhancement_Processor implements Linked3_AutoGPT_Pro
             } catch (\Exception $e) {
                 $failed++;
                 // v3.1.0: 异常入队重试
-                $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+                $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
                 $repo->enqueue($task['id'], [
                     'type' => 'enhance_retry',
                     'post_id' => $p->ID,

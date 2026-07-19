@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AutoGPT Task Repository — CRUD on linked3_tasks + linked3_task_queue.
  *
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_AutoGPT_Task_Repository extends Linked3_Base_Repository
+final class AutoGPTTaskRepository extends Linked3_Base_Repository
 {
     const VALID_TYPES = ['content-writing', 'content-enhancement', 'content-indexing', 'comment-reply', 'collect-rewrite'];
     const VALID_STATUS = ['active', 'paused', 'deleted'];

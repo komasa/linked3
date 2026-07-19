@@ -79,7 +79,7 @@ final class Linked3_Hook_Manager
         add_action('linked3_subscription_check', ['\\Linked3\\Classes\\Billing\\SubscriptionManager', 'daily_check']);
         add_action('linked3_business_optimize', ['\\Linked3\\Classes\\Billing\\BusinessOptimizer', 'daily_analyze']);
         // AutoGPT cron (every 10 min).
-        add_action('linked3_autogpt_run', ['\\Linked3\\Classes\\AutoGPT\\Cron\\Linked3_AutoGPT_Cron', 'run']);
+        add_action('linked3_autogpt_run', ['\\Linked3\\Classes\\AutoGPT\\Cron\\AutoGPTCron', 'run']);
 
         // Security response headers (v0.1.0 hardening — C+O constitution §1).
         add_action('send_headers', [__CLASS__, 'send_security_headers']);
@@ -141,7 +141,7 @@ final class Linked3_Hook_Manager
             'SEO'           => '\\Linked3\\Classes\\SEO\\Linked3_SEO_Hooks_Registrar',
             'Publish'       => '\\Linked3\\Classes\\Publish\\Linked3_Publish_Collect_Hooks_Registrar',
             'Chat'          => '\\Linked3\\Classes\\Chat\\ChatHooksRegistrar',
-            'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\Linked3_AutoGPT_Hooks_Registrar',
+            'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\AutoGPTHooksRegistrar',
             'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\WcFormsSpeechHooksRegistrar',
             'Dashboard'       => '\\Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Hooks_Registrar',
             'Distribute'      => '\\Linked3\\Classes\\Distribute\\DistributeHooksRegistrar',

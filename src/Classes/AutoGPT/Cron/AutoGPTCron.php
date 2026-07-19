@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AutoGPT Cron — picks due tasks, dispatches to processor, logs result.
  *
@@ -15,8 +17,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use Linked3\Classes\AutoGPT\{Linked3_AutoGPT_Task_Repository, Processors\Linked3_AutoGPT_Processor_Factory};
-final class Linked3_AutoGPT_Cron
+use Linked3\Classes\AutoGPT\{AutoGPTTaskRepository, Processors\AutoGPTProcessorFactory};
+final class AutoGPTCron
 {
     /** Constitution: a single cron tick must never exceed this wall-clock
      *  budget (set_time_limit(300) is the hard PHP ceiling; we leave 60s
@@ -49,7 +51,7 @@ final class Linked3_AutoGPT_Cron
                 return; // 不在时间段内,跳过本次执行
             }
         }
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         $log = Linked3_Logger::instance();
         $due = $repo->get_due_tasks();
         $log->info('cron', sprintf('AutoGPT: %d due tasks', count($due)));
@@ -81,7 +83,7 @@ final class Linked3_AutoGPT_Cron
                 continue;
             }
 
-            $processor = Linked3_AutoGPT_Processor_Factory::make($task['task_type']);
+            $processor = AutoGPTProcessorFactory::make($task['task_type']);
             if (!$processor) {
                 $repo->mark_run($task['id'], 'error');
                 $log->error('cron', "No processor for task_type={$task['task_type']}", ['task_id' => $task['id']]);
@@ -154,7 +156,7 @@ final class Linked3_AutoGPT_Cron
             if (!empty($payload) && is_array($payload)) {
                 $task['config'] = array_merge($task['config'], $payload);
             }
-            $processor = \Linked3\Classes\AutoGPT\Processors\Linked3_AutoGPT_Processor_Factory::make($task['task_type']);
+            $processor = \Linked3\Classes\AutoGPT\Processors\AutoGPTProcessorFactory::make($task['task_type']);
             if (!$processor) {
                 $repo->mark_queue_done($item['id'], 'error', __('无处理器。', 'linked3'));
                 continue;
@@ -176,7 +178,7 @@ final class Linked3_AutoGPT_Cron
      */
     private static function process_standalone_retry(array $item)
     : void {
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         $log = Linked3_Logger::instance();
         $payload = $item['payload'] ?? [];
         $type = $payload['type'] ?? '';
@@ -263,7 +265,7 @@ final class Linked3_AutoGPT_Cron
      * Circuit-breaker helper: advance the consecutive-failure counter for a
      * task and auto-pause + email-alert when the threshold is reached.
      *
-     * @param Linked3_AutoGPT_Task_Repository $repo
+     * @param AutoGPTTaskRepository $repo
      * @param array                           $task
      * @param string                          $message
      * @return void

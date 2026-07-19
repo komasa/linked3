@@ -53,7 +53,7 @@ if ($ag_sub === 'queue') {
                 echo '</ul>';
                 echo '<p>支持:定时调度(10分钟/每小时/每天/每周)、并发限制、连续失败熔断、任务队列重试。</p></div>';
                 // 内联 Agent 列表
-                $ag_repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+                $ag_repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
                 $tasks = $ag_repo->all(get_current_user_id());
                 if (empty($tasks)) {
                     echo '<div style="text-align:center;padding:30px;background:#f9fafb;border:1px dashed #d1d5db;border-radius:6px;margin:10px 0;">';

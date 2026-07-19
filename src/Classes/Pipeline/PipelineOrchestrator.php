@@ -149,11 +149,11 @@ final class PipelineOrchestrator
      */
     public function schedule_via_autogpt(array $pipeline_config, string $schedule = 'hourly'): int
     {
-        if (!class_exists('\\Linked3\\Classes\\AutoGPT\\Linked3_AutoGPT_Task_Repository')) {
+        if (!class_exists('\\Linked3\\Classes\\AutoGPT\\AutoGPTTaskRepository')) {
             return 0;
         }
 
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         $task_id = $repo->create([
             'user_id'   => get_current_user_id(),
             'task_type' => 'content-writing',

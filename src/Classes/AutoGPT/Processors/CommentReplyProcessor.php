@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT\Processors;
 use Linked3\Classes\Chat\ChatManager;
 
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Comment_Reply_Processor implements Linked3_AutoGPT_Processor_Interface
+final class CommentReplyProcessor implements AutoGPTProcessorInterface
 {
     public function process(array $task)
     : array {
@@ -20,7 +22,7 @@ final class Linked3_Comment_Reply_Processor implements Linked3_AutoGPT_Processor
         // v3.1.0: sentiment_filter 是死代码 (读取了但永不使用),保留兼容但不处理
         $processed = 0;
         $failed = 0;
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         // v16.3.0 性能优化: 将 get_option 提取到循环外, 避免N+1配置读取 (原每条评论读2次option)
         $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
         $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);

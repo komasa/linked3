@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Content Writing Processor — v3.0.0
  *
@@ -29,7 +31,7 @@ use Linked3\Classes\ContentWriter\{
     Prompt\UserPromptBuilder,
     Prompt\MarkdownHtmlConverter
 };
-final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Processor_Interface
+final class ContentWritingProcessor implements AutoGPTProcessorInterface
 {
     public function process(array $task) : mixed {
         $cfg = $task['config'];
@@ -62,7 +64,7 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
             $require_html = !empty($adv['require_html']);
         }
 
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
 
         for ($i = 0; $i < $count; $i++) {
             try {

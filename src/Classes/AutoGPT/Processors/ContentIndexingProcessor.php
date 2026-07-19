@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT\Processors;
 use Linked3\Classes\Vector\VectorFactory;
 use Linked3\Classes\Vector\PostProcessor\PostProcessor;
@@ -13,7 +15,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Content_Indexing_Processor implements Linked3_AutoGPT_Processor_Interface
+final class ContentIndexingProcessor implements AutoGPTProcessorInterface
 {
     public function process(array $task)
     : array {

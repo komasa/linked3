@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT;
-use Linked3\Classes\AutoGPT\Cron\Linked3_AutoGPT_Cron;
+use Linked3\Classes\AutoGPT\Cron\AutoGPTCron;
 
 
 if (!defined('ABSPATH')) exit;
@@ -12,19 +14,19 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_AutoGPT_Hooks_Registrar
+final class AutoGPTHooksRegistrar
 {
     public static function register()
     : void {
         // Cron init.
-        Linked3_AutoGPT_Cron::init();
+        AutoGPTCron::init();
 
         // AJAX actions.
         $actions = [
-            'linked3_autogpt_create_task' => Ajax\Actions\Linked3_AutoGPT_Create_Task_Action::class,
-            'linked3_autogpt_list_tasks'  => Ajax\Actions\Linked3_AutoGPT_List_Tasks_Action::class,
-            'linked3_autogpt_toggle_task' => Ajax\Actions\Linked3_AutoGPT_Toggle_Task_Action::class,
-            'linked3_autogpt_delete_task' => Ajax\Actions\Linked3_AutoGPT_Delete_Task_Action::class,
+            'linked3_autogpt_create_task' => Ajax\Actions\AutoGPTCreateTaskAction::class,
+            'linked3_autogpt_list_tasks'  => Ajax\Actions\AutoGPTListTasksAction::class,
+            'linked3_autogpt_toggle_task' => Ajax\Actions\AutoGPTToggleTaskAction::class,
+            'linked3_autogpt_delete_task' => Ajax\Actions\AutoGPTDeleteTaskAction::class,
         ];
         foreach ($actions as $action => $class) {
             add_action('wp_ajax_' . $action, [new $class(), 'dispatch']);
@@ -42,7 +44,7 @@ final class Linked3_AutoGPT_Hooks_Registrar
     public static function render_admin_page()
     : void {
         if (!current_user_can('manage_options')) return;
-        $repo = new Linked3_AutoGPT_Task_Repository();
+        $repo = new AutoGPTTaskRepository();
         $tasks = $repo->all(get_current_user_id());
         include LINKED3_DIR . 'admin/views/autogpt/dashboard.php';
     }

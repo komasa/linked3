@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT\Ajax\Actions;
-use Linked3\Classes\AutoGPT\Ajax\Linked3_AutoGPT_Base_Ajax_Action;
+use Linked3\Classes\AutoGPT\Ajax\AutoGPTBaseAjaxAction;
 
 
 if (!defined('ABSPATH')) exit;
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_AutoGPT_List_Tasks_Action extends Linked3_AutoGPT_Base_Ajax_Action
+final class AutoGPTListTasksAction extends AutoGPTBaseAjaxAction
 {
     public function handle()
     : void {

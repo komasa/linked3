@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT\Ajax;
     use \Linked3\Includes\Traits\Trait_Check_Admin_Permissions;
     use \Linked3\Includes\Traits\Trait_Check_Plan_Access;
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-abstract class Linked3_AutoGPT_Base_Ajax_Action
+abstract class AutoGPTBaseAjaxAction
 {
     const NONCE_ACTION = 'linked3_autogpt';
     const CAPABILITY = 'manage_options';
@@ -31,6 +33,6 @@ abstract class Linked3_AutoGPT_Base_Ajax_Action
 
     protected function repo()
     : Linked3 {
-        return new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        return new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
     }
 }

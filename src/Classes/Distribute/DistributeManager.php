@@ -237,10 +237,10 @@ final class DistributeManager
      */
     public function enqueue_retry($post_id, $platform, $reason = '')
     {
-        if (!class_exists('\\Linked3\\Classes\\AutoGPT\\Linked3_AutoGPT_Task_Repository')) {
+        if (!class_exists('\\Linked3\\Classes\\AutoGPT\\AutoGPTTaskRepository')) {
             return 0;
         }
-        $repo = new \Linked3\Classes\AutoGPT\Linked3_AutoGPT_Task_Repository();
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         // 用 task_id=0 表示"非任务级队列项"(独立分发重试)
         // scheduled_for = 5 分钟后
         return $repo->enqueue(0, [

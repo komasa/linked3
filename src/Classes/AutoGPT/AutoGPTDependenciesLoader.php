@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AutoGPT module — dependency loader.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_AutoGPT_Dependencies_Loader
+final class AutoGPTDependenciesLoader
 {
     public static function load()
     : void {
