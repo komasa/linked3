@@ -28,7 +28,7 @@ trait Trait_Check_Frontend_Permissions
     protected function verify($action, $nonce_key = 'nonce')
     : bool {
         // Constitution §2: global 60 req/min/IP ceiling on every Linked3 AJAX.
-        \Linked3\Classes\Security\Linked3_Rate_Limiter::gate('ajax');
+        \Linked3\Classes\Security\RateLimiter::gate('ajax');
 
         if (!is_user_logged_in()) {
             $this->forbidden(__('请登录后继续。', 'linked3'));
@@ -52,7 +52,7 @@ trait Trait_Check_Frontend_Permissions
     protected function verify_public($action, $nonce_key = 'nonce', $max_per_minute = 30)
     : bool {
         // Constitution §2: global 60 req/min/IP ceiling on every Linked3 AJAX.
-        \Linked3\Classes\Security\Linked3_Rate_Limiter::gate('ajax');
+        \Linked3\Classes\Security\RateLimiter::gate('ajax');
 
         $nonce = isset($_REQUEST[$nonce_key]) ? sanitize_text_field(wp_unslash($_REQUEST[$nonce_key])) : '';
         if (!wp_verify_nonce($nonce, $action)) {
@@ -82,7 +82,7 @@ trait Trait_Check_Frontend_Permissions
      */
     protected function client_ip()
     {
-        return \Linked3\Classes\Security\Linked3_Rate_Limiter::client_ip();
+        return \Linked3\Classes\Security\RateLimiter::client_ip();
     }
 
     /**

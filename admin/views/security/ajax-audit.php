@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/** @var \Linked3\Classes\Security\Linked3_Ajax_Auditor $auditor */
+/** @var \Linked3\Classes\Security\AjaxAuditor $auditor */
 $auditor = $args['auditor'] ?? null;
 if (!$auditor) {
     return;

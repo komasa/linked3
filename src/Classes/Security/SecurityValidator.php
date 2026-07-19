@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Security Validator — v5.7.0.1
  *
@@ -15,10 +17,10 @@ namespace Linked3\Classes\Security;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Security_Validator {
-    private static ?Linked3_Security_Validator $instance = null;
+class SecurityValidator {
+    private static ?SecurityValidator $instance = null;
 
-    public static function instance(): Linked3_Security_Validator {
+    public static function instance(): SecurityValidator {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

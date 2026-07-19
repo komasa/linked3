@@ -21,7 +21,7 @@
 namespace Linked3\Classes\Core;
 
 use Linked3\Classes\Core\Providers\Linked3_Provider_Factory;
-use Linked3\Classes\Security\Linked3_Rate_Limiter;
+use Linked3\Classes\Security\RateLimiter;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 use Linked3\Includes\Log\Linked3_Logger;
 use Linked3\Includes\Linked3_Crypto;
@@ -121,7 +121,7 @@ final class Linked3_AI_Dispatcher
         // token usage and (b) exhaust the free-plan 50k cap across all
         // background agents globally.
         $user_id = isset($options['user_id']) ? (int) $options['user_id'] : get_current_user_id();
-        Linked3_Rate_Limiter::per_user_hourly($user_id, 'ai_chat');
+        RateLimiter::per_user_hourly($user_id, 'ai_chat');
 
         // ---- Constitution §2: token-quota hard gate. Refuse before any
         // network call if the user/guest has exhausted their daily quota. ----

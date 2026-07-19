@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AJAX Security Auditor.
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Ajax_Auditor
+final class AjaxAuditor
 {
     /**
      * Scan global filter registry for AJAX endpoints.

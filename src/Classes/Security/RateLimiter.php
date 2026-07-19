@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Global AJAX Rate Limiter (v0.1.0 hardening — C+O constitution §2).
  *
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Rate_Limiter
+final class RateLimiter
 {
     /** Constitution §2: global 60 req/min/IP. */
     const DEFAULT_MAX_PER_MINUTE = 60;
@@ -183,4 +185,4 @@ final class Linked3_Rate_Limiter
 
 // Register the defence-in-depth AJAX watcher as soon as the file loads.
 // This mirrors the pattern used by Linked3_Disallowed_Nopriv_Actions.
-add_action('admin_init', [Linked3_Rate_Limiter::class, 'maybe_gate_linked3_ajax'], 0);
+add_action('admin_init', [RateLimiter::class, 'maybe_gate_linked3_ajax'], 0);

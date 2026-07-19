@@ -232,7 +232,7 @@ final class Linked3_Hook_Manager
         if (!current_user_can('manage_options')) {
             return;
         }
-        $auditor = new \Linked3\Classes\Security\Linked3_Ajax_Auditor();
+        $auditor = new \Linked3\Classes\Security\AjaxAuditor();
         include LINKED3_DIR . 'admin/views/security/ajax-audit.php';
     }
 

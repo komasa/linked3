@@ -24,7 +24,7 @@
 
 namespace Linked3\Classes\Chat;
 
-use Linked3\Classes\Security\Linked3_Rate_Limiter;
+use Linked3\Classes\Security\RateLimiter;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 use Linked3\Includes\Log\Linked3_Logger;
 
@@ -50,7 +50,7 @@ final class Linked3_Chat_Moderation
      */
     public function check($message, array $context = []) : mixed {
         $message = (string) $message;
-        $ip = isset($context['ip']) ? (string) $context['ip'] : Linked3_Rate_Limiter::client_ip();
+        $ip = isset($context['ip']) ? (string) $context['ip'] : RateLimiter::client_ip();
 
         // Layer 1: Banned Words.
         $bw = $this->check_banned_words($message);

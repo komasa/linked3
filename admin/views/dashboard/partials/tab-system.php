@@ -112,7 +112,7 @@ $health_checks['speech'] = [
 ];
 
 // 5. 安全审计检测
-$security_ok = class_exists('\\Linked3\\Classes\\Security\\Linked3_Ajax_Auditor');
+$security_ok = class_exists('\\Linked3\\Classes\\Security\\AjaxAuditor');
 $health_checks['security'] = [
     'label' => '安全审计', 'ok' => $security_ok,
     'ok_text' => '模块可用', 'fail_text' => '模块未加载',

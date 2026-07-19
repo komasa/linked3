@@ -88,6 +88,13 @@ class PSR4Migrator:
         """Find all PHP files in a directory."""
         return sorted(directory.rglob('*.php'))
     
+    def find_all_config_files(self, directory: Path) -> list[Path]:
+        """Find all YAML/JSON config files that may contain class name references."""
+        files = []
+        for pattern in ['*.yaml', '*.yml', '*.json']:
+            files.extend(directory.rglob(pattern))
+        return sorted(files)
+    
     def find_references(self, old_class: str, search_root: Path) -> list[Path]:
         """Find all files that reference the old class name.
         
@@ -95,8 +102,10 @@ class PSR4Migrator:
         but skips dependency and VCS directories.
         """
         references = []
+        # Skip build/dependency/VCS directories (assets/ has no PHP files,
+        # but leaving it in is harmless since find_all_php_files only picks *.php)
         skip_dirs = {'vendor', 'node_modules', '.git', '.svn', 'cache', 'tmp',
-                     'dist', 'build', 'uploads', 'assets'}
+                     'dist', 'build', 'uploads'}
         skip_suffixes = {'.min.js', '.min.css', '.map'}
         for php_file in self.find_all_php_files(search_root):
             # Skip files inside dependency/VCS/build directories

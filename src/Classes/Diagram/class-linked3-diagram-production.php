@@ -287,10 +287,10 @@ class Linked3_Diagram_Commercial_Hardening {
         $checks['circuit_breaker'] = class_exists('\Linked3\Classes\Diagram\Linked3_Error_Handler');
 
         // 限流检查
-        $checks['rate_limiter'] = class_exists('\Linked3\Classes\Diagram\Linked3_Rate_Limiter_V2');
+        $checks['rate_limiter'] = class_exists('\Linked3\Classes\Diagram\RateLimiterV2');
 
         // 安全检查
-        $checks['security'] = class_exists('\Linked3\Classes\Diagram\Linked3_Security_Validator');
+        $checks['security'] = class_exists('\Linked3\Classes\Diagram\SecurityValidator');
 
         // 缓存检查
         $checks['cache'] = class_exists('\Linked3\Classes\Diagram\Linked3_Performance_Cache');

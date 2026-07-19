@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Rate Limiter V2 — v5.7.0.4
  *
@@ -15,8 +17,8 @@ namespace Linked3\Classes\Security;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Rate_Limiter_V2 {
-    private static ?Linked3_Rate_Limiter_V2 $instance = null;
+class RateLimiterV2 {
+    private static ?RateLimiterV2 $instance = null;
     private array $buckets = [];
     private array $limits = [
         'ip_minute' => ['max' => 60, 'window' => 60],       // IP 每分钟60次
@@ -25,7 +27,7 @@ class Linked3_Rate_Limiter_V2 {
         'ajax_minute' => ['max' => 30, 'window' => 60],     // AJAX 每分钟30次
     ];
 
-    public static function instance(): Linked3_Rate_Limiter_V2 {
+    public static function instance(): RateLimiterV2 {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -209,9 +211,9 @@ class Linked3_Security_Bootstrap {
         self::$booted = true;
 
         $container = linked3_container();
-        $container->set('security.validator', fn() => Linked3_Security_Validator::instance());
-        $container->set('security.rate_limiter', fn() => Linked3_Rate_Limiter_V2::instance());
-        $container->set('security.async_queue', fn() => Linked3_Async_Queue::instance());
+        $container->set('security.validator', fn() => SecurityValidator::instance());
+        $container->set('security.rate_limiter', fn() => RateLimiterV2::instance());
+        $container->set('security.async_queue', fn() => AsyncQueue::instance());
         $container->set('security.audit', fn() => Linked3_Audit_Logger::instance());
 
         // 监听安全违规

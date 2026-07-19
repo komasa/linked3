@@ -238,7 +238,7 @@ class Linked3_Batch_Engine {
 
     public function batchGenerate(array $topics, string $template, array $options = []): string {
         $batchId = uniqid('batch_');
-        $queue = Linked3_Async_Queue::instance();
+        $queue = AsyncQueue::instance();
 
         $batches = array_chunk($topics, $this->batchSize);
         foreach ($batches as $i => $batch) {

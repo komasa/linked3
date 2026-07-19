@@ -32,7 +32,7 @@ trait Trait_Check_Admin_Permissions
     protected function verify($action, $capability = null, $nonce_key = 'nonce')
     : bool {
         // Constitution §2: global 60 req/min/IP ceiling on every Linked3 AJAX.
-        \Linked3\Classes\Security\Linked3_Rate_Limiter::gate('ajax');
+        \Linked3\Classes\Security\RateLimiter::gate('ajax');
 
         $capability = $capability ?: 'manage_options';
 

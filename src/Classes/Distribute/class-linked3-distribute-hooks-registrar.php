@@ -64,8 +64,8 @@ final class Linked3_Distribute_Hooks_Registrar
             wp_send_json_error(['message' => __('安全校验失败。', 'linked3')], 403);
         }
         // Global rate limiter.
-        if (class_exists('\\Linked3\\Classes\\Security\\Linked3_Rate_Limiter')) {
-            \Linked3\Classes\Security\Linked3_Rate_Limiter::gate('linked3_distribute');
+        if (class_exists('\\Linked3\\Classes\\Security\\RateLimiter')) {
+            \Linked3\Classes\Security\RateLimiter::gate('linked3_distribute');
         }
     }
 

@@ -17,8 +17,8 @@ if (!defined('ABSPATH')) {
                 echo '<h2>安全审计</h2>';
                 echo '<div class="notice notice-info inline"><p><strong>功能说明:</strong>扫描所有 AJAX 端点,检查 nonce/capability/匿名访问。红色端点需手动检查。</p></div>';
                 // 内联显示审计结果
-                if (class_exists('\\Linked3\\Classes\\Security\\Linked3_Ajax_Auditor')) {
-                    $auditor = new \Linked3\Classes\Security\Linked3_Ajax_Auditor();
+                if (class_exists('\\Linked3\\Classes\\Security\\AjaxAuditor')) {
+                    $auditor = new \Linked3\Classes\Security\AjaxAuditor();
                     $rows = $auditor->scan();
                     $summary = $auditor->summary();
                     echo '<p>总端点: ' . (int)$summary['total_count'] . ' | 匿名(nopriv): ' . (int)$summary['nopriv_count'] . '</p>';

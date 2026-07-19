@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Async Queue — v5.7.0.3
  *
@@ -15,12 +17,12 @@ namespace Linked3\Classes\Security;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Async_Queue {
-    private static ?Linked3_Async_Queue $instance = null;
+class AsyncQueue {
+    private static ?AsyncQueue $instance = null;
     private int $maxRetries = 3;
     private int $timeout = 300; // 5分钟
 
-    public static function instance(): Linked3_Async_Queue {
+    public static function instance(): AsyncQueue {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

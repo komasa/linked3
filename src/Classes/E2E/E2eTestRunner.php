@@ -118,7 +118,7 @@ class E2eTestRunner {
         }, 'agent');
 
         $this->registerTest('security_validator_ready', function() {
-            return class_exists('\Linked3\Classes\E2E\Linked3_Security_Validator');
+            return class_exists('\Linked3\Classes\E2E\SecurityValidator');
         }, 'security');
 
         $this->registerTest('billing_subscription_plans', function() {
@@ -161,9 +161,9 @@ class Linked3_Health_Monitor {
             'cost_reporter'   => class_exists('\Linked3\Classes\E2E\Linked3_Cost_Reporter'),
             'prompt_cache'    => class_exists('\Linked3\Classes\E2E\Linked3_Prompt_Cache'),
             // 安全
-            'security_validator' => class_exists('\Linked3\Classes\E2E\Linked3_Security_Validator'),
-            'rate_limiter'       => class_exists('\Linked3\Classes\E2E\Linked3_Rate_Limiter_V2'),
-            'async_queue'        => class_exists('\Linked3\Classes\E2E\Linked3_Async_Queue'),
+            'security_validator' => class_exists('\Linked3\Classes\E2E\SecurityValidator'),
+            'rate_limiter'       => class_exists('\Linked3\Classes\E2E\RateLimiterV2'),
+            'async_queue'        => class_exists('\Linked3\Classes\E2E\AsyncQueue'),
             'audit_logger'       => class_exists('\Linked3\Classes\E2E\Linked3_Audit_Logger'),
             // 商业
             'payment_manager'    => class_exists('\Linked3\Classes\E2E\Linked3_Payment_Manager'),
