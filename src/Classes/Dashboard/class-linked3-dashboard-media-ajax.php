@@ -327,8 +327,8 @@ class Linked3_Dashboard_Media_Ajax
         // V15 8 维度
         $brand_profile_id = (int) ($_POST['brand_profile_id'] ?? 0);
         $v15_context = [];
-        if ($brand_profile_id > 0 && class_exists('\\Linked3\\Classes\\V15\\Linked3_V15_Brand_Profile_Manager')) {
-            $bp_mgr = \Linked3\Classes\V15\Linked3_V15_Brand_Profile_Manager::instance();
+        if ($brand_profile_id > 0 && class_exists('\\Linked3\\Classes\\V15\\V15BrandProfileManager')) {
+            $bp_mgr = \Linked3\Classes\V15\V15BrandProfileManager::instance();
             $all_profiles = $bp_mgr->get_all_profiles(get_current_user_id());
             foreach ($all_profiles as $bp) {
                 if ((int) $bp['id'] === $brand_profile_id) {
@@ -347,7 +347,7 @@ class Linked3_Dashboard_Media_Ajax
             wp_send_json_error(['message' => __('请填写主题', 'linked3-ai')]);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\V15\\Linked3_V15_Chart_Prompt_Generator')) {
+        if (!class_exists('\\Linked3\\Classes\\V15\\V15ChartPromptGenerator')) {
             wp_send_json_error(['message' => __('图示提示词生成器未加载', 'linked3-ai')]);
         }
 
@@ -355,7 +355,7 @@ class Linked3_Dashboard_Media_Ajax
         @ini_set('memory_limit', '512M');
 
         try {
-            $gen = new \Linked3\Classes\V15\Linked3_V15_Chart_Prompt_Generator();
+            $gen = new \Linked3\Classes\V15\V15ChartPromptGenerator();
             $result = $gen->generate($topic, $v15_context, [
                 'chart_codes' => $chart_codes,
                 'category'    => $category,
@@ -405,11 +405,11 @@ class Linked3_Dashboard_Media_Ajax
         $category = sanitize_text_field($_POST['category'] ?? '');
         $count = (int) ($_POST['count'] ?? 3);
 
-        if (!class_exists('\\Linked3\\Classes\\V15\\Linked3_V15_Chart_Prompt_Generator')) {
+        if (!class_exists('\\Linked3\\Classes\\V15\\V15ChartPromptGenerator')) {
             wp_send_json_error(['message' => __('图示脚本生成器未加载', 'linked3')]);
         }
 
-        $gen = new \Linked3\Classes\V15\Linked3_V15_Chart_Prompt_Generator();
+        $gen = new \Linked3\Classes\V15\V15ChartPromptGenerator();
         $all = $gen->get_chart_dna_index();
 
         $outline = [];
@@ -448,13 +448,13 @@ class Linked3_Dashboard_Media_Ajax
         $brand_profile_id = (int) ($_POST['brand_profile_id'] ?? 0);
         $v15_context = self::build_v15_context_from_request($brand_profile_id, get_current_user_id());
 
-        if (!class_exists('\\Linked3\\Classes\\V15\\Linked3_V15_Chart_Prompt_Generator')) {
+        if (!class_exists('\\Linked3\\Classes\\V15\\V15ChartPromptGenerator')) {
             wp_send_json_error(['message' => __('图示脚本生成器未加载', 'linked3')]);
         }
 
         @set_time_limit(60);
         try {
-            $gen = new \Linked3\Classes\V15\Linked3_V15_Chart_Prompt_Generator();
+            $gen = new \Linked3\Classes\V15\V15ChartPromptGenerator();
             $result = $gen->generate_single($topic, $chart_item, $v15_context, [
                 'user_id' => get_current_user_id(),
             ]);

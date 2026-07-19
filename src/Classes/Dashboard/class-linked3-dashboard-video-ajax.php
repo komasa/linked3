@@ -38,8 +38,8 @@ class Linked3_Dashboard_Video_Ajax
 
         // v5.3.2: 用 Brand_Profile_Manager 取完整 8 维度上下文
         $v15_context = [];
-        if ($brand_profile_id > 0 && class_exists('\\Linked3\\Classes\\V15\\Linked3_V15_Brand_Profile_Manager')) {
-            $bp_mgr = \Linked3\Classes\V15\Linked3_V15_Brand_Profile_Manager::instance();
+        if ($brand_profile_id > 0 && class_exists('\\Linked3\\Classes\\V15\\V15BrandProfileManager')) {
+            $bp_mgr = \Linked3\Classes\V15\V15BrandProfileManager::instance();
             $all_profiles = $bp_mgr->get_all_profiles(get_current_user_id());
             foreach ($all_profiles as $bp) {
                 if ((int) $bp['id'] === $brand_profile_id) {

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * V15 Seed Data — 30 种图示 ChartDNA + 4 种 Seed 预设。
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-trait Linked3_V15_Seed_Trait
+trait V15SeedTrait
 {
     /**
      * 30 种图示 ChartDNA 完整索引。

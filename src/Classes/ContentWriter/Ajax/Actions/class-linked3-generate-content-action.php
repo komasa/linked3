@@ -64,8 +64,8 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
         ];
 
         // 如果选了品牌配置,从 DB 读取并合并 (手动输入优先)
-        if ($brand_profile_id > 0 && class_exists('\\Linked3\\Classes\\V15\\Linked3_V15_Brand_Profile_Manager')) {
-            $bp_mgr = \Linked3\Classes\V15\Linked3_V15_Brand_Profile_Manager::instance();
+        if ($brand_profile_id > 0 && class_exists('\\Linked3\\Classes\\V15\\V15BrandProfileManager')) {
+            $bp_mgr = \Linked3\Classes\V15\V15BrandProfileManager::instance();
             global $wpdb;
             $table = $wpdb->prefix . 'linked3_v15_brand_profiles';
             $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table} WHERE id = %d LIMIT 1", $brand_profile_id), ARRAY_A);

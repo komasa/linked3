@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * V15 Brand Profile Manager — 6 要素品牌配置管理。
  *
@@ -20,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_V15_Brand_Profile_Manager
+final class V15BrandProfileManager
 {
     /** @var self|null */
     private static $instance;

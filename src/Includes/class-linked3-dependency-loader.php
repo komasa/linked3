@@ -135,7 +135,7 @@ final class Linked3_Dependency_Loader
         // v5.1.0: Pipeline Orchestrator (the production factory conductor).
         'Linked3\\Classes\\Pipeline\\PipelineDependenciesLoader',
         // v5.2.0: V15 视觉提示词系统.
-        'Linked3\\Classes\\V15\\Linked3_V15_Dependencies_Loader',
+        'Linked3\\Classes\\V15\\V15DependenciesLoader',
         
         // v27.0.0: OS module — renamed from V18 实验室. Loads new English-named
         // classes AND the backward-compatibility alias layer that maps old

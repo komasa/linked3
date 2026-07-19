@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * V15 Chart Prompt Generator — 基于 V15 ChartDNA 30 图示生成图片提示词。
  *
@@ -21,7 +23,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_V15_Chart_Prompt_Generator
+final class V15ChartPromptGenerator
 {
     /**
      * 生成图示提示词。

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * V15 module — dependency loader.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_V15_Dependencies_Loader
+final class V15DependenciesLoader
 {
     public static function load()
     : void {
