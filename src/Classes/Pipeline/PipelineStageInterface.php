@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Pipeline Stage Interface — contract for pipeline stages.
  *
@@ -16,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Pipeline_Stage_Interface
+interface PipelineStageInterface
 {
     /**
      * Get the stage slug (e.g. 'collect', 'generate', 'enhance').

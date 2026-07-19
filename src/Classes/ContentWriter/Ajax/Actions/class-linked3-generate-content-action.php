@@ -136,8 +136,8 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
             $sys = '你是一位专业内容写作器。请严格按照用户的指令生成内容。';
             // v5.2.1: 用 Placeholder_Resolver 替换所有占位符 (含 V15)
             $raw_prompt = $config['custom_content_prompt'];
-            if (class_exists('\\Linked3\\Classes\\Pipeline\\Linked3_Pipeline_Placeholder_Resolver')) {
-                $user = \Linked3\Classes\Pipeline\Linked3_Pipeline_Placeholder_Resolver::resolve($raw_prompt, array_merge([
+            if (class_exists('\\Linked3\\Classes\\Pipeline\\PipelinePlaceholderResolver')) {
+                $user = \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($raw_prompt, array_merge([
                     'topic' => $topic,
                     'keywords' => $keywords,
                     'keyword' => $keyword,
@@ -236,7 +236,7 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
             if (empty($title) && $gen_title) {
                 try {
                     $title_prompt = !empty($config['custom_title_prompt'])
-                        ? \Linked3\Classes\Pipeline\Linked3_Pipeline_Placeholder_Resolver::resolve($config['custom_title_prompt'], array_merge(['topic'=>$topic,'keywords'=>$keywords,'keyword'=>$keyword,'title'=>$title?:$topic], $v15_context))
+                        ? \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($config['custom_title_prompt'], array_merge(['topic'=>$topic,'keywords'=>$keywords,'keyword'=>$keyword,'title'=>$title?:$topic], $v15_context))
                         : '为以下主题生成一个 SEO 友好的中文标题(8-15字),只返回标题文本,不要其他内容。' . "\n\n主题:{$topic}\n关键词:{$keywords}";
                     $title_result = $this->dispatcher()->chat(
                         [['role' => 'user', 'content' => $title_prompt]],
@@ -253,7 +253,7 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
             if ($gen_meta) {
                 try {
                     $meta_prompt = !empty($config['custom_meta_prompt'])
-                        ? \Linked3\Classes\Pipeline\Linked3_Pipeline_Placeholder_Resolver::resolve($config['custom_meta_prompt'], array_merge(['title'=>$title?:$topic,'keywords'=>$keywords,'keyword'=>$keyword,'topic'=>$topic], $v15_context))
+                        ? \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($config['custom_meta_prompt'], array_merge(['title'=>$title?:$topic,'keywords'=>$keywords,'keyword'=>$keyword,'topic'=>$topic], $v15_context))
                         : '为以下文章生成 150-160 字的 SEO meta description,包含主关键词,只返回描述文本。' . "\n\n标题:" . ($title ?: $topic) . "\n关键词:{$keywords}\n\n正文摘要:" . mb_substr(wp_strip_all_tags($content), 0, 500);
                     $meta_result = $this->dispatcher()->chat(
                         [['role' => 'user', 'content' => $meta_prompt]],
@@ -283,7 +283,7 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
             if ($gen_excerpt) {
                 try {
                     $excerpt_prompt = !empty($config['custom_excerpt_prompt'])
-                        ? \Linked3\Classes\Pipeline\Linked3_Pipeline_Placeholder_Resolver::resolve($config['custom_excerpt_prompt'], array_merge(['title'=>$title?:$topic,'topic'=>$topic], $v15_context))
+                        ? \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($config['custom_excerpt_prompt'], array_merge(['title'=>$title?:$topic,'topic'=>$topic], $v15_context))
                         : '为以下文章生成 100 字以内的摘要,只返回摘要文本。' . "\n\n标题:" . ($title ?: $topic) . "\n\n正文:" . mb_substr(wp_strip_all_tags($content), 0, 800);
                     $excerpt_result = $this->dispatcher()->chat(
                         [['role' => 'user', 'content' => $excerpt_prompt]],
@@ -298,7 +298,7 @@ final class Linked3_Generate_Content_Action extends Linked3_Content_Writer_Base_
             if ($gen_tags) {
                 try {
                     $tags_prompt = !empty($config['custom_tags_prompt'])
-                        ? \Linked3\Classes\Pipeline\Linked3_Pipeline_Placeholder_Resolver::resolve($config['custom_tags_prompt'], array_merge(['title'=>$title?:$topic,'keywords'=>$keywords,'keyword'=>$keyword,'topic'=>$topic], $v15_context))
+                        ? \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($config['custom_tags_prompt'], array_merge(['title'=>$title?:$topic,'keywords'=>$keywords,'keyword'=>$keyword,'topic'=>$topic], $v15_context))
                         : '为以下文章生成 5-8 个标签,用逗号分隔,只返回标签。' . "\n\n标题:" . ($title ?: $topic) . "\n关键词:{$keywords}";
                     $tags_result = $this->dispatcher()->chat(
                         [['role' => 'user', 'content' => $tags_prompt]],

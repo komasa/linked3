@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Pipeline module — dependency loader.
  *
@@ -16,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Pipeline_Dependencies_Loader
+final class PipelineDependenciesLoader
 {
     public static function load()
     : void {

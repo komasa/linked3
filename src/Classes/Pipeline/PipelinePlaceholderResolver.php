@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Pipeline Placeholder Resolver — unified {placeholder} substitution.
  *
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Pipeline_Placeholder_Resolver
+final class PipelinePlaceholderResolver
 {
     /**
      * Replace all {placeholder} tokens in $text with values from $context.

@@ -86,8 +86,8 @@ class Linked3_Dashboard_Keyword_Actions extends Linked3_Dashboard_Base_Ajax_Acti
                         $tpl = $pipe_templates[0];
                         $prompt_text = $tpl['config']['prompt'] ?? '';
                         // 用 Placeholder_Resolver 替换占位符
-                        if (class_exists('\\Linked3\\Classes\\Pipeline\\Linked3_Pipeline_Placeholder_Resolver')) {
-                            $ai_prompt = \Linked3\Classes\Pipeline\Linked3_Pipeline_Placeholder_Resolver::resolve($prompt_text, [
+                        if (class_exists('\\Linked3\\Classes\\Pipeline\\PipelinePlaceholderResolver')) {
+                            $ai_prompt = \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($prompt_text, [
                                 'seed' => $seed,
                                 'count' => '20',
                                 'topic' => $seed,

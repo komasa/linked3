@@ -133,7 +133,7 @@ final class Linked3_Dependency_Loader
         'Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Dependencies_Loader',
         'Linked3\\Classes\\Distribute\\Linked3_Distribute_Dependencies_Loader',
         // v5.1.0: Pipeline Orchestrator (the production factory conductor).
-        'Linked3\\Classes\\Pipeline\\Linked3_Pipeline_Dependencies_Loader',
+        'Linked3\\Classes\\Pipeline\\PipelineDependenciesLoader',
         // v5.2.0: V15 视觉提示词系统.
         'Linked3\\Classes\\V15\\Linked3_V15_Dependencies_Loader',
         

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Pipeline Orchestrator — the production factory conductor.
  *
@@ -26,9 +28,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Pipeline_Orchestrator
+final class PipelineOrchestrator
 {
-    /** @var array<string, Linked3_Pipeline_Stage_Interface> Registered stages. */
+    /** @var array<string, PipelineStageInterface> Registered stages. */
     private $stages = [];
 
     /** @var array The default 5-stage order. */
@@ -37,10 +39,10 @@ final class Linked3_Pipeline_Orchestrator
     /**
      * Register a pipeline stage.
      *
-     * @param Linked3_Pipeline_Stage_Interface $stage
+     * @param PipelineStageInterface $stage
      * @return self
      */
-    public function register_stage(Linked3_Pipeline_Stage_Interface $stage): self
+    public function register_stage(PipelineStageInterface $stage): self
     {
         $this->stages[$stage->slug()] = $stage;
         return $this;

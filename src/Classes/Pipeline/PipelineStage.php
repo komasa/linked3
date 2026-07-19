@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Pipeline Stage — base implementation with shared utilities.
  *
@@ -16,11 +18,11 @@ if (!defined('ABSPATH')) {
 }
 
 // 确保接口在实现类之前加载 (glob_scan 按字母排序, interface- 排在 class- 之后)
-if (!interface_exists('Linked3\\Classes\\Pipeline\\Linked3_Pipeline_Stage_Interface')) {
+if (!interface_exists('Linked3\\Classes\\Pipeline\\PipelineStageInterface')) {
     require_once __DIR__ . '/interface-linked3-pipeline-stage.php';
 }
 
-abstract class Linked3_Pipeline_Stage implements Linked3_Pipeline_Stage_Interface
+abstract class PipelineStage implements PipelineStageInterface
 {
     /**
      * Merge stage output into the pipeline's accumulated data.
