@@ -15,7 +15,7 @@ use Linked3\Classes\Speech\Linked3_TTS_Manager;
 if (!defined('ABSPATH')) {
     exit;
 }
-use Linked3\Classes\STT\Linked3_STT_Manager; // phpcs:ignore -- reserved for future STT feature
+use Linked3\Classes\STT\SttManager; // phpcs:ignore -- reserved for future STT feature
 use Linked3\Includes\Traits\{Trait_Check_Admin_Permissions, Trait_Check_Plan_Access, Trait_Send_WP_Error};
 
 final class Linked3_WC_Forms_Speech_Hooks_Registrar

@@ -18,7 +18,7 @@ final class Linked3_WC_Forms_Speech_Dependencies_Loader
             'Classes/WooCommerce/class-linked3-wc-ai-generator.php',
             'Classes/AIForms/class-linked3-ai-form-manager.php',
             'Classes/Speech/class-linked3-tts-manager.php',
-            'Classes/STT/class-linked3-stt-manager.php',
+            'Classes/STT/SttManager.php',
             'Classes/WooCommerce/class-linked3-wc-token-package.php', // v3.1.0
             'Classes/WooCommerce/class-linked3-wc-forms-speech-hooks-registrar.php',
         ];
