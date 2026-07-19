@@ -1,0 +1,46 @@
+{
+  "files_scanned": 453,
+  "issues_found": 5,
+  "issues": [
+    {
+      "file": "src/Classes/AutoGPT/AutoGPTDependenciesLoader.php",
+      "line": 22,
+      "column": 30,
+      "found": "AutogptTaskRepository",
+      "expected": "AutoGPTTaskRepository",
+      "context": "'Classes/AutoGPT/AutogptTaskRepository.php',"
+    },
+    {
+      "file": "src/Classes/AutoGPT/AutoGPTDependenciesLoader.php",
+      "line": 23,
+      "column": 41,
+      "found": "AutogptProcessor",
+      "expected": "AutoGPTProcessor",
+      "context": "'Classes/AutoGPT/Processors/AutogptProcessor.php',"
+    },
+    {
+      "file": "src/Classes/AutoGPT/AutoGPTDependenciesLoader.php",
+      "line": 29,
+      "column": 35,
+      "found": "AutogptCron",
+      "expected": "AutoGPTCron",
+      "context": "'Classes/AutoGPT/Cron/AutogptCron.php',"
+    },
+    {
+      "file": "src/Classes/SEO/SEODependenciesLoader.php",
+      "line": 86,
+      "column": 31,
+      "found": "SeoBaseAjaxAction",
+      "expected": "SEOBaseAjaxAction",
+      "context": "'Classes/SEO/Ajax/SeoBaseAjaxAction.php',"
+    },
+    {
+      "file": "src/Classes/SEO/SEODependenciesLoader.php",
+      "line": 92,
+      "column": 26,
+      "found": "SeoHooksRegistrar",
+      "expected": "SEOHooksRegistrar",
+      "context": "'Classes/SEO/SeoHooksRegistrar.php',"
+    }
+  ]
+}

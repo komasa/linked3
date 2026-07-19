@@ -1,0 +1,1433 @@
+{
+  "total_declarations": 532,
+  "multi_class_files": 19,
+  "autoload_issues": 81,
+  "issues": [
+    {
+      "declaration_file": "src/Classes/BookFactory/BookAICallerInterface.php",
+      "namespace": "Linked3\\Classes\\BookFactory",
+      "class": "Linked3_Book_State_Repository_Interface",
+      "type": "interface",
+      "line": 45,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\BookFactory\\Linked3_Book_State_Repository_Interface"
+    },
+    {
+      "declaration_file": "src/Classes/BookFactory/BookAICallerInterface.php",
+      "namespace": "Linked3\\Classes\\BookFactory",
+      "class": "Linked3_Book_Prompt_Provider_Interface",
+      "type": "interface",
+      "line": 78,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\BookFactory\\Linked3_Book_Prompt_Provider_Interface"
+    },
+    {
+      "declaration_file": "src/Classes/BookFactory/BookAICallerInterface.php",
+      "namespace": "Linked3\\Classes\\BookFactory",
+      "class": "Linked3_Book_Cost_Tracker_Interface",
+      "type": "interface",
+      "line": 104,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\BookFactory\\Linked3_Book_Cost_Tracker_Interface"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Payment_Gateway_Interface",
+      "type": "interface",
+      "line": 25,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Payment_Gateway_Interface"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Alipay_Gateway",
+      "type": "class",
+      "line": 73,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Alipay_Gateway"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Wechat_Gateway",
+      "type": "class",
+      "line": 112,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Wechat_Gateway"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Payment_Manager",
+      "type": "class",
+      "line": 150,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Payment_Manager"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "SubscriptionManager_V2",
+      "type": "class",
+      "line": 188,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\SubscriptionManager_V2"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Quota_Interceptor",
+      "type": "class",
+      "line": 256,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Quota_Interceptor"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Invoice_Manager",
+      "type": "class",
+      "line": 324,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Invoice_Manager"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Referral_Manager",
+      "type": "class",
+      "line": 398,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Referral_Manager"
+    },
+    {
+      "declaration_file": "src/Classes/Billing/StripeGateway.php",
+      "namespace": "Linked3\\Classes\\Billing",
+      "class": "Linked3_Billing_Bootstrap",
+      "type": "class",
+      "line": 530,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Billing\\Linked3_Billing_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Addons/AddonManager.php",
+      "namespace": "Linked3\\Classes\\Addons",
+      "class": "Linked3_Addon_Interface",
+      "type": "interface",
+      "line": 22,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Addons\\Linked3_Addon_Interface"
+    },
+    {
+      "declaration_file": "src/Classes/Addons/AddonManager.php",
+      "namespace": "Linked3\\Classes\\Addons",
+      "class": "Linked3_IP_Anonymization_Addon",
+      "type": "class",
+      "line": 100,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Addons\\Linked3_IP_Anonymization_Addon"
+    },
+    {
+      "declaration_file": "src/Classes/Addons/AddonManager.php",
+      "namespace": "Linked3\\Classes\\Addons",
+      "class": "Linked3_Consent_Compliance_Addon",
+      "type": "class",
+      "line": 121,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Addons\\Linked3_Consent_Compliance_Addon"
+    },
+    {
+      "declaration_file": "src/Classes/E2E/E2eTestRunner.php",
+      "namespace": "Linked3\\Classes\\E2E",
+      "class": "Linked3_Health_Monitor",
+      "type": "class",
+      "line": 140,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\E2E\\Linked3_Health_Monitor"
+    },
+    {
+      "declaration_file": "src/Classes/E2E/E2eTestRunner.php",
+      "namespace": "Linked3\\Classes\\E2E",
+      "class": "Linked3_Auto_Rollback",
+      "type": "class",
+      "line": 217,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\E2E\\Linked3_Auto_Rollback"
+    },
+    {
+      "declaration_file": "src/Classes/E2E/E2eTestRunner.php",
+      "namespace": "Linked3\\Classes\\E2E",
+      "class": "Linked3_Final_Bootstrap",
+      "type": "class",
+      "line": 271,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\E2E\\Linked3_Final_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_4Layer_Anchor",
+      "type": "class",
+      "line": 82,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_4Layer_Anchor"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Selection_DecisionTree",
+      "type": "class",
+      "line": 124,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Selection_DecisionTree"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Complexity_Reduction",
+      "type": "class",
+      "line": 164,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Complexity_Reduction"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Layout_Engine",
+      "type": "class",
+      "line": 215,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Layout_Engine"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Color_System",
+      "type": "class",
+      "line": 250,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Color_System"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Validation_13Dim",
+      "type": "class",
+      "line": 290,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Validation_13Dim"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Bootstrap",
+      "type": "class",
+      "line": 402,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_ProductSeed_Manager",
+      "type": "class",
+      "line": 106,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_ProductSeed_Manager"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Seed_Reference",
+      "type": "class",
+      "line": 137,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Reference"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Seed_Lock",
+      "type": "class",
+      "line": 160,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Lock"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Seed_Check",
+      "type": "class",
+      "line": 191,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Check"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_SeriesDNA_4Lock",
+      "type": "class",
+      "line": 233,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_SeriesDNA_4Lock"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Failure_Diagnosis",
+      "type": "class",
+      "line": 277,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Failure_Diagnosis"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Loop_Character_Integration",
+      "type": "class",
+      "line": 309,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Loop_Character_Integration"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Seed_Compiler",
+      "type": "class",
+      "line": 358,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Compiler"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Endpoint_DecisionTree",
+      "type": "class",
+      "line": 105,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Endpoint_DecisionTree"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Followup_Registry",
+      "type": "class",
+      "line": 137,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Followup_Registry"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Footer_Registry",
+      "type": "class",
+      "line": 166,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Footer_Registry"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_FooterFollowup_Matrix",
+      "type": "class",
+      "line": 203,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_FooterFollowup_Matrix"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Relationship_Encoder",
+      "type": "class",
+      "line": 226,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Relationship_Encoder"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Cognitive_6Level",
+      "type": "class",
+      "line": 256,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Cognitive_6Level"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Density_4Level",
+      "type": "class",
+      "line": 289,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Density_4Level"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Visual_Frequency",
+      "type": "class",
+      "line": 308,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Visual_Frequency"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Script_Layer",
+      "type": "class",
+      "line": 70,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Script_Layer"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Validation_Layer",
+      "type": "class",
+      "line": 121,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Validation_Layer"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Prompt_Compiler",
+      "type": "class",
+      "line": 166,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Prompt_Compiler"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Prompt_Compressor",
+      "type": "class",
+      "line": 211,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Prompt_Compressor"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Keyword_Refiner",
+      "type": "class",
+      "line": 238,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Keyword_Refiner"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_TextEmbed_Validator",
+      "type": "class",
+      "line": 306,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_TextEmbed_Validator"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Loop_Iterator",
+      "type": "class",
+      "line": 349,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Loop_Iterator"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Failure_Handbook",
+      "type": "class",
+      "line": 421,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Failure_Handbook"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_BaseReuse_Flywheel",
+      "type": "class",
+      "line": 90,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_BaseReuse_Flywheel"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_3D_AR_Subsystem",
+      "type": "class",
+      "line": 136,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_3D_AR_Subsystem"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_VisualScript_Transform",
+      "type": "class",
+      "line": 173,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_VisualScript_Transform"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_BrandSystem_5D",
+      "type": "class",
+      "line": 216,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_BrandSystem_5D"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_8System_CrossRef",
+      "type": "class",
+      "line": 243,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_8System_CrossRef"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Commercial_Hardening",
+      "type": "class",
+      "line": 284,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Commercial_Hardening"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_E2E_TestSuite",
+      "type": "class",
+      "line": 317,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_E2E_TestSuite"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "Linked3_Diagram_Production_Bootstrap",
+      "type": "class",
+      "line": 392,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\Linked3_Diagram_Production_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Diagram/DiagramMasterTemplate.php",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "class": "DiagramMasterTemplate_Interface",
+      "type": "interface",
+      "line": 29,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Diagram\\DiagramMasterTemplate_Interface"
+    },
+    {
+      "declaration_file": "src/Classes/Security/RateLimiterV2.php",
+      "namespace": "Linked3\\Classes\\Security",
+      "class": "Linked3_Audit_Logger",
+      "type": "class",
+      "line": 123,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Security\\Linked3_Audit_Logger"
+    },
+    {
+      "declaration_file": "src/Classes/Security/RateLimiterV2.php",
+      "namespace": "Linked3\\Classes\\Security",
+      "class": "Linked3_Security_Bootstrap",
+      "type": "class",
+      "line": 206,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Security\\Linked3_Security_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Scale/VectorIncremental.php",
+      "namespace": "Linked3\\Classes\\Scale",
+      "class": "Linked3_i18n_Manager",
+      "type": "class",
+      "line": 122,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Scale\\Linked3_i18n_Manager"
+    },
+    {
+      "declaration_file": "src/Classes/Scale/VectorIncremental.php",
+      "namespace": "Linked3\\Classes\\Scale",
+      "class": "Linked3_MultiSite_Publisher",
+      "type": "class",
+      "line": 181,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Scale\\Linked3_MultiSite_Publisher"
+    },
+    {
+      "declaration_file": "src/Classes/Scale/VectorIncremental.php",
+      "namespace": "Linked3\\Classes\\Scale",
+      "class": "Linked3_Batch_Engine",
+      "type": "class",
+      "line": 230,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Scale\\Linked3_Batch_Engine"
+    },
+    {
+      "declaration_file": "src/Classes/Scale/VectorIncremental.php",
+      "namespace": "Linked3\\Classes\\Scale",
+      "class": "Linked3_Batch_Generate_Handler",
+      "type": "class",
+      "line": 277,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Scale\\Linked3_Batch_Generate_Handler"
+    },
+    {
+      "declaration_file": "src/Classes/Scale/VectorIncremental.php",
+      "namespace": "Linked3\\Classes\\Scale",
+      "class": "Linked3_Performance_Cache",
+      "type": "class",
+      "line": 300,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Scale\\Linked3_Performance_Cache"
+    },
+    {
+      "declaration_file": "src/Classes/Scale/VectorIncremental.php",
+      "namespace": "Linked3\\Classes\\Scale",
+      "class": "Linked3_Scale_Bootstrap",
+      "type": "class",
+      "line": 334,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Scale\\Linked3_Scale_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_PlotParser",
+      "type": "class",
+      "line": 67,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_PlotParser"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_AtomSelector",
+      "type": "class",
+      "line": 136,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_AtomSelector"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_PromptAssembler",
+      "type": "class",
+      "line": 244,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_PromptAssembler"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_PQSChecker",
+      "type": "class",
+      "line": 448,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_PQSChecker"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_StoryboardGenerator",
+      "type": "class",
+      "line": 516,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_StoryboardGenerator"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_Bootstrap",
+      "type": "class",
+      "line": 557,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisErrorCode.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_Exception",
+      "type": "class",
+      "line": 196,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_Exception"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisSeedLibrary.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_IRCompiler",
+      "type": "class",
+      "line": 44,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_IRCompiler"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisSeedLibrary.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_Mutator",
+      "type": "class",
+      "line": 204,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_Mutator"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisSeedLibrary.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_Evaluator",
+      "type": "class",
+      "line": 333,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_Evaluator"
+    },
+    {
+      "declaration_file": "src/Classes/Genesis/GenesisSeedLibrary.php",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "class": "Linked3_Genesis_Pipeline",
+      "type": "class",
+      "line": 417,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\Genesis\\Linked3_Genesis_Pipeline"
+    },
+    {
+      "declaration_file": "src/Classes/SEO/Adapter/SEOAdapterDetector.php",
+      "namespace": "Linked3\\Classes\\SEO\\Adapter",
+      "class": "SEOAdapter_None",
+      "type": "class",
+      "line": 77,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\SEO\\Adapter\\SEOAdapter_None"
+    },
+    {
+      "declaration_file": "src/Classes/AI/Pipeline/PromptCache.php",
+      "namespace": "Linked3\\Classes\\AI\\Pipeline",
+      "class": "Linked3_AI_Pipeline_Bootstrap",
+      "type": "class",
+      "line": 69,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\AI\\Pipeline\\Linked3_AI_Pipeline_Bootstrap"
+    },
+    {
+      "declaration_file": "src/Classes/AI/Pipeline/PromptEngine.php",
+      "namespace": "Linked3\\Classes\\AI\\Pipeline",
+      "class": "Linked3_Content_Quality_Scorer",
+      "type": "class",
+      "line": 121,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\AI\\Pipeline\\Linked3_Content_Quality_Scorer"
+    },
+    {
+      "declaration_file": "src/Classes/AI/Pipeline/StreamOutput.php",
+      "namespace": "Linked3\\Classes\\AI\\Pipeline",
+      "class": "Linked3_Cost_Reporter",
+      "type": "class",
+      "line": 118,
+      "issue": "autoload_not_found",
+      "message": "Autoloader cannot find Linked3\\Classes\\AI\\Pipeline\\Linked3_Cost_Reporter"
+    }
+  ],
+  "multi_class": [
+    {
+      "file": "src/Classes/BookFactory/BookAICallerInterface.php",
+      "declarations": [
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\BookFactory",
+          "class": "BookAICallerInterface",
+          "line": 27
+        },
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\BookFactory",
+          "class": "Linked3_Book_State_Repository_Interface",
+          "line": 45
+        },
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\BookFactory",
+          "class": "Linked3_Book_Prompt_Provider_Interface",
+          "line": 78
+        },
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\BookFactory",
+          "class": "Linked3_Book_Cost_Tracker_Interface",
+          "line": 104
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Billing/StripeGateway.php",
+      "declarations": [
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Payment_Gateway_Interface",
+          "line": 25
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "StripeGateway",
+          "line": 32
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Alipay_Gateway",
+          "line": 73
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Wechat_Gateway",
+          "line": 112
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Payment_Manager",
+          "line": 150
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "SubscriptionManager_V2",
+          "line": 188
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Quota_Interceptor",
+          "line": 256
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Invoice_Manager",
+          "line": 324
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Referral_Manager",
+          "line": 398
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Billing",
+          "class": "Linked3_Billing_Bootstrap",
+          "line": 530
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Addons/AddonManager.php",
+      "declarations": [
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\Addons",
+          "class": "Linked3_Addon_Interface",
+          "line": 22
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Addons",
+          "class": "AddonManager",
+          "line": 34
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Addons",
+          "class": "Linked3_IP_Anonymization_Addon",
+          "line": 100
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Addons",
+          "class": "Linked3_Consent_Compliance_Addon",
+          "line": 121
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/E2E/E2eTestRunner.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\E2E",
+          "class": "E2eTestRunner",
+          "line": 27
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\E2E",
+          "class": "Linked3_Health_Monitor",
+          "line": 140
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\E2E",
+          "class": "Linked3_Auto_Rollback",
+          "line": 217
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\E2E",
+          "class": "Linked3_Final_Bootstrap",
+          "line": 271
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Diagram/Diagram3LayerDepth.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Diagram3LayerDepth",
+          "line": 16
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_4Layer_Anchor",
+          "line": 82
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Selection_DecisionTree",
+          "line": 124
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Complexity_Reduction",
+          "line": 164
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Layout_Engine",
+          "line": 215
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Color_System",
+          "line": 250
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Validation_13Dim",
+          "line": 290
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Bootstrap",
+          "line": 402
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Diagram/DiagramCharacterSeedManager.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "DiagramCharacterSeedManager",
+          "line": 29
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_ProductSeed_Manager",
+          "line": 106
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Seed_Reference",
+          "line": 137
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Seed_Lock",
+          "line": 160
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Seed_Check",
+          "line": 191
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_SeriesDNA_4Lock",
+          "line": 233
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Failure_Diagnosis",
+          "line": 277
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Loop_Character_Integration",
+          "line": 309
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Seed_Compiler",
+          "line": 358
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Diagram/DiagramEndpointRegistry.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "DiagramEndpointRegistry",
+          "line": 29
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Endpoint_DecisionTree",
+          "line": 105
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Followup_Registry",
+          "line": 137
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Footer_Registry",
+          "line": 166
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_FooterFollowup_Matrix",
+          "line": 203
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Relationship_Encoder",
+          "line": 226
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Cognitive_6Level",
+          "line": 256
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Density_4Level",
+          "line": 289
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Visual_Frequency",
+          "line": 308
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Diagram/DiagramMETALayer.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "DiagramMETALayer",
+          "line": 29
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Script_Layer",
+          "line": 70
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Validation_Layer",
+          "line": 121
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Prompt_Compiler",
+          "line": 166
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Prompt_Compressor",
+          "line": 211
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Keyword_Refiner",
+          "line": 238
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_TextEmbed_Validator",
+          "line": 306
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Loop_Iterator",
+          "line": 349
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Failure_Handbook",
+          "line": 421
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Diagram/Diagram30Spectrum.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Diagram30Spectrum",
+          "line": 29
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_BaseReuse_Flywheel",
+          "line": 90
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_3D_AR_Subsystem",
+          "line": 136
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_VisualScript_Transform",
+          "line": 173
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_BrandSystem_5D",
+          "line": 216
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_8System_CrossRef",
+          "line": 243
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Commercial_Hardening",
+          "line": 284
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_E2E_TestSuite",
+          "line": 317
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "Linked3_Diagram_Production_Bootstrap",
+          "line": 392
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Diagram/DiagramMasterTemplate.php",
+      "declarations": [
+        {
+          "type": "interface",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "DiagramMasterTemplate_Interface",
+          "line": 29
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Diagram",
+          "class": "DiagramMasterTemplate",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Security/RateLimiterV2.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Security",
+          "class": "RateLimiterV2",
+          "line": 20
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Security",
+          "class": "Linked3_Audit_Logger",
+          "line": 123
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Security",
+          "class": "Linked3_Security_Bootstrap",
+          "line": 206
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "VectorIncremental",
+          "line": 25
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "Linked3_i18n_Manager",
+          "line": 122
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "Linked3_MultiSite_Publisher",
+          "line": 181
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "Linked3_Batch_Engine",
+          "line": 230
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "Linked3_Batch_Generate_Handler",
+          "line": 277
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "Linked3_Performance_Cache",
+          "line": 300
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Scale",
+          "class": "Linked3_Scale_Bootstrap",
+          "line": 334
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisAtomIndex.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "GenesisAtomIndex",
+          "line": 8
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_PlotParser",
+          "line": 67
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_AtomSelector",
+          "line": 136
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_PromptAssembler",
+          "line": 244
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_PQSChecker",
+          "line": 448
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_StoryboardGenerator",
+          "line": 516
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_Bootstrap",
+          "line": 557
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisErrorCode.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "GenesisErrorCode",
+          "line": 32
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_Exception",
+          "line": 196
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisSeedLibrary.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "GenesisSeedLibrary",
+          "line": 8
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_IRCompiler",
+          "line": 44
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_Mutator",
+          "line": 204
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_Evaluator",
+          "line": 333
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\Genesis",
+          "class": "Linked3_Genesis_Pipeline",
+          "line": 417
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/SEO/Adapter/SEOAdapterDetector.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\SEO\\Adapter",
+          "class": "SEOAdapterDetector",
+          "line": 25
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\SEO\\Adapter",
+          "class": "SEOAdapter_None",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/AI/Pipeline/PromptCache.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\AI\\Pipeline",
+          "class": "PromptCache",
+          "line": 21
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\AI\\Pipeline",
+          "class": "Linked3_AI_Pipeline_Bootstrap",
+          "line": 69
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/AI/Pipeline/PromptEngine.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\AI\\Pipeline",
+          "class": "PromptEngine",
+          "line": 20
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\AI\\Pipeline",
+          "class": "Linked3_Content_Quality_Scorer",
+          "line": 121
+        }
+      ]
+    },
+    {
+      "file": "src/Classes/AI/Pipeline/StreamOutput.php",
+      "declarations": [
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\AI\\Pipeline",
+          "class": "StreamOutput",
+          "line": 20
+        },
+        {
+          "type": "class",
+          "namespace": "Linked3\\Classes\\AI\\Pipeline",
+          "class": "Linked3_Cost_Reporter",
+          "line": 118
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2379 @@
+{
+  "files_scanned": 521,
+  "total_points": 338,
+  "by_type": {
+    "option": 27,
+    "meta": 58,
+    "class_name_string": 250,
+    "transient": 2,
+    "serialize": 1
+  },
+  "issues": [
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 41,
+      "type": "option",
+      "match": "update_option('linked3_activation_warning',",
+      "context": "update_option('linked3_activation_warning', ["
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 126,
+      "type": "option",
+      "match": "get_option('linked3_provider_keys',",
+      "context": "$keys = get_option('linked3_provider_keys', []);"
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 131,
+      "type": "option",
+      "match": "update_option('linked3_provider_keys',",
+      "context": "update_option('linked3_provider_keys', $keys);"
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 134,
+      "type": "option",
+      "match": "update_option('linked3_default_provider',",
+      "context": "update_option('linked3_default_provider', 'siliconflow');"
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 136,
+      "type": "option",
+      "match": "get_option('linked3_provider_models',",
+      "context": "$models = get_option('linked3_provider_models', []);"
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 140,
+      "type": "option",
+      "match": "update_option('linked3_provider_models',",
+      "context": "update_option('linked3_provider_models', $models);"
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 169,
+      "type": "option",
+      "match": "update_option('linked3_default_provider',",
+      "context": "update_option('linked3_default_provider', 'siliconflow');"
+    },
+    {
+      "file": "src/Classes/ContentWriter/SeoMetaGenerator.php",
+      "line": 166,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_aioseo_description', $meta['seo_meta']);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/SeoMetaGenerator.php",
+      "line": 167,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_yoast_wpseo_metadesc', $meta['seo_meta']);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/SeoMetaGenerator.php",
+      "line": 168,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, 'linked3_seo_meta', $meta['seo_meta']);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/SeoMetaGenerator.php",
+      "line": 171,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_yoast_wpseo_focuskw', $meta['focus_keyword']);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/SeoMetaGenerator.php",
+      "line": 172,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, 'rank_math_focus_keyword', $meta['focus_keyword']);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/SeoMetaGenerator.php",
+      "line": 173,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, 'linked3_focus_keyword', $meta['focus_keyword']);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/ImageInjector.php",
+      "line": 210,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($id, '_wp_attachment_image_alt', $alt);"
+    },
+    {
+      "file": "src/Classes/Core/TokenManager.php",
+      "line": 173,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, self::META_USED_TODAY, $cur + $tokens);"
+    },
+    {
+      "file": "src/Classes/Core/TokenManager.php",
+      "line": 222,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, self::META_USED_TODAY, 0);"
+    },
+    {
+      "file": "src/Classes/Core/TokenManager.php",
+      "line": 223,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, self::META_RESET_AT, time());"
+    },
+    {
+      "file": "src/Classes/Billing/StripeGateway.php",
+      "line": 225,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($userId, 'linked3_subscription', $plan);"
+    },
+    {
+      "file": "src/Classes/Billing/StripeGateway.php",
+      "line": 226,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($userId, 'linked3_subscription_started', time());"
+    },
+    {
+      "file": "src/Classes/Billing/StripeGateway.php",
+      "line": 227,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($userId, 'linked3_subscription_charge', $chargeId);"
+    },
+    {
+      "file": "src/Classes/Billing/StripeGateway.php",
+      "line": 237,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($userId, 'linked3_subscription', 'free');"
+    },
+    {
+      "file": "src/Classes/Billing/StripeGateway.php",
+      "line": 418,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($userId, 'linked3_referral_code', $code);"
+    },
+    {
+      "file": "src/Classes/E2E/E2eTestRunner.php",
+      "line": 246,
+      "type": "option",
+      "match": "update_option('linked3_rollback_required',",
+      "context": "update_option('linked3_rollback_required', true);"
+    },
+    {
+      "file": "src/Classes/E2E/E2eTestRunner.php",
+      "line": 247,
+      "type": "option",
+      "match": "update_option('linked3_rollback_failed_systems',",
+      "context": "update_option('linked3_rollback_failed_systems', $failed);"
+    },
+    {
+      "file": "src/Classes/E2E/E2eTestRunner.php",
+      "line": 258,
+      "type": "option",
+      "match": "get_option('linked3_rollback_required',",
+      "context": "return (bool) get_option('linked3_rollback_required', false);"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 59,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "'reverse_engine'        => 'Linked3_Reverse_Engine',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 60,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Dimensions'",
+      "context": "'reverse_dimensions'    => 'Linked3_Reverse_Dimensions',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 61,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "'reverse_registry'      => 'Linked3_Reverse_Engineer_Registry',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 62,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "'reverse_quality_gate'  => 'Linked3_Reverse_Quality_Gate',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 63,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "'reverse_text'          => 'Linked3_Reverse_Text_Creation',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 64,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "'neng_suo'              => 'Linked3_Neng_Suo_Structure',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 65,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "'three_layer'           => 'Linked3_Three_Layer_Consciousness',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 66,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "'ru_liu'                => 'Linked3_Ru_Liu_Tracker',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 67,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "'hong_liu'              => 'Linked3_Hong_Liu_Flywheel',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 68,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "'neng_zhi'              => 'Linked3_Neng_Zhi_Three_Stages',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 69,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "'svg_stats'             => 'Linked3_Svg_Meta_Stats',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 368,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Ajax'",
+      "context": "'Linked3_Reverse_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 369,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Ajax'",
+      "context": "'Linked3_Neng_Suo_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 370,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Stats_Ajax'",
+      "context": "'Linked3_Svg_Stats_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 371,
+      "type": "class_name_string",
+      "match": "'Linked3_Consciousness_Ajax'",
+      "context": "'Linked3_Consciousness_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 372,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Ajax'",
+      "context": "'Linked3_Ru_Liu_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 373,
+      "type": "class_name_string",
+      "match": "'Linked3_Engineer_Registry_Ajax'",
+      "context": "'Linked3_Engineer_Registry_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 374,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Ajax'",
+      "context": "'Linked3_Reverse_Text_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 375,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Ajax'",
+      "context": "'Linked3_Hong_Liu_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 376,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Ajax'",
+      "context": "'Linked3_Neng_Zhi_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/V18.php",
+      "line": 377,
+      "type": "class_name_string",
+      "match": "'Linked3_Quality_Gate_Ajax'",
+      "context": "'Linked3_Quality_Gate_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 117,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "linked3_os_register_alias('Linked3_Hong_Liu_Flywheel',          'OSMomentumFlywheel');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 118,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "linked3_os_register_alias('Linked3_Ru_Liu_Tracker',             'OSOnboardingTracker');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 119,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "linked3_os_register_alias('Linked3_Neng_Suo_Structure',         'OSCapabilityLock');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 120,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "linked3_os_register_alias('Linked3_Neng_Zhi_Three_Stages',      'OSCapabilityStages');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 121,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Dimensions'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Dimensions',         'OSReverseDimensions');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 122,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Engine',             'OSReverseEngine');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 123,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Engineer_Registry',  'OSEngineerRegistry');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 124,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Quality_Gate',       'OSQualityGate');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 125,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Text_Creation',      'OSTextCreation');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 126,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "linked3_os_register_alias('Linked3_Svg_Meta_Stats',             'OSVisualAnalytics');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 127,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "linked3_os_register_alias('Linked3_Three_Layer_Consciousness',  'OSConsciousnessLayer');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 130,
+      "type": "class_name_string",
+      "match": "'Linked3_Consciousness_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Consciousness_Ajax',         'OSConsciousnessAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 131,
+      "type": "class_name_string",
+      "match": "'Linked3_Engineer_Registry_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Engineer_Registry_Ajax',     'OSEngineerRegistryAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 132,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Hong_Liu_Ajax',              'OSMomentumAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 133,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Neng_Suo_Ajax',              'OSCapabilityLockAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 134,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Neng_Zhi_Ajax',              'OSCapabilityStagesAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 135,
+      "type": "class_name_string",
+      "match": "'Linked3_Quality_Gate_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Quality_Gate_Ajax',          'OSQualityGateAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 136,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Ajax',               'OSReverseAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 137,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Reverse_Text_Ajax',          'OSTextCreationAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 138,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Ru_Liu_Ajax',                'OSOnboardingAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 139,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Stats_Ajax'",
+      "context": "linked3_os_register_alias('Linked3_Svg_Stats_Ajax',             'OSVisualAnalyticsAjax');"
+    },
+    {
+      "file": "src/Classes/OS/OSAliasRegistry.php",
+      "line": 157,
+      "type": "class_name_string",
+      "match": "'Linked3_OS_Facade'",
+      "context": "linked3_os_register_alias('V18_Facade',                 'Linked3_OS_Facade');"
+    },
+    {
+      "file": "src/Classes/SEO/GEOEnhancer.php",
+      "line": 124,
+      "type": "transient",
+      "match": "set_transient('linked3_llms_txt_cache',",
+      "context": "set_transient('linked3_llms_txt_cache', $content, self::LLMS_TXT_CACHE_TTL);"
+    },
+    {
+      "file": "src/Classes/Media/ImageManager.php",
+      "line": 306,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($attach_id, '_wp_attachment_image_alt', $alt);"
+    },
+    {
+      "file": "src/Classes/WooCommerce/WcTokenPackage.php",
+      "line": 124,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, self::META_TOKENS, $tokens);"
+    },
+    {
+      "file": "src/Classes/WooCommerce/WcTokenPackage.php",
+      "line": 125,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, self::META_PLAN, $plan);"
+    },
+    {
+      "file": "src/Classes/WooCommerce/WcTokenPackage.php",
+      "line": 171,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, self::META_USER_BALANCE, $current_balance + $total_tokens);"
+    },
+    {
+      "file": "src/Classes/WooCommerce/WcTokenPackage.php",
+      "line": 177,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, '_linked3_granted_plan', $plan_to_grant);"
+    },
+    {
+      "file": "src/Classes/WooCommerce/WcTokenPackage.php",
+      "line": 178,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, '_linked3_granted_at', current_time('mysql'));"
+    },
+    {
+      "file": "src/Classes/WooCommerce/WcTokenPackage.php",
+      "line": 231,
+      "type": "meta",
+      "match": "update_user_meta(",
+      "context": "update_user_meta($user_id, self::META_USER_BALANCE, max(0, $current - $tokens));"
+    },
+    {
+      "file": "src/Classes/Admin/PostMetabox.php",
+      "line": 290,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_linked3_meta_description', $meta);"
+    },
+    {
+      "file": "src/Classes/Admin/PostMetabox.php",
+      "line": 291,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_aioseo_description', $meta);"
+    },
+    {
+      "file": "src/Classes/Admin/PostMetabox.php",
+      "line": 292,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_yoast_wpseo_metadesc', $meta);"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessorDelegates.php",
+      "line": 387,
+      "type": "class_name_string",
+      "match": "'Linked3_Genesis_PromptAssembler'",
+      "context": "'Linked3_Genesis_PromptAssembler',"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessorDelegates.php",
+      "line": 388,
+      "type": "class_name_string",
+      "match": "'Linked3_Genesis_PQSChecker'",
+      "context": "'Linked3_Genesis_PQSChecker',"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessorDelegates.php",
+      "line": 389,
+      "type": "class_name_string",
+      "match": "'Linked3_Genesis_AtomSelector'",
+      "context": "'Linked3_Genesis_AtomSelector',"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessor.php",
+      "line": 303,
+      "type": "class_name_string",
+      "match": "'Linked3_Genesis_PromptAssembler'",
+      "context": "'Linked3_Genesis_PromptAssembler' => class_exists('\\Linked3\\Classes\\Dashboard\\Linked3_Genesis_PromptAssembler'),"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessor.php",
+      "line": 304,
+      "type": "class_name_string",
+      "match": "'Linked3_Genesis_PQSChecker'",
+      "context": "'Linked3_Genesis_PQSChecker'      => class_exists('\\Linked3\\Classes\\Dashboard\\Linked3_Genesis_PQSChecker'),"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardConfigAjax.php",
+      "line": 212,
+      "type": "option",
+      "match": "update_option('linked3_default_provider',",
+      "context": "update_option('linked3_default_provider', $default_provider);"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardConfigAjax.php",
+      "line": 216,
+      "type": "option",
+      "match": "update_option('linked3_key_rotation',",
+      "context": "update_option('linked3_key_rotation', $rotation);"
+    },
+    {
+      "file": "src/Classes/Dashboard/Dashboard.php",
+      "line": 67,
+      "type": "option",
+      "match": "get_option('linked3_activation_warning',",
+      "context": "$activation_warning = get_option('linked3_activation_warning', null);"
+    },
+    {
+      "file": "src/Classes/MetaLever/MetaLeverRegistry.php",
+      "line": 54,
+      "type": "option",
+      "match": "get_option('linked3_meta_levers_enabled',",
+      "context": "$saved = get_option('linked3_meta_levers_enabled', []);"
+    },
+    {
+      "file": "src/Classes/MetaLever/MetaLeverRegistry.php",
+      "line": 134,
+      "type": "option",
+      "match": "update_option('linked3_meta_levers_enabled',",
+      "context": "update_option('linked3_meta_levers_enabled', self::$enabled);"
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "line": 56,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($postId, '_linked3_vector', wp_json_encode($vector));"
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "line": 57,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($postId, '_linked3_embedded', time());"
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "line": 217,
+      "type": "option",
+      "match": "get_option('linked3_multisite_published',",
+      "context": "$published = get_option('linked3_multisite_published', []);"
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "line": 219,
+      "type": "option",
+      "match": "update_option('linked3_multisite_published',",
+      "context": "update_option('linked3_multisite_published', $published);"
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "line": 246,
+      "type": "class_name_string",
+      "match": "'Linked3_Batch_Generate_Handler'",
+      "context": "$queue->enqueue('Linked3_Batch_Generate_Handler', ["
+    },
+    {
+      "file": "src/Classes/Scale/VectorIncremental.php",
+      "line": 326,
+      "type": "serialize",
+      "match": "serialize(",
+      "context": "return ['items' => count($this->cache), 'memory' => strlen(serialize($this->cache))];"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisSeedCPT.php",
+      "line": 227,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, $key, $val);"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisLogger.php",
+      "line": 54,
+      "type": "option",
+      "match": "get_option('linked3_genesis_debug_log',",
+      "context": "self::$debug_enabled = (defined('WP_DEBUG') && WP_DEBUG) || (get_option('linked3_genesis_debug_log', '0') === '1');"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisLogger.php",
+      "line": 260,
+      "type": "option",
+      "match": "get_option('linked3_genesis_log_retention_days',",
+      "context": "$days = intval(get_option('linked3_genesis_log_retention_days', 7));"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 94,
+      "type": "option",
+      "match": "get_option('linked3_seed_dna_list',",
+      "context": "$option_seeds = get_option('linked3_seed_dna_list', []);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 236,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_seed_category', $seed['category']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 237,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_seed_type', $seed['seed_type']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 238,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_lock', $seed['lock']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 239,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_priority', $seed['priority']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 240,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_visual_dna', json_encode($seed['visual_dna']));"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 241,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_parent_seed', 'lib:' . $seed['seed_id']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 286,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_seed_category', $data['category']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 287,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_seed_type', $data['seed_type']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 288,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_lock', (bool)$data['lock']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 289,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_priority', intval($data['priority']));"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 291,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_visual_dna', is_string($data['visual_dna']) ? $data['visual_dna'] : json_encode($data['visu"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 294,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_ai_adapter', is_string($data['ai_adapter']) ? $data['ai_adapter'] : json_encode($data['ai_a"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 296,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($post_id, '_parent_seed', $data['parent_seed']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 317,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "if (isset($data['category'])) update_post_meta($post_id, '_seed_category', $data['category']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 318,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "if (isset($data['seed_type'])) update_post_meta($post_id, '_seed_type', $data['seed_type']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 319,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "if (isset($data['lock'])) update_post_meta($post_id, '_lock', (bool)$data['lock']);"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 320,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "if (isset($data['priority'])) update_post_meta($post_id, '_priority', intval($data['priority']));"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 321,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "if (isset($data['visual_dna'])) update_post_meta($post_id, '_visual_dna', is_string($data['visual_dna']) ? $data['visual"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedUnified.php",
+      "line": 322,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "if (isset($data['ai_adapter'])) update_post_meta($post_id, '_ai_adapter', is_string($data['ai_adapter']) ? $data['ai_ada"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 365,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($saved_id, '_aioseo_description', $seo_meta);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 366,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($saved_id, '_yoast_wpseo_metadesc', $seo_meta);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 367,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($saved_id, 'linked3_seo_meta', $seo_meta);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 370,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($saved_id, '_yoast_wpseo_focuskw', $focus_keyword);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 371,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($saved_id, 'rank_math_focus_keyword', $focus_keyword);"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 372,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($saved_id, 'linked3_focus_keyword', $focus_keyword);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 157,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Suo_Structure', 'derive_from_content_type'], $content_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 160,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Suo_Structure', 'assign_frequency'], $module_id);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 162,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Suo_Structure', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 177,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$result = call_user_func(['Linked3_Neng_Suo_Structure', 'validate_neng_suo'], $parsed, $params);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 179,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$result = call_user_func(['Linked3_Neng_Suo_Structure', 'validate_frequency_distribution'], $parsed);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 195,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Suo_Structure', 'derive_from_content_type'], $content_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 196,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$injected = call_user_func(['Linked3_Neng_Suo_Structure', 'inject_into_prompt'], $prompt, $constraint);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityLockAjax.php",
+      "line": 268,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "'target_class' => 'Linked3_Neng_Suo_Structure',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 142,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$result = call_user_func(['Linked3_Reverse_Quality_Gate', 'reverse_parse'], $json_raw, $engineer_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 187,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 189,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 191,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 193,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 195,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 197,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 199,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 201,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 203,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 205,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 207,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 253,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$report = call_user_func(['Linked3_Reverse_Quality_Gate', 'generate_quality_report'], $reverse_result);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSQualityGateAjax.php",
+      "line": 283,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "'target_class' => 'Linked3_Reverse_Quality_Gate',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 142,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$result = call_user_func(['Linked3_Hong_Liu_Flywheel', 'reverse_parse'], $json_raw, $engineer_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 187,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 189,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 191,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 193,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 195,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 197,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 199,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 201,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 203,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 205,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 207,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 243,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$suggestion = call_user_func(['Linked3_Hong_Liu_Flywheel', 'suggest_improvement'], $flywheel_data);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSMomentumAjax.php",
+      "line": 283,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "'target_class' => 'Linked3_Hong_Liu_Flywheel',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSReverseAjax.php",
+      "line": 142,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "$result = call_user_func(['Linked3_Reverse_Engine', 'reverse_parse'], $json_raw, $engineer_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSReverseAjax.php",
+      "line": 160,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "$parsed = call_user_func(['Linked3_Reverse_Engine', 'reverse_parse'], $json_raw);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSReverseAjax.php",
+      "line": 164,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "$seed = call_user_func(['Linked3_Reverse_Engine', 'reverse_to_seed'], $parsed);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSReverseAjax.php",
+      "line": 179,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "$comparison = call_user_func(['Linked3_Reverse_Engine', 'reverse_compare'], $parsed_a, $parsed_b);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSReverseAjax.php",
+      "line": 266,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "'target_class' => 'Linked3_Reverse_Engine',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 142,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$result = call_user_func(['Linked3_Reverse_Text_Creation', 'reverse_parse'], $json_raw, $engineer_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 187,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 189,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 191,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 193,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 195,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 197,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 199,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 201,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 203,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 205,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 207,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSTextCreationAjax.php",
+      "line": 272,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "'target_class' => 'Linked3_Reverse_Text_Creation',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 159,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$constraint = call_user_func(['Linked3_Three_Layer_Consciousness', 'assign_frequency'], $module_type, $content);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 161,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$constraint = call_user_func(['Linked3_Three_Layer_Consciousness', 'derive_from_content_type'], $module_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 163,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$constraint = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 178,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$result = call_user_func(['Linked3_Three_Layer_Consciousness', 'validate_neng_suo'], $parsed, $params);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 180,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$result = call_user_func(['Linked3_Three_Layer_Consciousness', 'validate_frequency_distribution'], $parsed);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 205,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 207,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 209,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 211,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 213,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 215,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 217,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 219,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 221,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 223,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 225,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSConsciousnessAjax.php",
+      "line": 290,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "'target_class' => 'Linked3_Three_Layer_Consciousness',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityStagesAjax.php",
+      "line": 157,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'derive_from_content_type'], $content_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityStagesAjax.php",
+      "line": 160,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'assign_frequency'], $module_id);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityStagesAjax.php",
+      "line": 162,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "$constraint = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityStagesAjax.php",
+      "line": 191,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "$stages = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityStagesAjax.php",
+      "line": 232,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "$detected = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'auto_detect_stage'], $content);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSCapabilityStagesAjax.php",
+      "line": 267,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "'target_class' => 'Linked3_Neng_Zhi_Three_Stages',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 217,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$prediction = call_user_func(['Linked3_Svg_Meta_Stats', 'predict_atom_count'], $chart_type);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 229,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 231,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 233,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 235,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 237,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 239,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 241,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 243,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 245,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 247,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 249,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSVisualAnalyticsAjax.php",
+      "line": 314,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "'target_class' => 'Linked3_Svg_Meta_Stats',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 173,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 175,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 177,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 179,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 181,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 183,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 185,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 187,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 189,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 191,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 193,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 218,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$list = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_all_engineers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 220,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$list = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 236,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "$result = call_user_func(['Linked3_Reverse_Engineer_Registry', 'register_engineer'], $engineer_type, $params);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSEngineerRegistryAjax.php",
+      "line": 281,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "'target_class' => 'Linked3_Reverse_Engineer_Registry',"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 195,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_all_options']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 197,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_baseline']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 199,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_all_chart_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 201,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_consciousness_layers']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 203,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_ru_liu_states']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 205,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_categories']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 207,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_text_types']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 209,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_three_stages']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 211,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_factors']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 213,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_gate_thresholds']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 215,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_100day_plan']);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 231,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$status = call_user_func(['Linked3_Ru_Liu_Tracker', 'calculate_state_progress'], $day);"
+    },
+    {
+      "file": "src/Classes/OS/Ajax/OSOnboardingAjax.php",
+      "line": 296,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "'target_class' => 'Linked3_Ru_Liu_Tracker',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 58,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "'class' => 'Linked3_Reverse_Engine',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 65,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "'class' => 'Linked3_Neng_Suo_Structure',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 72,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "'class' => 'Linked3_Svg_Meta_Stats',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 79,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "'class' => 'Linked3_Three_Layer_Consciousness',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 86,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "'class' => 'Linked3_Ru_Liu_Tracker',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 93,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "'class' => 'Linked3_Reverse_Engineer_Registry',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 100,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "'class' => 'Linked3_Reverse_Text_Creation',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 107,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "'class' => 'Linked3_Hong_Liu_Flywheel',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 114,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "'class' => 'Linked3_Neng_Zhi_Three_Stages',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHub.php",
+      "line": 121,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "'class' => 'Linked3_Reverse_Quality_Gate',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 108,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "['v12.0.0', 'Linked3_Reverse_Engine', '逆向8维度引擎'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 109,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "['v12.1.0', 'Linked3_Neng_Suo_Structure', '能所结构'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 110,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "['v12.2.0', 'Linked3_Svg_Meta_Stats', 'SVG统计'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 111,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "['v12.3.0', 'Linked3_Three_Layer_Consciousness', '三层能观'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 112,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "['v12.4.0', 'Linked3_Ru_Liu_Tracker', '入流追踪'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 113,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "['v12.5.0', 'Linked3_Reverse_Engineer_Registry', '31类工程师'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 114,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "['v12.6.0', 'Linked3_Reverse_Text_Creation', '逆向文本'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 115,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "['v12.7.0', 'Linked3_Hong_Liu_Flywheel', '洪流飞轮'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 116,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "['v12.8.0', 'Linked3_Neng_Zhi_Three_Stages', '能知三阶'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSCli.php",
+      "line": 117,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "['v12.9.0', 'Linked3_Reverse_Quality_Gate', '质量门禁'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 46,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "'v12.0.0' => ['class' => 'Linked3_Reverse_Engine', 'type' => 'core', 'title' => '逆向8维度通用框架引擎'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 47,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "'v12.1.0' => ['class' => 'Linked3_Neng_Suo_Structure', 'type' => 'core', 'title' => '李善友能所结构融入'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 48,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "'v12.2.0' => ['class' => 'Linked3_Svg_Meta_Stats', 'type' => 'core', 'title' => 'SVG原子级meta统计引擎'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 49,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "'v12.3.0' => ['class' => 'Linked3_Three_Layer_Consciousness', 'type' => 'core', 'title' => '三层能观Badge频率标注'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 50,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "'v12.4.0' => ['class' => 'Linked3_Ru_Liu_Tracker', 'type' => 'core', 'title' => '入流四状态100天追踪器'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 51,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "'v12.5.0' => ['class' => 'Linked3_Reverse_Engineer_Registry', 'type' => 'core', 'title' => '31类逆向工程师注册中心'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 52,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "'v12.6.0' => ['class' => 'Linked3_Reverse_Text_Creation', 'type' => 'core', 'title' => '逆向文本创作8维度'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 53,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "'v12.7.0' => ['class' => 'Linked3_Hong_Liu_Flywheel', 'type' => 'core', 'title' => '洪流公式出图飞轮量化'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 54,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "'v12.8.0' => ['class' => 'Linked3_Neng_Zhi_Three_Stages', 'type' => 'core', 'title' => '能知三阶认知层级映射'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 55,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "'v12.9.0' => ['class' => 'Linked3_Reverse_Quality_Gate', 'type' => 'core', 'title' => '逆向质量门禁系统'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 59,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Ajax'",
+      "context": "'v14.0.0' => ['class' => 'Linked3_Reverse_Ajax', 'type' => 'ajax', 'title' => '逆向引擎AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 60,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Ajax'",
+      "context": "'v14.1.0' => ['class' => 'Linked3_Neng_Suo_Ajax', 'type' => 'ajax', 'title' => '能所结构AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 61,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Stats_Ajax'",
+      "context": "'v14.2.0' => ['class' => 'Linked3_Svg_Stats_Ajax', 'type' => 'ajax', 'title' => 'SVG统计AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 62,
+      "type": "class_name_string",
+      "match": "'Linked3_Consciousness_Ajax'",
+      "context": "'v14.3.0' => ['class' => 'Linked3_Consciousness_Ajax', 'type' => 'ajax', 'title' => '三层能观AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 63,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Ajax'",
+      "context": "'v14.4.0' => ['class' => 'Linked3_Ru_Liu_Ajax', 'type' => 'ajax', 'title' => '入流追踪AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 64,
+      "type": "class_name_string",
+      "match": "'Linked3_Engineer_Registry_Ajax'",
+      "context": "'v14.5.0' => ['class' => 'Linked3_Engineer_Registry_Ajax', 'type' => 'ajax', 'title' => '31类工程师AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 65,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Ajax'",
+      "context": "'v14.6.0' => ['class' => 'Linked3_Reverse_Text_Ajax', 'type' => 'ajax', 'title' => '逆向文本AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 66,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Ajax'",
+      "context": "'v14.7.0' => ['class' => 'Linked3_Hong_Liu_Ajax', 'type' => 'ajax', 'title' => '洪流飞轮AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 67,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Ajax'",
+      "context": "'v14.8.0' => ['class' => 'Linked3_Neng_Zhi_Ajax', 'type' => 'ajax', 'title' => '能知三阶AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 68,
+      "type": "class_name_string",
+      "match": "'Linked3_Quality_Gate_Ajax'",
+      "context": "'v14.9.0' => ['class' => 'Linked3_Quality_Gate_Ajax', 'type' => 'ajax', 'title' => '质量门禁AJAX接口'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 164,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "$reverse_result = ['status' => 'ok', 'engine' => 'Linked3_Reverse_Engine'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 174,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "$neng_result = ['status' => 'ok', 'engine' => 'Linked3_Neng_Suo_Structure'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 184,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "$svg_result = ['status' => 'ok', 'engine' => 'Linked3_Svg_Meta_Stats'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 194,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "$freq_result = ['status' => 'ok', 'engine' => 'Linked3_Three_Layer_Consciousness'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 204,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "$ruliu_result = ['status' => 'ok', 'engine' => 'Linked3_Ru_Liu_Tracker'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 214,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "$flywheel_result = ['status' => 'ok', 'engine' => 'Linked3_Hong_Liu_Flywheel'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 224,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "$stage_result = ['status' => 'ok', 'engine' => 'Linked3_Neng_Zhi_Three_Stages'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSIntegrationHubV2.php",
+      "line": 234,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "$quality_result = ['status' => 'ok', 'engine' => 'Linked3_Reverse_Quality_Gate'];"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSWidget.php",
+      "line": 127,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "'Linked3_Reverse_Engine',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSWidget.php",
+      "line": 128,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "'Linked3_Neng_Suo_Structure',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSWidget.php",
+      "line": 129,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "'Linked3_Svg_Meta_Stats',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSWidget.php",
+      "line": 130,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "'Linked3_Three_Layer_Consciousness',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSWidget.php",
+      "line": 131,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "'Linked3_Ru_Liu_Tracker',"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSDbSchema.php",
+      "line": 58,
+      "type": "option",
+      "match": "update_option('linked3_v18_db_version',",
+      "context": "update_option('linked3_v18_db_version', '15.0.0');"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSDbSchema.php",
+      "line": 140,
+      "type": "option",
+      "match": "get_option('linked3_v18_db_version',",
+      "context": "$db_version = get_option('linked3_v18_db_version', '0');"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSDbSchema.php",
+      "line": 154,
+      "type": "option",
+      "match": "get_option('linked3_v18_db_version',",
+      "context": "'db_version' => get_option('linked3_v18_db_version', '0'),"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 114,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "['v12.0.0', 'Linked3_Reverse_Engine'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 115,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "['v12.1.0', 'Linked3_Neng_Suo_Structure'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 116,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "['v12.2.0', 'Linked3_Svg_Meta_Stats'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 117,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "['v12.3.0', 'Linked3_Three_Layer_Consciousness'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 118,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "['v12.4.0', 'Linked3_Ru_Liu_Tracker'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 119,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "['v12.5.0', 'Linked3_Reverse_Engineer_Registry'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 120,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "['v12.6.0', 'Linked3_Reverse_Text_Creation'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 121,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "['v12.7.0', 'Linked3_Hong_Liu_Flywheel'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 122,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "['v12.8.0', 'Linked3_Neng_Zhi_Three_Stages'],"
+    },
+    {
+      "file": "src/Classes/OS/Api/OSShortcodes.php",
+      "line": 123,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "['v12.9.0', 'Linked3_Reverse_Quality_Gate'],"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 57,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engine'",
+      "context": "'v12.0.0' => 'Linked3_Reverse_Engine',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 58,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Structure'",
+      "context": "'v12.1.0' => 'Linked3_Neng_Suo_Structure',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 59,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Meta_Stats'",
+      "context": "'v12.2.0' => 'Linked3_Svg_Meta_Stats',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 60,
+      "type": "class_name_string",
+      "match": "'Linked3_Three_Layer_Consciousness'",
+      "context": "'v12.3.0' => 'Linked3_Three_Layer_Consciousness',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 61,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Tracker'",
+      "context": "'v12.4.0' => 'Linked3_Ru_Liu_Tracker',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 62,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Engineer_Registry'",
+      "context": "'v12.5.0' => 'Linked3_Reverse_Engineer_Registry',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 63,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Creation'",
+      "context": "'v12.6.0' => 'Linked3_Reverse_Text_Creation',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 64,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Flywheel'",
+      "context": "'v12.7.0' => 'Linked3_Hong_Liu_Flywheel',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 65,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Three_Stages'",
+      "context": "'v12.8.0' => 'Linked3_Neng_Zhi_Three_Stages',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 66,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Quality_Gate'",
+      "context": "'v12.9.0' => 'Linked3_Reverse_Quality_Gate',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 67,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Ajax'",
+      "context": "'v14.0.0' => 'Linked3_Reverse_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 68,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Suo_Ajax'",
+      "context": "'v14.1.0' => 'Linked3_Neng_Suo_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 69,
+      "type": "class_name_string",
+      "match": "'Linked3_Svg_Stats_Ajax'",
+      "context": "'v14.2.0' => 'Linked3_Svg_Stats_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 70,
+      "type": "class_name_string",
+      "match": "'Linked3_Consciousness_Ajax'",
+      "context": "'v14.3.0' => 'Linked3_Consciousness_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 71,
+      "type": "class_name_string",
+      "match": "'Linked3_Ru_Liu_Ajax'",
+      "context": "'v14.4.0' => 'Linked3_Ru_Liu_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 72,
+      "type": "class_name_string",
+      "match": "'Linked3_Engineer_Registry_Ajax'",
+      "context": "'v14.5.0' => 'Linked3_Engineer_Registry_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 73,
+      "type": "class_name_string",
+      "match": "'Linked3_Reverse_Text_Ajax'",
+      "context": "'v14.6.0' => 'Linked3_Reverse_Text_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 74,
+      "type": "class_name_string",
+      "match": "'Linked3_Hong_Liu_Ajax'",
+      "context": "'v14.7.0' => 'Linked3_Hong_Liu_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 75,
+      "type": "class_name_string",
+      "match": "'Linked3_Neng_Zhi_Ajax'",
+      "context": "'v14.8.0' => 'Linked3_Neng_Zhi_Ajax',"
+    },
+    {
+      "file": "src/Classes/OS/Admin/OSDashboard.php",
+      "line": 76,
+      "type": "class_name_string",
+      "match": "'Linked3_Quality_Gate_Ajax'",
+      "context": "'v14.9.0' => 'Linked3_Quality_Gate_Ajax',"
+    },
+    {
+      "file": "src/Classes/SEO/Adapter/SEOAdapterAIOSEO.php",
+      "line": 61,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "return (bool) update_post_meta($post->ID, '_aioseo_description', sanitize_text_field($description));"
+    },
+    {
+      "file": "src/Classes/SEO/Adapter/SEOAdapterYoast.php",
+      "line": 57,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "return (bool) update_post_meta($post->ID, '_yoast_wpseo_metadesc', sanitize_text_field($description));"
+    },
+    {
+      "file": "src/Classes/SEO/Adapter/SEOAdapterRankMath.php",
+      "line": 56,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "return (bool) update_post_meta($post->ID, 'rank_math_description', sanitize_text_field($description));"
+    },
+    {
+      "file": "src/Classes/SEO/Adapter/SEOAdapterDetector.php",
+      "line": 112,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "return (bool) update_post_meta($post->ID, '_linked3_meta_description', sanitize_text_field($description));"
+    },
+    {
+      "file": "src/Classes/SEO/Schema/SchemaArticle.php",
+      "line": 54,
+      "type": "option",
+      "match": "get_option('site_logo',",
+      "context": "$logo = (int) get_option('site_logo', 0);"
+    },
+    {
+      "file": "src/Classes/AutoGPT/Processors/ContentIndexingProcessor.php",
+      "line": 41,
+      "type": "meta",
+      "match": "update_post_meta(",
+      "context": "update_post_meta($p->ID, '_linked3_indexed', 1);"
+    },
+    {
+      "file": "src/Includes/DB/Schema.php",
+      "line": 523,
+      "type": "option",
+      "match": "update_option('linked3_schema_errors',",
+      "context": "update_option('linked3_schema_errors', $errors);"
+    },
+    {
+      "file": "admin/views/dashboard/partials/tab-speech.php",
+      "line": 34,
+      "type": "option",
+      "match": "get_option('linked3_license',",
+      "context": "$speech_license = get_option('linked3_license', []);"
+    },
+    {
+      "file": "lib/linked3-early-error-handler.php",
+      "line": 339,
+      "type": "transient",
+      "match": "set_transient('linked3_activation_errors',",
+      "context": "set_transient('linked3_activation_errors', $data, 3600);"
+    },
+    {
+      "file": "lib/linked3-early-error-handler.php",
+      "line": 343,
+      "type": "option",
+      "match": "update_option('linked3_last_errors',",
+      "context": "update_option('linked3_last_errors', $data, false);"
+    }
+  ]
+}
