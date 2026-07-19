@@ -1,3 +1,35 @@
 _report.json
 _report.md
 _report*
+
+# 敏感配置文件（绝对不能推到公开仓库）
+wp-config.php
+.env
+.env.*
+*.local
+
+# 数据库导出
+*.sql
+*.sql.gz
+
+# 依赖目录
+node_modules/
+vendor/
+
+# 日志文件
+*.log
+debug.log
+
+# IDE/编辑器
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 报告目录
+reports/

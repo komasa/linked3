@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+    PHPMD 规则集 — 商业生产级
+    覆盖: 复杂度、命名、设计、未使用代码、代码异味
+-->
+<ruleset name="Linked3-AI Production Rules"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                             http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>商业生产级 PHP 代码质量规则集</description>
+
+    <!-- ─── 代码大小规则 ─── -->
+    <rule ref="rulesets/codesize.xml">
+        <!-- 圈复杂度 ≤ 15 (硬门槛) -->
+        <rule ref="CyclomaticComplexity">
+            <properties>
+                <property name="reportLevel" value="15"/>
+            </properties>
+        </rule>
+        <!-- 类长度 ≤ 500 行 -->
+        <rule ref="ExcessiveClassLength">
+            <properties>
+                <property name="maximum" value="500"/>
+            </properties>
+        </rule>
+        <!-- 方法长度 ≤ 80 行 -->
+        <rule ref="ExcessiveMethodLength">
+            <properties>
+                <property name="maximum" value="80"/>
+            </properties>
+        </rule>
+        <!-- 参数数量 ≤ 5 -->
+        <rule ref="ExcessiveParameterList">
+            <properties>
+                <property name="minimum" value="5"/>
+            </properties>
+        </rule>
+        <!-- NPath 复杂度 ≤ 200 -->
+        <rule ref="NPathComplexity">
+            <properties>
+                <property name="minimum" value="200"/>
+            </properties>
+        </rule>
+        <!-- 每个 God Class 扣分 -->
+        <rule ref="CouplingBetweenObjects">
+            <properties>
+                <property name="minimum" value="15"/>
+            </properties>
+        </rule>
+    </rule>
+
+    <!-- ─── 设计规则 ─── -->
+    <rule ref="rulesets/design.xml">
+        <!-- 退出语句检测 -->
+        <rule ref="ExitExpression"/>
+        <!-- goto 语句检测 -->
+        <rule ref="GotoStatement"/>
+        <!-- 全局变量检测 -->
+        <rule ref="Superglobals"/>
+        <!-- eval 检测 -->
+        <rule ref="EvalExpression"/>
+    </rule>
+
+    <!-- ─── 命名规则 ─── -->
+    <rule ref="rulesets/naming.xml">
+        <!-- 短变量名 ≥ 3 字符 -->
+        <rule ref="ShortVariable">
+            <properties>
+                <property name="minimum" value="3"/>
+            </properties>
+        </rule>
+        <!-- 长变量名 ≤ 40 字符 -->
+        <rule ref="LongVariable">
+            <properties>
+                <property name="maximum" value="40"/>
+            </properties>
+        </rule>
+        <!-- 短方法名 ≥ 3 字符 -->
+        <rule ref="ShortMethodName">
+            <properties>
+                <property name="minimum" value="3"/>
+            </properties>
+        </rule>
+        <!-- 布尔方法名以 is/has/can/should/will 开头 -->
+        <rule ref="BooleanGetMethodName"/>
+    </rule>
+
+    <!-- ─── 未使用代码 ─── -->
+    <rule ref="rulesets/unusedcode.xml">
+        <!-- 未使用的私有字段 -->
+        <rule ref="UnusedPrivateField"/>
+        <!-- 未使用的私有方法 -->
+        <rule ref="UnusedPrivateMethod"/>
+        <!-- 未使用的局部变量 -->
+        <rule ref="UnusedLocalVariable"/>
+        <!-- 未使用的形式参数 -->
+        <rule ref="UnusedFormalParameter"/>
+    </rule>
+
+    <!-- ─── 代码异味 ─── -->
+    <rule ref="rulesets/controversial.xml">
+        <rule ref="Superglobals"/>
+        <rule ref="CamelCaseClassName"/>
+        <rule ref="CamelCasePropertyName"/>
+        <rule ref="CamelCaseMethodName"/>
+        <rule ref="CamelCaseParameterName"/>
+        <rule ref="CamelCaseVariableName"/>
+    </rule>
+
+    <!-- ─── 清洁代码规则 ─── -->
+    <rule ref="rulesets/cleancode.xml">
+        <!-- 禁止 else if 链 (鼓励 early return) -->
+        <rule ref="ElseExpression"/>
+        <!-- 禁止静态访问 -->
+        <rule ref="StaticAccess">
+            <properties>
+                <property name="ignorepattern" value="^(WP_|wp_)"/>
+            </properties>
+        </rule>
+        <!-- 检测重复条件 -->
+        <rule ref="DuplicateExpression"/>
+    </rule>
+</ruleset>
