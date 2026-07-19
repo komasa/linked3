@@ -48,7 +48,7 @@ jobs:
 
       - name: Run PHPCS
         run: |
-          phpcs --standard=phpcs.xml --report=checkstyle --report-file=phpcs-checkstyle.xml || true
+          phpcs --standard=phpcs.xml --report=checkstyle --report-file=phpcs-checkstyle.xml
           phpcs --standard=phpcs.xml
 
   # ─── 自动格式化检查 (PSR-12) ───

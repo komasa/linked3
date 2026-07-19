@@ -20,19 +20,11 @@
     <rule ref="PSR2"/>
     <rule ref="PSR12"/>
     
-    <!-- ── WordPress 安全相关 ─────────────────── -->
-    <rule ref="WordPress.Security">
-        <!-- 暂时禁用 nonce 检查，重构阶段逐步修复 -->
-        <exclude name="WordPress.Security.NonceVerification"/>
-        <!-- 暂时禁用 escape 检查，重构阶段逐步修复 -->
-        <exclude name="WordPress.Security.EscapeOutput"/>
-    </rule>
-    
-    <!-- ── WordPress DB 相关 ──────────────────── -->
-    <rule ref="WordPress.DB">
-        <!-- 禁用 preparedSQL 检查，重构阶段逐步修复 -->
-        <exclude name="WordPress.DB.PreparedSQL"/>
-    </rule>
+    <!-- ── WordPress 安全相关 (全部启用, 商业生产级红线) ─── -->
+    <rule ref="WordPress.Security"/>
+
+    <!-- ── WordPress DB 相关 (全部启用, 商业生产级红线) ─── -->
+    <rule ref="WordPress.DB"/>
     
     <!-- ── 额外严格规则 ────────────────────────── -->
     
@@ -84,11 +76,11 @@
         </properties>
     </rule>
     
-    <!-- 圈复杂度 -->
+    <!-- 圈复杂度 (商业生产级: ≤10 告警, ≤15 阻断) -->
     <rule ref="Generic.Metrics.CyclomaticComplexity">
         <properties>
-            <property name="complexity" value="15"/>
-            <property name="absoluteComplexity" value="20"/>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="15"/>
         </properties>
     </rule>
     

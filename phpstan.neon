@@ -28,8 +28,9 @@ parameters:
     # ─── 允许混合数组 (WordPress 惯例) ───
     checkAlwaysTrueInstanceof: false
     checkAlwaysFalseInstanceof: false
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingVarAnnotation: false
+    # 商业生产级: 以下检查已开启（之前被关闭）
+    checkGenericClassInNonGenericObjectType: true
+    checkMissingVarAnnotation: true
 
     # ─── 报告风格 ───
     reportUnmatchedIgnoredErrors: false

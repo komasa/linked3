@@ -22,10 +22,10 @@ define('LINKED3_PREMIUM_LOADED', true);
 
 add_action('plugins_loaded', static function () {
     // Wait for License Service to be available.
-    if (!class_exists('\\Linked3\\Classes\\License\\Linked3_License_Service')) {
+    if (!class_exists('\\Linked3\\Classes\\License\\LicenseService')) {
         return;
     }
-    $plan = \Linked3\Classes\License\Linked3_License_Service::instance()->plan();
+    $plan = \Linked3\Classes\License\LicenseService::instance()->plan();
     if ($plan === 'free') {
         return;
     }
