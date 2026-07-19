@@ -21,12 +21,12 @@ $v18_ajax_url = admin_url('admin-ajax.php');
 
 // 获取V18模块状态
 $v18_health = [];
-if (class_exists('Linked3_V18')) {
-    $v18_health = Linked3_V18::health_check();
+if (class_exists('V18')) {
+    $v18_health = V18::health_check();
 }
 $v18_info = [];
-if (class_exists('Linked3_V18')) {
-    $v18_info = Linked3_V18::get_facade_info();
+if (class_exists('V18')) {
+    $v18_info = V18::get_facade_info();
 }
 
 // v18复审 I2/I4: 模块用途说明映射
@@ -108,7 +108,7 @@ $v18_module_usage = [
                     <td style="font-size:12px;color:#71717A;"><?php echo esc_html($version); ?></td>
                 </tr>
             <?php endforeach; else : ?>
-                <tr><td colspan="5">V18模块信息不可用，请确认 Linked3_V18 类已加载。</td></tr>
+                <tr><td colspan="5">V18模块信息不可用，请确认 V18 类已加载。</td></tr>
             <?php endif; ?>
             </tbody>
         </table>

@@ -48,9 +48,9 @@ final class Dashboard
         $v18_health = [];
         $v18_loaded = 0;
         $v18_total = 0;
-        if (class_exists('\Linked3\Classes\Dashboard\Linked3_V18') && method_exists('\Linked3\Classes\Dashboard\Linked3_V18', 'health_check')) {
+        if (class_exists('\Linked3\Classes\Dashboard\V18') && method_exists('\Linked3\Classes\Dashboard\V18', 'health_check')) {
             try {
-                $v18_health = \Linked3_V18::health_check();
+                $v18_health = \V18::health_check();
                 $v18_total = count($v18_health);
                 foreach ($v18_health as $mod) {
                     if (!empty($mod['loaded'])) $v18_loaded++;

@@ -140,7 +140,7 @@ final class Linked3_Dependency_Loader
         // v27.0.0: OS module — renamed from V18 实验室. Loads new English-named
         // classes AND the backward-compatibility alias layer that maps old
         // V18 pinyin class names (Hong_Liu, Ru_Liu, etc.) to new OS names.
-        'Linked3\\Classes\\OS\\Linked3_OS_Dependencies_Loader',
+        'Linked3\\Classes\\OS\\OSDependenciesLoader',
     ];
 
     /**

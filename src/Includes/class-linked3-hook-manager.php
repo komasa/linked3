@@ -114,12 +114,12 @@ final class Linked3_Hook_Manager
         // v16.0.0: V18子系统统一注册 (Facade模式)
         // 来源: v16.0.0全量重铸方案J — V18模块与原linked3深度整合
         // ============================================================
-        if (class_exists('\Linked3\Includes\Linked3_V18')) {
+        if (class_exists('\Linked3\Includes\V18')) {
             // 注册V18 AJAX/REST/短代码/Widget/Admin/DB
             // ── FIX v16.0.1: Guard method_exists — register_all() was missing
             // from the Facade, causing "method does not exist" fatal on init.
-            $v18_method = method_exists('\Linked3\Includes\Linked3_V18', 'register_all') ? 'register_all' : 'register';
-            add_action('init', ['\Linked3\Classes\OS\Linked3_V18', $v18_method], 5);
+            $v18_method = method_exists('\Linked3\Includes\V18', 'register_all') ? 'register_all' : 'register';
+            add_action('init', ['\Linked3\Classes\OS\V18', $v18_method], 5);
         }
 
         // v8.3.0 M5: 质量闭环 AJAX (PQS / 批量一致性 / 劣化诊断)
