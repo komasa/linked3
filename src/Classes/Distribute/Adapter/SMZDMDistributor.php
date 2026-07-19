@@ -1,18 +1,16 @@
 <?php
+
+declare(strict_types=1);
 /**
- * v3.2.0: 知乎分发器 — MCP 中转模式
+ * v3.2.0: 什么值得买 (SMZDM) 分发器 — MCP 中转模式
  *
  * ⚠️ 重要说明:
- *   知乎于 2019 年关闭了官方 OpenAPI,无官方发布接口。
- *   本适配器采用 MCP (Model Context Protocol) 中转模式:
- *   1. 用户自备 MCP 中转服务 (如部署开源 zhihu-mcp 项目)
- *   2. 配置 MCP API URL + 知乎 Cookie 或 MCP Token
- *   3. 插件只负责 HTTP 转发,不对中转服务稳定性负责
+ *   SMZDM 无官方开放 API,反爬严格。
+ *   本适配器采用 MCP 中转模式,用户自备中转服务。
  *
  * 配置字段:
- *   - api_url: MCP 中转 API 地址 (如 https://mcp.example.com/zhihu/publish)
- *   - access_token: 知乎 Cookie z_c0 或 MCP Token
- *   - column_id: 专栏 ID (可选,留空发到默认专栏)
+ *   - api_url: MCP 中转 API 地址
+ *   - access_token: SMZDM Cookie 或 MCP Token
  *
  * @package Linked3
  * @subpackage Classes\Distribute\Adapter
@@ -20,7 +18,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -28,19 +26,18 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Zhihu_Distributor implements Linked3_Distribute_Adapter_Interface
+final class SMZDMDistributor implements DistributeAdapterInterface
 {
-    public function slug() : string { return 'zhihu'; }
-    public function label() : string { return '知乎 (MCP 中转)'; }
+    public function slug() : string { return 'smzdm'; }
+    public function label() : string { return '什么值得买 (MCP 中转)'; }
 
     public function publish(array $post_data, array $config)
     : array {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
-        $column_id = $config['column_id'] ?? '';
 
         if (!$api_url || !$token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 MCP API 地址或 Access Token (需自备知乎 MCP 中转服务)', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 MCP API 地址或 Access Token (需自备 SMZDM MCP 中转服务)', 'linked3-ai')];
         }
 
         $body = [
@@ -48,7 +45,6 @@ final class Linked3_Zhihu_Distributor implements Linked3_Distribute_Adapter_Inte
             'content'    => $post_data['content'] ?? '',
             'source_url' => $post_data['url'] ?? '',
         ];
-        if ($column_id) $body['column_id'] = $column_id;
 
         $resp = Linked3_Safe_Remote::post($api_url, [
             'timeout' => 30,
@@ -67,11 +63,11 @@ final class Linked3_Zhihu_Distributor implements Linked3_Distribute_Adapter_Inte
 
         if ($code >= 400) {
             $msg = $json['error'] ?? ($json['message'] ?? "HTTP {$code}");
-            return ['ok' => false, 'remote_id' => '', 'message' => sprintf('知乎 MCP 推送失败: %s', $msg)];
+            return ['ok' => false, 'remote_id' => '', 'message' => sprintf('SMZDM MCP 推送失败: %s', $msg)];
         }
 
         $remote_id = (string) ($json['id'] ?? ($json['article_id'] ?? ''));
-        return ['ok' => true, 'remote_id' => $remote_id, 'message' => __('已通过 MCP 推送到知乎', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => $remote_id, 'message' => __('已通过 MCP 推送到什么值得买', 'linked3-ai')];
     }
 
     public function test(array $config)
@@ -81,7 +77,6 @@ final class Linked3_Zhihu_Distributor implements Linked3_Distribute_Adapter_Inte
         if (!$api_url || !$token) {
             return ['ok' => false, 'message' => __('缺少 MCP API 地址或 Access Token', 'linked3-ai')];
         }
-        // 验证: GET {api_url}/me (MCP 服务通常提供 /me 端点)
         $me_url = rtrim($api_url, '/') . '/me';
         $resp = Linked3_Safe_Remote::get($me_url, [
             'timeout' => 10,
@@ -91,8 +86,8 @@ final class Linked3_Zhihu_Distributor implements Linked3_Distribute_Adapter_Inte
         $code = (int) wp_remote_retrieve_response_code($resp);
         if ($code === 200) {
             $body = json_decode(wp_remote_retrieve_body($resp), true);
-            $name = $body['name'] ?? ($body['username'] ?? '');
-            return ['ok' => true, 'message' => sprintf('知乎 MCP 已连接 (%s)', $name)];
+            $name = $body['name'] ?? ($body['nickname'] ?? '');
+            return ['ok' => true, 'message' => sprintf('SMZDM MCP 已连接 (%s)', $name)];
         }
         return ['ok' => false, 'message' => sprintf('HTTP %d — MCP 服务不可用或 Token 无效', $code)];
     }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 阿里国际站 (Alibaba.com Open Platform) 分发器 — v3.0.0
  *
@@ -27,7 +29,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -35,7 +37,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Alibaba_Distributor implements Linked3_Distribute_Adapter_Interface
+final class AlibabaDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'alibaba'; }
     public function label() : string { return '阿里国际站 (Alibaba.com)'; }

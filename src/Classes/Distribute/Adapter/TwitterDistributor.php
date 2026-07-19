@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Twitter/X distributor — v3.0.0 重写为 OAuth 1.0a HMAC-SHA1 签名
  *
@@ -13,7 +15,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -21,7 +23,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Twitter_Distributor implements Linked3_Distribute_Adapter_Interface
+final class TwitterDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'twitter'; }
     public function label() : mixed { return __('Twitter / X', 'linked3'); }

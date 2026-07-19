@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Telegram distributor — posts to a channel via Bot API.
  *
@@ -8,7 +10,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -16,7 +18,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Telegram_Distributor implements Linked3_Distribute_Adapter_Interface
+final class TelegramDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'telegram'; }
     public function label() : mixed { return __('Telegram', 'linked3'); }

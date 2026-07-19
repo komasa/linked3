@@ -5,8 +5,8 @@ $nonce = wp_create_nonce('linked3_autogpt');
 $ajax_url = admin_url('admin-ajax.php');
 // v3.0.0: 获取可用分发平台列表
 $dist_platforms = [];
-if (class_exists('\\Linked3\\Classes\\Distribute\\Linked3_Distribute_Manager')) {
-    $dist_platforms = \Linked3\Classes\Distribute\Linked3_Distribute_Manager::instance()->available_platforms();
+if (class_exists('\\Linked3\\Classes\\Distribute\\DistributeManager')) {
+    $dist_platforms = \Linked3\Classes\Distribute\DistributeManager::instance()->available_platforms();
 }
 // v3.0.0: 获取发布目标列表
 $publish_targets = [];

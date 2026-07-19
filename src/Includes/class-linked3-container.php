@@ -215,9 +215,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\Distribute\Linked3_Distribute_Manager::class,
-            static function (): \Linked3\Classes\Distribute\Linked3_Distribute_Manager {
-                return \Linked3\Classes\Distribute\Linked3_Distribute_Manager::instance_without_container();
+            \Linked3\Classes\Distribute\DistributeManager::class,
+            static function (): \Linked3\Classes\Distribute\DistributeManager {
+                return \Linked3\Classes\Distribute\DistributeManager::instance_without_container();
             }
         );
         $this->set(

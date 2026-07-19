@@ -23,7 +23,7 @@ namespace Linked3\Classes\AutoGPT\Processors;
 use Linked3\Classes\Collect\Rewriter\ArticleRewriter;
 use Linked3\Classes\Collect\Scraper;
 use Linked3\Classes\Publish\Linked3_Publish_Manager;
-use Linked3\Classes\Distribute\Linked3_Distribute_Manager;
+use Linked3\Classes\Distribute\DistributeManager;
 
 
 
@@ -110,7 +110,7 @@ final class Linked3_Collect_Rewrite_Processor implements Linked3_AutoGPT_Process
 
                 // 4. (可选)分发
                 if (!empty($cfg['distribute_platforms']) && is_array($cfg['distribute_platforms'])) {
-                    $dist_mgr = Linked3_Distribute_Manager::instance();
+                    $dist_mgr = DistributeManager::instance();
                     $results = $dist_mgr->distribute_post_to_platforms($post_id, $cfg['distribute_platforms']);
                     foreach ($results as $r) {
                         if (!$r['ok']) {

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Distribute;
 if (!defined('ABSPATH')) exit;
 
@@ -10,7 +12,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Distribute_Dependencies_Loader
+final class DistributeDependenciesLoader
 {
     public static function load()
     : void {

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * WeChat Official Account distributor — drafts via 公众号 API.
  *
@@ -11,7 +13,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -19,7 +21,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_WeChat_Distributor implements Linked3_Distribute_Adapter_Interface
+final class WeChatDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'wechat'; }
     public function label() : mixed { return __('微信公众号', 'linked3'); }

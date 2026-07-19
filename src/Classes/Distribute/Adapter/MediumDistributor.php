@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Medium 分发器 — 发布到 Medium。
  *
@@ -8,7 +10,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -16,7 +18,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Medium_Distributor implements Linked3_Distribute_Adapter_Interface
+final class MediumDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'medium'; }
     public function label() : string { return 'Medium'; }

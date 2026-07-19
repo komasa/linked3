@@ -27,7 +27,7 @@ final class Linked3_Service_Locator
         'vector' => 'Linked3\Classes\Vector\VectorFactory',
         'chat' => 'Linked3\Classes\Chat\ChatManager',
         'publish' => 'Linked3\Classes\Publish\Linked3_Publish_Manager',
-        'distribute' => 'Linked3\Classes\Distribute\Linked3_Distribute_Manager',
+        'distribute' => 'Linked3\Classes\Distribute\DistributeManager',
         'addons' => 'Linked3\Classes\Addons\AddonManager',
         'schema' => 'Linked3\Classes\SEO\Schema\Linked3_Schema_Markup',
         'push' => 'Linked3\Classes\SEO\Push\Linked3_Push_Manager',

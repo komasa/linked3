@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Distribution Manager — v3.0.0 大版本重构
  *
@@ -23,23 +25,23 @@ if (!defined('ABSPATH')) {
 }
 
 use Linked3\Classes\Distribute\Adapter\{
-    Linked3_Twitter_Distributor,
-    Linked3_Telegram_Distributor,
-    Linked3_Discord_Distributor,
-    Linked3_WeChat_Distributor,
-    Linked3_Xiaohongshu_Distributor,
-    Linked3_Zhihu_Distributor,
-    Linked3_SMZDM_Distributor,
-    Linked3_Weibo_Distributor,
-    Linked3_Juejin_Distributor,
-    Linked3_CSDN_Distributor,
-    Linked3_Blogger_Distributor,
-    Linked3_Medium_Distributor,
-    Linked3_Reddit_Distributor,
-    Linked3_Alibaba_Distributor,
-    Linked3_Alibaba1688_Distributor
+    TwitterDistributor,
+    TelegramDistributor,
+    DiscordDistributor,
+    WeChatDistributor,
+    XiaohongshuDistributor,
+    ZhihuDistributor,
+    SMZDMDistributor,
+    WeiboDistributor,
+    JuejinDistributor,
+    CSDNDistributor,
+    BloggerDistributor,
+    MediumDistributor,
+    RedditDistributor,
+    AlibabaDistributor,
+    Alibaba1688Distributor
 };
-final class Linked3_Distribute_Manager
+final class DistributeManager
 {
     private static $instance;
     private $adapters;
@@ -53,22 +55,22 @@ final class Linked3_Distribute_Manager
         // v3.0.0: 移除 zhihu / smzdm (平台 API 已关停,误导用户); v3.2.0: 恢复 (MCP 中转模式)
         // v3.0.0: 新增 alibaba / alibaba1688
         $this->adapters = [
-            'twitter'      => new \Linked3\Classes\Distribute\Adapter\Linked3_Twitter_Distributor(),
-            'telegram'     => new \Linked3\Classes\Distribute\Adapter\Linked3_Telegram_Distributor(),
-            'discord'      => new \Linked3\Classes\Distribute\Adapter\Linked3_Discord_Distributor(),
-            'wechat'       => new \Linked3\Classes\Distribute\Adapter\Linked3_WeChat_Distributor(),
-            'xiaohongshu'  => new \Linked3\Classes\Distribute\Adapter\Linked3_Xiaohongshu_Distributor(),
-            'zhihu'        => new \Linked3\Classes\Distribute\Adapter\Linked3_Zhihu_Distributor(),  // v3.2.0 恢复
-            'smzdm'        => new \Linked3\Classes\Distribute\Adapter\Linked3_SMZDM_Distributor(),  // v3.2.0 恢复
-            'weibo'        => new \Linked3\Classes\Distribute\Adapter\Linked3_Weibo_Distributor(),
-            'juejin'       => new \Linked3\Classes\Distribute\Adapter\Linked3_Juejin_Distributor(),
-            'csdn'         => new \Linked3\Classes\Distribute\Adapter\Linked3_CSDN_Distributor(),
-            'blogger'      => new \Linked3\Classes\Distribute\Adapter\Linked3_Blogger_Distributor(),
-            'medium'       => new \Linked3\Classes\Distribute\Adapter\Linked3_Medium_Distributor(),
-            'reddit'       => new \Linked3\Classes\Distribute\Adapter\Linked3_Reddit_Distributor(),
+            'twitter'      => new \Linked3\Classes\Distribute\Adapter\TwitterDistributor(),
+            'telegram'     => new \Linked3\Classes\Distribute\Adapter\TelegramDistributor(),
+            'discord'      => new \Linked3\Classes\Distribute\Adapter\DiscordDistributor(),
+            'wechat'       => new \Linked3\Classes\Distribute\Adapter\WeChatDistributor(),
+            'xiaohongshu'  => new \Linked3\Classes\Distribute\Adapter\XiaohongshuDistributor(),
+            'zhihu'        => new \Linked3\Classes\Distribute\Adapter\ZhihuDistributor(),  // v3.2.0 恢复
+            'smzdm'        => new \Linked3\Classes\Distribute\Adapter\SMZDMDistributor(),  // v3.2.0 恢复
+            'weibo'        => new \Linked3\Classes\Distribute\Adapter\WeiboDistributor(),
+            'juejin'       => new \Linked3\Classes\Distribute\Adapter\JuejinDistributor(),
+            'csdn'         => new \Linked3\Classes\Distribute\Adapter\CSDNDistributor(),
+            'blogger'      => new \Linked3\Classes\Distribute\Adapter\BloggerDistributor(),
+            'medium'       => new \Linked3\Classes\Distribute\Adapter\MediumDistributor(),
+            'reddit'       => new \Linked3\Classes\Distribute\Adapter\RedditDistributor(),
             // v3.0.0: B2B 平台 (工厂出海核心渠道)
-            'alibaba'      => new \Linked3\Classes\Distribute\Adapter\Linked3_Alibaba_Distributor(),
-            'alibaba1688'  => new \Linked3\Classes\Distribute\Adapter\Linked3_Alibaba1688_Distributor(),
+            'alibaba'      => new \Linked3\Classes\Distribute\Adapter\AlibabaDistributor(),
+            'alibaba1688'  => new \Linked3\Classes\Distribute\Adapter\Alibaba1688Distributor(),
         ];
     }
 

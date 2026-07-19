@@ -131,7 +131,7 @@ final class Linked3_Dependency_Loader
         'Linked3\\Classes\\AutoGPT\\Linked3_AutoGPT_Dependencies_Loader',
         'Linked3\\Classes\\WooCommerce\\WcFormsSpeechDependenciesLoader',
         'Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Dependencies_Loader',
-        'Linked3\\Classes\\Distribute\\Linked3_Distribute_Dependencies_Loader',
+        'Linked3\\Classes\\Distribute\\DistributeDependenciesLoader',
         // v5.1.0: Pipeline Orchestrator (the production factory conductor).
         'Linked3\\Classes\\Pipeline\\PipelineDependenciesLoader',
         // v5.2.0: V15 视觉提示词系统.

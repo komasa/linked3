@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 微博分发器 — 发布图文/文章。
  *
@@ -8,7 +10,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -16,7 +18,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Weibo_Distributor implements Linked3_Distribute_Adapter_Interface
+final class WeiboDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'weibo'; }
     public function label() : string { return '微博'; }

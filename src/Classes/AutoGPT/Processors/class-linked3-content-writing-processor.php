@@ -15,7 +15,7 @@ namespace Linked3\Classes\AutoGPT\Processors;
 use Linked3\Classes\Core\AIDispatcher;
 use Linked3\Classes\Core\AIEnhancer;
 use Linked3\Classes\Publish\Linked3_Publish_Manager;
-use Linked3\Classes\Distribute\Linked3_Distribute_Manager;
+use Linked3\Classes\Distribute\DistributeManager;
 
 
 
@@ -205,7 +205,7 @@ final class Linked3_Content_Writing_Processor implements Linked3_AutoGPT_Process
                 // v3.0.0: AutoGPT → Distribute 显式集成
                 // 任务 config 中的 distribute_platforms[] 指定分发到哪些平台
                 if (!empty($cfg['distribute_platforms']) && is_array($cfg['distribute_platforms']) && $post_id) {
-                    $dist_mgr = Linked3_Distribute_Manager::instance();
+                    $dist_mgr = DistributeManager::instance();
                     $results = $dist_mgr->distribute_post_to_platforms($post_id, $cfg['distribute_platforms']);
                     foreach ($results as $r) {
                         if (!$r['ok']) {

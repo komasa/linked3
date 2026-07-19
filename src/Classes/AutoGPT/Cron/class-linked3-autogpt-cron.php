@@ -194,7 +194,7 @@ final class Linked3_AutoGPT_Cron
                 $post_id = (int) ($payload['post_id'] ?? 0);
                 $platform = $payload['platform'] ?? '';
                 if ($post_id && $platform) {
-                    $mgr = \Linked3\Classes\Distribute\Linked3_Distribute_Manager::instance();
+                    $mgr = \Linked3\Classes\Distribute\DistributeManager::instance();
                     $results = $mgr->distribute_post_to_platforms($post_id, [$platform]);
                     $r = $results[0] ?? ['ok' => false, 'message' => 'no result'];
                     $repo->mark_queue_done($item['id'], $r['ok'] ? 'done' : 'error', $r['message']);

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 小红书分发器 — 通过小红书创作者 API 或 MCP 发布。
  *
@@ -11,7 +13,7 @@
 
 namespace Linked3\Classes\Distribute\Adapter;
 
-use Linked3\Classes\Distribute\Linked3_Distribute_Adapter_Interface;
+use Linked3\Classes\Distribute\DistributeAdapterInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -19,7 +21,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Xiaohongshu_Distributor implements Linked3_Distribute_Adapter_Interface
+final class XiaohongshuDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'xiaohongshu'; }
     public function label() : string { return '小红书'; }

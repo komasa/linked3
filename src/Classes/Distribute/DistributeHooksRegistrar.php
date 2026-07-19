@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Distribute;
 if (!defined('ABSPATH')) exit;
 
@@ -10,7 +12,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Distribute_Hooks_Registrar
+final class DistributeHooksRegistrar
 {
     /** @var int[] 待分发的文章 ID 队列 (避免闭包 use) */
     private static array $pending_distribute_ids = [];
@@ -45,7 +47,7 @@ final class Linked3_Distribute_Hooks_Registrar
         $ids = self::$pending_distribute_ids;
         self::$pending_distribute_ids = [];
         foreach ($ids as $post_id) {
-            Linked3_Distribute_Manager::instance()->distribute_post($post_id);
+            DistributeManager::instance()->distribute_post($post_id);
         }
     }
 
@@ -78,7 +80,7 @@ final class Linked3_Distribute_Hooks_Registrar
         $configs = get_option(LINKED3_OPTION_PREFIX . 'distribute_configs', []);
         $configs[$platform] = $cfg;
         update_option(LINKED3_OPTION_PREFIX . 'distribute_configs', $configs);
-        $r = Linked3_Distribute_Manager::instance()->test_platform($platform);
+        $r = DistributeManager::instance()->test_platform($platform);
         $r['ok'] ? wp_send_json_success($r) : wp_send_json_error($r, 400);
     }
 
@@ -106,7 +108,7 @@ final class Linked3_Distribute_Hooks_Registrar
         self::guard();
         $post_id = (int) ($_POST['post_id'] ?? 0);
         if (!$post_id) wp_send_json_error(['message' => __('需要文章 ID。', 'linked3')], 400);
-        $results = Linked3_Distribute_Manager::instance()->distribute_post($post_id);
+        $results = DistributeManager::instance()->distribute_post($post_id);
         wp_send_json_success(['results' => $results]);
     }
 

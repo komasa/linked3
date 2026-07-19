@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Distribution module — auto-publish to social platforms.
  *
@@ -24,7 +26,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Distribute_Adapter_Interface
+interface DistributeAdapterInterface
 {
     /** @return string platform slug */
     public function slug();
