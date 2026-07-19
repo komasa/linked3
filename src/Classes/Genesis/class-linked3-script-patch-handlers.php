@@ -181,9 +181,9 @@ class Linked3_Script_Patch_Handlers
         $cloudSource = null;
         $cloudPalette = null;
         $cloudTone = '';
-        if (!empty($cloudCategory) && class_exists('\Linked3\Classes\Genesis\Linked3_Cloud_Template_Factory')) {
+        if (!empty($cloudCategory) && class_exists('\Linked3\Classes\Genesis\CloudTemplateFactory')) {
             try {
-                $cloudFactory = new \Linked3_Cloud_Template_Factory();
+                $cloudFactory = new \CloudTemplateFactory();
                 $shared = $cloudFactory->get_shared_template_for_script($cloudCategory, 'charts');
                 $cloudSource = $shared['source'];
                 $cloudPalette = $shared['palette'];

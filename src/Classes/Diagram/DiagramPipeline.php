@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Diagram;
-use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
+use Linked3\Classes\Content\Pipeline\ContentPipelineInterface;
 if (!defined('ABSPATH')) exit;
 
-final class DiagramPipeline implements Linked3_Content_Pipeline_Interface
+final class DiagramPipeline implements ContentPipelineInterface
 {
     public static function type(): string { return 'diagram'; }
     public static function label(): string { return __('知识图谱', 'linked3'); }

@@ -190,12 +190,12 @@ abstract class Linked3_Script_Factory_Base {
      */
     protected function consume_cloud_template(array $context): array {
         $category = $context['cloud_template_category'] ?? '';
-        if (!$category || !class_exists('\Linked3\Classes\Genesis\Linked3_Cloud_Template_Factory')) {
+        if (!$category || !class_exists('\Linked3\Classes\Genesis\CloudTemplateFactory')) {
             return ['style_config' => $this->style_config, 'cloud_source' => null];
         }
 
         try {
-            $factory = new \Linked3_Cloud_Template_Factory();
+            $factory = new \CloudTemplateFactory();
             $shared = $factory->get_shared_template_for_script($category, $this->script_type);
 
             // 云模版覆盖风格配置 (style/palette/structure)

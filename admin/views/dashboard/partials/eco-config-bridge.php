@@ -70,7 +70,7 @@ $bridge_ajax_url = admin_url('admin-ajax.php');
             <select class="linked3-eco-select" id="bridge-cloud-tpl">
                 <option value="">— 选择 —</option>
                 <?php
-                if (class_exists('Linked3_Cloud_Template_Factory')):
+                if (class_exists('CloudTemplateFactory')):
                     $_cloud_cats = ['content' => '内容模版', 'seo' => 'SEO模版', 'social' => '社媒模版'];
                     foreach ($_cloud_cats as $_cat => $_label):
                         echo '<option value="' . esc_attr($_cat) . '">' . esc_html('☁ ' . $_label) . '</option>';

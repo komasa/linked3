@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\ContentWriter;
-use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
+use Linked3\Classes\Content\Pipeline\ContentPipelineInterface;
 use Linked3\Classes\Core\AIDispatcher;
 if (!defined('ABSPATH')) exit;
 
-final class ArticlePipeline implements Linked3_Content_Pipeline_Interface
+final class ArticlePipeline implements ContentPipelineInterface
 {
     public static function type(): string { return 'article'; }
     public static function label(): string { return __('文章写作', 'linked3'); }

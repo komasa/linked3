@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Cloud Template Factory — 云模版工厂 (Trait版)
  *
@@ -20,17 +22,17 @@
  */
 
 namespace Linked3\Classes\Content;
-    use Linked3_Content_Ecosystem_Trait;
+    use ContentEcosystemTrait;
 
 
 
 if (!defined('ABSPATH')) exit;
 
-if (!trait_exists('Linked3_Content_Ecosystem_Trait')) {
+if (!trait_exists('ContentEcosystemTrait')) {
     require_once __DIR__ . '/trait-linked3-content-ecosystem.php';
 }
 
-class Linked3_Cloud_Template_Factory {
+class CloudTemplateFactory {
     /** @var array feicai4.0 结构化模版字段 */
     private $template_fields = [
         'profile', 'role', 'scene', 'background',
@@ -273,7 +275,7 @@ class Linked3_Cloud_Template_Factory {
             'goals'     => $structured['goals'] ?? [],
             'limits'    => $structured['limit'] ?? [],
             'source'    => [
-                'factory'   => 'Linked3_Cloud_Template_Factory',
+                'factory'   => 'CloudTemplateFactory',
                 'category'  => $category,
                 'script'    => $script_type,
                 'template'  => $base['name'] ?? $category . '_default',

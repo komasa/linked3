@@ -1,15 +1,17 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Content\Pipeline;
 if (!defined('ABSPATH')) exit;
 
-final class Linked3_Content_Pipeline_Registry
+final class ContentPipelineRegistry
 {
     private static array $pipelines = [];
     private static bool $initialized = false;
 
     public static function register(string $type, string $class): void
     {
-        if (!in_array(Linked3_Content_Pipeline_Interface::class, class_implements($class) ?: [], true)) return;
+        if (!in_array(ContentPipelineInterface::class, class_implements($class) ?: [], true)) return;
         self::$pipelines[$type] = $class;
     }
 
@@ -53,7 +55,7 @@ final class Linked3_Content_Pipeline_Registry
             'book'    => \Linked3\Classes\BookFactory\Linked3_Book_Pipeline::class,
         ];
         foreach ($defaults as $type => $class) {
-            if (class_exists($class) && in_array(Linked3_Content_Pipeline_Interface::class, class_implements($class) ?: [], true)) {
+            if (class_exists($class) && in_array(ContentPipelineInterface::class, class_implements($class) ?: [], true)) {
                 self::$pipelines[$type] = $class;
             }
         }

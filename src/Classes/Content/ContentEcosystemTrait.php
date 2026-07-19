@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Content Ecosystem Trait — 内容生态4模块共享Trait
  *
@@ -25,7 +27,7 @@ namespace Linked3\Classes\Content;
 
 if (!defined('ABSPATH')) exit;
 
-trait Linked3_Content_Ecosystem_Trait {
+trait ContentEcosystemTrait {
 
     /** @var string 模块类型 */
     protected $module_type = '';

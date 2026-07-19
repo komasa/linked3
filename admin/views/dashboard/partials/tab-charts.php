@@ -174,7 +174,7 @@ ChatGPT使用技巧,auto,linear-progression,2
                 foreach ($shared_templates as $tpl_id => $tpl):
                     echo '<option value="' . esc_attr($tpl['type'] ?? 'content') . '">' . esc_html('☁ ' . ($tpl['name'] ?? $tpl_id)) . '</option>';
                 endforeach;
-                if (class_exists('Linked3_Cloud_Template_Factory')):
+                if (class_exists('CloudTemplateFactory')):
                     $cloud_cats = ['content' => '内容模版', 'seo' => 'SEO模版', 'social' => '社媒模版', 'video' => '视频模版', 'comic' => '漫画模版'];
                     foreach ($cloud_cats as $cat => $label):
                         echo '<option value="' . esc_attr($cat) . '">' . esc_html('☁ ' . $label . ' (内置)') . '</option>';

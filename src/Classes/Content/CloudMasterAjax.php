@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Cloud Template Master AJAX Handler v10.7.1
  *
@@ -21,7 +23,7 @@ namespace Linked3\Classes\Content;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Cloud_Master_Ajax {
+class CloudMasterAjax {
 
     public static function register() : void {
         add_action('wp_ajax_linked3_cloud_fork', [__CLASS__, 'ajax_fork']);
@@ -59,9 +61,9 @@ class Linked3_Cloud_Master_Ajax {
             $master = $custom_masters[$master_id] ?? null;
         } else {
             // 内置母版从工厂加载
-            if (class_exists('\Linked3\Classes\Content\Linked3_Cloud_Template_Factory')) {
+            if (class_exists('\Linked3\Classes\Content\CloudTemplateFactory')) {
                 try {
-                    $factory = new \Linked3_Cloud_Template_Factory();
+                    $factory = new \CloudTemplateFactory();
                     $master = $factory->load_template_by_category($category);
                     $master['name'] = $master['name'] ?? $category . '_default';
                 } catch (\Throwable $e) {
@@ -115,9 +117,9 @@ class Linked3_Cloud_Master_Ajax {
         }
 
         // 内置母版
-        if (!empty($category) && class_exists('\Linked3\Classes\Content\Linked3_Cloud_Template_Factory')) {
+        if (!empty($category) && class_exists('\Linked3\Classes\Content\CloudTemplateFactory')) {
             try {
-                $factory = new \Linked3_Cloud_Template_Factory();
+                $factory = new \CloudTemplateFactory();
                 $tpl = $factory->load_template_by_category($category);
                 wp_send_json_success(['template' => $tpl]);
             } catch (\Throwable $e) {
@@ -293,9 +295,9 @@ class Linked3_Cloud_Master_Ajax {
         $master = null;
         if (strpos($source_master, 'builtin_') === 0) {
             $cat = substr($source_master, 8);
-            if (class_exists('\Linked3\Classes\Content\Linked3_Cloud_Template_Factory')) {
+            if (class_exists('\Linked3\Classes\Content\CloudTemplateFactory')) {
                 try {
-                    $factory = new \Linked3_Cloud_Template_Factory();
+                    $factory = new \CloudTemplateFactory();
                     $master = $factory->load_template_by_category($cat);
                 } catch (\Throwable $e) {
                     wp_send_json_error(['message' => __('母版加载失败: ', 'linked3-ai') . $e->getMessage()]);
@@ -322,4 +324,4 @@ class Linked3_Cloud_Master_Ajax {
 }
 
 // 注册
-add_action('init', ['\Linked3\Classes\Content\Linked3_Cloud_Master_Ajax', 'register']);
+add_action('init', ['\Linked3\Classes\Content\CloudMasterAjax', 'register']);

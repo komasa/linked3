@@ -19,8 +19,8 @@ $local_templates = (array) get_option(LINKED3_OPTION_PREFIX . 'cloud_templates',
 
 // 加载云模版母版库 (用于Fork)
 $cloud_masters = [];
-if (class_exists('Linked3_Cloud_Template_Factory')) {
-    $cloud_factory = new \Linked3_Cloud_Template_Factory();
+if (class_exists('CloudTemplateFactory')) {
+    $cloud_factory = new \CloudTemplateFactory();
     $cloud_categories = $cloud_factory->get_categories();
     foreach ($cloud_categories as $cat) {
         try {

@@ -1,10 +1,12 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Content;
 if (!defined('ABSPATH')) exit;
-class Linked3_Ecosystem_Ajax_Advanced
+class EcosystemAjaxAdvanced
 {
     private static function call_ai(string $prompt, int $max_tokens = 2000): string {
-        return Linked3_Ecosystem_Ajax::call_ai_internal($prompt, $max_tokens);
+        return EcosystemAjax::call_ai_internal($prompt, $max_tokens);
     }
     public static function ajax_generate_images() : mixed {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);

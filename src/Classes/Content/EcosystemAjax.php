@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Ecosystem AJAX Handler v10.7.0 — 写作生态统一API
  *
@@ -17,7 +19,7 @@ namespace Linked3\Classes\Content;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Ecosystem_Ajax {
+class EcosystemAjax {
 
     public static function register() : void {
         add_action('wp_ajax_linked3_eco_synergy', [__CLASS__, 'ajax_synergy']);
@@ -195,9 +197,9 @@ class Linked3_Ecosystem_Ajax {
         try {
             $keywords = array_filter(array_map('trim', explode(',', $keywords_str)));
             // v11.5.0: 若指定行业变体, 用行业母版增强prompt
-            if ($industry !== 'general' && class_exists('\Linked3\Classes\Content\Linked3_Cloud_Template_Factory')) {
+            if ($industry !== 'general' && class_exists('\Linked3\Classes\Content\CloudTemplateFactory')) {
                 try {
-                    $factory = new \Linked3_Cloud_Template_Factory();
+                    $factory = new \CloudTemplateFactory();
                     $tpl = $factory->load_template_by_category_and_industry('content', $industry);
                     if (!empty($tpl['config']['role'])) {
                         $topic = $topic . "\n[行业调性: " . $tpl['config']['role'] . " | 风格: " . ($tpl['config']['style'] ?? '') . "]";
@@ -402,7 +404,7 @@ class Linked3_Ecosystem_Ajax {
      * v10.7.4 实际生成图片 — SOP闭环下一步
      * 接收图片Prompt列表, 调用AI图片API生成实际图片
      */
-        public static function ajax_generate_images() { return Linked3_Ecosystem_Ajax_Advanced::ajax_generate_images(); }
+        public static function ajax_generate_images() { return EcosystemAjaxAdvanced::ajax_generate_images(); }
 
     // ================================================================
     // v10.7.1 全功能链新增方法
@@ -411,7 +413,7 @@ class Linked3_Ecosystem_Ajax {
     /**
      * v10.7.1 热词采集 — 多源采集 (百度/搜狗/360/知乎/微博/抖音)
      */
-        public static function ajax_hot_collect() { return Linked3_Ecosystem_Ajax_Advanced::ajax_hot_collect(); }
+        public static function ajax_hot_collect() { return EcosystemAjaxAdvanced::ajax_hot_collect(); }
 
     /**
      * v10.7.1 关键词库保存 (热词库/长尾词库)
@@ -476,17 +478,17 @@ class Linked3_Ecosystem_Ajax {
     /**
      * v10.7.1 长文写作 — 生成大纲
      */
-        public static function ajax_longform_outline() { return Linked3_Ecosystem_Ajax_Advanced::ajax_longform_outline(); }
+        public static function ajax_longform_outline() { return EcosystemAjaxAdvanced::ajax_longform_outline(); }
 
     /**
      * v10.7.1 长文写作 — 生成单段
      */
-        public static function ajax_longform_section() { return Linked3_Ecosystem_Ajax_Advanced::ajax_longform_section(); }
+        public static function ajax_longform_section() { return EcosystemAjaxAdvanced::ajax_longform_section(); }
 
     /**
      * v10.7.1 CSV批量写作
      */
-        public static function ajax_csv_batch() { return Linked3_Ecosystem_Ajax_Advanced::ajax_csv_batch(); }
+        public static function ajax_csv_batch() { return EcosystemAjaxAdvanced::ajax_csv_batch(); }
 
     /**
      * v10.7.1 定时任务启用
@@ -598,9 +600,9 @@ class Linked3_Ecosystem_Ajax {
         }
 
         // v10.7.0: 委托 Cloud_Template_Factory (若存在)
-        if (class_exists('\Linked3\Classes\Content\Linked3_Cloud_Template_Factory')) {
+        if (class_exists('\Linked3\Classes\Content\CloudTemplateFactory')) {
             try {
-                $factory = new \Linked3_Cloud_Template_Factory();
+                $factory = new \CloudTemplateFactory();
                 if (method_exists($factory, 'load_template_by_category')) {
                     $tpl = $factory->load_template_by_category($category);
                     if (!empty($tpl)) return $tpl;
@@ -857,4 +859,4 @@ class Linked3_Ecosystem_Ajax {
     }
 }
 
-add_action('init', ['\Linked3\Classes\Content\Linked3_Ecosystem_Ajax', 'register'], 5);
+add_action('init', ['\Linked3\Classes\Content\EcosystemAjax', 'register'], 5);

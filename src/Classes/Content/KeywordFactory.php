@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Keyword Factory — 关键词工厂 (Trait版)
  *
@@ -15,17 +17,17 @@
  */
 
 namespace Linked3\Classes\Content;
-    use Linked3_Content_Ecosystem_Trait;
+    use ContentEcosystemTrait;
 
 
 
 if (!defined('ABSPATH')) exit;
 
-if (!trait_exists('Linked3_Content_Ecosystem_Trait')) {
+if (!trait_exists('ContentEcosystemTrait')) {
     require_once __DIR__ . '/trait-linked3-content-ecosystem.php';
 }
 
-class Linked3_Keyword_Factory {
+class KeywordFactory {
     /** @var array 关键词分类 (移植feicai4.0三维度) */
     private $keyword_dimensions = [
         'functional' => ['primary', 'secondary', 'long_tail', 'branded'],

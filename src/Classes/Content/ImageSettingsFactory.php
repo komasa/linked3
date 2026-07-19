@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Image Settings Factory — 图片设置工厂 (Trait版)
  *
@@ -15,17 +17,17 @@
  */
 
 namespace Linked3\Classes\Content;
-    use Linked3_Content_Ecosystem_Trait;
+    use ContentEcosystemTrait;
 
 
 
 if (!defined('ABSPATH')) exit;
 
-if (!trait_exists('Linked3_Content_Ecosystem_Trait')) {
+if (!trait_exists('ContentEcosystemTrait')) {
     require_once __DIR__ . '/trait-linked3-content-ecosystem.php';
 }
 
-class Linked3_Image_Settings_Factory {
+class ImageSettingsFactory {
     /** @var array 万相支持分辨率 (移植feicai4.0) */
     private $wanxiang_resolutions = [
         'square' => '1280*1280',

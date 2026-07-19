@@ -47,8 +47,8 @@ $cw_mode = isset($_GET['cw_mode']) ? sanitize_key($_GET['cw_mode']) : 'quick';
         <?php
         // v11.5.0: 行业选择器 (P2) — 消费G3的50场景母版
         $p2_industries = [];
-        if (class_exists('Linked3_Cloud_Template_Factory')) {
-            try { $p2_industries = (new \Linked3_Cloud_Template_Factory())->get_industries(); } catch (\Throwable $e) {}
+        if (class_exists('CloudTemplateFactory')) {
+            try { $p2_industries = (new \CloudTemplateFactory())->get_industries(); } catch (\Throwable $e) {}
         }
         if (!empty($p2_industries)) :
         ?>

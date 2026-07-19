@@ -366,7 +366,7 @@ add_action('plugins_loaded', ['\\Linked3\\Classes\\Diagram\\DiagramStructureRegi
 // G3.2: Unified Content Pipeline
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/interface-linked3-content-pipeline.php";
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/class-linked3-content-pipeline-registry.php";
-add_action("init", ["\\Linked3\\Classes\\Content\\Pipeline\\Linked3_Content_Pipeline_Registry", "register_ajax"], 20);
+add_action("init", ["\\Linked3\\Classes\\Content\\Pipeline\\ContentPipelineRegistry", "register_ajax"], 20);
 
 // v19.53: 统一 AI 模型配置 — 消除 48 处硬编码模型名
 require_once LINKED3_DIR . 'src/Classes/Core/class-linked3-model-config.php';

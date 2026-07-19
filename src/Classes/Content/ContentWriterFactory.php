@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Content Writer Factory — 内容写作工厂 (Trait版)
  *
@@ -17,18 +19,18 @@
  */
 
 namespace Linked3\Classes\Content;
-    use Linked3_Content_Ecosystem_Trait;
+    use ContentEcosystemTrait;
 
 
 
 if (!defined('ABSPATH')) exit;
 
 // v10.5.1: 确保Trait已加载
-if (!trait_exists('Linked3_Content_Ecosystem_Trait')) {
+if (!trait_exists('ContentEcosystemTrait')) {
     require_once __DIR__ . '/trait-linked3-content-ecosystem.php';
 }
 
-class Linked3_Content_Writer_Factory {
+class ContentWriterFactory {
     /** @var array feicai4.0 5阶段法 */
     private $copywriting_phases = [
         'context_gather' => '上下文收集: 受众/目标/产品/流量来源',

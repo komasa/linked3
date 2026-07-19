@@ -26,8 +26,8 @@ $ajax_url = admin_url('admin-ajax.php');
 // 加载母版库 (内置 + 自定义)
 $master_templates = [];
 $industry_variants = []; // v11.4.1: 行业变体矩阵
-if (class_exists('Linked3_Cloud_Template_Factory')) {
-    $factory = new \Linked3_Cloud_Template_Factory();
+if (class_exists('CloudTemplateFactory')) {
+    $factory = new \CloudTemplateFactory();
     $master_categories = $factory->get_categories();
     $industries = $factory->get_industries(); // v11.4.1
     foreach ($master_categories as $cat) {

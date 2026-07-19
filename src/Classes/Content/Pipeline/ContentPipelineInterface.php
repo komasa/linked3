@@ -1,7 +1,9 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Content\Pipeline;
 if (!defined('ABSPATH')) exit;
-interface Linked3_Content_Pipeline_Interface
+interface ContentPipelineInterface
 {
     public static function type(): string;
     public function prepare(array $input): array;

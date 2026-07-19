@@ -41,7 +41,7 @@ $eco_sub_raw = isset($_GET['eco_sub']) ? sanitize_key($_GET['eco_sub']) : 'syner
 $eco_sub = in_array($eco_sub_raw, $eco_sub_whitelist, true) ? $eco_sub_raw : 'synergy';
 
 // v17.2.0: 云模版总控状态检测
-$cloud_master_active = class_exists('Linked3_Cloud_Template_Factory');
+$cloud_master_active = class_exists('CloudTemplateFactory');
 $script_ecosystem_tabs = ['charts' => '图示脚本', 'genesis' => '漫画脚本', 'video' => '视频脚本'];
 $cloud_master_url = admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=cloud');
 ?>

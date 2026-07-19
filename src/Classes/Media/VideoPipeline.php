@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Media;
 
-use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
+use Linked3\Classes\Content\Pipeline\ContentPipelineInterface;
 
 if (!defined('ABSPATH')) exit;
 
-final class VideoPipeline implements Linked3_Content_Pipeline_Interface
+final class VideoPipeline implements ContentPipelineInterface
 {
     public static function type(): string { return 'video'; }
     public static function label(): string { return __('视频脚本', 'linked3'); }

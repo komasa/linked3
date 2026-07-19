@@ -110,8 +110,8 @@ if (!defined('ABSPATH')) {
                 $wf_cloud_count = 0;
                 $wf_publish_count = 0;
                 $wf_agent_count = (int)($overview['tasks_active'] ?? 0);
-                if (class_exists('Linked3_Cloud_Template_Factory')) {
-                    try { $wf_cloud_count = count((new Linked3_Cloud_Template_Factory())->get_categories()); } catch (\Throwable $e) {}
+                if (class_exists('CloudTemplateFactory')) {
+                    try { $wf_cloud_count = count((new CloudTemplateFactory())->get_categories()); } catch (\Throwable $e) {}
                 }
                 try {
                     $pub_repo = new \Linked3\Classes\Publish\Linked3_Publish_Target_Repository();

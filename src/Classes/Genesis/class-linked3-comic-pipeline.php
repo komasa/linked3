@@ -1,10 +1,10 @@
 <?php
 namespace Linked3\Classes\Genesis;
-use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
+use Linked3\Classes\Content\Pipeline\ContentPipelineInterface;
 use Linked3\Classes\Dashboard\Linked3_Genesis_Processor;
 if (!defined('ABSPATH')) exit;
 
-final class Linked3_Comic_Pipeline implements Linked3_Content_Pipeline_Interface
+final class Linked3_Comic_Pipeline implements ContentPipelineInterface
 {
     public static function type(): string { return 'comic'; }
     public static function label(): string { return __('漫画脚本', 'linked3'); }
