@@ -104,7 +104,7 @@ final class OSDependenciesLoader
         // Phase 6: Backward-compatibility alias layer.
         // This MUST load after all OS classes are defined, so class_alias()
         // can find the target class.
-        $compat_path = $base . 'OSCompatAliases.php';
+        $compat_path = $base . 'OSAliasRegistry.php';
         if (file_exists($compat_path)) {
             require_once $compat_path;
         }

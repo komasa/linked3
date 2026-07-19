@@ -29,7 +29,7 @@ final class DashboardDependenciesLoader
             'Classes/Addons/AddonManager.php',
             // v4.3.9 split: menu + ajax registrars load before the facade.
             'Classes/Dashboard/DashboardMenuRegistrar.php',
-            'Classes/Dashboard/DashboardAjaxRegistrar.php',
+            'Classes/Dashboard/DashboardAjaxRegistrarLegacy.php',
             'Classes/Dashboard/DashboardHooksRegistrar.php',
         ];
         foreach ($files as $relative) {

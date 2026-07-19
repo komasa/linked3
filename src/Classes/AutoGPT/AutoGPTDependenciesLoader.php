@@ -20,7 +20,7 @@ final class AutoGPTDependenciesLoader
     : void {
         $files = [
             'Classes/AutoGPT/AutoGPTTaskRepository.php',
-            'Classes/AutoGPT/Processors/AutogptProcessor.php',
+            'Classes/AutoGPT/Processors/AutoGPTProcessorInterface.php',
             'Classes/AutoGPT/Processors/ContentWritingProcessor.php',
             'Classes/AutoGPT/Processors/ContentEnhancementProcessor.php',
             'Classes/AutoGPT/Processors/ContentIndexingProcessor.php',

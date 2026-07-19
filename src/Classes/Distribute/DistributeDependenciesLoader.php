@@ -17,7 +17,7 @@ final class DistributeDependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/Distribute/DistributeAdapter.php',
+            'Classes/Distribute/DistributeAdapterInterface.php',
             'Classes/Distribute/Adapter/TwitterDistributor.php',
             'Classes/Distribute/Adapter/TelegramDistributor.php',
             'Classes/Distribute/Adapter/DiscordDistributor.php',

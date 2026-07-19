@@ -32,8 +32,8 @@ final class SEODependenciesLoader
 
             // v0.4.2 — keyword extraction (TF-IDF + TextRank + Chinese regex + hotwords)
             'Classes/SEO/Keyword/Hotwords.php',
-            'Classes/SEO/Keyword/KeywordTfidf.php',
-            'Classes/SEO/Keyword/KeywordTextrank.php',
+            'Classes/SEO/Keyword/TFIDFExtractor.php',
+            'Classes/SEO/Keyword/TextRankExtractor.php',
             'Classes/SEO/Keyword/KeywordExtractor.php',
 
             // v0.4.3 — interlinking + relationship graph

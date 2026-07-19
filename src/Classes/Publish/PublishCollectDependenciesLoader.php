@@ -20,7 +20,7 @@ final class PublishCollectDependenciesLoader
     : void {
         $files = [
             // Publish module
-            'Classes/Publish/PublishTarget.php',
+            'Classes/Publish/PublishTargetInterface.php',
             'Classes/Publish/PublishConfig.php',
             'Classes/Publish/Adapter/LocalPublishTarget.php',
             'Classes/Publish/Adapter/RemoteWPPublishTarget.php',

@@ -31,7 +31,7 @@ final class ChatDependenciesLoader
             // but registration into the Factory is now done by the Factory
             // itself (v4.8.1 — was previously done here, which was the
             // wrong owner: disabling Chat would lose Pinecone/Qdrant).
-            'Classes/Vector/VectorProvider.php',
+            'Classes/Vector/VectorProviderInterface.php',
             'Classes/Vector/VectorFactory.php',
             'Classes/Vector/Providers/LocalVectorProvider.php',
             'Classes/Vector/Providers/PineconeVectorProvider.php',

@@ -25,7 +25,7 @@ final class ContentWriterDependenciesLoader
             'Classes/ContentWriter/Prompt/MetaPromptBuilder.php',
             'Classes/ContentWriter/Prompt/TagsPromptBuilder.php',
             'Classes/ContentWriter/Prompt/KeywordPromptBuilder.php',
-            'Classes/ContentWriter/Input/InputSource.php',
+            'Classes/ContentWriter/Input/InputSourceInterface.php',
             'Classes/ContentWriter/Input/RssInputSource.php',
             'Classes/ContentWriter/Input/CsvInputSource.php',
             'Classes/ContentWriter/Input/UrlInputSource.php',
