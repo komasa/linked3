@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Base AJAX action for Publish module.
  *
@@ -18,7 +20,7 @@ use Linked3\Includes\Traits\Trait_Send_WP_Error;
 if (!defined('ABSPATH')) {
     exit;
 }
-abstract class Linked3_Publish_Base_Ajax_Action
+abstract class PublishBaseAjaxAction
 {
     const NONCE_ACTION = 'linked3_publish';
     const CAPABILITY = 'edit_posts';
@@ -33,11 +35,11 @@ abstract class Linked3_Publish_Base_Ajax_Action
     }
 
     protected function manager() : mixed {
-        return \Linked3\Classes\Publish\Linked3_Publish_Manager::instance();
+        return \Linked3\Classes\Publish\PublishManager::instance();
     }
 
     protected function repo()
     : Linked3 {
-        return new \Linked3\Classes\Publish\Linked3_Publish_Target_Repository();
+        return new \Linked3\Classes\Publish\PublishTargetRepository();
     }
 }

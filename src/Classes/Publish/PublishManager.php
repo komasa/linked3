@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Publish Manager — resolves a target by type, dispatches publish, logs result.
  *
@@ -21,14 +23,14 @@ if (!defined('ABSPATH')) {
 }
 
 use Linked3\Classes\Publish\Adapter\{
-    Linked3_Local_Publish_Target,
-    Linked3_Remote_WP_Publish_Target,
-    Linked3_Remote_DB_Publish_Target,
-    Linked3_Custom_API_Publish_Target
+    LocalPublishTarget,
+    RemoteWPPublishTarget,
+    RemoteDBPublishTarget,
+    CustomAPIPublishTarget
 };
-final class Linked3_Publish_Manager
+final class PublishManager
 {
-    /** @var array<string,Linked3_Publish_Target_Interface> */
+    /** @var array<string,PublishTargetInterface> */
     private $adapters;
 
     /** @var self|null */
@@ -36,10 +38,10 @@ final class Linked3_Publish_Manager
 
     private function __construct() {
         $this->adapters = [
-            'local'      => new \Linked3\Classes\Publish\Adapter\Linked3_Local_Publish_Target(),
-            'remote_wp'  => new \Linked3\Classes\Publish\Adapter\Linked3_Remote_WP_Publish_Target(),
-            'remote_db'  => new \Linked3\Classes\Publish\Adapter\Linked3_Remote_DB_Publish_Target(),
-            'custom_api' => new \Linked3\Classes\Publish\Adapter\Linked3_Custom_API_Publish_Target(),
+            'local'      => new \Linked3\Classes\Publish\Adapter\LocalPublishTarget(),
+            'remote_wp'  => new \Linked3\Classes\Publish\Adapter\RemoteWPPublishTarget(),
+            'remote_db'  => new \Linked3\Classes\Publish\Adapter\RemoteDBPublishTarget(),
+            'custom_api' => new \Linked3\Classes\Publish\Adapter\CustomAPIPublishTarget(),
         ];
     }
 
@@ -80,7 +82,7 @@ final class Linked3_Publish_Manager
      * @return array{ok:bool, remote_id:string, message:string}
      */
     public function publish_to_target($target_id, $user_id, array $post) : mixed {
-        $repo = new Linked3_Publish_Target_Repository();
+        $repo = new PublishTargetRepository();
         $target = $repo->get($target_id, $user_id);
         if (!$target) {
             return ['ok' => false, 'remote_id' => '', 'message' => __('目标未找到。', 'linked3')];
@@ -119,7 +121,7 @@ final class Linked3_Publish_Manager
      * @return array<int,array{target_id:int, name:string, ok:bool, message:string}>
      */
     public function publish_to_all($user_id, array $post) : mixed     {
-        $repo = new Linked3_Publish_Target_Repository();
+        $repo = new PublishTargetRepository();
         $targets = $repo->all_for_user($user_id);
         $results = [];
         foreach ($targets as $t) {
@@ -143,7 +145,7 @@ final class Linked3_Publish_Manager
      */
     public function test_target($target_id, $user_id)
     {
-        $repo = new Linked3_Publish_Target_Repository();
+        $repo = new PublishTargetRepository();
         $target = $repo->get($target_id, $user_id);
         if (!$target) return ['ok' => false, 'message' => __('目标未找到。', 'linked3')];
         $type = $target['type'];
@@ -224,7 +226,7 @@ final class Linked3_Publish_Manager
 
     private function alert_admin(array $target)
     : void {
-        $email = Linked3_Publish_Config::get('alert.admin_email', get_option('admin_email'));
+        $email = PublishConfig::get('alert.admin_email', get_option('admin_email'));
         if (!$email) return;
         $subject = sprintf(__('[Linked3] 发布目标「%s」熔断器已触发', 'linked3'), $target['name']);
         $msg = sprintf(__("Publish target %s (ID %d, type %s) has failed 5 times in 5 minutes and was temporarily disabled.\n\nCheck the target configuration or remote site availability.", 'linked3'), $target['name'], $target['id'], $target['type']);

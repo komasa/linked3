@@ -10,8 +10,8 @@ if (class_exists('\\Linked3\\Classes\\Distribute\\DistributeManager')) {
 }
 // v3.0.0: 获取发布目标列表
 $publish_targets = [];
-if (class_exists('\\Linked3\\Classes\\Publish\\Linked3_Publish_Target_Repository')) {
-    $repo = new \Linked3\Classes\Publish\Linked3_Publish_Target_Repository();
+if (class_exists('\\Linked3\\Classes\\Publish\\PublishTargetRepository')) {
+    $repo = new \Linked3\Classes\Publish\PublishTargetRepository();
     $publish_targets = $repo->all_for_user(get_current_user_id());
 }
 ?>

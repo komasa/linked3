@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Custom API publish target — POSTs to an arbitrary webhook endpoint.
  *
@@ -14,8 +16,8 @@
 
 namespace Linked3\Classes\Publish\Adapter;
 
-use Linked3\Classes\Publish\Linked3_Publish_Target_Interface;
-use Linked3\Classes\Publish\Linked3_Publish_Config;
+use Linked3\Classes\Publish\PublishTargetInterface;
+use Linked3\Classes\Publish\PublishConfig;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 use Linked3\Includes\Log\Linked3_Logger;
 
@@ -24,7 +26,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Custom_API_Publish_Target implements Linked3_Publish_Target_Interface
+final class CustomAPIPublishTarget implements PublishTargetInterface
 {
     public function type() : string { return 'custom_api'; }
     public function label() : mixed { return __('自定义 API / Webhook', 'linked3'); }
@@ -59,8 +61,8 @@ final class Linked3_Custom_API_Publish_Target implements Linked3_Publish_Target_
             $headers['X-Linked3-Nonce'] = $nonce;
         }
 
-        $max_attempts = (int) Linked3_Publish_Config::get('retry.max_attempts', 3);
-        $backoff = (int) Linked3_Publish_Config::get('retry.backoff_base', 60);
+        $max_attempts = (int) PublishConfig::get('retry.max_attempts', 3);
+        $backoff = (int) PublishConfig::get('retry.backoff_base', 60);
         $log = Linked3_Logger::instance();
 
         for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {

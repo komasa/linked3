@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Publish\Ajax\Actions;
-use Linked3\Classes\Publish\Ajax\Linked3_Publish_Base_Ajax_Action;
+use Linked3\Classes\Publish\Ajax\PublishBaseAjaxAction;
 
 
 if (!defined('ABSPATH')) exit;
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Publish_Now_Action extends Linked3_Publish_Base_Ajax_Action
+final class PublishNowAction extends PublishBaseAjaxAction
 {
     public function handle()
     : void {

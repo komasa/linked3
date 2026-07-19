@@ -207,7 +207,7 @@ final class AutoGPTCron
                 $post_data = $payload['post_data'] ?? [];
                 $user_id = (int) ($payload['user_id'] ?? get_current_user_id());
                 if ($target_id && !empty($post_data)) {
-                    $r = \Linked3\Classes\Publish\Linked3_Publish_Manager::instance()->publish_to_target($target_id, $user_id, $post_data);
+                    $r = \Linked3\Classes\Publish\PublishManager::instance()->publish_to_target($target_id, $user_id, $post_data);
                     if (is_wp_error($r)) {
                         $repo->mark_queue_done($item['id'], 'error', $r->get_error_message());
                     } else {

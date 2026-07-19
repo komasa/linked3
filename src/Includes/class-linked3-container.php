@@ -203,9 +203,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\Publish\Linked3_Publish_Manager::class,
-            static function (): \Linked3\Classes\Publish\Linked3_Publish_Manager {
-                return \Linked3\Classes\Publish\Linked3_Publish_Manager::instance_without_container();
+            \Linked3\Classes\Publish\PublishManager::class,
+            static function (): \Linked3\Classes\Publish\PublishManager {
+                return \Linked3\Classes\Publish\PublishManager::instance_without_container();
             }
         );
         $this->set(

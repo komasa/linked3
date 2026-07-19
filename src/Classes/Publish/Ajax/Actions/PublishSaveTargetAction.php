@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Publish\Ajax\Actions;
-use Linked3\Classes\Publish\Ajax\Linked3_Publish_Base_Ajax_Action;
+use Linked3\Classes\Publish\Ajax\PublishBaseAjaxAction;
 
 
 if (!defined('ABSPATH')) exit;
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Publish_Save_Target_Action extends Linked3_Publish_Base_Ajax_Action
+final class PublishSaveTargetAction extends PublishBaseAjaxAction
 {
     /**
      * Allowed target types. Anything else is rejected with 400 to keep

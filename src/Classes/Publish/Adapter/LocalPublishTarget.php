@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Local publish target — inserts/updates a post on the current site.
  *
@@ -8,14 +10,14 @@
 
 namespace Linked3\Classes\Publish\Adapter;
 
-use Linked3\Classes\Publish\Linked3_Publish_Target_Interface;
+use Linked3\Classes\Publish\PublishTargetInterface;
 
 
 
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Local_Publish_Target implements Linked3_Publish_Target_Interface
+final class LocalPublishTarget implements PublishTargetInterface
 {
     public function type() : string { return 'local'; }
     public function label() : mixed { return __('本地站点', 'linked3'); }

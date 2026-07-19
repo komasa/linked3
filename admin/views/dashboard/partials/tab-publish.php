@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
                 echo '</ul></div>';
                 // 内联发布目标列表
                 echo '<h3>发布目标</h3>';
-                $repo = new \Linked3\Classes\Publish\Linked3_Publish_Target_Repository();
+                $repo = new \Linked3\Classes\Publish\PublishTargetRepository();
                 $targets = $repo->all_for_user(get_current_user_id());
                 if (empty($targets)) {
                     echo '<div style="text-align:center;padding:30px;background:#f9fafb;border:1px dashed #d1d5db;border-radius:6px;margin:10px 0;">';

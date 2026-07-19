@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Remote database publish target — inserts a post directly into a remote
  * WordPress database.
@@ -15,14 +17,14 @@
 
 namespace Linked3\Classes\Publish\Adapter;
 
-use Linked3\Classes\Publish\Linked3_Publish_Target_Interface;
+use Linked3\Classes\Publish\PublishTargetInterface;
 
 
 
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Remote_DB_Publish_Target implements Linked3_Publish_Target_Interface
+final class RemoteDBPublishTarget implements PublishTargetInterface
 {
     public function type() : string { return 'remote_db'; }
     public function label() : mixed { return __('远程数据库(直连)', 'linked3'); }

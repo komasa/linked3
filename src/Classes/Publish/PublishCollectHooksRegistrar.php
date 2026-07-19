@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Publish + Collect hooks registrar — AJAX + admin menu.
  *
@@ -12,16 +14,16 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Publish_Collect_Hooks_Registrar
+final class PublishCollectHooksRegistrar
 {
     public static function register()
     : void {
         // Publish AJAX actions.
         $pub_actions = [
-            'linked3_publish_save_target'   => Ajax\Actions\Linked3_Publish_Save_Target_Action::class,
-            'linked3_publish_test_target'   => Ajax\Actions\Linked3_Publish_Test_Target_Action::class,
-            'linked3_publish_delete_target' => Ajax\Actions\Linked3_Publish_Delete_Target_Action::class,
-            'linked3_publish_now'           => Ajax\Actions\Linked3_Publish_Now_Action::class,
+            'linked3_publish_save_target'   => Ajax\Actions\PublishSaveTargetAction::class,
+            'linked3_publish_test_target'   => Ajax\Actions\PublishTestTargetAction::class,
+            'linked3_publish_delete_target' => Ajax\Actions\PublishDeleteTargetAction::class,
+            'linked3_publish_now'           => Ajax\Actions\PublishNowAction::class,
         ];
         foreach ($pub_actions as $action => $class) {
             add_action('wp_ajax_' . $action, [new $class(), 'dispatch']);
@@ -50,7 +52,7 @@ final class Linked3_Publish_Collect_Hooks_Registrar
     public static function render_publish_page()
     : void {
         if (!current_user_can('edit_posts')) return;
-        $repo = new Linked3_Publish_Target_Repository();
+        $repo = new PublishTargetRepository();
         $targets = $repo->all_for_user(get_current_user_id());
         include LINKED3_DIR . 'admin/views/publish/targets.php';
     }

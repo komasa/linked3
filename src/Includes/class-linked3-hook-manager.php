@@ -139,7 +139,7 @@ final class Linked3_Hook_Manager
         $registrars = [
             'ContentWriter' => '\\Linked3\\Classes\\ContentWriter\\ContentWriterHooksRegistrar',
             'SEO'           => '\\Linked3\\Classes\\SEO\\Linked3_SEO_Hooks_Registrar',
-            'Publish'       => '\\Linked3\\Classes\\Publish\\Linked3_Publish_Collect_Hooks_Registrar',
+            'Publish'       => '\\Linked3\\Classes\\Publish\\PublishCollectHooksRegistrar',
             'Chat'          => '\\Linked3\\Classes\\Chat\\ChatHooksRegistrar',
             'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\AutoGPTHooksRegistrar',
             'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\WcFormsSpeechHooksRegistrar',

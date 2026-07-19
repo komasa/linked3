@@ -24,7 +24,7 @@ namespace Linked3\Classes\AutoGPT\Processors;
 
 use Linked3\Classes\Collect\Rewriter\ArticleRewriter;
 use Linked3\Classes\Collect\Scraper;
-use Linked3\Classes\Publish\Linked3_Publish_Manager;
+use Linked3\Classes\Publish\PublishManager;
 use Linked3\Classes\Distribute\DistributeManager;
 
 

@@ -114,7 +114,7 @@ if (!defined('ABSPATH')) {
                     try { $wf_cloud_count = count((new CloudTemplateFactory())->get_categories()); } catch (\Throwable $e) {}
                 }
                 try {
-                    $pub_repo = new \Linked3\Classes\Publish\Linked3_Publish_Target_Repository();
+                    $pub_repo = new \Linked3\Classes\Publish\PublishTargetRepository();
                     $wf_publish_count = count($pub_repo->all_for_user(get_current_user_id()));
                 } catch (\Throwable $e) {}
 

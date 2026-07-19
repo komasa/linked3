@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Publish Target Repository — CRUD on linked3_publish_targets with Crypto.
  *
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Publish_Target_Repository extends Linked3_Base_Repository
+final class PublishTargetRepository extends Linked3_Base_Repository
 {
     const SENSITIVE_FIELDS = ['app_password', 'db_password', 'webhook_secret'];
 

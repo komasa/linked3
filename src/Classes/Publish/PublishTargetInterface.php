@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Publish Target Interface — pluggable destination for article publishing.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Publish_Target_Interface
+interface PublishTargetInterface
 {
     /**
      * @return string Target type slug.

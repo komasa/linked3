@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\AutoGPT\Processors;
 use Linked3\Classes\Core\AIDispatcher;
 use Linked3\Classes\Core\AIEnhancer;
-use Linked3\Classes\Publish\Linked3_Publish_Manager;
+use Linked3\Classes\Publish\PublishManager;
 use Linked3\Classes\Distribute\DistributeManager;
 
 
@@ -140,7 +140,7 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
                 $target_id = (int) ($cfg['publish_target_id'] ?? 0);
                 $post_id = 0;
                 if ($target_id) {
-                    $r = Linked3_Publish_Manager::instance()->publish_to_target($target_id, $task['user_id'], $post);
+                    $r = PublishManager::instance()->publish_to_target($target_id, $task['user_id'], $post);
                     if (is_wp_error($r)) {
                         $errors[] = "Publish target #{$target_id} failed: " . $r->get_error_message();
                         // v3.0.0: 失败入队,5 分钟后重试

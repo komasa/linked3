@@ -26,7 +26,7 @@ final class Linked3_Service_Locator
         'guard' => 'Linked3\Includes\Linked3_Ajax_Guard',
         'vector' => 'Linked3\Classes\Vector\VectorFactory',
         'chat' => 'Linked3\Classes\Chat\ChatManager',
-        'publish' => 'Linked3\Classes\Publish\Linked3_Publish_Manager',
+        'publish' => 'Linked3\Classes\Publish\PublishManager',
         'distribute' => 'Linked3\Classes\Distribute\DistributeManager',
         'addons' => 'Linked3\Classes\Addons\AddonManager',
         'schema' => 'Linked3\Classes\SEO\Schema\Linked3_Schema_Markup',

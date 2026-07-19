@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Publish module configuration registry (v0.5.1+).
  *
@@ -30,7 +32,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Publish_Config
+final class PublishConfig
 {
     /**
      * @return array<string,mixed>

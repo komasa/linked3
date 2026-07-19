@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Publish + Collect module dependency loader.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Publish_Collect_Dependencies_Loader
+final class PublishCollectDependenciesLoader
 {
     public static function load()
     : void {

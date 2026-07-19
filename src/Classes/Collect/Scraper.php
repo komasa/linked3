@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Collect;
 
-use Linked3\Classes\Publish\Linked3_Publish_Config;
+use Linked3\Classes\Publish\PublishConfig;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 use Linked3\Includes\Log\Linked3_Logger;
 
@@ -183,7 +183,7 @@ final class Scraper
     : void {
         $host = wp_parse_url($url, PHP_URL_HOST);
         if (!$host) return;
-        $min_gap = (int) Linked3_Publish_Config::get('collect.rate_limit_seconds', 2);
+        $min_gap = (int) PublishConfig::get('collect.rate_limit_seconds', 2);
         $key = 'linked3_rl_host_' . md5($host);
         $last = (int) get_transient($key);
         $now = time();
@@ -200,7 +200,7 @@ final class Scraper
      * @return string
      */
     private function pick_ua() : mixed {
-        $pool = (array) Linked3_Publish_Config::get('collect.ua_rotate_pool', ['Mozilla/5.0']);
+        $pool = (array) PublishConfig::get('collect.ua_rotate_pool', ['Mozilla/5.0']);
         return $pool[array_rand($pool)];
     }
 }

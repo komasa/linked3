@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Remote WordPress REST publish target — v3.0.0 完整版
  *
@@ -15,7 +17,7 @@
 
 namespace Linked3\Classes\Publish\Adapter;
 
-use Linked3\Classes\Publish\Linked3_Publish_Target_Interface;
+use Linked3\Classes\Publish\PublishTargetInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -23,7 +25,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Remote_WP_Publish_Target implements Linked3_Publish_Target_Interface
+final class RemoteWPPublishTarget implements PublishTargetInterface
 {
     public function type() : string { return 'remote_wp'; }
     public function label() : mixed { return __('远程 WordPress(REST)', 'linked3'); }
