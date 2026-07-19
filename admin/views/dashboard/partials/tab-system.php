@@ -89,9 +89,9 @@ $health_checks['seo'] = [
 // 3. 授权套餐检测
 $license_ok = false;
 $license_plan = 'free';
-if (class_exists('\\Linked3\\Classes\\License\\Linked3_License_Service')) {
+if (class_exists('\\Linked3\\Classes\\License\\LicenseService')) {
     try {
-        $lic = \Linked3\Classes\License\Linked3_License_Service::instance();
+        $lic = \Linked3\Classes\License\LicenseService::instance();
         $license_plan = $lic->plan();
         // v17.2.0: 修复 — plan非free即视为已激活(覆盖pro/premium/enterprise)
         $license_ok = ($license_plan !== 'free');

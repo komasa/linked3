@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * License Service — centralised license validation gate.
  *
@@ -27,7 +29,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_License_Service
+final class LicenseService
 {
     const CACHE_TTL = 900; // 15 min
     // v4.7.2: default to the LINKED3_LICENSE_SERVER_URL constant (empty in

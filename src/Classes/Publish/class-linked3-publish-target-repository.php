@@ -219,7 +219,7 @@ final class Linked3_Publish_Target_Repository extends Linked3_Base_Repository
      */
     private function plan_limit($user_id)
     {
-        $plan = \Linked3\Classes\License\Linked3_License_Service::instance()->plan();
+        $plan = \Linked3\Classes\License\LicenseService::instance()->plan();
         $limits = ['free' => 1, 'pro' => 5, 'premium' => -1];
         return $limits[$plan] ?? 1;
     }

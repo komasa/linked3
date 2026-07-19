@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 use Linked3\Classes\Core\{Linked3_AI_Dispatcher, Linked3_Token_Manager};
-use Linked3\Classes\License\{Linked3_License_Service, Linked3_Plan_Definitions};
+use Linked3\Classes\License\{LicenseService, PlanDefinitions};
 final class Linked3_Chat_Manager
 {
     /** @var self|null */
@@ -177,8 +177,8 @@ final class Linked3_Chat_Manager
     private function check_quota($user_id, $session_id, $bot_id)
     : array {
         if ($user_id > 0) {
-            $plan = Linked3_License_Service::instance()->plan();
-            $module_access = Linked3_Plan_Definitions::module_access($plan, 'chat');
+            $plan = LicenseService::instance()->plan();
+            $module_access = PlanDefinitions::module_access($plan, 'chat');
             if ($module_access === false) {
                 return ['ok' => false, 'message' => __('当前套餐不可使用对话功能。', 'linked3')];
             }

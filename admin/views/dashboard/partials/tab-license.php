@@ -14,13 +14,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-                if (!class_exists('\\Linked3\\Classes\\License\\Linked3_License_Service')) {
+                if (!class_exists('\\Linked3\\Classes\\License\\LicenseService')) {
                     // v11.3.6: 模块未加载时给出引导并终止, 避免后续调用未定义类导致致命错误
                     echo '<div class="notice notice-error inline"><p>⚠️ License 模块未加载。可能原因:1) 插件文件不完整 2) PHP 自动加载失败。请重新安装插件或检查 <code>src/autoload.php</code>。</p></div>';
                     echo '<p><a href="' . esc_url(admin_url('plugins.php')) . '" class="button">检查插件状态</a></p>';
                     return;
                 }
-                $license = \Linked3\Classes\License\Linked3_License_Service::instance();
+                $license = \Linked3\Classes\License\LicenseService::instance();
                 $current_key = $license->license_key();
                 $current_plan = $license->plan();
                 ?>

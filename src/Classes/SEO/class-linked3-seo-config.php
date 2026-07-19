@@ -3,7 +3,7 @@
  * SEO module configuration registry.
  *
  * Central, filterable source of truth for SEO module tuning parameters.
- * Mirrors the pattern of Linked3_Plan_Definitions — defaults declared
+ * Mirrors the pattern of PlanDefinitions — defaults declared
  * statically, overridable via the `linked3/seo_config` filter so EX-side
  * A/B tests can tune without a release.
  *

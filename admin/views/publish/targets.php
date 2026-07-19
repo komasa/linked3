@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) exit;
 /** @var array $targets */
 $nonce = wp_create_nonce('linked3_publish');
 $ajax_url = admin_url('admin-ajax.php');
-$plan = \Linked3\Classes\License\Linked3_License_Service::instance()->plan();
+$plan = \Linked3\Classes\License\LicenseService::instance()->plan();
 ?>
 <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">

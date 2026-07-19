@@ -75,7 +75,7 @@ final class Linked3_Hook_Manager
         // v5.2.4: 定时热词采集 + 长尾词生成
         add_action('linked3_kw_cron_run', [__CLASS__, 'kw_cron_run']);
         // License + billing crons (v0.2.1-v0.2.10).
-        add_action('linked3_license_heartbeat', ['\\Linked3\\Classes\\License\\Linked3_License_Service', 'daily_heartbeat']);
+        add_action('linked3_license_heartbeat', ['\\Linked3\\Classes\\License\\LicenseService', 'daily_heartbeat']);
         add_action('linked3_subscription_check', ['\\Linked3\\Classes\\Billing\\Linked3_Subscription_Manager', 'daily_check']);
         add_action('linked3_business_optimize', ['\\Linked3\\Classes\\Billing\\Linked3_Business_Optimizer', 'daily_analyze']);
         // AutoGPT cron (every 10 min).

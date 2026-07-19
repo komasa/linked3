@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Plan definitions — central, filterable, hot-updatable.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Plan_Definitions
+final class PlanDefinitions
 {
     /**
      * @return array<string,array> Plan slug → definition.

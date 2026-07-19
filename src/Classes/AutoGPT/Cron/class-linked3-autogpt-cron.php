@@ -55,7 +55,7 @@ final class Linked3_AutoGPT_Cron
         $log->info('cron', sprintf('AutoGPT: %d due tasks', count($due)));
 
         // Global concurrency limit by plan.
-        $plan = \Linked3\Classes\License\Linked3_License_Service::instance()->plan();
+        $plan = \Linked3\Classes\License\LicenseService::instance()->plan();
         $concurrency = ['free' => 1, 'pro' => 3, 'premium' => 10][$plan] ?? 1;
         $run = 0;
         $started = time();

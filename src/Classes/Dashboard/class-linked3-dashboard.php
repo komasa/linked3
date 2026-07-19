@@ -20,12 +20,12 @@ final class Linked3_Dashboard
     public function overview()
     : array {
         global $wpdb;
-        $license = \Linked3\Classes\License\Linked3_License_Service::instance();
+        $license = \Linked3\Classes\License\LicenseService::instance();
         $plan = $license->plan();
         $user_id = get_current_user_id();
 
         $tokens_today = \Linked3\Classes\Core\Linked3_Token_Manager::instance()->used_today($user_id);
-        $quota = \Linked3\Classes\License\Linked3_Plan_Definitions::feature($plan, 'tokens_daily') ?: 50000;
+        $quota = \Linked3\Classes\License\PlanDefinitions::feature($plan, 'tokens_daily') ?: 50000;
 
         $usage_table = $wpdb->prefix . 'linked3_usage_logs';
         $ai_calls_30d = (int) $wpdb->get_var($wpdb->prepare(

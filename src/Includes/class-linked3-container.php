@@ -191,9 +191,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\License\Linked3_License_Service::class,
-            static function (): \Linked3\Classes\License\Linked3_License_Service {
-                return \Linked3\Classes\License\Linked3_License_Service::instance_without_container();
+            \Linked3\Classes\License\LicenseService::class,
+            static function (): \Linked3\Classes\License\LicenseService {
+                return \Linked3\Classes\License\LicenseService::instance_without_container();
             }
         );
         $this->set(

@@ -304,7 +304,7 @@ final class Linked3_Rest_Controller
         $plan = $payload['plan'] ?? '';
 
         if ($license_key && $plan) {
-            $license_service = \Linked3\Classes\License\Linked3_License_Service::instance();
+            $license_service = \Linked3\Classes\License\LicenseService::instance();
 
             if (in_array($event_type, ['subscription.created', 'payment.succeeded', 'subscription.renewed'], true)) {
                 // Activate / upgrade the plan.

@@ -21,7 +21,7 @@ namespace Linked3\Classes\SEO\Ajax;
 use Linked3\Includes\Traits\Trait_Check_Admin_Permissions;
 use Linked3\Includes\Traits\Trait_Send_WP_Error;
 use Linked3\Includes\Traits\Trait_Check_Plan_Access;
-use Linked3\Classes\License\Linked3_License_Service;
+use Linked3\Classes\License\LicenseService;
 use Linked3\Classes\SEO\Linked3_SEO_Config;
 
 
@@ -30,7 +30,7 @@ use Linked3\Classes\SEO\Linked3_SEO_Config;
 if (!defined('ABSPATH')) {
     exit;
 }
-use Linked3\Classes\License\Linked3_Plan_Definitions; // phpcs:ignore -- reserved for future plan-based limits
+use Linked3\Classes\License\PlanDefinitions; // phpcs:ignore -- reserved for future plan-based limits
 abstract class Linked3_SEO_Base_Ajax_Action
 {
     const NONCE_ACTION = 'linked3_seo';
@@ -77,7 +77,7 @@ abstract class Linked3_SEO_Base_Ajax_Action
      */
     protected function require_push_quota($engine)
     : bool {
-        $service = Linked3_License_Service::instance();
+        $service = LicenseService::instance();
         $plan    = $service->plan();
         $cap_map = Linked3_SEO_Config::get('push.daily_cap', []);
         $cap = $cap_map[$plan] ?? ($cap_map['free'] ?? 100);

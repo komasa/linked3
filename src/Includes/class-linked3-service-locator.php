@@ -13,7 +13,7 @@ final class Linked3_Service_Locator
     const SERVICE_MAP = [
         'dispatcher' => 'Linked3\Classes\Core\Linked3_AI_Dispatcher',
         'token_manager' => 'Linked3\Classes\Core\Linked3_Token_Manager',
-        'license' => 'Linked3\Classes\License\Linked3_License_Service',
+        'license' => 'Linked3\Classes\License\LicenseService',
         'logger' => 'Linked3\Includes\Log\Linked3_Logger',
         'container' => 'Linked3\Includes\Linked3_Container',
         'options' => 'Linked3\Includes\Linked3_Option_Repository',

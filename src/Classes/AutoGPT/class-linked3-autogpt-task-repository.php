@@ -110,7 +110,7 @@ final class Linked3_AutoGPT_Task_Repository extends Linked3_Base_Repository
         }
         // Plan limit check.
         $user_id = (int) ($data['user_id'] ?? get_current_user_id());
-        $plan = \Linked3\Classes\License\Linked3_License_Service::instance()->plan();
+        $plan = \Linked3\Classes\License\LicenseService::instance()->plan();
         $limits = ['free' => 1, 'pro' => 5, 'premium' => -1];
         $limit = $limits[$plan] ?? 1;
         if ($limit >= 0) {

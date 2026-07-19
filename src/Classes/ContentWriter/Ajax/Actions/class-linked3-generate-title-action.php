@@ -1,8 +1,8 @@
 <?php
 namespace Linked3\Classes\ContentWriter\Ajax\Actions;
 use Linked3\Classes\ContentWriter\Ajax\Linked3_Content_Writer_Base_Ajax_Action;
-use Linked3\Classes\License\Linked3_Plan_Definitions;
-use Linked3\Classes\License\Linked3_License_Service;
+use Linked3\Classes\License\PlanDefinitions;
+use Linked3\Classes\License\LicenseService;
 
 
 if (!defined('ABSPATH')) exit;
@@ -23,8 +23,8 @@ final class Linked3_Generate_Title_Action extends Linked3_Content_Writer_Base_Aj
         if (!$keyword) $this->send_error(__('需要关键词。', 'linked3'), 400);
 
         // v0.4.0: plan-gated batch cap (Free=10/Pro=100/Premium=1000).
-        $plan = Linked3_License_Service::instance()->plan();
-        $plan_cap = (int) Linked3_Plan_Definitions::feature($plan, 'batch_per_run');
+        $plan = LicenseService::instance()->plan();
+        $plan_cap = (int) PlanDefinitions::feature($plan, 'batch_per_run');
         if ($plan_cap <= 0) {
             $plan_cap = 10;
         }

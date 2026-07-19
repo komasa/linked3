@@ -132,8 +132,8 @@ final class Linked3_Dashboard_Menu_Registrar
      */
     public static function on_license_saved(mixed $old, mixed $new, string $option)
     : void {
-        if (class_exists('Linked3\\Classes\\License\\Linked3_License_Service')) {
-            \Linked3\Classes\License\Linked3_License_Service::instance()->store_license_key((string) $new);
+        if (class_exists('Linked3\\Classes\\License\\LicenseService')) {
+            \Linked3\Classes\License\LicenseService::instance()->store_license_key((string) $new);
         }
     }
 
