@@ -111,7 +111,7 @@ jobs:
         run: composer global require phpmd/phpmd:^2.15
 
       - name: Run PHPMD
-        run: phpmd src/,lib/ text tools/phpmd-ruleset.xml
+        run: phpmd src/,lib/ text phpmd-ruleset.xml
 
   # ─── 测试 (PHPUnit) ───
   phpunit:
