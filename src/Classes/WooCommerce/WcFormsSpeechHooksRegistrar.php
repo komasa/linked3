@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * WC + Forms + Speech hooks registrar.
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
 use Linked3\Classes\STT\SttManager; // phpcs:ignore -- reserved for future STT feature
 use Linked3\Includes\Traits\{Trait_Check_Admin_Permissions, Trait_Check_Plan_Access, Trait_Send_WP_Error};
 
-final class Linked3_WC_Forms_Speech_Hooks_Registrar
+final class WcFormsSpeechHooksRegistrar
 {
     public static function register()
     : void {
@@ -55,7 +57,7 @@ final class Linked3_WC_Forms_Speech_Hooks_Registrar
         self::require_pro();
         $ids = array_filter(array_map('intval', (array) (wp_unslash($_POST['product_ids'] ?? []))));
         if (empty($ids)) wp_send_json_error(['message' => __('未选择商品。', 'linked3')], 400);
-        $gen = new Linked3_WC_AI_Generator();
+        $gen = new WcAiGenerator();
         $result = $gen->generate_descriptions($ids, [
             'tone' => sanitize_text_field($_POST['tone'] ?? 'persuasive'),
             'language' => sanitize_text_field($_POST['language'] ?? 'zh-CN'),
@@ -72,7 +74,7 @@ final class Linked3_WC_Forms_Speech_Hooks_Registrar
         $pid = (int) ($_POST['product_id'] ?? 0);
         $count = min(10, (int) ($_POST['count'] ?? 3));
         if (!$pid) wp_send_json_error(['message' => __('需要商品 ID。', 'linked3')], 400);
-        $gen = new Linked3_WC_AI_Generator();
+        $gen = new WcAiGenerator();
         $result = $gen->generate_reviews($pid, $count);
         $result['ok'] ? wp_send_json_success($result) : wp_send_json_error($result, 403);
     }
@@ -87,7 +89,7 @@ final class Linked3_WC_Forms_Speech_Hooks_Registrar
         self::require_pro();
         $pid = (int) ($_POST['product_id'] ?? 0);
         if (!$pid) wp_send_json_error(['message' => __('需要商品 ID。', 'linked3')], 400);
-        $gen = new Linked3_WC_AI_Generator();
+        $gen = new WcAiGenerator();
         $result = $gen->generate_image($pid, [
             'provider' => sanitize_text_field($_POST['provider'] ?? 'openai'),
             'model'    => sanitize_text_field($_POST['model'] ?? 'dall-e-3'),

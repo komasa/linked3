@@ -142,7 +142,7 @@ final class Linked3_Hook_Manager
             'Publish'       => '\\Linked3\\Classes\\Publish\\Linked3_Publish_Collect_Hooks_Registrar',
             'Chat'          => '\\Linked3\\Classes\\Chat\\Linked3_Chat_Hooks_Registrar',
             'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\Linked3_AutoGPT_Hooks_Registrar',
-            'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\Linked3_WC_Forms_Speech_Hooks_Registrar',
+            'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\WcFormsSpeechHooksRegistrar',
             'Dashboard'       => '\\Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Hooks_Registrar',
             'Distribute'      => '\\Linked3\\Classes\\Distribute\\Linked3_Distribute_Hooks_Registrar',
             'Metabox'         => '\\Linked3\\Classes\\Admin\\PostMetabox',

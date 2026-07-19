@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * WooCommerce Token Package — v3.1.0
  *
@@ -22,7 +24,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_WC_Token_Package
+final class WcTokenPackage
 {
     const META_TOKENS = '_linked3_tokens_to_grant';
     const META_PLAN = '_linked3_plan_to_grant';
@@ -232,5 +234,5 @@ final class Linked3_WC_Token_Package
 
 // 只在 WC 激活时初始化
 if (function_exists('WC')) {
-    add_action('init', [Linked3_WC_Token_Package::class, 'init']);
+    add_action('init', [WcTokenPackage::class, 'init']);
 }

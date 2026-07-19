@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * WooCommerce AI — product description/review batch generator.
  *
@@ -22,7 +24,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_WC_AI_Generator
+final class WcAiGenerator
 {
     /**
      * Generate product description batch.

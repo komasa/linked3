@@ -129,7 +129,7 @@ final class Linked3_Dependency_Loader
         'Linked3\\Classes\\Publish\\Linked3_Publish_Collect_Dependencies_Loader',
         'Linked3\\Classes\\Chat\\Linked3_Chat_Dependencies_Loader',
         'Linked3\\Classes\\AutoGPT\\Linked3_AutoGPT_Dependencies_Loader',
-        'Linked3\\Classes\\WooCommerce\\Linked3_WC_Forms_Speech_Dependencies_Loader',
+        'Linked3\\Classes\\WooCommerce\\WcFormsSpeechDependenciesLoader',
         'Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Dependencies_Loader',
         'Linked3\\Classes\\Distribute\\Linked3_Distribute_Dependencies_Loader',
         // v5.1.0: Pipeline Orchestrator (the production factory conductor).
