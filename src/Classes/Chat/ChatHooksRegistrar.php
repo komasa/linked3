@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Chat;
 if (!defined('ABSPATH')) exit;
 
@@ -10,17 +12,17 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Chat_Hooks_Registrar
+final class ChatHooksRegistrar
 {
     public static function register() : void
     {
         // AJAX actions.
-        add_action('wp_ajax_linked3_chat_send', [new Ajax\Actions\Linked3_Chat_Send_Action(), 'dispatch']);
-        add_action('wp_ajax_nopriv_linked3_chat_send', [new Ajax\Actions\Linked3_Chat_Send_Action(), 'dispatch']);
-        add_action('wp_ajax_linked3_chat_history', [new Ajax\Actions\Linked3_Chat_History_Action(), 'dispatch']);
+        add_action('wp_ajax_linked3_chat_send', [new Ajax\Actions\ChatSendAction(), 'dispatch']);
+        add_action('wp_ajax_nopriv_linked3_chat_send', [new Ajax\Actions\ChatSendAction(), 'dispatch']);
+        add_action('wp_ajax_linked3_chat_history', [new Ajax\Actions\ChatHistoryAction(), 'dispatch']);
 
         // Shortcode + floating widget.
-        Shortcode\Linked3_Chat_Shortcode::register();
+        Shortcode\ChatShortcode::register();
 
         // Vector post-processor — auto-index on save_post.
         add_action('save_post', ['\\Linked3\\Classes\\Vector\\PostProcessor\\PostProcessor', 'on_save_post'], 10, 3);

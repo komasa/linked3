@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Chat Manager — orchestrates a chat turn:
  *   moderation → quota → RAG (fail-open) → AI dispatch → store.
@@ -9,7 +11,7 @@
 
 namespace Linked3\Classes\Chat;
 
-use Linked3\Classes\Chat\Storage\Linked3_Chat_Storage;
+use Linked3\Classes\Chat\Storage\ChatStorage;
 use Linked3\Includes\Log\Linked3_Logger;
 
 
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 use Linked3\Classes\Core\{Linked3_AI_Dispatcher, Linked3_Token_Manager};
 use Linked3\Classes\License\{LicenseService, PlanDefinitions};
-final class Linked3_Chat_Manager
+final class ChatManager
 {
     /** @var self|null */
     private static $instance;
@@ -73,7 +75,7 @@ final class Linked3_Chat_Manager
         $is_guest = $user_id === 0;
 
         // 0) Moderation 3-layer pre-check (BannedWords + BannedIP + OpenAI).
-        $moderation = new Linked3_Chat_Moderation();
+        $moderation = new ChatModeration();
         $mod = $moderation->check($message, ['user_id' => $user_id]);
         if (!$mod['ok']) {
             return ['ok' => false, 'reply' => '', 'sources' => [], 'usage' => [], 'message' => $mod['reason']];
@@ -86,7 +88,7 @@ final class Linked3_Chat_Manager
         }
 
         // 2) Load history.
-        $storage = new \Linked3\Classes\Chat\Storage\Linked3_Chat_Storage();
+        $storage = new \Linked3\Classes\Chat\Storage\ChatStorage();
         $session = $storage->get_session($session_id, $bot_id, $user_id);
         if (!$session) {
             $storage->create_session(['session_id' => $session_id, 'bot_id' => $bot_id, 'user_id' => $user_id]);
@@ -100,7 +102,7 @@ final class Linked3_Chat_Manager
         $context_prompt = '';
         if (!empty($bot_config['use_rag'])) {
             try {
-                $rag = new Linked3_RAG_Retriever();
+                $rag = new RAGRetriever();
                 $sources = $rag->retrieve($message, 5);
                 $context_prompt = $rag->build_context_prompt($sources);
             } catch (\Exception $e) {

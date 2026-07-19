@@ -85,7 +85,7 @@ $mod_openai_enabled = get_option(LINKED3_OPTION_PREFIX . 'moderation_openai_enab
 </div>
 <?php
 // Settings registration now happens in
-// Linked3_Chat_Hooks_Registrar::register_settings() on admin_init (v1.0.0
+// ChatHooksRegistrar::register_settings() on admin_init (v1.0.0
 // FINAL-AUDIT fix) so it fires for options.php submissions too. The previous
 // in-view add_action('admin_init', ...) was a no-op because admin_init had
 // already fired by the time the view rendered.

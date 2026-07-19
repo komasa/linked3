@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Chat shortcode — renders the floating chat widget.
  *
@@ -14,7 +16,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Chat_Shortcode
+final class ChatShortcode
 {
     public static function register()
     : void {

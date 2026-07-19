@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Chat\Ajax\Actions;
-use Linked3\Classes\Chat\Ajax\Linked3_Chat_Base_Ajax_Action;
+use Linked3\Classes\Chat\Ajax\ChatBaseAjaxAction;
 
 
 if (!defined('ABSPATH')) exit;
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Chat_Send_Action extends Linked3_Chat_Base_Ajax_Action
+final class ChatSendAction extends ChatBaseAjaxAction
 {
     public function handle()
     : void {

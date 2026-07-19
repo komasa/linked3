@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * RAG Retriever — embeds user query, retrieves top-K context, injects into prompt.
  *
@@ -16,7 +18,7 @@ use Linked3\Classes\Vector\PostProcessor\PostProcessor;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_RAG_Retriever
+final class RAGRetriever
 {
     /**
      * @param string $query

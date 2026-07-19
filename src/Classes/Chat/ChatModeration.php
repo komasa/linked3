@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Chat Moderation — 3-layer defence before AI dispatch.
  *
@@ -33,7 +35,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Chat_Moderation
+final class ChatModeration
 {
     /** OpenAI Moderation endpoint (allowed host whitelisted via Safe_Remote). */
     const MODERATION_URL = 'https://api.openai.com/v1/moderations';

@@ -1,6 +1,6 @@
 <?php
 namespace Linked3\Classes\AutoGPT\Processors;
-use Linked3\Classes\Chat\Linked3_Chat_Manager;
+use Linked3\Classes\Chat\ChatManager;
 
 
 if (!defined('ABSPATH')) exit;
@@ -35,7 +35,7 @@ final class Linked3_Comment_Reply_Processor implements Linked3_AutoGPT_Processor
             if ($post && $post->post_author == $c->user_id) continue;
             try {
                 // v16.3.0: provider/model/bot_name/admin_email 已在循环外读取, 不再重复get_option
-                $result = Linked3_Chat_Manager::instance()->chat(
+                $result = ChatManager::instance()->chat(
                     wp_generate_password(24, false),
                     sprintf(__('Write a friendly, helpful reply to this comment on the article "%s": "%s"'), $post ? $post->post_title : '', $c->comment_content),
                     0,

@@ -197,9 +197,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\Chat\Linked3_Chat_Manager::class,
-            static function (): \Linked3\Classes\Chat\Linked3_Chat_Manager {
-                return \Linked3\Classes\Chat\Linked3_Chat_Manager::instance_without_container();
+            \Linked3\Classes\Chat\ChatManager::class,
+            static function (): \Linked3\Classes\Chat\ChatManager {
+                return \Linked3\Classes\Chat\ChatManager::instance_without_container();
             }
         );
         $this->set(

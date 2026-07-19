@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Chat Triggers — condition → action engine.
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Chat_Trigger_Engine
+final class ChatTriggerEngine
 {
     /**
      * Evaluate a trigger's condition against the current context.

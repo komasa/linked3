@@ -125,7 +125,7 @@ final class RestController
             'temperature' => (float) ($req->get_param('temperature') ?? 0.7),
             'max_tokens' => (int) ($req->get_param('max_tokens') ?? 1000),
         ];
-        $result = \Linked3\Classes\Chat\Linked3_Chat_Manager::instance()->chat($session_id, $message, $bot_id, $bot_config);
+        $result = \Linked3\Classes\Chat\ChatManager::instance()->chat($session_id, $message, $bot_id, $bot_config);
         if (!$result['ok']) {
             return new \WP_Error('chat_failed', $result['message'], ['status' => 502]);
         }

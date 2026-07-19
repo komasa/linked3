@@ -25,7 +25,7 @@ final class Linked3_Service_Locator
         'crypto' => 'Linked3\Includes\Linked3_Crypto',
         'guard' => 'Linked3\Includes\Linked3_Ajax_Guard',
         'vector' => 'Linked3\Classes\Vector\VectorFactory',
-        'chat' => 'Linked3\Classes\Chat\Linked3_Chat_Manager',
+        'chat' => 'Linked3\Classes\Chat\ChatManager',
         'publish' => 'Linked3\Classes\Publish\Linked3_Publish_Manager',
         'distribute' => 'Linked3\Classes\Distribute\Linked3_Distribute_Manager',
         'addons' => 'Linked3\Classes\Addons\AddonManager',

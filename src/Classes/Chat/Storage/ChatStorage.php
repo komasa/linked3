@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Chat session storage — CRUD on linked3_chat_logs.
  *
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Chat_Storage
+final class ChatStorage
 {
     /**
      * @param string $session_id

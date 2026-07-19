@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Chat\Ajax;
     use \Linked3\Includes\Traits\Trait_Check_Frontend_Permissions;
     use \Linked3\Includes\Traits\Trait_Send_WP_Error;
@@ -14,7 +16,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-abstract class Linked3_Chat_Base_Ajax_Action
+abstract class ChatBaseAjaxAction
 {
     const NONCE_ACTION = 'linked3_chat';
 
@@ -33,6 +35,6 @@ abstract class Linked3_Chat_Base_Ajax_Action
     }
 
     protected function manager() : mixed {
-        return \Linked3\Classes\Chat\Linked3_Chat_Manager::instance();
+        return \Linked3\Classes\Chat\ChatManager::instance();
     }
 }
