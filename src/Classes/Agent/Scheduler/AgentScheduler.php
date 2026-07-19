@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent Scheduler — Cron+队列调度
  *
@@ -9,11 +11,11 @@ namespace Linked3\Classes\Agent\Scheduler;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Agent_Scheduler {
-    private static ?Linked3_Agent_Scheduler $instance = null;
+class AgentScheduler {
+    private static ?AgentScheduler $instance = null;
     private array $queue = [];
 
-    public static function instance(): Linked3_Agent_Scheduler {
+    public static function instance(): AgentScheduler {
         if (self::$instance === null) {
             self::$instance = new self();
         }
@@ -43,7 +45,7 @@ class Linked3_Agent_Scheduler {
     public function processQueue(): void {
         if (empty($this->queue)) return;
         $task = array_shift($this->queue);
-        $orchestrator = Linked3_Agent_Orchestrator::instance();
+        $orchestrator = AgentOrchestrator::instance();
         $orchestrator->execute($task['workflow'], $task['input']);
     }
 

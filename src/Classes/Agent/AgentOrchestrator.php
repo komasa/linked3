@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent Orchestrator — Agent编排基座
  *
@@ -9,19 +11,19 @@ namespace Linked3\Classes\Agent;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Agent_Orchestrator {
-    private static ?Linked3_Agent_Orchestrator $instance = null;
+class AgentOrchestrator {
+    private static ?AgentOrchestrator $instance = null;
     private array $workflows = [];
     private array $running = [];
 
-    public static function instance(): Linked3_Agent_Orchestrator {
+    public static function instance(): AgentOrchestrator {
         if (self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    public function register(string $name, Linked3_Agent_Workflow_Interface $workflow): void {
+    public function register(string $name, AgentWorkflowInterface $workflow): void {
         $this->workflows[$name] = $workflow;
     }
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent Quality Gate — 质量门控
  *
@@ -9,7 +11,7 @@ namespace Linked3\Classes\Agent\Quality;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Agent_Quality_Gate {
+class AgentQualityGate {
     private array $checks = [];
 
     public function registerCheck(string $name, callable $checker, int $threshold = 70): void {

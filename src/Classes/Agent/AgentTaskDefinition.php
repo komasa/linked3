@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent Task Definition — 任务DSL
  *
@@ -9,7 +11,7 @@ namespace Linked3\Classes\Agent;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Agent_Task_Definition {
+class AgentTaskDefinition {
     private string $name;
     private string $description;
     private array $steps = [];

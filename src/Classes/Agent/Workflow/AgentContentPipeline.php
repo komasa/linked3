@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent Workflow — 采集→改写→SEO→发布 管线
  *
@@ -7,17 +9,17 @@
  */
 namespace Linked3\Classes\Agent\Workflow;
 
-use Linked3\Classes\Agent\Linked3_Agent_Workflow_Interface;
+use Linked3\Classes\Agent\AgentWorkflowInterface;
 
 
 
 if (!defined('ABSPATH')) exit;
 // 确保接口在实现类之前加载 (glob_scan 按字母排序, interface- 排在 class- 之后)
-if (!interface_exists('Linked3\Classes\Agent\Linked3_Agent_Workflow_Interface')) {
+if (!interface_exists('Linked3\Classes\Agent\AgentWorkflowInterface')) {
     require_once dirname(__DIR__) . '/interface-linked3-agent-workflow.php';
 }
 
-class Linked3_Agent_Content_Pipeline implements Linked3_Agent_Workflow_Interface {
+class AgentContentPipeline implements AgentWorkflowInterface {
     private array $steps = [
         'collect' => '采集源内容',
         'rewrite' => 'AI改写',
@@ -29,7 +31,7 @@ class Linked3_Agent_Content_Pipeline implements Linked3_Agent_Workflow_Interface
     public function getSteps(): array { return $this->steps; }
 
     public function execute(array $input): array {
-        $state = new \Linked3\Classes\Agent\Linked3_Agent_State_Machine('idle');
+        $state = new \Linked3\Classes\Agent\AgentStateMachine('idle');
         $state->addState('collecting')->addState('rewriting')->addState('seo')->addState('publishing')->addState('done')->addState('failed');
         $state->addTransition('idle', 'collecting');
         $state->addTransition('collecting', 'rewriting');

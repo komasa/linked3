@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent State Machine — 状态机引擎
  *
@@ -9,7 +11,7 @@ namespace Linked3\Classes\Agent;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Agent_State_Machine {
+class AgentStateMachine {
     private array $states = [];
     private array $transitions = [];
     private string $current;

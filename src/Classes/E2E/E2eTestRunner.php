@@ -281,8 +281,8 @@ class Linked3_Final_Bootstrap {
         }
 
         // Phase 2: Agent (v5.5.0)
-        if (class_exists('\Linked3\Classes\E2E\Linked3_Agent_Bootstrap')) {
-            Linked3_Agent_Bootstrap::boot();
+        if (class_exists('\Linked3\Classes\E2E\AgentBootstrap')) {
+            AgentBootstrap::boot();
         }
 
         // Phase 3: AI 增强 (v5.6.0)

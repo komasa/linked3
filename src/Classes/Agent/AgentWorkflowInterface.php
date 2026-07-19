@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Agent Workflow Interface — v5.5.0
  *
@@ -11,7 +13,7 @@ namespace Linked3\Classes\Agent;
 
 if (!defined('ABSPATH')) exit;
 
-interface Linked3_Agent_Workflow_Interface {
+interface AgentWorkflowInterface {
     public function execute(array $input): array;
     public function getName(): string;
     public function getSteps(): array;

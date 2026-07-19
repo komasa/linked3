@@ -468,7 +468,7 @@ if (!$linked3_core_available) {
             } else {
                 // 降级: 逐步启动
                 if (class_exists('Linked3_Bootstrap_V54')) Linked3_Bootstrap_V54::boot();
-                if (class_exists('Linked3_Agent_Bootstrap')) Linked3_Agent_Bootstrap::boot();
+                if (class_exists('AgentBootstrap')) AgentBootstrap::boot();
                 if (class_exists('Linked3_AI_Pipeline_Bootstrap')) Linked3_AI_Pipeline_Bootstrap::boot();
                 if (class_exists('Linked3_Security_Bootstrap')) Linked3_Security_Bootstrap::boot();
                 if (class_exists('Linked3_Billing_Bootstrap')) Linked3_Billing_Bootstrap::boot();
