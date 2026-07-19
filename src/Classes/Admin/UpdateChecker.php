@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 自动更新检查 — 迁移 v2.9.6 handle_auto_update_plugin。
  *
@@ -21,7 +23,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Update_Checker
+final class UpdateChecker
 {
     // v4.7.2/v4.7.4: default to the LINKED3_UPDATE_API_URL constant (empty
     // in local mode). The old hardcoded 'https://linked3.com/api/updates'

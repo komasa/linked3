@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 文章编辑页 Metabox — v2.8.0 深度对标 aipower Post Enhancer
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Post_Metabox
+final class PostMetabox
 {
     public static function register()
     : void {

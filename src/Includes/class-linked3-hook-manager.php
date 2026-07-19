@@ -145,8 +145,8 @@ final class Linked3_Hook_Manager
             'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\Linked3_WC_Forms_Speech_Hooks_Registrar',
             'Dashboard'       => '\\Linked3\\Classes\\Dashboard\\Linked3_Dashboard_Hooks_Registrar',
             'Distribute'      => '\\Linked3\\Classes\\Distribute\\Linked3_Distribute_Hooks_Registrar',
-            'Metabox'         => '\\Linked3\\Classes\\Admin\\Linked3_Post_Metabox',
-            'UpdateChecker'   => '\\Linked3\\Classes\\Admin\\Linked3_Update_Checker',
+            'Metabox'         => '\\Linked3\\Classes\\Admin\\PostMetabox',
+            'UpdateChecker'   => '\\Linked3\\Classes\\Admin\\UpdateChecker',
         ];
         foreach ($registrars as $label => $class) {
             if (!class_exists($class)) {
