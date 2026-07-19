@@ -100,8 +100,8 @@ final class ContentPipelineRegistry
         ];
         
         // v27.17.9-fix1: 如果启用了复合杠杆，注入到 input
-        if ($input['cfg_composite'] && class_exists('\Linked3\Classes\MetaLever\Composite\Linked3_Composite_Lever_Registry')) {
-            $input['composite_levers'] = \Linked3\Classes\MetaLever\Composite\Linked3_Composite_Lever_Registry::info();
+        if ($input['cfg_composite'] && class_exists('\Linked3\Classes\MetaLever\Composite\CompositeLeverRegistry')) {
+            $input['composite_levers'] = \Linked3\Classes\MetaLever\Composite\CompositeLeverRegistry::info();
         }
         
         // v27.17.9-fix1: 如果启用了 COS，标记使用三代演化

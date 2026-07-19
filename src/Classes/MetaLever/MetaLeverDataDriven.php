@@ -1,10 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Data-Driven Meta Lever — replaces 45 individual lever classes with one.
  *
  * G3.5: All 45 meta levers follow the same interface, differing only in
  * prompt text and metadata. This class loads prompts from
- * meta-lever-prompts.json and implements Linked3_Meta_Lever_Interface
+ * meta-lever-prompts.json and implements MetaLeverInterface
  * dynamically.
  *
  * @package Linked3
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Meta_Lever_Data_Driven implements Linked3_Meta_Lever_Interface
+final class MetaLeverDataDriven implements MetaLeverInterface
 {
     private string $id;
     private string $label;

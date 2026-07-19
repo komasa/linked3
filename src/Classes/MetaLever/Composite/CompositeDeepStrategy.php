@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: deep_strategy — 深度谋划 (v20.4-fix17)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Deep_Strategy implements Linked3_Composite_Lever_Interface
+class CompositeDeepStrategy implements CompositeLeverInterface
 {
     public function id(): string { return 'deep_strategy'; }
     public function label(): string { return __('深度谋划', 'linked3'); }

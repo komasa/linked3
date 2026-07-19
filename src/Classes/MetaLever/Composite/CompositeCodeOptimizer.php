@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 代码质量优化器 — Composite Lever
  *
@@ -17,7 +19,7 @@ namespace Linked3\Classes\MetaLever\Composite;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Code_Optimizer implements Linked3_Composite_Lever_Interface
+class CompositeCodeOptimizer implements CompositeLeverInterface
 {
     public function id(): string { return 'code_optimizer'; }
     public function label(): string { return __('代码质量优化器', 'linked3'); }

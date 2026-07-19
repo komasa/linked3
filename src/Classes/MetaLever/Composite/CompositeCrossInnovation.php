@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: cross_innovation — 跨界创新 (v20.4-fix17)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Cross_Innovation implements Linked3_Composite_Lever_Interface
+class CompositeCrossInnovation implements CompositeLeverInterface
 {
     public function id(): string { return 'cross_innovation'; }
     public function label(): string { return __('跨界创新', 'linked3'); }

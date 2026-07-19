@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Dynamic Fitness Tracker — evaluates lever effectiveness after each use.
  *
@@ -23,7 +25,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Meta_Lever_Fitness_Tracker
+final class MetaLeverFitnessTracker
 {
     const SCORES_OPTION = 'linked3_lever_fitness_scores';
     const USAGE_OPTION = 'linked3_lever_usage_stats';
@@ -138,4 +140,4 @@ final class Linked3_Meta_Lever_Fitness_Tracker
 }
 
 // Register AJAX endpoint
-add_action('init', [Linked3_Meta_Lever_Fitness_Tracker::class, 'register_ajax'], 20);
+add_action('init', [MetaLeverFitnessTracker::class, 'register_ajax'], 20);

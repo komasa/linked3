@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever Registry — v20.4-fix17 复合杠杆注册表.
  *
@@ -15,9 +17,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Lever_Registry
+class CompositeLeverRegistry
 {
-    /** @var array<string, Linked3_Composite_Lever_Interface> */
+    /** @var array<string, CompositeLeverInterface> */
     private static $levers = [];
 
     /** @var bool */
@@ -39,29 +41,29 @@ class Linked3_Composite_Lever_Registry
         }
 
         $builtin = [
-            'Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Deai5d',
-            'Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Genesis',
-            'Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Deep_Strategy',
-            'Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Cross_Innovation',
-            'Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Socratic_Review',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Super_Prompt',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Cognitive_Audit',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Knowledge_Synthesis',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Content_Engine',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Risk_Defense',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Universal_Trio',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Creative_Engine',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Quality_Gauntlet',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Writing_Depth',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Seed_Recombinator',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Intent_Decoder',
-            'Linked3\Classes\MetaLever\Composite\Linked3_Composite_Code_Optimizer',
+            'Linked3\\Classes\\MetaLever\\Composite\\CompositeDeai5d',
+            'Linked3\\Classes\\MetaLever\\Composite\\CompositeGenesis',
+            'Linked3\\Classes\\MetaLever\\Composite\\CompositeDeepStrategy',
+            'Linked3\\Classes\\MetaLever\\Composite\\CompositeCrossInnovation',
+            'Linked3\\Classes\\MetaLever\\Composite\\CompositeSocraticReview',
+            'Linked3\Classes\MetaLever\Composite\CompositeSuperPrompt',
+            'Linked3\Classes\MetaLever\Composite\CompositeCognitiveAudit',
+            'Linked3\Classes\MetaLever\Composite\CompositeKnowledgeSynthesis',
+            'Linked3\Classes\MetaLever\Composite\CompositeContentEngine',
+            'Linked3\Classes\MetaLever\Composite\CompositeRiskDefense',
+            'Linked3\Classes\MetaLever\Composite\CompositeUniversalTrio',
+            'Linked3\Classes\MetaLever\Composite\CompositeCreativeEngine',
+            'Linked3\Classes\MetaLever\Composite\CompositeQualityGauntlet',
+            'Linked3\Classes\MetaLever\Composite\CompositeWritingDepth',
+            'Linked3\Classes\MetaLever\Composite\CompositeSeedRecombinator',
+            'Linked3\Classes\MetaLever\Composite\CompositeIntentDecoder',
+            'Linked3\Classes\MetaLever\Composite\CompositeCodeOptimizer',
         ];
 
         foreach ($builtin as $class) {
             if (class_exists($class)) {
                 $instance = new $class();
-                if ($instance instanceof Linked3_Composite_Lever_Interface) {
+                if ($instance instanceof CompositeLeverInterface) {
                     self::register($instance);
                 }
             }
@@ -70,12 +72,12 @@ class Linked3_Composite_Lever_Registry
         do_action('linked3_composite_levers_registered', self::$levers);
     }
 
-    public static function register(Linked3_Composite_Lever_Interface $lever): void
+    public static function register(CompositeLeverInterface $lever): void
     {
         self::$levers[$lever->id()] = $lever;
     }
 
-    public static function get(string $id): ?Linked3_Composite_Lever_Interface
+    public static function get(string $id): ?CompositeLeverInterface
     {
         if (!self::$initialized) {
             self::init();

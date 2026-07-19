@@ -274,8 +274,8 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
             // v20.4-fix20: 从 MetaLever Registry 动态获取杠杆列表, 按6大能力域分组显示
             $levers_for_chain = [];
             $levers_by_domain = [];
-            if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
-                $all_levers = \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::info();
+            if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+                $all_levers = \Linked3\Classes\MetaLever\MetaLeverRegistry::info();
                 foreach ($all_levers as $l) {
                     $levers_for_chain[] = [
                         'id'    => $l['id'],
@@ -310,8 +310,8 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                 ];
             }
             $default_checked = ['meta_essence', 'meta_critique', 'meta_evaluation', 'meta_socratic', 'meta_questioning', 'meta_execution'];
-            if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
-                $all_info = \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::info();
+            if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+                $all_info = \Linked3\Classes\MetaLever\MetaLeverRegistry::info();
                 if (!empty($all_info) && count($all_info) >= 6) {
                     $default_checked = array_slice(array_column($all_info, 'id'), 0, 6);
                 }

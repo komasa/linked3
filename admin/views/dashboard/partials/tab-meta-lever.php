@@ -15,8 +15,8 @@ if (!defined('ABSPATH')) {
 
 // 获取杠杆列表
 $levers = [];
-if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
-    $levers = \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::info();
+if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+    $levers = \Linked3\Classes\MetaLever\MetaLeverRegistry::info();
 }
 
 // 获取结构列表
@@ -27,8 +27,8 @@ if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry')) {
 
 // v27.17.9-fix1: 获取复合杠杆列表 (17种高级+复合能力)
 $composite_levers = [];
-if (class_exists('\\Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Lever_Registry')) {
-    $composite_levers = \Linked3\Classes\MetaLever\Composite\Linked3_Composite_Lever_Registry::info();
+if (class_exists('\\Linked3\\Classes\\MetaLever\\Composite\\CompositeLeverRegistry')) {
+    $composite_levers = \Linked3\Classes\MetaLever\Composite\CompositeLeverRegistry::info();
 }
 $composite_count = count($composite_levers);
 $basic_count = count($levers);
@@ -37,15 +37,15 @@ $structure_count = count($structures);
 // 处理保存
 if (isset($_POST['linked3_save_meta_levers']) && check_admin_referer('linked3_meta_levers')) {
     $enabled = isset($_POST['lever_enabled']) ? array_map('sanitize_key', (array) $_POST['lever_enabled']) : [];
-    if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
+    if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
         foreach ($levers as $lever) {
-            \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::set_enabled($lever['id'], in_array($lever['id'], $enabled, true));
+            \Linked3\Classes\MetaLever\MetaLeverRegistry::set_enabled($lever['id'], in_array($lever['id'], $enabled, true));
         }
     }
     echo '<div class="notice notice-success is-dismissible"><p>✅ 元杠杆配置已保存。</p></div>';
     // 刷新杠杆列表
-    if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
-        $levers = \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::info();
+    if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+        $levers = \Linked3\Classes\MetaLever\MetaLeverRegistry::info();
     }
 }
 ?>

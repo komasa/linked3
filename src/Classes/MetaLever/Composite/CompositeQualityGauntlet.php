@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 质量绞杀阵 — Composite Lever
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\MetaLever\Composite;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Quality_Gauntlet implements Linked3_Composite_Lever_Interface
+class CompositeQualityGauntlet implements CompositeLeverInterface
 {
     public function id(): string { return 'quality_gauntlet'; }
     public function label(): string { return __('质量绞杀阵', 'linked3'); }

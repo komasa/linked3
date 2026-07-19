@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 万能思维新三法 — Composite Lever
  *
@@ -18,7 +20,7 @@ namespace Linked3\Classes\MetaLever\Composite;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Universal_Trio implements Linked3_Composite_Lever_Interface
+class CompositeUniversalTrio implements CompositeLeverInterface
 {
     public function id(): string { return 'universal_trio'; }
     public function label(): string { return __('万能思维新三法', 'linked3'); }

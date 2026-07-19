@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: cognitive_audit — 认知审计 (v20.4-fix19)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Cognitive_Audit implements Linked3_Composite_Lever_Interface
+class CompositeCognitiveAudit implements CompositeLeverInterface
 {
     public function id(): string { return 'cognitive_audit'; }
     public function label(): string { return __('认知审计', 'linked3'); }

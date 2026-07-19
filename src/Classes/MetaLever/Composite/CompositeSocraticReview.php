@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: socratic_review — 苏格拉底审查 (v20.4-fix17)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Socratic_Review implements Linked3_Composite_Lever_Interface
+class CompositeSocraticReview implements CompositeLeverInterface
 {
     public function id(): string { return 'socratic_review'; }
     public function label(): string { return __('苏格拉底审查', 'linked3'); }

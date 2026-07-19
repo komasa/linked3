@@ -135,8 +135,8 @@ class COSEngine
             'created_at'   => current_time('mysql'),
         ]);
         // G4.4: Trigger fitness recalculation after new SKILL generation
-        if (class_exists("\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Fitness_Tracker")) {
-            \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Fitness_Tracker::recalculate();
+        if (class_exists("\\Linked3\\Classes\\MetaLever\\MetaLeverFitnessTracker")) {
+            \Linked3\Classes\MetaLever\MetaLeverFitnessTracker::recalculate();
         }
     }
 
@@ -154,8 +154,8 @@ class COSEngine
         $trace_field = $lever_id . '_trace';
         $lever_label = $lever_id;
 
-        if (class_exists('\\Linked3\\Classes\\MetaLever\\Composite\\Linked3_Composite_Lever_Registry')) {
-            $composite = \Linked3\Classes\MetaLever\Composite\Linked3_Composite_Lever_Registry::get($lever_id);
+        if (class_exists('\\Linked3\\Classes\\MetaLever\\Composite\\CompositeLeverRegistry')) {
+            $composite = \Linked3\Classes\MetaLever\Composite\CompositeLeverRegistry::get($lever_id);
             if ($composite) {
                 $system_prompt = $composite->system_prompt();
                 $lever_label = $composite->label();
@@ -165,11 +165,11 @@ class COSEngine
 
         // 如果不是复合杠杆, 桥接到基础 MetaLever Registry
         if (empty($system_prompt)) {
-            if (!class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
+            if (!class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
                 return ['lever' => $lever_id, 'status' => 'not_found'];
             }
 
-            $lever = \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::get($lever_id);
+            $lever = \Linked3\Classes\MetaLever\MetaLeverRegistry::get($lever_id);
             if (!$lever) {
                 return ['lever' => $lever_id, 'status' => 'not_found'];
             }

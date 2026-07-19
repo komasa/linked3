@@ -35,8 +35,8 @@ final class XHSHooksRegistrar
      * 将杠杆的 system_prompt 拼接到基础 prompt 后面。
      */
     public static function enhance_with_meta_levers($base_prompt, $params) : mixed {
-        if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
-            return \Linked3\Classes\MetaLever\Linked3_Meta_Lever_Registry::enhance_prompt('xhs_generate', $base_prompt);
+        if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+            return \Linked3\Classes\MetaLever\MetaLeverRegistry::enhance_prompt('xhs_generate', $base_prompt);
         }
         return $base_prompt;
     }

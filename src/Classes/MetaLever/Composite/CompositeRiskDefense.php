@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: risk_defense — 风险防御 (v20.4-fix21)
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Risk_Defense implements Linked3_Composite_Lever_Interface
+class CompositeRiskDefense implements CompositeLeverInterface
 {
     public function id(): string { return 'risk_defense'; }
     public function label(): string { return __('风险防御', 'linked3'); }

@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\MetaLever\Composite;
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Intent_Decoder implements Linked3_Composite_Lever_Interface
+class CompositeIntentDecoder implements CompositeLeverInterface
 {
     public function id(): string { return 'intent_decoder'; }
     public function label(): string { return __('用户意图解码器', 'linked3'); }

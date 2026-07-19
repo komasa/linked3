@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: genesis — 创世演化 (v20.4-fix17)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Genesis implements Linked3_Composite_Lever_Interface
+class CompositeGenesis implements CompositeLeverInterface
 {
     public function id(): string { return 'genesis'; }
     public function label(): string { return __('创世演化', 'linked3'); }

@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\MetaLever\Composite;
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Seed_Recombinator implements Linked3_Composite_Lever_Interface
+class CompositeSeedRecombinator implements CompositeLeverInterface
 {
     public function id(): string { return 'seed_recombinator'; }
     public function label(): string { return __('SEED基因重组器', 'linked3'); }

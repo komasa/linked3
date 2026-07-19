@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Meta Lever Hooks Registrar — v19.50.1 统一杠杆钩子注册器.
  *
@@ -23,7 +25,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Meta_Lever_Hooks_Registrar
+class MetaLeverHooksRegistrar
 {
     /**
      * 钩子 → 任务类型 映射表.
@@ -64,8 +66,8 @@ class Linked3_Meta_Lever_Hooks_Registrar
             $task = $params['task'];
         }
 
-        if (class_exists('\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry')) {
-            return Linked3_Meta_Lever_Registry::enhance_prompt($task, $base_prompt);
+        if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+            return MetaLeverRegistry::enhance_prompt($task, $base_prompt);
         }
 
         return $base_prompt;

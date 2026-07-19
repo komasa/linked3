@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: content_engine — 内容引擎 (v20.4-fix20)
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Content_Engine implements Linked3_Composite_Lever_Interface
+class CompositeContentEngine implements CompositeLeverInterface
 {
     public function id(): string { return 'content_engine'; }
     public function label(): string { return __('内容引擎', 'linked3'); }

@@ -355,9 +355,9 @@ require_once LINKED3_DIR . 'src/Classes/MetaLever/class-linked3-meta-lever-hooks
 // 内置杠杆文件由 Registry::init() 自动 glob 加载
 // G3.7: Dynamic fitness tracker for lever scoring
 require_once LINKED3_DIR . "src/Classes/MetaLever/class-linked3-meta-lever-fitness-tracker.php";
-add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Registry', 'init'], 5);
+add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry', 'init'], 5);
 // v19.50.1: 统一注册所有模块的 system_prompt 钩子
-add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\Linked3_Meta_Lever_Hooks_Registrar', 'register'], 6);
+add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\MetaLeverHooksRegistrar', 'register'], 6);
 
 // v19.51: 图示结构注册表 — 8 种结构 + 智能匹配
 require_once LINKED3_DIR . 'src/Classes/Diagram/class-linked3-diagram-structure-registry.php';

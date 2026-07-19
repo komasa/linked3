@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\MetaLever\Composite;
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Writing_Depth implements Linked3_Composite_Lever_Interface
+class CompositeWritingDepth implements CompositeLeverInterface
 {
     public function id(): string { return 'writing_depth'; }
     public function label(): string { return __('写作深度增强器', 'linked3'); }

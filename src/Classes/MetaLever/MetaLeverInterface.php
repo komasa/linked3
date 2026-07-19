@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Meta Lever Interface — v19.40 元提示词杠杆接口契约.
  *
@@ -14,7 +16,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Meta_Lever_Interface
+interface MetaLeverInterface
 {
     /**
      * 杠杆唯一标识.

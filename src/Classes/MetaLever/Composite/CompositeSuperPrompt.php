@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: super_prompt — 执行蓝图转换器 (v25.0 重构)
  *
@@ -22,7 +24,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Super_Prompt implements Linked3_Composite_Lever_Interface
+class CompositeSuperPrompt implements CompositeLeverInterface
 {
     /**
      * System prompt constant — extracted from system_prompt() method in v27.1.0 (P8).

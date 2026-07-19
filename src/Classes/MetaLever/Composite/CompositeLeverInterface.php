@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Meta Lever Interface — v20.4-fix17 复合元杠杆接口.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Composite_Lever_Interface
+interface CompositeLeverInterface
 {
     /**
      * 复合杠杆唯一标识.

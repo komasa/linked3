@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: deai_5d — 去AI味五部门 (v20.4-fix17)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Deai5d implements Linked3_Composite_Lever_Interface
+class CompositeDeai5d implements CompositeLeverInterface
 {
     public function id(): string { return 'deai_5d'; }
     public function label(): string { return __('去AI味五部门', 'linked3'); }

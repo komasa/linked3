@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Composite Lever: knowledge_synthesis — 知识综合 (v20.4-fix19)
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Composite_Knowledge_Synthesis implements Linked3_Composite_Lever_Interface
+class CompositeKnowledgeSynthesis implements CompositeLeverInterface
 {
     public function id(): string { return 'knowledge_synthesis'; }
     public function label(): string { return __('知识综合', 'linked3'); }

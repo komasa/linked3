@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * L01 Meta Learning Lever — v19.40 通用元学习能力.
  *
@@ -22,7 +24,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Meta_Lever_Learning implements Linked3_Meta_Lever_Interface
+class MetaLeverLearning implements MetaLeverInterface
 {
     public function id(): string
     {

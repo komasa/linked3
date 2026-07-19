@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Meta Lever Registry — v19.40 元提示词杠杆注册表.
  *
@@ -19,9 +21,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Meta_Lever_Registry
+class MetaLeverRegistry
 {
-    /** @var array<string, Linked3_Meta_Lever_Interface> */
+    /** @var array<string, MetaLeverInterface> */
     private static $levers = [];
 
     /** @var array<string, bool> 启用状态 */
@@ -44,8 +46,8 @@ class Linked3_Meta_Lever_Registry
         $data_driven_file = __DIR__ . '/class-linked3-meta-lever-data-driven.php';
         if (file_exists($data_driven_file)) {
             require_once $data_driven_file;
-            foreach (Linked3_Meta_Lever_Data_Driven::load_all() as $lever) {
-                if ($lever instanceof Linked3_Meta_Lever_Interface) {
+            foreach (MetaLeverDataDriven::load_all() as $lever) {
+                if ($lever instanceof MetaLeverInterface) {
                     self::register($lever);
                 }
             }
@@ -78,7 +80,7 @@ class Linked3_Meta_Lever_Registry
     /**
      * 注册一个杠杆.
      */
-    public static function register(Linked3_Meta_Lever_Interface $lever): void
+    public static function register(MetaLeverInterface $lever): void
     {
         self::$levers[$lever->id()] = $lever;
         if (!isset(self::$enabled[$lever->id()])) {
@@ -91,7 +93,7 @@ class Linked3_Meta_Lever_Registry
      *
      * v20.4-fix: 自动触发 init(), 防止 get() 在 init() 未调用时返回 null。
      */
-    public static function get(string $id): ?Linked3_Meta_Lever_Interface
+    public static function get(string $id): ?MetaLeverInterface
     {
         if (!self::$initialized) {
             self::init();
@@ -104,7 +106,7 @@ class Linked3_Meta_Lever_Registry
      *
      * v20.4-fix: 自动触发 init()。
      *
-     * @return array<string, Linked3_Meta_Lever_Interface>
+     * @return array<string, MetaLeverInterface>
      */
     public static function all(): array
     {
@@ -119,7 +121,7 @@ class Linked3_Meta_Lever_Registry
      *
      * v20.4-fix: 自动触发 init()。
      *
-     * @return array<string, Linked3_Meta_Lever_Interface>
+     * @return array<string, MetaLeverInterface>
      */
     public static function enabled(): array
     {
@@ -148,7 +150,7 @@ class Linked3_Meta_Lever_Registry
      * 按任务类型推荐杠杆.
      *
      * @param string $task_type 任务类型 (xhs_generate / seo_article / ...)
-     * @return array<string, Linked3_Meta_Lever_Interface>
+     * @return array<string, MetaLeverInterface>
      */
     public static function recommend_for_task(string $task_type): array
     {
@@ -165,7 +167,7 @@ class Linked3_Meta_Lever_Registry
      * 按标签匹配杠杆.
      *
      * @param array $tags
-     * @return array<string, Linked3_Meta_Lever_Interface>
+     * @return array<string, MetaLeverInterface>
      */
     public static function match_by_tags(array $tags): array
     {

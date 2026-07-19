@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 创意生成引擎 — Composite Lever
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\MetaLever\Composite;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Composite_Creative_Engine implements Linked3_Composite_Lever_Interface
+class CompositeCreativeEngine implements CompositeLeverInterface
 {
     public function id(): string { return 'creative_engine'; }
     public function label(): string { return __('创意生成引擎', 'linked3'); }
