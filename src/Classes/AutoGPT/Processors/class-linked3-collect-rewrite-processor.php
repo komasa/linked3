@@ -20,8 +20,8 @@
 
 namespace Linked3\Classes\AutoGPT\Processors;
 
-use Linked3\Classes\Collect\Rewriter\Linked3_Article_Rewriter;
-use Linked3\Classes\Collect\Linked3_Scraper;
+use Linked3\Classes\Collect\Rewriter\ArticleRewriter;
+use Linked3\Classes\Collect\Scraper;
 use Linked3\Classes\Publish\Linked3_Publish_Manager;
 use Linked3\Classes\Distribute\Linked3_Distribute_Manager;
 
@@ -57,7 +57,7 @@ final class Linked3_Collect_Rewrite_Processor implements Linked3_AutoGPT_Process
 
             try {
                 // 1. 采集
-                $scraper = new \Linked3\Classes\Collect\Linked3_Scraper();
+                $scraper = new \Linked3\Classes\Collect\Scraper();
                 $scraped = $scraper->scrape($url);
                 if (is_wp_error($scraped) || empty($scraped['content'])) {
                     $errors[] = "URL {$url} 采集失败: " . (is_wp_error($scraped) ? $scraped->get_error_message() : '无内容');
@@ -71,7 +71,7 @@ final class Linked3_Collect_Rewrite_Processor implements Linked3_AutoGPT_Process
                 }
 
                 // 2. 改写
-                $rewriter = new \Linked3\Classes\Collect\Rewriter\Linked3_Article_Rewriter();
+                $rewriter = new \Linked3\Classes\Collect\Rewriter\ArticleRewriter();
                 $rw = $rewriter->rewrite($scraped['content'], [
                     'tone' => $cfg['tone'] ?? 'professional',
                     'complexity' => $cfg['complexity'] ?? 'intermediate',

@@ -29,9 +29,9 @@ final class Linked3_Publish_Collect_Hooks_Registrar
 
         // Collect AJAX actions.
         $col_actions = [
-            'linked3_collect_scrape'        => \Linked3\Classes\Collect\Ajax\Actions\Linked3_Collect_Scrape_Action::class,
-            'linked3_collect_rewrite'       => \Linked3\Classes\Collect\Ajax\Actions\Linked3_Collect_Rewrite_Action::class,
-            'linked3_collect_bulk_rewrite'  => \Linked3\Classes\Collect\Ajax\Actions\Linked3_Collect_Bulk_Rewrite_Action::class,
+            'linked3_collect_scrape'        => \Linked3\Classes\Collect\Ajax\Actions\CollectScrapeAction::class,
+            'linked3_collect_rewrite'       => \Linked3\Classes\Collect\Ajax\Actions\CollectRewriteAction::class,
+            'linked3_collect_bulk_rewrite'  => \Linked3\Classes\Collect\Ajax\Actions\CollectBulkRewriteAction::class,
         ];
         foreach ($col_actions as $action => $class) {
             add_action('wp_ajax_' . $action, [new $class(), 'dispatch']);

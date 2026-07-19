@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\Collect\Ajax\Actions;
-use Linked3\Classes\Collect\Ajax\Linked3_Collect_Base_Ajax_Action;
+use Linked3\Classes\Collect\Ajax\CollectBaseAjaxAction;
 
 
 if (!defined('ABSPATH')) exit;
@@ -12,7 +14,7 @@ if (!defined('ABSPATH')) exit;
  * @since      27.1.0
  */
 
-final class Linked3_Collect_Bulk_Rewrite_Action extends Linked3_Collect_Base_Ajax_Action
+final class CollectBulkRewriteAction extends CollectBaseAjaxAction
 {
     public function handle() : void {
         $urls = array_filter(array_map('esc_url_raw', (array) ($_POST['urls'] ?? [])));

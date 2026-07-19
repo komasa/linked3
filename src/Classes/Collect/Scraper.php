@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Scraper — anti-ban content collector with dedup.
  *
@@ -23,7 +25,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Scraper
+final class Scraper
 {
     /** @var Linked3_Logger */
     private $log;

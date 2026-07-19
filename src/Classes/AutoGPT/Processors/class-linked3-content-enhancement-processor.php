@@ -10,7 +10,7 @@
 namespace Linked3\Classes\AutoGPT\Processors;
 
 use Linked3\Classes\SEO\Scoring\Linked3_SEO_Scorecard;
-use Linked3\Classes\Collect\Rewriter\Linked3_Article_Rewriter;
+use Linked3\Classes\Collect\Rewriter\ArticleRewriter;
 
 
 
@@ -63,7 +63,7 @@ final class Linked3_Content_Enhancement_Processor implements Linked3_AutoGPT_Pro
             if ($score >= $min_score) continue;
 
             try {
-                $rewriter = new \Linked3\Classes\Collect\Rewriter\Linked3_Article_Rewriter();
+                $rewriter = new \Linked3\Classes\Collect\Rewriter\ArticleRewriter();
                 // v3.1.0: 改读 default_provider + saved_models,不再硬编码 openai
                 $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
                 $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);

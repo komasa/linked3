@@ -38,7 +38,16 @@ class PSR4Migrator:
         return match.group(1) if match else None
     
     def extract_class_name(self, content: str) -> str | None:
-        """Extract the primary class/trait/interface name from PHP content."""
+        """Extract the primary class/trait/interface name from PHP content.
+        
+        Strips comments (// and /* */ and #) before matching to avoid
+        false positives like matching "trait so" in a comment.
+        """
+        # Strip /* ... */ block comments
+        content_clean = re.sub(r'/\*.*?\*/', '', content, flags=re.DOTALL)
+        # Strip // line comments and # line comments
+        content_clean = re.sub(r'(?://|#).*?$', '', content_clean, flags=re.MULTILINE)
+        
         # Match: final class, abstract class, class, final trait, trait, interface
         patterns = [
             r'(?:final\s+|abstract\s+)?class\s+(\w+)',
@@ -46,7 +55,7 @@ class PSR4Migrator:
             r'interface\s+(\w+)',
         ]
         for pattern in patterns:
-            match = re.search(pattern, content)
+            match = re.search(pattern, content_clean)
             if match:
                 return match.group(1)
         return None
@@ -63,8 +72,14 @@ class PSR4Migrator:
             name = class_name
         
         # Convert STT_Manager → SttManager
+        # NOTE: Use part[0].upper() + part[1:] instead of part.capitalize()
+        # because capitalize() lowercases all chars after the first, which
+        # breaks existing PascalCase segments (e.g. "RateLimiter" → "Ratelimiter")
         parts = name.split('_')
-        result = ''.join(part.capitalize() for part in parts)
+        result = ''.join(
+            (part[0].upper() + part[1:]) if part else part
+            for part in parts
+        )
         return result
     
     def class_to_filename(self, pascal_name: str, symbol_type: str = 'class') -> str:

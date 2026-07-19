@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Article Rewriter — AI-powered rewrite of scraped content.
  *
@@ -22,7 +24,7 @@ use Linked3\Classes\Core\Linked3_Token_Manager;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Article_Rewriter
+final class ArticleRewriter
 {
     /**
      * Build the rewrite system+user prompt.

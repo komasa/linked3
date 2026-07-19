@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Collect Source Repository — CRUD on linked3_collect_sources.
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Collect_Source_Repository extends Linked3_Base_Repository
+final class CollectSourceRepository extends Linked3_Base_Repository
 {
     /**
      * {@inheritdoc}
