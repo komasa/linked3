@@ -247,35 +247,35 @@ require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-section
 // v19.1: 嵌入 meta的meta 元母体 (MetaMother) — 9大探索原型 + 5大元规律 + 4阶元流程
 // -----------------------------------------------------------------------------
 // v18.11: 安全工具
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-security.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookSecurity.php';
 // v19.0: 接口契约
 require_once LINKED3_DIR . 'src/Classes/BookFactory/interfaces-linked3-book-contracts.php';
 // v18.11: 步骤接口化
 require_once LINKED3_DIR . 'src/Classes/BookFactory/interface-linked3-book-step.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-step-adapter.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-step-registry.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepAdapter.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepRegistry.php';
 // 核心类
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-project-state.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-type-mode-router.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-section-stitcher.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-prompt-manager.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookProjectState.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/TypeModeRouter.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/SectionStitcher.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookPromptManager.php';
 // v19.0: 默认实现 (AI 调用器、成本追踪器)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-default-ai-caller.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-default-cost-tracker.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookDefaultAICaller.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookDefaultCostTracker.php';
 // v19.0: 拆分后的职责单一类
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-draft-builder.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-outline-processor.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-section-expander-service.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-review-coordinator.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-pipeline-orchestrator.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookDraftBuilder.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookOutlineProcessor.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookSectionExpanderService.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookReviewCoordinator.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookPipelineOrchestrator.php';
 // v19.1: MetaMother 元母体子系统 (嵌入自 genesis_meta2_M2_G3 母版)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-exploration-prototypes.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-meta-mother.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookExplorationPrototypes.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookMetaMother.php';
 // 主类 (v19.0: 保留为向后兼容的外观类, 委托给拆分后的类)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-factory.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-ajax-actions.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookFactory.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAjaxActions.php';
 // v18.11: 异步任务调度器
-require_once LINKED3_DIR . 'src/Classes/BookFactory/class-linked3-book-async-runner.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAsyncRunner.php';
 
 // -----------------------------------------------------------------------------
 // ── FIX v16.0.1: Pre-load critical function files before bootstraps ──────────
@@ -350,31 +350,31 @@ require_once LINKED3_DIR . 'lib/premium_only.php';
 
 // v19.40: 元提示词杠杆体系 — 注册表 + 接口 + 内置杠杆
 require_once LINKED3_DIR . 'src/Classes/MetaLever/interface-linked3-meta-lever.php';
-require_once LINKED3_DIR . 'src/Classes/MetaLever/class-linked3-meta-lever-registry.php';
-require_once LINKED3_DIR . 'src/Classes/MetaLever/class-linked3-meta-lever-hooks-registrar.php';
+require_once LINKED3_DIR . 'src/Classes/MetaLever/MetaLeverRegistry.php';
+require_once LINKED3_DIR . 'src/Classes/MetaLever/MetaLeverHooksRegistrar.php';
 // 内置杠杆文件由 Registry::init() 自动 glob 加载
 // G3.7: Dynamic fitness tracker for lever scoring
-require_once LINKED3_DIR . "src/Classes/MetaLever/class-linked3-meta-lever-fitness-tracker.php";
+require_once LINKED3_DIR . "src/Classes/MetaLever/MetaLeverFitnessTracker.php";
 add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry', 'init'], 5);
 // v19.50.1: 统一注册所有模块的 system_prompt 钩子
 add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\MetaLeverHooksRegistrar', 'register'], 6);
 
 // v19.51: 图示结构注册表 — 8 种结构 + 智能匹配
-require_once LINKED3_DIR . 'src/Classes/Diagram/class-linked3-diagram-structure-registry.php';
+require_once LINKED3_DIR . 'src/Classes/Diagram/DiagramStructureRegistry.php';
 add_action('plugins_loaded', ['\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry', 'init'], 7);
 
 // G3.2: Unified Content Pipeline
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/interface-linked3-content-pipeline.php";
-require_once LINKED3_DIR . "src/Classes/Content/Pipeline/class-linked3-content-pipeline-registry.php";
+require_once LINKED3_DIR . "src/Classes/Content/Pipeline/ContentPipelineRegistry.php";
 add_action("init", ["\\Linked3\\Classes\\Content\\Pipeline\\ContentPipelineRegistry", "register_ajax"], 20);
 
 // v19.53: 统一 AI 模型配置 — 消除 48 处硬编码模型名
-require_once LINKED3_DIR . 'src/Classes/Core/class-linked3-model-config.php';
+require_once LINKED3_DIR . 'src/Classes/Core/ModelConfig.php';
 
 // v20.0: 认知操作系统 (Cognitive Operating System) — 双公理 + 五部门 + 三代演化
 // 变异-绞杀流程: COS 引擎作为新子系统嵌入, 逐步吸收 MetaLever 的决策路径
-require_once LINKED3_DIR . 'src/Classes/CognitiveOS/class-linked3-cos-engine.php';
-require_once LINKED3_DIR . 'src/Classes/CognitiveOS/Ajax/class-linked3-cos-ajax.php';
+require_once LINKED3_DIR . 'src/Classes/CognitiveOS/COSEngine.php';
+require_once LINKED3_DIR . 'src/Classes/CognitiveOS/Ajax/COSAjax.php';
 
 // G7增量: 推荐引擎AJAX接口注册 (v16.0.27)
 $g7_ajax_file = LINKED3_DIR . 'src/Classes/Genesis/class-linked3-genesis-recommendation-ajax.php';
