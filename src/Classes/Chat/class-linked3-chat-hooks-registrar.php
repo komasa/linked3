@@ -23,8 +23,8 @@ final class Linked3_Chat_Hooks_Registrar
         Shortcode\Linked3_Chat_Shortcode::register();
 
         // Vector post-processor — auto-index on save_post.
-        add_action('save_post', ['\\Linked3\\Classes\\Vector\\PostProcessor\\Linked3_Post_Processor', 'on_save_post'], 10, 3);
-        add_action('delete_post', ['\\Linked3\\Classes\\Vector\\PostProcessor\\Linked3_Post_Processor', 'on_delete_post']);
+        add_action('save_post', ['\\Linked3\\Classes\\Vector\\PostProcessor\\PostProcessor', 'on_save_post'], 10, 3);
+        add_action('delete_post', ['\\Linked3\\Classes\\Vector\\PostProcessor\\PostProcessor', 'on_delete_post']);
 
         // Admin menu.
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);

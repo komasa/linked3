@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Vector Provider Factory — singleton-cached.
  *
@@ -8,14 +10,14 @@
 
 namespace Linked3\Classes\Vector;
 
-use Linked3\Classes\Vector\Providers\Linked3_Local_Vector_Provider;
+use Linked3\Classes\Vector\Providers\LocalVectorProvider;
 
 
 
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Vector_Factory
+final class VectorFactory
 {
     private static $instance;
     private $instances = [];
@@ -49,20 +51,20 @@ final class Linked3_Vector_Factory
     }
 
     private function __construct() {
-        $this->register('local', static function () { return new \Linked3\Classes\Vector\Providers\Linked3_Local_Vector_Provider(); });
+        $this->register('local', static function () { return new \Linked3\Classes\Vector\Providers\LocalVectorProvider(); });
 
         // v4.8.1: register Pinecone + Qdrant directly here (was in
         // Chat_Dependencies_Loader, which is the wrong owner — disabling
         // Chat would lose Vector cloud providers). The class_exists guards
         // make this safe even if the provider files are not loaded yet.
-        if (class_exists('\\Linked3\\Classes\\Vector\\Providers\\Linked3_Pinecone_Vector_Provider')) {
+        if (class_exists('\\Linked3\\Classes\\Vector\\Providers\\PineconeVectorProvider')) {
             $this->register('pinecone', static function () {
-                return new \Linked3\Classes\Vector\Providers\Linked3_Pinecone_Vector_Provider();
+                return new \Linked3\Classes\Vector\Providers\PineconeVectorProvider();
             });
         }
-        if (class_exists('\\Linked3\\Classes\\Vector\\Providers\\Linked3_Qdrant_Vector_Provider')) {
+        if (class_exists('\\Linked3\\Classes\\Vector\\Providers\\QdrantVectorProvider')) {
             $this->register('qdrant', static function () {
-                return new \Linked3\Classes\Vector\Providers\Linked3_Qdrant_Vector_Provider();
+                return new \Linked3\Classes\Vector\Providers\QdrantVectorProvider();
             });
         }
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Post Processor — hooks save_post to auto-index content into the vector store.
  *
@@ -8,14 +10,14 @@
 
 namespace Linked3\Classes\Vector\PostProcessor;
 
-use Linked3\Classes\Vector\Linked3_Vector_Factory;
+use Linked3\Classes\Vector\VectorFactory;
 
 
 
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Post_Processor
+final class PostProcessor
 {
     const INDEX_NAME = 'wp_content';
 
@@ -36,7 +38,7 @@ final class Linked3_Post_Processor
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return;
         $provider_slug = $config['provider'] ?? 'local';
-        $provider = Linked3_Vector_Factory::instance()->make($provider_slug);
+        $provider = VectorFactory::instance()->make($provider_slug);
         if (!$provider) return;
 
         $text = wp_strip_all_tags($post->post_content);
@@ -77,7 +79,7 @@ final class Linked3_Post_Processor
     : void {
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return;
-        $provider = Linked3_Vector_Factory::instance()->make($config['provider'] ?? 'local');
+        $provider = VectorFactory::instance()->make($config['provider'] ?? 'local');
         if (!$provider) return;
         // We don't know chunk count; delete by querying first.
         // For local provider, we could use a filter. MVP: best-effort delete id_0..id_99.

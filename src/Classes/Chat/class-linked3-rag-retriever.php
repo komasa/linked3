@@ -8,8 +8,8 @@
 
 namespace Linked3\Classes\Chat;
 
-use Linked3\Classes\Vector\Linked3_Vector_Factory;
-use Linked3\Classes\Vector\PostProcessor\Linked3_Post_Processor;
+use Linked3\Classes\Vector\VectorFactory;
+use Linked3\Classes\Vector\PostProcessor\PostProcessor;
 
 
 
@@ -26,13 +26,13 @@ final class Linked3_RAG_Retriever
     public function retrieve($query, $top_k = 5) : mixed {
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return [];
-        $provider = Linked3_Vector_Factory::instance()->make($config['provider'] ?? 'local');
+        $provider = VectorFactory::instance()->make($config['provider'] ?? 'local');
         if (!$provider) return [];
 
         $emb = $provider->embed($query, $config);
         if (is_wp_error($emb) || empty($emb)) return [];
 
-        $results = $provider->query(Linked3_Post_Processor::INDEX_NAME, $emb, $top_k, [], $config);
+        $results = $provider->query(PostProcessor::INDEX_NAME, $emb, $top_k, [], $config);
         $out = [];
         foreach ($results as $r) {
             $meta = $r['metadata'] ?? [];

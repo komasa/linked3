@@ -233,9 +233,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\Vector\Linked3_Vector_Factory::class,
-            static function (): \Linked3\Classes\Vector\Linked3_Vector_Factory {
-                return \Linked3\Classes\Vector\Linked3_Vector_Factory::instance_without_container();
+            \Linked3\Classes\Vector\VectorFactory::class,
+            static function (): \Linked3\Classes\Vector\VectorFactory {
+                return \Linked3\Classes\Vector\VectorFactory::instance_without_container();
             }
         );
         $this->set(

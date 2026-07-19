@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Local vector provider — SQLite-vec based, zero-dependency.
  *
@@ -12,14 +14,14 @@
 
 namespace Linked3\Classes\Vector\Providers;
 
-use Linked3\Classes\Vector\Linked3_Vector_Provider_Interface;
+use Linked3\Classes\Vector\VectorProviderInterface;
 
 
 
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Local_Vector_Provider implements Linked3_Vector_Provider_Interface
+final class LocalVectorProvider implements VectorProviderInterface
 {
     private $db_path;
 

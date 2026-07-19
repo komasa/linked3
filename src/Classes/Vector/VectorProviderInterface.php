@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Vector Provider Strategy Interface — abstracts vector store backends.
  *
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-interface Linked3_Vector_Provider_Interface
+interface VectorProviderInterface
 {
     /** @return string slug */
     public function slug();

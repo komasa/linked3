@@ -24,7 +24,7 @@ final class Linked3_Service_Locator
         'http' => 'Linked3\Includes\Http\Linked3_Safe_Remote',
         'crypto' => 'Linked3\Includes\Linked3_Crypto',
         'guard' => 'Linked3\Includes\Linked3_Ajax_Guard',
-        'vector' => 'Linked3\Classes\Vector\Linked3_Vector_Factory',
+        'vector' => 'Linked3\Classes\Vector\VectorFactory',
         'chat' => 'Linked3\Classes\Chat\Linked3_Chat_Manager',
         'publish' => 'Linked3\Classes\Publish\Linked3_Publish_Manager',
         'distribute' => 'Linked3\Classes\Distribute\Linked3_Distribute_Manager',

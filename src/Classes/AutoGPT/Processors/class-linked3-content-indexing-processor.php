@@ -1,7 +1,7 @@
 <?php
 namespace Linked3\Classes\AutoGPT\Processors;
-use Linked3\Classes\Vector\Linked3_Vector_Factory;
-use Linked3\Classes\Vector\PostProcessor\Linked3_Post_Processor;
+use Linked3\Classes\Vector\VectorFactory;
+use Linked3\Classes\Vector\PostProcessor\PostProcessor;
 
 
 if (!defined('ABSPATH')) exit;
@@ -24,7 +24,7 @@ final class Linked3_Content_Indexing_Processor implements Linked3_AutoGPT_Proces
         if (empty($config['enabled'])) {
             return ['ok' => false, 'message' => __('向量索引已禁用。', 'linked3'), 'items_processed' => 0];
         }
-        $provider = Linked3_Vector_Factory::instance()->make($config['provider'] ?? 'local');
+        $provider = VectorFactory::instance()->make($config['provider'] ?? 'local');
         if (!$provider) return ['ok' => false, 'message' => __('无向量服务。', 'linked3'), 'items_processed' => 0];
 
         // Find posts not yet indexed (use a postmeta flag).
@@ -35,7 +35,7 @@ final class Linked3_Content_Indexing_Processor implements Linked3_AutoGPT_Proces
             'meta_query' => [['key' => '_linked3_indexed', 'compare' => 'NOT EXISTS']],
         ]);
         foreach ($posts as $p) {
-            Linked3_Post_Processor::on_save_post($p->ID, $p, true);
+            PostProcessor::on_save_post($p->ID, $p, true);
             update_post_meta($p->ID, '_linked3_indexed', 1);
             $processed++;
         }

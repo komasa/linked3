@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Qdrant vector provider — self-hosted or cloud vector DB.
  *
@@ -8,7 +10,7 @@
 
 namespace Linked3\Classes\Vector\Providers;
 
-use Linked3\Classes\Vector\Linked3_Vector_Provider_Interface;
+use Linked3\Classes\Vector\VectorProviderInterface;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 
 
@@ -16,7 +18,7 @@ use Linked3\Includes\Http\Linked3_Safe_Remote;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Qdrant_Vector_Provider implements Linked3_Vector_Provider_Interface
+final class QdrantVectorProvider implements VectorProviderInterface
 {
     public function slug() : string { return 'qdrant'; }
 
