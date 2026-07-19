@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — 双公理系统 (v20.0)
  *
@@ -19,11 +21,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_Axioms
+ * Class COSAxioms
  *
  * 双公理系统 — COS 的地基。
  */
-class Linked3_COS_Axioms
+class COSAxioms
 {
     /**
      * 公理一: 信息熵减 — 操作后任务空间的不确定性必须降低。

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — Skill 库 (v20.0)
  *
@@ -18,11 +20,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_Skill_Library
+ * Class COSSkillLibrary
  *
  * Skill 库 — 存储固化的认知能力。
  */
-class Linked3_COS_Skill_Library
+class COSSkillLibrary
 {
     const OPTION_KEY = 'linked3_cos_skills';
 

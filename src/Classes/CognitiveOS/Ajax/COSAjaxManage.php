@@ -1,7 +1,9 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\CognitiveOS\Ajax;
 if (!defined('ABSPATH')) exit;
-class Linked3_COS_Ajax_Manage
+class COSAjaxManage
 {
     public static function recommend_levers_for_problem(string $problem, string $approach, string $domain): array
     {
@@ -171,12 +173,12 @@ class Linked3_COS_Ajax_Manage
             wp_send_json_error(['message' => __('问题描述不能为空', 'linked3')], 400);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Linked3_COS_Engine')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
             wp_send_json_error(['message' => __('COS 引擎未加载', 'linked3')], 500);
         }
 
         try {
-            $engine = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::instance();
+            $engine = \Linked3\Classes\CognitiveOS\COSEngine::instance();
             $result = $engine->evolve($problem, $context);
             wp_send_json_success($result);
         } catch (\Throwable $e) {
@@ -195,12 +197,12 @@ class Linked3_COS_Ajax_Manage
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Linked3_COS_Engine')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
             wp_send_json_error(['message' => __('COS 引擎未加载', 'linked3')], 500);
         }
 
         try {
-            $engine   = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::instance();
+            $engine   = \Linked3\Classes\CognitiveOS\COSEngine::instance();
             $overview = $engine->dashboard_overview();
             $skills   = $engine->top_skills(5);
             $recent   = $engine->recent_evolutions(5);
@@ -221,13 +223,13 @@ class Linked3_COS_Ajax_Manage
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\Linked3_COS_Skill_Library')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) {
             wp_send_json_error(['message' => __('Skill 库未加载', 'linked3')], 500);
         }
 
         try {
-            $skills = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::all();
-            $stats  = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::stats();
+            $skills = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::all();
+            $stats  = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::stats();
             wp_send_json_success(['skills' => $skills, 'stats' => $stats]);
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => $e->getMessage()], 500);

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — AJAX 端点 (v20.0)
  *
@@ -20,11 +22,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_Ajax
+ * Class COSAjax
  *
  * COS AJAX 端点注册器。
  */
-class Linked3_COS_Ajax
+class COSAjax
 {
     /**
      * 注册所有 AJAX 端点。
@@ -53,19 +55,19 @@ class Linked3_COS_Ajax
      * AJAX: 异步演化 — 运行单代 (v20.4-fix8)。
      * 前端串行调用 G1 → G2 → G3, 每次一个 AJAX 请求, 避免超时。
      */
-        public static function ajax_evolve_gen() : mixed { return Linked3_COS_Ajax_Evolve::ajax_evolve_gen(); }
+        public static function ajax_evolve_gen() : mixed { return COSAjaxEvolve::ajax_evolve_gen(); }
 
     /**
      * AJAX: 异步演化 — 最终结晶 (v20.4-fix8)。
      * G3 完成后调用, 保存 Skill。
      */
-        public static function ajax_evolve_finalize() : mixed { return Linked3_COS_Ajax_Evolve::ajax_evolve_finalize(); }
+        public static function ajax_evolve_finalize() : mixed { return COSAjaxEvolve::ajax_evolve_finalize(); }
 
     /**
      * AJAX: AI 诊断 — 测试 AI 调用是否正常, 返回详细错误信息。
      * 用于排查 "Failed to fetch" 的根因。
      */
-        public static function ajax_diagnose() { return Linked3_COS_Ajax_Evolve::ajax_diagnose(); }
+        public static function ajax_diagnose() { return COSAjaxEvolve::ajax_diagnose(); }
 
     /**
      * AJAX: 重置 AI 熔断器 — v20.4-fix12 新增。
@@ -73,45 +75,45 @@ class Linked3_COS_Ajax
      * 让被熔断的 provider 立即恢复可用。
      * 适用场景: AI 曾因超时失败触发熔断, 但 API 已恢复, 用户想立即重试。
      */
-        public static function ajax_reset_circuit() { return Linked3_COS_Ajax_Evolve::ajax_reset_circuit(); }
+        public static function ajax_reset_circuit() { return COSAjaxEvolve::ajax_reset_circuit(); }
 
     /**
      * AJAX: 杠杆自适配推荐 — 根据演化结果自动推荐适合的杠杆。
      */
-        public static function ajax_recommend_levers() { return Linked3_COS_Ajax_Evolve::ajax_recommend_levers(); }
+        public static function ajax_recommend_levers() { return COSAjaxEvolve::ajax_recommend_levers(); }
 
     /**
      * 基于问题特征推荐杠杆组合。
      */
-        public static function recommend_levers_for_problem(string $problem, string $approach, string $domain) { return Linked3_COS_Ajax_Manage::recommend_levers_for_problem($problem, $approach, $domain); }
+        public static function recommend_levers_for_problem(string $problem, string $approach, string $domain) { return COSAjaxManage::recommend_levers_for_problem($problem, $approach, $domain); }
 
     /**
      * v20.4-fix16: 一键精准匹配 — 基于场景关键词自动推荐杠杆组合
      * 支持18个场景的精准匹配，覆盖商用生产级常见需求
      */
-        public static function scene_match_levers(string $problem, string $approach, string $domain) { return Linked3_COS_Ajax_Manage::scene_match_levers($problem, $approach, $domain); }
+        public static function scene_match_levers(string $problem, string $approach, string $domain) { return COSAjaxManage::scene_match_levers($problem, $approach, $domain); }
 
     /**
      * AJAX: 版本探针 — 验证部署的代码版本。
      * 前端调用此端点, 如果返回的 patch_version 不是最新值,
      * 说明旧代码仍在运行 (需要清 OPcache 或重新上传)。
      */
-        public static function ajax_version() { return Linked3_COS_Ajax_Evolve::ajax_version(); }
+        public static function ajax_version() { return COSAjaxEvolve::ajax_version(); }
 
     /**
      * AJAX: 启动一次三代演化。
      */
-        public static function ajax_evolve() { return Linked3_COS_Ajax_Manage::ajax_evolve(); }
+        public static function ajax_evolve() { return COSAjaxManage::ajax_evolve(); }
 
     /**
      * AJAX: 获取仪表盘数据。
      */
-        public static function ajax_dashboard() { return Linked3_COS_Ajax_Manage::ajax_dashboard(); }
+        public static function ajax_dashboard() { return COSAjaxManage::ajax_dashboard(); }
 
     /**
      * AJAX: 获取 Skill 列表。
      */
-        public static function ajax_skills() { return Linked3_COS_Ajax_Manage::ajax_skills(); }
+        public static function ajax_skills() { return COSAjaxManage::ajax_skills(); }
 
     /**
      * AJAX: 获取演化归档。
@@ -123,13 +125,13 @@ class Linked3_COS_Ajax
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\Linked3_COS_Evolution_Archive')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSEvolutionArchive')) {
             wp_send_json_error(['message' => __('归档系统未加载', 'linked3')], 500);
         }
 
         try {
-            $recent = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Evolution_Archive::recent(20);
-            $stats  = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Evolution_Archive::stats();
+            $recent = \Linked3\Classes\CognitiveOS\Storage\COSEvolutionArchive::recent(20);
+            $stats  = \Linked3\Classes\CognitiveOS\Storage\COSEvolutionArchive::stats();
             wp_send_json_success(['recent' => $recent, 'stats' => $stats]);
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => $e->getMessage()], 500);
@@ -170,8 +172,8 @@ class Linked3_COS_Ajax
         // 如果传了 skill_name, 从 Skill 库加载 approach/steps
         if (isset($_POST['skill_name']) && empty($input['approach'])) {
             $skill_name = sanitize_key($_POST['skill_name']);
-            if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\Linked3_COS_Skill_Library')) {
-                $skill = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::get($skill_name);
+            if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) {
+                $skill = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::get($skill_name);
                 if ($skill) {
                     $input['approach'] = $input['approach'] ?? ($skill['mvp_approach'] ?? '');
                     $input['steps']    = $input['steps']    ?? ($skill['mvp_steps'] ?? '');
@@ -184,12 +186,12 @@ class Linked3_COS_Ajax
             wp_send_json_error(['message' => __('杠杆 ID 不能为空', 'linked3')], 400);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Linked3_COS_Engine')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
             wp_send_json_error(['message' => __('COS 引擎未加载', 'linked3')], 500);
         }
 
         try {
-            $engine = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::instance();
+            $engine = \Linked3\Classes\CognitiveOS\COSEngine::instance();
             $result = $engine->run_lever($lever_id, $input);
             wp_send_json_success($result);
         } catch (\Throwable $e) {
@@ -249,8 +251,8 @@ class Linked3_COS_Ajax
         // 如果传了 skill_name, 从 Skill 库加载
         if (isset($_POST['skill_name']) && empty($input['approach'])) {
             $skill_name = sanitize_key($_POST['skill_name']);
-            if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\Linked3_COS_Skill_Library')) {
-                $skill = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::get($skill_name);
+            if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) {
+                $skill = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::get($skill_name);
                 if ($skill) {
                     $input['approach'] = $skill['mvp_approach'] ?? '';
                     $input['steps']    = $skill['mvp_steps'] ?? '';
@@ -263,12 +265,12 @@ class Linked3_COS_Ajax
             wp_send_json_error(['message' => __('缺少审查对象: 请提供 problem 或 skill_name', 'linked3')], 400);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Linked3_COS_Engine')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
             wp_send_json_error(['message' => __('COS 引擎未加载', 'linked3')], 500);
         }
 
         try {
-            $engine = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::instance();
+            $engine = \Linked3\Classes\CognitiveOS\COSEngine::instance();
             $result = $engine->chain_levers($lever_ids, $input);
             wp_send_json_success($result);
         } catch (\Throwable $e) {
@@ -291,12 +293,12 @@ class Linked3_COS_Ajax
             wp_send_json_error(['message' => __('Skill 名称不能为空', 'linked3')], 400);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\Linked3_COS_Skill_Library')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) {
             wp_send_json_error(['message' => __('Skill 库未加载', 'linked3')], 500);
         }
 
         try {
-            $ok = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::delete($name);
+            $ok = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::delete($name);
             wp_send_json_success(['deleted' => $ok]);
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => $e->getMessage()], 500);
@@ -323,18 +325,18 @@ class Linked3_COS_Ajax
             wp_send_json_error(['message' => __('Skill 名称不能为空', 'linked3')], 400);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\Linked3_COS_Skill_Library')) {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) {
             wp_send_json_error(['message' => __('Skill 库未加载', 'linked3')], 500);
         }
 
         try {
-            $skill = \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::get($name);
+            $skill = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::get($name);
             if (!$skill) {
                 wp_send_json_error(['message' => __('Skill 不存在', 'linked3')], 404);
             }
 
             // 增加使用次数
-            \Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library::increment_usage($name);
+            \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::increment_usage($name);
 
             // 构造 system_prompt — v20.4: 注入完整方案 + 步骤 + 规则
             $rules    = $skill['rules'] ?? [];
@@ -352,7 +354,7 @@ class Linked3_COS_Ajax
             }
             // 如果 rules 是旧格式 (只有1条且是占位文本), 重新提取
             if (count($rules) <= 1 && !empty($approach)) {
-                $rules = \Linked3\Classes\CognitiveOS\Core\Linked3_COS_Departments::extract_rules([
+                $rules = \Linked3\Classes\CognitiveOS\Core\COSDepartments::extract_rules([
                     'approach' => $approach,
                     'steps'    => $steps,
                 ]);
@@ -463,4 +465,4 @@ class Linked3_COS_Ajax
 }
 
 // 延迟注册 — 在 init 钩子中注册 AJAX 端点
-add_action('init', [Linked3_COS_Ajax::class, 'register'], 30);
+add_action('init', [COSAjax::class, 'register'], 30);

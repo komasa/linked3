@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — 演化归档系统 (v20.0)
  *
@@ -18,11 +20,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_Evolution_Archive
+ * Class COSEvolutionArchive
  *
  * 演化归档系统 — 每代快照与回溯。
  */
-class Linked3_COS_Evolution_Archive
+class COSEvolutionArchive
 {
     const OPTION_KEY = 'linked3_cos_evolution_archive';
 

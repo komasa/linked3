@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — SLA 契约系统 (v20.0)
  *
@@ -20,11 +22,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_SLA
+ * Class COSSLA
  *
  * SLA 契约系统 — 部门间的服务级别协议。
  */
-class Linked3_COS_SLA
+class COSSLA
 {
     /**
      * SLA 契约表 — 每个契约定义违约条件和回退动作。

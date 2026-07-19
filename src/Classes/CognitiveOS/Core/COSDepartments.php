@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — 五部门引擎 (v20.4)
  *
@@ -26,11 +28,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_Departments
+ * Class COSDepartments
  *
  * 五部门引擎 — 每个部门是一个独立的执行单元。
  */
-class Linked3_COS_Departments
+class COSDepartments
 {
     /**
      * FP 部 — 定义公理和信息核。

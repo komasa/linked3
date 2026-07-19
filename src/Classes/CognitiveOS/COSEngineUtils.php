@@ -1,33 +1,35 @@
 <?php
+
+declare(strict_types=1);
 /**
  * CognitiveOS Engine Utils — v27.17.9-fix1 修复 fatal error.
  *
  * 修复内容:
- *   1. COS_PATCH_VERSION 常量未定义 → 从 Linked3_COS_Engine 获取
+ *   1. COS_PATCH_VERSION 常量未定义 → 从 COSEngine 获取
  *   2. self::$instance 未声明 → 添加 private static $instance
- *   3. Linked3_COS_Evolution / Linked3_COS_Evolution_Archive 未导入 → 添加 use
+ *   3. COSEvolution / COSEvolutionArchive 未导入 → 添加 use
  */
 
 namespace Linked3\Classes\CognitiveOS;
 
-use Linked3\Classes\CognitiveOS\Core\Linked3_COS_Evolution;
-use Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Evolution_Archive;
+use Linked3\Classes\CognitiveOS\Core\COSEvolution;
+use Linked3\Classes\CognitiveOS\Storage\COSEvolutionArchive;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_COS_Engine_Utils
+class COSEngineUtils
 {
     /** @var self|null */
     private static $instance = null;
 
     public static function patch_version(): string
     {
-        // 从 Linked3_COS_Engine 获取版本，避免常量未定义 fatal error
-        if (defined('\Linked3\Classes\CognitiveOS\Linked3_COS_Engine::COS_PATCH_VERSION')) {
-            return constant('\Linked3\Classes\CognitiveOS\Linked3_COS_Engine::COS_PATCH_VERSION');
+        // 从 COSEngine 获取版本，避免常量未定义 fatal error
+        if (defined('\Linked3\Classes\CognitiveOS\COSEngine::COS_PATCH_VERSION')) {
+            return constant('\Linked3\Classes\CognitiveOS\COSEngine::COS_PATCH_VERSION');
         }
-        if (class_exists('\Linked3\Classes\CognitiveOS\Linked3_COS_Engine')) {
-            return (string) \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::COS_PATCH_VERSION;
+        if (class_exists('\Linked3\Classes\CognitiveOS\COSEngine')) {
+            return (string) \Linked3\Classes\CognitiveOS\COSEngine::COS_PATCH_VERSION;
         }
         return 'v27.17.9';
     }
@@ -43,11 +45,11 @@ class Linked3_COS_Engine_Utils
     public function evolve(string $problem, array $context = []): array
     {
         // 运行演化
-        $result = Linked3_COS_Evolution::evolve($problem, $context);
+        $result = COSEvolution::evolve($problem, $context);
 
         // 归档每代快照
         foreach ($result['generations'] ?? [] as $gen) {
-            Linked3_COS_Evolution_Archive::save_generation([
+            COSEvolutionArchive::save_generation([
                 'generation'     => $gen['generation'],
                 'timestamp'      => current_time('mysql'),
                 'problem'         => $problem,
@@ -73,10 +75,10 @@ class Linked3_COS_Engine_Utils
 
     public function evolve_single_gen(string $problem, array $context, string $gen, ?array $baseline): array
     {
-        $gen_result = Linked3_COS_Evolution::run_generation($gen, $problem, $context, $baseline);
+        $gen_result = COSEvolution::run_generation($gen, $problem, $context, $baseline);
 
         // 归档本代快照
-        Linked3_COS_Evolution_Archive::save_generation([
+        COSEvolutionArchive::save_generation([
             'generation'     => $gen_result['generation'] ?? $gen,
             'timestamp'      => current_time('mysql'),
             'problem'         => $problem,

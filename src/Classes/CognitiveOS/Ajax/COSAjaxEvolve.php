@@ -1,7 +1,9 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\CognitiveOS\Ajax;
 if (!defined('ABSPATH')) exit;
-class Linked3_COS_Ajax_Evolve
+class COSAjaxEvolve
 {
     public static function ajax_evolve_gen(): void
     {
@@ -34,7 +36,7 @@ class Linked3_COS_Ajax_Evolve
         $context = ['domain' => $domain];
 
         try {
-            $engine = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::instance();
+            $engine = \Linked3\Classes\CognitiveOS\COSEngine::instance();
             $result = $engine->evolve_single_gen($problem, $context, $gen, $baseline);
             wp_send_json_success($result);
         } catch (\Throwable $e) {
@@ -87,7 +89,7 @@ class Linked3_COS_Ajax_Evolve
         $context = ['domain' => $domain];
 
         try {
-            $engine = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::instance();
+            $engine = \Linked3\Classes\CognitiveOS\COSEngine::instance();
             $result = $engine->finalize_evolution($problem, $context, $mvp, $generations_summary);
             wp_send_json_success($result);
         } catch (\Throwable $e) {
@@ -199,8 +201,8 @@ class Linked3_COS_Ajax_Evolve
     public static function ajax_version(): void
     {
         $patch = 'unknown';
-        if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Linked3_COS_Engine')) {
-            $patch = \Linked3\Classes\CognitiveOS\Linked3_COS_Engine::patch_version();
+        if (class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
+            $patch = \Linked3\Classes\CognitiveOS\COSEngine::patch_version();
         }
 
         // 同时检查关键修复点是否真的生效
@@ -212,7 +214,7 @@ class Linked3_COS_Ajax_Evolve
         ];
 
         try {
-            $rc = new \ReflectionClass('\\Linked3\\Classes\\CognitiveOS\\Core\\Linked3_COS_Departments');
+            $rc = new \ReflectionClass('\\Linked3\\Classes\\CognitiveOS\\Core\\COSDepartments');
             $m = $rc->getMethod('extract_rules');
             $checks['extract_rules_is_public'] = $m->isPublic();
         } catch (\Throwable $e) {}

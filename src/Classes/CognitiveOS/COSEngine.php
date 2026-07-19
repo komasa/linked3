@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — 引擎门面 (v20.0)
  *
@@ -22,12 +24,12 @@
 
 namespace Linked3\Classes\CognitiveOS;
 
-use Linked3\Classes\CognitiveOS\Core\Linked3_COS_Axioms;
-use Linked3\Classes\CognitiveOS\Core\Linked3_COS_Departments;
-use Linked3\Classes\CognitiveOS\Core\Linked3_COS_SLA;
-use Linked3\Classes\CognitiveOS\Core\Linked3_COS_Evolution;
-use Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Skill_Library;
-use Linked3\Classes\CognitiveOS\Storage\Linked3_COS_Evolution_Archive;
+use Linked3\Classes\CognitiveOS\Core\COSAxioms;
+use Linked3\Classes\CognitiveOS\Core\COSDepartments;
+use Linked3\Classes\CognitiveOS\Core\COSSLA;
+use Linked3\Classes\CognitiveOS\Core\COSEvolution;
+use Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary;
+use Linked3\Classes\CognitiveOS\Storage\COSEvolutionArchive;
 
 
 
@@ -46,13 +48,13 @@ require_once __DIR__ . '/Storage/class-linked3-cos-evolution-archive.php';
 require_once __DIR__ . '/../MetaLever/Composite/interface-linked3-composite-lever.php';
 require_once __DIR__ . '/../MetaLever/Composite/class-linked3-composite-lever-registry.php';
 /**
- * Class Linked3_COS_Engine
+ * Class COSEngine
  *
  * COS 引擎门面 — 统一入口。
  */
-class Linked3_COS_Engine
+class COSEngine
 {
-    /** @var Linked3_COS_Engine|null */
+    /** @var COSEngine|null */
     private static $instance = null;
 
     /**
@@ -61,7 +63,7 @@ class Linked3_COS_Engine
      */
     const COS_PATCH_VERSION = 'v27.17.9';
 
-        public static function patch_version() : mixed { return Linked3_COS_Engine_Utils::patch_version(); }
+        public static function patch_version() : mixed { return COSEngineUtils::patch_version(); }
 
     /**
      * 单例访问器。
@@ -85,7 +87,7 @@ class Linked3_COS_Engine
      */
         public function evolve(string $problem, array $context = []): array
     {
-        return \Linked3\Classes\CognitiveOS\Core\Linked3_COS_Evolution::evolve($problem, $context);
+        return \Linked3\Classes\CognitiveOS\Core\COSEvolution::evolve($problem, $context);
     }
 
     /**
@@ -93,7 +95,7 @@ class Linked3_COS_Engine
      */
         public function evolve_single_gen(string $problem, array $context, string $gen, ?array $baseline): array
     {
-        return \Linked3\Classes\CognitiveOS\Core\Linked3_COS_Evolution::run_generation($gen, $problem, $context, $baseline);
+        return \Linked3\Classes\CognitiveOS\Core\COSEvolution::run_generation($gen, $problem, $context, $baseline);
     }
 
     /**
@@ -114,9 +116,9 @@ class Linked3_COS_Engine
         $short_hash = substr(md5($problem . microtime(true)), 0, 6);
         $skill_name = $domain_slug . '_skill_' . $short_hash;
 
-        $rules = Linked3_COS_Departments::extract_rules($mvp);
+        $rules = COSDepartments::extract_rules($mvp);
 
-        Linked3_COS_Skill_Library::save($skill_name, [
+        COSSkillLibrary::save($skill_name, [
             'domain'       => !empty($context['domain']) ? $context['domain'] : 'general',
             'rules'        => $rules,
             'fitness'      => (float) ($mvp['fitness'] ?? 5.0),
@@ -457,7 +459,7 @@ class Linked3_COS_Engine
      */
     public function skill_stats(): array
     {
-        return Linked3_COS_Skill_Library::stats();
+        return COSSkillLibrary::stats();
     }
 
     /**
@@ -467,7 +469,7 @@ class Linked3_COS_Engine
      */
     public function archive_stats(): array
     {
-        return Linked3_COS_Evolution_Archive::stats();
+        return COSEvolutionArchive::stats();
     }
 
     /**
@@ -478,7 +480,7 @@ class Linked3_COS_Engine
      */
     public function recent_evolutions(int $n = 10): array
     {
-        return Linked3_COS_Evolution_Archive::recent($n);
+        return COSEvolutionArchive::recent($n);
     }
 
     /**
@@ -489,7 +491,7 @@ class Linked3_COS_Engine
      */
     public function top_skills(int $top_k = 10): array
     {
-        return Linked3_COS_Skill_Library::top_k($top_k);
+        return COSSkillLibrary::top_k($top_k);
     }
 
     /**

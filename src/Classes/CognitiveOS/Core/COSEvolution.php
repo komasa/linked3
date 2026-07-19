@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Cognitive Operating System — 演化循环引擎 (v20.0)
  *
@@ -20,11 +22,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class Linked3_COS_Evolution
+ * Class COSEvolution
  *
  * 演化循环引擎 — 驱动 G1 → G2 → G3 三代演化。
  */
-class Linked3_COS_Evolution
+class COSEvolution
 {
     /**
      * 运行完整三代演化。
@@ -109,7 +111,7 @@ class Linked3_COS_Evolution
     public static function run_generation(string $gen, string $problem, array $context, ?array $baseline): array
     {
         // ── FP 部: 定义信息核 ──
-        $fp = Linked3_COS_Departments::fp_department([
+        $fp = COSDepartments::fp_department([
             'problem' => $problem,
             'context' => array_merge($context, ['generation' => $gen, 'baseline' => $baseline]),
         ]);
@@ -119,13 +121,13 @@ class Linked3_COS_Evolution
         $info_core = $fp['deliverables']['info_core'];
 
         // SLA: FP → EX
-        $sla_fp_ex = Linked3_COS_SLA::validate('FP_to_EX', ['info_core' => $info_core]);
+        $sla_fp_ex = COSSLA::validate('FP_to_EX', ['info_core' => $info_core]);
         if (!$sla_fp_ex['passed']) {
             return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_fp_ex['message'], 'failed_at' => 'FP', 'sla_rollback' => $sla_fp_ex['rollback_to']];
         }
 
         // ── EX 部: 生成方案种群 (v20.4: 传入 baseline 供 G2/G3 变异) ──
-        $ex = Linked3_COS_Departments::ex_department([
+        $ex = COSDepartments::ex_department([
             'info_core'  => $info_core,
             'generation' => $gen,
             'baseline'   => $baseline ?? [],
@@ -136,35 +138,35 @@ class Linked3_COS_Evolution
         $variants = $ex['deliverables']['variants'];
 
         // SLA: EX → C
-        $sla_ex_c = Linked3_COS_SLA::validate('EX_to_C', ['variants' => $variants]);
+        $sla_ex_c = COSSLA::validate('EX_to_C', ['variants' => $variants]);
         if (!$sla_ex_c['passed']) {
             return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_ex_c['message'], 'failed_at' => 'EX', 'sla_rollback' => $sla_ex_c['rollback_to']];
         }
 
         // ── C 部: 绞杀弱者 ──
-        $c = Linked3_COS_Departments::c_department(['variants' => $variants]);
+        $c = COSDepartments::c_department(['variants' => $variants]);
         $survivors = $c['deliverables']['survivors'];
         $killed    = $c['deliverables']['killed'];
 
         // SLA: C → O
-        $sla_c_o = Linked3_COS_SLA::validate('C_to_O', ['survivors' => $survivors]);
+        $sla_c_o = COSSLA::validate('C_to_O', ['survivors' => $survivors]);
         if (!$sla_c_o['passed']) {
             return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_c_o['message'], 'failed_at' => 'C', 'sla_rollback' => $sla_c_o['rollback_to']];
         }
 
         // ── O 部: 盲区检测 ──
-        $o = Linked3_COS_Departments::o_department(['survivors' => $survivors]);
+        $o = COSDepartments::o_department(['survivors' => $survivors]);
         $blind_spots    = $o['deliverables']['blind_spots'];
         $hallucinations = $o['deliverables']['hallucinations'];
 
         // SLA: O → A
-        $sla_o_a = Linked3_COS_SLA::validate('O_to_A', ['blind_spots' => $blind_spots]);
+        $sla_o_a = COSSLA::validate('O_to_A', ['blind_spots' => $blind_spots]);
         if (!$sla_o_a['passed']) {
             return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_o_a['message'], 'failed_at' => 'O', 'sla_rollback' => $sla_o_a['rollback_to']];
         }
 
         // ── A 部: 结晶锁定 MVP ──
-        $a = Linked3_COS_Departments::a_department([
+        $a = COSDepartments::a_department([
             'survivors'  => $survivors,
             'generation' => $gen,
             'problem'    => $problem,
@@ -175,7 +177,7 @@ class Linked3_COS_Evolution
         $mvp = $a['deliverables']['mvp'];
 
         // SLA: A → 归档
-        $sla_a_arch = Linked3_COS_SLA::validate('A_to_archive', ['mvp' => $mvp]);
+        $sla_a_arch = COSSLA::validate('A_to_archive', ['mvp' => $mvp]);
         if (!$sla_a_arch['passed']) {
             return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_a_arch['message'], 'failed_at' => 'A', 'sla_rollback' => $sla_a_arch['rollback_to']];
         }
@@ -184,7 +186,7 @@ class Linked3_COS_Evolution
         $op_steps = !empty($mvp['steps'])
             ? array_filter(array_map('trim', preg_split('/[;；\n]+/u', $mvp['steps'])))
             : [$mvp['approach']];
-        $axiom = Linked3_COS_Axioms::validate_both([
+        $axiom = COSAxioms::validate_both([
             'entropy_before'    => count($variants),
             'entropy_after'     => count($survivors),
             'operational_steps' => $op_steps,
