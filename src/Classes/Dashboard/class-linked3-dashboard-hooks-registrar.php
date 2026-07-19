@@ -22,10 +22,10 @@
 
 namespace Linked3\Classes\Dashboard;
 
-use Linked3\Classes\Addons\Linked3_Addon_Manager;
+use Linked3\Classes\Addons\AddonManager;
 use Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon;
 use Linked3\Classes\Addons\Linked3_Consent_Compliance_Addon;
-use Linked3\Classes\Rest\Linked3_Rest_Controller;
+use Linked3\Classes\Rest\RestController;
 
 
 
@@ -53,8 +53,8 @@ final class Linked3_Dashboard_Hooks_Registrar
     : void {
         // 1) REST API.
         try {
-            if (class_exists(Linked3_Rest_Controller::class)) {
-                Linked3_Rest_Controller::register();
+            if (class_exists(RestController::class)) {
+                RestController::register();
             }
         } catch (\Throwable $e) {
             self::log_failure('REST controller', $e);
@@ -62,8 +62,8 @@ final class Linked3_Dashboard_Hooks_Registrar
 
         // 2) Addons.
         try {
-            if (class_exists(Linked3_Addon_Manager::class)) {
-                $mgr = Linked3_Addon_Manager::instance();
+            if (class_exists(AddonManager::class)) {
+                $mgr = AddonManager::instance();
                 if (class_exists(Linked3_IP_Anonymization_Addon::class)) {
                     $mgr->register(new \Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon());
                 }

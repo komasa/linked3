@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * REST API — exposes Linked3 features to external apps / mobile / integrations.
  *
@@ -23,7 +25,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Rest_Controller
+final class RestController
 {
     // NOTE: cannot use `const NAMESPACE` — `namespace` is a PHP reserved
     // keyword and case-insensitive, so even uppercase `NAMESPACE` is a parse

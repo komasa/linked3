@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Addon system — modular extensions with IsRequired/IsActive/Executor pattern.
  *
@@ -29,7 +31,7 @@ interface Linked3_Addon_Interface
     public function execute() : void;
 }
 
-final class Linked3_Addon_Manager
+final class AddonManager
 {
     private static $instance;
     private $addons = [];

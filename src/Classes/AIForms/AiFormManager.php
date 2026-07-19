@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * AI Forms — shortcode-based forms with AI analysis on submission.
  *
@@ -17,7 +19,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_AI_Form_Manager
+final class AiFormManager
 {
     /**
      * Register shortcode.

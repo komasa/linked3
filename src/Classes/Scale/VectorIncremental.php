@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Scale — v5.9.0
  *
@@ -20,11 +22,11 @@ if (!defined('ABSPATH')) exit;
 // v5.9.0.1: 向量增量更新
 // =================================================================
 
-class Linked3_Vector_Incremental {
-    private static ?Linked3_Vector_Incremental $instance = null;
+class VectorIncremental {
+    private static ?VectorIncremental $instance = null;
     private int $dim = 128;
 
-    public static function instance(): Linked3_Vector_Incremental {
+    public static function instance(): VectorIncremental {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -337,7 +339,7 @@ class Linked3_Scale_Bootstrap {
         self::$booted = true;
 
         $container = linked3_container();
-        $container->set('vector.incremental', fn() => Linked3_Vector_Incremental::instance());
+        $container->set('vector.incremental', fn() => VectorIncremental::instance());
         $container->set('i18n.manager', fn() => Linked3_i18n_Manager::instance());
         $container->set('multisite.publisher', fn() => Linked3_MultiSite_Publisher::instance());
         $container->set('batch.engine', fn() => Linked3_Batch_Engine::instance());

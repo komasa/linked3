@@ -239,9 +239,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\Addons\Linked3_Addon_Manager::class,
-            static function (): \Linked3\Classes\Addons\Linked3_Addon_Manager {
-                return \Linked3\Classes\Addons\Linked3_Addon_Manager::instance_without_container();
+            \Linked3\Classes\Addons\AddonManager::class,
+            static function (): \Linked3\Classes\Addons\AddonManager {
+                return \Linked3\Classes\Addons\AddonManager::instance_without_container();
             }
         );
     }

@@ -8,7 +8,7 @@
 
 namespace Linked3\Classes\WooCommerce;
 
-use Linked3\Classes\AIForms\Linked3_AI_Form_Manager;
+use Linked3\Classes\AIForms\AiFormManager;
 use Linked3\Classes\Speech\TtsManager;
 
 
@@ -23,13 +23,13 @@ final class Linked3_WC_Forms_Speech_Hooks_Registrar
     public static function register()
     : void {
         // AI Forms.
-        Linked3_AI_Form_Manager::register();
+        AiFormManager::register();
         // v1.0.0 FINAL-AUDIT: wire up admin CRUD AJAX (create/update/delete).
         // Previously the forms admin page was read-only; admins had to write
         // PHP code to create forms.
-        Linked3_AI_Form_Manager::register_admin_ajax();
-        add_action('wp_ajax_nopriv_linked3_form_submit', [Linked3_AI_Form_Manager::class, 'handle_submission']);
-        add_action('wp_ajax_linked3_form_submit', [Linked3_AI_Form_Manager::class, 'handle_submission']);
+        AiFormManager::register_admin_ajax();
+        add_action('wp_ajax_nopriv_linked3_form_submit', [AiFormManager::class, 'handle_submission']);
+        add_action('wp_ajax_linked3_form_submit', [AiFormManager::class, 'handle_submission']);
 
         // TTS shortcode.
         TtsManager::register_shortcode();

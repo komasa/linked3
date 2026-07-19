@@ -170,9 +170,9 @@ final class Linked3_Hook_Manager
         // so a double registration is harmless. This fixes P0-2 from the
         // v4.6.1 audit (addons were dead code because init_all() was never
         // guaranteed to fire).
-        if (class_exists('\\Linked3\\Classes\\Addons\\Linked3_Addon_Manager')) {
+        if (class_exists('\\Linked3\\Classes\\Addons\\AddonManager')) {
             try {
-                $addon_mgr = \Linked3\Classes\Addons\Linked3_Addon_Manager::instance();
+                $addon_mgr = \Linked3\Classes\Addons\AddonManager::instance();
                 if (class_exists('\\Linked3\\Classes\\Addons\\Linked3_IP_Anonymization_Addon')) {
                     $addon_mgr->register(new \Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon());
                 }

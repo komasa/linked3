@@ -28,7 +28,7 @@ final class Linked3_Service_Locator
         'chat' => 'Linked3\Classes\Chat\Linked3_Chat_Manager',
         'publish' => 'Linked3\Classes\Publish\Linked3_Publish_Manager',
         'distribute' => 'Linked3\Classes\Distribute\Linked3_Distribute_Manager',
-        'addons' => 'Linked3\Classes\Addons\Linked3_Addon_Manager',
+        'addons' => 'Linked3\Classes\Addons\AddonManager',
         'schema' => 'Linked3\Classes\SEO\Schema\Linked3_Schema_Markup',
         'push' => 'Linked3\Classes\SEO\Push\Linked3_Push_Manager',
     ];

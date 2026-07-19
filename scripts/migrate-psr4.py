@@ -95,10 +95,15 @@ class PSR4Migrator:
         but skips dependency and VCS directories.
         """
         references = []
-        skip_dirs = {'vendor', 'node_modules', '.git', '.svn', 'cache', 'tmp'}
+        skip_dirs = {'vendor', 'node_modules', '.git', '.svn', 'cache', 'tmp',
+                     'dist', 'build', 'uploads', 'assets'}
+        skip_suffixes = {'.min.js', '.min.css', '.map'}
         for php_file in self.find_all_php_files(search_root):
-            # Skip files inside dependency/VCS directories
+            # Skip files inside dependency/VCS/build directories
             if any(part in skip_dirs for part in php_file.parts):
+                continue
+            # Skip minified/compressed assets
+            if any(php_file.name.endswith(suffix) for suffix in skip_suffixes):
                 continue
             try:
                 content = php_file.read_text(encoding='utf-8', errors='replace')

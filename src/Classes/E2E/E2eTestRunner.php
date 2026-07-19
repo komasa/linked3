@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 v6.0.0 — 商业生产级最终集成
  *
@@ -22,15 +24,15 @@ if (!defined('ABSPATH')) exit;
 // v6.0.0.1: E2E 测试框架
 // =================================================================
 
-class Linked3_E2E_Test_Runner {
-    private static ?Linked3_E2E_Test_Runner $instance = null;
+class E2eTestRunner {
+    private static ?E2eTestRunner $instance = null;
     private array $tests = [];
     private array $results = [];
 
     /** @var bool E2E 事件总线测试触发标志 (避免闭包 use) */
     private static $e2e_triggered = false;
 
-    public static function instance(): Linked3_E2E_Test_Runner {
+    public static function instance(): E2eTestRunner {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -170,7 +172,7 @@ class Linked3_Health_Monitor {
             'invoice_manager'    => class_exists('\Linked3\Classes\E2E\Linked3_Invoice_Manager'),
             'referral_manager'   => class_exists('\Linked3\Classes\E2E\Linked3_Referral_Manager'),
             // 规模
-            'vector_incremental' => class_exists('\Linked3\Classes\E2E\Linked3_Vector_Incremental'),
+            'vector_incremental' => class_exists('\Linked3\Classes\E2E\VectorIncremental'),
             'i18n_manager'       => class_exists('\Linked3\Classes\E2E\Linked3_i18n_Manager'),
             'multisite_publisher' => class_exists('\Linked3\Classes\E2E\Linked3_MultiSite_Publisher'),
             'batch_engine'       => class_exists('\Linked3\Classes\E2E\Linked3_Batch_Engine'),
@@ -326,8 +328,8 @@ class Linked3_Final_Bootstrap {
         }
 
         // 注册 E2E 测试
-        if (class_exists('\Linked3\Classes\E2E\Linked3_E2E_Test_Runner')) {
-            $runner = Linked3_E2E_Test_Runner::instance();
+        if (class_exists('\Linked3\Classes\E2E\E2eTestRunner')) {
+            $runner = E2eTestRunner::instance();
             $runner->registerDefaultTests();
         }
 
