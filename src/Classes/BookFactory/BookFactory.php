@@ -30,10 +30,10 @@ namespace Linked3\Classes\BookFactory;
 if ( ! defined( 'ABSPATH' ) ) exit;
 // 显式加载 Trait (自动加载器无法解析 trait 的 Linked3_X_Y 命名)
 $trait_dir = __DIR__ . '/Traits/';
-require_once $trait_dir . 'trait-linked3-outline-merger.php';
-require_once $trait_dir . 'trait-linked3-section-expander.php';
-require_once $trait_dir . 'trait-linked3-review-linker.php';
-require_once $trait_dir . 'trait-linked3-cost-tracker.php';
+require_once $trait_dir . 'OutlineMerger.php';
+require_once $trait_dir . 'SectionExpander.php';
+require_once $trait_dir . 'ReviewLinker.php';
+require_once $trait_dir . 'CostTracker.php';
 
 class BookFactory {
     /**

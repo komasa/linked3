@@ -1,899 +1,899 @@
 [
-  {
-    "class_name": "Linked3_Meta_Lever_Abstraction",
-    "id": "meta_abstraction",
-    "label": "元抽象能力",
-    "description": "从案例提取通用模型，向上归纳。输出纯文本分析。",
-    "prompt": "## 元抽象协议（Meta-Abstraction Protocol）\n\n你具备抽象能力——能从具体案例中提取通用模型。\n\n### 执行步骤\n\n**步骤1：案例解构**\n将输入的具体内容/案例解构为：\n- 表层细节（具体的、情境性的）\n- 中层模式（跨案例的结构性特征）\n- 深层原理（抽象的、跨领域的规律）\n\n**步骤2：模式命名**\n为提取的深层模式命名，使其可被引用和复用：\n- 模式名应简洁、形象、易记\n- 类似设计模式的命名（如\"钩子模式\"、\"飞轮效应\"）\n\n**步骤3：边界界定**\n明确模式的适用边界：\n- 什么情况下有效\n- 什么情况下失效\n- 关键前提条件\n\n**步骤4：抽象输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "abstraction",
-      "pattern",
-      "model",
-      "generalization"
-    ],
-    "applicable_tasks": [
-      "content_writer",
-      "seo_article",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "abstraction_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Aesthetics",
-    "id": "meta_aesthetics",
-    "label": "元美学判断",
-    "description": "美学标准对齐 + 风格共识 + 审美敏感性 + 品味批判。输出纯文本分析。",
-    "prompt": "## 元美学判断协议（Meta-Aesthetics Protocol）\n\n你具备美学判断能力——能评估和提升方案的美学品质。\n\n### 执行步骤\n\n**步骤1：美学标准对齐**\n识别方案应遵循的美学标准：\n- 目标受众的审美偏好是什么？（简约/华丽/复古/现代/赛博朋克）\n- 行业的美学惯例是什么？是否需要打破？\n- 方案的视觉/语言/结构美学是否一致？\n\n**步骤2：风格共识达成**\n确保风格的一致性：\n- 方案在不同部分是否保持了统一的风格？\n- 风格选择是否与品牌调性匹配？\n- 有没有风格断裂的地方？\n\n**步骤3：审美敏感性提升**\n提升方案的美学品质：\n- 哪些细节可以提升美感？（排版/色彩/节奏/留白）\n- 是否有\"画蛇添足\"的过度设计？\n- 美学选择是否服务于功能目标？\n\n**步骤4：品味批判**\n对美学选择进行批判性审查：\n- 这个美学选择是趋势还是经典？\n- 5年后看这个选择是否仍然成立？\n- 是否存在\"审美盲区\"——某些群体会觉得丑？\n\n**步骤5：美学输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "aesthetics",
-      "style",
-      "taste",
-      "beauty"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "aesthetics_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Analogy",
-    "id": "meta_analogy",
-    "label": "元类比能力",
-    "description": "跨域结构映射，远距离类比。输出纯文本分析。",
-    "prompt": "## 元类比协议（Meta-Analogy Protocol）\n\n你具备类比能力——能将一个领域的结构映射到另一个领域，产生新洞察。\n\n### 执行步骤\n\n**步骤1：源域识别**\n识别当前主题可类比的源领域：\n- 生物学（进化、生态、免疫系统）\n- 物理学（杠杆、惯性、共振）\n- 经济学（供需、博弈、激励）\n- 心理学（认知偏差、习惯回路）\n- 工程（反馈系统、模块化、冗余）\n\n**步骤2：结构映射**\n将源域的关系结构映射到目标域：\n- 源域元素A → 目标域元素A'\n- 源域关系R → 目标域关系R'\n- 验证映射的一致性\n\n**步骤3：类比有效性检验**\n- 表面相似性（低价值）：仅外观像\n- 结构相似性（高价值）：关系对应\n- 检验：映射是否保留了关键关系？\n\n**步骤4：类比输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "analogy",
-      "mapping",
-      "cross-domain",
-      "metaphor"
-    ],
-    "applicable_tasks": [
-      "content_writer",
-      "xhs_generate",
-      "video_script",
-      "seo_article"
-    ],
-    "trace_field": "analogy_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Attention",
-    "id": "meta_attention",
-    "label": "元注意力管理",
-    "description": "注意力聚焦 + 舒适区突破 + 认知负荷管理。输出纯文本分析。",
-    "prompt": "## 元注意力管理协议（Meta-Attention Protocol）\n\n你具备注意力管理能力——能设计注意力聚焦策略和认知负荷优化。\n\n### 执行步骤\n\n**步骤1：注意力聚焦设计**\n设计方案的注意力引导路径：\n- 受众的注意力应该先到哪里，再到哪里？\n- 哪些信息需要高注意力，哪些可以低注意力处理？\n- 如何用视觉/语言/结构线索引导注意力？\n\n**步骤2：认知负荷管理**\n管理受众的认知负荷：\n- 方案的信息密度是否适中？\n- 哪些部分可能导致认知过载？\n- 如何分块、排序以降低认知负荷？\n- 是否需要提供\"认知休息\"的节点？\n\n**步骤3：舒适区突破**\n设计突破舒适区的策略：\n- 方案中哪些部分会让受众感到不适？\n- 这种不适是必要的（促进成长）还是不必要的（导致流失）？\n- 如何在突破舒适区的同时提供安全感？\n\n**步骤4：注意力输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "attention",
-      "focus",
-      "comfort-zone",
-      "cognitive-load"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "attention_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Causal",
-    "id": "meta_causal",
-    "label": "元因果推断",
-    "description": "因果模型构建+反事实推理+贝叶斯更新。输出纯文本分析。",
-    "prompt": "## 元因果推断协议（Meta-Causal Protocol）\n\n你具备因果推断能力——能区分相关与因果，构建因果模型。\n\n### 执行步骤\n\n**步骤1：因果图构建**\n为方案/问题构建因果模型：\n- 识别所有相关变量和它们的关系方向\n- 区分：因果关系(A→B) vs 相关关系(A↔B) vs 混淆(C→A, C→B)\n- 绘制有向无环图(DAG)表示因果结构\n\n**步骤2：反事实推理**\n进行\"如果...会怎样\"分析：\n- 如果移除某个因果环节，结果会怎样？\n- 如果改变某个变量的值，其他变量如何响应？\n- 存在哪些干预点可以改变结果？\n\n**步骤3：贝叶斯更新**\n基于新证据更新因果信念：\n- 先验概率是什么？（基于已有知识）\n- 新证据的似然比是多少？（支持vs反对）\n- 后验概率如何更新？（贝叶斯定理）\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "causal",
-      "counterfactual",
-      "bayesian",
-      "intervention"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "causal_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Cognition",
-    "id": "meta_cognition",
-    "label": "元认知能力",
-    "description": "自我监控、置信度评估、盲区识别。输出纯文本分析。",
-    "prompt": "## 元认知协议（Meta-Cognition Protocol）\n\n你具备元认知能力——能监控自己的思考过程，评估输出质量。\n\n### 执行步骤\n\n**步骤1：思考过程监控**\n在生成内容时，记录：\n- 使用了哪些知识/模式\n- 哪些部分是确定的，哪些是推测的\n- 哪些部分依赖外部验证\n\n**步骤2：置信度评估**\n对输出的每个关键结论标注置信度（0-1）：\n- 0.9-1.0：有充分证据/逻辑必然\n- 0.7-0.9：有支持证据但存在假设\n- 0.5-0.7：基于经验/常识，需验证\n- <0.5：推测性内容，应标注\n\n**步骤3：盲区识别**\n主动列出自己可能忽略的：\n- 未考虑的视角\n- 未验证的假设\n- 潜在的反例\n\n**步骤4：质量自评**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "cognition",
-      "metacognition",
-      "confidence",
-      "self-awareness"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script",
-      "comic_split"
-    ],
-    "trace_field": "cognition_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Collaboration",
-    "id": "meta_collaboration",
-    "label": "元协作编排",
-    "description": "角色互换 + 优势互补 + 协作流程设计。输出纯文本分析。",
-    "prompt": "## 元协作编排协议（Meta-Collaboration Protocol）\n\n你具备协作编排能力——能设计角色分工、优势互补和协作流程。\n\n### 执行步骤\n\n**步骤1：角色识别与互换**\n识别方案执行中的角色分工：\n- 方案涉及哪些角色？（创造者/评审者/执行者/观察者）\n- 各角色的核心优势是什么？\n- 如果互换角色（创造者→评审者，执行者→战略家），会发现什么新视角？\n- 内行和外行看同一个方案，分别会关注什么？\n\n**步骤2：优势互补设计**\n设计角色间的优势互补：\n- 哪些角色的能力可以互补？\n- 如何编排角色互动以产生\"1+1>2\"的涌现？\n- 是否存在角色冲突？如何化解？\n\n**步骤3：协作流程设计**\n设计高效的协作流程：\n- 协作的目标是否对齐？\n- 信息流是否畅通？有没有信息孤岛？\n- 协作节奏是否匹配？（快慢节奏的协调）\n- 如何标准化协作流程以提高效率？\n\n**步骤4：协作输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "collaboration",
-      "roles",
-      "synergy",
-      "workflow"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "collaboration_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Communication",
-    "id": "meta_communication",
-    "label": "元沟通能力",
-    "description": "受众建模 + 认知降维 + 反馈适配。输出纯文本分析。",
-    "prompt": "## 元沟通协议（Meta-Communication Protocol）\n\n你具备元沟通能力——能根据受众调整表达，确保信息有效传递。\n\n### 执行步骤\n\n**步骤1：受众建模**\n分析目标受众：\n- 知识水平：专家/中等/新手\n- 关注点：他们最关心什么？\n- 认知偏好：数据型/故事型/视觉型\n- 潜在抵触：他们可能抗拒什么？\n\n**步骤2：认知降维**\n将复杂概念降维到受众可理解的层面：\n- 用受众熟悉的类比解释陌生概念\n- 先给结论，再展开（金字塔原理）\n- 每段只讲一个观点\n\n**步骤3：反馈适配**\n预判受众的反馈并适配：\n- 可能的疑问 → 预先回答\n- 可能的误解 → 主动澄清\n- 可能的抵触 → 先共情再说服\n\n**步骤4：沟通输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "communication",
-      "audience",
-      "clarity",
-      "adaptation"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script",
-      "seo_article"
-    ],
-    "trace_field": "communication_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Concept",
-    "id": "meta_concept",
-    "label": "元概念工程",
-    "description": "概念定义/边界/层次 + 语义场定位 + 操作化定义。输出纯文本分析。",
-    "prompt": "## 元概念工程协议（Meta-Concept Protocol）\n\n你具备概念工程能力——能精确定义、分析和重构概念。\n\n### 执行步骤\n\n**步骤1：概念定义与澄清**\n对方案中的核心概念进行精确定义：\n- 每个关键术语的精确含义是什么？\n- 不同人群对这个概念的理解是否一致？\n- 概念是否存在歧义或多义性？\n\n**步骤2：概念边界探索**\n划定概念的适用范围：\n- 这个概念在什么条件下成立？\n- 在什么条件下失效？\n- 概念的边界案例是什么？\n\n**步骤3：概念层次分析**\n分析概念的层次结构：\n- 这个概念的上位概念是什么？\n- 下位概念有哪些？\n- 同层概念之间的区别是什么？\n\n**步骤4：操作化定义**\n将抽象概念转化为可操作的定义：\n- 如何用可观测的指标衡量这个概念？\n- 概念的操作化定义是否覆盖了所有维度？\n\n**步骤5：概念输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "concept",
-      "definition",
-      "semantic",
-      "boundary"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "concept_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Context",
-    "id": "meta_context",
-    "label": "元语境感知",
-    "description": "情境理解+文化敏感+语境适配。输出纯文本分析。",
-    "prompt": "## 元语境感知协议（Meta-Context Protocol）\n\n你具备语境感知能力——能理解情境、敏感文化差异、适配语境。\n\n### 执行步骤\n\n**步骤1：情境理解**\n分析方案/内容所处的情境：\n- 物理情境：在什么平台/场景下呈现？（小红书vs SEO文章vs视频）\n- 社会情境：受众的社会身份和关系结构是什么？\n- 时间情境：当前的社会热点和时代背景是什么？\n\n**步骤2：文化敏感性**\n评估方案的文化适配度：\n- 是否存在文化禁忌或敏感话题？\n- 不同文化背景的受众会如何理解？\n- 是否需要本地化调整？（语言习惯、价值取向、审美偏好）\n\n**步骤3：语境适配**\n根据语境调整表达方式：\n- 正式度：学术/商务/日常/娱乐\n- 直接度：高语境（暗示）vs低语境（直说）\n- 权力距离：平等对话vs权威指导\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "context",
-      "cultural",
-      "situational",
-      "adaptation"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "context_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Creativity",
-    "id": "meta_creativity",
-    "label": "元创造能力",
-    "description": "SCAMPER创新法 + 组合创新 + 约束利用。输出纯文本分析。",
-    "prompt": "## 元创造协议（Meta-Creativity Protocol）\n\n你具备结构化创造力——不是随机发散，而是用创新方法论产生有价值的新想法。\n\n### 执行步骤\n\n**步骤1：SCAMPER 创新扫描**\n对当前主题/对象，依次问 7 个问题：\n- S (Substitute)：能替换什么？材料/方法/流程\n- C (Combine)：能组合什么？跨领域元素\n- A (Adapt)：能借鉴什么？其他领域的解法\n- M (Modify/Magnify)：能放大/缩小什么？\n- P (Put to other use)：能用于什么新场景？\n- E (Eliminate)：能去掉什么？\n- R (Reverse/Rearrange)：能反转/重排什么？\n\n**步骤2：组合创新**\n将至少 2 个不相关领域的元素组合，产生新方案：\n- 领域A的X + 领域B的Y = 新方案Z\n\n**步骤3：约束利用**\n识别当前约束，将约束转化为创新机会：\n- \"因为限制X，所以我们可以Y\"\n\n**步骤4：创意输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "creativity",
-      "scamper",
-      "innovation",
-      "combination"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script",
-      "comic_split"
-    ],
-    "trace_field": "creativity_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Critique",
-    "id": "meta_critique",
-    "label": "元批判能力",
-    "description": "红队攻击 + 证伪测试 + 反驳预判。输出纯文本分析。",
-    "prompt": "## 元批判协议（Meta-Critique Protocol）\n\n你具备自我批判能力——在输出前，先攻击自己的方案。\n\n### 执行步骤\n\n**步骤1：红队攻击**\n假设你是反对者，对即将输出的内容进行攻击：\n- 最薄弱的论点是什么？\n- 哪些数据/证据可以被质疑？\n- 哪些假设可能不成立？\n\n**步骤2：证伪测试**\n对每个关键结论，尝试证伪：\n- \"如果这个结论是错的，会是什么样？\"\n- \"什么证据能推翻这个结论？\"\n\n**步骤3：反驳预判**\n预判读者可能的反驳，并准备回应：\n- 反驳1：[读者可能说...] → 回应：[我的回应...]\n- 反驳2：[读者可能说...] → 回应：[我的回应...]\n\n**步骤4：修正输出**\n根据批判结果修正内容，提升抗攻击性。\n\n**步骤5：批判报告**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "critique",
-      "red-team",
-      "falsification",
-      "antifragile"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "critique_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Crossover",
-    "id": "meta_crossover",
-    "label": "元跨界颠覆",
-    "description": "生物拟态 + 物理规则迁移 + 艺术解构 + 游戏化重构。输出纯文本分析。",
-    "prompt": "## 元跨界颠覆协议（Meta-Crossover Protocol）\n\n你具备跨界颠覆能力——能从完全不同的领域借用规则来重构当前方案。\n\n### 执行步骤\n\n**步骤1：生物拟态**\n从生物界寻找结构映射：\n- 蜂群算法如何重组当前的管理流程？\n- 神经元网络如何重构当前的决策机制？\n- 免疫系统如何转化为自适应防御模型？\n- 共生理论如何重新定义当前的合作伙伴关系？\n\n**步骤2：物理规则迁移**\n将物理现象转化为方案设计原则：\n- 量子隧穿：如何突破看似不可逾越的壁垒？\n- 布朗运动：如何利用随机性发现新机会？\n- 熵增定律：如何对抗系统的自然衰退？\n- 相变临界点：如何识别并触发质变？\n\n**步骤3：艺术解构**\n用艺术流派的视角重新审视方案：\n- 超现实主义：方案中哪些\"不合理\"反而有价值？\n- 极简主义：去掉所有装饰后，核心是什么？\n- 达达主义：随机组合能产生什么新意义？\n\n**步骤4：游戏化重构**\n将方案转化为游戏机制：\n- 如果方案是RPG游戏，哪些规则会被玩家首先破坏？\n- 成就系统如何激励用户按方案行动？\n- 关卡设计如何控制方案的执行节奏？\n\n**步骤5：跨界输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "crossover",
-      "bio-mimicry",
-      "physics-transfer",
-      "art-deconstruction"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script",
-      "seo_article"
-    ],
-    "trace_field": "crossover_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Decision",
-    "id": "meta_decision",
-    "label": "元决策能力",
-    "description": "决策矩阵 + 多准则权衡 + 期望值。输出纯文本分析。",
-    "prompt": "## 元决策协议（Meta-Decision Protocol）\n\n你具备结构化决策能力——不是凭直觉，而是用框架权衡。\n\n### 执行步骤\n\n**步骤1：选项枚举**\n列出所有可行选项（至少 3 个），包括\"不行动\"选项。\n\n**步骤2：准则定义**\n定义评估准则（至少 3 个），每个准则：\n- 明确含义\n- 设定权重（总和 100%）\n\n**步骤3：决策矩阵评分**\n对每个选项 × 每个准则打分（1-10），计算加权总分。\n\n**步骤4：期望值计算**\n对每个选项，估算：\n- 成功概率 P\n- 成功收益 B\n- 失败概率 (1-P)\n- 失败成本 C\n- 期望值 EV = P×B - (1-P)×C\n\n**步骤5：敏感性分析**\n检验：如果某个概率/收益变化 ±20%，决策是否反转？\n\n**步骤6：决策输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "decision",
-      "matrix",
-      "tradeoff",
-      "expected-value"
-    ],
-    "applicable_tasks": [
-      "content_writer",
-      "seo_article",
-      "video_script"
-    ],
-    "trace_field": "decision_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Design",
-    "id": "meta_design",
-    "label": "元设计思维",
-    "description": "用户中心+原型迭代+同理心映射。输出纯文本分析。",
-    "prompt": "## 元设计思维协议（Meta-Design Protocol）\n\n你具备设计思维能力——能以用户为中心进行原型迭代。\n\n### 执行步骤\n\n**步骤1：同理心映射**\n深入理解目标用户：\n- 用户是谁？他们的真实需求是什么？（显性vs隐性）\n- 用户在什么场景下使用？痛点在哪里？\n- 用户的情感旅程是什么？（从接触到离开的每个触点）\n\n**步骤2：问题定义**\n重新定义设计挑战：\n- 用户真正想解决的问题是什么？（不是表面需求）\n- 如何用\"How might we...\"句式重构问题？\n- 问题的边界在哪里？什么不在设计范围内？\n\n**步骤3：原型迭代**\n设计最小可行原型：\n- 最简版本是什么？（MVP）\n- 如何快速验证核心假设？\n- 迭代循环：构建→测量→学习的节奏\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "design",
-      "user-centered",
-      "prototype",
-      "empathy"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "design_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Dynamics",
-    "id": "meta_dynamics",
-    "label": "元动态演化",
-    "description": "循环 + 反馈 + 杠杆点 + 生态 + 演化 + 涌现 + 熵增。输出纯文本分析。",
-    "prompt": "## 元动态演化协议（Meta-Dynamics Protocol）\n\n你具备动态演化分析能力——能从系统循环、反馈回路和涌现现象的角度审视方案。\n\n### 执行步骤\n\n**步骤1：反馈回路识别**\n识别方案中的增强回路和平衡回路：\n- 方案中哪些环节形成正反馈（越做越多）？\n- 哪些环节形成负反馈（自我调节）？\n- 延迟效应：反馈的滞后性会导致什么振荡？\n- 杠杆点：在哪个环节施加最小力能产生最大变化？\n\n**步骤2：生态系统分析**\n将方案放入更大的生态中审视：\n- 方案的\"食物链\"位置是什么？（生产者/消费者/分解者）\n- 方案依赖哪些\"共生伙伴\"？如果伙伴消失会怎样？\n- 方案的\"生态位\"是否被占据？竞争强度如何？\n- 方案是否可能引发\"生态入侵\"效应？\n\n**步骤3：演化推演**\n模拟方案在时间轴上的演化：\n- 10年后，方案会如何变形？\n- 熵增定律：方案的自然衰退速度是多少？\n- 涌现现象：方案大规模部署后会出现什么预期外的特性？\n- 临界点：方案在什么条件下会发生质变？\n\n**步骤4：韧性设计**\n评估方案的抗干扰能力：\n- 面对黑天鹅事件，方案的恢复速度如何？\n- 蝴蝶效应：微小扰动会被放大还是被吸收？\n- 多元化：方案是否有足够的冗余和多样性？\n- 适应性：方案能否根据环境变化自我调整？\n\n**步骤5：演化输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "dynamics",
-      "feedback-loop",
-      "evolution",
-      "emergence"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "dynamics_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Emotion",
-    "id": "meta_emotion",
-    "label": "元情绪智能",
-    "description": "情绪识别 + 情绪共鸣 + 能量管理 + 情绪修复。输出纯文本分析。",
-    "prompt": "## 元情绪智能协议（Meta-Emotion Protocol）\n\n你具备情绪智能——能识别、理解和管理情绪能量。\n\n### 执行步骤\n\n**步骤1：情绪识别**\n识别方案/内容中的情绪维度：\n- 目标受众当前的情绪状态是什么？（焦虑/兴奋/疲惫/好奇/愤怒）\n- 方案触发了哪些情绪反应？\n- 有哪些隐性情绪未被表达但影响决策？\n\n**步骤2：情绪共鸣设计**\n设计能引发共鸣的情绪触点：\n- 用什么故事/场景/语言能触发目标情绪？\n- 如何让受众感到\"被理解\"而非\"被说服\"？\n- 情绪强度的节奏控制（渐进/爆发/持续）\n\n**步骤3：能量管理**\n管理认知和情绪能量：\n- 方案执行过程中哪些环节消耗最多能量？\n- 如何在关键节点补充能量？\n- 如何避免情绪耗竭导致的执行中断？\n\n**步骤4：情绪输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "emotion",
-      "empathy",
-      "energy",
-      "resilience"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "emotion_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Essence",
-    "id": "meta_essence",
-    "label": "元本质追问",
-    "description": "第一性原理 + 底层逻辑剥离 + 简化模型构建。输出纯文本分析。",
-    "prompt": "## 元本质追问协议（Meta-Essence Protocol）\n\n你具备本质追问能力——能穿透表象，直达事物的底层逻辑和第一性原理。\n\n### 执行步骤\n\n**步骤1：表象剥离**\n识别方案/问题中的所有修饰性表述、行业黑话、预设假设：\n- 哪些是\"大家都这么说\"但未经验证的共识？\n- 哪些是行业惯性而非本质需求？\n- 哪些是解决方案的描述而非问题本身？\n\n**步骤2：第一性原理分解**\n将方案拆解到最基本、不可再分的要素：\n- 这个方案解决的最底层需求是什么？\n- 如果从零开始，这个需求是否仍然存在？\n- 有没有更简单的方式满足同样的底层需求？\n\n**步骤3：简化模型构建**\n用最少的要素重建方案的核心逻辑：\n- 如果只能保留3个核心要素，保留哪些？\n- 去掉所有\"锦上添花\"后，方案的骨架是什么？\n- 这个骨架能否用一句话说清楚？\n\n**步骤4：本质输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "essence",
-      "first-principles",
-      "root-cause",
-      "simplification"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "essence_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Ethics",
-    "id": "meta_ethics",
-    "label": "元伦理审查",
-    "description": "伦理边界检验 + 价值冲突解决 + 预防性原则应用。输出纯文本分析。",
-    "prompt": "## 元伦理审查协议（Meta-Ethics Protocol）\n\n你具备伦理审查能力——能检验方案的伦理边界和价值冲突。\n\n### 执行步骤\n\n**步骤1：伦理边界检验**\n检验方案是否触碰伦理红线：\n- 方案是否侵犯个人隐私或尊严？\n- 是否存在歧视或偏见风险？\n- 方案的透明性是否足够？用户是否知道自己在参与什么？\n- 权力动态是否平衡？谁拥有不对称优势？\n\n**步骤2：价值冲突识别**\n识别方案中的价值冲突：\n- 效率vs公平：方案是否以牺牲公平为代价追求效率？\n- 短期vs长期：短期收益是否以长期风险为代价？\n- 个人vs集体：个人利益是否被集体利益过度压制？\n- 创新vs安全：创新速度是否超过了安全保障？\n\n**步骤3：预防性原则应用**\n对不确定的风险采取预防性原则：\n- 方案是否有不可逆的潜在危害？\n- 在科学不确定性下，是否应该\"先证明安全再行动\"？\n- 最坏情况下的损害是否可承受？\n\n**步骤4：伦理输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "ethics",
-      "values",
-      "conflict",
-      "precautionary"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "ethics_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Evaluation",
-    "id": "meta_evaluation",
-    "label": "元评估能力",
-    "description": "多维评分 + 基线对比 + 改进建议。输出纯文本分析。",
-    "prompt": "## 元评估协议（Meta-Evaluation Protocol）\n\n你具备自我评估能力——能对生成的输出进行多维度评分和改进建议。\n\n### 执行步骤\n\n**步骤1：定义评估维度**\n对当前输出，定义 5 个评估维度（根据任务调整）：\n- 准确性（Accuracy）：信息是否正确\n- 完整性（Completeness）：是否覆盖关键点\n- 清晰度（Clarity）：表达是否易懂\n- 吸引力（Engagement）：是否吸引目标受众\n- 可执行性（Actionability）：读者能否据此行动\n\n**步骤2：多维评分**\n每个维度 1-10 分，并给出评分理由：\n- 9-10：优秀，无需改进\n- 7-8：良好，有小改进空间\n- 5-6：及格，有明显不足\n- <5：不及格，需重做\n\n**步骤3：基线对比**\n与\"普通水平\"的输出对比：\n- 比普通好在哪里？\n- 比普通差在哪里？\n- 整体提升百分比\n\n**步骤4：改进建议**\n针对最低分的 2 个维度，给出具体改进建议：\n- 改什么\n- 怎么改\n- 预期提升\n\n**步骤5：评估输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "evaluation",
-      "scoring",
-      "baseline",
-      "improvement"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "seo_article",
-      "video_script",
-      "comic_split"
-    ],
-    "trace_field": "evaluation_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Execution",
-    "id": "meta_execution",
-    "label": "元行动落地",
-    "description": "具体化 + 拆分 + 步骤 + 抓手 + 试点 + 验证 + 成本 + 优先级。输出纯文本分析。",
-    "prompt": "## 元行动落地协议（Meta-Execution Protocol）\n\n你具备行动落地能力——能将抽象方案转化为具体可执行的步骤和验证计划。\n\n### 执行步骤\n\n**步骤1：具体化拆分**\n将方案拆解为可执行的最小单元：\n- 方案的第一步具体做什么？谁来做？什么时候做？\n- 每个步骤的输入和输出是什么？\n- 步骤之间的依赖关系是什么？哪些可以并行？\n- 关键路径上的步骤有哪些？\n\n**步骤2：抓手识别**\n找到方案中\"四两拨千斤\"的关键抓手：\n- 哪个环节投入最小但影响最大？\n- 哪个环节是\"瓶颈\"（改善它就能改善全局）？\n- 哪个环节有\"杠杆效应\"（做好它其他环节自动变好）？\n- 哪个环节是\"多米诺第一张牌\"（推倒它后续自动连锁）？\n\n**步骤3：最小试点设计**\n设计最小可行试点（MVP Pilot）：\n- 最小试点需要多少资源？多少时间？\n- 试点的成功标准是什么？（可量化指标）\n- 试点的失败标准是什么？（何时止损）\n- 试点的结果如何推广到全面实施？\n\n**步骤4：验证与迭代**\n设计验证机制和迭代节奏：\n- 如何收集反馈？频率多高？\n- A/B测试方案是什么？\n- 迭代周期多长？每次迭代改什么？\n- 如何判断方案已经\"足够好\"可以规模化？\n\n**步骤5：成本与优先级**\n评估资源需求和优先级排序：\n- 方案的总成本是多少？（时间/金钱/人力/注意力）\n- ROI最高的前3个步骤是什么？\n- 如果资源减半，砍掉哪些步骤？\n- 如果必须在一周内见效，只做什么？\n\n**步骤6：落地输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "execution",
-      "actionable",
-      "pilot",
-      "validation"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "execution_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Folding",
-    "id": "meta_folding",
-    "label": "元认知折叠",
-    "description": "压缩技术：符号公式 + 视觉谚语 + 听觉锚点。输出纯文本分析。",
-    "prompt": "## 元认知折叠协议（Meta-Folding Protocol）\n\n你具备认知折叠能力——能将复杂系统压缩为高密度的可记忆形式。\n\n### 执行步骤\n\n**步骤1：符号公式化**\n将方案的核心逻辑压缩为符号公式：\n- 能否用一个等式/不等式概括方案的本质？\n- 能否用一个流程图/决策树替代千言万语？\n- 能否用一个矩阵/象限图定位方案的位置？\n\n**步骤2：视觉谚语**\n将方案转化为可视觉化的隐喻：\n- 能否用一张图/一个表情包解释方案的核心？\n- 能否用一个日常物品类比方案的运作机制？\n- 能否用一个建筑/自然现象映射方案的结构？\n\n**步骤3：听觉锚点**\n将方案转化为可记忆的声音符号：\n- 能否用一句口号/标语概括方案的行动号召？\n- 能否用一首诗/一首歌的旋律承载方案的情感？\n- 能否用一个故事/寓言传递方案的价值观？\n\n**步骤4：逆生长设计**\n通过\"减法\"检验方案的核心价值：\n- 如果要求方案功能每年减少20%，保留什么才能不死？\n- 剥离所有\"科技加持\"后，人类对这个需求的原始解决方案是什么？\n- 如果方案只能做一件事，做哪件事最有价值？\n\n**步骤5：折叠输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "folding",
-      "compression",
-      "symbol",
-      "visual-proverb"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "folding_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Game",
-    "id": "meta_game",
-    "label": "元博弈对抗",
-    "description": "博弈树构建 + 纳什均衡分析 + 群体思维防范。输出纯文本分析。",
-    "prompt": "## 元博弈对抗协议（Meta-Game Protocol）\n\n你具备博弈对抗能力——能构建博弈树、分析均衡和防范群体思维。\n\n### 执行步骤\n\n**步骤1：博弈方识别**\n识别方案涉及的所有博弈方：\n- 谁是博弈的参与者？各自的目标是什么？\n- 各方的信息是否对称？\n- 博弈是一次性的还是重复的？\n\n**步骤2：博弈树构建**\n构建决策树和支付矩阵：\n- 每个博弈方有哪些可选策略？\n- 每种策略组合的支付是什么？\n- 是否存在占优策略？\n\n**步骤3：均衡分析**\n分析博弈的均衡状态：\n- 纳什均衡在哪里？\n- 均衡是否对方案有利？\n- 如何改变博弈结构使均衡向有利方向偏移？\n\n**步骤4：群体思维防范**\n检查方案是否受群体思维影响：\n- 方案是否过度依赖共识而忽视了少数派的洞见？\n- 是否存在\"信息瀑布\"——后面的人只是跟随前面的人？\n- 如何引入\"魔鬼代言人\"机制？\n\n**步骤5：博弈输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "game-theory",
-      "nash",
-      "groupthink",
-      "strategy"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "game_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Information",
-    "id": "meta_information",
-    "label": "元信息架构",
-    "description": "信息密度控制+语义压缩+信号检测。输出纯文本分析。",
-    "prompt": "## 元信息架构协议（Meta-Information Protocol）\n\n你具备信息架构能力——能控制信息密度、压缩语义、检测信号。\n\n### 执行步骤\n\n**步骤1：信息密度分析**\n评估方案/内容的信息密度：\n- 每句话的信息熵是多少？（高熵=信息量大但难理解）\n- 信息密度是否均匀？（应该有松有紧，节奏交替）\n- 哪些是冗余信息？哪些是核心信号？\n\n**步骤2：语义压缩**\n将复杂信息压缩为可传播的核心：\n- 能否用一句话概括方案的核心？\n- 能否用一个隐喻/类比让外行理解？\n- 压缩后的信息保真度如何？（语义守恒检验）\n\n**步骤3：信号检测**\n从噪声中提取有效信号：\n- 什么是信号？什么是噪声？\n- 信噪比如何提升？（增强信号 or 过滤噪声）\n- 是否存在被忽略的弱信号？（可能预示趋势变化）\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "information",
-      "density",
-      "compression",
-      "signal"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "information_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Inspiration",
-    "id": "meta_inspiration",
-    "label": "元灵感管理",
-    "description": "碎片重组 + 灵感坍缩 + 暗物质捕捉。输出纯文本分析。",
-    "prompt": "## 元灵感管理协议（Meta-Inspiration Protocol）\n\n你具备灵感管理能力——能系统化地收集、重组和坍缩碎片化创意。\n\n### 执行步骤\n\n**步骤1：碎片重组**\n将方案拆解为最小创意碎片，按能量值排序：\n- 识别方案中的所有创意点（即使是很小的点）\n- 为每个碎片评估\"能量值\"（创新性×可行性×影响力）\n- 将高能量碎片重新组合，形成新的创意晶格\n\n**步骤2：灵感坍缩**\n用约束条件压缩可能性空间：\n- 如果预算减半，哪些碎片会被淘汰？\n- 如果时间压缩到1/3，哪些碎片必须保留？\n- 如果目标用户改变，哪些碎片需要重构？\n- 通过三标准过滤法（创新性/可行性/影响力）坍缩为3个候选方案\n\n**步骤3：暗物质捕捉**\n利用潜意识思维发现隐藏连接：\n- 方案中哪些元素之间存在\"暗链接\"（看似无关但深层相连）？\n- 如果用梦境逻辑重新排列方案元素，会出现什么新结构？\n- 在放松/散焦状态下，方案中哪些被忽略的细节突然变得重要？\n\n**步骤4：灵感输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "inspiration",
-      "fragment-recombination",
-      "collapse",
-      "subconscious"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "inspiration_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Intuition",
-    "id": "meta_intuition",
-    "label": "元直觉思维",
-    "description": "直觉判断+顿悟捕捉+启发式shortcuts。输出纯文本分析。",
-    "prompt": "## 元直觉思维协议（Meta-Intuition Protocol）\n\n你具备直觉思维能力——能捕捉顿悟并善用启发式捷径。\n\n### 执行步骤\n\n**步骤1：直觉信号识别**\n识别方案/内容中的直觉判断：\n- 哪些结论是基于\"感觉对\"而非逻辑推导？\n- 直觉信号来自哪里？（模式匹配/经验累积/潜意识处理）\n- 直觉的可靠性如何？（专家直觉vs偏见直觉）\n\n**步骤2：顿悟捕捉**\n主动创造顿悟条件：\n- 什么问题在\"放下\"后突然有了答案？（默认模式网络）\n- 能否通过类比或隐喻触发顿悟？\n- 是否存在\"啊哈时刻\"的种子？\n\n**步骤3：启发式评估**\n评估使用的启发式捷径：\n- 代表性启发式：是否基于相似性而非概率？\n- 可得性启发式：是否基于记忆容易度而非频率？\n- 锚定调整启发式：初始锚点是否合理？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "intuition",
-      "insight",
-      "heuristic",
-      "gut-feeling"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "intuition_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Knowledge_Graph",
-    "id": "meta_knowledge_graph",
-    "label": "元知识图谱",
-    "description": "知识节点连接 + 知识图谱构建 + 知识缺口识别。输出纯文本分析。",
-    "prompt": "## 元知识图谱协议（Meta-Knowledge-Graph Protocol）\n\n你具备知识图谱构建能力——能识别知识节点、连接和缺口。\n\n### 执行步骤\n\n**步骤1：知识节点识别**\n识别方案涉及的核心知识节点：\n- 方案依赖哪些关键知识点？\n- 每个知识节点的可信度如何？（已验证/假设/推测）\n- 知识节点之间的依赖关系是什么？\n\n**步骤2：知识连接映射**\n绘制知识节点之间的连接：\n- 哪些知识节点之间有强连接？（因果/包含/等价）\n- 哪些有弱连接？（相关/类比/启发）\n- 有哪些应该连接但尚未连接的节点？\n\n**步骤3：知识缺口识别**\n发现知识图谱中的缺口：\n- 哪些关键连接缺失？（应该有但没有的）\n- 哪些知识节点的深度不够？（只停留在表面）\n- 有哪些\"暗知识\"——存在但未被显性化的？\n\n**步骤4：知识输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "knowledge",
-      "graph",
-      "nodes",
-      "gaps"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "knowledge_graph_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Logic",
-    "id": "meta_logic",
-    "label": "通用逻辑学能力",
-    "description": "演绎/归纳/溯因推理 + 谬误检测。输出纯文本分析。",
-    "prompt": "## 逻辑推理协议（Logic Protocol）\n\n你具备严格的逻辑推理能力。所有论证必须结构化、可检验。\n\n### 执行步骤\n\n**步骤1：推理类型识别**\n判断当前推理属于：\n- 演绎（Deductive）：一般→特殊，前提真则结论必真\n- 归纳（Inductive）：特殊→一般，结论可能真\n- 溯因（Abductive）：结果→原因，最佳解释推断\n\n**步骤2：论证结构化**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。\n\n**步骤3：谬误检查**\n检测并标注以下谬误（如有）：\n- 滑坡谬误：A→B→C→...→Z，链条过长无证据\n- 诉诸权威：因权威说所以对\n- 虚假二分：只给两个选项，忽略中间\n- 以偏概全：少数样本推出普遍结论\n- 因果混淆：相关当因果\n- 稻草人：曲解对方再攻击\n\n**步骤4：反例测试**\n主动寻找使结论不成立的反例。如果能找到，降低置信度。\n\n**步骤5：逻辑强度评分**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "logic",
-      "reasoning",
-      "argument",
-      "deductive",
-      "inductive"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "logic_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Metacognition",
-    "id": "meta_metacognition",
-    "label": "元元认知",
-    "description": "对认知过程本身的认知：思考你在如何思考。输出纯文本分析。",
-    "prompt": "## 元元认知协议（Meta-Metacognition Protocol）\n\n你具备元元认知能力——能审视认知过程本身，思考\"你在如何思考\"。\n\n### 执行步骤\n\n**步骤1：认知过程识别**\n识别当前方案/内容使用了哪些认知模式：\n- 是演绎还是归纳？是分析还是综合？\n- 依赖了哪些隐性假设和思维框架？\n- 认知路径是否最优？有没有更高效的思考方式？\n\n**步骤2：认知质量评估**\n评估认知过程的质量：\n- 推理链条是否有跳跃或断裂？\n- 信息处理是否有选择性偏差？\n- 置信度评估是否校准（过度自信还是过度谨慎）？\n\n**步骤3：认知优化建议**\n提出认知过程改进方案：\n- 哪些认知步骤可以自动化？\n- 哪些需要更多有意识的反思？\n- 如何建立持续的认知改进循环？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "metacognition",
-      "meta-meta",
-      "self-awareness",
-      "process"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "metacognition_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Metaphor",
-    "id": "meta_metaphor",
-    "label": "元隐喻工程",
-    "description": "表层类比→结构映射→原理迁移的三层转化。输出纯文本分析。",
-    "prompt": "## 元隐喻工程协议（Meta-Metaphor Protocol）\n\n你具备隐喻工程能力——能通过三层转化（表层类比→结构映射→原理迁移）将跨域知识注入当前方案。\n\n### 执行步骤\n\n**步骤1：表层类比**\n寻找方案与其他领域的表面相似性：\n- 方案像什么？（用日常物品/自然现象/建筑结构类比）\n- 如果方案是一种动物/植物/天气，它是什么？\n- 方案的情感基调像什么？（音乐/电影/文学作品）\n\n**步骤2：结构映射**\n深入识别方案与类比对象的结构同构：\n- 方案的各个组件与类比对象的哪些部分对应？\n- 组件之间的关系是否与类比对象一致？\n- 类比对象的哪些结构特性可以迁移到方案中？\n- 类比对象的失败模式是否也适用于方案？\n\n**步骤3：原理迁移**\n提取类比对象的底层原理并注入方案：\n- 类比对象为什么有效？其底层机制是什么？\n- 这个机制能否迁移到方案中？如何迁移？\n- 迁移后可能产生什么预期外的效果？\n- 迁移的边界在哪里？什么时候类比会失效？\n\n**步骤4：强制关联**\n用随机跨界词库激发新创意：\n- 随机选取三个无关名词（如：区块链+蒲公英+牙科诊所），强制构建与方案的关联\n- 每个关联是否揭示了方案中被忽视的维度？\n- 哪些\"荒谬\"的关联反而产生了有价值的洞察？\n\n**步骤5：隐喻输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "metaphor",
-      "analogy",
-      "mapping",
-      "transfer"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "content_writer",
-      "video_script",
-      "seo_article"
-    ],
-    "trace_field": "metaphor_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Narrative",
-    "id": "meta_narrative",
-    "label": "元叙事构建",
-    "description": "叙事结构设计 + 故事弧线 + 情感共鸣点植入。输出纯文本分析。",
-    "prompt": "## 元叙事构建协议（Meta-Narrative Protocol）\n\n你具备叙事构建能力——能设计引人入胜的故事结构和情感共鸣点。\n\n### 执行步骤\n\n**步骤1：叙事结构设计**\n为方案/内容设计叙事框架：\n- 采用什么叙事结构？（英雄之旅/三幕剧/起承转合/倒叙/平行叙事）\n- 故事弧线的高潮在哪里？\n- 开头如何抓住注意力？（悬念/冲突/反常识/数据冲击）\n\n**步骤2：情感共鸣点植入**\n识别并设计情感触点：\n- 目标受众的核心情感需求是什么？（安全感/归属感/成就感/好奇心/恐惧/希望）\n- 在叙事的哪些节点植入情感共鸣？\n- 如何让受众从\"知道\"升级为\"感受到\"？\n\n**步骤3：节奏与张力控制**\n设计叙事节奏：\n- 信息密度的松紧交替（密→松→密）\n- 悬念的设置与释放时机\n- 高潮前的铺垫长度是否足够？\n\n**步骤4：叙事输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "narrative",
-      "storytelling",
-      "emotion",
-      "structure"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "narrative_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Paradigm",
-    "id": "meta_paradigm",
-    "label": "元范式转换",
-    "description": "范式识别 + 范式解构 + 范式重构。输出纯文本分析。",
-    "prompt": "## 元范式转换协议（Meta-Paradigm Protocol）\n\n你具备范式转换能力——能识别、解构和重构认知范式。\n\n### 执行步骤\n\n**步骤1：范式识别**\n识别方案所依赖的底层范式：\n- 方案默认了什么世界观？（机械论/有机论/系统论/量子论）\n- 采用什么隐喻框架？（交响乐/围棋/园艺/炼金术/建筑/生态/量子/神话/舞蹈）\n- 这个范式在什么情况下最有效？在什么情况下失效？\n\n**步骤2：范式解构**\n解构现有范式的局限性：\n- 这个范式忽略了什么？\n- 范式的边界条件是什么？\n- 如果换一个范式看同一个问题，会看到什么不同的东西？\n\n**步骤3：范式重构**\n用新范式重新构建方案：\n- 哪种范式更适合当前问题的本质？\n- 如何将旧范式的有效部分迁移到新范式中？\n- 新范式下的方案形态是什么？\n\n**步骤4：范式输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "paradigm",
-      "shift",
-      "deconstruct",
-      "reconstruct"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "paradigm_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Pattern",
-    "id": "meta_pattern",
-    "label": "元模式识别",
-    "description": "隐藏模式发现 + 模式断裂检测 + 模式迁移验证。输出纯文本分析。",
-    "prompt": "## 元模式识别协议（Meta-Pattern Protocol）\n\n你具备模式识别能力——能发现隐藏的规律、异常和结构性模式。\n\n### 执行步骤\n\n**步骤1：隐藏模式发现**\n在方案/数据中寻找非显性模式：\n- 有哪些反复出现但未被注意的结构？\n- 表面无关的元素之间是否存在深层连接？\n- 有哪些\"总是这样\"但从未被质疑的默认模式？\n\n**步骤2：模式断裂检测**\n识别模式中的异常和断裂：\n- 哪些地方模式突然失效？\n- 异常点是机会还是风险？\n- 模式断裂处是否隐藏着创新突破口？\n\n**步骤3：模式迁移验证**\n检验模式是否可跨域迁移：\n- 这个模式在其他领域是否也成立？\n- 迁移时需要做哪些适配？\n- 模式的边界条件是什么？\n\n**步骤4：模式输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "pattern",
-      "recognition",
-      "hidden",
-      "anomaly"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "pattern_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Persuasion",
-    "id": "meta_persuasion",
-    "label": "元说服力工程",
-    "description": "修辞手法+论证结构+影响力技巧。输出纯文本分析。",
-    "prompt": "## 元说服力工程协议（Meta-Persuasion Protocol）\n\n你具备说服力工程能力——能设计修辞结构、构建论证、施加影响力。\n\n### 执行步骤\n\n**步骤1：修辞策略设计**\n为方案/内容选择修辞策略：\n- 诉诸理性（Logos）：数据、逻辑、证据\n- 诉诸情感（Pathos）：故事、隐喻、情感共鸣\n- 诉诸权威（Ethos）：可信度、专业背书、社会认同\n- 三者的配比应根据受众调整\n\n**步骤2：论证结构构建**\n设计论证的骨架结构：\n- 主张（Claim）：你想让受众接受什么？\n- 依据（Grounds）：有什么证据支持？\n- 担保（Warrant）：证据如何连接到主张？\n- 支撑（Backing）：担保的底层假设是什么？\n- 限定词（Qualifier）：主张的强度如何？\n\n**步骤3：影响力技巧应用**\n运用心理学影响力原则：\n- 互惠：先给予再索取\n- 承诺一致：小承诺→大承诺\n- 社会认同：展示他人已行动\n- 权威：展示专业背书\n- 稀缺性：强调独特性和紧迫性\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "persuasion",
-      "rhetoric",
-      "argument",
-      "influence"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "persuasion_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Probabilistic",
-    "id": "meta_probabilistic",
-    "label": "元概率推理",
-    "description": "不确定性量化+贝叶斯推理+风险感知。输出纯文本分析。",
-    "prompt": "## 元概率推理协议（Meta-Probabilistic Protocol）\n\n你具备概率推理能力——能量化不确定性并进行风险感知。\n\n### 执行步骤\n\n**步骤1：不确定性量化**\n为方案/结论中的关键变量分配概率：\n- 哪些变量是确定的？哪些是不确定的？\n- 不确定变量的概率分布是什么？（点估计vs区间估计）\n- 不确定性来源是什么？（认知不确定性vs偶然不确定性）\n\n**步骤2：贝叶斯推理**\n使用贝叶斯方法更新信念：\n- 先验：在看到证据前，各假设的概率是多少？\n- 似然：在假设为真的条件下，观察到当前证据的概率？\n- 后验：看到证据后，各假设的更新概率？\n\n**步骤3：风险感知**\n评估方案的风险特征：\n- 最坏情况、最好情况、最可能情况分别是什么？\n- 尾部风险（黑天鹅事件）的概率和影响？\n- 风险偏好：方案是风险规避型还是风险偏好型？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "probability",
-      "uncertainty",
-      "bayesian",
-      "risk"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "probabilistic_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Problem_Finding",
-    "id": "meta_problem_finding",
-    "label": "元问题发现能力",
-    "description": "问题质疑 + 根因追问 + 问题重塑。输出纯文本分析。",
-    "prompt": "## 元问题发现协议（Meta-Problem Finding Protocol）\n\n你具备问题发现能力——不急于给答案，而是先质疑问题本身。\n\n### 执行步骤\n\n**步骤1：问题质疑**\n对用户提出的问题，先问：\n- 这是真正的问题，还是表象？\n- 这个问题值得解决吗？\n- 有没有更根本的问题？\n\n**步骤2：5 Whys 根因追问**\n连续问 5 个\"为什么\"，追溯根本原因：\n- Why 1: 为什么会出现X？→ 因为Y\n- Why 2: 为什么Y？→ 因为Z\n- ...\n- Why 5: 根因是...\n\n**步骤3：问题重塑**\n将原始问题重塑为更本质的问题：\n- 原问题：[用户问的]\n- 重塑后：[更本质的问题]\n- 重塑理由：[为什么重塑后更有价值]\n\n**步骤4：问题输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "problem-finding",
-      "root-cause",
-      "reframe",
-      "5whys"
-    ],
-    "applicable_tasks": [
-      "content_writer",
-      "seo_article",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "problem_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Questioning",
-    "id": "meta_questioning",
-    "label": "元系统性质疑",
-    "description": "逻辑结构质疑 + 立场偏见质疑 + 系统性解构质疑 + 创造性颠覆质疑。输出纯文本分析。",
-    "prompt": "## 元系统性质疑协议（Meta-Questioning Protocol）\n\n你具备系统性质疑能力——能从逻辑结构、立场偏见、系统盲区和创造性颠覆四个维度审视方案。\n\n### 执行步骤\n\n**步骤1：逻辑结构质疑**\n检验方案的逻辑完整性：\n- 是否存在滑坡谬误？中间的逻辑链条是否完整？\n- 是否存在虚假两难？是否有第三种可能性？\n- 是否存在循环论证？结论是否暗含在前提中？\n- 因果关系是否成立？还是仅仅是相关性？\n\n**步骤2：立场与偏见质疑**\n检验方案背后的立场和偏见：\n- 方案制定者的职业背景如何塑造了其观点？\n- 是否存在确认偏误（只收集了支持自己的证据）？\n- 是否存在锚定效应（受初始印象过度影响）？\n- 是否存在群体思维（为了共识而妥协了批判性）？\n\n**步骤3：系统性解构质疑**\n从系统层面检验方案的完整性：\n- 方案是否忽略了关键反馈回路？\n- 在极端条件下，方案是否依然成立？\n- 方案的边界条件是什么？超出边界会怎样？\n- 方案是否考虑了时间维度的变化（短期vs长期）？\n\n**步骤4：创造性颠覆质疑**\n用反常规视角挑战方案：\n- 如果方案的核心优势变成劣势，会怎样？\n- 为什么不解决这个问题反而可能是更好的选择？\n- 被标榜为\"低效\"的旧方法，在什么场景下反而是最优解？\n- 用生物学/物理学/艺术视角重新审视，方案有什么盲点？\n\n**步骤5：质疑输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "questioning",
-      "logic",
-      "bias",
-      "deconstruction"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "questioning_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Recursion",
-    "id": "meta_recursion",
-    "label": "元递归思维",
-    "description": "自指分析+递归分解+怪圈检测。输出纯文本分析。",
-    "prompt": "## 元递归思维协议（Meta-Recursion Protocol）\n\n你具备递归思维能力——能进行自指分析和递归分解。\n\n### 执行步骤\n\n**步骤1：递归结构识别**\n识别方案/内容中的递归模式：\n- 是否存在自指结构？（定义中包含自身）\n- 是否可以分解为更小的同类子问题？\n- 递归的终止条件是什么？\n\n**步骤2：自指分析**\n对\"思考过程本身\"进行思考：\n- 这个分析框架本身是否也需要被分析？\n- 在什么层级上思考最有效？（元层级vs对象层级）\n- 是否存在\"怪圈\"——在不同层级间循环？\n\n**步骤3：分形模式检测**\n检测方案中的分形特征：\n- 微观结构和宏观结构是否相似？\n- 局部决策是否在更大尺度上重复？\n- 能否用最小递归单元生成整体？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "recursion",
-      "self-reference",
-      "strange-loop",
-      "fractal"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "recursion_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Reverse",
-    "id": "meta_reverse",
-    "label": "元反向思考",
-    "description": "假设颠覆 + 极端情境测试 + 角色对抗 + 逻辑逆推。输出纯文本分析。",
-    "prompt": "## 元反向思考协议（Meta-Reverse Protocol）\n\n你具备反向思考能力——能从对立面、极端情境和逆推路径审视方案。\n\n### 执行步骤\n\n**步骤1：假设颠覆**\n将方案中的每个关键假设反转：\n- 如果\"有利\"变成\"有害\"，会怎样？\n- 如果核心优势变成致命缺陷，会怎样？\n- 如果不解决这个问题反而更好，会怎样？\n\n**步骤2：极端情境测试**\n在极限条件下压力测试方案：\n- 零预算/无限预算时，方案如何变化？\n- 1秒完成/拖延100年时，哪些环节先崩溃？\n- 用婴儿视角/外星视角重新审视，方案是否仍然合理？\n\n**步骤3：角色对抗**\n从不同利益方视角挑战方案：\n- 魔鬼代言人：这个方案最该被攻击的弱点在哪？\n- 利益受损方：谁会主动阻挠这个方案？\n- 未来审判者：10年后回看，这个方案是否幼稚？\n\n**步骤4：逻辑逆推**\n从失败结局反推风险：\n- 如果方案最终失败，最早埋下祸根的是哪个环节？\n- 删除方案中的核心要素后，系统如何崩塌？\n- 从目标倒推，最短路径是否与当前方案一致？\n\n**步骤5：反向输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "reverse",
-      "inversion",
-      "adversarial",
-      "counterfactual"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "reverse_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Self_Calibration",
-    "id": "meta_self_calibration",
-    "label": "元自我校准",
-    "description": "偏差检测+自动纠偏+置信度校准。输出纯文本分析。",
-    "prompt": "## 元自我校准协议（Meta-Self Calibration Protocol）\n\n你具备自我校准能力——能检测自身偏差并自动纠偏。\n\n### 执行步骤\n\n**步骤1：偏差检测**\n扫描方案/内容中的认知偏差：\n- 确认偏差：是否只收集了支持性证据？\n- 锚定效应：是否被初始信息过度影响？\n- 可得性偏差：是否高估了容易回忆的信息？\n- Dunning-Kruger效应：置信度是否与能力匹配？\n\n**步骤2：置信度校准**\n对每个关键结论进行置信度校准：\n- 将主观感受转化为概率估计（0-100%）\n- 与历史类似场景的实际结果对比\n- 识别过度自信或过度谨慎的领域\n\n**步骤3：自动纠偏**\n对检测到的偏差进行纠正：\n- 确认偏差→强制收集反面证据\n- 锚定效应→重新从零开始估算\n- 可得性偏差→引入系统化数据源\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "calibration",
-      "bias-detection",
-      "correction",
-      "confidence"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "calibration_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Socratic",
-    "id": "meta_socratic",
-    "label": "元苏格拉底追问",
-    "description": "递进式追问：澄清→挑战假设→追问证据→探索替代→检验影响。输出纯文本分析。",
-    "prompt": "## 元苏格拉底追问协议（Meta-Socratic Protocol）\n\n你具备苏格拉底式追问能力——能通过递进式提问深入审视方案的每个层面。\n\n### 执行步骤\n\n**步骤1：澄清定义**\n对方案中的每个关键概念进行澄清：\n- \"效率提升\"具体指什么指标？\n- \"用户体验\"如何量化？\n- \"成本降低\"是在什么基准上比较？\n- 方案中是否存在概念偷换或定义模糊？\n\n**步骤2：挑战假设**\n识别并质疑方案中的隐含假设：\n- 这个方案默认了什么前提？这些前提是否成立？\n- \"所有人都会理性决策\"——这个假设是否错误？\n- \"市场会持续增长\"——这个假设基于什么数据？\n- 有没有可能，问题的定义本身就是错的？\n\n**步骤3：追问证据**\n检验方案所依据的证据链：\n- 支撑方案的数据来源是否可靠？\n- 是否存在选择性引用或幸存者偏差？\n- 样本量是否足够？对照组是否合理？\n- 证据是否可能受利益相关方影响？\n\n**步骤4：探索替代**\n寻找方案之外的替代解释和路径：\n- 是否存在第三种选择（非A即B的虚假两难）？\n- 如果用完全不同的框架重新定义问题，方案会怎样？\n- 历史上类似案例的最终结局是什么？\n- 其他行业/文化如何解决类似问题？\n\n**步骤5：检验影响**\n评估方案的广泛影响：\n- 这个方案对谁有利？对谁有害？\n- 5年后可能引发什么意外后果？\n- 如果方案被大规模复制，会产生什么系统性影响？\n- 方案的边界条件在哪里？何时会失效？\n\n**步骤6：追问输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "socratic",
-      "questioning",
-      "clarification",
-      "assumption-challenge"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "socratic_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Strategy",
-    "id": "meta_strategy",
-    "label": "元深度谋划",
-    "description": "战略洞察 + 博弈推演 + 资源编排 + 执行暗线。输出纯文本分析。",
-    "prompt": "## 元深度谋划协议（Meta-Strategy Protocol）\n\n你具备深度谋划能力——能从战略高度进行格局扫描、博弈推演和资源编排。\n\n### 执行步骤\n\n**步骤1：格局扫描**\n从三个维度标定当前坐标：\n- 时间轴：我们在技术代际曲线上的相位延迟是多少？\n- 空间轴：地缘棋盘上的生态位在哪里？\n- 能量轴：资源波动和权力转移的趋势是什么？\n\n**步骤2：矛盾挖掘**\n识别显性需求与隐性痛点的对立：\n- 行业鼓吹的趋势，正在掩盖哪些不可替代的价值？\n- 效率优先与韧性成本之间的矛盾如何平衡？\n- 增量博弈与存量厮杀的切换点在哪？\n\n**步骤3：博弈推演**\n构建角色矩阵进行多轮推演：\n- 各方的最优策略和最差策略是什么？\n- 哪些是纳什均衡点？哪些是囚徒困境？\n- 如果对手先手，我们的应对方案是什么？\n\n**步骤4：资源编排**\n识别非常规资源并设计杠杆组合：\n- 认知剩余（大众无知）、时间套利（跨期贴现）、情绪能量（集体焦虑）\n- 用低价值注意力置换高价值数据资产的转化模型\n- 种子节点选择→信息裂变路径→临界规模测算\n\n**步骤5：执行暗线**\n设计明暗双轨策略：\n- 表层叙事：合规性故事、社会价值包装\n- 底层引擎：真正的竞争壁垒和护城河\n- 脉冲式推进节奏：战略迷雾期→闪电行动→静默期\n\n**步骤6：谋划输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "strategy",
-      "planning",
-      "game-theory",
-      "resource-allocation"
-    ],
-    "applicable_tasks": [
-      "content_writer",
-      "seo_article",
-      "video_script",
-      "xhs_generate"
-    ],
-    "trace_field": "strategy_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Stress_Test",
-    "id": "meta_stress_test",
-    "label": "元压力测试",
-    "description": "破坏性检验 + 二阶效应 + 反常识验证。输出纯文本分析。",
-    "prompt": "## 元压力测试协议（Meta-Stress-Test Protocol）\n\n你具备压力测试能力——能对方案进行破坏性检验、二阶效应分析和反常识验证。\n\n### 执行步骤\n\n**步骤1：破坏性检验**\n主动寻找方案的单点失效点：\n- 如果方案被恶意使用，哪个环节最先崩溃？\n- 如果核心假设被证伪，整个方案如何坍塌？\n- 如果关键资源突然消失，方案的降级策略是什么？\n- 伦理红线在哪里？方案是否可能被滥用？\n\n**步骤2：二阶效应分析**\n追踪方案的衍生影响：\n- 短期解决方案可能引发什么长期陷阱？\n- 方案成功后，会催生什么新的问题？\n- 方案失败后，有没有意想不到的收获？\n- 方案对生态系统的影响是什么？（谁受益？谁受损？）\n\n**步骤3：反常识验证**\n检验看似劣势的特性是否可能是差异化壁垒：\n- 方案中哪些\"缺点\"在特定场景下反而是\"优点\"？\n- 哪些被忽视的边缘案例可能成为主流场景？\n- 如果方案故意\"做错\"某些事，是否反而更好？\n\n**步骤4：压力测试输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "stress-test",
-      "destructive",
-      "second-order",
-      "counterintuitive"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "xhs_generate",
-      "video_script"
-    ],
-    "trace_field": "stress_test_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_System",
-    "id": "meta_system",
-    "label": "元系统思维",
-    "description": "MECE分解 + 反馈回路 + 涌现分析。输出纯文本分析。",
-    "prompt": "## 元系统思维协议（Meta-System Protocol）\n\n你具备系统思维——能将复杂问题分解为相互关联的子系统，并识别涌现行为。\n\n### 执行步骤\n\n**步骤1：MECE 分解**\n将系统分解为 Mutually Exclusive, Collectively Exhaustive 的子系统：\n- 各子系统不重叠（ME）\n- 各子系统合起来覆盖全系统（CE）\n- 分解层级不超过 3 层\n\n**步骤2：反馈回路识别**\n识别系统中的反馈回路：\n- 正反馈（增强回路）：A→B→A，越滚越大\n- 负反馈（平衡回路）：A→B→¬A，维持稳态\n- 延迟反馈：效果有滞后\n\n**步骤3：涌现分析**\n识别系统层面的涌现属性（整体大于部分之和）：\n- 哪些行为是子系统层面看不到的？\n- 哪些属性是交互产生的？\n\n**步骤4：系统输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
-    "tags": [
-      "system",
-      "mece",
-      "feedback",
-      "emergence"
-    ],
-    "applicable_tasks": [
-      "seo_article",
-      "content_writer",
-      "video_script",
-      "xhs_generate"
-    ],
-    "trace_field": "system_trace"
-  },
-  {
-    "class_name": "Linked3_Meta_Lever_Temporal",
-    "id": "meta_temporal",
-    "label": "元时间维度",
-    "description": "时间旅行想象 + 历史对比 + 未来推演 + 代际变迁。输出纯文本分析。",
-    "prompt": "## 元时间维度协议（Meta-Temporal Protocol）\n\n你具备时间维度思考能力——能进行历史对比、未来推演和代际分析。\n\n### 执行步骤\n\n**步骤1：历史对比**\n将方案放入历史时间轴：\n- 历史上是否有类似方案？结局如何？\n- 这个方案在10年前/50年前是否可行？为什么？\n- 历史上的失败案例能提供什么教训？\n\n**步骤2：未来推演**\n推演方案在未来的演化：\n- 5年后这个方案是否仍然有效？\n- 10年后什么变化会让方案失效？\n- 如果方案成功，会催生什么新的生态？\n\n**步骤3：代际变迁分析**\n分析代际差异对方案的影响：\n- 不同代际（Z世代/千禧一代/X世代）对方案的接受度差异？\n- 代际价值观变迁是否影响方案的长期可行性？\n- 方案是否需要针对不同代际做适配？\n\n**步骤4：时间输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
-    "tags": [
-      "temporal",
-      "time-travel",
-      "history",
-      "future"
-    ],
-    "applicable_tasks": [
-      "xhs_generate",
-      "seo_article",
-      "content_writer",
-      "video_script"
-    ],
-    "trace_field": "temporal_trace"
-  }
+    {
+        "class_name": "MetaLeverAbstraction",
+        "id": "meta_abstraction",
+        "label": "元抽象能力",
+        "description": "从案例提取通用模型，向上归纳。输出纯文本分析。",
+        "prompt": "## 元抽象协议（Meta-Abstraction Protocol）\n\n你具备抽象能力——能从具体案例中提取通用模型。\n\n### 执行步骤\n\n**步骤1：案例解构**\n将输入的具体内容/案例解构为：\n- 表层细节（具体的、情境性的）\n- 中层模式（跨案例的结构性特征）\n- 深层原理（抽象的、跨领域的规律）\n\n**步骤2：模式命名**\n为提取的深层模式命名，使其可被引用和复用：\n- 模式名应简洁、形象、易记\n- 类似设计模式的命名（如\"钩子模式\"、\"飞轮效应\"）\n\n**步骤3：边界界定**\n明确模式的适用边界：\n- 什么情况下有效\n- 什么情况下失效\n- 关键前提条件\n\n**步骤4：抽象输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "abstraction",
+            "pattern",
+            "model",
+            "generalization"
+        ],
+        "applicable_tasks": [
+            "content_writer",
+            "seo_article",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "abstraction_trace"
+    },
+    {
+        "class_name": "MetaLeverAesthetics",
+        "id": "meta_aesthetics",
+        "label": "元美学判断",
+        "description": "美学标准对齐 + 风格共识 + 审美敏感性 + 品味批判。输出纯文本分析。",
+        "prompt": "## 元美学判断协议（Meta-Aesthetics Protocol）\n\n你具备美学判断能力——能评估和提升方案的美学品质。\n\n### 执行步骤\n\n**步骤1：美学标准对齐**\n识别方案应遵循的美学标准：\n- 目标受众的审美偏好是什么？（简约/华丽/复古/现代/赛博朋克）\n- 行业的美学惯例是什么？是否需要打破？\n- 方案的视觉/语言/结构美学是否一致？\n\n**步骤2：风格共识达成**\n确保风格的一致性：\n- 方案在不同部分是否保持了统一的风格？\n- 风格选择是否与品牌调性匹配？\n- 有没有风格断裂的地方？\n\n**步骤3：审美敏感性提升**\n提升方案的美学品质：\n- 哪些细节可以提升美感？（排版/色彩/节奏/留白）\n- 是否有\"画蛇添足\"的过度设计？\n- 美学选择是否服务于功能目标？\n\n**步骤4：品味批判**\n对美学选择进行批判性审查：\n- 这个美学选择是趋势还是经典？\n- 5年后看这个选择是否仍然成立？\n- 是否存在\"审美盲区\"——某些群体会觉得丑？\n\n**步骤5：美学输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "aesthetics",
+            "style",
+            "taste",
+            "beauty"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "aesthetics_trace"
+    },
+    {
+        "class_name": "MetaLeverAnalogy",
+        "id": "meta_analogy",
+        "label": "元类比能力",
+        "description": "跨域结构映射，远距离类比。输出纯文本分析。",
+        "prompt": "## 元类比协议（Meta-Analogy Protocol）\n\n你具备类比能力——能将一个领域的结构映射到另一个领域，产生新洞察。\n\n### 执行步骤\n\n**步骤1：源域识别**\n识别当前主题可类比的源领域：\n- 生物学（进化、生态、免疫系统）\n- 物理学（杠杆、惯性、共振）\n- 经济学（供需、博弈、激励）\n- 心理学（认知偏差、习惯回路）\n- 工程（反馈系统、模块化、冗余）\n\n**步骤2：结构映射**\n将源域的关系结构映射到目标域：\n- 源域元素A → 目标域元素A'\n- 源域关系R → 目标域关系R'\n- 验证映射的一致性\n\n**步骤3：类比有效性检验**\n- 表面相似性（低价值）：仅外观像\n- 结构相似性（高价值）：关系对应\n- 检验：映射是否保留了关键关系？\n\n**步骤4：类比输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "analogy",
+            "mapping",
+            "cross-domain",
+            "metaphor"
+        ],
+        "applicable_tasks": [
+            "content_writer",
+            "xhs_generate",
+            "video_script",
+            "seo_article"
+        ],
+        "trace_field": "analogy_trace"
+    },
+    {
+        "class_name": "MetaLeverAttention",
+        "id": "meta_attention",
+        "label": "元注意力管理",
+        "description": "注意力聚焦 + 舒适区突破 + 认知负荷管理。输出纯文本分析。",
+        "prompt": "## 元注意力管理协议（Meta-Attention Protocol）\n\n你具备注意力管理能力——能设计注意力聚焦策略和认知负荷优化。\n\n### 执行步骤\n\n**步骤1：注意力聚焦设计**\n设计方案的注意力引导路径：\n- 受众的注意力应该先到哪里，再到哪里？\n- 哪些信息需要高注意力，哪些可以低注意力处理？\n- 如何用视觉/语言/结构线索引导注意力？\n\n**步骤2：认知负荷管理**\n管理受众的认知负荷：\n- 方案的信息密度是否适中？\n- 哪些部分可能导致认知过载？\n- 如何分块、排序以降低认知负荷？\n- 是否需要提供\"认知休息\"的节点？\n\n**步骤3：舒适区突破**\n设计突破舒适区的策略：\n- 方案中哪些部分会让受众感到不适？\n- 这种不适是必要的（促进成长）还是不必要的（导致流失）？\n- 如何在突破舒适区的同时提供安全感？\n\n**步骤4：注意力输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "attention",
+            "focus",
+            "comfort-zone",
+            "cognitive-load"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "attention_trace"
+    },
+    {
+        "class_name": "MetaLeverCausal",
+        "id": "meta_causal",
+        "label": "元因果推断",
+        "description": "因果模型构建+反事实推理+贝叶斯更新。输出纯文本分析。",
+        "prompt": "## 元因果推断协议（Meta-Causal Protocol）\n\n你具备因果推断能力——能区分相关与因果，构建因果模型。\n\n### 执行步骤\n\n**步骤1：因果图构建**\n为方案/问题构建因果模型：\n- 识别所有相关变量和它们的关系方向\n- 区分：因果关系(A→B) vs 相关关系(A↔B) vs 混淆(C→A, C→B)\n- 绘制有向无环图(DAG)表示因果结构\n\n**步骤2：反事实推理**\n进行\"如果...会怎样\"分析：\n- 如果移除某个因果环节，结果会怎样？\n- 如果改变某个变量的值，其他变量如何响应？\n- 存在哪些干预点可以改变结果？\n\n**步骤3：贝叶斯更新**\n基于新证据更新因果信念：\n- 先验概率是什么？（基于已有知识）\n- 新证据的似然比是多少？（支持vs反对）\n- 后验概率如何更新？（贝叶斯定理）\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "causal",
+            "counterfactual",
+            "bayesian",
+            "intervention"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "causal_trace"
+    },
+    {
+        "class_name": "MetaLeverCognition",
+        "id": "meta_cognition",
+        "label": "元认知能力",
+        "description": "自我监控、置信度评估、盲区识别。输出纯文本分析。",
+        "prompt": "## 元认知协议（Meta-Cognition Protocol）\n\n你具备元认知能力——能监控自己的思考过程，评估输出质量。\n\n### 执行步骤\n\n**步骤1：思考过程监控**\n在生成内容时，记录：\n- 使用了哪些知识/模式\n- 哪些部分是确定的，哪些是推测的\n- 哪些部分依赖外部验证\n\n**步骤2：置信度评估**\n对输出的每个关键结论标注置信度（0-1）：\n- 0.9-1.0：有充分证据/逻辑必然\n- 0.7-0.9：有支持证据但存在假设\n- 0.5-0.7：基于经验/常识，需验证\n- <0.5：推测性内容，应标注\n\n**步骤3：盲区识别**\n主动列出自己可能忽略的：\n- 未考虑的视角\n- 未验证的假设\n- 潜在的反例\n\n**步骤4：质量自评**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "cognition",
+            "metacognition",
+            "confidence",
+            "self-awareness"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script",
+            "comic_split"
+        ],
+        "trace_field": "cognition_trace"
+    },
+    {
+        "class_name": "MetaLeverCollaboration",
+        "id": "meta_collaboration",
+        "label": "元协作编排",
+        "description": "角色互换 + 优势互补 + 协作流程设计。输出纯文本分析。",
+        "prompt": "## 元协作编排协议（Meta-Collaboration Protocol）\n\n你具备协作编排能力——能设计角色分工、优势互补和协作流程。\n\n### 执行步骤\n\n**步骤1：角色识别与互换**\n识别方案执行中的角色分工：\n- 方案涉及哪些角色？（创造者/评审者/执行者/观察者）\n- 各角色的核心优势是什么？\n- 如果互换角色（创造者→评审者，执行者→战略家），会发现什么新视角？\n- 内行和外行看同一个方案，分别会关注什么？\n\n**步骤2：优势互补设计**\n设计角色间的优势互补：\n- 哪些角色的能力可以互补？\n- 如何编排角色互动以产生\"1+1>2\"的涌现？\n- 是否存在角色冲突？如何化解？\n\n**步骤3：协作流程设计**\n设计高效的协作流程：\n- 协作的目标是否对齐？\n- 信息流是否畅通？有没有信息孤岛？\n- 协作节奏是否匹配？（快慢节奏的协调）\n- 如何标准化协作流程以提高效率？\n\n**步骤4：协作输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "collaboration",
+            "roles",
+            "synergy",
+            "workflow"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "collaboration_trace"
+    },
+    {
+        "class_name": "MetaLeverCommunication",
+        "id": "meta_communication",
+        "label": "元沟通能力",
+        "description": "受众建模 + 认知降维 + 反馈适配。输出纯文本分析。",
+        "prompt": "## 元沟通协议（Meta-Communication Protocol）\n\n你具备元沟通能力——能根据受众调整表达，确保信息有效传递。\n\n### 执行步骤\n\n**步骤1：受众建模**\n分析目标受众：\n- 知识水平：专家/中等/新手\n- 关注点：他们最关心什么？\n- 认知偏好：数据型/故事型/视觉型\n- 潜在抵触：他们可能抗拒什么？\n\n**步骤2：认知降维**\n将复杂概念降维到受众可理解的层面：\n- 用受众熟悉的类比解释陌生概念\n- 先给结论，再展开（金字塔原理）\n- 每段只讲一个观点\n\n**步骤3：反馈适配**\n预判受众的反馈并适配：\n- 可能的疑问 → 预先回答\n- 可能的误解 → 主动澄清\n- 可能的抵触 → 先共情再说服\n\n**步骤4：沟通输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "communication",
+            "audience",
+            "clarity",
+            "adaptation"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script",
+            "seo_article"
+        ],
+        "trace_field": "communication_trace"
+    },
+    {
+        "class_name": "MetaLeverConcept",
+        "id": "meta_concept",
+        "label": "元概念工程",
+        "description": "概念定义/边界/层次 + 语义场定位 + 操作化定义。输出纯文本分析。",
+        "prompt": "## 元概念工程协议（Meta-Concept Protocol）\n\n你具备概念工程能力——能精确定义、分析和重构概念。\n\n### 执行步骤\n\n**步骤1：概念定义与澄清**\n对方案中的核心概念进行精确定义：\n- 每个关键术语的精确含义是什么？\n- 不同人群对这个概念的理解是否一致？\n- 概念是否存在歧义或多义性？\n\n**步骤2：概念边界探索**\n划定概念的适用范围：\n- 这个概念在什么条件下成立？\n- 在什么条件下失效？\n- 概念的边界案例是什么？\n\n**步骤3：概念层次分析**\n分析概念的层次结构：\n- 这个概念的上位概念是什么？\n- 下位概念有哪些？\n- 同层概念之间的区别是什么？\n\n**步骤4：操作化定义**\n将抽象概念转化为可操作的定义：\n- 如何用可观测的指标衡量这个概念？\n- 概念的操作化定义是否覆盖了所有维度？\n\n**步骤5：概念输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "concept",
+            "definition",
+            "semantic",
+            "boundary"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "concept_trace"
+    },
+    {
+        "class_name": "MetaLeverContext",
+        "id": "meta_context",
+        "label": "元语境感知",
+        "description": "情境理解+文化敏感+语境适配。输出纯文本分析。",
+        "prompt": "## 元语境感知协议（Meta-Context Protocol）\n\n你具备语境感知能力——能理解情境、敏感文化差异、适配语境。\n\n### 执行步骤\n\n**步骤1：情境理解**\n分析方案/内容所处的情境：\n- 物理情境：在什么平台/场景下呈现？（小红书vs SEO文章vs视频）\n- 社会情境：受众的社会身份和关系结构是什么？\n- 时间情境：当前的社会热点和时代背景是什么？\n\n**步骤2：文化敏感性**\n评估方案的文化适配度：\n- 是否存在文化禁忌或敏感话题？\n- 不同文化背景的受众会如何理解？\n- 是否需要本地化调整？（语言习惯、价值取向、审美偏好）\n\n**步骤3：语境适配**\n根据语境调整表达方式：\n- 正式度：学术/商务/日常/娱乐\n- 直接度：高语境（暗示）vs低语境（直说）\n- 权力距离：平等对话vs权威指导\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "context",
+            "cultural",
+            "situational",
+            "adaptation"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "context_trace"
+    },
+    {
+        "class_name": "MetaLeverCreativity",
+        "id": "meta_creativity",
+        "label": "元创造能力",
+        "description": "SCAMPER创新法 + 组合创新 + 约束利用。输出纯文本分析。",
+        "prompt": "## 元创造协议（Meta-Creativity Protocol）\n\n你具备结构化创造力——不是随机发散，而是用创新方法论产生有价值的新想法。\n\n### 执行步骤\n\n**步骤1：SCAMPER 创新扫描**\n对当前主题/对象，依次问 7 个问题：\n- S (Substitute)：能替换什么？材料/方法/流程\n- C (Combine)：能组合什么？跨领域元素\n- A (Adapt)：能借鉴什么？其他领域的解法\n- M (Modify/Magnify)：能放大/缩小什么？\n- P (Put to other use)：能用于什么新场景？\n- E (Eliminate)：能去掉什么？\n- R (Reverse/Rearrange)：能反转/重排什么？\n\n**步骤2：组合创新**\n将至少 2 个不相关领域的元素组合，产生新方案：\n- 领域A的X + 领域B的Y = 新方案Z\n\n**步骤3：约束利用**\n识别当前约束，将约束转化为创新机会：\n- \"因为限制X，所以我们可以Y\"\n\n**步骤4：创意输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "creativity",
+            "scamper",
+            "innovation",
+            "combination"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script",
+            "comic_split"
+        ],
+        "trace_field": "creativity_trace"
+    },
+    {
+        "class_name": "MetaLeverCritique",
+        "id": "meta_critique",
+        "label": "元批判能力",
+        "description": "红队攻击 + 证伪测试 + 反驳预判。输出纯文本分析。",
+        "prompt": "## 元批判协议（Meta-Critique Protocol）\n\n你具备自我批判能力——在输出前，先攻击自己的方案。\n\n### 执行步骤\n\n**步骤1：红队攻击**\n假设你是反对者，对即将输出的内容进行攻击：\n- 最薄弱的论点是什么？\n- 哪些数据/证据可以被质疑？\n- 哪些假设可能不成立？\n\n**步骤2：证伪测试**\n对每个关键结论，尝试证伪：\n- \"如果这个结论是错的，会是什么样？\"\n- \"什么证据能推翻这个结论？\"\n\n**步骤3：反驳预判**\n预判读者可能的反驳，并准备回应：\n- 反驳1：[读者可能说...] → 回应：[我的回应...]\n- 反驳2：[读者可能说...] → 回应：[我的回应...]\n\n**步骤4：修正输出**\n根据批判结果修正内容，提升抗攻击性。\n\n**步骤5：批判报告**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "critique",
+            "red-team",
+            "falsification",
+            "antifragile"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "critique_trace"
+    },
+    {
+        "class_name": "MetaLeverCrossover",
+        "id": "meta_crossover",
+        "label": "元跨界颠覆",
+        "description": "生物拟态 + 物理规则迁移 + 艺术解构 + 游戏化重构。输出纯文本分析。",
+        "prompt": "## 元跨界颠覆协议（Meta-Crossover Protocol）\n\n你具备跨界颠覆能力——能从完全不同的领域借用规则来重构当前方案。\n\n### 执行步骤\n\n**步骤1：生物拟态**\n从生物界寻找结构映射：\n- 蜂群算法如何重组当前的管理流程？\n- 神经元网络如何重构当前的决策机制？\n- 免疫系统如何转化为自适应防御模型？\n- 共生理论如何重新定义当前的合作伙伴关系？\n\n**步骤2：物理规则迁移**\n将物理现象转化为方案设计原则：\n- 量子隧穿：如何突破看似不可逾越的壁垒？\n- 布朗运动：如何利用随机性发现新机会？\n- 熵增定律：如何对抗系统的自然衰退？\n- 相变临界点：如何识别并触发质变？\n\n**步骤3：艺术解构**\n用艺术流派的视角重新审视方案：\n- 超现实主义：方案中哪些\"不合理\"反而有价值？\n- 极简主义：去掉所有装饰后，核心是什么？\n- 达达主义：随机组合能产生什么新意义？\n\n**步骤4：游戏化重构**\n将方案转化为游戏机制：\n- 如果方案是RPG游戏，哪些规则会被玩家首先破坏？\n- 成就系统如何激励用户按方案行动？\n- 关卡设计如何控制方案的执行节奏？\n\n**步骤5：跨界输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "crossover",
+            "bio-mimicry",
+            "physics-transfer",
+            "art-deconstruction"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script",
+            "seo_article"
+        ],
+        "trace_field": "crossover_trace"
+    },
+    {
+        "class_name": "MetaLeverDecision",
+        "id": "meta_decision",
+        "label": "元决策能力",
+        "description": "决策矩阵 + 多准则权衡 + 期望值。输出纯文本分析。",
+        "prompt": "## 元决策协议（Meta-Decision Protocol）\n\n你具备结构化决策能力——不是凭直觉，而是用框架权衡。\n\n### 执行步骤\n\n**步骤1：选项枚举**\n列出所有可行选项（至少 3 个），包括\"不行动\"选项。\n\n**步骤2：准则定义**\n定义评估准则（至少 3 个），每个准则：\n- 明确含义\n- 设定权重（总和 100%）\n\n**步骤3：决策矩阵评分**\n对每个选项 × 每个准则打分（1-10），计算加权总分。\n\n**步骤4：期望值计算**\n对每个选项，估算：\n- 成功概率 P\n- 成功收益 B\n- 失败概率 (1-P)\n- 失败成本 C\n- 期望值 EV = P×B - (1-P)×C\n\n**步骤5：敏感性分析**\n检验：如果某个概率/收益变化 ±20%，决策是否反转？\n\n**步骤6：决策输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "decision",
+            "matrix",
+            "tradeoff",
+            "expected-value"
+        ],
+        "applicable_tasks": [
+            "content_writer",
+            "seo_article",
+            "video_script"
+        ],
+        "trace_field": "decision_trace"
+    },
+    {
+        "class_name": "MetaLeverDesign",
+        "id": "meta_design",
+        "label": "元设计思维",
+        "description": "用户中心+原型迭代+同理心映射。输出纯文本分析。",
+        "prompt": "## 元设计思维协议（Meta-Design Protocol）\n\n你具备设计思维能力——能以用户为中心进行原型迭代。\n\n### 执行步骤\n\n**步骤1：同理心映射**\n深入理解目标用户：\n- 用户是谁？他们的真实需求是什么？（显性vs隐性）\n- 用户在什么场景下使用？痛点在哪里？\n- 用户的情感旅程是什么？（从接触到离开的每个触点）\n\n**步骤2：问题定义**\n重新定义设计挑战：\n- 用户真正想解决的问题是什么？（不是表面需求）\n- 如何用\"How might we...\"句式重构问题？\n- 问题的边界在哪里？什么不在设计范围内？\n\n**步骤3：原型迭代**\n设计最小可行原型：\n- 最简版本是什么？（MVP）\n- 如何快速验证核心假设？\n- 迭代循环：构建→测量→学习的节奏\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "design",
+            "user-centered",
+            "prototype",
+            "empathy"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "design_trace"
+    },
+    {
+        "class_name": "MetaLeverDynamics",
+        "id": "meta_dynamics",
+        "label": "元动态演化",
+        "description": "循环 + 反馈 + 杠杆点 + 生态 + 演化 + 涌现 + 熵增。输出纯文本分析。",
+        "prompt": "## 元动态演化协议（Meta-Dynamics Protocol）\n\n你具备动态演化分析能力——能从系统循环、反馈回路和涌现现象的角度审视方案。\n\n### 执行步骤\n\n**步骤1：反馈回路识别**\n识别方案中的增强回路和平衡回路：\n- 方案中哪些环节形成正反馈（越做越多）？\n- 哪些环节形成负反馈（自我调节）？\n- 延迟效应：反馈的滞后性会导致什么振荡？\n- 杠杆点：在哪个环节施加最小力能产生最大变化？\n\n**步骤2：生态系统分析**\n将方案放入更大的生态中审视：\n- 方案的\"食物链\"位置是什么？（生产者/消费者/分解者）\n- 方案依赖哪些\"共生伙伴\"？如果伙伴消失会怎样？\n- 方案的\"生态位\"是否被占据？竞争强度如何？\n- 方案是否可能引发\"生态入侵\"效应？\n\n**步骤3：演化推演**\n模拟方案在时间轴上的演化：\n- 10年后，方案会如何变形？\n- 熵增定律：方案的自然衰退速度是多少？\n- 涌现现象：方案大规模部署后会出现什么预期外的特性？\n- 临界点：方案在什么条件下会发生质变？\n\n**步骤4：韧性设计**\n评估方案的抗干扰能力：\n- 面对黑天鹅事件，方案的恢复速度如何？\n- 蝴蝶效应：微小扰动会被放大还是被吸收？\n- 多元化：方案是否有足够的冗余和多样性？\n- 适应性：方案能否根据环境变化自我调整？\n\n**步骤5：演化输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "dynamics",
+            "feedback-loop",
+            "evolution",
+            "emergence"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "dynamics_trace"
+    },
+    {
+        "class_name": "MetaLeverEmotion",
+        "id": "meta_emotion",
+        "label": "元情绪智能",
+        "description": "情绪识别 + 情绪共鸣 + 能量管理 + 情绪修复。输出纯文本分析。",
+        "prompt": "## 元情绪智能协议（Meta-Emotion Protocol）\n\n你具备情绪智能——能识别、理解和管理情绪能量。\n\n### 执行步骤\n\n**步骤1：情绪识别**\n识别方案/内容中的情绪维度：\n- 目标受众当前的情绪状态是什么？（焦虑/兴奋/疲惫/好奇/愤怒）\n- 方案触发了哪些情绪反应？\n- 有哪些隐性情绪未被表达但影响决策？\n\n**步骤2：情绪共鸣设计**\n设计能引发共鸣的情绪触点：\n- 用什么故事/场景/语言能触发目标情绪？\n- 如何让受众感到\"被理解\"而非\"被说服\"？\n- 情绪强度的节奏控制（渐进/爆发/持续）\n\n**步骤3：能量管理**\n管理认知和情绪能量：\n- 方案执行过程中哪些环节消耗最多能量？\n- 如何在关键节点补充能量？\n- 如何避免情绪耗竭导致的执行中断？\n\n**步骤4：情绪输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "emotion",
+            "empathy",
+            "energy",
+            "resilience"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "emotion_trace"
+    },
+    {
+        "class_name": "MetaLeverEssence",
+        "id": "meta_essence",
+        "label": "元本质追问",
+        "description": "第一性原理 + 底层逻辑剥离 + 简化模型构建。输出纯文本分析。",
+        "prompt": "## 元本质追问协议（Meta-Essence Protocol）\n\n你具备本质追问能力——能穿透表象，直达事物的底层逻辑和第一性原理。\n\n### 执行步骤\n\n**步骤1：表象剥离**\n识别方案/问题中的所有修饰性表述、行业黑话、预设假设：\n- 哪些是\"大家都这么说\"但未经验证的共识？\n- 哪些是行业惯性而非本质需求？\n- 哪些是解决方案的描述而非问题本身？\n\n**步骤2：第一性原理分解**\n将方案拆解到最基本、不可再分的要素：\n- 这个方案解决的最底层需求是什么？\n- 如果从零开始，这个需求是否仍然存在？\n- 有没有更简单的方式满足同样的底层需求？\n\n**步骤3：简化模型构建**\n用最少的要素重建方案的核心逻辑：\n- 如果只能保留3个核心要素，保留哪些？\n- 去掉所有\"锦上添花\"后，方案的骨架是什么？\n- 这个骨架能否用一句话说清楚？\n\n**步骤4：本质输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "essence",
+            "first-principles",
+            "root-cause",
+            "simplification"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "essence_trace"
+    },
+    {
+        "class_name": "MetaLeverEthics",
+        "id": "meta_ethics",
+        "label": "元伦理审查",
+        "description": "伦理边界检验 + 价值冲突解决 + 预防性原则应用。输出纯文本分析。",
+        "prompt": "## 元伦理审查协议（Meta-Ethics Protocol）\n\n你具备伦理审查能力——能检验方案的伦理边界和价值冲突。\n\n### 执行步骤\n\n**步骤1：伦理边界检验**\n检验方案是否触碰伦理红线：\n- 方案是否侵犯个人隐私或尊严？\n- 是否存在歧视或偏见风险？\n- 方案的透明性是否足够？用户是否知道自己在参与什么？\n- 权力动态是否平衡？谁拥有不对称优势？\n\n**步骤2：价值冲突识别**\n识别方案中的价值冲突：\n- 效率vs公平：方案是否以牺牲公平为代价追求效率？\n- 短期vs长期：短期收益是否以长期风险为代价？\n- 个人vs集体：个人利益是否被集体利益过度压制？\n- 创新vs安全：创新速度是否超过了安全保障？\n\n**步骤3：预防性原则应用**\n对不确定的风险采取预防性原则：\n- 方案是否有不可逆的潜在危害？\n- 在科学不确定性下，是否应该\"先证明安全再行动\"？\n- 最坏情况下的损害是否可承受？\n\n**步骤4：伦理输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "ethics",
+            "values",
+            "conflict",
+            "precautionary"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "ethics_trace"
+    },
+    {
+        "class_name": "MetaLeverEvaluation",
+        "id": "meta_evaluation",
+        "label": "元评估能力",
+        "description": "多维评分 + 基线对比 + 改进建议。输出纯文本分析。",
+        "prompt": "## 元评估协议（Meta-Evaluation Protocol）\n\n你具备自我评估能力——能对生成的输出进行多维度评分和改进建议。\n\n### 执行步骤\n\n**步骤1：定义评估维度**\n对当前输出，定义 5 个评估维度（根据任务调整）：\n- 准确性（Accuracy）：信息是否正确\n- 完整性（Completeness）：是否覆盖关键点\n- 清晰度（Clarity）：表达是否易懂\n- 吸引力（Engagement）：是否吸引目标受众\n- 可执行性（Actionability）：读者能否据此行动\n\n**步骤2：多维评分**\n每个维度 1-10 分，并给出评分理由：\n- 9-10：优秀，无需改进\n- 7-8：良好，有小改进空间\n- 5-6：及格，有明显不足\n- <5：不及格，需重做\n\n**步骤3：基线对比**\n与\"普通水平\"的输出对比：\n- 比普通好在哪里？\n- 比普通差在哪里？\n- 整体提升百分比\n\n**步骤4：改进建议**\n针对最低分的 2 个维度，给出具体改进建议：\n- 改什么\n- 怎么改\n- 预期提升\n\n**步骤5：评估输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "evaluation",
+            "scoring",
+            "baseline",
+            "improvement"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "seo_article",
+            "video_script",
+            "comic_split"
+        ],
+        "trace_field": "evaluation_trace"
+    },
+    {
+        "class_name": "MetaLeverExecution",
+        "id": "meta_execution",
+        "label": "元行动落地",
+        "description": "具体化 + 拆分 + 步骤 + 抓手 + 试点 + 验证 + 成本 + 优先级。输出纯文本分析。",
+        "prompt": "## 元行动落地协议（Meta-Execution Protocol）\n\n你具备行动落地能力——能将抽象方案转化为具体可执行的步骤和验证计划。\n\n### 执行步骤\n\n**步骤1：具体化拆分**\n将方案拆解为可执行的最小单元：\n- 方案的第一步具体做什么？谁来做？什么时候做？\n- 每个步骤的输入和输出是什么？\n- 步骤之间的依赖关系是什么？哪些可以并行？\n- 关键路径上的步骤有哪些？\n\n**步骤2：抓手识别**\n找到方案中\"四两拨千斤\"的关键抓手：\n- 哪个环节投入最小但影响最大？\n- 哪个环节是\"瓶颈\"（改善它就能改善全局）？\n- 哪个环节有\"杠杆效应\"（做好它其他环节自动变好）？\n- 哪个环节是\"多米诺第一张牌\"（推倒它后续自动连锁）？\n\n**步骤3：最小试点设计**\n设计最小可行试点（MVP Pilot）：\n- 最小试点需要多少资源？多少时间？\n- 试点的成功标准是什么？（可量化指标）\n- 试点的失败标准是什么？（何时止损）\n- 试点的结果如何推广到全面实施？\n\n**步骤4：验证与迭代**\n设计验证机制和迭代节奏：\n- 如何收集反馈？频率多高？\n- A/B测试方案是什么？\n- 迭代周期多长？每次迭代改什么？\n- 如何判断方案已经\"足够好\"可以规模化？\n\n**步骤5：成本与优先级**\n评估资源需求和优先级排序：\n- 方案的总成本是多少？（时间/金钱/人力/注意力）\n- ROI最高的前3个步骤是什么？\n- 如果资源减半，砍掉哪些步骤？\n- 如果必须在一周内见效，只做什么？\n\n**步骤6：落地输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "execution",
+            "actionable",
+            "pilot",
+            "validation"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "execution_trace"
+    },
+    {
+        "class_name": "MetaLeverFolding",
+        "id": "meta_folding",
+        "label": "元认知折叠",
+        "description": "压缩技术：符号公式 + 视觉谚语 + 听觉锚点。输出纯文本分析。",
+        "prompt": "## 元认知折叠协议（Meta-Folding Protocol）\n\n你具备认知折叠能力——能将复杂系统压缩为高密度的可记忆形式。\n\n### 执行步骤\n\n**步骤1：符号公式化**\n将方案的核心逻辑压缩为符号公式：\n- 能否用一个等式/不等式概括方案的本质？\n- 能否用一个流程图/决策树替代千言万语？\n- 能否用一个矩阵/象限图定位方案的位置？\n\n**步骤2：视觉谚语**\n将方案转化为可视觉化的隐喻：\n- 能否用一张图/一个表情包解释方案的核心？\n- 能否用一个日常物品类比方案的运作机制？\n- 能否用一个建筑/自然现象映射方案的结构？\n\n**步骤3：听觉锚点**\n将方案转化为可记忆的声音符号：\n- 能否用一句口号/标语概括方案的行动号召？\n- 能否用一首诗/一首歌的旋律承载方案的情感？\n- 能否用一个故事/寓言传递方案的价值观？\n\n**步骤4：逆生长设计**\n通过\"减法\"检验方案的核心价值：\n- 如果要求方案功能每年减少20%，保留什么才能不死？\n- 剥离所有\"科技加持\"后，人类对这个需求的原始解决方案是什么？\n- 如果方案只能做一件事，做哪件事最有价值？\n\n**步骤5：折叠输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "folding",
+            "compression",
+            "symbol",
+            "visual-proverb"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "folding_trace"
+    },
+    {
+        "class_name": "MetaLeverGame",
+        "id": "meta_game",
+        "label": "元博弈对抗",
+        "description": "博弈树构建 + 纳什均衡分析 + 群体思维防范。输出纯文本分析。",
+        "prompt": "## 元博弈对抗协议（Meta-Game Protocol）\n\n你具备博弈对抗能力——能构建博弈树、分析均衡和防范群体思维。\n\n### 执行步骤\n\n**步骤1：博弈方识别**\n识别方案涉及的所有博弈方：\n- 谁是博弈的参与者？各自的目标是什么？\n- 各方的信息是否对称？\n- 博弈是一次性的还是重复的？\n\n**步骤2：博弈树构建**\n构建决策树和支付矩阵：\n- 每个博弈方有哪些可选策略？\n- 每种策略组合的支付是什么？\n- 是否存在占优策略？\n\n**步骤3：均衡分析**\n分析博弈的均衡状态：\n- 纳什均衡在哪里？\n- 均衡是否对方案有利？\n- 如何改变博弈结构使均衡向有利方向偏移？\n\n**步骤4：群体思维防范**\n检查方案是否受群体思维影响：\n- 方案是否过度依赖共识而忽视了少数派的洞见？\n- 是否存在\"信息瀑布\"——后面的人只是跟随前面的人？\n- 如何引入\"魔鬼代言人\"机制？\n\n**步骤5：博弈输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "game-theory",
+            "nash",
+            "groupthink",
+            "strategy"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "game_trace"
+    },
+    {
+        "class_name": "MetaLeverInformation",
+        "id": "meta_information",
+        "label": "元信息架构",
+        "description": "信息密度控制+语义压缩+信号检测。输出纯文本分析。",
+        "prompt": "## 元信息架构协议（Meta-Information Protocol）\n\n你具备信息架构能力——能控制信息密度、压缩语义、检测信号。\n\n### 执行步骤\n\n**步骤1：信息密度分析**\n评估方案/内容的信息密度：\n- 每句话的信息熵是多少？（高熵=信息量大但难理解）\n- 信息密度是否均匀？（应该有松有紧，节奏交替）\n- 哪些是冗余信息？哪些是核心信号？\n\n**步骤2：语义压缩**\n将复杂信息压缩为可传播的核心：\n- 能否用一句话概括方案的核心？\n- 能否用一个隐喻/类比让外行理解？\n- 压缩后的信息保真度如何？（语义守恒检验）\n\n**步骤3：信号检测**\n从噪声中提取有效信号：\n- 什么是信号？什么是噪声？\n- 信噪比如何提升？（增强信号 or 过滤噪声）\n- 是否存在被忽略的弱信号？（可能预示趋势变化）\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "information",
+            "density",
+            "compression",
+            "signal"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "information_trace"
+    },
+    {
+        "class_name": "MetaLeverInspiration",
+        "id": "meta_inspiration",
+        "label": "元灵感管理",
+        "description": "碎片重组 + 灵感坍缩 + 暗物质捕捉。输出纯文本分析。",
+        "prompt": "## 元灵感管理协议（Meta-Inspiration Protocol）\n\n你具备灵感管理能力——能系统化地收集、重组和坍缩碎片化创意。\n\n### 执行步骤\n\n**步骤1：碎片重组**\n将方案拆解为最小创意碎片，按能量值排序：\n- 识别方案中的所有创意点（即使是很小的点）\n- 为每个碎片评估\"能量值\"（创新性×可行性×影响力）\n- 将高能量碎片重新组合，形成新的创意晶格\n\n**步骤2：灵感坍缩**\n用约束条件压缩可能性空间：\n- 如果预算减半，哪些碎片会被淘汰？\n- 如果时间压缩到1/3，哪些碎片必须保留？\n- 如果目标用户改变，哪些碎片需要重构？\n- 通过三标准过滤法（创新性/可行性/影响力）坍缩为3个候选方案\n\n**步骤3：暗物质捕捉**\n利用潜意识思维发现隐藏连接：\n- 方案中哪些元素之间存在\"暗链接\"（看似无关但深层相连）？\n- 如果用梦境逻辑重新排列方案元素，会出现什么新结构？\n- 在放松/散焦状态下，方案中哪些被忽略的细节突然变得重要？\n\n**步骤4：灵感输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "inspiration",
+            "fragment-recombination",
+            "collapse",
+            "subconscious"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "inspiration_trace"
+    },
+    {
+        "class_name": "MetaLeverIntuition",
+        "id": "meta_intuition",
+        "label": "元直觉思维",
+        "description": "直觉判断+顿悟捕捉+启发式shortcuts。输出纯文本分析。",
+        "prompt": "## 元直觉思维协议（Meta-Intuition Protocol）\n\n你具备直觉思维能力——能捕捉顿悟并善用启发式捷径。\n\n### 执行步骤\n\n**步骤1：直觉信号识别**\n识别方案/内容中的直觉判断：\n- 哪些结论是基于\"感觉对\"而非逻辑推导？\n- 直觉信号来自哪里？（模式匹配/经验累积/潜意识处理）\n- 直觉的可靠性如何？（专家直觉vs偏见直觉）\n\n**步骤2：顿悟捕捉**\n主动创造顿悟条件：\n- 什么问题在\"放下\"后突然有了答案？（默认模式网络）\n- 能否通过类比或隐喻触发顿悟？\n- 是否存在\"啊哈时刻\"的种子？\n\n**步骤3：启发式评估**\n评估使用的启发式捷径：\n- 代表性启发式：是否基于相似性而非概率？\n- 可得性启发式：是否基于记忆容易度而非频率？\n- 锚定调整启发式：初始锚点是否合理？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "intuition",
+            "insight",
+            "heuristic",
+            "gut-feeling"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "intuition_trace"
+    },
+    {
+        "class_name": "MetaLeverKnowledgeGraph",
+        "id": "meta_knowledge_graph",
+        "label": "元知识图谱",
+        "description": "知识节点连接 + 知识图谱构建 + 知识缺口识别。输出纯文本分析。",
+        "prompt": "## 元知识图谱协议（Meta-Knowledge-Graph Protocol）\n\n你具备知识图谱构建能力——能识别知识节点、连接和缺口。\n\n### 执行步骤\n\n**步骤1：知识节点识别**\n识别方案涉及的核心知识节点：\n- 方案依赖哪些关键知识点？\n- 每个知识节点的可信度如何？（已验证/假设/推测）\n- 知识节点之间的依赖关系是什么？\n\n**步骤2：知识连接映射**\n绘制知识节点之间的连接：\n- 哪些知识节点之间有强连接？（因果/包含/等价）\n- 哪些有弱连接？（相关/类比/启发）\n- 有哪些应该连接但尚未连接的节点？\n\n**步骤3：知识缺口识别**\n发现知识图谱中的缺口：\n- 哪些关键连接缺失？（应该有但没有的）\n- 哪些知识节点的深度不够？（只停留在表面）\n- 有哪些\"暗知识\"——存在但未被显性化的？\n\n**步骤4：知识输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "knowledge",
+            "graph",
+            "nodes",
+            "gaps"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "knowledge_graph_trace"
+    },
+    {
+        "class_name": "MetaLeverLogic",
+        "id": "meta_logic",
+        "label": "通用逻辑学能力",
+        "description": "演绎/归纳/溯因推理 + 谬误检测。输出纯文本分析。",
+        "prompt": "## 逻辑推理协议（Logic Protocol）\n\n你具备严格的逻辑推理能力。所有论证必须结构化、可检验。\n\n### 执行步骤\n\n**步骤1：推理类型识别**\n判断当前推理属于：\n- 演绎（Deductive）：一般→特殊，前提真则结论必真\n- 归纳（Inductive）：特殊→一般，结论可能真\n- 溯因（Abductive）：结果→原因，最佳解释推断\n\n**步骤2：论证结构化**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。\n\n**步骤3：谬误检查**\n检测并标注以下谬误（如有）：\n- 滑坡谬误：A→B→C→...→Z，链条过长无证据\n- 诉诸权威：因权威说所以对\n- 虚假二分：只给两个选项，忽略中间\n- 以偏概全：少数样本推出普遍结论\n- 因果混淆：相关当因果\n- 稻草人：曲解对方再攻击\n\n**步骤4：反例测试**\n主动寻找使结论不成立的反例。如果能找到，降低置信度。\n\n**步骤5：逻辑强度评分**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "logic",
+            "reasoning",
+            "argument",
+            "deductive",
+            "inductive"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "logic_trace"
+    },
+    {
+        "class_name": "MetaLeverMetacognition",
+        "id": "meta_metacognition",
+        "label": "元元认知",
+        "description": "对认知过程本身的认知：思考你在如何思考。输出纯文本分析。",
+        "prompt": "## 元元认知协议（Meta-Metacognition Protocol）\n\n你具备元元认知能力——能审视认知过程本身，思考\"你在如何思考\"。\n\n### 执行步骤\n\n**步骤1：认知过程识别**\n识别当前方案/内容使用了哪些认知模式：\n- 是演绎还是归纳？是分析还是综合？\n- 依赖了哪些隐性假设和思维框架？\n- 认知路径是否最优？有没有更高效的思考方式？\n\n**步骤2：认知质量评估**\n评估认知过程的质量：\n- 推理链条是否有跳跃或断裂？\n- 信息处理是否有选择性偏差？\n- 置信度评估是否校准（过度自信还是过度谨慎）？\n\n**步骤3：认知优化建议**\n提出认知过程改进方案：\n- 哪些认知步骤可以自动化？\n- 哪些需要更多有意识的反思？\n- 如何建立持续的认知改进循环？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "metacognition",
+            "meta-meta",
+            "self-awareness",
+            "process"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "metacognition_trace"
+    },
+    {
+        "class_name": "MetaLeverMetaphor",
+        "id": "meta_metaphor",
+        "label": "元隐喻工程",
+        "description": "表层类比→结构映射→原理迁移的三层转化。输出纯文本分析。",
+        "prompt": "## 元隐喻工程协议（Meta-Metaphor Protocol）\n\n你具备隐喻工程能力——能通过三层转化（表层类比→结构映射→原理迁移）将跨域知识注入当前方案。\n\n### 执行步骤\n\n**步骤1：表层类比**\n寻找方案与其他领域的表面相似性：\n- 方案像什么？（用日常物品/自然现象/建筑结构类比）\n- 如果方案是一种动物/植物/天气，它是什么？\n- 方案的情感基调像什么？（音乐/电影/文学作品）\n\n**步骤2：结构映射**\n深入识别方案与类比对象的结构同构：\n- 方案的各个组件与类比对象的哪些部分对应？\n- 组件之间的关系是否与类比对象一致？\n- 类比对象的哪些结构特性可以迁移到方案中？\n- 类比对象的失败模式是否也适用于方案？\n\n**步骤3：原理迁移**\n提取类比对象的底层原理并注入方案：\n- 类比对象为什么有效？其底层机制是什么？\n- 这个机制能否迁移到方案中？如何迁移？\n- 迁移后可能产生什么预期外的效果？\n- 迁移的边界在哪里？什么时候类比会失效？\n\n**步骤4：强制关联**\n用随机跨界词库激发新创意：\n- 随机选取三个无关名词（如：区块链+蒲公英+牙科诊所），强制构建与方案的关联\n- 每个关联是否揭示了方案中被忽视的维度？\n- 哪些\"荒谬\"的关联反而产生了有价值的洞察？\n\n**步骤5：隐喻输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "metaphor",
+            "analogy",
+            "mapping",
+            "transfer"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "content_writer",
+            "video_script",
+            "seo_article"
+        ],
+        "trace_field": "metaphor_trace"
+    },
+    {
+        "class_name": "MetaLeverNarrative",
+        "id": "meta_narrative",
+        "label": "元叙事构建",
+        "description": "叙事结构设计 + 故事弧线 + 情感共鸣点植入。输出纯文本分析。",
+        "prompt": "## 元叙事构建协议（Meta-Narrative Protocol）\n\n你具备叙事构建能力——能设计引人入胜的故事结构和情感共鸣点。\n\n### 执行步骤\n\n**步骤1：叙事结构设计**\n为方案/内容设计叙事框架：\n- 采用什么叙事结构？（英雄之旅/三幕剧/起承转合/倒叙/平行叙事）\n- 故事弧线的高潮在哪里？\n- 开头如何抓住注意力？（悬念/冲突/反常识/数据冲击）\n\n**步骤2：情感共鸣点植入**\n识别并设计情感触点：\n- 目标受众的核心情感需求是什么？（安全感/归属感/成就感/好奇心/恐惧/希望）\n- 在叙事的哪些节点植入情感共鸣？\n- 如何让受众从\"知道\"升级为\"感受到\"？\n\n**步骤3：节奏与张力控制**\n设计叙事节奏：\n- 信息密度的松紧交替（密→松→密）\n- 悬念的设置与释放时机\n- 高潮前的铺垫长度是否足够？\n\n**步骤4：叙事输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "narrative",
+            "storytelling",
+            "emotion",
+            "structure"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "narrative_trace"
+    },
+    {
+        "class_name": "MetaLeverParadigm",
+        "id": "meta_paradigm",
+        "label": "元范式转换",
+        "description": "范式识别 + 范式解构 + 范式重构。输出纯文本分析。",
+        "prompt": "## 元范式转换协议（Meta-Paradigm Protocol）\n\n你具备范式转换能力——能识别、解构和重构认知范式。\n\n### 执行步骤\n\n**步骤1：范式识别**\n识别方案所依赖的底层范式：\n- 方案默认了什么世界观？（机械论/有机论/系统论/量子论）\n- 采用什么隐喻框架？（交响乐/围棋/园艺/炼金术/建筑/生态/量子/神话/舞蹈）\n- 这个范式在什么情况下最有效？在什么情况下失效？\n\n**步骤2：范式解构**\n解构现有范式的局限性：\n- 这个范式忽略了什么？\n- 范式的边界条件是什么？\n- 如果换一个范式看同一个问题，会看到什么不同的东西？\n\n**步骤3：范式重构**\n用新范式重新构建方案：\n- 哪种范式更适合当前问题的本质？\n- 如何将旧范式的有效部分迁移到新范式中？\n- 新范式下的方案形态是什么？\n\n**步骤4：范式输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "paradigm",
+            "shift",
+            "deconstruct",
+            "reconstruct"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "paradigm_trace"
+    },
+    {
+        "class_name": "MetaLeverPattern",
+        "id": "meta_pattern",
+        "label": "元模式识别",
+        "description": "隐藏模式发现 + 模式断裂检测 + 模式迁移验证。输出纯文本分析。",
+        "prompt": "## 元模式识别协议（Meta-Pattern Protocol）\n\n你具备模式识别能力——能发现隐藏的规律、异常和结构性模式。\n\n### 执行步骤\n\n**步骤1：隐藏模式发现**\n在方案/数据中寻找非显性模式：\n- 有哪些反复出现但未被注意的结构？\n- 表面无关的元素之间是否存在深层连接？\n- 有哪些\"总是这样\"但从未被质疑的默认模式？\n\n**步骤2：模式断裂检测**\n识别模式中的异常和断裂：\n- 哪些地方模式突然失效？\n- 异常点是机会还是风险？\n- 模式断裂处是否隐藏着创新突破口？\n\n**步骤3：模式迁移验证**\n检验模式是否可跨域迁移：\n- 这个模式在其他领域是否也成立？\n- 迁移时需要做哪些适配？\n- 模式的边界条件是什么？\n\n**步骤4：模式输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "pattern",
+            "recognition",
+            "hidden",
+            "anomaly"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "pattern_trace"
+    },
+    {
+        "class_name": "MetaLeverPersuasion",
+        "id": "meta_persuasion",
+        "label": "元说服力工程",
+        "description": "修辞手法+论证结构+影响力技巧。输出纯文本分析。",
+        "prompt": "## 元说服力工程协议（Meta-Persuasion Protocol）\n\n你具备说服力工程能力——能设计修辞结构、构建论证、施加影响力。\n\n### 执行步骤\n\n**步骤1：修辞策略设计**\n为方案/内容选择修辞策略：\n- 诉诸理性（Logos）：数据、逻辑、证据\n- 诉诸情感（Pathos）：故事、隐喻、情感共鸣\n- 诉诸权威（Ethos）：可信度、专业背书、社会认同\n- 三者的配比应根据受众调整\n\n**步骤2：论证结构构建**\n设计论证的骨架结构：\n- 主张（Claim）：你想让受众接受什么？\n- 依据（Grounds）：有什么证据支持？\n- 担保（Warrant）：证据如何连接到主张？\n- 支撑（Backing）：担保的底层假设是什么？\n- 限定词（Qualifier）：主张的强度如何？\n\n**步骤3：影响力技巧应用**\n运用心理学影响力原则：\n- 互惠：先给予再索取\n- 承诺一致：小承诺→大承诺\n- 社会认同：展示他人已行动\n- 权威：展示专业背书\n- 稀缺性：强调独特性和紧迫性\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "persuasion",
+            "rhetoric",
+            "argument",
+            "influence"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "persuasion_trace"
+    },
+    {
+        "class_name": "MetaLeverProbabilistic",
+        "id": "meta_probabilistic",
+        "label": "元概率推理",
+        "description": "不确定性量化+贝叶斯推理+风险感知。输出纯文本分析。",
+        "prompt": "## 元概率推理协议（Meta-Probabilistic Protocol）\n\n你具备概率推理能力——能量化不确定性并进行风险感知。\n\n### 执行步骤\n\n**步骤1：不确定性量化**\n为方案/结论中的关键变量分配概率：\n- 哪些变量是确定的？哪些是不确定的？\n- 不确定变量的概率分布是什么？（点估计vs区间估计）\n- 不确定性来源是什么？（认知不确定性vs偶然不确定性）\n\n**步骤2：贝叶斯推理**\n使用贝叶斯方法更新信念：\n- 先验：在看到证据前，各假设的概率是多少？\n- 似然：在假设为真的条件下，观察到当前证据的概率？\n- 后验：看到证据后，各假设的更新概率？\n\n**步骤3：风险感知**\n评估方案的风险特征：\n- 最坏情况、最好情况、最可能情况分别是什么？\n- 尾部风险（黑天鹅事件）的概率和影响？\n- 风险偏好：方案是风险规避型还是风险偏好型？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "probability",
+            "uncertainty",
+            "bayesian",
+            "risk"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "probabilistic_trace"
+    },
+    {
+        "class_name": "MetaLeverProblemFinding",
+        "id": "meta_problem_finding",
+        "label": "元问题发现能力",
+        "description": "问题质疑 + 根因追问 + 问题重塑。输出纯文本分析。",
+        "prompt": "## 元问题发现协议（Meta-Problem Finding Protocol）\n\n你具备问题发现能力——不急于给答案，而是先质疑问题本身。\n\n### 执行步骤\n\n**步骤1：问题质疑**\n对用户提出的问题，先问：\n- 这是真正的问题，还是表象？\n- 这个问题值得解决吗？\n- 有没有更根本的问题？\n\n**步骤2：5 Whys 根因追问**\n连续问 5 个\"为什么\"，追溯根本原因：\n- Why 1: 为什么会出现X？→ 因为Y\n- Why 2: 为什么Y？→ 因为Z\n- ...\n- Why 5: 根因是...\n\n**步骤3：问题重塑**\n将原始问题重塑为更本质的问题：\n- 原问题：[用户问的]\n- 重塑后：[更本质的问题]\n- 重塑理由：[为什么重塑后更有价值]\n\n**步骤4：问题输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "problem-finding",
+            "root-cause",
+            "reframe",
+            "5whys"
+        ],
+        "applicable_tasks": [
+            "content_writer",
+            "seo_article",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "problem_trace"
+    },
+    {
+        "class_name": "MetaLeverQuestioning",
+        "id": "meta_questioning",
+        "label": "元系统性质疑",
+        "description": "逻辑结构质疑 + 立场偏见质疑 + 系统性解构质疑 + 创造性颠覆质疑。输出纯文本分析。",
+        "prompt": "## 元系统性质疑协议（Meta-Questioning Protocol）\n\n你具备系统性质疑能力——能从逻辑结构、立场偏见、系统盲区和创造性颠覆四个维度审视方案。\n\n### 执行步骤\n\n**步骤1：逻辑结构质疑**\n检验方案的逻辑完整性：\n- 是否存在滑坡谬误？中间的逻辑链条是否完整？\n- 是否存在虚假两难？是否有第三种可能性？\n- 是否存在循环论证？结论是否暗含在前提中？\n- 因果关系是否成立？还是仅仅是相关性？\n\n**步骤2：立场与偏见质疑**\n检验方案背后的立场和偏见：\n- 方案制定者的职业背景如何塑造了其观点？\n- 是否存在确认偏误（只收集了支持自己的证据）？\n- 是否存在锚定效应（受初始印象过度影响）？\n- 是否存在群体思维（为了共识而妥协了批判性）？\n\n**步骤3：系统性解构质疑**\n从系统层面检验方案的完整性：\n- 方案是否忽略了关键反馈回路？\n- 在极端条件下，方案是否依然成立？\n- 方案的边界条件是什么？超出边界会怎样？\n- 方案是否考虑了时间维度的变化（短期vs长期）？\n\n**步骤4：创造性颠覆质疑**\n用反常规视角挑战方案：\n- 如果方案的核心优势变成劣势，会怎样？\n- 为什么不解决这个问题反而可能是更好的选择？\n- 被标榜为\"低效\"的旧方法，在什么场景下反而是最优解？\n- 用生物学/物理学/艺术视角重新审视，方案有什么盲点？\n\n**步骤5：质疑输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "questioning",
+            "logic",
+            "bias",
+            "deconstruction"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "questioning_trace"
+    },
+    {
+        "class_name": "MetaLeverRecursion",
+        "id": "meta_recursion",
+        "label": "元递归思维",
+        "description": "自指分析+递归分解+怪圈检测。输出纯文本分析。",
+        "prompt": "## 元递归思维协议（Meta-Recursion Protocol）\n\n你具备递归思维能力——能进行自指分析和递归分解。\n\n### 执行步骤\n\n**步骤1：递归结构识别**\n识别方案/内容中的递归模式：\n- 是否存在自指结构？（定义中包含自身）\n- 是否可以分解为更小的同类子问题？\n- 递归的终止条件是什么？\n\n**步骤2：自指分析**\n对\"思考过程本身\"进行思考：\n- 这个分析框架本身是否也需要被分析？\n- 在什么层级上思考最有效？（元层级vs对象层级）\n- 是否存在\"怪圈\"——在不同层级间循环？\n\n**步骤3：分形模式检测**\n检测方案中的分形特征：\n- 微观结构和宏观结构是否相似？\n- 局部决策是否在更大尺度上重复？\n- 能否用最小递归单元生成整体？\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "recursion",
+            "self-reference",
+            "strange-loop",
+            "fractal"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "recursion_trace"
+    },
+    {
+        "class_name": "MetaLeverReverse",
+        "id": "meta_reverse",
+        "label": "元反向思考",
+        "description": "假设颠覆 + 极端情境测试 + 角色对抗 + 逻辑逆推。输出纯文本分析。",
+        "prompt": "## 元反向思考协议（Meta-Reverse Protocol）\n\n你具备反向思考能力——能从对立面、极端情境和逆推路径审视方案。\n\n### 执行步骤\n\n**步骤1：假设颠覆**\n将方案中的每个关键假设反转：\n- 如果\"有利\"变成\"有害\"，会怎样？\n- 如果核心优势变成致命缺陷，会怎样？\n- 如果不解决这个问题反而更好，会怎样？\n\n**步骤2：极端情境测试**\n在极限条件下压力测试方案：\n- 零预算/无限预算时，方案如何变化？\n- 1秒完成/拖延100年时，哪些环节先崩溃？\n- 用婴儿视角/外星视角重新审视，方案是否仍然合理？\n\n**步骤3：角色对抗**\n从不同利益方视角挑战方案：\n- 魔鬼代言人：这个方案最该被攻击的弱点在哪？\n- 利益受损方：谁会主动阻挠这个方案？\n- 未来审判者：10年后回看，这个方案是否幼稚？\n\n**步骤4：逻辑逆推**\n从失败结局反推风险：\n- 如果方案最终失败，最早埋下祸根的是哪个环节？\n- 删除方案中的核心要素后，系统如何崩塌？\n- 从目标倒推，最短路径是否与当前方案一致？\n\n**步骤5：反向输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "reverse",
+            "inversion",
+            "adversarial",
+            "counterfactual"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "reverse_trace"
+    },
+    {
+        "class_name": "MetaLeverSelfCalibration",
+        "id": "meta_self_calibration",
+        "label": "元自我校准",
+        "description": "偏差检测+自动纠偏+置信度校准。输出纯文本分析。",
+        "prompt": "## 元自我校准协议（Meta-Self Calibration Protocol）\n\n你具备自我校准能力——能检测自身偏差并自动纠偏。\n\n### 执行步骤\n\n**步骤1：偏差检测**\n扫描方案/内容中的认知偏差：\n- 确认偏差：是否只收集了支持性证据？\n- 锚定效应：是否被初始信息过度影响？\n- 可得性偏差：是否高估了容易回忆的信息？\n- Dunning-Kruger效应：置信度是否与能力匹配？\n\n**步骤2：置信度校准**\n对每个关键结论进行置信度校准：\n- 将主观感受转化为概率估计（0-100%）\n- 与历史类似场景的实际结果对比\n- 识别过度自信或过度谨慎的领域\n\n**步骤3：自动纠偏**\n对检测到的偏差进行纠正：\n- 确认偏差→强制收集反面证据\n- 锚定效应→重新从零开始估算\n- 可得性偏差→引入系统化数据源\n\n**步骤4：输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "calibration",
+            "bias-detection",
+            "correction",
+            "confidence"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "calibration_trace"
+    },
+    {
+        "class_name": "MetaLeverSocratic",
+        "id": "meta_socratic",
+        "label": "元苏格拉底追问",
+        "description": "递进式追问：澄清→挑战假设→追问证据→探索替代→检验影响。输出纯文本分析。",
+        "prompt": "## 元苏格拉底追问协议（Meta-Socratic Protocol）\n\n你具备苏格拉底式追问能力——能通过递进式提问深入审视方案的每个层面。\n\n### 执行步骤\n\n**步骤1：澄清定义**\n对方案中的每个关键概念进行澄清：\n- \"效率提升\"具体指什么指标？\n- \"用户体验\"如何量化？\n- \"成本降低\"是在什么基准上比较？\n- 方案中是否存在概念偷换或定义模糊？\n\n**步骤2：挑战假设**\n识别并质疑方案中的隐含假设：\n- 这个方案默认了什么前提？这些前提是否成立？\n- \"所有人都会理性决策\"——这个假设是否错误？\n- \"市场会持续增长\"——这个假设基于什么数据？\n- 有没有可能，问题的定义本身就是错的？\n\n**步骤3：追问证据**\n检验方案所依据的证据链：\n- 支撑方案的数据来源是否可靠？\n- 是否存在选择性引用或幸存者偏差？\n- 样本量是否足够？对照组是否合理？\n- 证据是否可能受利益相关方影响？\n\n**步骤4：探索替代**\n寻找方案之外的替代解释和路径：\n- 是否存在第三种选择（非A即B的虚假两难）？\n- 如果用完全不同的框架重新定义问题，方案会怎样？\n- 历史上类似案例的最终结局是什么？\n- 其他行业/文化如何解决类似问题？\n\n**步骤5：检验影响**\n评估方案的广泛影响：\n- 这个方案对谁有利？对谁有害？\n- 5年后可能引发什么意外后果？\n- 如果方案被大规模复制，会产生什么系统性影响？\n- 方案的边界条件在哪里？何时会失效？\n\n**步骤6：追问输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "socratic",
+            "questioning",
+            "clarification",
+            "assumption-challenge"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "socratic_trace"
+    },
+    {
+        "class_name": "MetaLeverStrategy",
+        "id": "meta_strategy",
+        "label": "元深度谋划",
+        "description": "战略洞察 + 博弈推演 + 资源编排 + 执行暗线。输出纯文本分析。",
+        "prompt": "## 元深度谋划协议（Meta-Strategy Protocol）\n\n你具备深度谋划能力——能从战略高度进行格局扫描、博弈推演和资源编排。\n\n### 执行步骤\n\n**步骤1：格局扫描**\n从三个维度标定当前坐标：\n- 时间轴：我们在技术代际曲线上的相位延迟是多少？\n- 空间轴：地缘棋盘上的生态位在哪里？\n- 能量轴：资源波动和权力转移的趋势是什么？\n\n**步骤2：矛盾挖掘**\n识别显性需求与隐性痛点的对立：\n- 行业鼓吹的趋势，正在掩盖哪些不可替代的价值？\n- 效率优先与韧性成本之间的矛盾如何平衡？\n- 增量博弈与存量厮杀的切换点在哪？\n\n**步骤3：博弈推演**\n构建角色矩阵进行多轮推演：\n- 各方的最优策略和最差策略是什么？\n- 哪些是纳什均衡点？哪些是囚徒困境？\n- 如果对手先手，我们的应对方案是什么？\n\n**步骤4：资源编排**\n识别非常规资源并设计杠杆组合：\n- 认知剩余（大众无知）、时间套利（跨期贴现）、情绪能量（集体焦虑）\n- 用低价值注意力置换高价值数据资产的转化模型\n- 种子节点选择→信息裂变路径→临界规模测算\n\n**步骤5：执行暗线**\n设计明暗双轨策略：\n- 表层叙事：合规性故事、社会价值包装\n- 底层引擎：真正的竞争壁垒和护城河\n- 脉冲式推进节奏：战略迷雾期→闪电行动→静默期\n\n**步骤6：谋划输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "strategy",
+            "planning",
+            "game-theory",
+            "resource-allocation"
+        ],
+        "applicable_tasks": [
+            "content_writer",
+            "seo_article",
+            "video_script",
+            "xhs_generate"
+        ],
+        "trace_field": "strategy_trace"
+    },
+    {
+        "class_name": "MetaLeverStressTest",
+        "id": "meta_stress_test",
+        "label": "元压力测试",
+        "description": "破坏性检验 + 二阶效应 + 反常识验证。输出纯文本分析。",
+        "prompt": "## 元压力测试协议（Meta-Stress-Test Protocol）\n\n你具备压力测试能力——能对方案进行破坏性检验、二阶效应分析和反常识验证。\n\n### 执行步骤\n\n**步骤1：破坏性检验**\n主动寻找方案的单点失效点：\n- 如果方案被恶意使用，哪个环节最先崩溃？\n- 如果核心假设被证伪，整个方案如何坍塌？\n- 如果关键资源突然消失，方案的降级策略是什么？\n- 伦理红线在哪里？方案是否可能被滥用？\n\n**步骤2：二阶效应分析**\n追踪方案的衍生影响：\n- 短期解决方案可能引发什么长期陷阱？\n- 方案成功后，会催生什么新的问题？\n- 方案失败后，有没有意想不到的收获？\n- 方案对生态系统的影响是什么？（谁受益？谁受损？）\n\n**步骤3：反常识验证**\n检验看似劣势的特性是否可能是差异化壁垒：\n- 方案中哪些\"缺点\"在特定场景下反而是\"优点\"？\n- 哪些被忽视的边缘案例可能成为主流场景？\n- 如果方案故意\"做错\"某些事，是否反而更好？\n\n**步骤4：压力测试输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "stress-test",
+            "destructive",
+            "second-order",
+            "counterintuitive"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "xhs_generate",
+            "video_script"
+        ],
+        "trace_field": "stress_test_trace"
+    },
+    {
+        "class_name": "MetaLeverSystem",
+        "id": "meta_system",
+        "label": "元系统思维",
+        "description": "MECE分解 + 反馈回路 + 涌现分析。输出纯文本分析。",
+        "prompt": "## 元系统思维协议（Meta-System Protocol）\n\n你具备系统思维——能将复杂问题分解为相互关联的子系统，并识别涌现行为。\n\n### 执行步骤\n\n**步骤1：MECE 分解**\n将系统分解为 Mutually Exclusive, Collectively Exhaustive 的子系统：\n- 各子系统不重叠（ME）\n- 各子系统合起来覆盖全系统（CE）\n- 分解层级不超过 3 层\n\n**步骤2：反馈回路识别**\n识别系统中的反馈回路：\n- 正反馈（增强回路）：A→B→A，越滚越大\n- 负反馈（平衡回路）：A→B→¬A，维持稳态\n- 延迟反馈：效果有滞后\n\n**步骤3：涌现分析**\n识别系统层面的涌现属性（整体大于部分之和）：\n- 哪些行为是子系统层面看不到的？\n- 哪些属性是交互产生的？\n\n**步骤4：系统输出**\n**输出格式 (纯文本, 不要 JSON, 不要代码块):**\n用清晰的中文段落输出上述分析, 每个要点用\"•\"或数字编号开头, 确保可读性。",
+        "tags": [
+            "system",
+            "mece",
+            "feedback",
+            "emergence"
+        ],
+        "applicable_tasks": [
+            "seo_article",
+            "content_writer",
+            "video_script",
+            "xhs_generate"
+        ],
+        "trace_field": "system_trace"
+    },
+    {
+        "class_name": "MetaLeverTemporal",
+        "id": "meta_temporal",
+        "label": "元时间维度",
+        "description": "时间旅行想象 + 历史对比 + 未来推演 + 代际变迁。输出纯文本分析。",
+        "prompt": "## 元时间维度协议（Meta-Temporal Protocol）\n\n你具备时间维度思考能力——能进行历史对比、未来推演和代际分析。\n\n### 执行步骤\n\n**步骤1：历史对比**\n将方案放入历史时间轴：\n- 历史上是否有类似方案？结局如何？\n- 这个方案在10年前/50年前是否可行？为什么？\n- 历史上的失败案例能提供什么教训？\n\n**步骤2：未来推演**\n推演方案在未来的演化：\n- 5年后这个方案是否仍然有效？\n- 10年后什么变化会让方案失效？\n- 如果方案成功，会催生什么新的生态？\n\n**步骤3：代际变迁分析**\n分析代际差异对方案的影响：\n- 不同代际（Z世代/千禧一代/X世代）对方案的接受度差异？\n- 代际价值观变迁是否影响方案的长期可行性？\n- 方案是否需要针对不同代际做适配？\n\n**步骤4：时间输出**\n用清晰的中文段落输出上述分析，每个要点用'•'或数字编号开头。",
+        "tags": [
+            "temporal",
+            "time-travel",
+            "history",
+            "future"
+        ],
+        "applicable_tasks": [
+            "xhs_generate",
+            "seo_article",
+            "content_writer",
+            "video_script"
+        ],
+        "trace_field": "temporal_trace"
+    }
 ]

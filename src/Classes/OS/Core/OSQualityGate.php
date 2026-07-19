@@ -26,7 +26,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Quality Gate (质量门)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-reverse-quality-gate.php
+ * Original file: src/Classes/V18/Core/ReverseQualityGate.php
  * Original class: Linked3_Reverse_Quality_Gate
  *
  * @package Linked3\Classes\OS

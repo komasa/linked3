@@ -3,7 +3,7 @@
  * PSR-4 autoloader for Linked3.
  *
  * Namespace mirror:
- *   Linked3\Includes\Foo       -> src/Includes/class-linked3-foo.php  (or Foo.php)
+ *   Linked3\Includes\Foo       -> src/Includes/Foo.php  (or Foo.php)
  *   Linked3\Includes\Foo\Bar   -> src/Includes/Foo/class-bar.php
  *   Linked3\Classes\ContentWriter\Writer -> src/Classes/ContentWriter/class-writer.php
  *
@@ -48,9 +48,9 @@ spl_autoload_register(static function ($class) {
     // class, trait, or interface.
     //
     // Naming convention in this codebase is inconsistent: some interfaces
-    // are named Linked3_X_Interface (file: interface-linked3-x.php, no
+    // are named Linked3_X_Interface (file: X.php, no
     // "-interface" suffix on file), others are Linked3_X (file:
-    // interface-linked3-x.php). To cover both, when the symbol ends with
+    // X.php). To cover both, when the symbol ends with
     // "-interface" we ALSO try stripping that suffix from the filename.
     $candidates = [];
     if (strpos($lastLower, 'trait-') === 0) {

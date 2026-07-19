@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Admin;
  * OS Module — Visual Analytics Panel
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Admin/class-linked3-v18-svg-stats-panel.php
+ * Original file: src/Classes/V18/Admin/V18SvgStatsPanel.php
  * Original class: V18_Svg_Stats_Panel
  *
  * @package Linked3\Classes\OS

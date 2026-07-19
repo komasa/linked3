@@ -37,7 +37,7 @@ namespace Linked3\Classes\OS\Api;
  * OS Module — Integration Hub
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Api/class-linked3-v18-integration-hub.php
+ * Original file: src/Classes/V18/Api/V18IntegrationHub.php
  * Original class: V18_Integration_Hub
  *
  * @package Linked3\Classes\OS
@@ -56,70 +56,70 @@ class OSIntegrationHub {
     const INTEGRATED_MODULES = [
         'v12.0.0' => [
             'class' => 'Linked3_Reverse_Engine',
-            'file' => 'class-linked3-reverse-engine.php',
+            'file' => 'ReverseEngine.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '逆向8维度通用框架引擎',
             'v18_source' => '道篇2.3+术篇8.2',
         ],
         'v12.1.0' => [
             'class' => 'Linked3_Neng_Suo_Structure',
-            'file' => 'class-linked3-neng-suo-structure.php',
+            'file' => 'NengSuoStructure.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '李善友能所结构融入',
             'v18_source' => '道篇2.4',
         ],
         'v12.2.0' => [
             'class' => 'Linked3_Svg_Meta_Stats',
-            'file' => 'class-linked3-svg-meta-stats.php',
+            'file' => 'SvgMetaStats.php',
             'path' => 'src/Classes/SvgStats/',
             'title' => 'SVG原子级meta统计引擎',
             'v18_source' => '法篇6+术篇13',
         ],
         'v12.3.0' => [
             'class' => 'Linked3_Three_Layer_Consciousness',
-            'file' => 'class-linked3-three-layer-consciousness.php',
+            'file' => 'ThreeLayerConsciousness.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '三层能观Badge频率标注',
             'v18_source' => '道篇2.5',
         ],
         'v12.4.0' => [
             'class' => 'Linked3_Ru_Liu_Tracker',
-            'file' => 'class-linked3-ru-liu-tracker.php',
+            'file' => 'RuLiuTracker.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '入流四状态100天追踪器',
             'v18_source' => '道篇2.7+行篇33.3',
         ],
         'v12.5.0' => [
             'class' => 'Linked3_Reverse_Engineer_Registry',
-            'file' => 'class-linked3-reverse-engineer-registry.php',
+            'file' => 'ReverseEngineerRegistry.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '31类逆向工程师注册中心',
             'v18_source' => '道篇2.3+附录A',
         ],
         'v12.6.0' => [
             'class' => 'Linked3_Reverse_Text_Creation',
-            'file' => 'class-linked3-reverse-text-creation.php',
+            'file' => 'ReverseTextCreation.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '逆向文本创作8维度',
             'v18_source' => '用篇28-30',
         ],
         'v12.7.0' => [
             'class' => 'Linked3_Hong_Liu_Flywheel',
-            'file' => 'class-linked3-hong-liu-flywheel.php',
+            'file' => 'HongLiuFlywheel.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '洪流公式出图飞轮量化',
             'v18_source' => '道篇2.6',
         ],
         'v12.8.0' => [
             'class' => 'Linked3_Neng_Zhi_Three_Stages',
-            'file' => 'class-linked3-neng-zhi-three-stages.php',
+            'file' => 'NengZhiThreeStages.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '能知三阶认知层级映射',
             'v18_source' => '道篇2.5',
         ],
         'v12.9.0' => [
             'class' => 'Linked3_Reverse_Quality_Gate',
-            'file' => 'class-linked3-reverse-quality-gate.php',
+            'file' => 'ReverseQualityGate.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '逆向质量门禁系统',
             'v18_source' => '验篇41.4',

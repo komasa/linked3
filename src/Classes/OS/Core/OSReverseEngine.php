@@ -30,7 +30,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Reverse Engine (逆向引擎)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-reverse-engine.php
+ * Original file: src/Classes/V18/Core/ReverseEngine.php
  * Original class: Linked3_Reverse_Engine
  *
  * @package Linked3\Classes\OS
@@ -42,7 +42,7 @@ namespace Linked3\Classes\OS\Core;
 if (!defined('ABSPATH')) exit;
 
 if (!class_exists('\Linked3\Classes\OS\Core\Linked3_Reverse_Dimensions')) {
-    require_once __DIR__ . '/class-linked3-os-reverse-dimensions.php';
+    require_once __DIR__ . '/OsReverseDimensions.php';
 }
 
 class OSReverseEngine {

@@ -22,7 +22,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Onboarding Tracker (入流追踪)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-ru-liu-tracker.php
+ * Original file: src/Classes/V18/Core/RuLiuTracker.php
  * Original class: Linked3_Ru_Liu_Tracker
  *
  * @package Linked3\Classes\OS

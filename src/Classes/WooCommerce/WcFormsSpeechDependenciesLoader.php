@@ -17,12 +17,12 @@ final class WcFormsSpeechDependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/WooCommerce/class-linked3-wc-ai-generator.php',
-            'Classes/AIForms/class-linked3-ai-form-manager.php',
+            'Classes/WooCommerce/WcAiGenerator.php',
+            'Classes/AIForms/AiFormManager.php',
             'Classes/Speech/TtsManager.php',
             'Classes/STT/SttManager.php',
-            'Classes/WooCommerce/class-linked3-wc-token-package.php', // v3.1.0
-            'Classes/WooCommerce/class-linked3-wc-forms-speech-hooks-registrar.php',
+            'Classes/WooCommerce/WcTokenPackage.php', // v3.1.0
+            'Classes/WooCommerce/WcFormsSpeechHooksRegistrar.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Api;
  * OS Module — OS REST API
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Api/class-linked3-v18-rest-api.php
+ * Original file: src/Classes/V18/Api/V18RestApi.php
  * Original class: V18_Rest_Api
  *
  * @package Linked3\Classes\OS

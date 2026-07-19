@@ -43,22 +43,10 @@ class MetaLeverRegistry
         self::$initialized = true;
 
         // G3.5: Load levers from JSON via data-driven class (replaces 45 individual files)
-        $data_driven_file = __DIR__ . '/class-linked3-meta-lever-data-driven.php';
-        if (file_exists($data_driven_file)) {
-            require_once $data_driven_file;
-            foreach (MetaLeverDataDriven::load_all() as $lever) {
-                if ($lever instanceof MetaLeverInterface) {
-                    self::register($lever);
-                }
-            }
-        } else {
-            // Fallback: glob-load individual files (backward compat)
-            $lever_dir = __DIR__;
-            $lever_files = glob($lever_dir . '/class-linked3-meta-lever-*.php');
-            if (is_array($lever_files)) {
-                foreach ($lever_files as $file) {
-                    require_once $file;
-                }
+        // PSR-4: autoload handles class loading, just call directly
+        foreach (MetaLeverDataDriven::load_all() as $lever) {
+            if ($lever instanceof MetaLeverInterface) {
+                self::register($lever);
             }
         }
 

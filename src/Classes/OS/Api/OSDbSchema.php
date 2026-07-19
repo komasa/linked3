@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Api;
  * OS Module — OS DB Schema
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Api/class-linked3-v18-db-schema.php
+ * Original file: src/Classes/V18/Api/V18DbSchema.php
  * Original class: V18_Db_Schema
  *
  * @package Linked3\Classes\OS

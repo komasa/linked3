@@ -17,26 +17,26 @@ final class DistributeDependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/Distribute/interface-linked3-distribute-adapter.php',
-            'Classes/Distribute/Adapter/class-linked3-twitter-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-telegram-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-discord-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-wechat-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-xiaohongshu-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-zhihu-distributor.php',  // v3.2.0 恢复
-            'Classes/Distribute/Adapter/class-linked3-smzdm-distributor.php',  // v3.2.0 恢复
-            'Classes/Distribute/Adapter/class-linked3-weibo-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-juejin-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-csdn-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-blogger-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-medium-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-reddit-distributor.php',
+            'Classes/Distribute/DistributeAdapter.php',
+            'Classes/Distribute/Adapter/TwitterDistributor.php',
+            'Classes/Distribute/Adapter/TelegramDistributor.php',
+            'Classes/Distribute/Adapter/DiscordDistributor.php',
+            'Classes/Distribute/Adapter/WechatDistributor.php',
+            'Classes/Distribute/Adapter/XiaohongshuDistributor.php',
+            'Classes/Distribute/Adapter/ZhihuDistributor.php',  // v3.2.0 恢复
+            'Classes/Distribute/Adapter/SmzdmDistributor.php',  // v3.2.0 恢复
+            'Classes/Distribute/Adapter/WeiboDistributor.php',
+            'Classes/Distribute/Adapter/JuejinDistributor.php',
+            'Classes/Distribute/Adapter/CsdnDistributor.php',
+            'Classes/Distribute/Adapter/BloggerDistributor.php',
+            'Classes/Distribute/Adapter/MediumDistributor.php',
+            'Classes/Distribute/Adapter/RedditDistributor.php',
             // v3.0.0: 移除 zhihu / smzdm (平台 API 已关停,误导用户)
             // v3.0.0: 新增 B2B 平台 (工厂出海核心渠道)
-            'Classes/Distribute/Adapter/class-linked3-alibaba-distributor.php',
-            'Classes/Distribute/Adapter/class-linked3-alibaba1688-distributor.php',
-            'Classes/Distribute/class-linked3-distribute-manager.php',
-            'Classes/Distribute/class-linked3-distribute-hooks-registrar.php',
+            'Classes/Distribute/Adapter/AlibabaDistributor.php',
+            'Classes/Distribute/Adapter/Alibaba1688Distributor.php',
+            'Classes/Distribute/DistributeManager.php',
+            'Classes/Distribute/DistributeHooksRegistrar.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

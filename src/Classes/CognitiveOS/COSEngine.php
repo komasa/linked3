@@ -38,15 +38,15 @@ if (!defined('ABSPATH')) {
 }
 
 // 显式加载 COS 核心类 (自动加载器无法解析无命名空间路径)
-require_once __DIR__ . '/Core/class-linked3-cos-axioms.php';
-require_once __DIR__ . '/Core/class-linked3-cos-departments.php';
-require_once __DIR__ . '/Core/class-linked3-cos-sla.php';
-require_once __DIR__ . '/Core/class-linked3-cos-evolution.php';
-require_once __DIR__ . '/Storage/class-linked3-cos-skill-library.php';
-require_once __DIR__ . '/Storage/class-linked3-cos-evolution-archive.php';
+require_once __DIR__ . '/Core/CosAxioms.php';
+require_once __DIR__ . '/Core/CosDepartments.php';
+require_once __DIR__ . '/Core/CosSla.php';
+require_once __DIR__ . '/Core/CosEvolution.php';
+require_once __DIR__ . '/Storage/CosSkillLibrary.php';
+require_once __DIR__ . '/Storage/CosEvolutionArchive.php';
 // v20.4-fix17: 加载复合杠杆注册表
-require_once __DIR__ . '/../MetaLever/Composite/interface-linked3-composite-lever.php';
-require_once __DIR__ . '/../MetaLever/Composite/class-linked3-composite-lever-registry.php';
+require_once __DIR__ . '/../MetaLever/Composite/CompositeLever.php';
+require_once __DIR__ . '/../MetaLever/Composite/CompositeLeverRegistry.php';
 /**
  * Class COSEngine
  *

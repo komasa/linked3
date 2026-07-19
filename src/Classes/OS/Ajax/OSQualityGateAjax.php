@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Ajax;
  * OS Module — Quality Gate AJAX
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Ajax/class-linked3-quality-gate-ajax.php
+ * Original file: src/Classes/V18/Ajax/QualityGateAjax.php
  * Original class: Linked3_Quality_Gate_Ajax
  *
  * @package Linked3\Classes\OS

@@ -62,58 +62,58 @@ final class DependencyLoader
      */
     private const CORE_SKELETON = [
         // Security traits (v0.0.6) — MUST load before any class that uses them.
-        'Includes/Traits/trait-check-admin-permissions.php',
-        'Includes/Traits/trait-check-frontend-permissions.php',
-        'Includes/Traits/trait-send-wp-error.php',
-        'Includes/Traits/trait-check-plan-access.php',
+        'Includes/Traits/TraitCheckAdminPermissions.php',
+        'Includes/Traits/TraitCheckFrontendPermissions.php',
+        'Includes/Traits/TraitSendWPError.php',
+        'Includes/Traits/TraitCheckPlanAccess.php',
         // HTTP + Crypto + Log (used during activation & by every provider).
-        'Includes/Http/class-linked3-safe-remote.php',
-        'Includes/class-linked3-crypto.php',
-        'Includes/Log/class-linked3-logger.php',
-        'Includes/Log/class-linked3-payload-sanitizer.php',
+        'Includes/Http/SafeRemote.php',
+        'Includes/Crypto.php',
+        'Includes/Log/Logger.php',
+        'Includes/Log/PayloadSanitizer.php',
         // Lifecycle + i18n + DB (boot-time critical).
-        'Includes/class-linked3-i18n.php',
-        'Includes/class-linked3-activator.php',
-        'Includes/class-linked3-deactivator.php',
-        'Includes/class-linked3-uninstaller.php',
-        'Includes/DB/class-linked3-schema.php',
-        'Includes/DB/class-linked3-migration-runner.php',
+        'Includes/I18n.php',
+        'Includes/Activator.php',
+        'Includes/Deactivator.php',
+        'Includes/Uninstaller.php',
+        'Includes/DB/Schema.php',
+        'Includes/DB/MigrationRunner.php',
         // Security watchdogs.
-        'Includes/class-linked3-disallowed-nopriv-actions.php',
-        'Classes/Security/class-linked3-ajax-auditor.php',
-        'Classes/Security/class-linked3-rate-limiter.php',
+        'Includes/DisallowedNoprivActions.php',
+        'Classes/Security/AjaxAuditor.php',
+        'Classes/Security/RateLimiter.php',
         // Provider Strategy interface + base (extended by 4+ providers).
-        'Classes/Core/Providers/interface-linked3-provider-strategy.php',
-        'Classes/Core/Providers/class-linked3-base-provider-strategy.php',
+        'Classes/Core/Providers/ProviderStrategyInterface.php',
+        'Classes/Core/Providers/BaseProviderStrategy.php',
         // 3-layer orchestrators themselves.
-        'Includes/class-linked3-hook-manager.php',
-        'Includes/class-linked3-module-initializer.php',
+        'Includes/HookManager.php',
+        'Includes/ModuleInitializer.php',
         // v4.4.2/v4.5.3: DI container. NotFoundException MUST load before
         // the Container (the container throws it). No PSR-11 interface
         // dependency — the container is self-contained.
-        'Includes/class-linked3-not-found-exception.php',
-        'Includes/class-linked3-container.php',
+        'Includes/NotFoundException.php',
+        'Includes/Container.php',
         // v10.7.7: Event bus bridge functions (linked3_dispatch / linked3_subscribe).
         // Restores functions that were defined in the dead Classes/Core/EventBus/
         // file (never loaded). MUST load after the container so linked3_container()
         // is available. See src/Includes/functions-events.php for details.
         'Includes/functions-events.php',
         // v4.4.3: Base_Repository + Query_Builder.
-        'Includes/DB/class-linked3-query-builder.php',
-        'Includes/DB/class-linked3-base-repository.php',
+        'Includes/DB/QueryBuilder.php',
+        'Includes/DB/BaseRepository.php',
         // v4.8.0: Shared template seed trait (used by both Template managers).
-        'Classes/Templates/trait-linked3-template-seed.php',
+        'Classes/Templates/TemplateSeedTrait.php',
         // v4.9.4: Billing event repository (used by REST webhook + Business_Optimizer).
-        'Classes/Billing/class-linked3-billing-event-repository.php',
+        'Classes/Billing/BillingEventRepository.php',
         // v25.0: New architecture components.
-        'Includes/class-linked3-option-repository.php',
-        'Includes/class-linked3-secret-vault.php',
-        'Includes/class-linked3-request.php',
-        'Includes/class-linked3-ajax-guard.php',
-        'Includes/class-linked3-config-registry.php',
-        'Includes/class-linked3-service-locator.php',
-        'Includes/class-linked3-performance-monitor.php',
-        'Classes/AI/Pipeline/class-linked3-provider-registry.php',
+        'Includes/OptionRepository.php',
+        'Includes/SecretVault.php',
+        'Includes/Request.php',
+        'Includes/AjaxGuard.php',
+        'Includes/ConfigRegistry.php',
+        'Includes/ServiceLocator.php',
+        'Includes/PerformanceMonitor.php',
+        'Classes/AI/Pipeline/ProviderRegistry.php',
     ];
 
     /**
@@ -207,11 +207,13 @@ final class DependencyLoader
         foreach ($iterator as $file) {
             /** @var \SplFileInfo $file */
             $name = $file->getFilename();
-            // Only load class- / interface- / trait- prefixed files. This
-            // skips standalone scripts (e.g. helper .php files that define
-            // functions) which may have their own load-order requirements
-            // and are better owned by the module sub-loaders.
-            if (!preg_match('/^(class|interface|trait)-.+\.php$/', $name)) {
+            // Load all .php files. PSR-4 migration renamed all files from
+            // class-linked3-*.php to PascalCase.php, so we now load every
+            // .php file except standalone function scripts (which are owned
+            // by the module sub-loaders or CORE_SKELETON).
+            // Skip files starting with lowercase (function scripts like
+            // functions-events.php) — those have special load-order needs.
+            if (!preg_match('/^[A-Z][A-Za-z0-9_]*\.php$/', $name)) {
                 continue;
             }
             $files[] = $file->getPathname();

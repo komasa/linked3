@@ -8,7 +8,7 @@ namespace Linked3\Classes\Genesis;
 if (!defined('ABSPATH')) exit;
 
 if (!trait_exists('ScriptFactoryTrait')) {
-    require_once __DIR__ . '/trait-linked3-script-factory.php';
+    require_once __DIR__ . '/ScriptFactory.php';
 }
 
 class ChartsFactory {

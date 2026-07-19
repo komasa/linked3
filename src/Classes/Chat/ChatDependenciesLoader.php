@@ -17,26 +17,26 @@ final class ChatDependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/Chat/Storage/class-linked3-chat-storage.php',
-            'Classes/Chat/Triggers/class-linked3-chat-trigger-engine.php',
-            'Classes/Chat/class-linked3-rag-retriever.php',
-            'Classes/Chat/class-linked3-chat-moderation.php',
-            'Classes/Chat/class-linked3-chat-manager.php',
-            'Classes/Chat/Shortcode/class-linked3-chat-shortcode.php',
-            'Classes/Chat/Ajax/class-linked3-chat-base-ajax-action.php',
-            'Classes/Chat/Ajax/Actions/class-linked3-chat-send-action.php',
-            'Classes/Chat/Ajax/Actions/class-linked3-chat-history-action.php',
-            'Classes/Chat/class-linked3-chat-hooks-registrar.php',
+            'Classes/Chat/Storage/ChatStorage.php',
+            'Classes/Chat/Triggers/ChatTriggerEngine.php',
+            'Classes/Chat/RagRetriever.php',
+            'Classes/Chat/ChatModeration.php',
+            'Classes/Chat/ChatManager.php',
+            'Classes/Chat/Shortcode/ChatShortcode.php',
+            'Classes/Chat/Ajax/ChatBaseAjaxAction.php',
+            'Classes/Chat/Ajax/Actions/ChatSendAction.php',
+            'Classes/Chat/Ajax/Actions/ChatHistoryAction.php',
+            'Classes/Chat/ChatHooksRegistrar.php',
             // Vector providers are loaded here (they are needed by RAG),
             // but registration into the Factory is now done by the Factory
             // itself (v4.8.1 — was previously done here, which was the
             // wrong owner: disabling Chat would lose Pinecone/Qdrant).
-            'Classes/Vector/interface-linked3-vector-provider.php',
-            'Classes/Vector/class-linked3-vector-factory.php',
-            'Classes/Vector/Providers/class-linked3-local-vector-provider.php',
-            'Classes/Vector/Providers/class-linked3-pinecone-vector-provider.php',
-            'Classes/Vector/Providers/class-linked3-qdrant-vector-provider.php',
-            'Classes/Vector/PostProcessor/class-linked3-post-processor.php',
+            'Classes/Vector/VectorProvider.php',
+            'Classes/Vector/VectorFactory.php',
+            'Classes/Vector/Providers/LocalVectorProvider.php',
+            'Classes/Vector/Providers/PineconeVectorProvider.php',
+            'Classes/Vector/Providers/QdrantVectorProvider.php',
+            'Classes/Vector/PostProcessor/PostProcessor.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

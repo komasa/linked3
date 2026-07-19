@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Ajax;
  * OS Module — Capability Lock AJAX
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Ajax/class-linked3-neng-suo-ajax.php
+ * Original file: src/Classes/V18/Ajax/NengSuoAjax.php
  * Original class: Linked3_Neng_Suo_Ajax
  *
  * @package Linked3\Classes\OS

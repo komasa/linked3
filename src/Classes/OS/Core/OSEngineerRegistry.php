@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Engineer Registry (工程师注册表)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-reverse-engineer-registry.php
+ * Original file: src/Classes/V18/Core/ReverseEngineerRegistry.php
  * Original class: Linked3_Reverse_Engineer_Registry
  *
  * @package Linked3\Classes\OS

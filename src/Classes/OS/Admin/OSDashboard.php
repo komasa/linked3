@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Admin;
  * OS Module — OS Dashboard
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Admin/class-linked3-v18-dashboard.php
+ * Original file: src/Classes/V18/Admin/V18Dashboard.php
  * Original class: V18_Dashboard
  *
  * @package Linked3\Classes\OS

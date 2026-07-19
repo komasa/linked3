@@ -60,11 +60,11 @@ final class Activator
         // Activation runs BEFORE plugins_loaded, so the Dependency_Loader has
         // not run yet. We must manually require the DB classes we need.
         if (!class_exists('Linked3\\Includes\\DB\\Schema')) {
-            $schema_file = LINKED3_DIR . 'src/Includes/DB/class-linked3-schema.php';
+            $schema_file = LINKED3_DIR . 'src/Includes/DB/Schema.php';
             if (file_exists($schema_file)) require_once $schema_file;
         }
         if (!class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
-            $runner_file = LINKED3_DIR . 'src/Includes/DB/class-linked3-migration-runner.php';
+            $runner_file = LINKED3_DIR . 'src/Includes/DB/MigrationRunner.php';
             if (file_exists($runner_file)) require_once $runner_file;
         }
 

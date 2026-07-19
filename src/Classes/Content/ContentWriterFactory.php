@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) exit;
 
 // v10.5.1: 确保Trait已加载
 if (!trait_exists('ContentEcosystemTrait')) {
-    require_once __DIR__ . '/trait-linked3-content-ecosystem.php';
+    require_once __DIR__ . '/ContentEcosystem.php';
 }
 
 class ContentWriterFactory {

@@ -24,13 +24,13 @@ final class DashboardDependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/Dashboard/class-linked3-dashboard.php',
-            'Classes/Rest/class-linked3-rest-controller.php',
-            'Classes/Addons/class-linked3-addon-manager.php',
+            'Classes/Dashboard/Dashboard.php',
+            'Classes/Rest/RestController.php',
+            'Classes/Addons/AddonManager.php',
             // v4.3.9 split: menu + ajax registrars load before the facade.
-            'Classes/Dashboard/class-linked3-dashboard-menu-registrar.php',
-            'Classes/Dashboard/class-linked3-dashboard-ajax-registrar.php',
-            'Classes/Dashboard/class-linked3-dashboard-hooks-registrar.php',
+            'Classes/Dashboard/DashboardMenuRegistrar.php',
+            'Classes/Dashboard/DashboardAjaxRegistrar.php',
+            'Classes/Dashboard/DashboardHooksRegistrar.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

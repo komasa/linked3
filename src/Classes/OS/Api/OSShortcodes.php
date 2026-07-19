@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Api;
  * OS Module — OS Shortcodes
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Api/class-linked3-v18-shortcodes.php
+ * Original file: src/Classes/V18/Api/V18Shortcodes.php
  * Original class: V18_Shortcodes
  *
  * @package Linked3\Classes\OS

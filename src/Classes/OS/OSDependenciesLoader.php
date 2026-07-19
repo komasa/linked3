@@ -44,39 +44,52 @@ final class OSDependenciesLoader
 
         // Phase 1: Facade + Bridge (must load first)
         $core_files = [
-            'class-linked3-os-facade.php',
-            'class-linked3-os-genesis-bridge.php',
+            'V18.php',
+            'OSGenesisBridge.php',
         ];
 
         // Phase 2: Core modules
         $core_dir = $base . 'Core/';
         if (is_dir($core_dir)) {
-            foreach (glob($core_dir . 'class-*.php') as $file) {
-                $core_files[] = 'Core/' . basename($file);
+            foreach (glob($core_dir . '*.php') as $file) {
+                $name = basename($file);
+                // Skip non-PascalCase files (function scripts, etc.)
+                if (preg_match('/^[A-Z][A-Za-z0-9_]*\.php$/', $name)) {
+                    $core_files[] = 'Core/' . $name;
+                }
             }
         }
 
         // Phase 3: Ajax handlers
         $ajax_dir = $base . 'Ajax/';
         if (is_dir($ajax_dir)) {
-            foreach (glob($ajax_dir . 'class-*.php') as $file) {
-                $core_files[] = 'Ajax/' . basename($file);
+            foreach (glob($ajax_dir . '*.php') as $file) {
+                $name = basename($file);
+                if (preg_match('/^[A-Z][A-Za-z0-9_]*\.php$/', $name)) {
+                    $core_files[] = 'Ajax/' . $name;
+                }
             }
         }
 
         // Phase 4: Admin panels
         $admin_dir = $base . 'Admin/';
         if (is_dir($admin_dir)) {
-            foreach (glob($admin_dir . 'class-*.php') as $file) {
-                $core_files[] = 'Admin/' . basename($file);
+            foreach (glob($admin_dir . '*.php') as $file) {
+                $name = basename($file);
+                if (preg_match('/^[A-Z][A-Za-z0-9_]*\.php$/', $name)) {
+                    $core_files[] = 'Admin/' . $name;
+                }
             }
         }
 
         // Phase 5: API/Integration modules
         $api_dir = $base . 'Api/';
         if (is_dir($api_dir)) {
-            foreach (glob($api_dir . 'class-*.php') as $file) {
-                $core_files[] = 'Api/' . basename($file);
+            foreach (glob($api_dir . '*.php') as $file) {
+                $name = basename($file);
+                if (preg_match('/^[A-Z][A-Za-z0-9_]*\.php$/', $name)) {
+                    $core_files[] = 'Api/' . $name;
+                }
             }
         }
 
@@ -91,7 +104,7 @@ final class OSDependenciesLoader
         // Phase 6: Backward-compatibility alias layer.
         // This MUST load after all OS classes are defined, so class_alias()
         // can find the target class.
-        $compat_path = $base . 'class-linked3-os-compat-aliases.php';
+        $compat_path = $base . 'OSCompatAliases.php';
         if (file_exists($compat_path)) {
             require_once $compat_path;
         }

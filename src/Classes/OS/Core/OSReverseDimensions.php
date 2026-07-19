@@ -28,7 +28,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Reverse Dimensions (逆向维度)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-reverse-dimensions.php
+ * Original file: src/Classes/V18/Core/ReverseDimensions.php
  * Original class: Linked3_Reverse_Dimensions
  *
  * @package Linked3\Classes\OS

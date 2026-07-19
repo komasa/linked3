@@ -43,7 +43,7 @@ class FPExtractor
      */
     public function __construct() {
         if (!class_exists('\Linked3\Classes\Genesis\TokenBucket')) {
-            require_once __DIR__ . '/class-linked3-token-bucket.php';
+            require_once __DIR__ . '/TokenBucket.php';
         }
         // 令牌桶: 容量3, 每秒补充1, 突发可借3
         $this->token_bucket = new TokenBucket(

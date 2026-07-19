@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Ajax;
  * OS Module — Text Creation AJAX
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Ajax/class-linked3-reverse-text-ajax.php
+ * Original file: src/Classes/V18/Ajax/ReverseTextAjax.php
  * Original class: Linked3_Reverse_Text_Ajax
  *
  * @package Linked3\Classes\OS

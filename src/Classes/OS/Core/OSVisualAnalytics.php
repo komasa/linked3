@@ -26,7 +26,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Visual Analytics (可视化分析)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-svg-meta-stats.php
+ * Original file: src/Classes/V18/Core/SvgMetaStats.php
  * Original class: Linked3_Svg_Meta_Stats
  *
  * @package Linked3\Classes\OS

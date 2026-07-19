@@ -19,8 +19,8 @@ final class V15DependenciesLoader
     public static function load()
     : void {
         $files = [
-            'Classes/V15/trait-linked3-v15-seed.php',
-            'Classes/V15/class-linked3-v15-brand-profile-manager.php',
+            'Classes/V15/V15Seed.php',
+            'Classes/V15/V15BrandProfileManager.php',
         ];
         foreach ($files as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;

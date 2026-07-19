@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Ajax;
  * OS Module — Visual Analytics AJAX
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Ajax/class-linked3-svg-stats-ajax.php
+ * Original file: src/Classes/V18/Ajax/SvgStatsAjax.php
  * Original class: Linked3_Svg_Stats_Ajax
  *
  * @package Linked3\Classes\OS

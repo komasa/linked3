@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once __DIR__ . '/class-linked3-genesis-helpers.php';
+require_once __DIR__ . '/GenesisHelpers.php';
 
 /**
  * Genesis Processor — owns ALL Genesis comic/manga script generation logic.

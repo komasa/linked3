@@ -25,7 +25,7 @@ namespace Linked3\Classes\OS\Api;
  * OS Module — Integration Hub v2
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Api/class-linked3-v18-integration-hub-v2.php
+ * Original file: src/Classes/V18/Api/V18IntegrationHubV2.php
  * Original class: V18_Integration_Hub_V2
  *
  * @package Linked3\Classes\OS

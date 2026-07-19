@@ -19,7 +19,7 @@ namespace Linked3\Classes\OS\Api;
  * OS Module — OS CLI
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Api/class-linked3-v18-cli.php
+ * Original file: src/Classes/V18/Api/V18Cli.php
  * Original class: V18_Cli
  *
  * @package Linked3\Classes\OS

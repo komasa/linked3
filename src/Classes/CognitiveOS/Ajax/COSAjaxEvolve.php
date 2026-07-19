@@ -220,14 +220,14 @@ class COSAjaxEvolve
         } catch (\Throwable $e) {}
 
         try {
-            $engine_file = __DIR__ . '/../class-linked3-cos-engine.php';
+            $engine_file = __DIR__ . '/../CosEngine.php';
             $content = file_get_contents($engine_file);
             $checks['chat_has_3_args'] = (strpos($content, "fallback_providers") !== false)
                 && (strpos($content, "cos_lever") !== false);
         } catch (\Throwable $e) {}
 
         try {
-            $reg_file = __DIR__ . '/../../MetaLever/class-linked3-meta-lever-registry.php';
+            $reg_file = __DIR__ . '/../../MetaLever/MetaLeverRegistry.php';
             $content = file_get_contents($reg_file);
             $checks['registry_auto_init'] = (strpos($content, 'if (!self::$initialized)') !== false);
         } catch (\Throwable $e) {}

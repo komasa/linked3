@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 
 // 确保接口在实现类之前加载 (glob_scan 按字母排序, interface- 排在 class- 之后)
 if (!interface_exists('Linked3\\Classes\\Pipeline\\PipelineStageInterface')) {
-    require_once __DIR__ . '/interface-linked3-pipeline-stage.php';
+    require_once __DIR__ . '/PipelineStage.php';
 }
 
 abstract class PipelineStage implements PipelineStageInterface

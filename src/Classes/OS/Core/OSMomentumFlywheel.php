@@ -25,7 +25,7 @@ namespace Linked3\Classes\OS\Core;
  * OS Module — Momentum Flywheel (洪流飞轮)
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/Core/class-linked3-hong-liu-flywheel.php
+ * Original file: src/Classes/V18/Core/HongLiuFlywheel.php
  * Original class: Linked3_Hong_Liu_Flywheel
  *
  * @package Linked3\Classes\OS

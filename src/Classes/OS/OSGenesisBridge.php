@@ -28,7 +28,7 @@ namespace Linked3\Classes\OS;
  * OS Module — Genesis Bridge
  *
  * Migrated from V18 实验室 in v27.0.0.
- * Original file: src/Classes/V18/class-linked3-v18-genesis-bridge.php
+ * Original file: src/Classes/V18/V18GenesisBridge.php
  * Original class: V18_Genesis_Bridge
  *
  * @package Linked3\Classes\OS

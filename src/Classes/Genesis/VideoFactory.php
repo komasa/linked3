@@ -43,7 +43,7 @@ if (!defined('ABSPATH')) exit;
 
 // v10.4.6 P0修复: 确保Trait已加载 (Dependency_Loader按字母序加载, 本文件在Trait之前)
 if (!trait_exists('ScriptFactoryTrait')) {
-    require_once __DIR__ . '/trait-linked3-script-factory.php';
+    require_once __DIR__ . '/ScriptFactory.php';
 }
 
 class VideoFactory {
