@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Video Pipeline — adapter for unified ContentPipeline.
  *
@@ -15,7 +17,7 @@ use Linked3\Classes\Content\Pipeline\Linked3_Content_Pipeline_Interface;
 
 if (!defined('ABSPATH')) exit;
 
-final class Linked3_Video_Pipeline implements Linked3_Content_Pipeline_Interface
+final class VideoPipeline implements Linked3_Content_Pipeline_Interface
 {
     public static function type(): string { return 'video'; }
     public static function label(): string { return __('视频脚本', 'linked3'); }
@@ -40,8 +42,8 @@ final class Linked3_Video_Pipeline implements Linked3_Content_Pipeline_Interface
         if ($progressCb) $progressCb(10, 'analyzing', __('分析剧本...', 'linked3'));
 
         // Delegate to existing Video_Generator if available
-        if (class_exists('\Linked3\Classes\Media\Linked3_Video_Generator')) {
-            $generator = new \Linked3\Classes\Media\Linked3_Video_Generator();
+        if (class_exists('\Linked3\Classes\Media\VideoGenerator')) {
+            $generator = new \Linked3\Classes\Media\VideoGenerator();
             $result = $generator->generate_script($context['script'] ?: $context['topic'], [
                 'group_count' => $context['groups'],
                 'style'       => $context['style'],

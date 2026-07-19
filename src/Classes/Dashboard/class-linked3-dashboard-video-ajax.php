@@ -32,7 +32,7 @@ class Linked3_Dashboard_Video_Ajax
             wp_send_json_error(['message' => __('标题或内容至少填一个', 'linked3')]);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\Media\\Linked3_Video_Generator')) {
+        if (!class_exists('\\Linked3\\Classes\\Media\\VideoGenerator')) {
             wp_send_json_error(['message' => __('视频生成模块未加载', 'linked3')]);
         }
 
@@ -99,7 +99,7 @@ class Linked3_Dashboard_Video_Ajax
         }
 
         try {
-            $vg = new \Linked3\Classes\Media\Linked3_Video_Generator();
+            $vg = new \Linked3\Classes\Media\VideoGenerator();
 
             // v5.3.3: 分支 — frames 模式 (图片提示词 + 剧本 + 画外音交替)
             if ($output_mode === 'frames') {
@@ -204,13 +204,13 @@ class Linked3_Dashboard_Video_Ajax
 
         $v15_context = self::build_v15_context_from_request($brand_profile_id, get_current_user_id());
 
-        if (!class_exists('\\Linked3\\Classes\\Media\\Linked3_Video_Generator')) {
+        if (!class_exists('\\Linked3\\Classes\\Media\\VideoGenerator')) {
             wp_send_json_error(['message' => __('视频模块未加载', 'linked3')]);
         }
 
         @set_time_limit(60);
         try {
-            $vg = new \Linked3\Classes\Media\Linked3_Video_Generator();
+            $vg = new \Linked3\Classes\Media\VideoGenerator();
             $result = $vg->generate_outline($title, $content, [
                 'duration' => $duration,
                 'output_mode' => $output_mode,
@@ -244,13 +244,13 @@ class Linked3_Dashboard_Video_Ajax
 
         $v15_context = self::build_v15_context_from_request($brand_profile_id, get_current_user_id());
 
-        if (!class_exists('\\Linked3\\Classes\\Media\\Linked3_Video_Generator')) {
+        if (!class_exists('\\Linked3\\Classes\\Media\\VideoGenerator')) {
             wp_send_json_error(['message' => __('视频模块未加载', 'linked3')]);
         }
 
         @set_time_limit(60);
         try {
-            $vg = new \Linked3\Classes\Media\Linked3_Video_Generator();
+            $vg = new \Linked3\Classes\Media\VideoGenerator();
 
             // v5.3.5: 传 next_title + is_last (frames 模式飞车转场需要)
             $next_title = '';

@@ -48,7 +48,7 @@ final class Linked3_Content_Pipeline_Registry
             'article' => \Linked3\Classes\ContentWriter\ArticlePipeline::class,
             'comic'   => \Linked3\Classes\Genesis\Linked3_Comic_Pipeline::class,
             'diagram' => \Linked3\Classes\Diagram\Linked3_Diagram_Pipeline::class,
-            'video'   => \Linked3\Classes\Media\Linked3_Video_Pipeline::class,
+            'video'   => \Linked3\Classes\Media\VideoPipeline::class,
             'xhs'     => \Linked3\Classes\XHS\Linked3_XHS_Pipeline::class,
             'book'    => \Linked3\Classes\BookFactory\Linked3_Book_Pipeline::class,
         ];

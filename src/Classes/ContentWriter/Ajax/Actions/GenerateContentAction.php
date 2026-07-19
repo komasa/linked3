@@ -312,8 +312,8 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
             }
 
             // 7. 图片注入
-            if ($inject_images && class_exists('\\Linked3\\Classes\\Media\\Linked3_Image_Manager')) {
-                $img_mgr = new \Linked3\Classes\Media\Linked3_Image_Manager();
+            if ($inject_images && class_exists('\\Linked3\\Classes\\Media\\ImageManager')) {
+                $img_mgr = new \Linked3\Classes\Media\ImageManager();
                 $img_settings = $img_mgr->get_settings();
                 if ($img_settings['auto_generate']) {
                     $prompt = $img_mgr->build_prompt($title ?: $keyword, $content, $img_settings);

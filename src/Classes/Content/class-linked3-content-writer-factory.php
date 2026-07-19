@@ -72,9 +72,9 @@ class Linked3_Content_Writer_Factory {
         $content = $ir['content'] ?? '';
         if (empty($content)) return [];
 
-        if (class_exists('\Linked3\Classes\Content\Linked3_Image_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\ImageManager')) {
             try {
-                $mgr = new \Linked3_Image_Manager();
+                $mgr = new \ImageManager();
                 $title = $this->eco_context['title'] ?? mb_substr($content, 0, 30);
                 if (method_exists($mgr, 'build_prompt')) {
                     $prompt = $mgr->build_prompt($title, $content);

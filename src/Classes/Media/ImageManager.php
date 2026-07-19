@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 图片管理器 — AI 图片生成 + 图片站采集 + 媒体库管理。
  *
@@ -25,7 +27,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Image_Manager
+final class ImageManager
 {
     private $log;
 

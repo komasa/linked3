@@ -78,7 +78,7 @@ class Linked3_Dashboard_Config_Ajax
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
-        $mgr = new \Linked3\Classes\Media\Linked3_Image_Manager();
+        $mgr = new \Linked3\Classes\Media\ImageManager();
         $input = [
             'auto_generate' => !empty($_POST['auto_generate']),
             'provider' => sanitize_text_field($_POST['provider'] ?? 'openai'),
@@ -118,11 +118,11 @@ class Linked3_Dashboard_Config_Ajax
             wp_send_json_error(['message' => __('请填写图片站 URL', 'linked3-ai')]);
         }
 
-        if (!class_exists('\\Linked3\\Classes\\Media\\Linked3_Image_Manager')) {
+        if (!class_exists('\\Linked3\\Classes\\Media\\ImageManager')) {
             wp_send_json_error(['message' => __('图片模块未加载', 'linked3-ai')]);
         }
 
-        $mgr = new \Linked3\Classes\Media\Linked3_Image_Manager();
+        $mgr = new \Linked3\Classes\Media\ImageManager();
         $images = $mgr->fetch_from_station($url, $count);
 
         wp_send_json_success([

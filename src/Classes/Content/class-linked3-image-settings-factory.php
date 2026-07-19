@@ -99,9 +99,9 @@ class Linked3_Image_Settings_Factory {
      */
     public function get_image_settings(): array {
         // 委托 Image_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\Linked3_Image_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\ImageManager')) {
             try {
-                $mgr = new \Linked3_Image_Manager();
+                $mgr = new \ImageManager();
                 if (method_exists($mgr, 'get_settings')) {
                     return $mgr->get_settings();
                 }
@@ -122,9 +122,9 @@ class Linked3_Image_Settings_Factory {
      * 保存图片设置
      */
     public function save_image_settings(array $settings): bool {
-        if (class_exists('\Linked3\Classes\Content\Linked3_Image_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\ImageManager')) {
             try {
-                $mgr = new \Linked3_Image_Manager();
+                $mgr = new \ImageManager();
                 if (method_exists($mgr, 'save_settings')) {
                     return $mgr->save_settings($settings);
                 }

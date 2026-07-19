@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 视频生成 — v5.3.2 系统化重构 (结合 V15 视觉系统)。
  *
@@ -23,7 +25,7 @@ use Linked3\Classes\Core\Linked3_AI_Dispatcher;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Video_Generator
+final class VideoGenerator
 {
     /**
      * v5.3.2 默认提示词 — 当无 custom_prompt 时使用。
