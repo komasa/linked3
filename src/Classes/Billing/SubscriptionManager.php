@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Subscription manager — daily check + expiry handling.
  *
@@ -23,7 +25,7 @@ use Linked3\Includes\Log\Linked3_Logger;
 if (!defined('ABSPATH')) {
     exit;
 }
-final class Linked3_Subscription_Manager
+final class SubscriptionManager
 {
     const GRACE_DAYS = 7;
 

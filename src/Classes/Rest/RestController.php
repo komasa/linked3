@@ -286,7 +286,7 @@ final class RestController
         }
 
         // Log the event to the billing_events table.
-        $repo = new \Linked3\Classes\Billing\Linked3_Billing_Event_Repository();
+        $repo = new \Linked3\Classes\Billing\BillingEventRepository();
         $event_id = $repo->log_event([
             'event_type'  => $payload['event_type'] ?? '',
             'provider'    => $provider,

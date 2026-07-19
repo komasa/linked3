@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Business Optimizer — EX 部门商业自寻优入口。
  *
@@ -19,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Business_Optimizer
+final class BusinessOptimizer
 {
     /** @var self|null */
     private static $instance;
@@ -200,8 +202,8 @@ final class Linked3_Business_Optimizer
         // v4.9.2: read real revenue + churn from the billing_events table.
         $revenue = 0.0;
         $churn = 0;
-        if (class_exists('\\Linked3\\Classes\\Billing\\Linked3_Billing_Event_Repository')) {
-            $repo = new \Linked3\Classes\Billing\Linked3_Billing_Event_Repository();
+        if (class_exists('\\Linked3\\Classes\\Billing\\BillingEventRepository')) {
+            $repo = new \Linked3\Classes\Billing\BillingEventRepository();
             $metrics = $repo->revenue_metrics(7);
             $revenue = (float) $metrics['total_revenue'];
 

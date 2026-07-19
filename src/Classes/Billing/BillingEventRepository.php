@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Billing Event Repository — audit log for billing webhooks.
  *
@@ -18,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Linked3_Billing_Event_Repository extends Linked3_Base_Repository
+final class BillingEventRepository extends Linked3_Base_Repository
 {
     /**
      * {@inheritdoc}

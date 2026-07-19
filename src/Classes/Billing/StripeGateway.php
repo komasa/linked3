@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Billing — v5.8.0
  *
@@ -27,7 +29,7 @@ interface Linked3_Payment_Gateway_Interface {
     public function getName(): string;
 }
 
-class Linked3_Stripe_Gateway implements Linked3_Payment_Gateway_Interface {
+class StripeGateway implements Linked3_Payment_Gateway_Interface {
     private string $apiKey;
     private string $webhookSecret;
 
@@ -183,10 +185,10 @@ class Linked3_Payment_Manager {
 // v5.8.0.2: 订阅管理
 // =================================================================
 
-class Linked3_Subscription_Manager_V2 {
-    private static ?Linked3_Subscription_Manager_V2 $instance = null;
+class SubscriptionManager_V2 {
+    private static ?SubscriptionManager_V2 $instance = null;
 
-    public static function instance(): Linked3_Subscription_Manager_V2 {
+    public static function instance(): SubscriptionManager_V2 {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -263,7 +265,7 @@ class Linked3_Quota_Interceptor {
      * 检查用户是否可以消耗 token (AI 调用前)。
      */
     public function check(int $userId, int $tokensNeeded = 1): array {
-        $subMgr = Linked3_Subscription_Manager_V2::instance();
+        $subMgr = SubscriptionManager_V2::instance();
         $plan = $subMgr->getPlan($userId);
         $planInfo = $subMgr->getPlanInfo($plan);
         $quota = $planInfo['quota'];
@@ -534,7 +536,7 @@ class Linked3_Billing_Bootstrap {
 
         $container = linked3_container();
         $container->set('billing.payment', fn() => Linked3_Payment_Manager::instance());
-        $container->set('billing.subscription', fn() => Linked3_Subscription_Manager_V2::instance());
+        $container->set('billing.subscription', fn() => SubscriptionManager_V2::instance());
         $container->set('billing.quota', fn() => Linked3_Quota_Interceptor::instance());
         $container->set('billing.invoice', fn() => Linked3_Invoice_Manager::instance());
         $container->set('billing.referral', fn() => Linked3_Referral_Manager::instance());

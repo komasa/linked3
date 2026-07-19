@@ -221,9 +221,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\Billing\Linked3_Business_Optimizer::class,
-            static function (): \Linked3\Classes\Billing\Linked3_Business_Optimizer {
-                return \Linked3\Classes\Billing\Linked3_Business_Optimizer::instance_without_container();
+            \Linked3\Classes\Billing\BusinessOptimizer::class,
+            static function (): \Linked3\Classes\Billing\BusinessOptimizer {
+                return \Linked3\Classes\Billing\BusinessOptimizer::instance_without_container();
             }
         );
         $this->set(

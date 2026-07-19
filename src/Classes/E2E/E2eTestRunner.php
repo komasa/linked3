@@ -122,7 +122,7 @@ class E2eTestRunner {
         }, 'security');
 
         $this->registerTest('billing_subscription_plans', function() {
-            $plans = Linked3_Subscription_Manager_V2::instance()->getPlans();
+            $plans = SubscriptionManager_V2::instance()->getPlans();
             return count($plans) >= 4;
         }, 'billing');
 
@@ -167,7 +167,7 @@ class Linked3_Health_Monitor {
             'audit_logger'       => class_exists('\Linked3\Classes\E2E\Linked3_Audit_Logger'),
             // 商业
             'payment_manager'    => class_exists('\Linked3\Classes\E2E\Linked3_Payment_Manager'),
-            'subscription'       => class_exists('\Linked3\Classes\E2E\Linked3_Subscription_Manager_V2'),
+            'subscription'       => class_exists('\Linked3\Classes\E2E\SubscriptionManager_V2'),
             'quota_interceptor'  => class_exists('\Linked3\Classes\E2E\Linked3_Quota_Interceptor'),
             'invoice_manager'    => class_exists('\Linked3\Classes\E2E\Linked3_Invoice_Manager'),
             'referral_manager'   => class_exists('\Linked3\Classes\E2E\Linked3_Referral_Manager'),
