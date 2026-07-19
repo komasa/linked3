@@ -544,9 +544,9 @@ class EcosystemAjax {
 
     private static function generate_keywords(string $seed, int $count = 20): array {
         // 委托 Keyword_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\Linked3_Keyword_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\KeywordManager')) {
             try {
-                $mgr = new \Linked3_Keyword_Manager();
+                $mgr = new \KeywordManager();
                 if (method_exists($mgr, 'generate_tail_keywords')) {
                     $result = $mgr->generate_tail_keywords($seed, $count);
                     if (is_array($result) && !empty($result)) return $result;

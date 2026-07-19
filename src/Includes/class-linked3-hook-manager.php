@@ -138,7 +138,7 @@ final class Linked3_Hook_Manager
         // module fatal cannot take down the entire admin menu.
         $registrars = [
             'ContentWriter' => '\\Linked3\\Classes\\ContentWriter\\ContentWriterHooksRegistrar',
-            'SEO'           => '\\Linked3\\Classes\\SEO\\Linked3_SEO_Hooks_Registrar',
+            'SEO'           => '\\Linked3\\Classes\\SEO\\SEOHooksRegistrar',
             'Publish'       => '\\Linked3\\Classes\\Publish\\PublishCollectHooksRegistrar',
             'Chat'          => '\\Linked3\\Classes\\Chat\\ChatHooksRegistrar',
             'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\AutoGPTHooksRegistrar',
@@ -344,8 +344,8 @@ final class Linked3_Hook_Manager
      */
     public static function prune_push_logs()
     : void {
-        if (class_exists('\\Linked3\\Classes\\SEO\\Push\\Linked3_Push_Log_Repository')) {
-            \Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository::prune_older_than(30);
+        if (class_exists('\\Linked3\\Classes\\SEO\\Push\\PushLogRepository')) {
+            \Linked3\Classes\SEO\Push\PushLogRepository::prune_older_than(30);
         }
     }
 
@@ -373,8 +373,8 @@ final class Linked3_Hook_Manager
     : void {
         // 1. 采集热词
         $hot_words = [];
-        if (class_exists('\\Linked3\\Classes\\SEO\\Keyword\\Linked3_Keyword_Manager')) {
-            $mgr = new \Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager();
+        if (class_exists('\\Linked3\\Classes\\SEO\\Keyword\\KeywordManager')) {
+            $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
             $hot_words = $mgr->fetch_all_sources('', 30);
         }
 
@@ -393,8 +393,8 @@ final class Linked3_Hook_Manager
         // 2. AI 生成长尾词
         $count = (int) get_option(LINKED3_OPTION_PREFIX . 'kw_cron_count', 30);
         $tail_words = [];
-        if (class_exists('\\Linked3\\Classes\\SEO\\Keyword\\Linked3_Keyword_Manager')) {
-            $mgr = new \Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager();
+        if (class_exists('\\Linked3\\Classes\\SEO\\Keyword\\KeywordManager')) {
+            $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
             $seed = implode("\n", array_slice($merged_hot, 0, 5));
             $tail_words = $mgr->generate_tail_keywords($seed, $count);
         }

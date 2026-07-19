@@ -27,10 +27,10 @@ if ($filter_status !== '') {
 }
 
 $rows = [];
-if (class_exists('\Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository')) {
-    $rows = \Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository::query($filters);
+if (class_exists('\Linked3\Classes\SEO\Push\PushLogRepository')) {
+    $rows = \Linked3\Classes\SEO\Push\PushLogRepository::query($filters);
 }
-$total = \Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository::count_all();
+$total = \Linked3\Classes\SEO\Push\PushLogRepository::count_all();
 $total_pages = max(1, (int) ceil($total / $per_page));
 ?>
 <div class="wrap">

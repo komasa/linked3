@@ -209,9 +209,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\SEO\Push\Linked3_Push_Manager::class,
-            static function (): \Linked3\Classes\SEO\Push\Linked3_Push_Manager {
-                return \Linked3\Classes\SEO\Push\Linked3_Push_Manager::instance_without_container();
+            \Linked3\Classes\SEO\Push\PushManager::class,
+            static function (): \Linked3\Classes\SEO\Push\PushManager {
+                return \Linked3\Classes\SEO\Push\PushManager::instance_without_container();
             }
         );
         $this->set(
@@ -227,9 +227,9 @@ final class Linked3_Container
             }
         );
         $this->set(
-            \Linked3\Classes\SEO\Schema\Linked3_Schema_Markup::class,
-            static function (): \Linked3\Classes\SEO\Schema\Linked3_Schema_Markup {
-                return \Linked3\Classes\SEO\Schema\Linked3_Schema_Markup::instance_without_container();
+            \Linked3\Classes\SEO\Schema\SchemaMarkup::class,
+            static function (): \Linked3\Classes\SEO\Schema\SchemaMarkup {
+                return \Linked3\Classes\SEO\Schema\SchemaMarkup::instance_without_container();
             }
         );
         $this->set(

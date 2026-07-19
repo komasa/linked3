@@ -13,8 +13,8 @@ if (!defined('ABSPATH')) {
 $nonce = wp_create_nonce('linked3_seo');
 $ajax_url = admin_url('admin-ajax.php');
 $engines = [];
-if (class_exists('\Linked3\Classes\SEO\Push\Linked3_Push_Engine_Factory')) {
-    foreach (\Linked3\Classes\SEO\Push\Linked3_Push_Engine_Factory::all() as $slug => $engine) {
+if (class_exists('\Linked3\Classes\SEO\Push\PushEngineFactory')) {
+    foreach (\Linked3\Classes\SEO\Push\PushEngineFactory::all() as $slug => $engine) {
         $engines[] = [
             'slug'      => $slug,
             'label'     => $engine->label(),
@@ -25,15 +25,15 @@ if (class_exists('\Linked3\Classes\SEO\Push\Linked3_Push_Engine_Factory')) {
 $total_logs = 0;
 $fail_count = 0;
 $success_count = 0;
-if (class_exists('\Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository')) {
-    $total_logs   = \Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository::count_all();
-    $success_count = count(\Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository::query(['status' => 'success', 'limit' => 100000]));
-    $fail_count    = count(\Linked3\Classes\SEO\Push\Linked3_Push_Log_Repository::query(['status' => 'fail',    'limit' => 100000]));
+if (class_exists('\Linked3\Classes\SEO\Push\PushLogRepository')) {
+    $total_logs   = \Linked3\Classes\SEO\Push\PushLogRepository::count_all();
+    $success_count = count(\Linked3\Classes\SEO\Push\PushLogRepository::query(['status' => 'success', 'limit' => 100000]));
+    $fail_count    = count(\Linked3\Classes\SEO\Push\PushLogRepository::query(['status' => 'fail',    'limit' => 100000]));
 }
 
 $adapter = null;
-if (class_exists('\Linked3\Classes\SEO\Adapter\Linked3_SEO_Adapter_Detector')) {
-    $adapter = \Linked3\Classes\SEO\Adapter\Linked3_SEO_Adapter_Detector::resolve();
+if (class_exists('\Linked3\Classes\SEO\Adapter\SEOAdapterDetector')) {
+    $adapter = \Linked3\Classes\SEO\Adapter\SEOAdapterDetector::resolve();
 }
 ?>
 <div class="wrap" id="linked3-seo-dashboard">

@@ -29,8 +29,8 @@ final class Linked3_Service_Locator
         'publish' => 'Linked3\Classes\Publish\PublishManager',
         'distribute' => 'Linked3\Classes\Distribute\DistributeManager',
         'addons' => 'Linked3\Classes\Addons\AddonManager',
-        'schema' => 'Linked3\Classes\SEO\Schema\Linked3_Schema_Markup',
-        'push' => 'Linked3\Classes\SEO\Push\Linked3_Push_Manager',
+        'schema' => 'Linked3\Classes\SEO\Schema\SchemaMarkup',
+        'push' => 'Linked3\Classes\SEO\Push\PushManager',
     ];
     public static function get($name) { if (!isset(self::SERVICE_MAP[$name])) return null; $fqcn = self::SERVICE_MAP[$name]; if (class_exists('Linked3\Includes\Linked3_Container')) { $c = Linked3_Container::instance(); if ($c->has($fqcn)) return $c->get($fqcn); } if (method_exists($fqcn, 'instance')) return $fqcn::instance(); if (class_exists($fqcn)) return new $fqcn(); return null; }
     public static function has($name) { return isset(self::SERVICE_MAP[$name]); }

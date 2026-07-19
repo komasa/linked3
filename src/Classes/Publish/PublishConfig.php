@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Publish module configuration registry (v0.5.1+).
  *
  * Central, filterable source of truth for publish-target tuning parameters.
- * Mirrors the pattern of Linked3_SEO_Config — defaults declared statically,
+ * Mirrors the pattern of SEOConfig — defaults declared statically,
  * overridable via the `linked3/publish_config` filter so EX-side A/B tests
  * can tune without a release.
  *

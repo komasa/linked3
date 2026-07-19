@@ -336,11 +336,11 @@ class DashboardConfigAjax
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
-        if (!class_exists('\\Linked3\\Classes\\SEO\\Linked3_GEO_Enhancer')) {
+        if (!class_exists('\\Linked3\\Classes\\SEO\\GEOEnhancer')) {
             wp_send_json_error(['message' => __('GEO 模块未加载', 'linked3')]);
         }
 
-        $content = \Linked3\Classes\SEO\Linked3_GEO_Enhancer::generate_llms_txt();
+        $content = \Linked3\Classes\SEO\GEOEnhancer::generate_llms_txt();
         update_option(LINKED3_OPTION_PREFIX . 'llms_txt_content', $content);
         update_option(LINKED3_OPTION_PREFIX . 'llms_txt_last_gen', time());
 

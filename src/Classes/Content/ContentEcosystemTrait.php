@@ -70,11 +70,11 @@ trait ContentEcosystemTrait {
         if (!empty($context['keywords'])) {
             return is_array($context['keywords']) ? $context['keywords'] : [$context['keywords']];
         }
-        if (class_exists('\Linked3\Classes\Content\Linked3_Keyword_Manager')) {
+        if (class_exists('\Linked3\Classes\Content\KeywordManager')) {
             try {
                 $seed = $context['topic'] ?? $context['seed'] ?? '';
                 if ($seed) {
-                    $mgr = new \Linked3_Keyword_Manager();
+                    $mgr = new \KeywordManager();
                     if (method_exists($mgr, 'generate_tail_keywords')) {
                         return $mgr->generate_tail_keywords($seed, $context['keyword_count'] ?? 10);
                     }

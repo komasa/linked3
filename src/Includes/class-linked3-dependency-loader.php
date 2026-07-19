@@ -125,7 +125,7 @@ final class Linked3_Dependency_Loader
      */
     private const MODULE_LOADERS = [
         'Linked3\\Classes\\ContentWriter\\ContentWriterDependenciesLoader',
-        'Linked3\\Classes\\SEO\\Linked3_SEO_Dependencies_Loader',
+        'Linked3\\Classes\\SEO\\SEODependenciesLoader',
         'Linked3\\Classes\\Publish\\PublishCollectDependenciesLoader',
         'Linked3\\Classes\\Chat\\ChatDependenciesLoader',
         'Linked3\\Classes\\AutoGPT\\AutoGPTDependenciesLoader',

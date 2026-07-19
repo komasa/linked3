@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
 
 use Linked3\Classes\Templates\TemplateManager;
-use Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager;
+use Linked3\Classes\SEO\Keyword\KeywordManager;
 use Linked3\Classes\Core\AIDispatcher;
 use Linked3\Includes\Http\Linked3_Safe_Remote;
 

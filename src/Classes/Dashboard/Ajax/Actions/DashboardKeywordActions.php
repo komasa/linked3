@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard\Ajax\Actions;
 use Linked3\Classes\Dashboard\Ajax\DashboardBaseAjaxAction;
-use Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager;
+use Linked3\Classes\SEO\Keyword\KeywordManager;
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\Core\AIDispatcher;
 
@@ -51,7 +51,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
         if (!wp_verify_nonce($nonce, self::NONCE_ACTION)) {
             wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
-        $mgr = new \Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager();
+        $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
         $seed = sanitize_text_field(wp_unslash($_POST['seed'] ?? ''));
         $source = sanitize_key(wp_unslash($_POST['source'] ?? 'auto'));
         $keywords = $mgr->fetch_baidu_hotwords($seed, 30, $source);
@@ -149,7 +149,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
         if (!wp_verify_nonce($nonce, self::NONCE_ACTION)) {
             wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
-        $mgr = new \Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager();
+        $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
         $seed = sanitize_textarea_field(wp_unslash($_POST['seed'] ?? ''));
         $count = max(5, min(100, (int) ($_POST['count'] ?? 20)));
         $keywords = $mgr->generate_tail_keywords($seed, $count);
@@ -168,7 +168,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
         if (!wp_verify_nonce($nonce, self::NONCE_ACTION)) {
             wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
-        $mgr = new \Linked3\Classes\SEO\Keyword\Linked3_Keyword_Manager();
+        $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
         $keywords = array_filter(array_map('trim', explode("\n", sanitize_textarea_field(wp_unslash($_POST['keywords'] ?? '')))));
         $opts = [
             'post_status' => sanitize_text_field(wp_unslash($_POST['post_status'] ?? 'draft')),

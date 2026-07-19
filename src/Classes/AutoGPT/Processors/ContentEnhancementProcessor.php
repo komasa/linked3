@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\AutoGPT\Processors;
 
-use Linked3\Classes\SEO\Scoring\Linked3_SEO_Scorecard;
+use Linked3\Classes\SEO\Scoring\SEOScorecard;
 use Linked3\Classes\Collect\Rewriter\ArticleRewriter;
 
 
@@ -40,7 +40,7 @@ final class ContentEnhancementProcessor implements AutoGPTProcessorInterface
             'order' => 'ASC',
         ]);
 
-        $scorecard = class_exists(Linked3_SEO_Scorecard::class) ? new \Linked3\Classes\SEO\Scoring\Linked3_SEO_Scorecard() : null;
+        $scorecard = class_exists(SEOScorecard::class) ? new \Linked3\Classes\SEO\Scoring\SEOScorecard() : null;
 
         foreach ($posts as $p) {
             if ($processed >= $max) break;
@@ -51,7 +51,7 @@ final class ContentEnhancementProcessor implements AutoGPTProcessorInterface
             // `score >= min_score` check ALWAYS skipped every post → the
             // processor was a complete no-op). The class name was also wrong
             // (Linked3_SEO_Scorer never existed; the real class is
-            // Linked3_SEO_Scorecard). Now we compute the real composite
+            // SEOScorecard). Now we compute the real composite
             // 0-100 SEO score; if the scorecard class is somehow absent, we
             // fall back to a word-count heuristic (under 600 words = needs
             // enhancement) so the processor still does useful work.

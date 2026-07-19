@@ -45,15 +45,15 @@ $google = [
         : (string) ($raw_google['private_key'] ?? ''),
 ];
 $cfg = [];
-if (class_exists('\Linked3\Classes\SEO\Linked3_SEO_Config')) {
-    $cfg = \Linked3\Classes\SEO\Linked3_SEO_Config::all();
+if (class_exists('\Linked3\Classes\SEO\SEOConfig')) {
+    $cfg = \Linked3\Classes\SEO\SEOConfig::all();
 }
 
 $adapter = null;
-if (class_exists('\Linked3\Classes\SEO\Adapter\Linked3_SEO_Adapter_Detector')) {
-    $adapter = \Linked3\Classes\SEO\Adapter\Linked3_SEO_Adapter_Detector::resolve();
+if (class_exists('\Linked3\Classes\SEO\Adapter\SEOAdapterDetector')) {
+    $adapter = \Linked3\Classes\SEO\Adapter\SEOAdapterDetector::resolve();
 }
-$available_adapters = \Linked3\Classes\SEO\Adapter\Linked3_SEO_Adapter_Detector::available();
+$available_adapters = \Linked3\Classes\SEO\Adapter\SEOAdapterDetector::available();
 
 if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['linked3_seo_settings_nonce'])), 'linked3_seo_settings')) {
     // Encrypt sensitive fields before persisting (v0.5.0 hardening, §5).
