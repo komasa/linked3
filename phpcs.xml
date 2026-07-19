@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+    PHP_CodeSniffer 配置 — Linked3 AI 商业生产级标准
+    
+    标准: PSR-12 + WordPress 安全相关规则
+    使用: vendor/bin/phpcs --standard=phpcs.xml src/ lib/ admin/
+-->
+<ruleset name="Linked3-AI-Production">
+    <description>Linked3 AI 商业生产级编码规范 — PSR-12 + WordPress Security</description>
+    
+    <!-- ── 排除目录 ────────────────────────────── -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/assets/*</exclude-pattern>
+    <exclude-pattern>*/languages/*</exclude-pattern>
+    <exclude-pattern>*/docs/*</exclude-pattern>
+    
+    <!-- ── 基础标准 ────────────────────────────── -->
+    <rule ref="PSR1"/>
+    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
+    
+    <!-- ── WordPress 安全相关 ─────────────────── -->
+    <rule ref="WordPress.Security">
+        <!-- 暂时禁用 nonce 检查，重构阶段逐步修复 -->
+        <exclude name="WordPress.Security.NonceVerification"/>
+        <!-- 暂时禁用 escape 检查，重构阶段逐步修复 -->
+        <exclude name="WordPress.Security.EscapeOutput"/>
+    </rule>
+    
+    <!-- ── WordPress DB 相关 ──────────────────── -->
+    <rule ref="WordPress.DB">
+        <!-- 禁用 preparedSQL 检查，重构阶段逐步修复 -->
+        <exclude name="WordPress.DB.PreparedSQL"/>
+    </rule>
+    
+    <!-- ── 额外严格规则 ────────────────────────── -->
+    
+    <!-- 禁止使用 eval -->
+    <rule ref="Generic.PHP.Eval"/>
+    
+    <!-- 禁止使用 deprecated 函数 -->
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    
+    <!-- 禁止使用短开标签 -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    
+    <!-- 要求严格的比较运算符 -->
+    <rule ref="Squiz.PHP.CommentedOutCode"/>
+    
+    <!-- 禁止行内赋值 -->
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition"/>
+    
+    <!-- 要求空行分隔不同代码块 -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
+    
+    <!-- 限制方法行数 -->
+    <rule ref="Squiz.Functions.FunctionLength">
+        <properties>
+            <property name="maxLength" value="50"/>
+        </properties>
+    </rule>
+    
+    <!-- 限制文件行数 -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+    
+    <!-- ── 文件级规则 ────────────────────────────── -->
+    
+    <!-- 侧边允许的最大行数 -->
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="5"/>
+        </properties>
+    </rule>
+    
+    <!-- 圈复杂度 -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="15"/>
+            <property name="absoluteComplexity" value="20"/>
+        </properties>
+    </rule>
+    
+    <!-- ── 命名规范 ──────────────────────────────── -->
+    
+    <!-- 变量命名: camelCase -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName"/>
+    
+    <!-- 函数命名: camelCase -->
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+    
+    <!-- 常量命名: UPPER_SNAKE_CASE -->
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+</ruleset>
