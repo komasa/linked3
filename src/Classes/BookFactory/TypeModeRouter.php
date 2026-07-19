@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Type Mode Router — 类型×模式路由表
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Linked3_Type_Mode_Router {
+class TypeModeRouter {
 
     /**
      * 路由表 — 6类型×3模式=18条路径
@@ -353,7 +355,7 @@ class Linked3_Type_Mode_Router {
      * @return array
      */
     public static function get_all_exploration_prototypes() {
-        return Linked3_Book_Exploration_Prototypes::get_label_map();
+        return BookExplorationPrototypes::get_label_map();
     }
 
     /**
@@ -363,7 +365,7 @@ class Linked3_Type_Mode_Router {
      * @return array|null
      */
     public static function get_exploration_prototype( $prototype_key ) {
-        return Linked3_Book_Exploration_Prototypes::get( $prototype_key );
+        return BookExplorationPrototypes::get( $prototype_key );
     }
 
     /**

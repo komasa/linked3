@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 章节展开器 (v19.0 从 Book_Factory 拆分)
  *
@@ -14,7 +16,7 @@ namespace Linked3\Classes\BookFactory;
 
 
 
-        use \Linked3\Classes\BookFactory\Traits\Linked3_Section_Expander;
+        use \Linked3\Classes\BookFactory\Traits\SectionExpander;
 
 
 
@@ -22,15 +24,15 @@ if ( ! defined( 'ABSPATH' ) ) {
         exit;
 }
 /**
- * Class Linked3_Book_Section_Expander_Service
+ * Class BookSectionExpanderService
  *
  * 章节展开服务, 通过依赖注入接收 AI 调用器与提示词提供者。
  */
-class Linked3_Book_Section_Expander_Service {
+class BookSectionExpanderService {
         /**
          * AI 调用器。
          *
-         * @var Linked3_Book_AI_Caller_Interface
+         * @var BookAICallerInterface
          */
         protected $ai_caller;
 
@@ -44,21 +46,21 @@ class Linked3_Book_Section_Expander_Service {
         /**
          * 构造函数 — 依赖注入。
          *
-         * @param Linked3_Book_AI_Caller_Interface|null       $ai_caller       AI 调用器。
+         * @param BookAICallerInterface|null       $ai_caller       AI 调用器。
          * @param Linked3_Book_Prompt_Provider_Interface|null $prompt_provider 提示词提供者。
          */
         public function __construct(
-                Linked3_Book_AI_Caller_Interface $ai_caller = null,
+                BookAICallerInterface $ai_caller = null,
                 Linked3_Book_Prompt_Provider_Interface $prompt_provider = null
         ) {
-                $this->ai_caller       = $ai_caller ?: new Linked3_Book_Default_AI_Caller();
-                $this->prompt_provider = $prompt_provider ?: new Linked3_Book_Prompt_Manager();
+                $this->ai_caller       = $ai_caller ?: new BookDefaultAICaller();
+                $this->prompt_provider = $prompt_provider ?: new BookPromptManager();
         }
 
         /**
          * 展开单个章节。
          *
-         * @param Linked3_Book_Project_State $state           项目状态。
+         * @param BookProjectState $state           项目状态。
          * @param int                         $chapter_index  章索引。
          * @param int                         $section_index  节索引。
          * @return array|WP_Error 返回展开结果或 WP_Error。
@@ -71,7 +73,7 @@ class Linked3_Book_Section_Expander_Service {
         /**
          * 重新生成指定章节。
          *
-         * @param Linked3_Book_Project_State $state           项目状态。
+         * @param BookProjectState $state           项目状态。
          * @param int                         $chapter_index  章索引。
          * @param int                         $section_index  节索引。
          * @return array|WP_Error

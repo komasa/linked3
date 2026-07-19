@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Review Linker — 审阅模块联动
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory\Traits;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-trait Linked3_Review_Linker {
+trait ReviewLinker {
 
     /**
      * 调用SEO模块审阅

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory Steps — extracted from Book_Factory God Class (G4.3).
  *
@@ -13,10 +15,10 @@ namespace Linked3\Classes\BookFactory;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Book_Factory_Steps
+class BookFactorySteps
 {
     public function execute_step1_demo( $state ) : array {
-        $state->set_status( Linked3_Book_Project_State::STATUS_DEMOING );
+        $state->set_status( BookProjectState::STATUS_DEMOING );
         $state->save_state();
 
         try {
@@ -24,8 +26,8 @@ class Linked3_Book_Factory_Steps
             $type = $state->get( 'type' );
             $mode = $state->get( 'mode' );
             $level = $state->get( 'iteration_level', 'standard' );
-            $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
-            $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step1_demo', $vars, 1 );
+            $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
+            $prompt = BookPromptManager::get_prompt( 'step1_demo', $vars, 1 );
 
             $state->set( 'current_prompt', $prompt );
             $state->set( 'current_prompt_step', 'step1_demo' );
@@ -49,7 +51,7 @@ class Linked3_Book_Factory_Steps
         }
 
         // 进入step2
-        $state->set_status( Linked3_Book_Project_State::STATUS_EXPLORING );
+        $state->set_status( BookProjectState::STATUS_EXPLORING );
         $state->set( 'current_step', 'step2_explore' );
         $state->save_state();
 
@@ -57,7 +59,7 @@ class Linked3_Book_Factory_Steps
     }
 
     public function execute_step2_explore( $state ) : array {
-        $state->set_status( Linked3_Book_Project_State::STATUS_EXPLORING );
+        $state->set_status( BookProjectState::STATUS_EXPLORING );
         $state->save_state();
 
         try {
@@ -65,8 +67,8 @@ class Linked3_Book_Factory_Steps
             $type = $state->get( 'type' );
             $mode = $state->get( 'mode' );
             $level = $state->get( 'iteration_level', 'standard' );
-            $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
-            $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step2_explore', $vars, 1 );
+            $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
+            $prompt = BookPromptManager::get_prompt( 'step2_explore', $vars, 1 );
 
             $state->set( 'current_prompt', $prompt );
             $state->set( 'current_prompt_step', 'step2_explore' );
@@ -90,7 +92,7 @@ class Linked3_Book_Factory_Steps
         }
 
         // 进入step3
-        $state->set_status( Linked3_Book_Project_State::STATUS_OUTLINING );
+        $state->set_status( BookProjectState::STATUS_OUTLINING );
         $state->set( 'current_step', 'step3_outline' );
         $state->set( 'outline_iter_cursor', 0 );
         $state->save_state();
@@ -99,22 +101,22 @@ class Linked3_Book_Factory_Steps
     }
 
     public function execute_step3_outline_iter( $state ) : mixed {
-        $state->set_status( Linked3_Book_Project_State::STATUS_OUTLINING );
+        $state->set_status( BookProjectState::STATUS_OUTLINING );
         $state->save_state();
 
         $level = $state->get( 'iteration_level', 'standard' );
-        $levels = Linked3_Type_Mode_Router::get_all_iteration_levels();
+        $levels = TypeModeRouter::get_all_iteration_levels();
         $max_iter = isset( $levels[ $level ]['iterations'] ) ? $levels[ $level ]['iterations'] : 3;
         $iter_cursor = $state->get( 'outline_iter_cursor', 0 );
 
         $book_title = $state->get( 'book_title' );
         $type = $state->get( 'type' );
         $mode = $state->get( 'mode' );
-        $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
+        $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
 
         // 获取已有版本供迭代参考
         $versions = $state->get( 'outline_versions', array() );
-        $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step3_outline', $vars, $iter_cursor + 1 );
+        $prompt = BookPromptManager::get_prompt( 'step3_outline', $vars, $iter_cursor + 1 );
 
         $state->set( 'current_prompt', $prompt );
         $state->set( 'current_prompt_step', 'step3_outline' );
@@ -123,7 +125,7 @@ class Linked3_Book_Factory_Steps
 
         $response = $this->call_ai_with_rate_limit( $prompt );
         if ( is_wp_error( $response ) ) {
-            $state->set_status( Linked3_Book_Project_State::STATUS_FAILED );
+            $state->set_status( BookProjectState::STATUS_FAILED );
             $state->save_state();
             return new WP_Error( 'outline_failed', $response->get_error_message() );
         }
@@ -156,7 +158,7 @@ class Linked3_Book_Factory_Steps
             $state->set( 'chapters', $final_outline['chapters'] );
 
             // 进入step4
-            $state->set_status( Linked3_Book_Project_State::STATUS_EXPANDING );
+            $state->set_status( BookProjectState::STATUS_EXPANDING );
             $state->set( 'current_step', 'step4_expand' );
             $state->set( 'expand_chapter_cursor', 0 );
             $state->set( 'expand_section_cursor', 0 );
@@ -181,7 +183,7 @@ class Linked3_Book_Factory_Steps
     }
 
     public function execute_step4_expand_one( $state ) : mixed {
-        $state->set_status( Linked3_Book_Project_State::STATUS_EXPANDING );
+        $state->set_status( BookProjectState::STATUS_EXPANDING );
         $state->save_state();
 
         $chapters = $state->get( 'chapters' );
@@ -225,7 +227,7 @@ class Linked3_Book_Factory_Steps
                 $type = $state->get( 'type' );
                 $mode = $state->get( 'mode' );
                 $level = $state->get( 'iteration_level', 'standard' );
-                $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
+                $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
                 $section_vars = array_merge( $vars, array(
                     'chapter_title'  => $chapter['title'],
                     'section_title'  => $section['title'],
@@ -233,7 +235,7 @@ class Linked3_Book_Factory_Steps
                     'chapter_index'  => $ch_idx + 1,
                     'section_index'  => $sec_idx + 1,
                 ) );
-                $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step4_expand', $section_vars, 1 );
+                $prompt = BookPromptManager::get_prompt( 'step4_expand', $section_vars, 1 );
 
                 $state->set( 'current_prompt', $prompt );
                 $state->set( 'current_prompt_step', 'step4_expand' );
@@ -243,7 +245,7 @@ class Linked3_Book_Factory_Steps
 
                 $response = $this->call_ai_with_rate_limit( $prompt );
                 if ( is_wp_error( $response ) ) {
-                    $state->set_status( Linked3_Book_Project_State::STATUS_FAILED );
+                    $state->set_status( BookProjectState::STATUS_FAILED );
                     $state->save_state();
                     return new WP_Error( 'expand_failed', $response->get_error_message() );
                 }
@@ -283,7 +285,7 @@ class Linked3_Book_Factory_Steps
             // v18.10.3: step4全部完成时, 才调用rebuild_draft生成最终书稿
             $this->rebuild_draft_incremental( $state );
             $state->set( 'current_step', 'step5_complete' );
-            $state->set_status( Linked3_Book_Project_State::STATUS_COMPLETING );
+            $state->set_status( BookProjectState::STATUS_COMPLETING );
             $state->save_state();
             return array(
                 'done' => false,
@@ -304,7 +306,7 @@ class Linked3_Book_Factory_Steps
     }
 
     public function execute_step5_complete( $state ) : array {
-        $state->set_status( Linked3_Book_Project_State::STATUS_COMPLETING );
+        $state->set_status( BookProjectState::STATUS_COMPLETING );
         $state->save_state();
 
         try {
@@ -315,7 +317,7 @@ class Linked3_Book_Factory_Steps
         }
 
         // 进入step6
-        $state->set_status( Linked3_Book_Project_State::STATUS_REVIEWING );
+        $state->set_status( BookProjectState::STATUS_REVIEWING );
         $state->set( 'current_step', 'step6_review' );
         $state->save_state();
 
@@ -323,7 +325,7 @@ class Linked3_Book_Factory_Steps
     }
 
     public function execute_step6_review( $state ) : array {
-        $state->set_status( Linked3_Book_Project_State::STATUS_REVIEWING );
+        $state->set_status( BookProjectState::STATUS_REVIEWING );
         $state->save_state();
 
         try {
@@ -331,8 +333,8 @@ class Linked3_Book_Factory_Steps
             $type = $state->get( 'type' );
             $mode = $state->get( 'mode' );
             $level = $state->get( 'iteration_level', 'standard' );
-            $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
-            $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step6_review', $vars, 1 );
+            $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
+            $prompt = BookPromptManager::get_prompt( 'step6_review', $vars, 1 );
 
             $state->set( 'current_prompt', $prompt );
             $state->set( 'current_prompt_step', 'step6_review' );
@@ -357,7 +359,7 @@ class Linked3_Book_Factory_Steps
         }
 
         // 完成
-        $state->set_status( Linked3_Book_Project_State::STATUS_DONE );
+        $state->set_status( BookProjectState::STATUS_DONE );
         $state->set( 'current_step', 'done' );
         $state->save_state();
 

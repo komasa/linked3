@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Cost Tracker — 成本追踪
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory\Traits;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-trait Linked3_Cost_Tracker {
+trait CostTracker {
 
     /**
      * 计算单次调用成本 (USD)
@@ -40,7 +42,7 @@ trait Linked3_Cost_Tracker {
     /**
      * 记录成本到State
      *
-     * @param Linked3_Book_Project_State $state
+     * @param BookProjectState $state
      * @param string $step_id
      * @param int $tokens_in
      * @param int $tokens_out
@@ -53,7 +55,7 @@ trait Linked3_Cost_Tracker {
     /**
      * 获取成本看板数据
      *
-     * @param Linked3_Book_Project_State $state
+     * @param BookProjectState $state
      * @return array
      */
     protected function get_cost_dashboard( $state ) : array {

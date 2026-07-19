@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Book Exploration Prototypes — 9大真理探索原型 (v19.1 新增)
  *
@@ -28,11 +30,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Exploration_Prototypes
+ * Class BookExplorationPrototypes
  *
  * 9大真理探索原型定义。
  */
-class Linked3_Book_Exploration_Prototypes {
+class BookExplorationPrototypes {
 
 	/**
 	 * 9大原型定义。

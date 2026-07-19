@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 异步任务调度器 (v18.11 新增)
  *
@@ -25,9 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Async_Runner
+ * Class BookAsyncRunner
  */
-class Linked3_Book_Async_Runner {
+class BookAsyncRunner {
 
 	/**
 	 * 注册 cron hook 与调度。
@@ -62,7 +64,7 @@ class Linked3_Book_Async_Runner {
 	 */
 	public static function schedule_next_step( $project_id, $delay = 5 ) : void {
 		// v18.11: 校验 project_id。
-		if ( false === Linked3_Book_Security::validate_project_id( $project_id ) ) {
+		if ( false === BookSecurity::validate_project_id( $project_id ) ) {
 			return;
 		}
 
@@ -82,11 +84,11 @@ class Linked3_Book_Async_Runner {
 	 */
 	public static function cron_run_step( $project_id ) : void {
 		// v18.11: 校验 project_id。
-		if ( false === Linked3_Book_Security::validate_project_id( $project_id ) ) {
+		if ( false === BookSecurity::validate_project_id( $project_id ) ) {
 			return;
 		}
 
-		$state = Linked3_Book_Project_State::get_project( $project_id );
+		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
 			return;
 		}
@@ -105,7 +107,7 @@ class Linked3_Book_Async_Runner {
 		}
 
 		// Web 环境: 执行一步, 然后调度下一步。
-		$result = Linked3_Book_Factory::run_step( $project_id );
+		$result = BookFactory::run_step( $project_id );
 
 		if ( is_wp_error( $result ) ) {
 			// 执行失败, 停止链式调度 (状态已被 run_step 设为 failed)。
@@ -128,7 +130,7 @@ class Linked3_Book_Async_Runner {
 	 * @param string $project_id 项目 ID。
 	 */
 	public static function run_to_completion( $project_id ) : void {
-		if ( false === Linked3_Book_Security::validate_project_id( $project_id ) ) {
+		if ( false === BookSecurity::validate_project_id( $project_id ) ) {
 			return;
 		}
 
@@ -136,7 +138,7 @@ class Linked3_Book_Async_Runner {
 		$step      = 0;
 
 		while ( $step < $max_steps ) {
-			$state = Linked3_Book_Project_State::get_project( $project_id );
+			$state = BookProjectState::get_project( $project_id );
 			if ( ! $state ) {
 				break;
 			}
@@ -146,7 +148,7 @@ class Linked3_Book_Async_Runner {
 				break;
 			}
 
-			$result = Linked3_Book_Factory::run_step( $project_id );
+			$result = BookFactory::run_step( $project_id );
 
 			if ( is_wp_error( $result ) ) {
 				if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -188,7 +190,7 @@ class Linked3_Book_Async_Runner {
 	 * @param string $project_id 项目 ID。
 	 */
 	public static function cancel( $project_id ) : void {
-		if ( false === Linked3_Book_Security::validate_project_id( $project_id ) ) {
+		if ( false === BookSecurity::validate_project_id( $project_id ) ) {
 			return;
 		}
 
@@ -200,4 +202,4 @@ class Linked3_Book_Async_Runner {
 }
 
 // 初始化异步调度器。
-Linked3_Book_Async_Runner::init();
+BookAsyncRunner::init();

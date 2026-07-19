@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 步骤适配器 (v18.11 新增)
  *
- * 将 Book_Factory 中现有的 execute_stepN_xxx 方法适配为 Linked3_Book_Step_Interface。
+ * 将 Book_Factory 中现有的 execute_stepN_xxx 方法适配为 BookStepInterface。
  * 采用适配器模式, 避免一次性重构全部步骤方法, 实现渐进式迁移。
  *
  * 未来 v19.x 可将每个步骤拆分为独立的类, 直接实现接口,
@@ -20,9 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Step_Adapter
+ * Class BookStepAdapter
  */
-class Linked3_Book_Step_Adapter implements Linked3_Book_Step_Interface {
+class BookStepAdapter implements BookStepInterface {
 
 	/**
 	 * 步骤 ID。

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Book Ajax Actions — 写书工厂Ajax端点
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Linked3_Book_Ajax_Actions {
+class BookAjaxActions {
 
     /**
      * 注册所有Ajax端点
@@ -51,7 +53,7 @@ class Linked3_Book_Ajax_Actions {
         add_action( 'wp_ajax_linked3_book_meta_prototypes', array( __CLASS__, 'meta_prototypes' ) );
 
         // wp_cron 钩子 (H1约束: 分步执行, 保留作为兜底)
-        add_action( 'linked3_book_factory_run_pipeline', array( '\Linked3\Classes\BookFactory\Linked3_Book_Factory', 'run_pipeline' ) );
+        add_action( 'linked3_book_factory_run_pipeline', array( '\Linked3\Classes\BookFactory\BookFactory', 'run_pipeline' ) );
     }
 
     /**
@@ -163,7 +165,7 @@ class Linked3_Book_Ajax_Actions {
         }
 
         try {
-            $mother = new Linked3_Book_MetaMother();
+            $mother = new BookMetaMother();
             $result = $mother->classify_exploration( $intent );
 
             wp_send_json_success( $result );
@@ -172,7 +174,7 @@ class Linked3_Book_Ajax_Actions {
                 error_log( '[linked3 meta_mother] classify异常: ' . $e->getMessage() );
             }
             wp_send_json_error( array(
-                'message' => __('分类异常: ', 'linked3-ai') . Linked3_Book_Security::sanitize_error_message( $e->getMessage() ),
+                'message' => __('分类异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -191,7 +193,7 @@ class Linked3_Book_Ajax_Actions {
         $prototype_key = sanitize_text_field( $_POST['prototype_key'] ?? 'book' );
 
         try {
-            $prototype = Linked3_Book_Exploration_Prototypes::get( $prototype_key );
+            $prototype = BookExplorationPrototypes::get( $prototype_key );
 
             if ( ! $prototype ) {
                 wp_send_json_error( array( 'message' => __('原型不存在: ', 'linked3-ai') . $prototype_key ), 404 );
@@ -203,7 +205,7 @@ class Linked3_Book_Ajax_Actions {
             ) );
         } catch ( \Throwable $e ) {
             wp_send_json_error( array(
-                'message' => __('原型生成异常: ', 'linked3-ai') . Linked3_Book_Security::sanitize_error_message( $e->getMessage() ),
+                'message' => __('原型生成异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -226,13 +228,13 @@ class Linked3_Book_Ajax_Actions {
         }
 
         try {
-            $mother = new Linked3_Book_MetaMother();
+            $mother = new BookMetaMother();
             $assessment = $mother->extract_meta_laws( $result_text );
 
             wp_send_json_success( $assessment );
         } catch ( \Throwable $e ) {
             wp_send_json_error( array(
-                'message' => __('元规律提炼异常: ', 'linked3-ai') . Linked3_Book_Security::sanitize_error_message( $e->getMessage() ),
+                'message' => __('元规律提炼异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -256,13 +258,13 @@ class Linked3_Book_Ajax_Actions {
         }
 
         try {
-            $mother = new Linked3_Book_MetaMother();
+            $mother = new BookMetaMother();
             $new_system = $mother->create_new_system( $system_name, $description );
 
             wp_send_json_success( $new_system );
         } catch ( \Throwable $e ) {
             wp_send_json_error( array(
-                'message' => __('新系统创造异常: ', 'linked3-ai') . Linked3_Book_Security::sanitize_error_message( $e->getMessage() ),
+                'message' => __('新系统创造异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -278,10 +280,10 @@ class Linked3_Book_Ajax_Actions {
         }
 
         wp_send_json_success( array(
-            'version'      => Linked3_Book_MetaMother::META_VERSION,
-            'meta_laws'    => Linked3_Book_MetaMother::META_LAWS,
-            'meta_stages'  => Linked3_Book_MetaMother::META_STAGES,
-            'prototypes'   => Linked3_Book_Exploration_Prototypes::get_label_map(),
+            'version'      => BookMetaMother::META_VERSION,
+            'meta_laws'    => BookMetaMother::META_LAWS,
+            'meta_stages'  => BookMetaMother::META_STAGES,
+            'prototypes'   => BookExplorationPrototypes::get_label_map(),
             'core_nucleus' => '探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎',
         ) );
     }
@@ -297,8 +299,8 @@ class Linked3_Book_Ajax_Actions {
         }
 
         wp_send_json_success( array(
-            'prototypes' => Linked3_Book_Exploration_Prototypes::get_all(),
-            'by_category' => Linked3_Book_Exploration_Prototypes::get_by_category(),
+            'prototypes' => BookExplorationPrototypes::get_all(),
+            'by_category' => BookExplorationPrototypes::get_by_category(),
         ) );
     }
 
@@ -347,4 +349,4 @@ class Linked3_Book_Ajax_Actions {
 }
 
 // 注册Ajax端点
-add_action( 'init', array( '\Linked3\Classes\BookFactory\Linked3_Book_Ajax_Actions', 'register' ) );
+add_action( 'init', array( '\Linked3\Classes\BookFactory\BookAjaxActions', 'register' ) );

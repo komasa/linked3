@@ -241,7 +241,7 @@ require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-section
 
 // -----------------------------------------------------------------------------
 // v18.5: 写书工厂模块显式加载
-// 自动加载器无法解析 Linked3_Book_Factory (无命名空间) 的路径, 需显式 require
+// 自动加载器无法解析 BookFactory (无命名空间) 的路径, 需显式 require
 // v18.11: 新增 Book_Security 安全工具类
 // v19.0: 新增接口契约体系 + 拆分类 (Pipeline_Orchestrator/Draft_Builder/Outline_Processor 等)
 // v19.1: 嵌入 meta的meta 元母体 (MetaMother) — 9大探索原型 + 5大元规律 + 4阶元流程

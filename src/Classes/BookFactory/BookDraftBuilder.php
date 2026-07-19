@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 草稿构建器 (v19.0 从 Book_Factory 拆分)
  *
@@ -17,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Draft_Builder
+ * Class BookDraftBuilder
  */
-class Linked3_Book_Draft_Builder {
+class BookDraftBuilder {
 
 	/**
 	 * 增量重建草稿文件。
@@ -27,7 +29,7 @@ class Linked3_Book_Draft_Builder {
 	 * 遍历项目状态中的章节, 将已完成的章节内容拼接为 MD/HTML 文件。
 	 * 使用原子写入确保文件不会出现半写入状态。
 	 *
-	 * @param Linked3_Book_Project_State $state 项目状态。
+	 * @param BookProjectState $state 项目状态。
 	 * @return array|WP_Error 返回 array('md_path'=>..., 'html_path'=>...) 或 WP_Error。
 	 */
 	public function rebuild( $state ) : mixed {
@@ -40,7 +42,7 @@ class Linked3_Book_Draft_Builder {
 		}
 
 		// 委托给 Section_Stitcher 进行拼接。
-		$stitcher = new Linked3_Section_Stitcher();
+		$stitcher = new SectionStitcher();
 		return $stitcher->stitch( $state );
 	}
 
@@ -55,7 +57,7 @@ class Linked3_Book_Draft_Builder {
 		$base_dir   = $upload_dir['basedir'] . '/linked3-books/' . $project_id;
 		$book_title = '';
 
-		$state = Linked3_Book_Project_State::get_project( $project_id );
+		$state = BookProjectState::get_project( $project_id );
 		if ( $state ) {
 			$book_title = $state->get( 'book_title' );
 		}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 步骤注册表 (v18.11 新增)
  *
@@ -20,14 +22,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Step_Registry
+ * Class BookStepRegistry
  */
-class Linked3_Book_Step_Registry {
+class BookStepRegistry {
 
         /**
          * 已注册的步骤实例。
          *
-         * @var array<string, Linked3_Book_Step_Interface>
+         * @var array<string, BookStepInterface>
          */
         private static $steps = array();
 
@@ -63,7 +65,7 @@ class Linked3_Book_Step_Registry {
                                 if ( isset( $step_config['enabled'] ) && ! $step_config['enabled'] ) {
                                         continue;
                                 }
-                                self::register( new Linked3_Book_Step_Adapter(
+                                self::register( new BookStepAdapter(
                                         $step_config['id'],
                                         $step_config['label'],
                                         $step_config['method'],
@@ -72,12 +74,12 @@ class Linked3_Book_Step_Registry {
                         }
                 } else {
                         // 回退: 如果 YAML 加载失败, 使用硬编码默认值。
-                        self::register( new Linked3_Book_Step_Adapter( 'step1_demo', '演示', 'execute_step1_demo', 'step2_explore' ) );
-                        self::register( new Linked3_Book_Step_Adapter( 'step2_explore', '探索', 'execute_step2_explore', 'step3_outline' ) );
-                        self::register( new Linked3_Book_Step_Adapter( 'step3_outline', '大纲', 'execute_step3_outline_iter', 'step4_expand' ) );
-                        self::register( new Linked3_Book_Step_Adapter( 'step4_expand', '扩写', 'execute_step4_expand_one', 'step5_complete' ) );
-                        self::register( new Linked3_Book_Step_Adapter( 'step5_complete', '拼接', 'execute_step5_complete', 'step6_review' ) );
-                        self::register( new Linked3_Book_Step_Adapter( 'step6_review', '审阅', 'execute_step6_review', null ) );
+                        self::register( new BookStepAdapter( 'step1_demo', '演示', 'execute_step1_demo', 'step2_explore' ) );
+                        self::register( new BookStepAdapter( 'step2_explore', '探索', 'execute_step2_explore', 'step3_outline' ) );
+                        self::register( new BookStepAdapter( 'step3_outline', '大纲', 'execute_step3_outline_iter', 'step4_expand' ) );
+                        self::register( new BookStepAdapter( 'step4_expand', '扩写', 'execute_step4_expand_one', 'step5_complete' ) );
+                        self::register( new BookStepAdapter( 'step5_complete', '拼接', 'execute_step5_complete', 'step6_review' ) );
+                        self::register( new BookStepAdapter( 'step6_review', '审阅', 'execute_step6_review', null ) );
                 }
 
                 // 触发钩子, 允许第三方插件注册自定义步骤。
@@ -169,9 +171,9 @@ class Linked3_Book_Step_Registry {
         /**
          * 注册步骤。
          *
-         * @param Linked3_Book_Step_Interface $step 步骤实例。
+         * @param BookStepInterface $step 步骤实例。
          */
-        public static function register( Linked3_Book_Step_Interface $step ) : void {
+        public static function register( BookStepInterface $step ) : void {
                 $step_id = $step->get_step_id();
                 self::$steps[ $step_id ]      = $step;
                 self::$step_order[ $step_id ] = count( self::$step_order );
@@ -181,7 +183,7 @@ class Linked3_Book_Step_Registry {
          * 获取步骤实例。
          *
          * @param string $step_id 步骤 ID。
-         * @return Linked3_Book_Step_Interface|null
+         * @return BookStepInterface|null
          */
         public static function get_step( $step_id ) {
                 self::init();
@@ -191,7 +193,7 @@ class Linked3_Book_Step_Registry {
         /**
          * 获取所有已注册步骤。
          *
-         * @return array<string, Linked3_Book_Step_Interface>
+         * @return array<string, BookStepInterface>
          */
         public static function get_all_steps() {
                 self::init();

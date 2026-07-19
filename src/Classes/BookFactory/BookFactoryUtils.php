@@ -1,7 +1,9 @@
 <?php
+
+declare(strict_types=1);
 namespace Linked3\Classes\BookFactory;
 if (!defined('ABSPATH')) exit;
-class Linked3_Book_Factory_Utils
+class BookFactoryUtils
 {
     public function smart_split_outline( $content ) : mixed {
         // 先尝试标准解析
@@ -219,8 +221,8 @@ class Linked3_Book_Factory_Utils
         }
 
         $template = $this->route['output_template_config'];
-        $result = Linked3_Section_Stitcher::stitch( $full_chapters, $template, $book_title );
-        $files = Linked3_Section_Stitcher::save_to_file( $this->state->project_id, $result['markdown'], $result['html'] );
+        $result = SectionStitcher::stitch( $full_chapters, $template, $book_title );
+        $files = SectionStitcher::save_to_file( $this->state->project_id, $result['markdown'], $result['html'] );
 
         $this->state->set( 'draft_markdown', $result['markdown'] );
         $this->state->set( 'draft_html', $result['html'] );

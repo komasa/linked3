@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Section Expander — 扩写上下文传递
  *
@@ -13,12 +15,12 @@ namespace Linked3\Classes\BookFactory\Traits;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-trait Linked3_Section_Expander {
+trait SectionExpander {
 
     /**
      * 构建扩写提示词
      *
-     * @param Linked3_Book_Project_State $state
+     * @param BookProjectState $state
      * @param array $route
      * @param array $chapter
      * @param array $section
@@ -27,7 +29,7 @@ trait Linked3_Section_Expander {
      */
     protected function build_expand_prompt( $state, $route, $chapter, $section, $context_summary = '' ) : mixed {
         $book_title = $state->get( 'book_title' );
-        $type_label = Linked3_Type_Mode_Router::get_type_label( $state->get( 'type' ) );
+        $type_label = TypeModeRouter::get_type_label( $state->get( 'type' ) );
         $type_unit = $route['type_unit'];
 
         // 应用路由的提示词覆盖 (S3)
@@ -94,8 +96,8 @@ trait Linked3_Section_Expander {
      */
     protected function sanitize_section_content( $content ) {
         // 复用拼接器的清洗逻辑 (H5约束)
-        if ( class_exists( '\Linked3\Classes\BookFactory\Traits\Linked3_Section_Stitcher' ) ) {
-            return Linked3_Section_Stitcher::sanitize_markdown( $content );
+        if ( class_exists( '\Linked3\Classes\BookFactory\Traits\SectionStitcher' ) ) {
+            return SectionStitcher::sanitize_markdown( $content );
         }
 
         // fallback

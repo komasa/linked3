@@ -1,7 +1,7 @@
 # Linked3 BookFactory 步骤配置 (v19.0)
 #
 # 将步骤定义外部化为配置文件, 替代 v18.x 中 Book_Factory::run_step() 的 switch-case 硬编码。
-# 步骤顺序由文件中的顺序决定, 新增步骤只需在此文件添加条目并实现 Linked3_Book_Step_Interface。
+# 步骤顺序由文件中的顺序决定, 新增步骤只需在此文件添加条目并实现 BookStepInterface。
 #
 # 字段说明:
 #   id:        步骤唯一标识 (与 Book_Factory::execute_stepN_xxx 方法对应)

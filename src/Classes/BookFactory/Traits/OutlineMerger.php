@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Outline Merger — 大纲迭代合并
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory\Traits;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-trait Linked3_Outline_Merger {
+trait OutlineMerger {
 
     /**
      * 合并多次大纲版本
@@ -100,7 +102,7 @@ trait Linked3_Outline_Merger {
     /**
      * 构建大纲生成提示词
      *
-     * @param Linked3_Book_Project_State $state
+     * @param BookProjectState $state
      * @param array $route
      * @param int $iteration 当前迭代次数(1-based)
      * @param array $previous_versions 之前的大纲版本
@@ -108,7 +110,7 @@ trait Linked3_Outline_Merger {
      */
     protected function build_outline_prompt( $state, $route, $iteration, $previous_versions ) : mixed {
         $book_title = $state->get( 'book_title' );
-        $type_label = Linked3_Type_Mode_Router::get_type_label( $state->get( 'type' ) );
+        $type_label = TypeModeRouter::get_type_label( $state->get( 'type' ) );
         $type_unit = $route['type_unit'];
 
         $max_chapters = isset( $route['yaml_config']['max_chapters'] ) ? $route['yaml_config']['max_chapters'] : 12;

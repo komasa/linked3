@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Section Stitcher — 段落拼接器
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Linked3_Section_Stitcher {
+class SectionStitcher {
 
     /**
      * 拼接完整书稿
@@ -235,8 +237,8 @@ class Linked3_Section_Stitcher {
 
         // v18.11: 原子写入 MD/HTML 文件，防止并发写入导致文件损坏。
         try {
-            Linked3_Book_Security::atomic_write( $md_path, $markdown );
-            Linked3_Book_Security::atomic_write( $html_path, $html );
+            BookSecurity::atomic_write( $md_path, $markdown );
+            BookSecurity::atomic_write( $html_path, $html );
         } catch ( \RuntimeException $e ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
                 error_log( '[Linked3_Book] 草稿文件原子写入失败: ' . $e->getMessage() );

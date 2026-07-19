@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Book MetaMother — 真理探索系统元母体引擎 (v19.1 新增)
  *
@@ -26,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_MetaMother
+ * Class BookMetaMother
  *
  * 真理探索系统元母体引擎。
  */
-class Linked3_Book_MetaMother {
+class BookMetaMother {
 
 	/**
 	 * 元母体版本。
@@ -61,17 +63,17 @@ class Linked3_Book_MetaMother {
 	/**
 	 * AI 调用器。
 	 *
-	 * @var Linked3_Book_AI_Caller_Interface
+	 * @var BookAICallerInterface
 	 */
 	protected $ai_caller;
 
 	/**
 	 * 构造函数 — 依赖注入。
 	 *
-	 * @param Linked3_Book_AI_Caller_Interface|null $ai_caller AI 调用器。
+	 * @param BookAICallerInterface|null $ai_caller AI 调用器。
 	 */
-	public function __construct( Linked3_Book_AI_Caller_Interface $ai_caller = null ) {
-		$this->ai_caller = $ai_caller ?: new Linked3_Book_Default_AI_Caller();
+	public function __construct( BookAICallerInterface $ai_caller = null ) {
+		$this->ai_caller = $ai_caller ?: new BookDefaultAICaller();
 	}
 
 	/**
@@ -85,7 +87,7 @@ class Linked3_Book_MetaMother {
 			return new WP_Error( 'empty_intent', '探索意图不能为空' );
 		}
 
-		$prototypes = Linked3_Book_Exploration_Prototypes::get_all();
+		$prototypes = BookExplorationPrototypes::get_all();
 		$prototype_list = array();
 		foreach ( $prototypes as $key => $proto ) {
 			$prototype_list[] = "- {$key}: {$proto['name']} — {$proto['description']}";
@@ -134,7 +136,7 @@ class Linked3_Book_MetaMother {
 	 * @return array|WP_Error
 	 */
 	public function generate_prototype( $prototype_key, $custom_params = array() ) {
-		$prototype = Linked3_Book_Exploration_Prototypes::get( $prototype_key );
+		$prototype = BookExplorationPrototypes::get( $prototype_key );
 
 		if ( ! $prototype ) {
 			return new WP_Error( 'unknown_prototype', '未知探索原型: ' . $prototype_key );
@@ -280,7 +282,7 @@ class Linked3_Book_MetaMother {
 			'core_nucleus'  => '探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎',
 			'meta_laws'     => self::META_LAWS,
 			'meta_stages'   => self::META_STAGES,
-			'prototypes'    => Linked3_Book_Exploration_Prototypes::get_all(),
+			'prototypes'    => BookExplorationPrototypes::get_all(),
 		);
 	}
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 安全工具类 (v18.11 新增)
  *
@@ -17,11 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Security
+ * Class BookSecurity
  *
  * 提供静态安全校验方法，供 Book_Project_State、Book_Ajax_Actions 等调用。
  */
-class Linked3_Book_Security {
+class BookSecurity {
 
 	/**
 	 * project_id 合法格式：仅允许字母、数字、下划线、连字符，长度 1-64。

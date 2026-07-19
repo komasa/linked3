@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 大纲处理器 (v19.0 从 Book_Factory 拆分)
  *
@@ -14,9 +16,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Linked3_Book_Outline_Processor
+class BookOutlineProcessor
 {
-    use \Linked3\Classes\BookFactory\Traits\Linked3_Outline_Merger;
+    use \Linked3\Classes\BookFactory\Traits\OutlineMerger;
 
 
         /**

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 默认成本追踪器 (v19.0 新增)
  *
@@ -17,17 +19,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Default_Cost_Tracker
+ * Class BookDefaultCostTracker
  *
  * 默认成本追踪器, 将成本数据写入项目状态。
  */
-class Linked3_Book_Default_Cost_Tracker implements Linked3_Book_Cost_Tracker_Interface {
+class BookDefaultCostTracker implements Linked3_Book_Cost_Tracker_Interface {
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function record( $project_id, $usage, $cost, $model ) : void {
-		$state = Linked3_Book_Project_State::get_project( $project_id );
+		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
 			return;
 		}
@@ -54,7 +56,7 @@ class Linked3_Book_Default_Cost_Tracker implements Linked3_Book_Cost_Tracker_Int
 	 * {@inheritdoc}
 	 */
 	public function get_total( $project_id ) : array {
-		$state = Linked3_Book_Project_State::get_project( $project_id );
+		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
 			return array( 'total_cost' => 0, 'total_tokens' => 0, 'calls' => 0 );
 		}

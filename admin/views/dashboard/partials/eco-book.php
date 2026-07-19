@@ -33,12 +33,12 @@ $knowledge_systems = $book_kb['knowledge_systems'] ?? [];
 $reading_prompts = $book_kb['reading_prompts'] ?? [];
 
 // v18.5: 写书工厂路由表
-$factory_types  = class_exists('Linked3_Type_Mode_Router') ? Linked3_Type_Mode_Router::get_all_types() : [];
-$factory_modes  = class_exists('Linked3_Type_Mode_Router') ? Linked3_Type_Mode_Router::get_all_modes() : [];
-$factory_levels = class_exists('Linked3_Type_Mode_Router') ? Linked3_Type_Mode_Router::get_all_iteration_levels() : [];
+$factory_types  = class_exists('TypeModeRouter') ? TypeModeRouter::get_all_types() : [];
+$factory_modes  = class_exists('TypeModeRouter') ? TypeModeRouter::get_all_modes() : [];
+$factory_levels = class_exists('TypeModeRouter') ? TypeModeRouter::get_all_iteration_levels() : [];
 $factory_nonce  = wp_create_nonce('linked3_book_factory');
 $current_project_id = isset($_GET['book_project']) ? sanitize_text_field($_GET['book_project']) : '';
-$progress_nonce = $current_project_id && class_exists('Linked3_Book_Ajax_Actions') ? Linked3_Book_Ajax_Actions::generate_progress_nonce($current_project_id) : '';
+$progress_nonce = $current_project_id && class_exists('BookAjaxActions') ? BookAjaxActions::generate_progress_nonce($current_project_id) : '';
 ?>
 
 

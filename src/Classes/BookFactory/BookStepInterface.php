@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 步骤接口 (v18.11 新增)
  *
@@ -19,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Interface Linked3_Book_Step_Interface
+ * Interface BookStepInterface
  *
  * 写书流水线步骤接口契约。
  */
-interface Linked3_Book_Step_Interface {
+interface BookStepInterface {
 
 	/**
 	 * 获取步骤标识 (如 step1_demo, step4_expand)。
@@ -42,8 +44,8 @@ interface Linked3_Book_Step_Interface {
 	/**
 	 * 执行步骤。
 	 *
-	 * @param Linked3_Book_Project_State $state 项目状态。
-	 * @param Linked3_Book_Factory       $factory 工厂实例 (提供 AI 调用等能力)。
+	 * @param BookProjectState $state 项目状态。
+	 * @param BookFactory       $factory 工厂实例 (提供 AI 调用等能力)。
 	 * @return array|WP_Error 返回执行结果数组或 WP_Error。
 	 */
 	public function execute( $state, $factory );
@@ -51,7 +53,7 @@ interface Linked3_Book_Step_Interface {
 	/**
 	 * 获取下一步骤 ID (用于链式调度)。
 	 *
-	 * @param Linked3_Book_Project_State $state 项目状态。
+	 * @param BookProjectState $state 项目状态。
 	 * @return string|null 下一步骤 ID, null 表示已完成。
 	 */
 	public function get_next_step( $state );

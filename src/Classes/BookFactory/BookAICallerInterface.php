@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 接口契约体系 (v19.0 新增)
  *
@@ -18,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Interface Linked3_Book_AI_Caller_Interface
+ * Interface BookAICallerInterface
  *
  * AI 调用抽象接口, 解耦 BookFactory 与具体 AI 引擎。
  */
-interface Linked3_Book_AI_Caller_Interface {
+interface BookAICallerInterface {
 
 	/**
 	 * 调用 AI 生成内容。

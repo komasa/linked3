@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Book Project State — 写书项目状态机
  *
@@ -13,7 +15,7 @@ namespace Linked3\Classes\BookFactory;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Linked3_Book_Project_State {
+class BookProjectState {
 
     /** @var string 项目ID */
     public $project_id;
@@ -55,7 +57,7 @@ class Linked3_Book_Project_State {
             $project_id = 'book_' . substr( md5( uniqid( '', true ) ), 0, 12 );
         }
         // v18.11: project_id 路径白名单校验，防止路径遍历攻击。
-        $validated = Linked3_Book_Security::validate_project_id( $project_id );
+        $validated = BookSecurity::validate_project_id( $project_id );
         if ( false === $validated ) {
             // 校验失败时生成一个新的安全 ID，而非直接使用不安全输入。
             $project_id = 'book_' . substr( md5( uniqid( '', true ) ), 0, 12 );
@@ -218,7 +220,7 @@ class Linked3_Book_Project_State {
         // 使用临时文件 + rename 确保文件不会出现半写入状态，加 LOCK_EX 防止并发竞态。
         $path = $this->get_json_path();
         try {
-            Linked3_Book_Security::atomic_write(
+            BookSecurity::atomic_write(
                 $path,
                 wp_json_encode( $this->state, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT )
             );
@@ -488,7 +490,7 @@ class Linked3_Book_Project_State {
      */
     public static function get_project( $project_id ) {
         // v18.11: 校验 project_id 防止路径遍历。
-        if ( false === Linked3_Book_Security::validate_project_id( $project_id ) ) {
+        if ( false === BookSecurity::validate_project_id( $project_id ) ) {
             return null;
         }
         if ( isset( self::$projects[ $project_id ] ) ) {

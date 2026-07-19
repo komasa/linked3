@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Book Prompt Manager — 提示词外置管理器
  *
@@ -18,7 +20,7 @@ namespace Linked3\Classes\BookFactory;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Linked3_Book_Prompt_Manager {
+class BookPromptManager {
 
     /** @var string DB选项名 */
     const OPTION_KEY = 'linked3_book_prompts';
@@ -340,7 +342,7 @@ class Linked3_Book_Prompt_Manager {
      * @return array
      */
     public static function build_context_vars( $book_title, $type, $mode, $level = 'standard' ) : array {
-        $type_labels = Linked3_Type_Mode_Router::get_all_types();
+        $type_labels = TypeModeRouter::get_all_types();
         $type_unit_map = array(
             'book' => '本', 'thesis' => '篇', 'script' => '部',
             'manual' => '本', 'textbook' => '本', 'whitepaper' => '份',

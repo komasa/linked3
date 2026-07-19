@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 流水线编排器 (v19.0 从 Book_Factory 拆分)
  *
@@ -17,10 +19,10 @@ namespace Linked3\Classes\BookFactory;
 
 
 
-        use \Linked3\Classes\BookFactory\Traits\Linked3_Cost_Tracker;
-        use \Linked3\Classes\BookFactory\Traits\Linked3_Section_Expander;
-        use \Linked3\Classes\BookFactory\Traits\Linked3_Outline_Merger;
-        use \Linked3\Classes\BookFactory\Traits\Linked3_Review_Linker;
+        use \Linked3\Classes\BookFactory\Traits\CostTracker;
+        use \Linked3\Classes\BookFactory\Traits\SectionExpander;
+        use \Linked3\Classes\BookFactory\Traits\OutlineMerger;
+        use \Linked3\Classes\BookFactory\Traits\ReviewLinker;
 
 
 
@@ -28,15 +30,15 @@ if ( ! defined( 'ABSPATH' ) ) {
         exit;
 }
 /**
- * Class Linked3_Book_Pipeline_Orchestrator
+ * Class BookPipelineOrchestrator
  *
  * 流水线编排器, 通过依赖注入接收协作对象。
  */
-class Linked3_Book_Pipeline_Orchestrator {
+class BookPipelineOrchestrator {
         /**
          * AI 调用器 (通过依赖注入)。
          *
-         * @var Linked3_Book_AI_Caller_Interface
+         * @var BookAICallerInterface
          */
         protected $ai_caller;
 
@@ -57,19 +59,19 @@ class Linked3_Book_Pipeline_Orchestrator {
         /**
          * 构造函数 — 依赖注入。
          *
-         * @param Linked3_Book_AI_Caller_Interface|null       $ai_caller       AI 调用器。
+         * @param BookAICallerInterface|null       $ai_caller       AI 调用器。
          * @param Linked3_Book_Prompt_Provider_Interface|null $prompt_provider 提示词提供者。
          * @param Linked3_Book_Cost_Tracker_Interface|null    $cost_tracker    成本追踪器。
          */
         public function __construct(
-                Linked3_Book_AI_Caller_Interface $ai_caller = null,
+                BookAICallerInterface $ai_caller = null,
                 Linked3_Book_Prompt_Provider_Interface $prompt_provider = null,
                 Linked3_Book_Cost_Tracker_Interface $cost_tracker = null
         ) {
                 // 默认使用 Book_Factory 的现有实现 (向后兼容)。
-                $this->ai_caller       = $ai_caller ?: new Linked3_Book_Default_AI_Caller();
-                $this->prompt_provider = $prompt_provider ?: new Linked3_Book_Prompt_Manager();
-                $this->cost_tracker    = $cost_tracker ?: new Linked3_Book_Default_Cost_Tracker();
+                $this->ai_caller       = $ai_caller ?: new BookDefaultAICaller();
+                $this->prompt_provider = $prompt_provider ?: new BookPromptManager();
+                $this->cost_tracker    = $cost_tracker ?: new BookDefaultCostTracker();
         }
 
         /**
@@ -90,7 +92,7 @@ class Linked3_Book_Pipeline_Orchestrator {
                 }
 
                 // 创建项目状态。
-                $state = new Linked3_Book_Project_State( '', array(
+                $state = new BookProjectState( '', array(
                         'book_title'      => $book_title,
                         'type'            => $type,
                         'mode'            => $mode,
@@ -117,7 +119,7 @@ class Linked3_Book_Pipeline_Orchestrator {
          * @return array|WP_Error
          */
         public function run_step( $project_id ) : mixed {
-                $state = Linked3_Book_Project_State::get_project( $project_id );
+                $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
                 }
@@ -136,8 +138,8 @@ class Linked3_Book_Pipeline_Orchestrator {
                 }
 
                 // 通过步骤注册表路由。
-                $step = Linked3_Book_Step_Registry::get_step( $current_step );
-                if ( $step instanceof Linked3_Book_Step_Interface ) {
+                $step = BookStepRegistry::get_step( $current_step );
+                if ( $step instanceof BookStepInterface ) {
                         return $step->execute( $state, $this );
                 }
 
@@ -157,7 +159,7 @@ class Linked3_Book_Pipeline_Orchestrator {
          * @return array|WP_Error
          */
         public function get_progress( $project_id ) {
-                $state = Linked3_Book_Project_State::get_project( $project_id );
+                $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
                 }
@@ -182,7 +184,7 @@ class Linked3_Book_Pipeline_Orchestrator {
          * @return array|WP_Error
          */
         public function regenerate_section( $project_id, $chapter_index, $section_index ) {
-                $state = Linked3_Book_Project_State::get_project( $project_id );
+                $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
                 }
@@ -199,7 +201,7 @@ class Linked3_Book_Pipeline_Orchestrator {
          * @return array|WP_Error
          */
         public function rollback_version( $project_id, $version_index ) {
-                $state = Linked3_Book_Project_State::get_project( $project_id );
+                $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
                 }

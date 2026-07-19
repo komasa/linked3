@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * BookFactory 默认 AI 调用器 (v19.0 新增)
  *
- * 实现 Linked3_Book_AI_Caller_Interface, 委托给现有的 AI 引擎。
+ * 实现 BookAICallerInterface, 委托给现有的 AI 引擎。
  * 作为默认实现, 保持与 v18.x 的向后兼容。
  *
  * 未来可替换为其他实现 (如多模型适配器、Mock 测试器)。
@@ -19,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Linked3_Book_Default_AI_Caller
+ * Class BookDefaultAICaller
  *
  * 默认 AI 调用器, 委托给 Linked3_AI_Engine 或 Linked3_OpenAI。
  */
-class Linked3_Book_Default_AI_Caller implements Linked3_Book_AI_Caller_Interface {
+class BookDefaultAICaller implements BookAICallerInterface {
 
 	/**
 	 * {@inheritdoc}

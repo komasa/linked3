@@ -1,27 +1,29 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Linked3 Book Factory — 写书工厂门面 (v19.0: 外观模式)
  *
  * v18.x: 上帝类, 1420 行, 承担流程编排+AI调用+成本核算+草稿重建等多重职责
  * v19.0: 保留为向后兼容的外观类 (Facade), 静态 API 不变,
- *        新代码应使用 Linked3_Book_Pipeline_Orchestrator (依赖注入, 可测试)
+ *        新代码应使用 BookPipelineOrchestrator (依赖注入, 可测试)
  *
  * 方案: S5 (G1) + S15 (G2内置State) + S16 (G2断点续作) + S17 (G2速率控制)
  * 公理: 工厂门面 — 对外暴露 create_book()，内部协调6步管线
  *
  * @package Linked3\BookFactory
  * @since   18.5.0
- * @deprecated 19.0 新代码请使用 Linked3_Book_Pipeline_Orchestrator
+ * @deprecated 19.0 新代码请使用 BookPipelineOrchestrator
  */
 
 namespace Linked3\Classes\BookFactory;
 
 
 
-    use \Linked3\Classes\BookFactory\Traits\Linked3_Outline_Merger;
-    use \Linked3\Classes\BookFactory\Traits\Linked3_Section_Expander;
-    use \Linked3\Classes\BookFactory\Traits\Linked3_Review_Linker;
-    use \Linked3\Classes\BookFactory\Traits\Linked3_Cost_Tracker;
+    use \Linked3\Classes\BookFactory\Traits\OutlineMerger;
+    use \Linked3\Classes\BookFactory\Traits\SectionExpander;
+    use \Linked3\Classes\BookFactory\Traits\ReviewLinker;
+    use \Linked3\Classes\BookFactory\Traits\CostTracker;
 
 
 
@@ -33,16 +35,16 @@ require_once $trait_dir . 'trait-linked3-section-expander.php';
 require_once $trait_dir . 'trait-linked3-review-linker.php';
 require_once $trait_dir . 'trait-linked3-cost-tracker.php';
 
-class Linked3_Book_Factory {
+class BookFactory {
     /**
      * v19.0: 获取 Pipeline_Orchestrator 实例 (推荐新代码使用)。
      *
-     * @return Linked3_Book_Pipeline_Orchestrator
+     * @return BookPipelineOrchestrator
      */
     public static function orchestrator() : mixed {
         static $instance = null;
         if ( null === $instance ) {
-            $instance = new Linked3_Book_Pipeline_Orchestrator();
+            $instance = new BookPipelineOrchestrator();
         }
         return $instance;
     }
@@ -50,7 +52,7 @@ class Linked3_Book_Factory {
     /** @var array 管线配置 (从 book.yaml 加载) */
     private $pipeline_config = null;
 
-    /** @var Linked3_Book_Project_State 项目状态 */
+    /** @var BookProjectState 项目状态 */
     private $state = null;
 
     /** @var array 路由配置 */
@@ -79,10 +81,10 @@ class Linked3_Book_Factory {
         }
 
         // 路由查询 (S3)
-        $route = Linked3_Type_Mode_Router::route( $params['type'], $params['mode'] );
+        $route = TypeModeRouter::route( $params['type'], $params['mode'] );
 
         // 初始化项目状态 (S2 + S15)
-        $state = new Linked3_Book_Project_State( '', array(
+        $state = new BookProjectState( '', array(
             'book_title'      => $params['book_title'],
             'type'            => $params['type'],
             'mode'            => $params['mode'],
@@ -96,7 +98,7 @@ class Linked3_Book_Factory {
         // v18.7: 零AI调用 — 只初始化状态, 不执行任何AI调用
         // 前端通过 run_step 分步触发 step1→step2→step3→step4→step5→step6
         // 每次Ajax只执行1次AI调用, 避免PHP超时
-        $state->set_status( Linked3_Book_Project_State::STATUS_IDLE );
+        $state->set_status( BookProjectState::STATUS_IDLE );
         $state->set( 'current_step', 'step1_demo' );
         $state->set( 'outline_iter_cursor', 0 ); // step3大纲迭代游标
         $state->set( 'expand_chapter_cursor', 0 );
@@ -106,7 +108,7 @@ class Linked3_Book_Factory {
         return array(
             'project_id'     => $project_id,
             'status'         => 'idle',
-            'progress_nonce' => Linked3_Book_Ajax_Actions::generate_progress_nonce( $project_id ),
+            'progress_nonce' => BookAjaxActions::generate_progress_nonce( $project_id ),
         );
     }
 
@@ -135,7 +137,7 @@ class Linked3_Book_Factory {
      * @return array|WP_Error
      */
     public static function run_step( $project_id ) {
-        $state = Linked3_Book_Project_State::get_project( $project_id );
+        $state = BookProjectState::get_project( $project_id );
         if ( ! $state ) {
             return new WP_Error( 'no_project', '项目不存在' );
         }
@@ -158,9 +160,9 @@ class Linked3_Book_Factory {
 
         // v18.11: 通过步骤注册表路由, 替代 switch-case 硬编码。
         // 第三方插件可通过 linked3_book_register_step 钩子注册自定义步骤。
-        $step = Linked3_Book_Step_Registry::get_step( $current_step );
+        $step = BookStepRegistry::get_step( $current_step );
 
-        if ( $step instanceof Linked3_Book_Step_Interface ) {
+        if ( $step instanceof BookStepInterface ) {
             return $step->execute( $state, $factory );
         }
 
@@ -176,32 +178,32 @@ class Linked3_Book_Factory {
     /**
      * v18.7: 执行step1演示 (1次AI调用)
      */
-        public function execute_step1_demo( $state ) { return Linked3_Book_Factory_Steps::execute_step1_demo($state); }
+        public function execute_step1_demo( $state ) { return BookFactorySteps::execute_step1_demo($state); }
 
     /**
      * v18.7: 执行step2探索 (1次AI调用)
      */
-        public function execute_step2_explore( $state ) { return Linked3_Book_Factory_Steps::execute_step2_explore($state); }
+        public function execute_step2_explore( $state ) { return BookFactorySteps::execute_step2_explore($state); }
 
     /**
      * v18.7: 执行step3单次大纲迭代 (1次AI调用)
      */
-        public function execute_step3_outline_iter( $state ) { return Linked3_Book_Factory_Steps::execute_step3_outline_iter($state); }
+        public function execute_step3_outline_iter( $state ) { return BookFactorySteps::execute_step3_outline_iter($state); }
 
     /**
      * v18.7: 执行step4单节扩写 (1次AI调用)
      */
-        public function execute_step4_expand_one( $state ) { return Linked3_Book_Factory_Steps::execute_step4_expand_one($state); }
+        public function execute_step4_expand_one( $state ) { return BookFactorySteps::execute_step4_expand_one($state); }
 
     /**
      * v18.7: 执行step5拼接 (零AI调用)
      */
-        public function execute_step5_complete( $state ) { return Linked3_Book_Factory_Steps::execute_step5_complete($state); }
+        public function execute_step5_complete( $state ) { return BookFactorySteps::execute_step5_complete($state); }
 
     /**
      * v18.7: 执行step6审阅 (1次AI调用)
      */
-        public function execute_step6_review( $state ) { return Linked3_Book_Factory_Steps::execute_step6_review($state); }
+        public function execute_step6_review( $state ) { return BookFactorySteps::execute_step6_review($state); }
 
     /**
      * 执行6步管线
@@ -209,7 +211,7 @@ class Linked3_Book_Factory {
      * @param string $project_id
      */
     private function execute( $project_id ) : void {
-        $this->state = Linked3_Book_Project_State::get_project( $project_id );
+        $this->state = BookProjectState::get_project( $project_id );
         if ( ! $this->state ) {
             return;
         }
@@ -245,7 +247,7 @@ class Linked3_Book_Factory {
 
             // 预算检查 (S20)
             if ( $this->state->is_budget_exceeded() ) {
-                $this->state->set_status( Linked3_Book_Project_State::STATUS_PAUSED );
+                $this->state->set_status( BookProjectState::STATUS_PAUSED );
                 $this->state->log_step( $step_id, 'skipped', '预算超限' );
                 return;
             }
@@ -269,7 +271,7 @@ class Linked3_Book_Factory {
                 do_action( 'linked3/book/step_complete', $project_id, $step_id, $result );
             } catch ( \Throwable $e ) {
                 $this->state->log_step( $step_id, 'failed', $e->getMessage() );
-                $this->state->set_status( Linked3_Book_Project_State::STATUS_FAILED );
+                $this->state->set_status( BookProjectState::STATUS_FAILED );
                 $this->state->save_state();
                 do_action( 'linked3/book/step_failed', $project_id, $step_id, $e->getMessage() );
                 return;
@@ -278,7 +280,7 @@ class Linked3_Book_Factory {
             $this->state->save_state();
         }
 
-        $this->state->set_status( Linked3_Book_Project_State::STATUS_DONE );
+        $this->state->set_status( BookProjectState::STATUS_DONE );
         $this->state->set( 'current_step', 'done' );
         $this->state->save_state();
         do_action( 'linked3/book/progress', $project_id, 'done' );
@@ -289,7 +291,7 @@ class Linked3_Book_Factory {
      */
     public function pipeline_step1_demo() : array {
         $book_title = $this->state->get( 'book_title' );
-        $type_label = Linked3_Type_Mode_Router::get_type_label( $this->state->get( 'type' ) );
+        $type_label = TypeModeRouter::get_type_label( $this->state->get( 'type' ) );
 
         $prompt = "请为《{$book_title}》这{$this->route['type_unit']}{$type_label}模拟3位读者可能提出的问题，演示书稿价值。\n\n";
         $prompt .= "输出格式:\n读者1: 问题\n读者2: 问题\n读者3: 问题";
@@ -308,7 +310,7 @@ class Linked3_Book_Factory {
      */
     public function pipeline_step2_explore() : array {
         $book_title = $this->state->get( 'book_title' );
-        $type_label = Linked3_Type_Mode_Router::get_type_label( $this->state->get( 'type' ) );
+        $type_label = TypeModeRouter::get_type_label( $this->state->get( 'type' ) );
 
         $prompt = "请探索《{$book_title}》这{$this->route['type_unit']}{$type_label}的核心主题、目标读者、价值主张。\n\n";
         $prompt .= "输出格式:\n核心主题: ...\n目标读者: ...\n价值主张: ...\n关键章节方向: ...";
@@ -327,19 +329,19 @@ class Linked3_Book_Factory {
      */
     public function pipeline_step3_outline() : array {
         $level = $this->state->get( 'iteration_level', 'standard' );
-        $levels = Linked3_Type_Mode_Router::get_all_iteration_levels();
+        $levels = TypeModeRouter::get_all_iteration_levels();
         $max_iter = isset( $levels[ $level ]['iterations'] ) ? $levels[ $level ]['iterations'] : 3;
 
         // N1: 从外置提示词管理器获取提示词模板
         $book_title = $this->state->get( 'book_title' );
         $type = $this->state->get( 'type' );
         $mode = $this->state->get( 'mode' );
-        $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
+        $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
 
         $versions = array();
         for ( $i = 1; $i <= $max_iter; $i++ ) {
             // N1: 使用外置提示词, 填充变量
-            $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step3_outline', $vars, $i );
+            $prompt = BookPromptManager::get_prompt( 'step3_outline', $vars, $i );
 
             // 记录当前提示词到State (N4: 前端可见)
             $this->state->set( 'current_prompt', $prompt );
@@ -388,7 +390,7 @@ class Linked3_Book_Factory {
         $type = $this->state->get( 'type' );
         $mode = $this->state->get( 'mode' );
         $level = $this->state->get( 'iteration_level', 'standard' );
-        $vars = Linked3_Book_Prompt_Manager::build_context_vars( $book_title, $type, $mode, $level );
+        $vars = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );
 
         // 计算总数
         foreach ( $chapters as $ch ) {
@@ -424,7 +426,7 @@ class Linked3_Book_Factory {
                     'chapter_index'  => $ch_idx + 1,
                     'section_index'  => $sec_idx + 1,
                 ) );
-                $prompt = Linked3_Book_Prompt_Manager::get_prompt( 'step4_expand', $section_vars, 1 );
+                $prompt = BookPromptManager::get_prompt( 'step4_expand', $section_vars, 1 );
 
                 // N4: 记录当前提示词到State (前端可见)
                 $this->state->set( 'current_prompt', $prompt );
@@ -509,8 +511,8 @@ class Linked3_Book_Factory {
         if ( empty( $template ) ) {
             $template = array( 'chapter_prefix' => '第', 'chapter_suffix' => '章' );
         }
-        $result = Linked3_Section_Stitcher::stitch( $full_chapters, $template, $book_title );
-        $files = Linked3_Section_Stitcher::save_to_file( $this->state->project_id, $result['markdown'], $result['html'] );
+        $result = SectionStitcher::stitch( $full_chapters, $template, $book_title );
+        $files = SectionStitcher::save_to_file( $this->state->project_id, $result['markdown'], $result['html'] );
 
         $this->state->set( 'draft_markdown', $result['markdown'] );
         $this->state->set( 'draft_html', $result['html'] );
@@ -556,8 +558,8 @@ class Linked3_Book_Factory {
         $this->state->set( 'review_suggestions', $suggestions );
 
         // 重新保存文件
-        $html = Linked3_Section_Stitcher::markdown_to_html( $reviewed );
-        $files = Linked3_Section_Stitcher::save_to_file( $this->state->project_id, $reviewed, $html );
+        $html = SectionStitcher::markdown_to_html( $reviewed );
+        $files = SectionStitcher::save_to_file( $this->state->project_id, $reviewed, $html );
         $this->state->set( 'draft_files', $files );
 
         return array(
@@ -575,7 +577,7 @@ class Linked3_Book_Factory {
      * @return array|WP_Error
      */
     public static function regenerate_section( $project_id, $chapter_index, $section_index ) {
-        $state = Linked3_Book_Project_State::get_project( $project_id );
+        $state = BookProjectState::get_project( $project_id );
         if ( ! $state ) {
             return new WP_Error( 'no_project', '项目不存在' );
         }
@@ -632,14 +634,14 @@ class Linked3_Book_Factory {
     /**
      * 增量重拼书稿 (S13)
      */
-        public function rebuild_draft() { return Linked3_Book_Factory_Utils::rebuild_draft(); }
+        public function rebuild_draft() { return BookFactoryUtils::rebuild_draft(); }
 
     /**
      * 加载管线配置 (book.yaml)
      *
      * @return array
      */
-        public function load_pipeline_config() { return Linked3_Book_Factory_Utils::load_pipeline_config(); }
+        public function load_pipeline_config() { return BookFactoryUtils::load_pipeline_config(); }
 
     /**
      * 检查步骤是否启用
@@ -665,21 +667,21 @@ class Linked3_Book_Factory {
      */
     private function step_to_status( $step_id ) {
         $map = array(
-            'step1_demo'     => Linked3_Book_Project_State::STATUS_DEMOING,
-            'step2_explore'  => Linked3_Book_Project_State::STATUS_EXPLORING,
-            'step3_outline'  => Linked3_Book_Project_State::STATUS_OUTLINING,
-            'step4_expand'   => Linked3_Book_Project_State::STATUS_EXPANDING,
-            'step5_complete' => Linked3_Book_Project_State::STATUS_COMPLETING,
-            'step6_review'   => Linked3_Book_Project_State::STATUS_REVIEWING,
+            'step1_demo'     => BookProjectState::STATUS_DEMOING,
+            'step2_explore'  => BookProjectState::STATUS_EXPLORING,
+            'step3_outline'  => BookProjectState::STATUS_OUTLINING,
+            'step4_expand'   => BookProjectState::STATUS_EXPANDING,
+            'step5_complete' => BookProjectState::STATUS_COMPLETING,
+            'step6_review'   => BookProjectState::STATUS_REVIEWING,
         );
-        return isset( $map[ $step_id ] ) ? $map[ $step_id ] : Linked3_Book_Project_State::STATUS_IDLE;
+        return isset( $map[ $step_id ] ) ? $map[ $step_id ] : BookProjectState::STATUS_IDLE;
     }
 
     private function smart_split_outline( $content ) {
-        return Linked3_Book_Factory_Utils::smart_split_outline( $content );
+        return BookFactoryUtils::smart_split_outline( $content );
     }
     private function parse_outline( $content ) {
-        return Linked3_Book_Factory_Utils::parse_outline( $content );
+        return BookFactoryUtils::parse_outline( $content );
     }
     private function call_ai_with_rate_limit( $prompt ) {
         $min_interval = 1.0;
