@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Audit_Logger — extracted from RateLimiterV2.php during PSR-4 migration.
+ * AuditLogger — extracted from RateLimiterV2.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Security
  */
@@ -12,9 +12,9 @@ namespace Linked3\Classes\Security;
 if (!defined('ABSPATH')) exit;
 
 class AuditLogger {
-    private static ?Linked3_Audit_Logger $instance = null;
+    private static ?AuditLogger $instance = null;
 
-    public static function instance(): Linked3_Audit_Logger {
+    public static function instance(): AuditLogger {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

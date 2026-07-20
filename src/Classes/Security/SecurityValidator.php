@@ -197,8 +197,8 @@ class SecurityValidator {
             'time' => time(),
         ];
         linked3_dispatch('linked3.security.violation', $violation);
-        if (class_exists('\Linked3\Classes\Security\Linked3_Audit_Logger')) {
-            Linked3_Audit_Logger::instance()->log('security_violation', $violation);
+        if (class_exists('\Linked3\Classes\Security\AuditLogger')) {
+            AuditLogger::instance()->log('security_violation', $violation);
         }
     }
 }

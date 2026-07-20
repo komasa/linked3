@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Security_Bootstrap — extracted from RateLimiterV2.php during PSR-4 migration.
+ * SecurityBootstrap — extracted from RateLimiterV2.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Security
 
@@ -21,7 +21,7 @@ class SecurityBootstrap {
         $container->set('security.validator', fn() => SecurityValidator::instance());
         $container->set('security.rate_limiter', fn() => RateLimiterV2::instance());
         $container->set('security.async_queue', fn() => AsyncQueue::instance());
-        $container->set('security.audit', fn() => Linked3_Audit_Logger::instance());
+        $container->set('security.audit', fn() => AuditLogger::instance());
 
         // 监听安全违规
         linked3_subscribe('linked3.security.violation', function(Linked3_Event $evt) {
