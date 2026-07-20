@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_BrandSystem_5D — extracted from Diagram30Spectrum.php during PSR-4 migration.
+ * DiagramBrandSystem5D — extracted from Diagram30Spectrum.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

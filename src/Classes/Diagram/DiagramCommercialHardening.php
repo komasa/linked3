@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Commercial_Hardening — extracted from Diagram30Spectrum.php during PSR-4 migration.
+ * DiagramCommercialHardening — extracted from Diagram30Spectrum.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -24,10 +24,10 @@ class DiagramCommercialHardening {
         $checks['security'] = class_exists('\Linked3\Classes\Diagram\SecurityValidator');
 
         // 缓存检查
-        $checks['cache'] = class_exists('\Linked3\Classes\Diagram\Linked3_Performance_Cache');
+        $checks['cache'] = class_exists('\Linked3\Classes\Scale\PerformanceCache');
 
         // 审计检查
-        $checks['audit'] = class_exists('\Linked3\Classes\Diagram\Linked3_Audit_Logger');
+        $checks['audit'] = class_exists('\Linked3\Classes\Security\AuditLogger');
 
         $passed = count(array_filter($checks));
         return [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_FooterFollowup_Matrix — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
+ * DiagramFooterFollowupMatrix — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

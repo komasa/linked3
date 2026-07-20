@@ -42,7 +42,7 @@ class DiagramMETALayer {
     }
 
     private function buildColorSystem(array $config): array {
-        $cs = new Linked3_Diagram_Color_System();
+        $cs = new DiagramColorSystem();
         return array_merge($cs->getColorPalette(), $config['color'] ?? []);
     }
 

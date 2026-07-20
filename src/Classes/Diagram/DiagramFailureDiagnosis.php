@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Failure_Diagnosis — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
+ * DiagramFailureDiagnosis — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) exit;
 
 class DiagramFailureDiagnosis {
     public function diagnose(array $generated, array $seriesConfig): array {
-        $seriesDNA = new Linked3_Diagram_SeriesDNA_4Lock();
+        $seriesDNA = new DiagramSeriesDNA4Lock();
         $lockResult = $seriesDNA->verifyLocks($seriesConfig, $generated);
 
         $fractures = [];

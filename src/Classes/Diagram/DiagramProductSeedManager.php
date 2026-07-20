@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_ProductSeed_Manager — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
+ * DiagramProductSeedManager — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -11,10 +11,10 @@ namespace Linked3\Classes\Diagram;
 if (!defined('ABSPATH')) exit;
 
 class DiagramProductSeedManager {
-    private static ?Linked3_Diagram_ProductSeed_Manager $instance = null;
+    private static ?DiagramProductSeedManager $instance = null;
     private array $seeds = [];
 
-    public static function instance(): Linked3_Diagram_ProductSeed_Manager {
+    public static function instance(): DiagramProductSeedManager {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

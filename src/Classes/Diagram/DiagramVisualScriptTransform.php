@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_VisualScript_Transform — extracted from Diagram30Spectrum.php during PSR-4 migration.
+ * DiagramVisualScriptTransform — extracted from Diagram30Spectrum.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
  */

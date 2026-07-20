@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Footer_Registry — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
+ * DiagramFooterRegistry — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -11,10 +11,10 @@ namespace Linked3\Classes\Diagram;
 if (!defined('ABSPATH')) exit;
 
 class DiagramFooterRegistry {
-    private static ?Linked3_Diagram_Footer_Registry $instance = null;
+    private static ?DiagramFooterRegistry $instance = null;
     private array $footers = [];
 
-    public static function instance(): Linked3_Diagram_Footer_Registry {
+    public static function instance(): DiagramFooterRegistry {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

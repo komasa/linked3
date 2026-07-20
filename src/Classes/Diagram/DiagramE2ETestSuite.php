@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_E2E_TestSuite — extracted from Diagram30Spectrum.php during PSR-4 migration.
+ * DiagramE2ETestSuite — extracted from Diagram30Spectrum.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -64,19 +64,19 @@ class DiagramE2ETestSuite {
         return ['passed' => $count === 6, 'msg' => "6种Endpoint: {$count}/6"];
     }
     private function testValidation13Dim(): array {
-        $ok = class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_Validation_13Dim');
+        $ok = class_exists('\Linked3\Classes\Diagram\DiagramValidation13Dim');
         return ['passed' => $ok, 'msg' => $ok ? 'OK' : '13维校验缺失'];
     }
     private function testPromptCompiler(): array {
-        $ok = class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_Prompt_Compiler');
+        $ok = class_exists('\Linked3\Classes\Diagram\DiagramPromptCompiler');
         return ['passed' => $ok, 'msg' => $ok ? 'OK' : '编译器缺失'];
     }
     private function testSeedSystem(): array {
-        $ok = class_exists('\Linked3\Classes\Diagram\DiagramCharacterSeedManager') && class_exists('\Linked3\Classes\Diagram\Linked3_Diagram_ProductSeed_Manager');
+        $ok = class_exists('\Linked3\Classes\Diagram\DiagramCharacterSeedManager') && class_exists('\Linked3\Classes\Diagram\DiagramProductSeedManager');
         return ['passed' => $ok, 'msg' => $ok ? 'OK' : 'Seed系统缺失'];
     }
     private function testCommercialHardening(): array {
-        $result = (new Linked3_Diagram_Commercial_Hardening())->harden();
+        $result = (new DiagramCommercialHardening())->harden();
         return ['passed' => $result['hardened'], 'msg' => "加固: {$result['passed']}/{$result['total']}"];
     }
 }

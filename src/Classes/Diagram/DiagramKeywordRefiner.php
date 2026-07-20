@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Keyword_Refiner — extracted from DiagramMETALayer.php during PSR-4 migration.
+ * DiagramKeywordRefiner — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

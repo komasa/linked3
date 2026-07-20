@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Followup_Registry — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
+ * DiagramFollowupRegistry — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -11,10 +11,10 @@ namespace Linked3\Classes\Diagram;
 if (!defined('ABSPATH')) exit;
 
 class DiagramFollowupRegistry {
-    private static ?Linked3_Diagram_Followup_Registry $instance = null;
+    private static ?DiagramFollowupRegistry $instance = null;
     private array $followups = [];
 
-    public static function instance(): Linked3_Diagram_Followup_Registry {
+    public static function instance(): DiagramFollowupRegistry {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

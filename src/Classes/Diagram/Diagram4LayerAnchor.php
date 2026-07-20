@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_4Layer_Anchor — extracted from Diagram3LayerDepth.php during PSR-4 migration.
+ * Diagram4LayerAnchor — extracted from Diagram3LayerDepth.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
  */

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_SeriesDNA_4Lock — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
+ * DiagramSeriesDNA4Lock — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

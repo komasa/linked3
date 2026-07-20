@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Color_System — extracted from Diagram3LayerDepth.php during PSR-4 migration.
+ * DiagramColorSystem — extracted from Diagram3LayerDepth.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

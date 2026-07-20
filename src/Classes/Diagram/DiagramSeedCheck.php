@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Seed_Check — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
+ * DiagramSeedCheck — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -32,7 +32,7 @@ class DiagramSeedCheck {
         return ['passed' => $passed, 'msg' => $passed ? 'OK' : '性格DNA缺失'];
     }
     private function checkPriority(array $seed, array $gen): array {
-        $locker = new Linked3_Diagram_Seed_Lock();
+        $locker = new DiagramSeedLock();
         $result = $locker->checkLock($seed, $gen);
         $allPassed = $result['critical']['passed'] && $result['important']['passed'];
         return ['passed' => $allPassed, 'detail' => $result];

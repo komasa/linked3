@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_8System_CrossRef — extracted from Diagram30Spectrum.php during PSR-4 migration.
+ * Diagram8SystemCrossRef — extracted from Diagram30Spectrum.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

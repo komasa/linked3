@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Loop_Iterator — extracted from DiagramMETALayer.php during PSR-4 migration.
+ * DiagramLoopIterator — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -31,7 +31,7 @@ class DiagramLoopIterator {
         for ($iter = 1; $iter <= $maxIterations; $iter++) {
             // Step 1: 生成/使用当前版本
             // Step 2: 校验13维
-            $validator = new Linked3_Diagram_Validation_13Dim();
+            $validator = new DiagramValidation13Dim();
             $validation = $validator->validate($current);
 
             $history[] = [

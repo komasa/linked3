@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_TextEmbed_Validator — extracted from DiagramMETALayer.php during PSR-4 migration.
+ * DiagramTextEmbedValidator — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

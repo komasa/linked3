@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_3D_AR_Subsystem — extracted from Diagram30Spectrum.php during PSR-4 migration.
+ * Diagram3DARSubsystem — extracted from Diagram30Spectrum.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Seed_Reference — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
+ * DiagramSeedReference — extracted from DiagramCharacterSeedManager.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Prompt_Compressor — extracted from DiagramMETALayer.php during PSR-4 migration.
+ * DiagramPromptCompressor — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

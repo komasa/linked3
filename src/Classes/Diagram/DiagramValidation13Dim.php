@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Validation_13Dim — extracted from Diagram3LayerDepth.php during PSR-4 migration.
+ * DiagramValidation13Dim — extracted from Diagram3LayerDepth.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

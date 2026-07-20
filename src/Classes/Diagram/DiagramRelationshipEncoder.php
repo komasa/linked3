@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Relationship_Encoder — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
+ * DiagramRelationshipEncoder — extracted from DiagramEndpointRegistry.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 

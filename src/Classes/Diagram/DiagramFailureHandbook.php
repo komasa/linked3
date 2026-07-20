@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Failure_Handbook — extracted from DiagramMETALayer.php during PSR-4 migration.
+ * DiagramFailureHandbook — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -64,7 +64,7 @@ class DiagramFailureHandbook {
 
     public function diagnose(array $diagram): array {
         $found = [];
-        $validator = new Linked3_Diagram_Validation_13Dim();
+        $validator = new DiagramValidation13Dim();
         $validation = $validator->validate($diagram);
 
         foreach ($validation['checks'] as $dim => $check) {

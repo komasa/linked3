@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Diagram_Prompt_Compiler — extracted from DiagramMETALayer.php during PSR-4 migration.
+ * DiagramPromptCompiler — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
 
@@ -12,13 +12,13 @@ if (!defined('ABSPATH')) exit;
 
 class DiagramPromptCompiler {
     private DiagramMETALayer $metaLayer;
-    private Linked3_Diagram_Script_Layer $scriptLayer;
-    private Linked3_Diagram_Validation_Layer $validationLayer;
+    private DiagramScriptLayer $scriptLayer;
+    private DiagramValidationLayer $validationLayer;
 
     public function __construct() {
         $this->metaLayer = new DiagramMETALayer();
-        $this->scriptLayer = new Linked3_Diagram_Script_Layer();
-        $this->validationLayer = new Linked3_Diagram_Validation_Layer();
+        $this->scriptLayer = new DiagramScriptLayer();
+        $this->validationLayer = new DiagramValidationLayer();
     }
 
     /**
@@ -36,7 +36,7 @@ class DiagramPromptCompiler {
         // 字符数检查
         $charCount = strlen($prompt);
         if ($charCount > 4500) {
-            $compressor = new Linked3_Diagram_Prompt_Compressor();
+            $compressor = new DiagramPromptCompressor();
             $prompt = $compressor->compress($prompt);
             $charCount = strlen($prompt);
         }
