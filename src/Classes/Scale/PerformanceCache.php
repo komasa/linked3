@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Performance_Cache — extracted from VectorIncremental.php during PSR-4 migration.
+ * PerformanceCache — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
 
@@ -11,11 +11,11 @@ namespace Linked3\Classes\Scale;
 if (!defined('ABSPATH')) exit;
 
 class PerformanceCache {
-    private static ?Linked3_Performance_Cache $instance = null;
+    private static ?PerformanceCache $instance = null;
     private array $cache = [];
     private int $ttl = 3600;
 
-    public static function instance(): Linked3_Performance_Cache {
+    public static function instance(): PerformanceCache {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

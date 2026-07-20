@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Scale_Bootstrap — extracted from VectorIncremental.php during PSR-4 migration.
+ * ScaleBootstrap — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
 
@@ -19,10 +19,10 @@ class ScaleBootstrap {
 
         $container = linked3_container();
         $container->set('vector.incremental', fn() => VectorIncremental::instance());
-        $container->set('i18n.manager', fn() => Linked3_i18n_Manager::instance());
-        $container->set('multisite.publisher', fn() => Linked3_MultiSite_Publisher::instance());
-        $container->set('batch.engine', fn() => Linked3_Batch_Engine::instance());
-        $container->set('performance.cache', fn() => Linked3_Performance_Cache::instance());
+        $container->set('i18n.manager', fn() => I18nManager::instance());
+        $container->set('multisite.publisher', fn() => MultiSitePublisher::instance());
+        $container->set('batch.engine', fn() => BatchEngine::instance());
+        $container->set('performance.cache', fn() => PerformanceCache::instance());
 
         linked3_dispatch('linked3.scale.boot', ['version' => LINKED3_VERSION]);
     }

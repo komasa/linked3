@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_MultiSite_Publisher — extracted from VectorIncremental.php during PSR-4 migration.
+ * MultiSitePublisher — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
 
@@ -11,10 +11,10 @@ namespace Linked3\Classes\Scale;
 if (!defined('ABSPATH')) exit;
 
 class MultiSitePublisher {
-    private static ?Linked3_MultiSite_Publisher $instance = null;
+    private static ?MultiSitePublisher $instance = null;
     private array $sites = [];
 
-    public static function instance(): Linked3_MultiSite_Publisher {
+    public static function instance(): MultiSitePublisher {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

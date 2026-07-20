@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Batch_Generate_Handler — extracted from VectorIncremental.php during PSR-4 migration.
+ * BatchGenerateHandler — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
 

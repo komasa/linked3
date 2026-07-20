@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_i18n_Manager — extracted from VectorIncremental.php during PSR-4 migration.
+ * I18nManager — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
 
@@ -11,7 +11,7 @@ namespace Linked3\Classes\Scale;
 if (!defined('ABSPATH')) exit;
 
 class I18nManager {
-    private static ?Linked3_i18n_Manager $instance = null;
+    private static ?I18nManager $instance = null;
     private array $translations = [];
     private string $locale = 'zh_CN';
     private array $supported = [
@@ -19,7 +19,7 @@ class I18nManager {
         'ja_JP' => '日本語', 'ko_KR' => '한국어',
     ];
 
-    public static function instance(): Linked3_i18n_Manager {
+    public static function instance(): I18nManager {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Batch_Engine — extracted from VectorIncremental.php during PSR-4 migration.
+ * BatchEngine — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
 
@@ -11,10 +11,10 @@ namespace Linked3\Classes\Scale;
 if (!defined('ABSPATH')) exit;
 
 class BatchEngine {
-    private static ?Linked3_Batch_Engine $instance = null;
+    private static ?BatchEngine $instance = null;
     private int $batchSize = 10;
 
-    public static function instance(): Linked3_Batch_Engine {
+    public static function instance(): BatchEngine {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -26,7 +26,7 @@ class BatchEngine {
         $batches = array_chunk($topics, $this->batchSize);
         foreach ($batches as $i => $batch) {
             foreach ($batch as $topic) {
-                $queue->enqueue('Linked3_Batch_Generate_Handler', [
+                $queue->enqueue('BatchGenerateHandler', [
                     'batch_id' => $batchId,
                     'topic' => $topic,
                     'template' => $template,
