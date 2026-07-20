@@ -226,13 +226,6 @@ class DiagramTypeRegistry {
     }
 
     /**
-     * 按分类获取。
-     */
-    public function byCategory(string $category): array {
-        return array_filter($this->types, fn($t) => $t['category'] === $category);
-    }
-
-    /**
      * 构建决策树。
      */
     private function buildDecisionTree(): void {
@@ -266,20 +259,6 @@ class DiagramTypeRegistry {
             }
         }
         return 'Stacked'; // 默认
-    }
-
-    /**
-     * 获取决策树。
-     */
-    public function getDecisionTree(): array {
-        return $this->decisionTree;
-    }
-
-    /**
-     * 获取 Prompt 片段。
-     */
-    public function getPromptFragment(string $typeId): string {
-        return $this->types[$typeId]['prompt_fragment'] ?? 'Stacked rectangular blocks with text EMBEDDED.';
     }
 
     /**

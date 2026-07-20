@@ -10,12 +10,7 @@ declare(strict_types=1);
  *
  * 核心能力:
  *   1. reverse_to_genesis_seed(): 逆向结果 → Genesis SEED DNA
- *   2. genesis_to_reverse_target(): Genesis产物 → 逆向拆解目标
- *   3. reverse_enhance_genesis(): 逆向优秀作品 → 增强Genesis模板
- *   4. closed_loop_production(): 闭环生产 (逆向→正向→校验→迭代)
- *
- * 闭环流程:
- *   优秀作品 → 逆向拆解(Reverse_Engine) → SEED DNA → Genesis生产 → 新作品 → 质量校验 → 迭代
+ *   2. reverse_enhance_genesis(): 逆向优秀作品 → 增强Genesis模板
  *
  * @package Linked3\Classes\OS
  * @since 16.0.0
@@ -122,31 +117,6 @@ class OSGenesisBridge {
     }
 
     /**
-     * Genesis产物 → 逆向拆解目标
-     *
-     * @param array $genesis_output Genesis引擎产出
-     * @return string 逆向拆解目标描述
-     */
-    public static function genesis_to_reverse_target(array $genesis_output): string {
-        $parts = [];
-
-        if (!empty($genesis_output['prompt'])) {
-            $parts[] = $genesis_output['prompt'];
-        }
-        if (!empty($genesis_output['style_mod'])) {
-            $parts[] = "Style: " . $genesis_output['style_mod'];
-        }
-        if (!empty($genesis_output['subject'])) {
-            $parts[] = "Subject: " . $genesis_output['subject'];
-        }
-        if (!empty($genesis_output['environment'])) {
-            $parts[] = "Environment: " . $genesis_output['environment'];
-        }
-
-        return implode("\n", $parts);
-    }
-
-    /**
      * 逆向优秀作品 → 增强Genesis模板
      *
      * @param string $excellent_work_desc 优秀作品描述
@@ -178,71 +148,6 @@ class OSGenesisBridge {
             'enhanced_seed' => $seed,
             'message' => __('优秀作品已逆向为Genesis SEED模板，可用于后续生产', 'linked3-ai'),
         ];
-    }
-
-    /**
-     * 闭环生产: 逆向→正向→校验→迭代
-     *
-     * @param string $excellent_work 优秀作品描述
-     * @param array $production_config 生产配置
-     * @return array 闭环生产结果
-     */
-    public static function closed_loop_production(string $excellent_work, array $production_config = []): array {
-        $result = [
-            'pipeline' => 'v18_genesis_closed_loop',
-            'version' => '16.0.0',
-            'stages' => [],
-        ];
-
-        // Stage 1: 逆向拆解
-        $engineer_type = $production_config['engineer_type'] ?? 'visual_system';
-        $reverse_result = self::reverse_enhance_genesis($excellent_work, $engineer_type);
-        $result['stages']['reverse'] = [
-            'status' => $reverse_result['status'],
-            'seed_created' => !empty($reverse_result['enhanced_seed']['seed_id']),
-        ];
-
-        // Stage 2: Genesis正向生产 (如果Genesis引擎可用)
-        if (class_exists('\Linked3\Classes\Genesis\GenesisV7Generator')) {
-            try {
-                $genesis_input = [
-                    'seed_dna' => $reverse_result['enhanced_seed'],
-                    'script' => $production_config['script'] ?? '',
-                    'style' => $production_config['style'] ?? 'cyberpunk_neon',
-                ];
-                $genesis_output = ['status' => 'ok', 'message' => __('Genesis生产完成(模拟)', 'linked3-ai')];
-                $result['stages']['genesis'] = $genesis_output;
-            } catch (\Throwable $e) {
-                $result['stages']['genesis'] = ['status' => 'error', 'error' => $e->getMessage()];
-            }
-        } else {
-            $result['stages']['genesis'] = ['status' => 'skipped', 'reason' => 'Genesis引擎未加载'];
-        }
-
-        // Stage 3: 质量校验
-        if (class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
-            try {
-                $quality = ['status' => 'ok', 'message' => __('质量门禁通过(模拟)', 'linked3-ai')];
-                $result['stages']['quality'] = $quality;
-            } catch (\Throwable $e) {
-                $result['stages']['quality'] = ['status' => 'error', 'error' => $e->getMessage()];
-            }
-        }
-
-        // Stage 4: 迭代建议
-        $result['stages']['iteration'] = [
-            'status' => 'ok',
-            'suggestion' => '基于闭环结果，建议迭代优化逆向模板',
-        ];
-
-        $result['final_output'] = [
-            'stages_completed' => count(array_filter($result['stages'], function($s) {
-                return ($s['status'] ?? '') === 'ok';
-            })),
-            'stages_total' => count($result['stages']),
-        ];
-
-        return $result;
     }
 
     /**
