@@ -47,6 +47,8 @@ require_once __DIR__ . '/Storage/CosEvolutionArchive.php';
 // v20.4-fix17: 加载复合杠杆注册表
 require_once __DIR__ . '/../MetaLever/Composite/CompositeLever.php';
 require_once __DIR__ . '/../MetaLever/Composite/CompositeLeverRegistry.php';
+// v27.17.10: 加载 COSReporter (统计/仪表盘查询, 从 COSEngine 拆分)
+require_once __DIR__ . '/COSReporter.php';
 /**
  * Class COSEngine
  *
@@ -450,71 +452,5 @@ class COSEngine
         // 去掉行首的引号残留
         $text = preg_replace('/^\s*["""\']+/m', '', $text);
         return trim($text);
-    }
-
-    /**
-     * 获取 Skill 库统计。
-     *
-     * @return array
-     */
-    public function skill_stats(): array
-    {
-        return COSSkillLibrary::stats();
-    }
-
-    /**
-     * 获取演化归档统计。
-     *
-     * @return array
-     */
-    public function archive_stats(): array
-    {
-        return COSEvolutionArchive::stats();
-    }
-
-    /**
-     * 获取最近的演化快照。
-     *
-     * @param int $n
-     * @return array
-     */
-    public function recent_evolutions(int $n = 10): array
-    {
-        return COSEvolutionArchive::recent($n);
-    }
-
-    /**
-     * 获取 Top-K Skill。
-     *
-     * @param int $top_k
-     * @return array
-     */
-    public function top_skills(int $top_k = 10): array
-    {
-        return COSSkillLibrary::top_k($top_k);
-    }
-
-    /**
-     * COS 系统总览 — 用于 UI 仪表盘。
-     *
-     * @return array
-     */
-    public function dashboard_overview(): array
-    {
-        $skill_stats   = $this->skill_stats();
-        $archive_stats = $this->archive_stats();
-
-        return [
-            'version'        => '20.0',
-            'axioms'         => ['信息熵减', '系统降维'],
-            'departments'    => ['FP', 'EX', 'C', 'O', 'A'],
-            'generations'    => ['G1', 'G2', 'G3'],
-            'skill_count'    => $skill_stats['count'],
-            'avg_fitness'    => $skill_stats['avg_fitness'],
-            'total_skill_usage' => $skill_stats['total_usage'],
-            'evolution_count'   => $archive_stats['count'],
-            'evolution_success_rate' => $archive_stats['success_rate'],
-            'by_generation'  => $archive_stats['by_generation'],
-        ];
     }
 }

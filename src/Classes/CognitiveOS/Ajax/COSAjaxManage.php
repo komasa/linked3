@@ -202,10 +202,10 @@ class COSAjaxManage
         }
 
         try {
-            $engine   = \Linked3\Classes\CognitiveOS\COSEngine::instance();
-            $overview = $engine->dashboard_overview();
-            $skills   = $engine->top_skills(5);
-            $recent   = $engine->recent_evolutions(5);
+            $reporter = new \Linked3\Classes\CognitiveOS\COSReporter();
+            $overview = $reporter->dashboard_overview();
+            $skills   = $reporter->top_skills(5);
+            $recent   = $reporter->recent_evolutions(5);
             wp_send_json_success([
                 'overview'      => $overview,
                 'top_skills'    => $skills,
