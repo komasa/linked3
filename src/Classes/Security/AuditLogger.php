@@ -30,14 +30,10 @@ class AuditLogger {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_audit_logs';
 
-        $wpdb->insert($table, [
-            'user_id' => get_current_user_id(),
-            'action' => $action,
-            'details' => wp_json_encode($details, JSON_UNESCAPED_UNICODE),
-            'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
-            'user_agent' => mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255),
-            'time' => current_time('mysql'),
-        ]);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (user_id, action, details, ip, user_agent, time) VALUES (%s, %s, %s, %s, %s, %s)",
+            get_current_user_id(), $action, wp_json_encode($details, JSON_UNESCAPED_UNICODE), $_SERVER['REMOTE_ADDR'] ?? '', mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255), current_time('mysql')
+        ));
     }
 
     /**
@@ -53,7 +49,7 @@ class AuditLogger {
         $where .= ' ORDER BY time DESC LIMIT %d';
         $params[] = $limit;
         $query = $wpdb->prepare("SELECT * FROM {$table} WHERE {$where}", ...$params);
-        return $wpdb->get_results($query, ARRAY_A);
+        return $wpdb->get_results($query, ARRAY_A); // $wpdb->prepare applied above
     }
 
     /**

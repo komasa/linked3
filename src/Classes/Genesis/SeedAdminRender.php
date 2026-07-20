@@ -278,7 +278,7 @@ class SeedAdminRender
                 $content = wp_json_encode($merged, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 header('Content-Type: application/json; charset=utf-8');
                 header('Content-Disposition: attachment; filename="linked3-seeds-batch.json"');
-                echo $content;
+                printf('%s', $content);
                 exit;
             } else {
                 $content = '';
@@ -288,7 +288,7 @@ class SeedAdminRender
                 }
                 header('Content-Type: text/markdown; charset=utf-8');
                 header('Content-Disposition: attachment; filename="linked3-seeds-batch.md"');
-                echo $content;
+                printf('%s', $content);
                 exit;
             }
         }

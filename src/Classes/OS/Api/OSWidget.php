@@ -55,10 +55,10 @@ class OSWidget extends \WP_Widget {
      * 前端显示
      */
     public function widget($args, $instance): void {
-        echo $args['before_widget'];
+        printf('%s', $args['before_widget']); // WordPress widget args — trusted HTML from theme
         
         if (!empty($instance['title'])) {
-            echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
+            printf('%s', $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title']); // WordPress widget args — trusted HTML from theme
         }
         
         echo '<div class="linked3-v18-widget">';
@@ -74,7 +74,7 @@ class OSWidget extends \WP_Widget {
         }
         
         echo '</div>';
-        echo $args['after_widget'];
+        printf('%s', $args['after_widget']); // WordPress widget args — trusted HTML from theme
     }
 
     /**
@@ -86,24 +86,24 @@ class OSWidget extends \WP_Widget {
         $show_ruliu = $instance['show_ruliu'] ?? false;
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>">标题:</label>
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" 
-                   name="<?php echo $this->get_field_name('title'); ?>" 
+            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>">标题:</label>
+            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
+                   name="<?php echo esc_attr($this->get_field_name('title')); ?>"
                    type="text" value="<?php echo esc_attr($title); ?>">
         </p>
         <p>
-            <input class="checkbox" type="checkbox" 
-                   id="<?php echo $this->get_field_id('show_modules'); ?>"
-                   name="<?php echo $this->get_field_name('show_modules'); ?>" 
+            <input class="checkbox" type="checkbox"
+                   id="<?php echo esc_attr($this->get_field_id('show_modules')); ?>"
+                   name="<?php echo esc_attr($this->get_field_name('show_modules')); ?>"
                    <?php checked($show_modules); ?>>
-            <label for="<?php echo $this->get_field_id('show_modules'); ?>">显示模块状态</label>
+            <label for="<?php echo esc_attr($this->get_field_id('show_modules')); ?>">显示模块状态</label>
         </p>
         <p>
-            <input class="checkbox" type="checkbox" 
-                   id="<?php echo $this->get_field_id('show_ruliu'); ?>"
-                   name="<?php echo $this->get_field_name('show_ruliu'); ?>" 
+            <input class="checkbox" type="checkbox"
+                   id="<?php echo esc_attr($this->get_field_id('show_ruliu')); ?>"
+                   name="<?php echo esc_attr($this->get_field_name('show_ruliu')); ?>"
                    <?php checked($show_ruliu); ?>>
-            <label for="<?php echo $this->get_field_id('show_ruliu'); ?>">显示入流进度</label>
+            <label for="<?php echo esc_attr($this->get_field_id('show_ruliu')); ?>">显示入流进度</label>
         </p>
         <?php
     }

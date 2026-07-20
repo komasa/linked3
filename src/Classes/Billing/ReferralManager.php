@@ -50,13 +50,10 @@ class ReferralManager {
         if (!$referrer) return false;
 
         // 记录推荐关系
-        $wpdb->insert($table, [
-            'referrer_id' => $referrer,
-            'referred_id' => $referredUserId,
-            'referral_code' => $referralCode,
-            'status' => 'bound',
-            'bound_at' => current_time('mysql'),
-        ]);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (referrer_id, referred_id, referral_code, status, bound_at) VALUES (%s, %s, %s, %s, %s)",
+            $referrer, $referredUserId, $referralCode, 'bound', current_time('mysql')
+        ));
 
         linked3_dispatch('linked3.billing.referral.bound', [
             'referrer_id' => $referrer, 'referred_id' => $referredUserId,
@@ -81,11 +78,10 @@ class ReferralManager {
         $commission = round($paymentAmount * $this->commissionRate, 2);
 
         // 更新返佣金额
-        $wpdb->update($table, [
-            'total_payments' => ($referral['total_payments'] ?? 0) + $paymentAmount,
-            'total_commission' => ($referral['total_commission'] ?? 0) + $commission,
-            'status' => 'earning',
-        ], ['id' => $referral['id']]);
+        $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET total_payments = %s, total_commission = %s, status = %s WHERE id = %s",
+            ($referral['total_payments'] ?? 0) + $paymentAmount, ($referral['total_commission'] ?? 0) + $commission, 'earning', $referral['id']
+        ));
 
         linked3_dispatch('linked3.billing.commission.earned', [
             'referrer_id' => $referral['referrer_id'],

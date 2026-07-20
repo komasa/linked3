@@ -125,14 +125,10 @@ class GenesisLogger {
         }
 
         global $wpdb;
-        $wpdb->insert(self::$table, [
-            'job_id'     => self::$current_job_id ?: '',
-            'stage'      => $stage ?: '',
-            'level'      => $level,
-            'message'    => is_string($message) ? $message : json_encode($message, JSON_UNESCAPED_UNICODE),
-            'context'    => !empty($context) ? json_encode($context, JSON_UNESCAPED_UNICODE) : null,
-            'created_at' => current_time('mysql'),
-        ], ['%s', '%s', '%s', '%s', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO self::$table (job_id, stage, level, message, context, created_at) VALUES (%s, %s, %s, %s, %s, %s)",
+            self::$current_job_id ?: '', $stage ?: '', $level, is_string($message) ? $message : json_encode($message, JSON_UNESCAPED_UNICODE), !empty($context) ? json_encode($context, JSON_UNESCAPED_UNICODE) : null, current_time('mysql')
+        ));
     }
 
     public static function debug($message, $context = [], $stage = '') : void {
@@ -280,7 +276,7 @@ class GenesisLogger {
         // SQLSafety::validate_table_name() (regex whitelist + prefix
         // check). Table names are identifiers and cannot use $wpdb->prepare()
         // placeholders (those only work for values). Safe to interpolate.
-        return $wpdb->query("TRUNCATE TABLE " . $safe_table) !== false;
+        return $wpdb->query($wpdb->prepare("TRUNCATE TABLE %i", $safe_table)) !== false;
     }
 
     /**

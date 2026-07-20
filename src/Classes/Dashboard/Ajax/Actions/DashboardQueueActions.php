@@ -51,7 +51,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
             wp_send_json_error(['message' => __('表名校验失败', 'linked3')], 500);
         }
         $where = $status ? $wpdb->prepare("WHERE status = %s", $status) : '';
-        $items = $wpdb->get_results("SELECT * FROM {$table} {$where} ORDER BY added_at DESC LIMIT 50", ARRAY_A);
+        $items = $wpdb->get_results($wpdb->prepare("SELECT * FROM %s %s ORDER BY added_at DESC LIMIT 50", $table, $where), ARRAY_A)
         // v3.1.0: 解析 payload
         if (is_array($items)) {
             foreach ($items as &$item) {
@@ -83,7 +83,10 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_task_queue';
         $id = (int) ($_POST['id'] ?? 0);
-        $wpdb->update($table, ['status' => 'pending', 'error_message' => ''], ['id' => $id], ['%s', '%s'], ['%d']);
+        $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET status = %s, error_message = %s WHERE id = %d",
+            'pending', '', $id
+        ));
         wp_send_json_success(['retried' => true]);
     }
 
@@ -102,7 +105,10 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_task_queue';
         $id = (int) ($_POST['id'] ?? 0);
-        $wpdb->delete($table, ['id' => $id], ['%d']);
+        $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$table} WHERE id = %d",
+            $id
+        ));
         wp_send_json_success(['deleted' => true]);
     }
 

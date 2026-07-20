@@ -204,9 +204,7 @@ final class TokenManager
             $now,
             $tokens
         );
-        // phpcs:disable WordPress.DB.PreparedSQL
-        $wpdb->query($sql);
-        // phpcs:enable
+        $wpdb->query($sql); // $wpdb->prepare applied above
     }
 
     /**

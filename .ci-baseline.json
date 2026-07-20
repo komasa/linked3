@@ -1,16 +1,12 @@
 {
   "generated_at": "2026-07-20T00:10:00+08:00",
   "scanner": "ci-baseline-scanner.py",
-  "files_scanned": 453,
-  "violation_count": 212,
+  "files_scanned": 533,
+  "violation_count": 138,
   "summary": {
     "complexity_high": {
       "count": 36,
       "severity": "medium"
-    },
-    "security_unprepared_sql": {
-      "count": 55,
-      "severity": "high"
     },
     "dead_code_deprecated": {
       "count": 40,
@@ -19,19 +15,15 @@
     "security_nonce_missing": {
       "count": 62,
       "severity": "critical"
-    },
-    "security_unescaped_echo": {
-      "count": 19,
-      "severity": "high"
     }
   },
   "type_coverage": {
-    "functions": 3185,
+    "functions": 3178,
     "params_total": 2873,
     "params_typed": 1873,
     "param_coverage_pct": 65.2,
-    "return_typed": 2711,
-    "return_coverage_pct": 85.1
+    "return_typed": 2702,
+    "return_coverage_pct": 85.0
   },
   "violations": [
     {
@@ -40,20 +32,6 @@
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'render_metabox' complexity=31, lines=166"
-    },
-    {
-      "file": "src/Classes/AutoGPT/AutoGPTTaskRepository.php",
-      "line": 151,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return (bool) $wpdb->update($table, ['status' => $status], ['id' => $id, 'user_id' => $user_id], ['%"
-    },
-    {
-      "file": "src/Classes/AutoGPT/AutoGPTTaskRepository.php",
-      "line": 199,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
     },
     {
       "file": "src/Classes/AutoGPT/Cron/AutoGPTCron.php",
@@ -68,34 +46,6 @@
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'process' complexity=35, lines=208"
-    },
-    {
-      "file": "src/Classes/Billing/BusinessOptimizer.php",
-      "line": 198,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $conversions = (int) $wpdb->get_var("
-    },
-    {
-      "file": "src/Classes/Billing/StripeGateway.php",
-      "line": 341,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Billing/StripeGateway.php",
-      "line": 438,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Billing/StripeGateway.php",
-      "line": 469,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ["
     },
     {
       "file": "src/Classes/BookFactory/BookFactory.php",
@@ -134,52 +84,10 @@
     },
     {
       "file": "src/Classes/Chat/Shortcode/ChatShortcode.php",
-      "line": 76,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <div class=\"linked3-chat-window\" <?php echo $embedded ? '' : 'style=\"display:none;\"'; ?>>"
-    },
-    {
-      "file": "src/Classes/Chat/Shortcode/ChatShortcode.php",
-      "line": 78,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <span class=\"linked3-chat-title\"><?php echo $title; ?></span>"
-    },
-    {
-      "file": "src/Classes/Chat/Shortcode/ChatShortcode.php",
-      "line": 82,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <div class=\"linked3-chat-msg linked3-chat-bot\"><?php echo $greeting; ?></div>"
-    },
-    {
-      "file": "src/Classes/Chat/Shortcode/ChatShortcode.php",
       "line": 52,
       "rule": "complexity_high",
       "severity": "medium",
-      "message": "Method 'widget_html' complexity=21, lines=78"
-    },
-    {
-      "file": "src/Classes/Chat/Storage/ChatStorage.php",
-      "line": 47,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Chat/Storage/ChatStorage.php",
-      "line": 83,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ["
-    },
-    {
-      "file": "src/Classes/Chat/Storage/ChatStorage.php",
-      "line": 116,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return (bool) $wpdb->delete($table, ['session_id' => $session_id, 'user_id' => $user_id], ['%s', '%d"
+      "message": "Method 'widget_html' complexity=22, lines=78"
     },
     {
       "file": "src/Classes/CognitiveOS/COSEngine.php",
@@ -187,20 +95,6 @@
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'run_lever' complexity=25, lines=212"
-    },
-    {
-      "file": "src/Classes/Collect/CollectSourceRepository.php",
-      "line": 126,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']);"
-    },
-    {
-      "file": "src/Classes/Collect/CollectSourceRepository.php",
-      "line": 134,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return (bool) $wpdb->update("
     },
     {
       "file": "src/Classes/Content/EcosystemAjax.php",
@@ -224,81 +118,11 @@
       "message": "Method 'handle' complexity=62, lines=364"
     },
     {
-      "file": "src/Classes/ContentWriter/Ajax/Actions/InitStreamAction.php",
-      "line": 37,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/ContentWriter/ContentTemplateManager.php",
-      "line": 45,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/ContentWriter/ContentTemplateManager.php",
-      "line": 100,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/ContentWriter/ContentTemplateManager.php",
-      "line": 138,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, $update, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']);"
-    },
-    {
-      "file": "src/Classes/ContentWriter/ContentTemplateManager.php",
-      "line": 152,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return (bool) $wpdb->delete($table, ['id' => $id, 'user_id' => $user_id, 'is_starter' => 0], ['%d', "
-    },
-    {
-      "file": "src/Classes/Core/AIDispatcher.php",
-      "line": 472,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Core/AIDispatcher.php",
-      "line": 581,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update("
-    },
-    {
       "file": "src/Classes/Core/AIDispatcher.php",
       "line": 211,
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'call_single' complexity=27, lines=237"
-    },
-    {
-      "file": "src/Classes/Core/SQLSafety.php",
-      "line": 87,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return $wpdb->query('TRUNCATE TABLE ' . $safe) !== false;"
-    },
-    {
-      "file": "src/Classes/Core/SQLSafety.php",
-      "line": 108,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return $wpdb->query("
-    },
-    {
-      "file": "src/Classes/Core/TokenManager.php",
-      "line": 208,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->query($sql);"
     },
     {
       "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
@@ -728,27 +552,6 @@
       "message": "Deprecated marker: * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2."
     },
     {
-      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardQueueActions.php",
-      "line": 54,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $items = $wpdb->get_results(\"SELECT * FROM {$table} {$where} ORDER BY added_at DESC LIMIT 50\", ARRAY"
-    },
-    {
-      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardQueueActions.php",
-      "line": 86,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ['status' => 'pending', 'error_message' => ''], ['id' => $id], ['%s', '%s'], ["
-    },
-    {
-      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardQueueActions.php",
-      "line": 105,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->delete($table, ['id' => $id], ['%d']);"
-    },
-    {
       "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
       "line": 30,
       "rule": "dead_code_deprecated",
@@ -1002,7 +805,7 @@
     },
     {
       "file": "src/Classes/Diagram/DiagramMasterTemplate.php",
-      "line": 306,
+      "line": 298,
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'validate' complexity=22, lines=66"
@@ -1013,20 +816,6 @@
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'match_best' complexity=24, lines=70"
-    },
-    {
-      "file": "src/Classes/Genesis/GenesisLogger.php",
-      "line": 128,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert(self::$table, ["
-    },
-    {
-      "file": "src/Classes/Genesis/GenesisLogger.php",
-      "line": 283,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return $wpdb->query(\"TRUNCATE TABLE \" . $safe_table) !== false;"
     },
     {
       "file": "src/Classes/Genesis/GenesisPatchStage2.php",
@@ -1069,13 +858,6 @@
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'applyModeFilters' complexity=40, lines=149"
-    },
-    {
-      "file": "src/Classes/Genesis/GenesisSeedCPT.php",
-      "line": 179,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $val === 'fixed' ? '<span style=\"color:#16a34a;\">固定</span>' : '<span style=\"color:#d97706;\">可变<"
     },
     {
       "file": "src/Classes/Genesis/QualityLoop.php",
@@ -1121,38 +903,10 @@
     },
     {
       "file": "src/Classes/Genesis/SeedAdminRender.php",
-      "line": 281,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $content;"
-    },
-    {
-      "file": "src/Classes/Genesis/SeedAdminRender.php",
-      "line": 291,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $content;"
-    },
-    {
-      "file": "src/Classes/Genesis/SeedAdminRender.php",
       "line": 73,
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'print_inline_assets' complexity=22, lines=166"
-    },
-    {
-      "file": "src/Classes/Genesis/StoryPipeline.php",
-      "line": 489,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $count = $wpdb->query("
-    },
-    {
-      "file": "src/Classes/Media/ImageManager.php",
-      "line": 420,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
     },
     {
       "file": "src/Classes/MetaLever/MetaLeverFitnessTracker.php",
@@ -1162,179 +916,11 @@
       "message": "AJAX handler 'wp_ajax_linked3_lever_fitness' without nonce check"
     },
     {
-      "file": "src/Classes/OS/Api/OSDbSchema.php",
-      "line": 68,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/OS/Api/OSDbSchema.php",
-      "line": 100,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/OS/Api/OSDbSchema.php",
-      "line": 118,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 58,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $args['before_widget'];"
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 61,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'"
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 77,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $args['after_widget'];"
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 89,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <label for=\"<?php echo $this->get_field_id('title'); ?>\">标题:</label>"
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 90,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <input class=\"widefat\" id=\"<?php echo $this->get_field_id('title'); ?>\""
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 91,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: name=\"<?php echo $this->get_field_name('title'); ?>\""
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 96,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: id=\"<?php echo $this->get_field_id('show_modules'); ?>\""
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 97,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: name=\"<?php echo $this->get_field_name('show_modules'); ?>\""
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 99,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <label for=\"<?php echo $this->get_field_id('show_modules'); ?>\">显示模块状态</label>"
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 103,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: id=\"<?php echo $this->get_field_id('show_ruliu'); ?>\""
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 104,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: name=\"<?php echo $this->get_field_name('show_ruliu'); ?>\""
-    },
-    {
-      "file": "src/Classes/OS/Api/OSWidget.php",
-      "line": 106,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: <label for=\"<?php echo $this->get_field_id('show_ruliu'); ?>\">显示入流进度</label>"
-    },
-    {
-      "file": "src/Classes/Publish/Adapter/RemoteWPPublishTarget.php",
-      "line": 256,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ['remote_id' => $remote_id, 'updated_at' => current_time('mysql')], ['id' => $"
-    },
-    {
-      "file": "src/Classes/Publish/Adapter/RemoteWPPublishTarget.php",
-      "line": 258,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
       "file": "src/Classes/Publish/Adapter/RemoteWPPublishTarget.php",
       "line": 33,
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'publish' complexity=24, lines=96"
-    },
-    {
-      "file": "src/Classes/Publish/PublishManager.php",
-      "line": 167,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Publish/PublishTargetRepository.php",
-      "line": 140,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ['is_default' => 0], ['user_id' => $user_id], ['%d'], ['%d']);"
-    },
-    {
-      "file": "src/Classes/Publish/PublishTargetRepository.php",
-      "line": 185,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ['is_default' => 0], ['user_id' => $user_id], ['%d'], ['%d']);"
-    },
-    {
-      "file": "src/Classes/Publish/PublishTargetRepository.php",
-      "line": 192,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, $update, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']);"
-    },
-    {
-      "file": "src/Classes/Publish/PublishTargetRepository.php",
-      "line": 209,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return (bool) $wpdb->update("
-    },
-    {
-      "file": "src/Classes/Rest/RestController.php",
-      "line": 218,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->delete($table, ['cache_key' => $cache_key], ['%s']);"
-    },
-    {
-      "file": "src/Classes/SEO/GEOEnhancer.php",
-      "line": 174,
-      "rule": "security_unescaped_echo",
-      "severity": "high",
-      "message": "Potential unescaped output: echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — text/plain, no HTM"
     },
     {
       "file": "src/Classes/SEO/Keyword/KeywordManager.php",
@@ -1358,76 +944,6 @@
       "message": "Method 'replace_link_callback' complexity=21, lines=76"
     },
     {
-      "file": "src/Classes/Scale/VectorIncremental.php",
-      "line": 80,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $posts = $wpdb->get_col("
-    },
-    {
-      "file": "src/Classes/Scale/VectorIncremental.php",
-      "line": 104,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $posts = $wpdb->get_col("
-    },
-    {
-      "file": "src/Classes/Security/AsyncQueue.php",
-      "line": 46,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Security/AsyncQueue.php",
-      "line": 89,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ["
-    },
-    {
-      "file": "src/Classes/Security/AsyncQueue.php",
-      "line": 110,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ["
-    },
-    {
-      "file": "src/Classes/Security/AsyncQueue.php",
-      "line": 125,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, ["
-    },
-    {
-      "file": "src/Classes/Security/RateLimiterV2.php",
-      "line": 142,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Classes/Security/RateLimiterV2.php",
-      "line": 165,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): return $wpdb->get_results($query, ARRAY_A);"
-    },
-    {
-      "file": "src/Classes/V15/V15BrandProfileManager.php",
-      "line": 126,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id]);"
-    },
-    {
-      "file": "src/Classes/V15/V15BrandProfileManager.php",
-      "line": 136,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, $clean);"
-    },
-    {
       "file": "src/Classes/XHS/XHSAjaxActions.php",
       "line": 27,
       "rule": "security_nonce_missing",
@@ -1449,34 +965,6 @@
       "message": "Method 'do_activate' complexity=25, lines=95"
     },
     {
-      "file": "src/Includes/DB/MigrationRunner.php",
-      "line": 90,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $found = $wpdb->get_var("
-    },
-    {
-      "file": "src/Includes/DB/MigrationRunner.php",
-      "line": 169,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->insert($table, ["
-    },
-    {
-      "file": "src/Includes/DB/Schema.php",
-      "line": 498,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $exists = $wpdb->get_var("
-    },
-    {
-      "file": "src/Includes/DB/Schema.php",
-      "line": 503,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $fallback_result = $wpdb->query($sql);"
-    },
-    {
       "file": "src/Includes/HookManager.php",
       "line": 26,
       "rule": "complexity_high",
@@ -1489,20 +977,6 @@
       "rule": "complexity_high",
       "severity": "medium",
       "message": "Method 'request' complexity=21, lines=110"
-    },
-    {
-      "file": "src/Includes/Uninstaller.php",
-      "line": 46,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->query($sql);"
-    },
-    {
-      "file": "src/Includes/Uninstaller.php",
-      "line": 156,
-      "rule": "security_unprepared_sql",
-      "severity": "high",
-      "message": "SQL operation without prepare(): $wpdb->query($blog_sql);"
     },
     {
       "file": "src/Includes/functions-events.php",

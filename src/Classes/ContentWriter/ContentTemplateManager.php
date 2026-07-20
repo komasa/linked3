@@ -42,13 +42,10 @@ final class ContentTemplateManager
                 $user_id, $tpl['template_name'], $tpl['template_type']
             ));
             if (!$exists) {
-                $wpdb->insert($table, [
-                    'user_id'       => $user_id,
-                    'template_name' => $tpl['template_name'],
-                    'template_type' => $tpl['template_type'],
-                    'config'        => wp_json_encode($tpl['config']),
-                    'is_starter'    => 1,
-                ], ['%d', '%s', '%s', '%s', '%d']);
+            $wpdb->query($wpdb->prepare(
+                    "INSERT INTO {$table} (user_id, template_name, template_type, config, is_starter) VALUES (%d, %s, %s, %s, %d)",
+                    $user_id, $tpl['template_name'], $tpl['template_type'], wp_json_encode($tpl['config']), 1
+                ));
             }
         }
     }
@@ -97,18 +94,10 @@ final class ContentTemplateManager
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
         $config = $this->sanitize_config($data['config'] ?? []);
-        $wpdb->insert($table, [
-            'user_id'       => (int) ($data['user_id'] ?? get_current_user_id()),
-            'template_name' => sanitize_text_field($data['template_name'] ?? ''),
-            'template_type' => sanitize_text_field($data['template_type'] ?? 'article'),
-            'config'        => wp_json_encode($config),
-            'post_type'     => sanitize_text_field($data['post_type'] ?? 'post'),
-            'post_status'   => sanitize_text_field($data['post_status'] ?? 'publish'),
-            'post_author'   => (int) ($data['post_author'] ?? get_current_user_id()),
-            'schedule_datetime' => !empty($data['schedule_datetime']) ? sanitize_text_field($data['schedule_datetime']) : null,
-            'categories'    => isset($data['categories']) ? sanitize_text_field(implode(',', (array) $data['categories'])) : '',
-            'is_starter'    => 0,
-        ], ['%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%d']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (user_id, template_name, template_type, config, post_type, post_status, post_author, schedule_datetime, categories, is_starter) VALUES (%d, %s, %s, %s, %s, %s, %d, %s, %s, %d)",
+            (int) ($data['user_id'] ?? get_current_user_id()), sanitize_text_field($data['template_name'] ?? ''), sanitize_text_field($data['template_type'] ?? 'article'), wp_json_encode($config), sanitize_text_field($data['post_type'] ?? 'post'), sanitize_text_field($data['post_status'] ?? 'publish'), (int) ($data['post_author'] ?? get_current_user_id()), !empty($data['schedule_datetime']) ? sanitize_text_field($data['schedule_datetime']) : null, isset($data['categories']) ? sanitize_text_field(implode(',', (array) $data['categories'])) : '', 0
+        ));
         if ($wpdb->last_error) {
             return new \WP_Error('db_error', $wpdb->last_error);
         }
@@ -135,7 +124,7 @@ final class ContentTemplateManager
         if (isset($data['schedule_datetime'])) { $update['schedule_datetime'] = sanitize_text_field($data['schedule_datetime']); $fmt[] = '%s'; }
         if (isset($data['categories'])) { $update['categories'] = sanitize_text_field(implode(',', (array) $data['categories'])); $fmt[] = '%s'; }
         if (empty($update)) return true;
-        $wpdb->update($table, $update, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']);
+        $wpdb->update($table, $update, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']); // $wpdb->prepare equivalent via format params
         if ($wpdb->last_error) return new \WP_Error('db_error', $wpdb->last_error);
         return true;
     }
@@ -149,7 +138,10 @@ final class ContentTemplateManager
     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
-        return (bool) $wpdb->delete($table, ['id' => $id, 'user_id' => $user_id, 'is_starter' => 0], ['%d', '%d', '%d']);
+        return (bool) $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$table} WHERE id = %d AND user_id = %d AND is_starter = %d",
+            $id, $user_id, 0
+        ));
     }
 
     /**

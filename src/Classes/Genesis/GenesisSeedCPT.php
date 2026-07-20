@@ -176,7 +176,11 @@ class GenesisSeedCPT
             ];
             echo esc_html($labels[$val] ?? $val);
         } elseif ($column === 'seed_type') {
-            echo $val === 'fixed' ? '<span style="color:#16a34a;">固定</span>' : '<span style="color:#d97706;">可变</span>';
+            if ($val === 'fixed') {
+                echo '<span style="color:#16a34a;">固定</span>';
+            } else {
+                echo '<span style="color:#d97706;">可变</span>';
+            }
         } else {
             echo esc_html($val ?: '—');
         }

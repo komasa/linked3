@@ -253,14 +253,15 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
             $local_post_id, $target_id
         ));
         if ($exists) {
-            $wpdb->update($table, ['remote_id' => $remote_id, 'updated_at' => current_time('mysql')], ['id' => $exists], ['%s', '%s'], ['%d']);
+        $wpdb->query($wpdb->prepare(
+                "UPDATE {$table} SET remote_id = %s, updated_at = %s WHERE id = %d",
+                $remote_id, current_time('mysql'), $exists
+            ));
         } else {
-            $wpdb->insert($table, [
-                'local_post_id' => $local_post_id,
-                'target_id'     => $target_id,
-                'remote_id'     => $remote_id,
-                'created_at'    => current_time('mysql'),
-            ], ['%d', '%d', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+                "INSERT INTO {$table} (local_post_id, target_id, remote_id, created_at) VALUES (%d, %d, %s, %s)",
+                $local_post_id, $target_id, $remote_id, current_time('mysql')
+            ));
         }
     }
 }

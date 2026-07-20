@@ -65,13 +65,10 @@ class OSDbSchema {
         global $wpdb;
         $table = $wpdb->prefix . self::TABLES['reverse_results'];
         
-        $wpdb->insert($table, [
-            'engineer_type' => $engineer_type,
-            'target_hash' => md5($target),
-            'target_description' => $target,
-            'result_json' => wp_json_encode($result),
-            'validation_score' => $score,
-        ], ['%s', '%s', '%s', '%s', '%d']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (engineer_type, target_hash, target_description, result_json, validation_score) VALUES (%s, %s, %s, %s, %d)",
+            $engineer_type, md5($target), $target, wp_json_encode($result), $score
+        ));
         
         return $wpdb->insert_id;
     }
@@ -97,13 +94,10 @@ class OSDbSchema {
         global $wpdb;
         $table = $wpdb->prefix . self::TABLES['ruliu_progress'];
         
-        $wpdb->insert($table, [
-            'day_number' => $day,
-            'state' => $state,
-            'progress_pct' => $progress,
-            'metrics_json' => wp_json_encode($metrics),
-            'notes' => $notes,
-        ], ['%d', '%s', '%f', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (day_number, state, progress_pct, metrics_json, notes) VALUES (%d, %s, %f, %s, %s)",
+            $day, $state, $progress, wp_json_encode($metrics), $notes
+        ));
         
         return $wpdb->insert_id;
     }
@@ -115,13 +109,10 @@ class OSDbSchema {
         global $wpdb;
         $table = $wpdb->prefix . self::TABLES['quality_reports'];
         
-        $wpdb->insert($table, [
-            'target_type' => $target_type,
-            'target_hash' => md5($target),
-            'overall_score' => $score,
-            'gate_results_json' => wp_json_encode($gate_results),
-            'suggestions_json' => wp_json_encode($suggestions),
-        ], ['%s', '%s', '%f', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (target_type, target_hash, overall_score, gate_results_json, suggestions_json) VALUES (%s, %s, %f, %s, %s)",
+            $target_type, md5($target), $score, wp_json_encode($gate_results), wp_json_encode($suggestions)
+        ));
         
         return $wpdb->insert_id;
     }

@@ -77,9 +77,10 @@ class VectorIncremental {
     public function search(string $query, int $limit = 10): array {
         $queryVec = $this->generateEmbedding($query);
         global $wpdb;
-        $posts = $wpdb->get_col(
-            "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_linked3_vector' LIMIT 500"
-        );
+        $posts = $wpdb->get_col($wpdb->prepare(
+            "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s LIMIT 500",
+            '_linked3_vector'
+        ));
         $results = [];
         foreach ($posts as $pid) {
             $vec = json_decode(get_post_meta($pid, '_linked3_vector', true), true);
@@ -101,11 +102,9 @@ class VectorIncremental {
 
     public function backfillMissing(int $batchSize = 50): array {
         global $wpdb;
-        $posts = $wpdb->get_col(
-            "SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish'
+        $posts = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish'
              AND ID NOT IN (SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_linked3_vector')
-             LIMIT {$batchSize}"
-        );
+             LIMIT %s", $batchSize))
         $count = 0;
         foreach ($posts as $pid) {
             $this->embedPost($pid);

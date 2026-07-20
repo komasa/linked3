@@ -469,19 +469,10 @@ final class AIDispatcher
         $row['cost_usd'] = $cost;
 
         // phpcs:disable WordPress.DB -- column names are constants.
-        $wpdb->insert($table, [
-            'user_id'           => $row['user_id'],
-            'session_id'        => $row['session_id'],
-            'module'            => $row['module'],
-            'provider'          => $row['provider'],
-            'model'             => $row['model'],
-            'prompt_tokens'     => $row['prompt_tokens'],
-            'completion_tokens' => $row['completion_tokens'],
-            'total_tokens'      => $row['total_tokens'],
-            'cost_usd'          => $cost,
-            'status'            => $row['status'],
-            'error_code'        => $row['error_code'],
-        ], ['%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%f', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (user_id, session_id, module, provider, model, prompt_tokens, completion_tokens, total_tokens, cost_usd, status, error_code) VALUES (%d, %s, %s, %s, %s, %d, %d, %d, %f, %s, %s)",
+            $row['user_id'], $row['session_id'], $row['module'], $row['provider'], $row['model'], $row['prompt_tokens'], $row['completion_tokens'], $row['total_tokens'], $cost, $row['status'], $row['error_code']
+        ));
         // phpcs:enable
     }
 
@@ -578,13 +569,10 @@ final class AIDispatcher
                 'status'  => 'done',
                 'content' => $result['content'] ?? '',
             ]);
-            $wpdb->update(
-                $table,
-                ['payload' => $payload, 'expires_at' => gmdate('Y-m-d H:i:s', time() + 300)],
-                ['cache_key' => $cache_key],
-                ['%s', '%s'],
-                ['%s']
-            );
+            $wpdb->query($wpdb->prepare(
+                "UPDATE {$table} SET payload = %s, expires_at = %s WHERE cache_key = %s",
+                $payload, gmdate('Y-m-d H:i:s', time() + 300), $cache_key
+            ));
         }
 
         return $result;

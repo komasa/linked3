@@ -137,7 +137,10 @@ final class PublishTargetRepository extends BaseRepository
 
         // If setting as default, clear previous default.
         if ($is_default) {
-            $wpdb->update($table, ['is_default' => 0], ['user_id' => $user_id], ['%d'], ['%d']);
+        $wpdb->query($wpdb->prepare(
+                "UPDATE {$table} SET is_default = %d WHERE user_id = %d",
+                0, $user_id
+            ));
         }
 
         $id = parent::insert_row([
@@ -182,14 +185,17 @@ final class PublishTargetRepository extends BaseRepository
             $update['is_default'] = $data['is_default'] ? 1 : 0;
             $fmt[] = '%d';
             if ($data['is_default']) {
-                $wpdb->update($table, ['is_default' => 0], ['user_id' => $user_id], ['%d'], ['%d']);
+            $wpdb->query($wpdb->prepare(
+                    "UPDATE {$table} SET is_default = %d WHERE user_id = %d",
+                    0, $user_id
+                ));
             }
         }
         if (empty($update)) {
             return true;
         }
         // User-scoped update (Base_Repository::update only filters by PK).
-        $wpdb->update($table, $update, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']);
+        $wpdb->update($table, $update, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']); // $wpdb->prepare equivalent via format params
         if ($wpdb->last_error) {
             return new \WP_Error('db', $wpdb->last_error);
         }
@@ -206,13 +212,10 @@ final class PublishTargetRepository extends BaseRepository
         global $wpdb;
         $table = $this->get_table();
         // Soft delete.
-        return (bool) $wpdb->update(
-            $table,
-            ['status' => 'deleted'],
-            ['id' => $id, 'user_id' => $user_id],
-            ['%s'],
-            ['%d', '%d']
-        );
+        return (bool) $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET status = %s WHERE id = %d AND user_id = %d",
+            'deleted', $id, $user_id
+        ));
     }
 
     /**

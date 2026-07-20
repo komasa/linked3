@@ -195,9 +195,10 @@ final class BusinessOptimizer
         ), ARRAY_A);
 
         // Conversions: count users whose plan meta changed in the window.
-        $conversions = (int) $wpdb->get_var(
-            "SELECT COUNT(*) FROM {$wpdb->usermeta} WHERE meta_key = 'linked3_plan' AND meta_value IN ('pro','premium')"
-        );
+        $conversions = (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value IN (%s, %s)",
+            'linked3_plan', 'pro', 'premium'
+        ));
 
         // v4.9.2: read real revenue + churn from the billing_events table.
         $revenue = 0.0;

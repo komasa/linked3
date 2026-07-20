@@ -73,13 +73,13 @@ final class ChatShortcode
                 <span class="dashicons dashicons-format-chat"></span>
             </button>
             <?php endif; ?>
-            <div class="linked3-chat-window" <?php echo $embedded ? '' : 'style="display:none;"'; ?>>
+            <div class="linked3-chat-window"<?php if (!$embedded) echo ' style="display:none;"'; ?>>
                 <div class="linked3-chat-header">
-                    <span class="linked3-chat-title"><?php echo $title; ?></span>
+                    <span class="linked3-chat-title"><?php echo esc_html($title); ?></span>
                     <?php if (!$embedded) : ?><button class="linked3-chat-close" aria-label="<?php esc_attr_e('关闭', 'linked3'); ?>">&times;</button><?php endif; ?>
                 </div>
                 <div class="linked3-chat-messages">
-                    <div class="linked3-chat-msg linked3-chat-bot"><?php echo $greeting; ?></div>
+                    <div class="linked3-chat-msg linked3-chat-bot"><?php echo esc_html($greeting); ?></div>
                 </div>
                 <div class="linked3-chat-sources" style="display:none;"></div>
                 <div class="linked3-chat-input">

@@ -43,7 +43,7 @@ final class Uninstaller
         if (!empty($tables)) {
             // phpcs:disable WordPress.DB.PreparedSQL -- table names are trusted constants.
             $sql = "DROP TABLE IF EXISTS " . implode(', ', array_map('esc_sql', $tables));
-            $wpdb->query($sql);
+            $wpdb->query($sql); // $wpdb->prepare not needed — DDL with esc_sql() escaped table names
             // phpcs:enable
         }
 
@@ -153,7 +153,7 @@ final class Uninstaller
                     $blog_tables = \Linked3\Includes\DB\Schema::qualified_names();
                     if (!empty($blog_tables)) {
                         $blog_sql = "DROP TABLE IF EXISTS " . implode(', ', array_map('esc_sql', $blog_tables));
-                        $wpdb->query($blog_sql);
+                        $wpdb->query($blog_sql); // $wpdb->prepare not needed — DDL with esc_sql() escaped table names
                     }
                 }
                 foreach ($options as $key) {

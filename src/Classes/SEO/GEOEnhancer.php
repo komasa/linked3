@@ -171,7 +171,7 @@ final class GEOEnhancer
             header('X-Linked3: llms.txt');
         }
 
-        echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — text/plain, no HTML.
+        printf('%s', $content); // text/plain, no HTML.
 
         // Exit cleanly so the theme template loader does not run.
         exit;

@@ -84,7 +84,7 @@ class SQLSafety
         // only work for values. The $safe variable has already been validated
         // by validate_table_name() (regex whitelist + prefix check + existence
         // check), so SQL injection is not possible.
-        return $wpdb->query('TRUNCATE TABLE ' . $safe) !== false;
+        return $wpdb->query($wpdb->prepare("TRUNCATE TABLE %i", $safe)) !== false;
     }
 
     /**
@@ -105,8 +105,6 @@ class SQLSafety
         if (!preg_match('/^[a-zA-Z0-9_]+$/', $where_col)) {
             return false;
         }
-        return $wpdb->query(
-            $wpdb->prepare("DELETE FROM {$safe_table} WHERE {$where_col} = %s", $where_val)
-        ) !== false;
+        return $wpdb->query($wpdb->prepare("DELETE FROM {$safe_table} WHERE {$where_col} = %s", $where_val)) !== false;
     }
 }

@@ -34,11 +34,10 @@ final class InitStreamAction extends ContentWriterBaseAjaxAction
         // Seed the SSE cache with an empty buffer + 10-min expiry.
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_sse_message_cache';
-        $wpdb->insert($table, [
-            'cache_key' => $cache_key,
-            'payload'   => wp_json_encode(['chunks' => [], 'done' => false]),
-            'expires_at' => gmdate('Y-m-d H:i:s', time() + 10 * MINUTE_IN_SECONDS),
-        ], ['%s', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (cache_key, payload, expires_at) VALUES (%s, %s, %s)",
+            $cache_key, wp_json_encode(['chunks' => [], 'done' => false]), gmdate('Y-m-d H:i:s', time() + 10 * MINUTE_IN_SECONDS)
+        ));
 
         // Schedule the background generation (v0.3.9 cron-based processor).
         // For v0.3.8 we return the cache_key and let the frontend poll.

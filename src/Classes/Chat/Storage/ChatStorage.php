@@ -44,16 +44,10 @@ final class ChatStorage
     public function create_session(array $data) : mixed     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_chat_logs';
-        $wpdb->insert($table, [
-            'bot_id'           => (int) ($data['bot_id'] ?? 0),
-            'user_id'          => (int) ($data['user_id'] ?? 0),
-            'session_id'       => sanitize_text_field($data['session_id'] ?? wp_generate_password(24, false)),
-            'conversation_uuid' => sanitize_text_field($data['conversation_uuid'] ?? wp_generate_uuid4()),
-            'module'           => sanitize_text_field($data['module'] ?? 'chat'),
-            'messages'         => wp_json_encode([]),
-            'message_count'    => 0,
-            'tokens_used'      => 0,
-        ], ['%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (bot_id, user_id, session_id, conversation_uuid, module, messages, message_count, tokens_used) VALUES (%d, %d, %s, %s, %s, %s, %d, %d)",
+            (int) ($data['bot_id'] ?? 0), (int) ($data['user_id'] ?? 0), sanitize_text_field($data['session_id'] ?? wp_generate_password(24, false)), sanitize_text_field($data['conversation_uuid'] ?? wp_generate_uuid4()), sanitize_text_field($data['module'] ?? 'chat'), wp_json_encode([]), 0, 0
+        ));
         return (int) $wpdb->insert_id;
     }
 
@@ -80,11 +74,10 @@ final class ChatStorage
         $message['ts'] = time();
         $messages[] = $message;
 
-        $wpdb->update($table, [
-            'messages'      => wp_json_encode($messages),
-            'message_count' => count($messages),
-            'tokens_used'   => (int) $session['tokens_used'] + (int) $tokens_used,
-        ], ['id' => $session['id']], ['%s', '%d', '%d'], ['%d']);
+        $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET messages = %s, message_count = %d, tokens_used = %d WHERE id = %d",
+            wp_json_encode($messages), count($messages), (int) $session['tokens_used'] + (int) $tokens_used, $session['id']
+        ));
     }
 
     /**
@@ -113,6 +106,9 @@ final class ChatStorage
     public function delete_session($session_id, $user_id) : mixed     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_chat_logs';
-        return (bool) $wpdb->delete($table, ['session_id' => $session_id, 'user_id' => $user_id], ['%s', '%d']);
+        return (bool) $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$table} WHERE session_id = %s AND user_id = %d",
+            $session_id, $user_id
+        ));
     }
 }

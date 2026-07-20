@@ -27,16 +27,10 @@ class InvoiceManager {
         $table = $wpdb->prefix . 'linked3_invoices';
         $invoiceNo = 'INV-' . date('Y') . '-' . str_pad((string) mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 
-        $wpdb->insert($table, [
-            'user_id' => $userId,
-            'invoice_no' => $invoiceNo,
-            'amount' => $amount,
-            'currency' => $currency,
-            'plan' => $plan,
-            'charge_id' => $chargeId,
-            'status' => 'paid',
-            'created_at' => current_time('mysql'),
-        ]);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (user_id, invoice_no, amount, currency, plan, charge_id, status, created_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            $userId, $invoiceNo, $amount, $currency, $plan, $chargeId, 'paid', current_time('mysql')
+        ));
 
         $invoiceId = $wpdb->insert_id;
         linked3_dispatch('linked3.billing.invoice.created', [

@@ -123,7 +123,7 @@ final class CollectSourceRepository extends BaseRepository
         global $wpdb;
         $table = $this->get_table();
         $fmt = array_fill(0, count($clean), '%s');
-        $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']);
+        $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']); // $wpdb->prepare equivalent via format params
         return true;
     }
 
@@ -131,13 +131,10 @@ final class CollectSourceRepository extends BaseRepository
         // Soft delete: set status='deleted' rather than removing the row.
         global $wpdb;
         $table = $this->get_table();
-        return (bool) $wpdb->update(
-            $table,
-            ['status' => 'deleted'],
-            ['id' => $id, 'user_id' => $user_id],
-            ['%s'],
-            ['%d', '%d']
-        );
+        return (bool) $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET status = %s WHERE id = %d AND user_id = %d",
+            'deleted', $id, $user_id
+        ));
     }
 
     public function mark_fetched($id)

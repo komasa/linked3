@@ -87,9 +87,7 @@ final class MigrationRunner
         foreach ($names as $table_name) {
             // SHOW TABLES LIKE works in MySQL, MariaDB, and Playground's
             // SQLite shim (which translates it to sqlite_master).
-            $found = $wpdb->get_var(
-                $wpdb->prepare("SHOW TABLES LIKE %s", $table_name)
-            );
+            $found = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
             if ($found !== $table_name) {
                 $missing = true;
                 break;
@@ -166,14 +164,10 @@ final class MigrationRunner
         // Seed a 'local' default target if none exists.
         $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE type = %s AND is_default = 1", "local")); // phpcs:ignore
         if (!$exists) {
-            $wpdb->insert($table, [
-                'user_id'    => 0,
-                'name'       => __('本地站点', 'linked3'),
-                'type'       => 'local',
-                'config'     => wp_json_encode([]),
-                'is_default' => 1,
-                'status'     => 'active',
-            ], ['%d', '%s', '%s', '%s', '%d', '%s']);
+        $wpdb->query($wpdb->prepare(
+                "INSERT INTO {$table} (user_id, name, type, config, is_default, status) VALUES (%d, %s, %s, %s, %d, %s)",
+                0, __('本地站点', 'linked3'), 'local', wp_json_encode([]), 1, 'active'
+            ));
         }
     }
 }

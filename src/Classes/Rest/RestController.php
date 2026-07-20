@@ -215,7 +215,10 @@ final class RestController
         // Check expiry.
         $expires_at = strtotime($row['expires_at']);
         if ($expires_at && $expires_at < time()) {
-            $wpdb->delete($table, ['cache_key' => $cache_key], ['%s']);
+        $wpdb->query($wpdb->prepare(
+                "DELETE FROM {$table} WHERE cache_key = %s",
+                $cache_key
+            ));
             return new \WP_Error('stream_expired', __('Stream 已过期。', 'linked3'), ['status' => 410]);
         }
 

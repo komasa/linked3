@@ -164,15 +164,10 @@ final class PublishManager
     : void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_publish_logs';
-        $wpdb->insert($table, [
-            'target_id'     => $target_id,
-            'user_id'       => $user_id,
-            'post_id'       => $post_id,
-            'status'        => $result['ok'] ? 'success' : 'fail',
-            'response_code' => $result['response_code'] ?? 0,
-            'remote_id'     => $result['remote_id'] ?? '',
-            'message'       => substr((string) $result['message'], 0, 65535),
-        ], ['%d', '%d', '%d', '%s', '%d', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (target_id, user_id, post_id, status, response_code, remote_id, message) VALUES (%d, %d, %d, %s, %d, %s, %s)",
+            $target_id, $user_id, $post_id, $result['ok'] ? 'success' : 'fail', $result['response_code'] ?? 0, $result['remote_id'] ?? '', substr((string) $result['message'], 0, 65535)
+        ));
     }
 
     // ----- Per-target circuit breaker -----

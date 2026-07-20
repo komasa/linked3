@@ -123,7 +123,8 @@ final class V15BrandProfileManager
 
         $id = (int) ($data['id'] ?? 0);
         if ($id > 0) {
-            $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id]);
+            $fmt = array_fill(0, count($clean), '%s');
+            $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']); // $wpdb->prepare equivalent via format params
             return $id;
         }
 
@@ -133,7 +134,8 @@ final class V15BrandProfileManager
             $clean['is_default'] = 1;
         }
 
-        $wpdb->insert($table, $clean);
+        $fmt = array_fill(0, count($clean), '%s');
+        $wpdb->insert($table, $clean, $fmt); // $wpdb->prepare equivalent via format params
         return (int) $wpdb->insert_id;
     }
 

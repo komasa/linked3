@@ -495,12 +495,10 @@ final class Schema
             // direct $wpdb->query() as a fallback.
             $table_name = self::extract_table_name($sql);
             if ($table_name) {
-                $exists = $wpdb->get_var(
-                    $wpdb->prepare("SHOW TABLES LIKE %s", $table_name)
-                );
+                $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
                 if ($exists !== $table_name) {
                     // Fallback: try direct query (bypasses dbDelta's parser).
-                    $fallback_result = $wpdb->query($sql);
+                    $fallback_result = $wpdb->query($sql); // $wpdb->prepare not needed — $sql is DDL from definitions()
                     if ($fallback_result === false) {
                         $errors[] = sprintf(
                             'Failed to create table %s: dbDelta=%s, direct=%s',

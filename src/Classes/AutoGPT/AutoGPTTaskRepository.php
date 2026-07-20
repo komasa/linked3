@@ -148,7 +148,10 @@ final class AutoGPTTaskRepository extends BaseRepository
         if (!in_array($status, self::VALID_STATUS, true)) {
             return false;
         }
-        return (bool) $wpdb->update($table, ['status' => $status], ['id' => $id, 'user_id' => $user_id], ['%s'], ['%d', '%d']);
+        return (bool) $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET status = %s WHERE id = %d AND user_id = %d",
+            $status, $id, $user_id
+        ));
     }
 
     public function delete($id, $user_id)
@@ -196,12 +199,10 @@ final class AutoGPTTaskRepository extends BaseRepository
     {
         global $wpdb;
         $table = $this->queue_table();
-        $wpdb->insert($table, [
-            'task_id'      => (int) $task_id,
-            'payload'      => wp_json_encode($payload),
-            'status'       => 'pending',
-            'scheduled_for' => $scheduled_for ? sanitize_text_field($scheduled_for) : current_time('mysql'),
-        ], ['%d', '%s', '%s', '%s']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (task_id, payload, status, scheduled_for) VALUES (%d, %s, %s, %s)",
+            (int) $task_id, wp_json_encode($payload), 'pending', $scheduled_for ? sanitize_text_field($scheduled_for) : current_time('mysql')
+        ));
         return (int) $wpdb->insert_id;
     }
 

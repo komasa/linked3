@@ -486,9 +486,11 @@ class StoryPipeline
     public static function clear_cache(): int
     {
         global $wpdb;
-        $count = $wpdb->query(
-            "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%_transient_" . self::CACHE_PREFIX . "%' OR option_name LIKE '%_transient_timeout_" . self::CACHE_PREFIX . "%'"
-        );
+        $count = $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
+            '%_transient_' . self::CACHE_PREFIX . '%',
+            '%_transient_timeout_' . self::CACHE_PREFIX . '%'
+        ));
         return intval($count / 2);
     }
 }

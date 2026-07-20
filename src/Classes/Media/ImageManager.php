@@ -417,14 +417,10 @@ final class ImageManager
         $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table)); // phpcs:ignore
         if (!$exists) return;
 
-        $wpdb->insert($table, [
-            'provider' => sanitize_text_field($data['provider'] ?? ''),
-            'model' => sanitize_text_field($data['model'] ?? ''),
-            'prompt' => substr(sanitize_textarea_field($data['prompt'] ?? ''), 0, 500),
-            'url' => esc_url_raw($data['url'] ?? ''),
-            'status' => sanitize_text_field($data['status'] ?? 'ok'),
-            'cost_usd' => (float) ($data['cost'] ?? 0),
-        ], ['%s', '%s', '%s', '%s', '%s', '%f']);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (provider, model, prompt, url, status, cost_usd) VALUES (%s, %s, %s, %s, %s, %f)",
+            sanitize_text_field($data['provider'] ?? ''), sanitize_text_field($data['model'] ?? ''), substr(sanitize_textarea_field($data['prompt'] ?? ''), 0, 500), esc_url_raw($data['url'] ?? ''), sanitize_text_field($data['status'] ?? 'ok'), (float) ($data['cost'] ?? 0)
+        ));
     }
 
     /**

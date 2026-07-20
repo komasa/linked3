@@ -43,16 +43,10 @@ class AsyncQueue {
         $table = $wpdb->prefix . 'linked3_async_queue';
         $taskId = uniqid('task_');
 
-        $wpdb->insert($table, [
-            'task_id' => $taskId,
-            'handler' => $handler,
-            'payload' => wp_json_encode($payload, JSON_UNESCAPED_UNICODE),
-            'priority' => $priority,
-            'status' => 'pending',
-            'attempts' => 0,
-            'max_retries' => $this->maxRetries,
-            'created_at' => current_time('mysql'),
-        ]);
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table} (task_id, handler, payload, priority, status, attempts, max_retries, created_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            $taskId, $handler, wp_json_encode($payload, JSON_UNESCAPED_UNICODE), $priority, 'pending', 0, $this->maxRetries, current_time('mysql')
+        ));
 
         linked3_dispatch('linked3.async.enqueued', ['task_id' => $taskId, 'handler' => $handler]);
         return $taskId;
@@ -86,11 +80,10 @@ class AsyncQueue {
         $table = $wpdb->prefix . 'linked3_async_queue';
 
         // 标记为 processing
-        $wpdb->update($table, [
-            'status' => 'processing',
-            'attempts' => $task['attempts'] + 1,
-            'started_at' => current_time('mysql'),
-        ], ['id' => $task['id']]);
+        $wpdb->query($wpdb->prepare(
+            "UPDATE {$table} SET status = %s, attempts = %s, started_at = %s WHERE id = %s",
+            'processing', $task['attempts'] + 1, current_time('mysql'), $task['id']
+        ));
 
         $handler = $task['handler'];
         $payload = json_decode($task['payload'], true) ?? [];
@@ -107,11 +100,10 @@ class AsyncQueue {
             }
 
             // 成功
-            $wpdb->update($table, [
-                'status' => 'completed',
-                'result' => wp_json_encode($result, JSON_UNESCAPED_UNICODE),
-                'completed_at' => current_time('mysql'),
-            ], ['id' => $task['id']]);
+            $wpdb->query($wpdb->prepare(
+                "UPDATE {$table} SET status = %s, result = %s, completed_at = %s WHERE id = %s",
+                'completed', wp_json_encode($result, JSON_UNESCAPED_UNICODE), current_time('mysql'), $task['id']
+            ));
 
             linked3_dispatch('linked3.async.task.completed', [
                 'task_id' => $task['task_id'],
@@ -122,11 +114,10 @@ class AsyncQueue {
             $attempts = $task['attempts'] + 1;
             $status = $attempts >= $task['max_retries'] ? 'failed' : 'pending';
 
-            $wpdb->update($table, [
-                'status' => $status,
-                'attempts' => $attempts,
-                'error' => $e->getMessage(),
-            ], ['id' => $task['id']]);
+            $wpdb->query($wpdb->prepare(
+                "UPDATE {$table} SET status = %s, attempts = %s, error = %s WHERE id = %s",
+                $status, $attempts, $e->getMessage(), $task['id']
+            ));
 
             linked3_dispatch('linked3.async.task.failed', [
                 'task_id' => $task['task_id'],
