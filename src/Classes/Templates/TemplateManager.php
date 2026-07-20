@@ -77,56 +77,6 @@ final class TemplateManager
     }
 
     /**
-     * v5.1.2: Fork 一个内置模板为可编辑副本。
-     *
-     * @param int    $index   模板索引 (在 get_all() 返回的数组中)
-     * @param string $category  content / pipeline
-     * @return int 新副本的索引,或 0 失败
-     */
-    public function fork_starter($index, $category = 'content')
-    {
-        $source = $category === 'pipeline'
-            ? $this->get_by_category('pipeline')
-            : $this->get_all();
-        if (!isset($source[$index])) {
-            return 0;
-        }
-        $tpl = $source[$index];
-        // 创建副本,标记为非 starter
-        $fork = [
-            'name' => $tpl['name'] . ' (副本)',
-            'type' => $tpl['type'] ?? $tpl['template_type'] ?? 'article',
-            'config' => $tpl['config'],
-        ];
-        if ($category === 'pipeline') {
-            $fork['template_category'] = 'pipeline';
-            $fork['pipeline_stage'] = $tpl['pipeline_stage'] ?? '';
-        }
-        return $this->add($fork['name'], $fork['type'], $fork['config']);
-    }
-
-    /**
-     * v5.1.2: 重置自定义模板为内置版本 (删除自定义,恢复默认)。
-     *
-     * @param int $index
-     * @return bool
-     */
-    public function reset_to_starter($index)
-    : bool {
-        $custom = get_option(LINKED3_OPTION_PREFIX . 'templates', []);
-        if (!is_array($custom)) {
-            return false;
-        }
-        $index = (int) $index;
-        if (!isset($custom[$index])) {
-            return false;
-        }
-        array_splice($custom, $index, 1);
-        update_option(LINKED3_OPTION_PREFIX . 'templates', $custom);
-        return true;
-    }
-
-    /**
      * 获取单个自定义模板 (按索引)。
      */
     public function get_custom($index)

@@ -123,14 +123,6 @@ class V18 {
     }
 
     /**
-     * 逆向校验
-     */
-    public static function reverse_validate(array $parsed, string $type = '') {
-        $cls = self::module('reverse_engine');
-        return $cls ? call_user_func([$cls, 'reverse_validate'], $parsed, $type) : null;
-    }
-
-    /**
      * 逆向对比
      */
     public static function reverse_compare(array $a, array $b) {
@@ -158,33 +150,9 @@ class V18 {
         return $cls ? call_user_func([$cls, 'build_neng_constraint'], $state, $mode, $exp) : null;
     }
 
-    /**
-     * 根据内容类型推导能知约束
-     */
-    public static function neng_from_content_type(string $type) {
-        $cls = self::module('neng_suo');
-        return $cls ? call_user_func([$cls, 'derive_from_content_type'], $type) : null;
-    }
-
-    /**
-     * 注入能知约束到Prompt
-     */
-    public static function neng_inject(string $prompt, array $constraint) {
-        $cls = self::module('neng_suo');
-        return $cls ? call_user_func([$cls, 'inject_into_prompt'], $prompt, $constraint) : null;
-    }
-
     // ================================================================
     // SVG统计 (OSVisualAnalytics)
     // ================================================================
-
-    /**
-     * 获取SVG统计基线
-     */
-    public static function svg_baseline() {
-        $cls = self::module('svg_stats');
-        return $cls ? call_user_func([$cls, 'get_baseline']) : null;
-    }
 
     /**
      * 按图示类型获取SVG统计
@@ -227,14 +195,6 @@ class V18 {
     // ================================================================
 
     /**
-     * 获取100天计划
-     */
-    public static function ruliu_plan() {
-        $cls = self::module('ru_liu');
-        return $cls ? call_user_func([$cls, 'get_100day_plan']) : null;
-    }
-
-    /**
      * 计算入流状态进度
      */
     public static function ruliu_progress(int $day) {
@@ -254,25 +214,9 @@ class V18 {
         return $cls ? call_user_func([$cls, 'calculate_flywheel_score'], $factors) : null;
     }
 
-    /**
-     * 飞轮改进建议
-     */
-    public static function flywheel_suggest(array $factors) {
-        $cls = self::module('hong_liu');
-        return $cls ? call_user_func([$cls, 'suggest_improvement'], $factors) : null;
-    }
-
     // ================================================================
     // 能知三阶 (OSCapabilityStages)
     // ================================================================
-
-    /**
-     * 能知三阶自动检测
-     */
-    public static function nengzhi_detect(string $content) {
-        $cls = self::module('neng_zhi');
-        return $cls ? call_user_func([$cls, 'auto_detect_stage'], $content) : null;
-    }
 
     /**
      * 能知三阶→内容类型映射
@@ -294,14 +238,6 @@ class V18 {
         return $cls ? call_user_func([$cls, 'check_quality'], $data) : null;
     }
 
-    /**
-     * 质量报告
-     */
-    public static function quality_report(array $data) {
-        $cls = self::module('reverse_quality_gate');
-        return $cls ? call_user_func([$cls, 'generate_quality_report'], $data) : null;
-    }
-
     // ================================================================
     // 集成中心 (OSIntegrationHubV2)
     // ================================================================
@@ -312,14 +248,6 @@ class V18 {
     public static function health_check() {
         $cls = self::module('hub');
         return $cls ? call_user_func([$cls, 'health_check']) : null;
-    }
-
-    /**
-     * 获取所有模块
-     */
-    public static function all_modules() {
-        $cls = self::module('hub');
-        return $cls ? call_user_func([$cls, 'get_all_modules']) : null;
     }
 
     /**

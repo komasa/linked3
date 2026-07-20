@@ -131,19 +131,6 @@ class SkeletonLibrary
     }
 
     /**
-     * 取全部骨架 ID (供前端下拉)
-     *
-     * @return string[]
-     */
-    public static function get_ids(): array
-    {
-        self::load_all();
-        $ids = array_keys(self::$cache);
-        // 过滤掉 _meta 键
-        return array_values(array_filter($ids, fn($id) => $id !== '_meta' && is_string($id) && !str_starts_with($id, '_')));
-    }
-
-    /**
      * 按场景类型路由骨架 (S13 骨架路由)
      *
      * 三维度路由优先级: L3 灵魂 > L2 栏目 > L1 类型
@@ -228,52 +215,6 @@ class SkeletonLibrary
     }
 
     /**
-     * 写入用户自定义骨架 (覆盖同 ID 预置骨架)
-     *
-     * @param string $skeleton_id 骨架 ID
-     * @param array  $config 骨架配置
-     * @return bool 是否写入成功
-     */
-    public static function save_custom(string $skeleton_id, array $config): bool
-    {
-        if ($skeleton_id === '' || $skeleton_id === '_meta') {
-            return false;
-        }
-        $config['skeleton_id'] = $skeleton_id;
-        $config['is_custom'] = true;
-
-        $custom = (array) get_option(self::CUSTOM_OPTION, []);
-        $custom[$skeleton_id] = $config;
-
-        $ok = update_option(self::CUSTOM_OPTION, $custom, false);
-        if ($ok) {
-            // 失效缓存, 下次 get/get_all 重新加载
-            self::$cache = null;
-        }
-        return (bool) $ok;
-    }
-
-    /**
-     * 删除用户自定义骨架
-     *
-     * @param string $skeleton_id 骨架 ID
-     * @return bool
-     */
-    public static function delete_custom(string $skeleton_id): bool
-    {
-        $custom = (array) get_option(self::CUSTOM_OPTION, []);
-        if (!isset($custom[$skeleton_id])) {
-            return false;
-        }
-        unset($custom[$skeleton_id]);
-        $ok = update_option(self::CUSTOM_OPTION, $custom, false);
-        if ($ok) {
-            self::$cache = null;
-        }
-        return (bool) $ok;
-    }
-
-    /**
      * 加载全部骨架 (preset + custom 合并), 写入缓存
      */
     private static function load_all(): void
@@ -299,21 +240,4 @@ class SkeletonLibrary
         self::$cache = array_merge($preset, $custom);
     }
 
-    /**
-     * 路由表查询 (供前端调试 / 文档展示)
-     *
-     * @return array
-     */
-    public static function get_route_table(): array
-    {
-        return self::ROUTE_TABLE;
-    }
-
-    /**
-     * 重置缓存 (测试用)
-     */
-    public static function reset_cache(): void
-    {
-        self::$cache = null;
-    }
 }

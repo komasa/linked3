@@ -69,58 +69,6 @@ final class AIEnhancer
     }
 
     /**
-     * 从内容提取关键词生成 SEO 标题。
-     *
-     * @param string $content
-     * @param int $max_len
-     * @return string
-     */
-    public function generate_seo_title($content, $max_len = 50) : mixed {
-        // 中文分词(简化:按标点+空格分)
-        $text = wp_strip_all_tags($content);
-        $segments = preg_split('/[，。！？\s,.\!?;:；：]+/u', $text);
-        $word_freq = [];
-        foreach ($segments as $seg) {
-            $seg = trim($seg);
-            if (mb_strlen($seg) >= 2 && mb_strlen($seg) <= 10) {
-                $word_freq[$seg] = ($word_freq[$seg] ?? 0) + 1;
-            }
-        }
-        arsort($word_freq);
-        $top = array_slice(array_keys($word_freq), 0, 3);
-        $title = implode(' ', $top);
-        if (mb_strlen($title) > $max_len) {
-            $title = mb_substr($title, 0, $max_len - 3) . '...';
-        }
-        return trim($title);
-    }
-
-    /**
-     * 根据内容自动选择分类。
-     *
-     * @param string $content
-     * @return int category ID (0 = 未分类)
-     */
-    public function auto_select_category($content) : mixed     {
-        $rules = get_option(LINKED3_OPTION_PREFIX . 'category_rules', []);
-        if (empty($rules) || !is_array($rules)) {
-            // 默认规则
-            $rules = [
-                '科技' => 0, 'AI' => 0, '软件' => 0, '互联网' => 0,
-                '健康' => 0, '医疗' => 0,
-                '财经' => 0, '股票' => 0, '理财' => 0,
-                '教育' => 0, '学习' => 0,
-            ];
-        }
-        foreach ($rules as $keyword => $cat_id) {
-            if (strpos($content, $keyword) !== false) {
-                return (int) $cat_id;
-            }
-        }
-        return 0;
-    }
-
-    /**
      * 检查当前时间是否在允许的时间段内。
      *
      * @param array $settings {time_window_enabled, time_window_start, time_window_end}

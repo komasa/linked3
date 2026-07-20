@@ -99,17 +99,6 @@ class GenesisLogger {
     }
 
     /**
-     * 设置当前 job_id (链路追踪)
-     */
-    public static function set_job_id($job_id) : void {
-        self::$current_job_id = $job_id;
-    }
-
-    public static function get_job_id() : mixed {
-        return self::$current_job_id;
-    }
-
-    /**
      * 写日志
      */
     public static function log($level, $message, $context = [], $stage = '') : void {
@@ -194,42 +183,6 @@ class GenesisLogger {
     }
 
     /**
-     * 查询日志 (按 job_id)
-     */
-    public static function get_by_job($job_id, $level = null, $limit = 500) : mixed {
-        if (!self::ensure_table()) return [];
-        global $wpdb;
-        $sql = "SELECT * FROM " . self::$table . " WHERE job_id = %s";
-        $params = [$job_id];
-        if ($level) {
-            $sql .= " AND level = %s";
-            $params[] = $level;
-        }
-        $sql .= " ORDER BY id ASC LIMIT %d";
-        $params[] = intval($limit);
-        return $wpdb->get_results($wpdb->prepare($sql, $params));
-    }
-
-    /**
-     * 查询日志 (按时间范围)
-     */
-    public static function get_recent($hours = 24, $level = null, $limit = 1000) : mixed {
-        if (!self::ensure_table()) return [];
-        global $wpdb;
-        // ── FIX v16.0.1: Use PHP-computed timestamp for SQLite compatibility ──
-        $cutoff = date('Y-m-d H:i:s', time() - intval($hours) * HOUR_IN_SECONDS);
-        $sql = "SELECT * FROM " . self::$table . " WHERE created_at >= %s";
-        $params = [$cutoff];
-        if ($level) {
-            $sql .= " AND level = %s";
-            $params[] = $level;
-        }
-        $sql .= " ORDER BY id DESC LIMIT %d";
-        $params[] = intval($limit);
-        return $wpdb->get_results($wpdb->prepare($sql, $params));
-    }
-
-    /**
      * 获取统计 (按级别)
      */
     public static function get_stats($hours = 24) : mixed {
@@ -263,48 +216,6 @@ class GenesisLogger {
         ));
     }
 
-    /**
-     * 清空所有日志 (管理操作)
-     */
-    public static function clear_all() : mixed {
-        if (!self::ensure_table()) return false;
-        global $wpdb;
-        // v19.3.1: 使用 SQL Safety 工具校验表名
-        $safe_table = \Linked3\Classes\Core\SQLSafety::validate_table_name(self::$table);
-        if ($safe_table === false) return false;
-        // SECURITY NOTE v27.0.0 (P9): $safe_table is validated by
-        // SQLSafety::validate_table_name() (regex whitelist + prefix
-        // check). Table names are identifiers and cannot use $wpdb->prepare()
-        // placeholders (those only work for values). Safe to interpolate.
-        return $wpdb->query($wpdb->prepare("TRUNCATE TABLE %i", $safe_table)) !== false;
-    }
-
-    /**
-     * 耗时测量工具
-     */
-    public static function timer($label = '') : mixed {
-        return new class($label) {
-            private $label;
-            private $start;
-            public function __construct($label) {
-                $this->label = $label;
-                $this->start = microtime(true);
-            }
-            public function elapsed_ms() : mixed {
-                return (int)((microtime(true) - $this->start) * 1000);
-            }
-            public function stop($stage = '', $context = []) : mixed {
-                $ms = $this->elapsed_ms();
-                GenesisLogger::stage(
-                    $stage,
-                    $this->label . ' 完成',
-                    $context,
-                    $ms
-                );
-                return $ms;
-            }
-        };
-    }
 }
 
 // 初始化

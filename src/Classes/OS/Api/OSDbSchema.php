@@ -59,65 +59,6 @@ class OSDbSchema {
     }
 
     /**
-     * 保存逆向结果
-     */
-    public static function save_reverse_result(string $engineer_type, string $target, array $result, int $score = 0): int {
-        global $wpdb;
-        $table = $wpdb->prefix . self::TABLES['reverse_results'];
-        
-        $wpdb->query($wpdb->prepare(
-            "INSERT INTO {$table} (engineer_type, target_hash, target_description, result_json, validation_score) VALUES (%s, %s, %s, %s, %d)",
-            $engineer_type, md5($target), $target, wp_json_encode($result), $score
-        ));
-        
-        return $wpdb->insert_id;
-    }
-
-    /**
-     * 获取逆向结果
-     */
-    public static function get_reverse_result(int $id): ?array {
-        global $wpdb;
-        $table = $wpdb->prefix . self::TABLES['reverse_results'];
-        
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table} WHERE id = %d", $id), ARRAY_A);
-        if (!$row) return null;
-        
-        $row['result_json'] = json_decode($row['result_json'], true);
-        return $row;
-    }
-
-    /**
-     * 保存入流进度
-     */
-    public static function save_ruliu_progress(int $day, string $state, float $progress, array $metrics = [], string $notes = ''): int {
-        global $wpdb;
-        $table = $wpdb->prefix . self::TABLES['ruliu_progress'];
-        
-        $wpdb->query($wpdb->prepare(
-            "INSERT INTO {$table} (day_number, state, progress_pct, metrics_json, notes) VALUES (%d, %s, %f, %s, %s)",
-            $day, $state, $progress, wp_json_encode($metrics), $notes
-        ));
-        
-        return $wpdb->insert_id;
-    }
-
-    /**
-     * 保存质量报告
-     */
-    public static function save_quality_report(string $target_type, string $target, float $score, array $gate_results, array $suggestions = []): int {
-        global $wpdb;
-        $table = $wpdb->prefix . self::TABLES['quality_reports'];
-        
-        $wpdb->query($wpdb->prepare(
-            "INSERT INTO {$table} (target_type, target_hash, overall_score, gate_results_json, suggestions_json) VALUES (%s, %s, %f, %s, %s)",
-            $target_type, md5($target), $score, wp_json_encode($gate_results), wp_json_encode($suggestions)
-        ));
-        
-        return $wpdb->insert_id;
-    }
-
-    /**
      * 注册
      */
     public static function register(): void {

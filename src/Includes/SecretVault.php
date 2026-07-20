@@ -54,38 +54,6 @@ final class SecretVault
         }
     }
 
-    public static function resolve_keys($provider_slug)
-    {
-        if (isset(self::CONSTANT_TEMPLATE[$provider_slug]) && defined(self::CONSTANT_TEMPLATE[$provider_slug])) {
-            return [constant(self::CONSTANT_TEMPLATE[$provider_slug])];
-        }
-        $saved = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
-        if (!empty($saved[$provider_slug])) {
-            $keys = array_filter(array_map('trim', explode("\n", $saved[$provider_slug])));
-            if (!empty($keys)) return $keys;
-        }
-        $env_key = 'LINKED3_' . strtoupper($provider_slug) . '_KEY';
-        $env = getenv($env_key);
-        if (!empty($env)) return [$env];
-        self::init_demo_keys();
-        if (isset(self::$runtime_demo_keys[$provider_slug])) {
-            self::flag_demo_key_in_use($provider_slug);
-            return [self::$runtime_demo_keys[$provider_slug]];
-        }
-        return [];
-    }
-    public static function is_using_demo_key($provider_slug) { return (bool) get_option(LINKED3_OPTION_PREFIX . 'using_demo_key_' . $provider_slug, false); }
-    public static function store_key($provider_slug, $plaintext_key)
-    : bool {
-        $saved = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
-        if (!is_array($saved)) $saved = [];
-        $saved[$provider_slug] = $plaintext_key;
-        update_option(LINKED3_OPTION_PREFIX . 'provider_keys', $saved);
-        if (isset(self::DEMO_KEYS[$provider_slug]) && $plaintext_key !== self::DEMO_KEYS[$provider_slug]) {
-            update_option(LINKED3_OPTION_PREFIX . 'using_demo_key_' . $provider_slug, false);
-        }
-        return true;
-    }
     private static function flag_demo_key_in_use($provider_slug)
     : void {
         if (get_option(LINKED3_OPTION_PREFIX . 'using_demo_key_' . $provider_slug, null) === null) {

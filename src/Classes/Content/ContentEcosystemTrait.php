@@ -38,34 +38,6 @@ trait ContentEcosystemTrait {
     /** @var array 生态上下文 */
     protected $eco_context = [];
 
-    /**
-     * 生态生产入口 — 模板方法, 锁定5阶段管线
-     */
-    public function ecosystem_generate(array $context): array {
-        $this->eco_context = $context;
-
-        try {
-            $this->content_ir['keywords'] = $this->load_keywords($context);
-            $this->content_ir['template'] = $this->load_template($context);
-            $this->content_ir['content'] = $this->generate_content($this->content_ir);
-            $this->content_ir['images'] = $this->generate_image($this->content_ir);
-            $quality = $this->ecosystem_quality_check($this->content_ir);
-
-            return [
-                'success' => true,
-                'ir' => $this->content_ir,
-                'quality' => $quality,
-                'meta' => ['module_type' => $this->module_type, 'ecosystem_version' => '10.5.0'],
-            ];
-        } catch (\Throwable $e) {
-            return [
-                'success' => false,
-                'error' => $e->getMessage(),
-                'ir' => $this->content_ir,
-            ];
-        }
-    }
-
     protected function load_keywords(array $context): array {
         if (!empty($context['keywords'])) {
             return is_array($context['keywords']) ? $context['keywords'] : [$context['keywords']];
@@ -123,12 +95,4 @@ trait ContentEcosystemTrait {
     abstract protected function generate_content(array $ir): string;
     abstract protected function generate_image(array $ir): array;
 
-    protected function get_ir(string $key = '', $default = null) : mixed {
-        if ($key === '') return $this->content_ir;
-        return $this->content_ir[$key] ?? $default;
-    }
-
-    protected function get_eco_context(string $key, $default = null) {
-        return $this->eco_context[$key] ?? $default;
-    }
 }

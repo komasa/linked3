@@ -70,20 +70,6 @@ class TokenMeter {
     }
 
     /**
-     * 获取用户今日 token 用量。
-     */
-    public function getTodayUsage(int $userId): int {
-        $date = current_time('Y-m-d');
-        $total = 0;
-        foreach ($this->usage['daily'][$date] ?? [] as $e) {
-            if ($e['user_id'] === $userId) {
-                $total += $e['total_tokens'];
-            }
-        }
-        return $total;
-    }
-
-    /**
      * 获取用户月度用量。
      */
     public function getMonthlyUsage(int $userId): int {
@@ -95,43 +81,6 @@ class TokenMeter {
             }
         }
         return $total;
-    }
-
-    /**
-     * 获取按 Provider 统计。
-     */
-    public function getByProvider(string $provider, string $period = 'daily'): int {
-        $key = $period;
-        $date = $period === 'daily' ? current_time('Y-m-d') : current_time('Y-m');
-        $total = 0;
-        foreach ($this->usage[$key][$date] ?? [] as $e) {
-            if ($e['provider'] === $provider) {
-                $total += $e['total_tokens'];
-            }
-        }
-        return $total;
-    }
-
-    /**
-     * 获取成本估算 (按 provider 单价)。
-     */
-    public function estimateCost(int $userId, string $period = 'monthly'): float {
-        $prices = [  // 每 1K token 价格 (USD)
-            'gpt-4o' => 0.005,
-            'gpt-4o-mini' => 0.00015,
-            'deepseek' => 0.001,
-            'siliconflow' => 0.0005,
-            'zhipu' => 0.002,
-        ];
-
-        $date = $period === 'monthly' ? current_time('Y-m') : current_time('Y-m-d');
-        $cost = 0;
-        foreach ($this->usage[$period][$date] ?? [] as $e) {
-            if ($e['user_id'] !== $userId) continue;
-            $price = $prices[$e['provider']] ?? 0.001;
-            $cost += ($e['total_tokens'] / 1000) * $price;
-        }
-        return round($cost, 4);
     }
 
     /**

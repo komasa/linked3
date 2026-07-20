@@ -37,62 +37,6 @@ class ReferralManager {
     }
 
     /**
-     * 绑定推荐关系 (被推荐人首次付费时)。
-     */
-    public function bindReferral(int $referredUserId, string $referralCode): bool {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_referrals';
-
-        // 查找推荐人
-        $referrer = $wpdb->get_var($wpdb->prepare(
-            "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'linked3_referral_code' AND meta_value = %s",
-            $referralCode
-        ));
-        if (!$referrer) return false;
-
-        // 记录推荐关系
-        $wpdb->query($wpdb->prepare(
-            "INSERT INTO {$table} (referrer_id, referred_id, referral_code, status, bound_at) VALUES (%s, %s, %s, %s, %s)",
-            $referrer, $referredUserId, $referralCode, 'bound', current_time('mysql')
-        ));
-
-        linked3_dispatch('linked3.billing.referral.bound', [
-            'referrer_id' => $referrer, 'referred_id' => $referredUserId,
-        ]);
-        return true;
-    }
-
-    /**
-     * 计算返佣 (被推荐人付费时)。
-     */
-    public function calculateCommission(int $referredUserId, float $paymentAmount): array {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_referrals';
-
-        $referral = $wpdb->get_row($wpdb->prepare(
-            "SELECT * FROM {$table} WHERE referred_id = %d AND status = 'bound'",
-            $referredUserId
-        ), ARRAY_A);
-
-        if (!$referral) return ['commission' => 0, 'referrer_id' => 0];
-
-        $commission = round($paymentAmount * $this->commissionRate, 2);
-
-        // 更新返佣金额
-        $wpdb->query($wpdb->prepare(
-            "UPDATE {$table} SET total_payments = %s, total_commission = %s, status = %s WHERE id = %s",
-            ($referral['total_payments'] ?? 0) + $paymentAmount, ($referral['total_commission'] ?? 0) + $commission, 'earning', $referral['id']
-        ));
-
-        linked3_dispatch('linked3.billing.commission.earned', [
-            'referrer_id' => $referral['referrer_id'],
-            'amount' => $commission,
-        ]);
-
-        return ['commission' => $commission, 'referrer_id' => $referral['referrer_id']];
-    }
-
-    /**
      * 获取用户返佣统计。
      */
     public function getStats(int $userId): array {

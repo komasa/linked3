@@ -59,59 +59,6 @@ class PromptEngine {
         return $prompt;
     }
 
-    /**
-     * A/B 测试: 注册同一模板的多个变体。
-     */
-    public function registerAB(string $experimentId, array $variants): void {
-        $this->abVariants[$experimentId] = $variants;
-    }
-
-    /**
-     * A/B 测试: 获取一个变体 (随机)。
-     */
-    public function getABVariant(string $experimentId): string {
-        if (!isset($this->abVariants[$experimentId])) {
-            throw new RuntimeException("A/B experiment not found: {$experimentId}");
-        }
-        $variants = $this->abVariants[$experimentId];
-        return $variants[array_rand($variants)];
-    }
-
-    /**
-     * 记录 Prompt 性能 (用于优化)。
-     */
-    public function recordPerformance(string $templateId, float $score): void {
-        if (!isset($this->performance[$templateId])) {
-            $this->performance[$templateId] = ['calls' => 0, 'total_score' => 0, 'avg_score' => 0];
-        }
-        $this->performance[$templateId]['calls']++;
-        $this->performance[$templateId]['total_score'] += $score;
-        $this->performance[$templateId]['avg_score'] =
-            $this->performance[$templateId]['total_score'] / $this->performance[$templateId]['calls'];
-    }
-
-    /**
-     * 获取最佳模板 (按平均分排序)。
-     */
-    public function getBestTemplate(array $candidateIds): ?string {
-        $best = null;
-        $bestScore = 0;
-        foreach ($candidateIds as $id) {
-            $score = $this->performance[$id]['avg_score'] ?? 0;
-            if ($score > $bestScore) {
-                $bestScore = $score;
-                $best = $id;
-            }
-        }
-        return $best;
-    }
-
-    /**
-     * 获取性能报告。
-     */
-    public function getPerformanceReport(): array {
-        return $this->performance;
-    }
 }
 
 
