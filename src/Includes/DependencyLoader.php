@@ -32,8 +32,6 @@ declare(strict_types=1);
  * @package Linked3
  * @subpackage Includes
  */
- */
- */
 
 namespace Linked3\Includes;
 

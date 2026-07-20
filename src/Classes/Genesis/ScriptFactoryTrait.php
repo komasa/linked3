@@ -32,8 +32,6 @@ declare(strict_types=1);
  * @since 10.4.0
  * @version 10.4.0
  */
- */
- */
 
 namespace Linked3\Classes\Genesis;
 
