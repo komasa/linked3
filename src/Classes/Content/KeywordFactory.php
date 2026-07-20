@@ -47,9 +47,9 @@ class KeywordFactory {
         $topic = $this->eco_context['topic'] ?? '';
 
         // 委托 Keyword_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\KeywordManager')) {
+        if (class_exists('\Linked3\Classes\SEO\Keyword\KeywordManager')) {
             try {
-                $mgr = new \KeywordManager();
+                $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
                 if (method_exists($mgr, 'generate_tail_keywords')) {
                     $tail = $mgr->generate_tail_keywords($topic, 10);
                     if (is_array($tail)) {

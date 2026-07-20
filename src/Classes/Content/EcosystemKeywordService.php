@@ -30,9 +30,9 @@ class EcosystemKeywordService
     public static function generate_keywords(string $seed, int $count = 20): array
     {
         // Delegate to KeywordManager (if exists)
-        if (class_exists('\Linked3\Classes\Content\KeywordManager')) {
+        if (class_exists('\Linked3\Classes\SEO\Keyword\KeywordManager')) {
             try {
-                $mgr = new \KeywordManager();
+                $mgr = new \Linked3\Classes\SEO\Keyword\KeywordManager();
                 if (method_exists($mgr, 'generate_tail_keywords')) {
                     $result = $mgr->generate_tail_keywords($seed, $count);
                     if (is_array($result) && !empty($result)) return $result;
