@@ -8,21 +8,13 @@ if (!defined('ABSPATH')) exit;
 
 class GenesisHelpers
 {
-    public static function genesisParallelGeneratePrompts(array $nodes, string $styleId, string $platform, string $styleName): array
+    public static function genesisParallelGeneratePrompts(array $nodes, string $styleId, string $platform, string $styleName, ?array $seedDNA = null): array
     {
         if (empty($nodes)) return ['__mode' => 'empty'];
 
         $providerSlug = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
         $savedModels  = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
         $model        = $savedModels[$providerSlug] ?? 'Qwen/Qwen2.5-7B-Instruct';
-
-        if (function_exists('curl_multi_init')) {
-            $result = self::genesisCurlMultiPrompts($nodes, $providerSlug, $model, $styleName, $platform, $styleId, $seedDNA);
-            if ($result !== null) {
-                $result['__mode'] = 'curl_multi';
-                return $result;
-            }
-        }
 
         $result = self::genesisSerialPrompts($nodes, $providerSlug, $model, $styleName, $platform, $styleId, $seedDNA);
         $result['__mode'] = 'serial';

@@ -39,7 +39,7 @@ class GenesisProcessorDelegates
         $chapterNodes = [];
         if ($splitMode === 'chapter') {
             if ($progressCb) $progressCb(8, 'chapter_split', '章节模式: 按章节标记拆分剧本...');
-            $chapterNodes = self::splitByChapters($script, $chapterMarker);
+            $chapterNodes = GenesisHelpers::splitByChapters($script, $chapterMarker);
             if (count($chapterNodes) >= 2) {
                 $targetPanels = count($chapterNodes);
             }
@@ -71,10 +71,10 @@ class GenesisProcessorDelegates
         } elseif ($splitMode === 'refine') {
             // v7.2.1: 精炼模式 — AI 先提炼故事骨架, 再按目标分镜数分配
             if ($progressCb) $progressCb(10, 'refine', '精炼模式: AI 提炼故事核心情节链, 精炼为 ' . $targetPanels . ' 个分镜...');
-            $nodes = self::genesisRefineAndSplit($scriptTrimmed, $targetPanels, $styleName, $styleId);
+            $nodes = GenesisHelpers::genesisRefineAndSplit($scriptTrimmed, $targetPanels, $styleName, $styleId);
             if ($progressCb) $progressCb(20, 'refine_done', '精炼完成, 共 ' . count($nodes) . ' 个分镜节点');
         } else {
-            $nodes = self::genesisFPExtractCores($scriptTrimmed, $targetPanels, $styleName, $isAuto, $styleId);
+            $nodes = GenesisHelpers::genesisFPExtractCores($scriptTrimmed, $targetPanels, $styleName, $isAuto, $styleId);
         }
         // v7.1.7: 剥骨失败 → 多级降级 (保证一定有分镜)
         if (count($nodes) < 2) {
@@ -124,12 +124,12 @@ class GenesisProcessorDelegates
             if ($progressCb) $progressCb(20, 'fallback_split', '句号降级完成, 生成 ' . count($nodes) . ' 个节点');
         }
         // v8.0.0 M1: 分镜数强制守卫 — 用户指定N=返回N (截断+补齐)
-        $nodes = self::enforcePanelCount($nodes, $targetPanels, $script, $styleName);
+        $nodes = GenesisHelpers::enforcePanelCount($nodes, $targetPanels, $script, $styleName);
         if ($progressCb) $progressCb(25, 'panel_count_enforced', '分镜数强制: ' . count($nodes) . ' 个 (目标 ' . $targetPanels . ')');
             // ---------- 阶段2: 并发调用 AI 生成每节点画面 Prompt ----------
             if ($progressCb) $progressCb(40, 'parallel_generate', '阶段2: curl_multi 并发调用 AI 生成画面 Prompt (' . count($nodes) . ' 节点, 约 15-40s)...');
             $parallelStart = microtime(true);
-            $promptResults = self::genesisParallelGeneratePrompts($nodes, $styleId, $platform, $styleName);
+            $promptResults = GenesisHelpers::genesisParallelGeneratePrompts($nodes, $styleId, $platform, $styleName);
             $parallelElapsedMs = (int) ((microtime(true) - $parallelStart) * 1000);
             if ($progressCb) $progressCb(80, 'assemble', '组装结果 + PQS 质检...');
             // ---------- 组装最终结果 (AI 成功的用 AI, 失败的用本地 PromptAssembler) ----------
@@ -160,9 +160,9 @@ class GenesisProcessorDelegates
                 if (isset($promptResults[$i]) && ($promptResults[$i]['ok'] ?? false)) {
                     $aiContent = trim($promptResults[$i]['content'] ?? '');
                     if (!empty($aiContent)) {
-                        $cleaned = self::cleanAIPrompt($aiContent, $platform);
+                        $cleaned = GenesisHelpers::cleanAIPrompt($aiContent, $platform);
                         // v7.1.2: 验收门 — 检测循环/重复劣化
-                        if (!self::isAIPromptDegraded($cleaned)) {
+                        if (!GenesisHelpers::isAIPromptDegraded($cleaned)) {
                             $promptEn = $cleaned;
                             $promptSource = 'ai';
                             $aiGeneratedCount++;
@@ -174,7 +174,7 @@ class GenesisProcessorDelegates
                 }
                 // v7.1.2: AI 劣化 → 换大模型 deepseek-chat 串行重试一次
                 if (empty($promptEn) && $aiDegraded) {
-                    $retryPrompt = self::genesisBuildNodePrompt($node, $styleName, $platform, $styleId, $seedDNA);
+                    $retryPrompt = GenesisHelpers::genesisBuildNodePrompt($node, $styleName, $platform, $styleId, $seedDNA);
                     try {
                         $retryResult = AIDispatcher::instance()->chat(
                             [['role' => 'user', 'content' => $retryPrompt]],
@@ -189,8 +189,8 @@ class GenesisProcessorDelegates
                             ],
                             ['fallback_providers' => ['zhipu', 'siliconflow'], 'force_bypass_circuit' => true]
                         );
-                        $retryCleaned = self::cleanAIPrompt($retryResult['content'] ?? '', $platform);
-                        if (!empty($retryCleaned) && !self::isAIPromptDegraded($retryCleaned)) {
+                        $retryCleaned = GenesisHelpers::cleanAIPrompt($retryResult['content'] ?? '', $platform);
+                        if (!empty($retryCleaned) && !GenesisHelpers::isAIPromptDegraded($retryCleaned)) {
                             $promptEn = $retryCleaned;
                             $promptSource = 'ai_retry';
                             $aiRetryCount++;
