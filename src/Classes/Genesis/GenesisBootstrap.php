@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_Bootstrap — extracted from GenesisAtomIndex.php during PSR-4 migration.
+ * GenesisBootstrap — extracted from GenesisAtomIndex.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 
@@ -23,11 +23,11 @@ class GenesisBootstrap {
 
         $container = linked3_container();
         $container->set('genesis.atom_index', fn() => GenesisAtomIndex::instance());
-        $container->set('genesis.plot_parser', fn() => new Linked3_Genesis_PlotParser());
-        $container->set('genesis.atom_selector', fn() => new Linked3_Genesis_AtomSelector());
-        $container->set('genesis.prompt_assembler', fn() => new Linked3_Genesis_PromptAssembler());
-        $container->set('genesis.pqs_checker', fn() => new Linked3_Genesis_PQSChecker());
-        $container->set('genesis.storyboard', fn() => new Linked3_Genesis_StoryboardGenerator());
+        $container->set('genesis.plot_parser', fn() => new GenesisPlotParser());
+        $container->set('genesis.atom_selector', fn() => new GenesisAtomSelector());
+        $container->set('genesis.prompt_assembler', fn() => new GenesisPromptAssembler());
+        $container->set('genesis.pqs_checker', fn() => new GenesisPQSChecker());
+        $container->set('genesis.storyboard', fn() => new GenesisStoryboardGenerator());
 
         if (function_exists('linked3_dispatch')) {
             linked3_dispatch('linked3.genesis.boot', ['version' => LINKED3_VERSION]);

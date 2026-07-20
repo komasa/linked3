@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_StoryboardGenerator — extracted from GenesisAtomIndex.php during PSR-4 migration.
+ * GenesisStoryboardGenerator — extracted from GenesisAtomIndex.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 
@@ -17,7 +17,7 @@ class GenesisStoryboardGenerator {
 
     public function generate(array $scenes, int $panelsPerScene = 0): array {
         $panels = [];
-        $selector = new Linked3_Genesis_AtomSelector();
+        $selector = new GenesisAtomSelector();
 
         foreach ($scenes as $sc) {
             $charCount = max(1, count($sc['characters'] ?? []) ?: 1);

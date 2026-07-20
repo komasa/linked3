@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_IRCompiler — extracted from GenesisSeedLibrary.php during PSR-4 migration.
+ * GenesisIRCompiler — extracted from GenesisSeedLibrary.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 

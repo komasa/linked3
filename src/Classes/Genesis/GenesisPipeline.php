@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_Pipeline — extracted from GenesisSeedLibrary.php during PSR-4 migration.
+ * GenesisPipeline — extracted from GenesisSeedLibrary.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 
@@ -11,15 +11,15 @@ namespace Linked3\Classes\Genesis;
 if (!defined('ABSPATH')) exit;
 
 class GenesisPipeline {
-    private Linked3_Genesis_IRCompiler $compiler;
-    private Linked3_Genesis_Mutator $mutator;
-    private Linked3_Genesis_Evaluator $evaluator;
+    private GenesisIRCompiler $compiler;
+    private GenesisMutator $mutator;
+    private GenesisEvaluator $evaluator;
 
     public function __construct() {
-        $this->compiler = new Linked3_Genesis_IRCompiler();
-        $this->mutator = new Linked3_Genesis_Mutator();
+        $this->compiler = new GenesisIRCompiler();
+        $this->mutator = new GenesisMutator();
         $threshold = intval(get_option(LINKED3_OPTION_PREFIX . 'v7_cull_threshold', 28));
-        $this->evaluator = new Linked3_Genesis_Evaluator($threshold);
+        $this->evaluator = new GenesisEvaluator($threshold);
     }
 
     public function run(array $panels, string $styleId = 'ST1', string $platform = 'mj'): array {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_Mutator — extracted from GenesisSeedLibrary.php during PSR-4 migration.
+ * GenesisMutator — extracted from GenesisSeedLibrary.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 

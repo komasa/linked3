@@ -168,7 +168,7 @@ class GenesisLogger {
      * 记录异常
      */
     public static function exception($e, $stage = '', $extra_context = []) : void {
-        if ($e instanceof Linked3_Genesis_Exception) {
+        if ($e instanceof GenesisException) {
             $context = array_merge($e->getContext(), $extra_context, [
                 'error_code' => $e->getErrorCode(),
                 'file'       => $e->getFile(),

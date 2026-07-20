@@ -73,10 +73,10 @@ class ComicFactory {
      */
     protected function project(array $ir): array {
         // 委托给v7.1.0引擎 (公理E: DRY, 不重写)
-        if (class_exists('\Linked3\Classes\Genesis\Linked3_Genesis_Engine_V7')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisV7Generator')) {
             try {
-                if (method_exists('\Linked3\Classes\Genesis\Linked3_Genesis_Engine_V7', 'generate_v9')) {
-                    $result = \Linked3_Genesis_Engine_V7::generate_v9([
+                if (method_exists('\Linked3\Classes\Genesis\GenesisV7Generator', 'generate_v9')) {
+                    $result = \GenesisV7Generator::generate_v9([
                         'plot' => $ir['plot'],
                         'style' => $ir['style'],
                         'platform' => $ir['platform'],
@@ -180,9 +180,9 @@ class ComicFactory {
 
     private function parse_plot(string $plot): array {
         // 委托 PlotParser (若存在)
-        if (class_exists('\Linked3\Classes\Genesis\Linked3_Genesis_PlotParser')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisPlotParser')) {
             try {
-                $parser = new \Linked3_Genesis_PlotParser();
+                $parser = new \GenesisPlotParser();
                 if (method_exists($parser, 'parse')) {
                     return $parser->parse($plot);
                 }

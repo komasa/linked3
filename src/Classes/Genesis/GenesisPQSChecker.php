@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_PQSChecker — extracted from GenesisAtomIndex.php during PSR-4 migration.
+ * GenesisPQSChecker — extracted from GenesisAtomIndex.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 

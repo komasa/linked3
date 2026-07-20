@@ -155,8 +155,8 @@ abstract class ScriptFactoryBase {
             if (class_exists('\Linked3\Classes\Genesis\SeedUnified')) {
                 $entry = \SeedUnified::load_seed_dna($type, $id);
             }
-            if ($entry === null && class_exists('\Linked3\Classes\Genesis\Linked3_Seed_CPT')) {
-                $entry = \Linked3_Seed_CPT::load_seed_dna($type, $id);
+            if ($entry === null && class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) {
+                $entry = \GenesisSeedCPT::load_seed_dna($type, $id);
             }
 
             if ($entry !== null) {

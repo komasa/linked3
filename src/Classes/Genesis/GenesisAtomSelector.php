@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Genesis_AtomSelector — extracted from GenesisAtomIndex.php during PSR-4 migration.
+ * GenesisAtomSelector — extracted from GenesisAtomIndex.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
 
