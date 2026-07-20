@@ -5,6 +5,8 @@ declare(strict_types=1);
  * BookFactory Steps — extracted from Book_Factory God Class (G4.3).
  *
  * Contains the 6 step execution methods (demo→explore→outline→expand→complete→review).
+ * v19.0.1: Made self-contained — owns call_ai_with_rate_limit(), rebuild_draft_incremental(),
+ *          and uses Traits directly. No longer depends on BookFactory instance private methods.
  *
  * @package Linked3
  * @subpackage Classes\BookFactory
@@ -15,8 +17,28 @@ namespace Linked3\Classes\BookFactory;
 
 if (!defined('ABSPATH')) exit;
 
+// 显式加载 Trait (与 BookFactory 保持一致)
+$trait_dir = __DIR__ . '/Traits/';
+require_once $trait_dir . 'OutlineMerger.php';
+require_once $trait_dir . 'SectionExpander.php';
+require_once $trait_dir . 'ReviewLinker.php';
+require_once $trait_dir . 'CostTracker.php';
+
+use \Linked3\Classes\BookFactory\Traits\OutlineMerger;
+use \Linked3\Classes\BookFactory\Traits\SectionExpander;
+use \Linked3\Classes\BookFactory\Traits\ReviewLinker;
+use \Linked3\Classes\BookFactory\Traits\CostTracker;
+
 class BookFactorySteps
 {
+    use OutlineMerger;
+    use SectionExpander;
+    use ReviewLinker;
+    use CostTracker;
+
+    /** @var float 上次AI调用时间戳 (速率控制) */
+    private $last_api_call = 0;
+
     public function execute_step1_demo( $state ) : array {
         $state->set_status( BookProjectState::STATUS_DEMOING );
         $state->save_state();
@@ -33,7 +55,7 @@ class BookFactorySteps
             $state->set( 'current_prompt_step', 'step1_demo' );
             $state->save_state();
 
-            $response = $this->call_ai_with_rate_limit( $prompt );
+            $response = $this->call_ai_with_rate_limit( $prompt, $state );
             if ( is_wp_error( $response ) ) {
                 $state->log_step( 'step1_demo', 'failed', array( 'error' => $response->get_error_message() ) );
             } else {
@@ -74,7 +96,7 @@ class BookFactorySteps
             $state->set( 'current_prompt_step', 'step2_explore' );
             $state->save_state();
 
-            $response = $this->call_ai_with_rate_limit( $prompt );
+            $response = $this->call_ai_with_rate_limit( $prompt, $state );
             if ( is_wp_error( $response ) ) {
                 $state->log_step( 'step2_explore', 'failed', array( 'error' => $response->get_error_message() ) );
             } else {
@@ -123,7 +145,7 @@ class BookFactorySteps
         $state->set( 'current_prompt_iter', $iter_cursor + 1 );
         $state->save_state();
 
-        $response = $this->call_ai_with_rate_limit( $prompt );
+        $response = $this->call_ai_with_rate_limit( $prompt, $state );
         if ( is_wp_error( $response ) ) {
             $state->set_status( BookProjectState::STATUS_FAILED );
             $state->save_state();
@@ -243,7 +265,7 @@ class BookFactorySteps
                 $state->set( 'current_section_idx', $sec_idx );
                 $state->save_state();
 
-                $response = $this->call_ai_with_rate_limit( $prompt );
+                $response = $this->call_ai_with_rate_limit( $prompt, $state );
                 if ( is_wp_error( $response ) ) {
                     $state->set_status( BookProjectState::STATUS_FAILED );
                     $state->save_state();
@@ -310,7 +332,68 @@ class BookFactorySteps
         $state->save_state();
 
         try {
-            $this->pipeline_step5_complete();
+            // Inlined pipeline_step5_complete logic (was $this->pipeline_step5_complete())
+            $chapters = $state->get( 'chapters' );
+            $sections = $state->get( 'sections' );
+            $book_title = $state->get( 'book_title' );
+
+            // v18.9.2: 如果大纲为空, 用step3的AI原始输出作为正文兜底
+            if ( empty( $chapters ) ) {
+                $outline_versions = $state->get( 'outline_versions', array() );
+                $raw_outline = '';
+                if ( ! empty( $outline_versions ) ) {
+                    $last_version = end( $outline_versions );
+                    if ( isset( $last_version['raw_content'] ) ) {
+                        $raw_outline = $last_version['raw_content'];
+                    }
+                }
+                // 用step2探索内容或step1演示内容兜底
+                if ( empty( $raw_outline ) ) {
+                    $raw_outline = $state->get( 'exploration', '' ) ?: $state->get( 'demo_questions', '' );
+                }
+                $chapters = array(
+                    array(
+                        'title' => $book_title,
+                        'sections' => array(
+                            array( 'title' => '正文', 'content' => $raw_outline ?: '（大纲生成异常,请重试）' ),
+                        ),
+                    ),
+                );
+                $sections = array( array( 0 => $raw_outline ?: '' ) );
+                $state->set( 'chapters', $chapters );
+                $state->set( 'sections', $sections );
+            }
+
+            // 合并章节内容
+            $full_chapters = array();
+            foreach ( $chapters as $ch_idx => $chapter ) {
+                $ch_data = array(
+                    'title'    => $chapter['title'] ?? '未命名章节',
+                    'sections' => array(),
+                );
+                $chapter_sections = $chapter['sections'] ?? array();
+                foreach ( $chapter_sections as $sec_idx => $section ) {
+                    $ch_data['sections'][] = array(
+                        'title'   => $section['title'] ?? '未命名小节',
+                        'content' => isset( $sections[ $ch_idx ][ $sec_idx ] ) ? $sections[ $ch_idx ][ $sec_idx ] : '',
+                    );
+                }
+                $full_chapters[] = $ch_data;
+            }
+
+            // v18.9.2修复: output_template_config兜底
+            $route = $state->get( 'route', array() );
+            $template = isset( $route['output_template_config'] ) ? $route['output_template_config'] : array();
+            if ( empty( $template ) ) {
+                $template = array( 'chapter_prefix' => '第', 'chapter_suffix' => '章' );
+            }
+            $result = SectionStitcher::stitch( $full_chapters, $template, $book_title );
+            $files = SectionStitcher::save_to_file( $state->project_id, $result['markdown'], $result['html'] );
+
+            $state->set( 'draft_markdown', $result['markdown'] );
+            $state->set( 'draft_html', $result['html'] );
+            $state->set( 'draft_files', $files );
+
             $state->log_step( 'step5_complete', 'success' );
         } catch ( \Throwable $e ) {
             $state->log_step( 'step5_complete', 'failed', array( 'error' => $e->getMessage() ) );
@@ -340,7 +423,7 @@ class BookFactorySteps
             $state->set( 'current_prompt_step', 'step6_review' );
             $state->save_state();
 
-            $response = $this->call_ai_with_rate_limit( $prompt );
+            $response = $this->call_ai_with_rate_limit( $prompt, $state );
             if ( is_wp_error( $response ) ) {
                 $state->log_step( 'step6_review', 'failed', array( 'error' => $response->get_error_message() ) );
             } else {
@@ -366,4 +449,74 @@ class BookFactorySteps
         return array( 'done' => true, 'step' => 'step6_review', 'next' => 'done' );
     }
 
+    // ─────────────────────────────────────────
+    // Self-contained helper methods (no longer depend on BookFactory)
+    // ─────────────────────────────────────────
+
+    /**
+     * AI调用 + 速率控制 + 成本记录 (从 BookFactory 迁移)
+     *
+     * @param string $prompt
+     * @param BookProjectState|null $state 用于成本记录, null时跳过
+     * @return array|WP_Error
+     */
+    private function call_ai_with_rate_limit( $prompt, $state = null ) {
+        $min_interval = 1.0;
+        $elapsed = microtime( true ) - $this->last_api_call;
+        if ( $elapsed < $min_interval ) usleep( (int) ( ( $min_interval - $elapsed ) * 1000000 ) );
+        $this->last_api_call = microtime( true );
+        try {
+            $dispatcher = AIDispatcher::instance();
+            $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
+            $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
+            $config = TokenManager::get_active_config();
+            $response = $dispatcher->chat( $messages, $options, $config );
+        } catch ( \Throwable $e ) {
+            throw new \RuntimeException( 'AI call failed: ' . $e->getMessage(), 0, $e );
+        }
+        if ( is_wp_error( $response ) ) return $response;
+        $content = ''; $tokens_in = 0; $tokens_out = 0;
+        if ( isset( $response['choices'][0]['message']['content'] ) ) $content = $response['choices'][0]['message']['content'];
+        elseif ( isset( $response['content'] ) ) $content = $response['content'];
+        if ( isset( $response['usage']['prompt_tokens'] ) ) $tokens_in = intval( $response['usage']['prompt_tokens'] );
+        if ( isset( $response['usage']['completion_tokens'] ) ) $tokens_out = intval( $response['usage']['completion_tokens'] );
+        $cost = $this->calculate_cost( $tokens_in, $tokens_out );
+        if ( $state ) {
+            $this->log_cost_to_state( $state, 'ai_call', $tokens_in, $tokens_out, $cost );
+        }
+        return array( 'content' => $content, 'tokens_in' => $tokens_in, 'tokens_out' => $tokens_out, 'cost' => $cost );
+    }
+
+    /**
+     * 增量重建草稿 (委托给 BookDraftBuilder::rebuild())
+     * 替代原幻影方法 rebuild_draft_incremental()
+     *
+     * @param BookProjectState $state
+     */
+    private function rebuild_draft_incremental( $state ) {
+        $builder = new BookDraftBuilder();
+        return $builder->rebuild( $state );
+    }
+
+    /**
+     * 智能分割大纲 (委托给 BookFactoryUtils)
+     *
+     * @param string $content
+     * @return mixed
+     */
+    private function smart_split_outline( $content ) {
+        $utils = new BookFactoryUtils();
+        return $utils->smart_split_outline( $content );
+    }
+
+    /**
+     * 解析大纲 (委托给 BookFactoryUtils)
+     *
+     * @param string $content
+     * @return mixed
+     */
+    private function parse_outline( $content ) {
+        $utils = new BookFactoryUtils();
+        return $utils->parse_outline( $content );
+    }
 }

@@ -40,7 +40,7 @@ steps:
   - id: step1_demo
     name: "AI演示"
     description: "AI模拟读者提问，演示书稿价值"
-    handler: "BookFactory::pipeline_step1_demo"
+    handler: "BookFactory::execute_step1_demo"
     optional: true
     inputs:
       - book_title
@@ -58,7 +58,7 @@ steps:
   - id: step2_explore
     name: "探索主题"
     description: "AI探索书稿主题，生成主题关键词与核心论点"
-    handler: "BookFactory::pipeline_step2_explore"
+    handler: "BookFactory::execute_step2_explore"
     optional: true
     depends_on: step1_demo
     inputs:
@@ -78,7 +78,7 @@ steps:
   - id: step3_outline
     name: "撰写大纲"
     description: "AI生成大纲，2-10次迭代合并为最终大纲"
-    handler: "BookFactory::pipeline_step3_outline"
+    handler: "BookFactory::execute_step3_outline_iter"
     optional: false
     depends_on: step2_explore
     inputs:
@@ -100,7 +100,7 @@ steps:
   - id: step4_expand
     name: "扩写小节"
     description: "逐节扩写，前段摘要+完整大纲作上下文"
-    handler: "BookFactory::pipeline_step4_expand"
+    handler: "BookFactory::execute_step4_expand_one"
     optional: false
     depends_on: step3_outline
     inputs:
@@ -120,7 +120,7 @@ steps:
   - id: step5_complete
     name: "完成初稿"
     description: "拼接所有章节为完整书稿Markdown+HTML"
-    handler: "BookFactory::pipeline_step5_complete"
+    handler: "BookFactory::execute_step5_complete"
     optional: false
     depends_on: step4_expand
     inputs:
@@ -141,7 +141,7 @@ steps:
   - id: step6_review
     name: "阅读修改"
     description: "联动SEO/改写/标题模块，增量审阅"
-    handler: "BookFactory::pipeline_step6_review"
+    handler: "BookFactory::execute_step6_review"
     optional: true
     depends_on: step5_complete
     inputs:
