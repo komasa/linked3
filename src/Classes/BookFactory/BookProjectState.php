@@ -261,31 +261,6 @@ class BookProjectState {
     }
 
     /**
-     * 获取完整状态
-     *
-     * @return array
-     */
-    public function get_all() {
-        return $this->state;
-    }
-
-    /**
-     * 更新章节内容
-     *
-     * @param int    $chapter_index 0-based
-     * @param int    $section_index 0-based
-     * @param string $content
-     * @return self
-     */
-    public function update_section( $chapter_index, $section_index, $content ) {
-        if ( ! isset( $this->state['sections'][ $chapter_index ] ) ) {
-            $this->state['sections'][ $chapter_index ] = array();
-        }
-        $this->state['sections'][ $chapter_index ][ $section_index ] = $content;
-        return $this;
-    }
-
-    /**
      * 记录步骤历史
      *
      * @param string $step_id
@@ -315,32 +290,6 @@ class BookProjectState {
     }
 
     /**
-     * 预算是否超限 (R1修复: 补全缺失方法)
-     *
-     * @return bool
-     */
-    public function is_budget_exceeded() {
-        $total_cost = 0.0;
-        foreach ( $this->state['cost_log'] as $entry ) {
-            $total_cost += $entry['cost'];
-        }
-        return $total_cost >= $this->state['budget_total'];
-    }
-
-    /**
-     * 预算是否告警 (R1修复: 补全缺失方法)
-     *
-     * @return bool
-     */
-    public function is_budget_warning() {
-        $total_cost = 0.0;
-        foreach ( $this->state['cost_log'] as $entry ) {
-            $total_cost += $entry['cost'];
-        }
-        return $total_cost >= $this->state['budget_total'] * 0.8;
-    }
-
-    /**
      * 记录成本
      *
      * @param string $step_id
@@ -358,109 +307,6 @@ class BookProjectState {
             'timestamp'  => current_time( 'mysql' ),
         );
         return $this;
-    }
-
-    /**
-     * 获取进度信息
-     *
-     * @return array
-     */
-    public function get_progress() {
-        $total_sections = 0;
-        $done_sections  = 0;
-
-        if ( ! empty( $this->state['final_outline']['chapters'] ) ) {
-            foreach ( $this->state['final_outline']['chapters'] as $ch ) {
-                $sec_count = isset( $ch['sections'] ) ? count( $ch['sections'] ) : 0;
-                $total_sections += $sec_count;
-            }
-        }
-
-        if ( ! empty( $this->state['sections'] ) ) {
-            foreach ( $this->state['sections'] as $chapter_sections ) {
-                $done_sections += count( array_filter( $chapter_sections, function( $s ) {
-                    return ! empty( $s );
-                } ) );
-            }
-        }
-
-        $section_percent = $total_sections > 0 ? round( ( $done_sections / $total_sections ) * 100 ) : 0;
-
-        // 成本统计
-        $total_cost = 0.0;
-        $total_tokens_in = 0;
-        $total_tokens_out = 0;
-        foreach ( $this->state['cost_log'] as $entry ) {
-            $total_cost       += $entry['cost'];
-            $total_tokens_in  += $entry['tokens_in'];
-            $total_tokens_out += $entry['tokens_out'];
-        }
-
-        // R3修复: 计算章节进度 (前端期望 current_chapter / total_chapters)
-        $total_chapters = ! empty( $this->state['final_outline']['chapters'] ) ? count( $this->state['final_outline']['chapters'] ) : 0;
-        $current_chapter = 0;
-        if ( ! empty( $this->state['sections'] ) ) {
-            $current_chapter = count( $this->state['sections'] );
-        }
-
-        // R3修复: 计算总进度百分比 (前端期望 progress_percent)
-        $progress_percent = 0;
-        if ( $total_sections > 0 ) {
-            $progress_percent = $section_percent;
-        } elseif ( $total_chapters > 0 ) {
-            $progress_percent = round( ( $current_chapter / $total_chapters ) * 100 );
-        }
-
-        // R3修复: 步骤进度 (6步 → 每步约16.6%)
-        $step_progress_map = array(
-            'idle' => 0, 'demoing' => 8, 'exploring' => 16, 'outlining' => 33,
-            'expanding' => 66, 'completing' => 90, 'reviewing' => 95,
-            'done' => 100, 'failed' => 0, 'paused' => 0,
-        );
-        $status = $this->state['status'];
-        if ( isset( $step_progress_map[ $status ] ) ) {
-            $progress_percent = max( $progress_percent, $step_progress_map[ $status ] );
-        }
-
-        return array(
-            'project_id'      => $this->project_id,
-            'book_title'      => $this->state['book_title'],
-            'status'          => $this->state['status'],
-            'current_step'    => $this->state['current_step'],
-            'total_sections'  => $total_sections,
-            'done_sections'   => $done_sections,
-            'section_percent' => $section_percent,
-            'total_cost'      => round( $total_cost, 4 ),
-            'total_tokens_in' => $total_tokens_in,
-            'total_tokens_out'=> $total_tokens_out,
-            'budget_total'    => $this->state['budget_total'],
-            'budget_warning'  => $total_cost >= $this->state['budget_total'] * 0.8,
-            'budget_exceeded' => $total_cost >= $this->state['budget_total'],
-            'updated_at'      => $this->state['updated_at'],
-            'step_history_tail' => array_slice( $this->state['step_history'], -5 ),
-            'draft_markdown'  => $this->state['draft_markdown'],
-            'draft_html'      => $this->state['draft_html'],
-            // N4: 当前提示词 (前端可见)
-            'current_prompt'  => $this->state['current_prompt'] ?? '',
-            'current_prompt_step' => $this->state['current_prompt_step'] ?? '',
-            'current_chapter_idx' => $this->state['current_chapter_idx'] ?? 0,
-            'current_section_idx' => $this->state['current_section_idx'] ?? 0,
-            // v18.10: 实时输出内容 (前端可见)
-            'current_output'  => $this->state['current_output'] ?? '',
-            'step_outputs'    => $this->state['step_outputs'] ?? array(),
-            'demo_questions'  => $this->state['demo_questions'] ?? '',
-            'exploration'     => $this->state['exploration'] ?? '',
-            'outline_raw'     => $this->state['outline_raw'] ?? '',
-            'review_output'   => $this->state['review_output'] ?? '',
-            'chapters_count'  => count( $this->state['chapters'] ?? array() ),
-            'sections_count'  => count( $this->state['sections'] ?? array() ),
-            // R3修复: 前端期望的字段别名
-            'cost_total'      => round( $total_cost, 4 ),
-            'tokens_total'    => $total_tokens_in + $total_tokens_out,
-            'progress_percent'=> $progress_percent,
-            'current_chapter' => $current_chapter,
-            'total_chapters'  => $total_chapters,
-        );
     }
 
     /**
