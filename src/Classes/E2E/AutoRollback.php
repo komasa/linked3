@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Auto_Rollback — extracted from E2eTestRunner.php during PSR-4 migration.
+ * AutoRollback — extracted from E2eTestRunner.php during PSR-4 migration.
  *
  * @package Linked3\Classes\E2E
  */
@@ -12,10 +12,10 @@ namespace Linked3\Classes\E2E;
 if (!defined('ABSPATH')) exit;
 
 class AutoRollback {
-    private static ?Linked3_Auto_Rollback $instance = null;
+    private static ?AutoRollback $instance = null;
     private int $failureThreshold = 3; // 超过3个系统失败触发回滚
 
-    public static function instance(): Linked3_Auto_Rollback {
+    public static function instance(): AutoRollback {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
@@ -24,7 +24,7 @@ class AutoRollback {
      * 检查健康并决定是否回滚。
      */
     public function evaluate(): array {
-        $health = (new Linked3_Health_Monitor())->check();
+        $health = (new HealthMonitor())->check();
         $failed = array_keys(array_filter($health, fn($v) => $v === false));
         $shouldRollback = count($failed) > $this->failureThreshold;
 

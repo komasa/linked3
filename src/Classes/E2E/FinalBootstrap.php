@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Final_Bootstrap — extracted from E2eTestRunner.php during PSR-4 migration.
+ * FinalBootstrap — extracted from E2eTestRunner.php during PSR-4 migration.
  *
  * @package Linked3\Classes\E2E
 
@@ -18,8 +18,8 @@ class FinalBootstrap {
         self::$booted = true;
 
         // Phase 1: 核心 (v5.4.0)
-        if (class_exists('\Linked3\Classes\E2E\Linked3_Bootstrap_V54')) {
-            Linked3_Bootstrap_V54::boot();
+        if (class_exists('\Linked3\Classes\E2E\V54Bootstrap')) {
+            V54Bootstrap::boot();
         }
 
         // Phase 2: Agent (v5.5.0)
@@ -28,28 +28,28 @@ class FinalBootstrap {
         }
 
         // Phase 3: AI 增强 (v5.6.0)
-        if (class_exists('\Linked3\Classes\E2E\Linked3_AI_Pipeline_Bootstrap')) {
-            Linked3_AI_Pipeline_Bootstrap::boot();
+        if (class_exists('\Linked3\Classes\AI\Pipeline\AIPipelineBootstrap')) {
+            AIPipelineBootstrap::boot();
         }
 
         // Phase 4: 安全 (v5.7.0)
-        if (class_exists('\Linked3\Classes\E2E\Linked3_Security_Bootstrap')) {
-            Linked3_Security_Bootstrap::boot();
+        if (class_exists('\Linked3\Classes\Security\SecurityBootstrap')) {
+            SecurityBootstrap::boot();
         }
 
         // Phase 5: 商业 (v5.8.0)
-        if (class_exists('\Linked3\Classes\E2E\Linked3_Billing_Bootstrap')) {
-            Linked3_Billing_Bootstrap::boot();
+        if (class_exists('\Linked3\Classes\Billing\BillingBootstrap')) {
+            BillingBootstrap::boot();
         }
 
         // Phase 6: 规模 (v5.9.0)
-        if (class_exists('\Linked3\Classes\E2E\Linked3_Scale_Bootstrap')) {
-            Linked3_Scale_Bootstrap::boot();
+        if (class_exists('\Linked3\Classes\Scale\ScaleBootstrap')) {
+            ScaleBootstrap::boot();
         }
 
         // Phase 7: 最终验证
-        if (class_exists('\Linked3\Classes\E2E\Linked3_Health_Monitor')) {
-            $monitor = new Linked3_Health_Monitor();
+        if (class_exists('\Linked3\Classes\E2E\HealthMonitor')) {
+            $monitor = new HealthMonitor();
             $health = $monitor->check();
             $failedCount = count(array_filter($health, fn($v) => $v === false));
 
@@ -64,8 +64,8 @@ class FinalBootstrap {
             }
 
             // 自动回滚评估
-            if (class_exists('\Linked3\Classes\E2E\Linked3_Auto_Rollback')) {
-                Linked3_Auto_Rollback::instance()->evaluate();
+            if (class_exists('\Linked3\Classes\E2E\AutoRollback')) {
+                AutoRollback::instance()->evaluate();
             }
         }
 

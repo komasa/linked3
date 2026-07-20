@@ -127,7 +127,7 @@ class E2eTestRunner {
         }, 'billing');
 
         $this->registerTest('quota_check_works', function() {
-            $check = Linked3_Quota_Interceptor::instance()->check(0, 1);
+            $check = QuotaInterceptor::instance()->check(0, 1);
             return isset($check['allowed']);
         }, 'billing');
     }
