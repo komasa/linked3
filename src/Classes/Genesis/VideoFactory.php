@@ -32,6 +32,7 @@ declare(strict_types=1);
  * @package Linked3\Genesis
  * @since 10.4.2
  */
+ */
  * @version 10.4.2
  */
 

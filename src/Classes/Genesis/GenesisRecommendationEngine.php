@@ -32,6 +32,7 @@ declare(strict_types=1);
  *   - BUG: require_wondershare_ready 检查 production_ready (字段名错误)
  *   - BUG: require_accessible filter 未实现 (accessible模式=auto模式)
  */
+ */
  *   - BUG: match_function filter 未实现 (conversion模式=auto模式)
  *   - BUG: multi_platform filter 未实现 (cross-platform模式=auto模式)
  *   - BUG: include_categories 用 in_array 精确匹配, category含后缀时不命中
