@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class BookDefaultAICaller
  *
- * 默认 AI 调用器, 委托给 Linked3_AI_Engine 或 Linked3_OpenAI。
+ * 默认 AI 调用器, 委托给 AIEngine 或 OpenAIProvider。
  */
 class BookDefaultAICaller implements BookAICallerInterface {
 
@@ -33,10 +33,10 @@ class BookDefaultAICaller implements BookAICallerInterface {
 	public function call( $prompt, $options = array(), $context = array() ) {
 		// 委托给现有的 AI 引擎。
 		// v19.0 保持与 v18.x 的调用方式一致, 未来可在此处增加多模型路由。
-		if ( class_exists( '\Linked3\Classes\BookFactory\Linked3_AI_Engine' ) ) {
-			$result = Linked3_AI_Engine::generate( $prompt, $options );
-		} elseif ( class_exists( '\Linked3\Classes\BookFactory\Linked3_OpenAI' ) ) {
-			$result = Linked3_OpenAI::chat( $prompt, $options );
+		if ( class_exists( '\Linked3\Classes\BookFactory\AIEngine' ) ) {
+			$result = AIEngine::generate( $prompt, $options );
+		} elseif ( class_exists( '\Linked3\Classes\BookFactory\OpenAIProvider' ) ) {
+			$result = OpenAIProvider::chat( $prompt, $options );
 		} else {
 			return new WP_Error( 'ai_engine_missing', 'AI 引擎未加载' );
 		}

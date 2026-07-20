@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Book_State_Repository_Interface — extracted from BookAICallerInterface.php during PSR-4 migration.
+ * BookStateRepositoryInterface — extracted from BookAICallerInterface.php during PSR-4 migration.
  *
  * @package Linked3\Classes\BookFactory
  */
@@ -40,7 +40,7 @@ interface BookStateRepositoryInterface {
 }
 
 /**
- * Interface Linked3_Book_Prompt_Provider_Interface
+ * Interface BookPromptProviderInterface
  *
  * 提示词提供者接口, 解耦提示词获取与具体来源 (DB/JSON/硬编码)。
  */

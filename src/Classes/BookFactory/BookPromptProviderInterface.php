@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Book_Prompt_Provider_Interface — extracted from BookAICallerInterface.php during PSR-4 migration.
+ * BookPromptProviderInterface — extracted from BookAICallerInterface.php during PSR-4 migration.
  *
  * @package Linked3\Classes\BookFactory
  */
@@ -33,7 +33,7 @@ interface BookPromptProviderInterface {
 }
 
 /**
- * Interface Linked3_Book_Cost_Tracker_Interface
+ * Interface BookCostTrackerInterface
  *
  * 成本追踪接口, 解耦成本计算与具体实现。
  */

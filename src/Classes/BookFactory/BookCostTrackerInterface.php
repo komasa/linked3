@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Book_Cost_Tracker_Interface — extracted from BookAICallerInterface.php during PSR-4 migration.
+ * BookCostTrackerInterface — extracted from BookAICallerInterface.php during PSR-4 migration.
  *
  * @package Linked3\Classes\BookFactory
  */

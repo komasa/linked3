@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * BookFactory 默认成本追踪器 (v19.0 新增)
  *
- * 实现 Linked3_Book_Cost_Tracker_Interface, 委托给 Cost_Tracker Trait 的逻辑。
+ * 实现 BookCostTrackerInterface, 委托给 Cost_Tracker Trait 的逻辑。
  * 作为默认实现, 保持与 v18.x 的向后兼容。
  *
  * @package Linked3\BookFactory
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * 默认成本追踪器, 将成本数据写入项目状态。
  */
-class BookDefaultCostTracker implements Linked3_Book_Cost_Tracker_Interface {
+class BookDefaultCostTracker implements BookCostTrackerInterface {
 
 	/**
 	 * {@inheritdoc}

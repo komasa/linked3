@@ -241,7 +241,7 @@ class SectionStitcher {
             BookSecurity::atomic_write( $html_path, $html );
         } catch ( \RuntimeException $e ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( '[Linked3_Book] 草稿文件原子写入失败: ' . $e->getMessage() );
+                error_log( '[BookFactory] 草稿文件原子写入失败: ' . $e->getMessage() );
             }
             // 回退到普通写入
             file_put_contents( $md_path, $markdown );

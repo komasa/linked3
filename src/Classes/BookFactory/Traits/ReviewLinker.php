@@ -24,11 +24,11 @@ trait ReviewLinker {
      * @return array|WP_Error
      */
     protected function call_seo_review( $draft ) : mixed {
-        if ( ! class_exists( '\Linked3\Classes\BookFactory\Traits\Linked3_SEO_Prompt_Builder' ) ) {
+        if ( ! class_exists( '\Linked3\Classes\BookFactory\Traits\SEOPromptBuilder' ) ) {
             return new WP_Error( 'no_seo', 'SEO模块未启用' );
         }
 
-        $prompt = Linked3_SEO_Prompt_Builder::build( $draft );
+        $prompt = SEOPromptBuilder::build( $draft );
         $response = $this->call_ai_with_rate_limit( $prompt );
 
         if ( is_wp_error( $response ) ) {
@@ -48,11 +48,11 @@ trait ReviewLinker {
      * @return array|WP_Error
      */
     protected function call_rewrite_review( $draft ) : mixed {
-        if ( ! class_exists( '\Linked3\Classes\BookFactory\Traits\Linked3_Rewrite_Prompt_Builder' ) ) {
+        if ( ! class_exists( '\Linked3\Classes\BookFactory\Traits\RewritePromptBuilder' ) ) {
             return new WP_Error( 'no_rewrite', '改写模块未启用' );
         }
 
-        $prompt = Linked3_Rewrite_Prompt_Builder::build( $draft );
+        $prompt = RewritePromptBuilder::build( $draft );
         $response = $this->call_ai_with_rate_limit( $prompt );
 
         if ( is_wp_error( $response ) ) {
@@ -73,11 +73,11 @@ trait ReviewLinker {
      * @return array|WP_Error
      */
     protected function call_title_review( $draft, $book_title ) {
-        if ( ! class_exists( '\Linked3\Classes\BookFactory\Traits\Linked3_Title_Prompt_Builder' ) ) {
+        if ( ! class_exists( '\Linked3\Classes\BookFactory\Traits\TitlePromptBuilder' ) ) {
             return new WP_Error( 'no_title', '标题模块未启用' );
         }
 
-        $prompt = Linked3_Title_Prompt_Builder::build( $draft, $book_title );
+        $prompt = TitlePromptBuilder::build( $draft, $book_title );
         $response = $this->call_ai_with_rate_limit( $prompt );
 
         if ( is_wp_error( $response ) ) {

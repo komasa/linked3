@@ -227,7 +227,7 @@ class BookProjectState {
         } catch ( \RuntimeException $e ) {
             // 原子写入失败时记录日志，但不中断流程（transient 已写入）。
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( '[Linked3_Book] 状态文件原子写入失败: ' . $e->getMessage() );
+                error_log( '[BookFactory] 状态文件原子写入失败: ' . $e->getMessage() );
             }
         }
 

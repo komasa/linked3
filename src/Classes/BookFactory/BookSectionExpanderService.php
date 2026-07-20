@@ -39,7 +39,7 @@ class BookSectionExpanderService {
         /**
          * 提示词提供者。
          *
-         * @var Linked3_Book_Prompt_Provider_Interface
+         * @var BookPromptProviderInterface
          */
         protected $prompt_provider;
 
@@ -47,11 +47,11 @@ class BookSectionExpanderService {
          * 构造函数 — 依赖注入。
          *
          * @param BookAICallerInterface|null       $ai_caller       AI 调用器。
-         * @param Linked3_Book_Prompt_Provider_Interface|null $prompt_provider 提示词提供者。
+         * @param BookPromptProviderInterface|null $prompt_provider 提示词提供者。
          */
         public function __construct(
                 BookAICallerInterface $ai_caller = null,
-                Linked3_Book_Prompt_Provider_Interface $prompt_provider = null
+                BookPromptProviderInterface $prompt_provider = null
         ) {
                 $this->ai_caller       = $ai_caller ?: new BookDefaultAICaller();
                 $this->prompt_provider = $prompt_provider ?: new BookPromptManager();

@@ -45,14 +45,14 @@ class BookPipelineOrchestrator {
         /**
          * 提示词提供者 (通过依赖注入)。
          *
-         * @var Linked3_Book_Prompt_Provider_Interface
+         * @var BookPromptProviderInterface
          */
         protected $prompt_provider;
 
         /**
          * 成本追踪器 (通过依赖注入)。
          *
-         * @var Linked3_Book_Cost_Tracker_Interface
+         * @var BookCostTrackerInterface
          */
         protected $cost_tracker;
 
@@ -60,13 +60,13 @@ class BookPipelineOrchestrator {
          * 构造函数 — 依赖注入。
          *
          * @param BookAICallerInterface|null       $ai_caller       AI 调用器。
-         * @param Linked3_Book_Prompt_Provider_Interface|null $prompt_provider 提示词提供者。
-         * @param Linked3_Book_Cost_Tracker_Interface|null    $cost_tracker    成本追踪器。
+         * @param BookPromptProviderInterface|null $prompt_provider 提示词提供者。
+         * @param BookCostTrackerInterface|null    $cost_tracker    成本追踪器。
          */
         public function __construct(
                 BookAICallerInterface $ai_caller = null,
-                Linked3_Book_Prompt_Provider_Interface $prompt_provider = null,
-                Linked3_Book_Cost_Tracker_Interface $cost_tracker = null
+                BookPromptProviderInterface $prompt_provider = null,
+                BookCostTrackerInterface $cost_tracker = null
         ) {
                 // 默认使用 Book_Factory 的现有实现 (向后兼容)。
                 $this->ai_caller       = $ai_caller ?: new BookDefaultAICaller();
