@@ -9,7 +9,7 @@
  * delegating to WordPress's native action/filter system.
  *
  * v27.1.0 (P11): Wrapped the two free functions in a proper namespace
- * (Linked3\Includes) and a static class Linked3_EventBus. Global
+ * (Linked3\Includes) and a static class EventBus. Global
  * function aliases linked3_dispatch() / linked3_subscribe() are kept
  * in the global namespace block for backward compatibility with any
  * code that still calls them procedurally.
@@ -29,7 +29,7 @@ namespace Linked3\Includes {
      *
      * @since 27.1.0 Extracted from procedural functions-events.php (P11).
      */
-    final class Linked3_EventBus
+    final class EventBus
     {
         /**
          * Dispatch an event to all subscribers.
@@ -80,26 +80,26 @@ namespace {
 
     if (!function_exists('linked3_dispatch')) {
         /**
-         * Procedural alias for Linked3_EventBus::dispatch().
+         * Procedural alias for EventBus::dispatch().
          *
          * @since 10.7.7
-         * @deprecated 27.1.0 Use Linked3\Includes\Linked3_EventBus::dispatch().
+         * @deprecated 27.1.0 Use Linked3\Includes\EventBus::dispatch().
          * @param string $event   Event name.
          * @param mixed  ...$args Variable arguments.
          * @return void
          */
         function linked3_dispatch($event, ...$args)
         : void {
-            \Linked3\Includes\Linked3_EventBus::dispatch($event, ...$args);
+            \Linked3\Includes\EventBus::dispatch($event, ...$args);
         }
     }
 
     if (!function_exists('linked3_subscribe')) {
         /**
-         * Procedural alias for Linked3_EventBus::subscribe().
+         * Procedural alias for EventBus::subscribe().
          *
          * @since 10.7.7
-         * @deprecated 27.1.0 Use Linked3\Includes\Linked3_EventBus::subscribe().
+         * @deprecated 27.1.0 Use Linked3\Includes\EventBus::subscribe().
          * @param string   $event    Event name.
          * @param callable $callback Subscriber callback.
          * @param int      $priority Priority.
@@ -108,7 +108,7 @@ namespace {
          */
         function linked3_subscribe($event, $callback, $priority = 10, $args = 1)
         : void {
-            \Linked3\Includes\Linked3_EventBus::subscribe($event, $callback, $priority, $args);
+            \Linked3\Includes\EventBus::subscribe($event, $callback, $priority, $args);
         }
     }
 }

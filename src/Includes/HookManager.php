@@ -175,11 +175,11 @@ final class HookManager
         if (class_exists('\\Linked3\\Classes\\Addons\\AddonManager')) {
             try {
                 $addon_mgr = \Linked3\Classes\Addons\AddonManager::instance();
-                if (class_exists('\\Linked3\\Classes\\Addons\\Linked3_IP_Anonymization_Addon')) {
-                    $addon_mgr->register(new \Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon());
+                if (class_exists('\\Linked3\\Classes\\Addons\\IPAnonymizationAddon')) {
+                    $addon_mgr->register(new \Linked3\Classes\Addons\IPAnonymizationAddon());
                 }
-                if (class_exists('\\Linked3\\Classes\\Addons\\Linked3_Consent_Compliance_Addon')) {
-                    $addon_mgr->register(new \Linked3\Classes\Addons\Linked3_Consent_Compliance_Addon());
+                if (class_exists('\\Linked3\\Classes\\Addons\\ConsentComplianceAddon')) {
+                    $addon_mgr->register(new \Linked3\Classes\Addons\ConsentComplianceAddon());
                 }
                 add_action('init', [$addon_mgr, 'init_all'], 20);
             } catch (\Throwable $e) {
