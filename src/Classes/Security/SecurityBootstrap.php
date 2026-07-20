@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SecurityBootstrap — extracted from RateLimiterV2.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Security
+ */
 
 namespace Linked3\Classes\Security;
 

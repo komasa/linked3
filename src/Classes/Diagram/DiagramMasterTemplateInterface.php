@@ -5,6 +5,7 @@ declare(strict_types=1);
  * DiagramMasterTemplate_Interface — extracted from DiagramMasterTemplate.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
+ */
 
 namespace Linked3\Classes\Diagram;
 

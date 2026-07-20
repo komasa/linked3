@@ -5,6 +5,7 @@ declare(strict_types=1);
  * GenesisIRCompiler — extracted from GenesisSeedLibrary.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Genesis
+ */
 
 namespace Linked3\Classes\Genesis;
 

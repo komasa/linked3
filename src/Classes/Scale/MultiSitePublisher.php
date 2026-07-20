@@ -5,6 +5,7 @@ declare(strict_types=1);
  * MultiSitePublisher — extracted from VectorIncremental.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Scale
+ */
 
 namespace Linked3\Classes\Scale;
 

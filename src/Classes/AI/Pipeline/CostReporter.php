@@ -6,6 +6,8 @@ declare(strict_types=1);
  *
  * @package Linked3\Classes\AI\Pipeline
 
+ */
+
 namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;

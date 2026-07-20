@@ -5,6 +5,7 @@ declare(strict_types=1);
  * HealthMonitor — extracted from E2eTestRunner.php during PSR-4 migration.
  *
  * @package Linked3\Classes\E2E
+ */
 
 namespace Linked3\Classes\E2E;
 

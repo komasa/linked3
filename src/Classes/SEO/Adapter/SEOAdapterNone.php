@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SEOAdapterNone — extracted from SEOAdapterDetector.php during PSR-4 migration.
  *
  * @package Linked3\Classes\SEO\Adapter
+ */
 
 namespace Linked3\Classes\SEO\Adapter;
 

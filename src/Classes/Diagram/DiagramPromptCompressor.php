@@ -5,6 +5,7 @@ declare(strict_types=1);
  * DiagramPromptCompressor — extracted from DiagramMETALayer.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
+ */
 
 namespace Linked3\Classes\Diagram;
 

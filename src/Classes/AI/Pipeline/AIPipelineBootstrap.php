@@ -5,6 +5,7 @@ declare(strict_types=1);
  * AIPipelineBootstrap — extracted from PromptCache.php during PSR-4 migration.
  *
  * @package Linked3\Classes\AI\Pipeline
+ */
 
 namespace Linked3\Classes\AI\Pipeline;
 

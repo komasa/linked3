@@ -5,6 +5,7 @@ declare(strict_types=1);
  * DiagramBootstrap — extracted from Diagram3LayerDepth.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Diagram
+ */
 
 namespace Linked3\Classes\Diagram;
 

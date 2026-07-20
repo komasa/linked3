@@ -5,6 +5,7 @@ declare(strict_types=1);
  * IPAnonymizationAddon — extracted from AddonManager.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Addons
+ */
 
 namespace Linked3\Classes\Addons;
 
