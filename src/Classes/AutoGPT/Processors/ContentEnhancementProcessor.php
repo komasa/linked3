@@ -46,11 +46,11 @@ final class ContentEnhancementProcessor implements AutoGPTProcessorInterface
             if ($processed >= $max) break;
 
             // v0.8.0 fix: original code used
-            //   $score = class_exists(Linked3_SEO_Scorer::class) ? 70 : 70;
+            //   $score = class_exists(SEO_Scorer::class) ? 70 : 70;
             // — both branches returned 70 (so with default min_score=60 the
             // `score >= min_score` check ALWAYS skipped every post → the
             // processor was a complete no-op). The class name was also wrong
-            // (Linked3_SEO_Scorer never existed; the real class is
+            // (SEO_Scorer never existed; the real class is
             // SEOScorecard). Now we compute the real composite
             // 0-100 SEO score; if the scorecard class is somehow absent, we
             // fall back to a word-count heuristic (under 600 words = needs

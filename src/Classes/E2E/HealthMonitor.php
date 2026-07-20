@@ -16,9 +16,9 @@ class HealthMonitor {
         return [
             // 基础设施
             'container'       => $container->has('logger'),
-            'event_bus'       => class_exists('\Linked3\Classes\E2E\Linked3_Event_Bus'),
+            'event_bus'       => class_exists('\Linked3\Includes\EventBus'),
             'logger'          => class_exists('\Linked3\Classes\E2E\Logger'),
-            'error_handler'   => class_exists('\Linked3\Classes\E2E\Linked3_Error_Handler'),
+            'error_handler'   => class_exists('\Linked3\Classes\E2E\ErrorHandler'),
             // Agent
             'agent_orchestrator' => $container->has('agent.orchestrator'),
             'quality_gate'      => $container->has('agent.quality_gate'),

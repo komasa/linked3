@@ -39,7 +39,7 @@ namespace Linked3\Classes\OS;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/V18Facade.php
- * Original class: Linked3_OS_Facade
+ * Original class: OSFacade (legacy prefixed name, now migrated to V8)
  *
  * @package Linked3\Classes\OS
  */

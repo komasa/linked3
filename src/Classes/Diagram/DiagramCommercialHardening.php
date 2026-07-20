@@ -15,7 +15,7 @@ class DiagramCommercialHardening {
         $checks = [];
 
         // 熔断检查
-        $checks['circuit_breaker'] = class_exists('\Linked3\Classes\Diagram\Linked3_Error_Handler');
+        $checks['circuit_breaker'] = class_exists('\Linked3\Classes\Diagram\ErrorHandler');
 
         // 限流检查
         $checks['rate_limiter'] = class_exists('\Linked3\Classes\Diagram\RateLimiterV2');

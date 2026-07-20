@@ -24,13 +24,13 @@ class SecurityBootstrap {
         $container->set('security.audit', fn() => AuditLogger::instance());
 
         // 监听安全违规
-        linked3_subscribe('linked3.security.violation', function(Linked3_Event $evt) {
-            linked3_container()->get('logger')->warning('Security violation', $evt->getPayload());
+        linked3_subscribe('linked3.security.violation', function($evt) {
+            linked3_container()->get('logger')->warning('Security violation', is_object($evt) ? $evt->getPayload() : $evt);
         });
 
         // 监听速率限制
-        linked3_subscribe('linked3.rate_limited.exceeded', function(Linked3_Event $evt) {
-            linked3_container()->get('logger')->warning('Rate limited', $evt->getPayload());
+        linked3_subscribe('linked3.rate_limited.exceeded', function($evt) {
+            linked3_container()->get('logger')->warning('Rate limited', is_object($evt) ? $evt->getPayload() : $evt);
         });
 
         linked3_dispatch('linked3.security.boot', ['version' => LINKED3_VERSION]);

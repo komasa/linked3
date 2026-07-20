@@ -8,7 +8,7 @@ declare(strict_types=1);
  *   1. 分类同步: 先 GET /wp/v2/categories?slug= 映射,不存在则 POST 创建
  *   2. 标签同步: 同分类
  *   3. 特色图上传: 先 POST /wp/v2/media 上传图片得到 ID,再设 featured_media
- *   4. remote_id 映射: 通过 Linked3_Publish_Remote_Id_Map 查表,重发=更新而非新建
+ *   4. remote_id 映射: 通过 Publish_Remote_Id_Map 查表,重发=更新而非新建
  *   5. 字段补全: slug / author / date / excerpt
  *
  * @package Linked3

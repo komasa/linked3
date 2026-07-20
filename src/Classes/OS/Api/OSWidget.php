@@ -133,7 +133,7 @@ class OSWidget extends \WP_Widget {
         
         $html = '<div class="widget-modules"><h4>模块状态</h4><ul>';
         foreach ($modules as $class) {
-            $short_name = str_replace('Linked3_', '', $class);
+            $short_name = $class;
             $status = class_exists($class) ? '✓' : '✗';
             $html .= '<li>' . $status . ' ' . esc_html($short_name) . '</li>';
         }
