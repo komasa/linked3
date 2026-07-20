@@ -11,8 +11,15 @@ declare(strict_types=1);
  *   - linked3_eco_template_save: 云模版保存 (v10.7.0新增)
  *   - linked3_eco_image_save: 图片设置保存 (v10.7.0新增)
  *
+ * v2026.07.20: God Class split — service methods extracted to:
+ *   - EcosystemKeywordService (generate_keywords, classify_keywords)
+ *   - EcosystemContentService (load_template, generate_content, self_check_content)
+ *   - EcosystemImageService (generate_images, quality_check, call_ai, call_ai_internal)
+ * This class retains all public method signatures as thin delegates to ensure
+ * zero downstream breakage.
+ *
  * @package Linked3\Content
- * @version 10.7.1
+ * @version 10.7.2
  */
 
 namespace Linked3\Classes\Content;
@@ -66,13 +73,13 @@ class EcosystemAjax {
 
         try {
             // 1. 关键词生成
-            $keywords = self::generate_keywords($topic);
+            $keywords = EcosystemKeywordService::generate_keywords($topic);
 
             // 2. 模版加载
-            $template = self::load_template($category);
+            $template = EcosystemContentService::load_template($category);
 
             // 3. 内容写作
-            $content = self::generate_content($topic, $keywords, $template);
+            $content = EcosystemContentService::generate_content($topic, $keywords, $template);
 
             // v11.0.9 #4: AI生成失败时明确报错, 不返回假大空内容
             if (empty($content)) {
@@ -80,10 +87,10 @@ class EcosystemAjax {
             }
 
             // 4. 图片配置
-            $images = self::generate_images($content, $keywords);
+            $images = EcosystemImageService::generate_images($content, $keywords);
 
             // 5. 质检
-            $quality = self::quality_check($keywords, $template, $content, $images);
+            $quality = EcosystemImageService::quality_check($keywords, $template, $content, $images);
 
             wp_send_json_success([
                 'ir' => [
@@ -134,7 +141,7 @@ class EcosystemAjax {
                 foreach ($seeds as $s) {
                     $s = sanitize_text_field($s);
                     if (empty($s)) continue;
-                    $kw = self::generate_keywords($s, $per_seed_count);
+                    $kw = EcosystemKeywordService::generate_keywords($s, $per_seed_count);
                     foreach ($kw as $k) {
                         if (!in_array($k, $all_keywords)) {
                             $all_keywords[] = $k;
@@ -146,11 +153,11 @@ class EcosystemAjax {
                 $all_keywords = array_slice($all_keywords, 0, $count);
             } else {
                 // 单种子词模式 (兼容原逻辑)
-                $all_keywords = self::generate_keywords($seed, $count);
+                $all_keywords = EcosystemKeywordService::generate_keywords($seed, $count);
                 $all_long_tail = array_filter($all_keywords, function($k) { return mb_strlen($k) > 8; });
             }
 
-            $classified = self::classify_keywords($all_keywords);
+            $classified = EcosystemKeywordService::classify_keywords($all_keywords);
 
             wp_send_json_success([
                 'keywords' => $all_keywords,
@@ -177,7 +184,7 @@ class EcosystemAjax {
         $tone = sanitize_text_field($_POST['tone'] ?? 'professional');
         $style_dna = sanitize_text_field($_POST['style_dna'] ?? '');
         $humanize_modules = json_decode($_POST['humanize_modules'] ?? '[]', true) ?: [];
-        
+
         // v17.2: 注入风格DNA到系统指令
         if ($style_dna && class_exists('\Linked3\Classes\Content\SystemInstructionBuilder')) {
             $builder = new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder();
@@ -206,8 +213,8 @@ class EcosystemAjax {
                     }
                 } catch (\Throwable $e) {}
             }
-            $content = self::generate_content($topic, $keywords, [], $tone, $word_count);
-            $checked = self::self_check_content($content);
+            $content = EcosystemContentService::generate_content($topic, $keywords, [], $tone, $word_count);
+            $checked = EcosystemContentService::self_check_content($content);
 
             wp_send_json_success([
                 'content' => $checked,
@@ -402,9 +409,8 @@ class EcosystemAjax {
 
     /**
      * v10.7.4 实际生成图片 — SOP闭环下一步
-     * 接收图片Prompt列表, 调用AI图片API生成实际图片
      */
-        public static function ajax_generate_images() { return EcosystemAjaxAdvanced::ajax_generate_images(); }
+    public static function ajax_generate_images() { return EcosystemAjaxAdvanced::ajax_generate_images(); }
 
     // ================================================================
     // v10.7.1 全功能链新增方法
@@ -413,7 +419,7 @@ class EcosystemAjax {
     /**
      * v10.7.1 热词采集 — 多源采集 (百度/搜狗/360/知乎/微博/抖音)
      */
-        public static function ajax_hot_collect() { return EcosystemAjaxAdvanced::ajax_hot_collect(); }
+    public static function ajax_hot_collect() { return EcosystemAjaxAdvanced::ajax_hot_collect(); }
 
     /**
      * v10.7.1 关键词库保存 (热词库/长尾词库)
@@ -441,7 +447,6 @@ class EcosystemAjax {
     /**
      * v16.0.14 [公理α: H↓ 消除"用过没"不确定性] [公理β: dim↓ 0维自动持久化]
      * 长尾词使用状态保存 — 记录哪些长尾词已用于生成文章
-     * 数据格式: {keyword: 1, ...} 存入 option, SQLite 兼容 (v16.0.1 约束)
      */
     public static function ajax_tail_used_save() : void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
@@ -478,17 +483,17 @@ class EcosystemAjax {
     /**
      * v10.7.1 长文写作 — 生成大纲
      */
-        public static function ajax_longform_outline() { return EcosystemAjaxAdvanced::ajax_longform_outline(); }
+    public static function ajax_longform_outline() { return EcosystemAjaxAdvanced::ajax_longform_outline(); }
 
     /**
      * v10.7.1 长文写作 — 生成单段
      */
-        public static function ajax_longform_section() { return EcosystemAjaxAdvanced::ajax_longform_section(); }
+    public static function ajax_longform_section() { return EcosystemAjaxAdvanced::ajax_longform_section(); }
 
     /**
      * v10.7.1 CSV批量写作
      */
-        public static function ajax_csv_batch() { return EcosystemAjaxAdvanced::ajax_csv_batch(); }
+    public static function ajax_csv_batch() { return EcosystemAjaxAdvanced::ajax_csv_batch(); }
 
     /**
      * v10.7.1 定时任务启用
@@ -539,323 +544,15 @@ class EcosystemAjax {
     }
 
     // ================================================================
-    // 内部方法
+    // Backward-compat delegates — keep public API stable
     // ================================================================
 
-    private static function generate_keywords(string $seed, int $count = 20): array {
-        // 委托 Keyword_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\KeywordManager')) {
-            try {
-                $mgr = new \KeywordManager();
-                if (method_exists($mgr, 'generate_tail_keywords')) {
-                    $result = $mgr->generate_tail_keywords($seed, $count);
-                    if (is_array($result) && !empty($result)) return $result;
-                }
-            } catch (\Throwable $e) {}
-        }
-
-        // 降级: 本地生成
-        $keywords = [$seed];
-        $templates = [
-            '%s是什么', '%s怎么做', '%s教程', '%s攻略', '%s工具',
-            '%s软件', '%s推荐', '%s对比', '最好的%s', '免费的%s',
-            '%s2026', '%s最新', '%s入门', '%s进阶', '%s实战',
-            '%s案例', '%s技巧', '%s方法', '%s指南', '%s大全',
-        ];
-        foreach ($templates as $tpl) {
-            if (count($keywords) >= $count) break;
-            $keywords[] = sprintf($tpl, $seed);
-        }
-        return array_slice(array_unique($keywords), 0, $count);
-    }
-
-    private static function classify_keywords(array $keywords): array {
-        $classified = ['primary' => [], 'long_tail' => [], 'question' => []];
-        foreach ($keywords as $kw) {
-            if (mb_strpos($kw, '什么') !== false || mb_strpos($kw, '怎么') !== false) {
-                $classified['question'][] = $kw;
-            } elseif (mb_strlen($kw) > 8) {
-                $classified['long_tail'][] = $kw;
-            } else {
-                $classified['primary'][] = $kw;
-            }
-        }
-        return $classified;
-    }
-
-    private static function load_template(string $category): array {
-        // v10.7.0: 优先从跨生态共享池加载
-        $shared_templates = (array) get_option(LINKED3_OPTION_PREFIX . 'cloud_templates', []);
-        foreach ($shared_templates as $tpl) {
-            if (($tpl['type'] ?? '') === $category) return $tpl;
-        }
-
-        // 委托 Template_Manager (若存在)
-        if (class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
-            try {
-                $mgr = new \Linked3\Classes\Templates\TemplateManager();
-                $templates = $mgr->get_by_category($category);
-                if (!empty($templates)) return $templates[0];
-            } catch (\Throwable $e) {}
-        }
-
-        // v10.7.0: 委托 Cloud_Template_Factory (若存在)
-        if (class_exists('\Linked3\Classes\Content\CloudTemplateFactory')) {
-            try {
-                $factory = new \CloudTemplateFactory();
-                if (method_exists($factory, 'load_template_by_category')) {
-                    $tpl = $factory->load_template_by_category($category);
-                    if (!empty($tpl)) return $tpl;
-                }
-            } catch (\Throwable $e) {}
-        }
-
-        return ['name' => $category . '_default', 'type' => $category];
-    }
-
-    private static function generate_content(string $topic, array $keywords, array $template = [], string $tone = 'professional', int $word_count = 800): string {
-        // 委托 Long_Form_Writer (若存在)
-        if (class_exists('\Linked3\Classes\Content\LongFormWriter')) {
-            try {
-                $writer = new \LongFormWriter();
-                if (method_exists($writer, 'generate')) {
-                    $result = $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count, 'tone' => $tone]);
-                    if (is_string($result) && !empty($result)) return $result;
-                }
-            } catch (\Throwable $e) {}
-        }
-
-        // v11.0.9 #4: 用模版提示词调用AI生成真实文章 (绞杀假大空降级内容)
-        $cfg = $template['config'] ?? $template;
-        $prompt_parts = [];
-        if (!empty($cfg['role'])) $prompt_parts[] = '你的角色: ' . $cfg['role'];
-        if (!empty($cfg['scene'])) $prompt_parts[] = '适用场景: ' . $cfg['scene'];
-        if (!empty($cfg['background'])) $prompt_parts[] = '背景: ' . $cfg['background'];
-        $goals = $cfg['goals'] ?? [];
-        if (is_array($goals) && !empty($goals)) $prompt_parts[] = '目标: ' . implode('、', $goals);
-        $skills = $cfg['skills'] ?? [];
-        if (is_array($skills) && !empty($skills)) $prompt_parts[] = '技能要求: ' . implode('、', $skills);
-        if (!empty($cfg['style'])) $prompt_parts[] = '风格: ' . $cfg['style'];
-        $limits = $cfg['limit'] ?? [];
-        if (is_array($limits) && !empty($limits)) $prompt_parts[] = '限制: ' . implode('、', $limits);
-        $steps = $cfg['step'] ?? [];
-        if (is_array($steps) && !empty($steps)) $prompt_parts[] = '写作步骤: ' . implode(' → ', $steps);
-        if (!empty($cfg['output'])) $prompt_parts[] = '输出格式: ' . $cfg['output'];
-
-        $kw_str = implode('、', array_slice($keywords, 0, 8));
-        $prompt = "请为主题「{$topic}」撰写一篇文章。\n\n";
-        if (!empty($prompt_parts)) {
-            $prompt .= "模版要求:\n" . implode("\n", $prompt_parts) . "\n\n";
-        }
-        $prompt .= "关键词: {$kw_str}\n";
-        $prompt .= "字数: 约{$word_count}字\n";
-        $prompt .= "语气: {$tone}\n\n";
-        $prompt .= "严格要求:\n1. 内容具体、有信息量, 不要空话套话\n2. 不要使用「赋能/闭环/抓手/底层逻辑/范式/矩阵」等AI高频词\n3. 适合博客/公众号发布\n4. 直接输出正文, 不要说明\n";
-
-        // v11.8.0: 贯彻全局格式变量 — require_html/require_tag/enable_ai_summary
-        $adv_settings = wp_parse_args(
-            (array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []),
-            ['require_html' => false, 'require_tag' => false, 'enable_ai_summary' => false]
-        );
-        if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
-            try {
-                $enhancer = new \AIEnhancer();
-                $prompt = $enhancer->apply_format_requirements($prompt, $adv_settings);
-            } catch (\Throwable $e) {}
-        } elseif (!empty($adv_settings['require_html'])) {
-            // 降级: 直接追加HTML格式要求
-            $prompt .= "\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。";
-        }
-
-        $ai_content = self::call_ai($prompt, max(1000, intval($word_count * 1.5)));
-        if (!empty($ai_content)) {
-            // v11.8.0: 若require_html但AI仍返回Markdown, 用转换器降级处理
-            if (!empty($adv_settings['require_html'])
-                && class_exists('\Linked3\Classes\Content\MarkdownHtmlConverter')
-                && strpos($ai_content, '<') === false) {
-                try {
-                    $ai_content = \MarkdownHtmlConverter::convert($ai_content);
-                } catch (\Throwable $e) {}
-            }
-            // v11.8.0: 追加AI标识符后缀(全局设置)
-            if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
-                try {
-                    $ai_content = (new \AIEnhancer())->append_identifier_suffix($ai_content);
-                } catch (\Throwable $e) {}
-            }
-            return self::self_check_content($ai_content);
-        }
-
-        // 最终降级: AI不可用时返回空字符串 (不返回假大空模板字符串)
-        // 调用方应检查空值并报错
-        return '';
-    }
-
     /**
-     * v10.7.5: feicai4.0 21条AI痕迹识别 — 去AI味自检
-     * 参考 feicai4.0 zh-humanizer/SKILL.md
+     * Public AI dispatch entry point — delegates to EcosystemImageService.
+     * Kept for backward compat: external code may call EcosystemAjax::call_ai_internal().
      */
-    private static function self_check_content(string $content): string {
-        // 1. 移除过度承诺词
-        $overclaims = ['最好', '第一', '唯一', '100%', '绝对', '完美', '无敌', '顶级', '极致'];
-        foreach ($overclaims as $word) {
-            $content = str_replace($word, '优秀', $content);
-        }
-
-        // 2. 移除意义膨胀句
-        $inflations = [
-            '标志着…新时代' => '',
-            '从更宏观层面看' => '',
-            '具有重大意义' => '很重要',
-            '产生深远影响' => '影响很大',
-        ];
-        foreach ($inflations as $from => $to) {
-            $content = str_replace($from, $to, $content);
-        }
-
-        // 3. 移除伪深度动词
-        $pseudoVerbs = [
-            '提升…能力' => '改善',
-            '促进…发展' => '推动',
-            '推动…进程' => '推进',
-            '赋能…' => '支持',
-        ];
-        foreach ($pseudoVerbs as $from => $to) {
-            $content = preg_replace('/' . preg_quote($from, '/') . '/u', $to, $content);
-        }
-
-        // 4. 移除广告宣传语气
-        $ads = ['卓越', '一站式', '全方位', '极致体验'];
-        foreach ($ads as $word) {
-            $content = str_replace($word, '全面', $content);
-        }
-
-        // 5. 移除AI高频词
-        $aiWords = ['赋能', '闭环', '抓手', '底层逻辑', '范式', '矩阵'];
-        foreach ($aiWords as $word) {
-            $content = str_replace($word, '', $content);
-        }
-
-        // 6. 移除空洞结尾
-        $emptyEndings = ['未来可期', '值得期待', '前景广阔'];
-        foreach ($emptyEndings as $word) {
-            $content = str_replace($word, '建议立即行动', $content);
-        }
-
-        return $content;
-    }
-
-    /**
-     * v10.7.5: feicai4.0叙事式图片Prompt — 用完整段落描述
-     * 参考 feicai4.0 gemini-image-prompt-guide.md
-     */
-    private static function generate_images(string $content, array $keywords): array {
-        $images = [];
-        $kw_str = implode('、', array_slice($keywords, 0, 3));
-        $primary_kw = $keywords[0] ?? '内容';
-
-        // v10.7.5: 叙事式Prompt (非关键词堆叠)
-        $types = ['featured', 'content_1', 'content_2'];
-        $prompts = [
-            'featured' => sprintf(
-                '中景，专业信息图设计。画面中央展示「%s」的核心概念，用简洁的图标和流程图呈现%s的关键要素。背景使用浅蓝色渐变，配以白色文字标签。整体风格专业、清晰，适合技术博客封面。画面中不包含任何水印。',
-                $primary_kw, $kw_str
-            ),
-            'content_1' => sprintf(
-                '中景，信息图。以「%s」为主题，用三栏对比布局展示核心要点。左侧是问题场景，中间是解决方案，右侧是预期效果。配色采用蓝白灰三色系，文字标签清晰可读。画面中不包含任何水印。',
-                $primary_kw
-            ),
-            'content_2' => sprintf(
-                '中景，流程信息图。以「%s」为核心，用箭头流程图展示从输入到输出的完整路径。每个步骤配有简洁图标和关键词标签：%s。背景为浅灰色，强调内容层次感。画面中不包含任何水印。',
-                $primary_kw, $kw_str
-            ),
-        ];
-
-        foreach ($types as $type) {
-            $images[] = [
-                'type' => $type,
-                'prompt' => $prompts[$type],
-                'resolution' => '1280*1280',
-                'layout' => 'list',
-            ];
-        }
-        return $images;
-    }
-
-    /**
-     * v10.7.5: feicai4.0准确性检查清单 — 质检增强
-     * 参考 feicai4.0 accuracy-checklist.md
-     */
-    private static function quality_check(array $keywords, array $template, string $content, array $images): array {
-        $score = 0;
-        $checks = [];
-
-        // 基础检查 (4项, 各20分)
-        $checks['keywords'] = !empty($keywords);
-        if ($checks['keywords']) $score += 20;
-
-        $checks['template'] = !empty($template);
-        if ($checks['template']) $score += 20;
-
-        $checks['content'] = !empty($content) && mb_strlen($content) > 100;
-        if ($checks['content']) $score += 20;
-
-        $checks['images'] = !empty($images);
-        if ($checks['images']) $score += 20;
-
-        // v10.7.5: feicai4.0深度质检 (2项, 各10分)
-        // 逻辑性检查: 内容是否有结构化标题
-        $checks['logical_structure'] = preg_match('/^##\s/m', $content);
-        if ($checks['logical_structure']) $score += 10;
-
-        // AI痕迹检查: 是否还残留AI高频词
-        $aiResidue = ['赋能', '闭环', '抓手', '底层逻辑', '范式', '矩阵', '未来可期'];
-        $hasAiResidue = false;
-        foreach ($aiResidue as $word) {
-            if (mb_strpos($content, $word) !== false) {
-                $hasAiResidue = true;
-                break;
-            }
-        }
-        $checks['no_ai_traces'] = !$hasAiResidue;
-        if ($checks['no_ai_traces']) $score += 10;
-
-        return [
-            'score' => $score,
-            'checks' => $checks,
-            'passed' => $score >= 60,
-        ];
-    }
-
-    /**
-     * v10.9.0 AI调用统一辅助方法 — 绞杀假大空内容
-     * 调用 AI_Dispatcher 生成真实内容, 失败时返回空字符串 (不返回假内容)
-     *
-     * @param string $prompt  完整提示词
-     * @param int    $max_tokens 最大token数
-     * @return string AI生成内容 (空字符串=调用失败, 调用方应报错而非返回假内容)
-     */
-    private static function call_ai(string $prompt, int $max_tokens = 2000): string {
-        return self::call_ai_internal($prompt, $max_tokens);
-    }
-
     public static function call_ai_internal(string $prompt, int $max_tokens = 2000): string {
-        if (!class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
-            return '';
-        }
-        try {
-            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
-            $messages = [['role' => 'user', 'content' => $prompt]];
-            $options = ['max_tokens' => $max_tokens, 'temperature' => 0.7];
-            $config = [];
-            $result = $dispatcher->chat($messages, $options, $config);
-            return $result['content'] ?? '';
-        } catch (\Throwable $e) {
-            if (function_exists('error_log')) {
-                error_log('[linked3 v10.9.0] AI call failed: ' . $e->getMessage());
-            }
-            return '';
-        }
+        return EcosystemImageService::call_ai_internal($prompt, $max_tokens);
     }
 }
 
