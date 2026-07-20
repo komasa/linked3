@@ -96,3 +96,12 @@ spl_autoload_register(static function ($class) {
  *   - composer.json 已配 classmap, 若跑 `composer dump-autoload` 会生成优化映射
  *   - 不做 PSR-4 切换 (类名混合 Linked3_X_Y / Linked3\NS\X 两种风格, 切换风险大)
  */
+
+// ─── Legacy Alias Registry ──────────────────────────────────────────────────
+// Load the central alias registry for backward compatibility with old
+// Linked3_* class names. Uses lazy resolution via spl_autoload_register
+// to avoid class_exists false-positives.
+$compat_path = LINKED3_DIR . 'src/Includes/Compat/LegacyAliasRegistry.php';
+if (file_exists($compat_path)) {
+    require_once $compat_path;
+}
