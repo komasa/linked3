@@ -34,7 +34,7 @@ interface BookAICallerInterface {
 	 * @param array  $context 调用上下文 (project_id, step, section 等, 用于日志与成本追踪)。
 	 * @return array|WP_Error 返回 array('content'=>..., 'usage'=>..., 'cost'=>...) 或 WP_Error。
 	 */
-	public function call( $prompt, $options = array(), $context = array() );
+	public function call( string $prompt, array $options = array(), array $context = array() );
 }
 
 

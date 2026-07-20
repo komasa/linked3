@@ -20,7 +20,7 @@ interface BookPromptProviderInterface {
 	 * @param array  $variables 变量键值对。
 	 * @return string 填充变量后的提示词。
 	 */
-	public function get( $key, $variables = array() );
+	public function get( string $key, array $variables = array() ) : string;
 
 	/**
 	 * 保存提示词到 DB。
@@ -29,7 +29,7 @@ interface BookPromptProviderInterface {
 	 * @param string $value 提示词内容。
 	 * @return bool
 	 */
-	public function save( $key, $value );
+	public function save( string $key, string $value ) : bool;
 }
 
 /**

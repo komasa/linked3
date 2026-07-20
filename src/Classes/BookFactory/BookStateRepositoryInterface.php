@@ -19,7 +19,7 @@ interface BookStateRepositoryInterface {
 	 * @param string $project_id 项目 ID。
 	 * @return array|null 状态数组, 不存在返回 null。
 	 */
-	public function load( $project_id );
+	public function load( string $project_id ) : ?array;
 
 	/**
 	 * 保存项目状态。
@@ -28,7 +28,7 @@ interface BookStateRepositoryInterface {
 	 * @param array  $state      状态数据。
 	 * @return bool 保存成功返回 true。
 	 */
-	public function save( $project_id, $state );
+	public function save( string $project_id, array $state ) : bool;
 
 	/**
 	 * 删除项目状态。
@@ -36,7 +36,7 @@ interface BookStateRepositoryInterface {
 	 * @param string $project_id 项目 ID。
 	 * @return bool
 	 */
-	public function delete( $project_id );
+	public function delete( string $project_id ) : bool;
 }
 
 /**

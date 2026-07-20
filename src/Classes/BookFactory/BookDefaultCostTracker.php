@@ -28,7 +28,7 @@ class BookDefaultCostTracker implements BookCostTrackerInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function record( $project_id, $usage, $cost, $model ) : void {
+	public function record( string $project_id, array $usage, float $cost, string $model ) : void {
 		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
 			return;

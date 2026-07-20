@@ -32,7 +32,7 @@ class AJAXGuard
      * @param string $nonce_field  POST 中 nonce 字段名（默认 'nonce'）
      * @return void  校验失败时直接 wp_send_json_error 并 exit
      */
-    public static function protect($nonce_action = '', $capability = 'edit_posts', $nonce_field = 'nonce')
+    public static function protect(string $nonce_action = '', string $capability = 'edit_posts', string $nonce_field = 'nonce') : void
     {
         // 1. 注册 fatal error → JSON 转换（仅注册一次）
         if (!self::$registered) {
@@ -57,7 +57,7 @@ class AJAXGuard
     /**
      * 注册 fatal error → JSON 转换的 shutdown handler.
      */
-    private static function register_fatal_handler()
+    private static function register_fatal_handler() : void
     {
         register_shutdown_function(function () {
             $err = error_get_last();
@@ -97,7 +97,7 @@ class AJAXGuard
     /**
      * 发送 JSON 错误并退出.
      */
-    private static function json_error($message, $status = 500)
+    private static function json_error(string $message, int $status = 500) : void
     {
         wp_send_json_error(['message' => $message], $status);
     }

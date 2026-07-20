@@ -72,14 +72,14 @@ class BookStepAdapter implements BookStepInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get_step_id() : mixed {
+	public function get_step_id() : string {
 		return $this->step_id;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function execute( $state, $factory ) {
+	public function execute( BookProjectState $state, object $factory ) {
 		if ( ! method_exists( $factory, $this->method ) ) {
 			return new WP_Error(
 				'method_not_found',

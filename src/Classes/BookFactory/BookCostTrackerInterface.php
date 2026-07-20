@@ -22,6 +22,6 @@ interface BookCostTrackerInterface {
 	 * @param string $model      模型名称。
 	 * @return void
 	 */
-	public function record( $project_id, $usage, $cost, $model );
+	public function record( string $project_id, array $usage, float $cost, string $model ) : void;
 
 }
