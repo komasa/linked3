@@ -494,7 +494,7 @@ if (!function_exists('linked3_early_handler_check_bare_class_refs')) {
                     && $brace_depth <= 0) {
                     $errors[] = [
                         'type'    => 'BareClassRef',
-                        'message' => 'add_action/add_filter uses bare class name at file scope. The autoloader only handles namespaced (Linked3\\*) symbols. Use FQCN: [\'\\\\Namespace\\\\Linked3_ClassName\', \'method\'].',
+                        'message' => 'add_action/add_filter uses bare class name at file scope. The autoloader only handles namespaced (Linked3\\*) symbols. Use FQCN: [\'\\\\Namespace\\\\SymbolClassName\', \'method\'].',
                         'file'    => $file_path,
                         'line'    => $i + 1,
                     ];

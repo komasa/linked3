@@ -55,7 +55,7 @@ final class AddonManager
         return self::$instance;
     }
 
-    public function register(Linked3_Addon_Interface $addon) : void
+    public function register(AddonInterface $addon) : void
     {
         $this->addons[$addon->slug()] = $addon;
     }

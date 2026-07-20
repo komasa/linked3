@@ -51,8 +51,8 @@ final class ContentPipelineRegistry
             'comic'   => \Linked3\Classes\Genesis\ComicPipeline::class,
             'diagram' => \Linked3\Classes\Diagram\DiagramPipeline::class,
             'video'   => \Linked3\Classes\Media\VideoPipeline::class,
-            'xhs'     => \Linked3\Classes\XHS\Linked3_XHS_Pipeline::class,
-            'book'    => \Linked3\Classes\BookFactory\Linked3_Book_Pipeline::class,
+            'xhs'     => \Linked3\Classes\XHS\XHSGenerator::class,
+            'book'    => \Linked3\Classes\BookFactory\BookPipelineOrchestrator::class,
         ];
         foreach ($defaults as $type => $class) {
             if (class_exists($class) && in_array(ContentPipelineInterface::class, class_implements($class) ?: [], true)) {

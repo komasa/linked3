@@ -463,28 +463,28 @@ if (!$linked3_core_available) {
     add_action('plugins_loaded', static function () use (&$linked3_bootstrap_error) {
         // v6.0.0: 最终启动序列 (统一调用所有 Phase)
         try {
-            if (class_exists('Linked3_Final_Bootstrap')) {
-                Linked3_Final_Bootstrap::boot();
+            if (class_exists('FinalBootstrap')) {
+                FinalBootstrap::boot();
             } else {
                 // 降级: 逐步启动
-                if (class_exists('Linked3_Bootstrap_V54')) Linked3_Bootstrap_V54::boot();
+                if (class_exists('V54Bootstrap')) V54Bootstrap::boot();
                 if (class_exists('AgentBootstrap')) AgentBootstrap::boot();
-                if (class_exists('Linked3_AI_Pipeline_Bootstrap')) Linked3_AI_Pipeline_Bootstrap::boot();
-                if (class_exists('Linked3_Security_Bootstrap')) Linked3_Security_Bootstrap::boot();
-                if (class_exists('Linked3_Billing_Bootstrap')) Linked3_Billing_Bootstrap::boot();
-                if (class_exists('Linked3_Scale_Bootstrap')) Linked3_Scale_Bootstrap::boot();
+                if (class_exists('AIPipelineBootstrap')) AIPipelineBootstrap::boot();
+                if (class_exists('SecurityBootstrap')) SecurityBootstrap::boot();
+                if (class_exists('BillingBootstrap')) BillingBootstrap::boot();
+                if (class_exists('ScaleBootstrap')) ScaleBootstrap::boot();
             }
             // v6.5.0: 图示引擎核心
-            if (class_exists('Linked3_Diagram_Bootstrap')) {
-                Linked3_Diagram_Bootstrap::boot();
+            if (class_exists('DiagramBootstrap')) {
+                DiagramBootstrap::boot();
             }
             // v6.5.0: 图示生产级启动
-            if (class_exists('Linked3_Diagram_Production_Bootstrap')) {
-                Linked3_Diagram_Production_Bootstrap::boot();
+            if (class_exists('DiagramProductionBootstrap')) {
+                DiagramProductionBootstrap::boot();
             }
             // v6.6.0: Genesis 漫画脚本引擎
-            if (class_exists('Linked3_Genesis_Bootstrap')) {
-                Linked3_Genesis_Bootstrap::boot();
+            if (class_exists('GenesisBootstrap')) {
+                GenesisBootstrap::boot();
             }
         } catch (\Throwable $e) {
             // ── FIX v26.0.1: Previously this catch block only wrote to
