@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Invoice_Manager — extracted from StripeGateway.php during PSR-4 migration.
+ * InvoiceManager — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 
@@ -11,9 +11,9 @@ namespace Linked3\Classes\Billing;
 if (!defined('ABSPATH')) exit;
 
 class InvoiceManager {
-    private static ?Linked3_Invoice_Manager $instance = null;
+    private static ?InvoiceManager $instance = null;
 
-    public static function instance(): Linked3_Invoice_Manager {
+    public static function instance(): InvoiceManager {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

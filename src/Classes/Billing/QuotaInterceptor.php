@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Quota_Interceptor — extracted from StripeGateway.php during PSR-4 migration.
+ * QuotaInterceptor — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 
@@ -11,9 +11,9 @@ namespace Linked3\Classes\Billing;
 if (!defined('ABSPATH')) exit;
 
 class QuotaInterceptor {
-    private static ?Linked3_Quota_Interceptor $instance = null;
+    private static ?QuotaInterceptor $instance = null;
 
-    public static function instance(): Linked3_Quota_Interceptor {
+    public static function instance(): QuotaInterceptor {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

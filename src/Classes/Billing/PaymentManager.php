@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Payment_Manager — extracted from StripeGateway.php during PSR-4 migration.
+ * PaymentManager — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 
@@ -11,15 +11,15 @@ namespace Linked3\Classes\Billing;
 if (!defined('ABSPATH')) exit;
 
 class PaymentManager {
-    private static ?Linked3_Payment_Manager $instance = null;
+    private static ?PaymentManager $instance = null;
     private array $gateways = [];
 
-    public static function instance(): Linked3_Payment_Manager {
+    public static function instance(): PaymentManager {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
 
-    public function register(Linked3_Payment_Gateway_Interface $gateway): void {
+    public function register(PaymentGatewayInterface $gateway): void {
         $this->gateways[$gateway->getName()] = $gateway;
     }
 

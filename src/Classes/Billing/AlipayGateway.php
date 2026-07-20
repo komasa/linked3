@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Alipay_Gateway — extracted from StripeGateway.php during PSR-4 migration.
+ * AlipayGateway — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 
@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class AlipayGateway implements Linked3_Payment_Gateway_Interface {
+class AlipayGateway implements PaymentGatewayInterface {
     private string $appId;
     private string $privateKey;
     private string $publicKey;

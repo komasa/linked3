@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Payment_Gateway_Interface — extracted from StripeGateway.php during PSR-4 migration.
+ * PaymentGatewayInterface — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 

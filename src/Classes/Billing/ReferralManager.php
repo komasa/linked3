@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Referral_Manager — extracted from StripeGateway.php during PSR-4 migration.
+ * ReferralManager — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 
@@ -11,10 +11,10 @@ namespace Linked3\Classes\Billing;
 if (!defined('ABSPATH')) exit;
 
 class ReferralManager {
-    private static ?Linked3_Referral_Manager $instance = null;
+    private static ?ReferralManager $instance = null;
     private float $commissionRate = 0.20; // 20% 返佣
 
-    public static function instance(): Linked3_Referral_Manager {
+    public static function instance(): ReferralManager {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }
