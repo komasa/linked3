@@ -18,16 +18,6 @@ class DiagramLayoutEngine {
     const BORDER_RADIUS = '8px';
     const PADDING = '15%';
 
-    public function generateLayout(array $bands): array {
-        return [
-            'canvas' => ['ratio' => self::RATIO, 'width' => 1080, 'height' => 1920],
-            'bands' => $this->distributeBands($bands),
-            'border' => ['width' => self::BORDER_WIDTH, 'radius' => self::BORDER_RADIUS, 'color' => '#2F4F4F'],
-            'padding' => self::PADDING,
-            'badge_system' => ['position' => 'top-left', 'shape' => 'circle', 'size' => '48px'],
-        ];
-    }
-
     private function distributeBands(array $bands): array {
         $ratios = [0.20, 0.35, 0.25, 0.20]; // Band高度占比
         $result = [];

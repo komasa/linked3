@@ -120,17 +120,6 @@ class ProviderHealthCheck {
     }
 
     /**
-     * 获取 P95 延迟。
-     */
-    public function getP95Latency(string $provider): float {
-        if (empty($this->responseTimes[$provider])) return 0;
-        $sorted = $this->responseTimes[$provider];
-        sort($sorted);
-        $idx = (int) (count($sorted) * 0.95);
-        return $sorted[min($idx, count($sorted) - 1)] ?? 0;
-    }
-
-    /**
      * 选择最优 Provider (最低平均延迟, 状态 healthy)。
      */
     public function selectBest(array $providers): string {
@@ -159,11 +148,6 @@ class ProviderHealthCheck {
         // 全部不可用, 返回第一个 (让上层报错)
         return $best ?: ($providers[0] ?? '');
     }
-
-    /**
-     * 获取所有健康状态。
-     */
-    public function getHealth(): array { return $this->health; }
 
     /**
      * Ping Provider — 发送一个最小请求检查可达性。

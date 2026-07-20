@@ -97,30 +97,6 @@ class ImageSettingsFactory {
     }
 
     /**
-     * 获取图片设置
-     */
-    public function get_image_settings(): array {
-        // 委托 Image_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\ImageManager')) {
-            try {
-                $mgr = new \ImageManager();
-                if (method_exists($mgr, 'get_settings')) {
-                    return $mgr->get_settings();
-                }
-            } catch (\Throwable $e) {}
-        }
-
-        // 降级: 默认设置
-        return [
-            'provider' => 'wanxiang',
-            'default_resolution' => $this->wanxiang_resolutions['landscape'],
-            'quality' => 'high',
-            'auto_insert' => true,
-            'insertion_strategy' => 'after_first_paragraph',
-        ];
-    }
-
-    /**
      * 保存图片设置
      */
     public function save_image_settings(array $settings): bool {
@@ -133,20 +109,6 @@ class ImageSettingsFactory {
             } catch (\Throwable $e) {}
         }
         return false;
-    }
-
-    /**
-     * 获取所有信息图布局
-     */
-    public function get_infographic_layouts(): array {
-        return $this->infographic_layouts;
-    }
-
-    /**
-     * 获取万相分辨率选项
-     */
-    public function get_wanxiang_resolutions(): array {
-        return $this->wanxiang_resolutions;
     }
 
     private function build_featured_prompt(string $topic, array $keywords): string {

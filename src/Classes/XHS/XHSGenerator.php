@@ -344,10 +344,6 @@ PROMPT;
         return __('小红书图文', 'linked3');
     }
 
-    public function default_prompt_template() : mixed     {
-        return self::PROMPT_TEMPLATE;
-    }
-
     public function available_styles()
     {
         return self::STYLES;

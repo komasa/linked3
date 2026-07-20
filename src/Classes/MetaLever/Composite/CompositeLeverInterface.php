@@ -57,20 +57,6 @@ interface CompositeLeverInterface
     public function departments(): array;
 
     /**
-     * SLA契约定义.
-     * 返回部门间的接口契约。
-     * @return array
-     */
-    public function sla_contracts(): array;
-
-    /**
-     * 演化循环定义.
-     * 返回G1/G2/G3的执行步骤。
-     * @return array
-     */
-    public function evolution_cycle(): array;
-
-    /**
      * 完整的system_prompt (包含部门编制+SLA+演化循环).
      * @return string
      */

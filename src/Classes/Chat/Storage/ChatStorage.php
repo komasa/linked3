@@ -80,35 +80,4 @@ final class ChatStorage
         ));
     }
 
-    /**
-     * List sessions for a user.
-     *
-     * @param int $user_id
-     * @param int $limit
-     * @return array
-     */
-    public function list_sessions($user_id, $limit = 20) : mixed {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_chat_logs';
-        return $wpdb->get_results($wpdb->prepare(
-            "SELECT id, session_id, bot_id, message_count, tokens_used, created_at, updated_at FROM {$table} WHERE user_id = %d ORDER BY updated_at DESC LIMIT %d",
-            $user_id, $limit
-        ), ARRAY_A) ?: [];
-    }
-
-    /**
-     * Delete a session.
-     *
-     * @param string $session_id
-     * @param int    $user_id
-     * @return bool
-     */
-    public function delete_session($session_id, $user_id) : mixed     {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_chat_logs';
-        return (bool) $wpdb->query($wpdb->prepare(
-            "DELETE FROM {$table} WHERE session_id = %s AND user_id = %d",
-            $session_id, $user_id
-        ));
-    }
 }

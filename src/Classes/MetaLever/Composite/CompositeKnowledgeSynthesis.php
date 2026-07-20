@@ -40,26 +40,6 @@ class CompositeKnowledgeSynthesis implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'K1→K2' => '图谱必须含[节点+关系]，K2在图谱上提取模式',
-            'K2→K3' => '模式必须含[结构描述]，K3将结构映射到其他领域',
-            'K3→K4' => '跨域连接必须含[映射关系]，K4将映射折叠为核心模型',
-            'K4→K5' => '折叠必须含[核心概念]，K5在核心概念周围识别缺口',
-            'K5→K1' => '缺口识别发现新节点→回退K1补充图谱',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'K1图谱构建 → K2模式提取 → K4认知折叠 → 输出V1知识体系',
-            'G2' => 'K3跨域连接 → K5缺口识别 → K1图谱补充 → K2二次模式 → 输出V2',
-            'G3' => 'K5终极缺口扫描 → K4终极折叠 → K3终极跨域 → 输出终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['知识管理', '知识图谱', '跨域连接', '认知折叠', '知识缺口'];

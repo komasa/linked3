@@ -134,15 +134,6 @@ class ScriptPatchV1010 {
         return $prompt;
     }
 
-    private static function emotion_to_mood(string $emotion): string {
-        $map = [
-            '振奋' => 'exciting atmosphere', '紧张' => 'tense mood', '悲伤' => 'melancholic tone',
-            '温情' => 'warm atmosphere', '希望' => 'hopeful mood', '释然' => 'relieved tone',
-            'neutral' => 'natural atmosphere',
-        ];
-        return $map[$emotion] ?? 'dramatic atmosphere';
-    }
-
     private static function suggest_transition(string $arcPosition): string {
         $map = [
             '开场' => 'fade in from black',

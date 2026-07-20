@@ -26,17 +26,6 @@ class DiagramColorSystem {
         '冷静' => '#4A90E2', '温暖' => '#B8860B',
     ];
 
-    public function getBadgeColor(string $badgeNum): string {
-        return self::BADGE_COLORS[$badgeNum] ?? '#4A90E2';
-    }
-
-    public function getMoodColor(string $mood): string {
-        foreach ($this->moodColorMap as $keyword => $color) {
-            if (strpos($mood, $keyword) !== false) return $color;
-        }
-        return self::GLOBAL_PRIMARY;
-    }
-
     public function getColorPalette(): array {
         return [
             'background' => self::BACKGROUND,

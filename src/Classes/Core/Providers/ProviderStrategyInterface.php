@@ -77,25 +77,6 @@ interface ProviderStrategyInterface
     public function get_models(array $config);
 
     /**
-     * Build the SSE streaming payload (same shape as chat but stream=true).
-     *
-     * @param array $messages
-     * @param array $options
-     * @param array $config
-     * @return array
-     */
-    public function build_sse_payload(array $messages, array $options, array $config);
-
-    /**
-     * Parse one SSE chunk line into delta content + usage (if terminal chunk).
-     *
-     * @param string $line    Raw SSE data line (without "data: " prefix).
-     * @param array  $config
-     * @return array{delta:string, done:bool, usage:array|null}
-     */
-    public function parse_sse_chunk($line, array $config);
-
-    /**
      * Build an embeddings request payload.
      *
      * @param string|array $input  Text or array of texts.

@@ -60,48 +60,6 @@ class StreamOutput {
     }
 
     /**
-     * 发送 data 块 (默认 event)。
-     */
-    public function sendChunk(string $chunk): void {
-        $this->send('message', $chunk);
-    }
-
-    /**
-     * 发送完成事件。
-     */
-    public function sendDone(array $meta = []): void {
-        $this->send('done', wp_json_encode(array_merge([
-            'status' => 'completed',
-            'total_length' => mb_strlen($this->buffer),
-        ], $meta)));
-        $this->active = false;
-    }
-
-    /**
-     * 发送错误事件。
-     */
-    public function sendError(string $message, array $extra = []): void {
-        $this->send('error', wp_json_encode(array_merge([
-            'message' => $message,
-        ], $extra)));
-        $this->active = false;
-    }
-
-    /**
-     * 检查客户端是否断开。
-     */
-    public function clientDisconnected(): bool {
-        return connection_aborted() !== 0;
-    }
-
-    /**
-     * 获取已生成的完整内容 (用于中断恢复)。
-     */
-    public function getBuffer(): string {
-        return $this->buffer;
-    }
-
-    /**
      * SSE data 转义 (换行处理)。
      */
     private function escapeSSE(string $data): string {

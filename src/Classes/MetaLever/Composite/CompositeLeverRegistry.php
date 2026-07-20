@@ -112,17 +112,4 @@ class CompositeLeverRegistry
         return $info;
     }
 
-    public static function by_level(string $level): array
-    {
-        if (!self::$initialized) {
-            self::init();
-        }
-        $result = [];
-        foreach (self::$levers as $id => $lever) {
-            if ($lever->level() === $level) {
-                $result[$id] = $lever;
-            }
-        }
-        return $result;
-    }
 }

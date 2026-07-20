@@ -40,26 +40,6 @@ class CompositeGenesis implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'FP→EX' => '公理必须显式标注[公理/经验]，EX只准在公理上变异，不可越界',
-            'EX→C'  => '方案必须附带四维评分(可行/成功/性价比/风险)，C必须按阈值执行抹杀',
-            'C→A'   => '驳回必须带[失败点]，A无权推翻C的否决，只能回退FP部重置公理',
-            'O→ALL' => '任何部门必须回应O的[愚蠢问题]与[幻觉预警]，否则演化流转中断',
-            'A→ALL' => '每代结晶必须物理归档，作为下代变异基线',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'FP部出双公理+信息核 → EX部生成初代10方案(四维评分) → C部绞杀低分 → A部结晶V1',
-            'G2' => 'A部提取V1高分基因 → EX部交叉突变(再生成10方案) → C部二次绞杀 → O部降维查幻觉与数据支撑 → A部结晶V2',
-            'G3' => 'C部终选(锁定总分>35物种) → O部零盲区确认 → A部剔除冗余收敛唯一MVP → 物理打包下载',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['产品需求', '战略演化', '方案生成', 'MVP锁定', '创世'];

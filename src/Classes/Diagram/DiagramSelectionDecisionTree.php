@@ -34,17 +34,6 @@ class DiagramSelectionDecisionTree {
         ];
     }
 
-    /**
-     * 批量选择 (为多个模块匹配图示)。
-     */
-    public function selectBatch(array $modules): array {
-        $result = [];
-        foreach ($modules as $module) {
-            $info = $module['info_structure'] ?? '层级递进';
-            $result[] = array_merge($module, $this->select($info));
-        }
-        return $result;
-    }
 }
 
 /**

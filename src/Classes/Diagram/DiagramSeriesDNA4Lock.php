@@ -19,17 +19,6 @@ class DiagramSeriesDNA4Lock {
         'layer4' => ['name' => '排版骨架锁', 'field' => 'layout_skeleton', 'lock_level' => 'Important >95%'],
     ];
 
-    public function applyLocks(array $seriesConfig): array {
-        $result = [];
-        foreach ($this->locks as $layer => $lock) {
-            $result[$layer] = array_merge($lock, [
-                'value' => $seriesConfig[$lock['field']] ?? null,
-                'locked' => true,
-            ]);
-        }
-        return $result;
-    }
-
     public function verifyLocks(array $lockedConfig, array $generated): array {
         $results = [];
         foreach ($this->locks as $layer => $lock) {
@@ -48,7 +37,6 @@ class DiagramSeriesDNA4Lock {
         return ['all_locked' => $allLocked, 'layers' => $results];
     }
 
-    public function getLocks(): array { return $this->locks; }
 }
 
 // =================================================================

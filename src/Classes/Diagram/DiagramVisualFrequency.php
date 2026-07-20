@@ -18,15 +18,4 @@ class DiagramVisualFrequency {
         'LF' => ['name_zh' => '低频', 'name_en' => 'Low Frequency', 'desc' => '静态/慢速/定格', 'fps' => '6fps', 'suitable_for' => '冥想/总结/品牌'],
     ];
 
-    public function getFrequency(string $code): ?array {
-        return $this->frequencies[$code] ?? null;
-    }
-
-    public function selectByMood(string $mood): string {
-        if (preg_match('/动感|紧张|科技|快/', $mood)) return 'HF';
-        if (preg_match('/冥想|总结|品牌|慢/', $mood)) return 'LF';
-        return 'MF';
-    }
-
-    public function getFrequencies(): array { return $this->frequencies; }
 }

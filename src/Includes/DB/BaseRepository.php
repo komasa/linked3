@@ -142,43 +142,6 @@ abstract class BaseRepository
     }
 
     /**
-     * Find rows matching a set of equality conditions.
-     *
-     * @param array $conds  ['col' => value, ...] — all AND'd together.
-     * @param int   $limit
-     * @return array
-     */
-    public function find_where(array $conds, int $limit = 100): array
-    {
-        if (empty($conds)) {
-            return $this->find_all($limit);
-        }
-        $where = [];
-        $values = [];
-        foreach ($conds as $col => $val) {
-            // Sanitize column name — only [a-z_] allowed.
-            if (!preg_match('/^[a-z_]+$/', (string) $col)) {
-                continue;
-            }
-            if (is_int($val)) {
-                $where[] = "{$col} = %d";
-            } elseif (is_float($val)) {
-                $where[] = "{$col} = %f";
-            } else {
-                $where[] = "{$col} = %s";
-            }
-            $values[] = $val;
-        }
-        $where_clause = implode(' AND ', $where);
-        $values[] = $limit;
-        $sql = $this->wpdb->prepare(
-            "SELECT * FROM {$this->get_table()} WHERE {$where_clause} ORDER BY {$this->primary_key()} DESC LIMIT %d",
-            $values
-        );
-        return (array) $this->wpdb->get_results($sql, ARRAY_A);
-    }
-
-    /**
      * Insert a new row. Only columns listed in fillable() are written.
      *
      * Named `insert_row()` (not `insert()`) to avoid PHP 8 LSP conflicts

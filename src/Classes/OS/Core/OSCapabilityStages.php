@@ -102,13 +102,6 @@ class OSCapabilityStages {
     }
 
     /**
-     * 映射到认知层级 (R/A/E)
-     */
-    public static function map_to_cognitive_level(string $stage): string {
-        return self::STAGE_COGNITIVE_MAP[$stage] ?? 'R';
-    }
-
-    /**
      * 映射到内容类型
      */
     public static function map_to_content_type(string $stage): array {

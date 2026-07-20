@@ -108,21 +108,6 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
     }
 
     /**
-     * Default OpenAI-compatible SSE payload (just flips stream=true).
-     *
-     * @param array $messages
-     * @param array $options
-     * @param array $config
-     * @return array
-     */
-    public function build_sse_payload(array $messages, array $options, array $config)
-    {
-        $payload = $this->format_chat_payload($messages, $options, $config);
-        $payload['stream'] = true;
-        return $payload;
-    }
-
-    /**
      * Default OpenAI-compatible response parser.
      *
      * @param mixed $body
@@ -138,32 +123,6 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
         }
         $usage = $this->extract_usage($body);
         return ['content' => $content, 'usage' => $usage, 'raw' => $body];
-    }
-
-    /**
-     * Default OpenAI-compatible SSE chunk parser.
-     *
-     * @param string $line
-     * @param array  $config
-     * @return array{delta:string, done:bool, usage:array|null}
-     */
-    public function parse_sse_chunk($line, array $config)
-    : array {
-        $line = trim($line);
-        if ($line === '' || $line === '[DONE]') {
-            return ['delta' => '', 'done' => true, 'usage' => null];
-        }
-        $json = json_decode($line, true);
-        if (!is_array($json)) {
-            return ['delta' => '', 'done' => false, 'usage' => null];
-        }
-        $delta = '';
-        if (isset($json['choices'][0]['delta']['content'])) {
-            $delta = (string) $json['choices'][0]['delta']['content'];
-        }
-        $done = isset($json['choices'][0]['finish_reason']) && $json['choices'][0]['finish_reason'] !== null;
-        $usage = $this->extract_usage($json);
-        return ['delta' => $delta, 'done' => $done, 'usage' => empty($usage) ? null : $usage];
     }
 
     /**
@@ -261,11 +220,4 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
         return (int) apply_filters('linked3/provider_timeout', $this->default_timeout, $this->slug());
     }
 
-    /**
-     * @return int
-     */
-    public function default_retries()
-    {
-        return (int) apply_filters('linked3/provider_retries', $this->default_retries, $this->slug());
-    }
 }

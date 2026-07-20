@@ -24,11 +24,4 @@ interface BookCostTrackerInterface {
 	 */
 	public function record( $project_id, $usage, $cost, $model );
 
-	/**
-	 * 获取项目累计成本。
-	 *
-	 * @param string $project_id 项目 ID。
-	 * @return array array('total_cost'=>..., 'total_tokens'=>..., 'calls'=>...)
-	 */
-	public function get_total( $project_id );
 }

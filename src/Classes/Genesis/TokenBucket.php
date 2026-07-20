@@ -109,13 +109,6 @@ class TokenBucket {
     }
 
     /**
-     * 尝试获取令牌 (不等待)
-     */
-    public function try_acquire(int $tokens = 1): bool {
-        return $this->acquire($tokens, 0);
-    }
-
-    /**
      * 获取当前可用令牌数
      */
     public function available(): float {

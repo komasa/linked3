@@ -128,34 +128,6 @@ class AsyncQueue {
         }
     }
 
-    /**
-     * 获取队列状态。
-     */
-    public function getStatus(): array {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_async_queue';
-        $stats = [];
-        foreach (['pending', 'processing', 'completed', 'failed'] as $status) {
-            $stats[$status] = (int) $wpdb->get_var($wpdb->prepare(
-                "SELECT COUNT(*) FROM {$table} WHERE status = %s",
-                $status
-            ));
-        }
-        return $stats;
-    }
-
-    /**
-     * 清理已完成/失败任务 (保留最近7天)。
-     */
-    public function cleanup(): void {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_async_queue';
-        $wpdb->query($wpdb->prepare(
-            "DELETE FROM {$table} WHERE status IN ('completed', 'failed') AND created_at < %s",
-            date('Y-m-d H:i:s', strtotime('-7 days'))
-        ));
-    }
-
     private function ensureTable(): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_async_queue';

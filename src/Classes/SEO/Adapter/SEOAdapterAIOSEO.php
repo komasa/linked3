@@ -42,22 +42,4 @@ final class SEOAdapterAIOSEO implements SEOAdapter
         return $this->is_active();
     }
 
-    public function get_meta_description($post) : mixed {
-        if (!$post || !$this->is_active()) {
-            return '';
-        }
-        $desc = (string) get_post_meta($post->ID, '_aioseo_description', true);
-        if ($desc === '') {
-            // Legacy AIOSEOP key.
-            $desc = (string) get_post_meta($post->ID, '_aioseop_description', true);
-        }
-        return $desc;
-    }
-
-    public function set_meta_description($post, $description) : mixed     {
-        if (!$post || !$this->is_active()) {
-            return false;
-        }
-        return (bool) update_post_meta($post->ID, '_aioseo_description', sanitize_text_field($description));
-    }
 }

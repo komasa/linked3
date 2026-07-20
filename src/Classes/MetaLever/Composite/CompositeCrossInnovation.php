@@ -40,26 +40,6 @@ class CompositeCrossInnovation implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'S1→S2' => '关联必须含[异质元素]，S2在异质元素上构建隐喻',
-            'S2→S3' => '隐喻必须达[原理迁移层]，S3对原理做破坏性检验',
-            'S3→S4' => '压力测试必须含[存活方案]，S4对存活方案做认知折叠',
-            'S4→S5' => '折叠必须含[核心骨架]，S5对骨架做逆生长验证',
-            'S5→S1' => '逆生长发现新跨界机会→回退S1重新关联',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'S1强制关联 → S2隐喻工程 → S4认知折叠 → 输出V1创新概念',
-            'G2' => 'S3压力测试V1 → S5逆生长 → S1二次关联 → S2深层隐喻 → 输出V2',
-            'G3' => 'S3终极检验(恐怖分子滥用测试) → S4终极折叠 → S5终极逆生长 → 输出终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['产品创新', '跨界', '隐喻', '生物拟态', '游戏化'];

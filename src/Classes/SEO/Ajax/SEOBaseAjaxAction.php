@@ -118,25 +118,4 @@ abstract class SEOBaseAjaxAction
         return true;
     }
 
-    /**
-     * Increment the push-quota counter AFTER a push actually succeeded.
-     * Called by push actions once the engine returns success. Quota denial
-     * happens in require_push_quota() (called before the request).
-     *
-     * The transient bucket already has its count incremented at gate time,
-     * so this method is a no-op unless an action explicitly opts into
-     * post-success accounting (not currently used — kept for future
-     * refund-on-failure semantics).
-     *
-     * @param string $engine
-     * @return void
-     */
-    protected function refund_push_quota($engine)
-    : void {
-        // Reserved — quota is debited optimistically at gate time and not
-        // refunded on push failure (a failed push still consumes the daily
-        // slot per v2.9.6 behaviour). This stub exists so a future refactor
-        // to deferred accounting can swap implementations without touching
-        // every push action.
-    }
 }

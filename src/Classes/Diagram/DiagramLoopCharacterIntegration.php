@@ -22,27 +22,6 @@ class DiagramLoopCharacterIntegration {
         7 => '定稿归档',
     ];
 
-    public function iterate(array $diagram, string $seedId, int $maxIter = 3): array {
-        $charMgr = DiagramCharacterSeedManager::instance();
-        $history = [];
-
-        for ($i = 1; $i <= $maxIter; $i++) {
-            $check = $charMgr->verifyConsistency($seedId, $diagram);
-            $history[] = ['iter' => $i, 'passed' => $check['passed'], 'issues' => $check['issues'] ?? []];
-
-            if ($check['passed']) {
-                $history[] = ['iter' => $i, 'step' => 7, 'msg' => '定稿归档'];
-                break;
-            }
-
-            // 自动修复 (简化)
-            $diagram = $this->autoFixCharacter($diagram, $seedId);
-            $history[] = ['iter' => $i, 'step' => 5, 'msg' => '修复角色不一致'];
-        }
-
-        return ['final' => $diagram, 'iterations' => count($history), 'history' => $history];
-    }
-
     private function autoFixCharacter(array $diagram, string $seedId): array {
         $charMgr = DiagramCharacterSeedManager::instance();
         $seed = $charMgr->get($seedId);
@@ -53,7 +32,6 @@ class DiagramLoopCharacterIntegration {
         return $diagram;
     }
 
-    public function getSteps(): array { return $this->steps; }
 }
 
 // =================================================================

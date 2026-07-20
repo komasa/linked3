@@ -46,27 +46,4 @@ class BookDraftBuilder {
 		return $stitcher->stitch( $state );
 	}
 
-	/**
-	 * 获取草稿文件路径。
-	 *
-	 * @param string $project_id 项目 ID。
-	 * @return array array('md'=>..., 'html'=>...)
-	 */
-	public function get_draft_paths( $project_id ) : array {
-		$upload_dir = wp_upload_dir();
-		$base_dir   = $upload_dir['basedir'] . '/linked3-books/' . $project_id;
-		$book_title = '';
-
-		$state = BookProjectState::get_project( $project_id );
-		if ( $state ) {
-			$book_title = $state->get( 'book_title' );
-		}
-
-		$safe_title = sanitize_title( $book_title ?: 'untitled' );
-
-		return array(
-			'md'   => $base_dir . '/' . $safe_title . '.md',
-			'html' => $base_dir . '/' . $safe_title . '.html',
-		);
-	}
 }

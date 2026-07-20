@@ -49,22 +49,6 @@ class GenesisStyleEngine
     }
 
     /**
-     * 获取风格中文名
-     */
-    public static function getNameCn(string $styleId): string
-    {
-        return self::load($styleId)['name_cn'] ?? $styleId;
-    }
-
-    /**
-     * 获取风格英文名
-     */
-    public static function getNameEn(string $styleId): string
-    {
-        return self::load($styleId)['name_en'] ?? $styleId;
-    }
-
-    /**
      * 获取 FP 剥骨示例节点 (从 JSON 加载,不再硬编码)
      */
     public static function getFpExamples(string $styleId): array
@@ -122,39 +106,12 @@ class GenesisStyleEngine
     }
 
     /**
-     * 获取场景白名单
-     */
-    public static function getSceneWhitelist(string $styleId): array
-    {
-        $config = self::load($styleId);
-        return $config['scene_whitelist'] ?? [];
-    }
-
-    /**
-     * 获取场景黑名单
-     */
-    public static function getSceneBlacklist(string $styleId): array
-    {
-        $config = self::load($styleId);
-        return $config['scene_blacklist'] ?? [];
-    }
-
-    /**
      * 获取负面关键词
      */
     public static function getNegativeKeywords(string $styleId): string
     {
         $config = self::load($styleId);
         return $config['negative_keywords'] ?? '';
-    }
-
-    /**
-     * 获取 prompt_keywords
-     */
-    public static function getPromptKeywords(string $styleId): string
-    {
-        $config = self::load($styleId);
-        return $config['prompt_keywords'] ?? '';
     }
 
     /**

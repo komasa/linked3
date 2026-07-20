@@ -86,13 +86,6 @@ class OSTextCreation {
     }
 
     /**
-     * 获取T1-T8维度
-     */
-    public static function get_text_dimensions(): array {
-        return self::TEXT_DIMENSIONS;
-    }
-
-    /**
      * 获取类型对应的维度
      */
     public static function get_dimensions_for_type(string $type): array {
@@ -104,25 +97,6 @@ class OSTextCreation {
             }
         }
         return $result;
-    }
-
-    /**
-     * 构建文本逆向Prompt
-     */
-    public static function build_text_reverse_prompt(string $type, string $target): string {
-        $type_label = self::TEXT_TYPES[$type] ?? '文本';
-        $dims = self::get_dimensions_for_type($type);
-
-        $prompt = "你是专业" . $type_label . "系统逆向工程师。请对以下文本进行深度拆解。\n\n";
-        $prompt .= "【目标文本】\n" . $target . "\n\n";
-        $prompt .= "【文本专属8维度】\n\n";
-
-        foreach ($dims as $dim) {
-            $prompt .= $dim['key'] . "_" . $dim['name'] . "：" . $dim['fields'] . "\n\n";
-        }
-
-        $prompt .= "输出纯JSON，所有字段必填。";
-        return $prompt;
     }
 
     /**

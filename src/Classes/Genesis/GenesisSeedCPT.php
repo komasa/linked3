@@ -253,26 +253,6 @@ class GenesisSeedCPT
     }
 
     /**
-     * 按 seed_category 查询
-     */
-    public static function query_by_category($category, $limit = 50)
-    {
-        $query = new \WP_Query([
-            'post_type'      => self::POST_TYPE,
-            'posts_per_page' => $limit,
-            'meta_key'       => 'seed_category',
-            'meta_value'     => $category,
-            'orderby'        => 'title',
-            'order'          => 'ASC',
-        ]);
-        $results = [];
-        foreach ($query->posts as $p) {
-            $results[] = self::get($p->ID);
-        }
-        return $results;
-    }
-
-    /**
      * 按 seed_id 查询 (向后兼容旧 option 存储)
      */
     public static function get_by_seed_id($seed_id)

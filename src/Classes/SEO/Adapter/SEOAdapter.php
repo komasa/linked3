@@ -63,16 +63,4 @@ interface SEOAdapter
      */
     public function handles_meta_description();
 
-    /**
-     * @param \WP_Post $post
-     * @return string The active plugin's stored meta description (empty if none).
-     */
-    public function get_meta_description($post);
-
-    /**
-     * @param \WP_Post $post
-     * @param string   $description
-     * @return bool Whether the active plugin accepted the update.
-     */
-    public function set_meta_description($post, $description);
 }

@@ -21,27 +21,6 @@ if (!defined('ABSPATH')) {
 final class SttManager
 {
     /**
-     * Transcribe an audio file.
-     *
-     * @param string $file_path Local path to audio file (mp3/wav/m4a).
-     * @param array  $config    {provider, api_key, model}.
-     * @return array{ok: bool, text: string, message: string}
-     */
-    public function transcribe(string $file_path, array $config = []): array
-    {
-        if (!file_exists($file_path)) {
-            return ['ok' => false, 'text' => '', 'message' => __('音频文件未找到。', 'linked3')];
-        }
-        $provider = $config['provider'] ?? 'openai';
-        switch ($provider) {
-            case 'openai':
-                return $this->openaiWhisper($file_path, $config);
-            default:
-                return ['ok' => false, 'text' => '', 'message' => sprintf(__('Provider %s 未实现。', 'linked3'), $provider)];
-        }
-    }
-
-    /**
      * Transcribe via OpenAI Whisper API.
      *
      * @param string $file_path Local path to audio file.

@@ -144,11 +144,4 @@ final class ProviderFactory
         return $this->rotator;
     }
 
-    /**
-     * @return string[] All registered provider slugs.
-     */
-    public function slugs()
-    {
-        return array_keys($this->builders);
-    }
 }

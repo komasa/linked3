@@ -91,24 +91,6 @@ final class PublishTargetRepository extends BaseRepository
     }
 
     /**
-     * @param int $user_id
-     * @return array|null
-     */
-    public function get_default($user_id) : mixed {
-        global $wpdb;
-        $table = $this->get_table();
-        $row = $wpdb->get_row($wpdb->prepare(
-            "SELECT * FROM {$table} WHERE user_id = %d AND is_default = 1 AND status = 'active' LIMIT 1",
-            $user_id
-        ), ARRAY_A);
-        if (!$row) {
-            return null;
-        }
-        $row['config'] = $this->decrypt_config($row['config']);
-        return $row;
-    }
-
-    /**
      * @param array $data {user_id, name, type, config, is_default}
      * @return int|\WP_Error
      */

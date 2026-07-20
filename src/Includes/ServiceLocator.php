@@ -36,6 +36,5 @@ final class ServiceLocator
     ];
     public static function get($name) { if (!isset(self::SERVICE_MAP[$name])) return null; $fqcn = self::SERVICE_MAP[$name]; if (class_exists('Linked3\Includes\Container')) { $c = Container::instance(); if ($c->has($fqcn)) return $c->get($fqcn); } if (method_exists($fqcn, 'instance')) return $fqcn::instance(); if (class_exists($fqcn)) return new $fqcn(); return null; }
     public static function has($name) { return isset(self::SERVICE_MAP[$name]); }
-    public static function fqcn($name) { return self::SERVICE_MAP[$name] ?? null; }
     public static function names() { return array_keys(self::SERVICE_MAP); }
 }

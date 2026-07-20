@@ -79,8 +79,4 @@ final class DiagramPipeline implements ContentPipelineInterface
         return ['success' => true, 'diagram' => $result['diagram']];
     }
 
-    public static function get_styles(): array
-    {
-        return [['id' => 'stacked', 'name' => __('层叠式', 'linked3')], ['id' => 'network', 'name' => __('网络式', 'linked3')], ['id' => 'circular', 'name' => __('循环式', 'linked3')]];
-    }
 }

@@ -12,22 +12,6 @@ namespace Linked3\Classes\Diagram;
 if (!defined('ABSPATH')) exit;
 
 class Diagram4LayerAnchor {
-    /**
-     * 为每个子主题添加应用锚点。
-     */
-    public function addAnchors(array $subTopics): array {
-        $result = [];
-        foreach ($subTopics as $st) {
-            $st['anchor'] = [
-                'case' => $st['anchor']['case'] ?? $this->suggestCase($st['title'] ?? ''),
-                'metric' => $st['anchor']['metric'] ?? $this->suggestMetric($st['title'] ?? ''),
-                'action' => $st['anchor']['action'] ?? $this->suggestAction($st['title'] ?? ''),
-            ];
-            $result[] = $st;
-        }
-        return $result;
-    }
-
     private function suggestCase(string $title): string {
         return $title . '典型案例';
     }

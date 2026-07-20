@@ -36,23 +36,6 @@ class CompositeQualityGauntlet implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'C→P' => '批判通过的内容才进入压力测试',
-            'P→SC' => '压力测试通过的内容才进入自我校准',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'Gate1' => '批判: 找出所有逻辑漏洞、事实错误、隐含偏见',
-            'Gate2' => '压力测试: 在极端条件下会怎样? 边界场景?',
-            'Gate3' => '校准: 自评质量分(0-10) + 置信度 + 改进建议',
-        ];
-    }
-
     public function system_prompt(): string
     {
         return <<<PROMPT

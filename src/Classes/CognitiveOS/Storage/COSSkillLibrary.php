@@ -83,25 +83,6 @@ class COSSkillLibrary
     }
 
     /**
-     * 增加使用次数 + 更新适应度。
-     *
-     * @param string $name
-     * @param float   $delta  适应度增量 (正数=增强, 负数=减弱)
-     * @return bool
-     */
-    public static function touch(string $name, float $delta = 0.0): bool
-    {
-        $skills = self::all();
-        if (!isset($skills[$name])) {
-            return false;
-        }
-        $skills[$name]['usage_count'] = (int) ($skills[$name]['usage_count'] ?? 0) + 1;
-        $skills[$name]['fitness']     = max(0.0, min(10.0, (float) ($skills[$name]['fitness'] ?? 5.0) + $delta));
-        $skills[$name]['last_used']   = current_time('mysql');
-        return update_option(self::OPTION_KEY, $skills, false);
-    }
-
-    /**
      * 增加使用次数 (应用 Skill 时调用)。
      *
      * @param string $name
@@ -131,28 +112,6 @@ class COSSkillLibrary
             return (float) ($b['fitness'] ?? 0) <=> (float) ($a['fitness'] ?? 0);
         });
         return array_slice($skills, 0, $top_k, true);
-    }
-
-    /**
-     * 按领域匹配 Skill。
-     *
-     * @param string $domain
-     * @param int    $top_k
-     * @return array
-     */
-    public static function match_domain(string $domain, int $top_k = 5): array
-    {
-        $skills = self::all();
-        $matched = [];
-        foreach ($skills as $name => $s) {
-            if (stripos($name, $domain) !== false || stripos($s['domain'] ?? '', $domain) !== false) {
-                $matched[$name] = $s;
-            }
-        }
-        uasort($matched, function ($a, $b) {
-            return (float) ($b['fitness'] ?? 0) <=> (float) ($a['fitness'] ?? 0);
-        });
-        return array_slice($matched, 0, $top_k, true);
     }
 
     /**

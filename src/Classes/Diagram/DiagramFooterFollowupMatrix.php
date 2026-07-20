@@ -19,15 +19,6 @@ class DiagramFooterFollowupMatrix {
         'formula'   => ['E1' => true, 'E2' => false, 'E3' => false, 'E4' => true, 'E5' => true, 'E6' => false],
     ];
 
-    public function isCompatible(string $footerType, string $followupType): bool {
-        return $this->matrix[$footerType][$followupType] ?? false;
-    }
-
-    public function getCompatibleFollowups(string $footerType): array {
-        return array_keys(array_filter($this->matrix[$footerType] ?? [], fn($v) => $v));
-    }
-
-    public function getMatrix(): array { return $this->matrix; }
 }
 
 // =================================================================

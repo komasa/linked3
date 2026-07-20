@@ -150,13 +150,6 @@ class OSDashboard {
     }
 
     /**
-     * 仪表盘页面回调
-     */
-    public static function dashboard_page(): void {
-        echo self::render_dashboard();
-    }
-
-    /**
      * 注册
      */
     public static function register(): void {

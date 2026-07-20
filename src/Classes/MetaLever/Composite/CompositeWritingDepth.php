@@ -18,12 +18,6 @@ class CompositeWritingDepth implements CompositeLeverInterface
             'FOLD' => ['name' => '折叠层', 'mission' => '多层信息压缩为精炼表达', 'lever' => 'meta_folding'],
         ];
     }
-    public function sla_contracts(): array {
-        return ['COG→META' => '认知分析完成 → 元认知反思', 'META→FOLD' => '反思完成 → 折叠精炼'];
-    }
-    public function evolution_cycle(): array {
-        return ['G1' => '认知: 这个主题的核心认知结构是什么?', 'G2' => '元认知: 读者读完后会怎样思考? 如何引导?', 'G3' => '折叠: 将多层思考压缩为精炼表达'];
-    }
     public function system_prompt(): string {
         return <<<PROMPT
 ## 写作深度增强器 (Writing Depth Enhancer)

@@ -113,13 +113,6 @@ class OSOnboardingTracker {
     }
 
     /**
-     * 获取状态对应动作
-     */
-    public static function get_state_actions(string $state): array {
-        return self::STATE_ACTIONS[$state] ?? [];
-    }
-
-    /**
      * 计算状态进度
      */
     public static function calculate_state_progress(int $day): array {

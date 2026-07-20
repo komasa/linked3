@@ -297,17 +297,4 @@ class OSReverseDimensions {
         return $prompt;
     }
 
-    /**
-     * 获取维度映射关系 (逆向维度 → 正向字段)
-     */
-    public static function get_dimension_mapping(): array {
-        $mapping = [];
-        foreach (self::UNIVERSAL_DIMENSIONS as $dim) {
-            $mapping[$dim['key']] = [
-                'reverse_name' => $dim['name'],
-                'forward_field' => $dim['maps_to'],
-            ];
-        }
-        return $mapping;
-    }
 }

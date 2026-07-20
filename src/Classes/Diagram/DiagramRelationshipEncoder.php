@@ -21,20 +21,6 @@ class DiagramRelationshipEncoder {
         'feedback'   => ['symbol' => '~>', 'name_zh' => '反馈', 'meaning' => 'A反馈B'],
     ];
 
-    public function encode(string $type, string $from, string $to, string $desc = ''): array {
-        $code = $this->codes[$type] ?? $this->codes['support'];
-        return [
-            'from' => $from,
-            'to' => $to,
-            'code' => $code['symbol'],
-            'type' => $type,
-            'name' => $code['name_zh'],
-            'desc' => $desc,
-            'rendered' => "{$from} {$code['symbol']} {$to}" . ($desc ? ": {$desc}" : ''),
-        ];
-    }
-
-    public function getCodes(): array { return $this->codes; }
 }
 
 // =================================================================

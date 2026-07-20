@@ -374,7 +374,4 @@ class PipelineEngine {
         return $this->steps;
     }
 
-    public function get_step_count(): int {
-        return count($this->steps);
-    }
 }

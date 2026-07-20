@@ -260,20 +260,6 @@ final class V15ChartPromptGenerator
     }
 
     /**
-     * 按 category 分组返回图示索引 (前端 UI 用)。
-     */
-    public function get_chart_dna_grouped() : mixed     {
-        $all = $this->get_chart_dna_index();
-        $grouped = [];
-        foreach ($all as $c) {
-            $cat = $c['category'];
-            if (!isset($grouped[$cat])) $grouped[$cat] = [];
-            $grouped[$cat][] = $c;
-        }
-        return $grouped;
-    }
-
-    /**
      * 构建 V15 8 维度上下文。
      */
     private function build_v15_context(array $user_ctx, array $extra = [])

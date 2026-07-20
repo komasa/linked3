@@ -110,14 +110,6 @@ final class TtsManager
     }
 
     /**
-     * Register the [linked3_tts] shortcode.
-     */
-    public static function registerShortcode(): void
-    {
-        add_shortcode('linked3_tts', [__CLASS__, 'renderShortcode']);
-    }
-
-    /**
      * Render the TTS shortcode.
      *
      * @param array       $atts    Shortcode attributes.

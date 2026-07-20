@@ -66,16 +66,4 @@ class GenesisPlotParser {
         return $scenes;
     }
 
-    public function detectContentType(string $text): string {
-        foreach ($this->contentTypeKeywords as $type => $keywords) {
-            foreach ($keywords as $kw) {
-                if (mb_strpos($text, $kw) !== false) return $type;
-            }
-        }
-        return 'T2_对话叙事';
-    }
-
-    public function getContentTypeKeywords(): array {
-        return $this->contentTypeKeywords;
-    }
 }

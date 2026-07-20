@@ -58,19 +58,6 @@ class BookSectionExpanderService {
         }
 
         /**
-         * 展开单个章节。
-         *
-         * @param BookProjectState $state           项目状态。
-         * @param int                         $chapter_index  章索引。
-         * @param int                         $section_index  节索引。
-         * @return array|WP_Error 返回展开结果或 WP_Error。
-         */
-        public function expand_section( $state, $chapter_index, $section_index ) : mixed {
-                // 委托给 Section_Expander Trait 的方法。
-                return $this->do_expand_section( $state, $chapter_index, $section_index );
-        }
-
-        /**
          * 重新生成指定章节。
          *
          * @param BookProjectState $state           项目状态。

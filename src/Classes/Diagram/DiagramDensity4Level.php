@@ -19,11 +19,6 @@ class DiagramDensity4Level {
         'extreme' => ['name_zh' => '极致版', 'modules_per_band' => 3, 'sub_topics_per_module' => 4, 'details_per_sub' => 3, 'char_target' => 4500],
     ];
 
-    public function getLevel(string $id): ?array {
-        return $this->levels[$id] ?? null;
-    }
-    public function getLevels(): array { return $this->levels; }
-    public function getDefault(): array { return $this->levels['deep']; }
 }
 
 // =================================================================

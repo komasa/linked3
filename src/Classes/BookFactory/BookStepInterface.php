@@ -35,13 +35,6 @@ interface BookStepInterface {
 	public function get_step_id();
 
 	/**
-	 * 获取步骤显示名称。
-	 *
-	 * @return string
-	 */
-	public function get_label();
-
-	/**
 	 * 执行步骤。
 	 *
 	 * @param BookProjectState $state 项目状态。
@@ -50,11 +43,4 @@ interface BookStepInterface {
 	 */
 	public function execute( $state, $factory );
 
-	/**
-	 * 获取下一步骤 ID (用于链式调度)。
-	 *
-	 * @param BookProjectState $state 项目状态。
-	 * @return string|null 下一步骤 ID, null 表示已完成。
-	 */
-	public function get_next_step( $state );
 }

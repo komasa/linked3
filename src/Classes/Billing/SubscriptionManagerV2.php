@@ -59,12 +59,6 @@ class SubscriptionManagerV2 {
         return ['user_id' => $userId, 'plan' => $plan, 'status' => 'active', 'charge_id' => $chargeId];
     }
 
-    public function unsubscribe(int $userId): array {
-        update_user_meta($userId, 'linked3_subscription', 'free');
-        linked3_dispatch('linked3.billing.unsubscribe', ['user_id' => $userId]);
-        return ['user_id' => $userId, 'plan' => 'free', 'status' => 'cancelled'];
-    }
-
     public function getPlan(int $userId): string {
         return get_user_meta($userId, 'linked3_subscription', true) ?: 'free';
     }

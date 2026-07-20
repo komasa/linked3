@@ -51,14 +51,6 @@ class AutoRollback {
         }
     }
 
-    public function isRollbackRequired(): bool {
-        return (bool) get_option('linked3_rollback_required', false);
-    }
-
-    public function clearRollbackFlag(): void {
-        delete_option('linked3_rollback_required');
-        delete_option('linked3_rollback_failed_systems');
-    }
 }
 
 // =================================================================

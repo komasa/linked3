@@ -51,12 +51,5 @@ class AgentOrchestrator {
         }
     }
 
-    public function getStatus(string $runId): array {
-        return $this->running[$runId] ?? ['status' => 'unknown'];
-    }
-
-    public function listWorkflows(): array {
-        return array_keys($this->workflows);
-    }
 }
 

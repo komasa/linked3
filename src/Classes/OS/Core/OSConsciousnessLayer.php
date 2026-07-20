@@ -100,13 +100,6 @@ class OSConsciousnessLayer {
     }
 
     /**
-     * 获取频率Badge
-     */
-    public static function get_frequency_badges(): array {
-        return self::FREQUENCY_BADGES;
-    }
-
-    /**
      * 为内容模块分配频率
      */
     public static function assign_frequency(string $module_type, string $content = ''): array {
@@ -147,13 +140,6 @@ class OSConsciousnessLayer {
             'frequency_sequence' => $freqs,
             'suggestion' => $is_progressive ? '分布合理' : '建议从HF→MF→LF递进',
         ];
-    }
-
-    /**
-     * 获取频率对应色彩
-     */
-    public static function get_color_for_frequency(string $freq): string {
-        return self::FREQUENCY_BADGES[$freq]['color'] ?? '#808080';
     }
 
     /**

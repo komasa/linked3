@@ -85,9 +85,4 @@ final class VectorFactory
         return $obj;
     }
 
-    public function slugs() : mixed     {
-        return array_filter(array_keys($this->instances), function ($k) {
-            return substr($k, -8) === '_builder';
-        });
-    }
 }

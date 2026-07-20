@@ -423,32 +423,4 @@ final class ImageManager
         ));
     }
 
-    /**
-     * 生成多张图片 (v2.2.0)。
-     *
-     * @param string $prompt
-     * @param int $count
-     * @return array{ok:bool, images:array, message:string}
-     */
-    public function generate_multiple($prompt, $count = 1)
-    : array {
-        $images = [];
-        for ($i = 0; $i < $count; $i++) {
-            $result = $this->generate_image($prompt);
-            if ($result['ok'] && !empty($result['url'])) {
-                $images[] = $result['url'];
-                $this->log_generation([
-                    'provider' => $this->get_settings()['provider'],
-                    'model' => $this->get_settings()['model'],
-                    'prompt' => $prompt,
-                    'url' => $result['url'],
-                    'status' => 'ok',
-                ]);
-            }
-        }
-        if (empty($images)) {
-            return ['ok' => false, 'images' => [], 'message' => __('图片生成失败', 'linked3-ai')];
-        }
-        return ['ok' => true, 'images' => $images, 'message' => sprintf('生成 %d 张图片', count($images))];
-    }
 }

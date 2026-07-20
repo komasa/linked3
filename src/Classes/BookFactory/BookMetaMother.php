@@ -129,28 +129,6 @@ class BookMetaMother {
 	}
 
 	/**
-	 * 第二阶: 系统原型生成 — 根据原型key生成完整的探索系统配置。
-	 *
-	 * @param string $prototype_key 原型key (如 book/experimental/observational 等)。
-	 * @param array  $custom_params 自定义参数。
-	 * @return array|WP_Error
-	 */
-	public function generate_prototype( $prototype_key, $custom_params = array() ) {
-		$prototype = BookExplorationPrototypes::get( $prototype_key );
-
-		if ( ! $prototype ) {
-			return new WP_Error( 'unknown_prototype', '未知探索原型: ' . $prototype_key );
-		}
-
-		// 合并默认配置与自定义参数。
-		$generated = array_merge( $prototype, $custom_params );
-		$generated['generated_at'] = current_time( 'mysql' );
-		$generated['meta_version'] = self::META_VERSION;
-
-		return $generated;
-	}
-
-	/**
 	 * 第三阶: 元规律提炼 — 从探索结果中提炼元规律。
 	 *
 	 * @param string $exploration_result 探索结果文本。
@@ -265,25 +243,6 @@ class BookMetaMother {
 		}
 
 		return $parsed;
-	}
-
-	/**
-	 * 获取元母体元信息。
-	 *
-	 * @return array
-	 */
-	public function get_meta_info() : array {
-		return array(
-			'version'       => self::META_VERSION,
-			'axioms'        => array(
-				'axiom_1_meta_entropy_reduction' => '元熵减: 从众多真理探索系统中萃取探索真理的元规律',
-				'axiom_2_meta_dimension_reduction' => '元降维: 把探索真理降维为分类→生成→提炼→创造四阶',
-			),
-			'core_nucleus'  => '探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎',
-			'meta_laws'     => self::META_LAWS,
-			'meta_stages'   => self::META_STAGES,
-			'prototypes'    => BookExplorationPrototypes::get_all(),
-		);
 	}
 
 	/**

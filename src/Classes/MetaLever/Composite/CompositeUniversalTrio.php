@@ -41,23 +41,6 @@ class CompositeUniversalTrio implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'FP→EX' => '本质追问输出[第一性原理] → 反向思考以此验证',
-            'EX→SYS' => '反向思考输出[隐藏假设] → 系统思维纳入全局',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'Step1' => 'FP: 这个问题的本质是什么? 剥离所有表象, 只留核心',
-            'Step2' => 'EX: 如果最终失败了, 最可能的原因是什么? 倒推关键假设',
-            'Step3' => 'SYS: 拉高到系统层面, 这个问题在更大格局中处于什么位置?',
-        ];
-    }
-
     public function system_prompt(): string
     {
         return <<<PROMPT

@@ -362,7 +362,4 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         ];
     }
 
-    public function getSignature(): string { return self::SIGNATURE; }
-    public function getBadgeColors(): array { return self::BADGE_COLORS; }
-    public function getFontRatio(): array { return self::FONT_RATIO; }
 }

@@ -61,19 +61,6 @@ final class AutoGPTTaskRepository extends BaseRepository
         return $this->wpdb->prefix . 'linked3_task_queue';
     }
 
-    /**
-     * 按任务类型获取默认频率 (v2.5.0)。
-     */
-    public static function default_frequency_for_type($type) : mixed {
-        $defaults = [
-            'content-writing'     => 'hourly',
-            'content-enhancement' => 'daily',
-            'content-indexing'    => 'linked3_every_10min',
-            'comment-reply'       => 'hourly',
-        ];
-        return $defaults[$type] ?? 'hourly';
-    }
-
     public function all($user_id = 0) : mixed     {
         global $wpdb;
         $table = $this->get_table();

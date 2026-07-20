@@ -74,34 +74,6 @@ trait VisualAICallerTrait
     }
 
     /**
-     * 调用 AI 并解析为 JSON 数组（视觉生态最常用形态）。
-     *
-     * @param array  $messages
-     * @param array  $options
-     * @param array  $config
-     * @return array|\WP_Error  解析后的数组，或 WP_Error
-     */
-    protected function call_ai_for_json(array $messages, array $options, array $config = []) : mixed     {
-        $result = $this->call_ai($messages, $options, $config);
-        if ($result === false) {
-            return new \WP_Error('ai_call_failed', __('AI 调用失败，请检查 API 配额与密钥。', 'linked3'), ['status' => 502]);
-        }
-
-        $content = $result['content'] ?? '';
-        $parsed = $this->extract_json($content);
-
-        if ($parsed === null) {
-            return new \WP_Error(
-                'ai_parse_failed',
-                __('AI 返回内容无法解析为 JSON，请重试或更换模型。', 'linked3'),
-                ['status' => 500, 'raw_preview' => mb_substr($content, 0, 200)]
-            );
-        }
-
-        return $parsed;
-    }
-
-    /**
      * 容错 JSON 提取 — 三级降级策略。
      *
      * 1. 直接 json_decode（最理想：AI 严格遵循指令）
@@ -141,13 +113,4 @@ trait VisualAICallerTrait
         return null;
     }
 
-    /**
-     * 把任意 AI 调用错误转为可展示的 WP_Error。
-     *
-     * @param mixed  $result  call_ai_for_json 的返回值
-     * @return \WP_Error|null  若 $result 已是 WP_Error 则原样返回，否则 null
-     */
-    protected function maybe_error($result) : mixed     {
-        return is_wp_error($result) ? $result : null;
-    }
 }

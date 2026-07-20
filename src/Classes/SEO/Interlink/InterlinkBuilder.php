@@ -163,28 +163,4 @@ final class InterlinkBuilder
         ));
     }
 
-    /**
-     * Rebuild the entire interlink graph from current post content.
-     * Expensive — only called from admin "Rebuild" action.
-     *
-     * @param int $batch_size  Posts per batch.
-     * @param int $offset      Skip first N posts (for pagination).
-     * @return int Number of posts processed.
-     */
-    public function rebuild_all($batch_size = 50, $offset = 0) : mixed {
-        $q = new \WP_Query([
-            'post_type'        => 'any',
-            'post_status'      => 'publish',
-            'posts_per_page'   => (int) $batch_size,
-            'offset'           => (int) $offset,
-            'orderby'          => 'ID',
-            'order'            => 'ASC',
-            'no_found_rows'    => true,
-            'suppress_filters' => false,
-        ]);
-        foreach ($q->posts as $post) {
-            $this->inject($post->post_content, $post->ID);
-        }
-        return count($q->posts);
-    }
 }

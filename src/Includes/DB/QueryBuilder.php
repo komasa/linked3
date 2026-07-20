@@ -144,21 +144,6 @@ final class QueryBuilder
     }
 
     /**
-     * Add a GROUP BY clause.
-     *
-     * @param string $col
-     * @return self
-     */
-    public function group_by(string $col): self
-    {
-        if (!preg_match('/^[a-z_]+$/', $col)) {
-            throw new \InvalidArgumentException(sprintf('Invalid column name "%s".', $col));
-        }
-        $this->groups[] = ['col' => $col];
-        return $this;
-    }
-
-    /**
      * Execute the query and return all matching rows.
      *
      * @return array

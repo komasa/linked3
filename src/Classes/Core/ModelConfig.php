@@ -52,16 +52,6 @@ class ModelConfig
     }
 
     /**
-     * 获取默认图像模型.
-     *
-     * @return string
-     */
-    public static function default_image_model(): string
-    {
-        return get_option(LINKED3_OPTION_PREFIX . 'default_image_model', 'dall-e-3');
-    }
-
-    /**
      * 获取默认 provider.
      *
      * @return string

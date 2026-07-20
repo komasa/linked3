@@ -220,16 +220,6 @@ final class WcTokenPackage
         return (int) get_user_meta($user_id, self::META_USER_BALANCE, true);
     }
 
-    /**
-     * 扣减用户 Token 余额 (Token_Manager 调用)。
-     */
-    public static function deduct_user_balance($user_id, $tokens)
-    : void {
-        $tokens = max(0, (int) $tokens);
-        if ($tokens === 0) return;
-        $current = self::get_user_balance($user_id);
-        update_user_meta($user_id, self::META_USER_BALANCE, max(0, $current - $tokens));
-    }
 }
 
 // 只在 WC 激活时初始化

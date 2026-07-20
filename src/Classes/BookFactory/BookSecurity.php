@@ -48,18 +48,6 @@ class BookSecurity {
 	}
 
 	/**
-	 * 校验并返回合法的 format 参数值。
-	 *
-	 * @param string $format 用户传入的 format 参数。
-	 * @return string 合法的 format 值（md 或 html），默认 md。
-	 */
-	public static function validate_format( $format ) : mixed {
-		$allowed = array( 'md', 'html' );
-		$format  = strtolower( (string) $format );
-		return in_array( $format, $allowed, true ) ? $format : 'md';
-	}
-
-	/**
 	 * 对错误信息进行脱敏处理，避免向用户暴露文件路径、SQL 语句等敏感信息。
 	 *
 	 * @param string|\WP_Error $error 错误信息或 WP_Error 对象。

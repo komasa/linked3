@@ -24,15 +24,6 @@ class PaymentManager {
         $this->gateways[$gateway->getName()] = $gateway;
     }
 
-    public function charge(string $gatewayName, float $amount, string $currency, array $metadata = []): array {
-        if (!isset($this->gateways[$gatewayName])) {
-            throw new RuntimeException("Payment gateway not found: {$gatewayName}");
-        }
-        $result = $this->gateways[$gatewayName]->createCharge($amount, $currency, $metadata);
-        linked3_dispatch('linked3.billing.charge', $result);
-        return $result;
-    }
-
     public function refund(string $gatewayName, string $chargeId, float $amount): array {
         if (!isset($this->gateways[$gatewayName])) {
             throw new RuntimeException("Payment gateway not found: {$gatewayName}");
@@ -42,7 +33,6 @@ class PaymentManager {
         return $result;
     }
 
-    public function getGateways(): array { return array_keys($this->gateways); }
 }
 
 // =================================================================

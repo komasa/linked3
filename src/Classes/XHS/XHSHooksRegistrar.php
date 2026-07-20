@@ -29,19 +29,6 @@ final class XHSHooksRegistrar
     }
 
     /**
-     * v19.40: 用元提示词杠杆增强 XHS 的 system_prompt.
-     *
-     * 绞杀模式：如果注册表中有适用于 xhs_generate 任务的杠杆，
-     * 将杠杆的 system_prompt 拼接到基础 prompt 后面。
-     */
-    public static function enhance_with_meta_levers($base_prompt, $params) : mixed {
-        if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
-            return \Linked3\Classes\MetaLever\MetaLeverRegistry::enhance_prompt('xhs_generate', $base_prompt);
-        }
-        return $base_prompt;
-    }
-
-    /**
      * 向视觉脚本注册表注册小红书生成器。
      */
     public static function register_visual_generator($version)

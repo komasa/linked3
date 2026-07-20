@@ -255,13 +255,4 @@ final class Activator
         return false;
     }
 
-    /**
-     * @return void
-     */
-    public static function run_migrations()
-    : void {
-        if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
-            \Linked3\Includes\DB\MigrationRunner::run_pending();
-        }
-    }
 }

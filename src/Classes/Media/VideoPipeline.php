@@ -64,13 +64,4 @@ final class VideoPipeline implements ContentPipelineInterface
         ];
     }
 
-    public static function get_styles(): array
-    {
-        return [
-            ['id' => 'auto',         'name' => __('自动适配', 'linked3')],
-            ['id' => 'cinematic',    'name' => __('电影质感', 'linked3')],
-            ['id' => 'documentary',  'name' => __('纪实风格', 'linked3')],
-            ['id' => 'animation',    'name' => __('动画风格', 'linked3')],
-        ];
-    }
 }

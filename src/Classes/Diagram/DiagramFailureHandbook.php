@@ -63,22 +63,6 @@ class DiagramFailureHandbook {
         ],
     ];
 
-    public function diagnose(array $diagram): array {
-        $found = [];
-        $validator = new DiagramValidation13Dim();
-        $validation = $validator->validate($diagram);
-
-        foreach ($validation['checks'] as $dim => $check) {
-            if (!$check['passed']) {
-                $failureId = $this->mapDimToFailure($dim);
-                if ($failureId && isset($this->failures[$failureId])) {
-                    $found[] = array_merge(['id' => $failureId], $this->failures[$failureId], ['dim' => $dim]);
-                }
-            }
-        }
-        return $found;
-    }
-
     private function mapDimToFailure(string $dim): ?string {
         $map = [
             'text_embed' => 'F1', 'visual' => 'F2', 'system' => 'F3',
@@ -88,11 +72,4 @@ class DiagramFailureHandbook {
         return $map[$dim] ?? null;
     }
 
-    public function getFailure(string $id): ?array {
-        return $this->failures[$id] ?? null;
-    }
-
-    public function allFailures(): array {
-        return $this->failures;
-    }
 }

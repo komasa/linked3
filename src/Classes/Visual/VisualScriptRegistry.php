@@ -54,33 +54,4 @@ final class VisualScriptRegistry
         return self::$generators;
     }
 
-    /**
-     * 获取所有平台选项（用于 UI 下拉菜单）。
-     *
-     * @return array [{ id, label }]
-     */
-    public static function platform_options() : mixed {
-        $options = [];
-        foreach (self::$generators as $id => $gen) {
-            $options[] = [
-                'id'    => $id,
-                'label' => $gen->platform_label(),
-            ];
-        }
-        return $options;
-    }
-
-    /**
-     * 获取指定平台的可用风格列表。
-     *
-     * @param string $platform
-     * @return array
-     */
-    public static function styles_for($platform) : mixed     {
-        $gen = self::get($platform);
-        if ($gen) {
-            return $gen->available_styles();
-        }
-        return [];
-    }
 }

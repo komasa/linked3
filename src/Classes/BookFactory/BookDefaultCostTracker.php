@@ -52,19 +52,4 @@ class BookDefaultCostTracker implements BookCostTrackerInterface {
 		$state->save_state();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_total( $project_id ) : array {
-		$state = BookProjectState::get_project( $project_id );
-		if ( ! $state ) {
-			return array( 'total_cost' => 0, 'total_tokens' => 0, 'calls' => 0 );
-		}
-
-		return array(
-			'total_cost'   => (float) $state->get( 'total_cost', 0 ),
-			'total_tokens' => (int) $state->get( 'total_tokens', 0 ),
-			'calls'        => (int) $state->get( 'total_calls', 0 ),
-		);
-	}
 }

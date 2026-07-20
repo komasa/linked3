@@ -36,10 +36,6 @@ class WechatGateway implements PaymentGatewayInterface {
         ];
     }
 
-    public function verifyCallback(array $data): bool {
-        return !empty($data['result_code']) && $data['result_code'] === 'SUCCESS';
-    }
-
     public function refund(string $chargeId, float $amount): array {
         return [
             'charge_id' => $chargeId,

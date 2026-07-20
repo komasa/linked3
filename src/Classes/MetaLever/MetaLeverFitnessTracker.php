@@ -31,40 +31,6 @@ final class MetaLeverFitnessTracker
     const USAGE_OPTION = 'linked3_lever_usage_stats';
 
     /**
-     * Record a lever usage event.
-     *
-     * @param string $lever_id The lever that was used.
-     * @param bool   $success  Whether the output was accepted by the user.
-     * @param string $task_type The task type (e.g. 'xhs_generate', 'seo_article').
-     * @return void
-     */
-    public static function record_usage(string $lever_id, bool $success, string $task_type = ''): void
-    {
-        $stats = (array) get_option(self::USAGE_OPTION, []);
-        if (!isset($stats[$lever_id])) {
-            $stats[$lever_id] = ['used' => 0, 'success' => 0, 'tasks' => []];
-        }
-        $stats[$lever_id]['used']++;
-        if ($success) $stats[$lever_id]['success']++;
-        if ($task_type && !in_array($task_type, $stats[$lever_id]['tasks'])) {
-            $stats[$lever_id]['tasks'][] = $task_type;
-        }
-        update_option(self::USAGE_OPTION, $stats);
-    }
-
-    /**
-     * Get the fitness score for a lever (0.0 - 1.0).
-     *
-     * @param string $lever_id
-     * @return float Fitness score (default 0.5 for new levers).
-     */
-    public static function get_score(string $lever_id): float
-    {
-        $scores = (array) get_option(self::SCORES_OPTION, []);
-        return $scores[$lever_id] ?? 0.5;
-    }
-
-    /**
      * Get scores for all levers.
      *
      * @return array<string, float>

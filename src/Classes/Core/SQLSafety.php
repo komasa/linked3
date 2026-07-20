@@ -63,48 +63,4 @@ class SQLSafety
         return $result === $safe;
     }
 
-    /**
-     * 安全的 TRUNCATE — 先校验表名再执行.
-     *
-     * @param string $table  完整表名
-     * @return bool
-     */
-    public static function safe_truncate($table) : mixed {
-        global $wpdb;
-        $safe = self::validate_table_name($table);
-        if ($safe === false) {
-            return false;
-        }
-        // 二次确认：表必须存在且以 $wpdb->prefix 开头
-        if (strpos($safe, $wpdb->prefix) !== 0 && !self::table_exists($safe)) {
-            return false;
-        }
-        // SECURITY NOTE v27.0.0 (P9): $wpdb->prepare() cannot be used here
-        // because table names are identifiers, not values — placeholders
-        // only work for values. The $safe variable has already been validated
-        // by validate_table_name() (regex whitelist + prefix check + existence
-        // check), so SQL injection is not possible.
-        return $wpdb->query($wpdb->prepare("TRUNCATE TABLE %i", $safe)) !== false;
-    }
-
-    /**
-     * 安全的 DELETE — 使用 prepare 防注入.
-     *
-     * @param string $table     完整表名
-     * @param string $where_col WHERE 列名（白名单校验）
-     * @param string $where_val WHERE 值
-     * @return bool
-     */
-    public static function safe_delete($table, $where_col, $where_val) : mixed     {
-        global $wpdb;
-        $safe_table = self::validate_table_name($table);
-        if ($safe_table === false) {
-            return false;
-        }
-        // 列名只允许字母/数字/下划线
-        if (!preg_match('/^[a-zA-Z0-9_]+$/', $where_col)) {
-            return false;
-        }
-        return $wpdb->query($wpdb->prepare("DELETE FROM {$safe_table} WHERE {$where_col} = %s", $where_val)) !== false;
-    }
 }

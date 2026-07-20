@@ -53,10 +53,6 @@ class PromptCache {
         update_option(LINKED3_OPTION_PREFIX . 'prompt_cache', $cache, false);
     }
 
-    public function clear(): void {
-        delete_option(LINKED3_OPTION_PREFIX . 'prompt_cache');
-    }
-
     private function key(string $prompt, string $model): string {
         return md5($model . '|' . $prompt);
     }

@@ -36,13 +36,6 @@ class StripeGateway implements PaymentGatewayInterface {
         ];
     }
 
-    public function verifyCallback(array $data): bool {
-        // Stripe webhook 签名验证
-        return !empty($data['stripe_signature'])
-            && !empty($data['stripe_event'])
-            && $this->webhookSecret !== '';
-    }
-
     public function refund(string $chargeId, float $amount): array {
         return [
             'charge_id' => $chargeId,

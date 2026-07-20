@@ -96,26 +96,6 @@ class OSEngineerRegistry {
     }
 
     /**
-     * 按类型获取工程师
-     */
-    public static function get_engineer_by_type(string $type): array {
-        return self::ENGINEER_REGISTRY[$type] ?? [];
-    }
-
-    /**
-     * 按分类获取工程师
-     */
-    public static function get_engineers_by_category(string $category): array {
-        $result = [];
-        foreach (self::ENGINEER_REGISTRY as $type => $engineer) {
-            if ($engineer['category'] === $category) {
-                $result[$type] = $engineer;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * 获取所有分类
      */
     public static function get_categories(): array {

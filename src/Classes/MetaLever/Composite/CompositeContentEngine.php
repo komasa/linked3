@@ -43,26 +43,6 @@ class CompositeContentEngine implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'C1→C2' => '叙事必须含[故事弧线]，C2在弧线关键节点植入情感触点',
-            'C2→C3' => '情感必须含[共鸣点清单]，C3在每个共鸣点上叠加说服力技巧',
-            'C3→C4' => '说服力必须含[论证链]，C4将论证链适配到目标平台语境',
-            'C4→C5' => '语境适配必须含[平台调性]，C5将适配后内容折叠为可记忆模型',
-            'C5→C1' => '折叠发现叙事缺陷→回退C1重新设计故事弧线',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'C1叙事构建 → C2情绪共鸣 → C5认知折叠 → 输出V1内容草案',
-            'G2' => 'C3说服力工程 → C4语境适配 → C2二次情绪优化 → C5二次折叠 → 输出V2',
-            'G3' => 'C5终极折叠(能否用一句话说清核心) → C4终极语境(跨平台适配) → C1终极叙事 → 输出终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['内容创作', '小红书', 'SEO文章', '视频脚本', '文案', '品牌叙事'];

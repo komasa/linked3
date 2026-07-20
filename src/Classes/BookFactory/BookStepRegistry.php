@@ -190,23 +190,4 @@ class BookStepRegistry {
                 return self::$steps[ $step_id ] ?? null;
         }
 
-        /**
-         * 获取所有已注册步骤。
-         *
-         * @return array<string, BookStepInterface>
-         */
-        public static function get_all_steps() {
-                self::init();
-                return self::$steps;
-        }
-
-        /**
-         * 获取步骤顺序列表。
-         *
-         * @return array<string>
-         */
-        public static function get_step_order() {
-                self::init();
-                return array_keys( self::$step_order );
-        }
 }

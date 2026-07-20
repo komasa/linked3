@@ -40,26 +40,6 @@ class CompositeSocraticReview implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'D1→D2' => '澄清必须输出[概念定义表]，D2在定义上挑战假设',
-            'D2→D3' => '假设挑战必须输出[假设清单]，D3对每个假设追问证据',
-            'D3→D4' => '证据追问必须输出[证据强度评级]，D4对弱证据探索替代',
-            'D4→D5' => '替代探索必须输出[替代方案]，D5对每个方案评估影响',
-            'D5→D1' => '影响检验发现概念模糊→回退D1重新澄清',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'D1澄清概念 → D2挑战假设 → D5影响预判 → 输出V1审查报告',
-            'G2' => 'D3证据追问 → D4替代探索 → D2二次假设挑战 → D5二次影响 → 输出V2',
-            'G3' => 'D5终极检验(如果全错了会怎样) → D4终极替代 → D1终极澄清 → 输出终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['深度审查', '批判性分析', '假设检验', '证据评估', '苏格拉底'];

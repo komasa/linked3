@@ -41,15 +41,4 @@ final class SEOAdapterNone implements SEOAdapter
         return false;
     }
 
-    public function get_meta_description($post)
-    : string {
-        return '';
-    }
-
-    public function set_meta_description($post, $description) : mixed     {
-        if (!$post) {
-            return false;
-        }
-        return (bool) update_post_meta($post->ID, '_linked3_meta_description', sanitize_text_field($description));
-    }
 }

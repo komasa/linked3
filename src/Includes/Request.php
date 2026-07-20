@@ -22,7 +22,5 @@ final class Request
     private static function raw($key, $source = 'any') { if ($source === 'post' && isset($_POST[$key])) return $_POST[$key]; if ($source === 'get' && isset($_GET[$key])) return $_GET[$key]; if ($source === 'any') { if (isset($_POST[$key])) return $_POST[$key]; if (isset($_GET[$key])) return $_GET[$key]; if (isset($_REQUEST[$key])) return $_REQUEST[$key]; } return null; }
     public static function has($key, $source = 'any') { return self::raw($key, $source) !== null; }
     public static function method() { return strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET'); }
-    public static function is_ajax() { return defined('DOING_AJAX') && DOING_AJAX; }
-    public static function is_rest() { return defined('REST_REQUEST') && REST_REQUEST; }
     public static function is_cli() { return defined('WP_CLI') && WP_CLI; }
 }

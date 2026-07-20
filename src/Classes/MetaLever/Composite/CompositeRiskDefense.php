@@ -43,26 +43,6 @@ class CompositeRiskDefense implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'R1→R2' => '压力测试必须含[失效点清单]，R2对每个失效点做因果分析',
-            'R2→R3' => '因果推断必须含[伪因果清单]，R3在伪因果上推演博弈',
-            'R3→R4' => '博弈推演必须含[对手策略]，R4对每个策略做伦理审查',
-            'R4→R5' => '伦理审查必须含[伦理风险]，R5对每个风险做校准',
-            'R5→R1' => '校准发现新风险→回退R1重新压力测试',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'R1压力测试 → R2因果推断 → R5校准预判 → 输出V1风险报告',
-            'G2' => 'R3博弈对抗 → R4伦理审查 → R2二次因果 → R5二次校准 → 输出V2',
-            'G3' => 'R5终极校准(最坏情况) → R3终极博弈 → R1终极压力 → 输出终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['风险防御', '压力测试', '博弈对抗', '伦理审查', '因果推断'];

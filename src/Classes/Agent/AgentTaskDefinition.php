@@ -25,15 +25,6 @@ class AgentTaskDefinition {
         $this->description = $description;
     }
 
-    public function addStep(string $name, callable $handler, array $config = []): self {
-        $this->steps[$name] = [
-            'handler' => $handler,
-            'config' => $config,
-            'name' => $name,
-        ];
-        return $this;
-    }
-
     public function input(string $name, string $type = 'string', $default = null): self {
         $this->inputs[$name] = ['type' => $type, 'default' => $default];
         return $this;
@@ -55,28 +46,4 @@ class AgentTaskDefinition {
     }
 
     public function getName(): string { return $this->name; }
-    public function getDescription(): string { return $this->description; }
-    public function getSteps(): array { return $this->steps; }
-    public function getInputs(): array { return $this->inputs; }
-    public function getOutputs(): array { return $this->outputs; }
-    public function getConditions(): array { return $this->conditions; }
-    public function getRetries(): array { return $this->retries; }
-
-    public function validateInput(array $input): array {
-        $validated = [];
-        foreach ($this->inputs as $name => $spec) {
-            $validated[$name] = $input[$name] ?? $spec['default'];
-        }
-        return $validated;
-    }
-
-    public function toArray(): array {
-        return [
-            'name' => $this->name,
-            'description' => $this->description,
-            'steps' => array_keys($this->steps),
-            'inputs' => $this->inputs,
-            'outputs' => $this->outputs,
-        ];
-    }
 }

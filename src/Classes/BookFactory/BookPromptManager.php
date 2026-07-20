@@ -147,36 +147,6 @@ class BookPromptManager {
     }
 
     /**
-     * 保存用户修改的提示词
-     *
-     * @param string $step_key
-     * @param array  $prompts
-     * @return bool
-     */
-    public static function save_step_prompts( $step_key, $prompts ) {
-        $all = self::get_all();
-        $all[ $step_key ] = $prompts;
-        $result = update_option( self::OPTION_KEY, $all, false );
-        self::$cache = $all;
-        return $result;
-    }
-
-    /**
-     * 重置为默认提示词 (从 _index.json 重新加载)
-     *
-     * @return bool
-     */
-    public static function reset_to_defaults() {
-        $defaults = self::load_defaults_from_index();
-        if ( empty( $defaults ) ) {
-            return false;
-        }
-        $result = update_option( self::OPTION_KEY, $defaults, false );
-        self::$cache = $defaults;
-        return $result;
-    }
-
-    /**
      * 从 _index.json 加载默认提示词
      *
      * @return array

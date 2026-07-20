@@ -110,18 +110,6 @@ class OSVisualAnalytics {
     }
 
     /**
-     * 按场景获取统计
-     */
-    public static function get_stats_by_scene(string $scene): array {
-        $count = self::SCENE_DISTRIBUTION[$scene] ?? 0;
-        return [
-            'scene' => $scene,
-            'instance_count' => $count,
-            'percentage' => $count > 0 ? round($count / self::SVG_STATS_BASELINE['total_svgs'] * 100, 1) : 0,
-        ];
-    }
-
-    /**
      * 预测新图示的原子数量
      * 基于图示类型的历史统计预测
      */

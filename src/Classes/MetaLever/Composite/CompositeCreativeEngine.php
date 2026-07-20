@@ -36,23 +36,6 @@ class CompositeCreativeEngine implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'GEN→MAP' => '生成至少5个原始创意 → 类比筛选结构同构性最高的',
-            'MAP→CROSS' => '类比输出映射对 → 跨界融合产生最终创意',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => '生成: 不设限发散, 产出5+原始创意方向',
-            'G2' => '类比: 找到每个创意的跨域映射, 筛选结构同构性',
-            'G3' => '跨界: 将最优映射进行异域融合, 产出最终创意',
-        ];
-    }
-
     public function system_prompt(): string
     {
         return <<<PROMPT

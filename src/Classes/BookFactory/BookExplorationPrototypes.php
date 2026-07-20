@@ -224,15 +224,6 @@ class BookExplorationPrototypes {
 	}
 
 	/**
-	 * 获取原型key列表。
-	 *
-	 * @return array
-	 */
-	public static function get_keys() {
-		return array_keys( self::$prototypes );
-	}
-
-	/**
 	 * 获取原型名称映射 (供UI渲染)。
 	 *
 	 * @return array

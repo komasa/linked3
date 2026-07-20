@@ -24,28 +24,6 @@ class MultiSitePublisher {
         $this->sites = get_option(LINKED3_OPTION_PREFIX . 'multisite_targets', []);
     }
 
-    public function addSite(string $name, string $url, string $apiKey, string $type = 'wp'): void {
-        $this->sites[$name] = ['url' => $url, 'api_key' => $apiKey, 'type' => $type];
-        update_option(LINKED3_OPTION_PREFIX . 'multisite_targets', $this->sites);
-    }
-
-    public function removeSite(string $name): void {
-        unset($this->sites[$name]);
-        update_option(LINKED3_OPTION_PREFIX . 'multisite_targets', $this->sites);
-    }
-
-    public function publishToAll(array $postData): array {
-        $results = [];
-        foreach ($this->sites as $name => $site) {
-            $results[$name] = $this->publishToSite($site, $postData);
-        }
-        linked3_dispatch('linked3.multisite.publish', [
-            'count' => count($results),
-            'success' => count(array_filter($results, fn($r) => $r['status'] === 'published')),
-        ]);
-        return $results;
-    }
-
     private function publishToSite(array $site, array $postData): array {
         $published = get_option('linked3_multisite_published', []);
         $published[] = ['site' => $site['url'], 'title' => $postData['title'] ?? '', 'time' => time()];
@@ -53,7 +31,6 @@ class MultiSitePublisher {
         return ['status' => 'published', 'site' => $site['url'], 'title' => $postData['title'] ?? ''];
     }
 
-    public function getSites(): array { return $this->sites; }
 }
 
 // =================================================================

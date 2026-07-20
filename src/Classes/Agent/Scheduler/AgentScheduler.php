@@ -49,8 +49,6 @@ class AgentScheduler {
         $orchestrator->execute($task['workflow'], $task['input']);
     }
 
-    public function getQueue(): array { return $this->queue; }
-    public function clearQueue(): void { $this->queue = []; }
 }
 
 add_filter('cron_schedules', function($schedules) {

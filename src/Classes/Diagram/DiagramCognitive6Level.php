@@ -28,16 +28,6 @@ class DiagramCognitive6Level {
         4 => 'E',  // Band4: 结果层 → 评价
     ];
 
-    public function getLevel(string $code): ?array {
-        return $this->levels[$code] ?? null;
-    }
-
-    public function getDefaultForBand(int $bandNum): string {
-        return $this->bandDefaults[$bandNum] ?? 'R';
-    }
-
-    public function getLevels(): array { return $this->levels; }
-    public function getBandDefaults(): array { return $this->bandDefaults; }
 }
 
 // =================================================================

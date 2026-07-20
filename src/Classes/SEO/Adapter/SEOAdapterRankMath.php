@@ -42,17 +42,4 @@ final class SEOAdapterRankMath implements SEOAdapter
         return $this->is_active();
     }
 
-    public function get_meta_description($post) : mixed {
-        if (!$post || !$this->is_active()) {
-            return '';
-        }
-        return (string) get_post_meta($post->ID, 'rank_math_description', true);
-    }
-
-    public function set_meta_description($post, $description) : mixed     {
-        if (!$post || !$this->is_active()) {
-            return false;
-        }
-        return (bool) update_post_meta($post->ID, 'rank_math_description', sanitize_text_field($description));
-    }
 }

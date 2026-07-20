@@ -76,28 +76,4 @@ final class DashboardAjaxGenesis
         add_action('wp_ajax_linked3_genesis_server_diagnostic', [DashboardAjaxRegistrar::class, 'ajax_genesis_server_diagnostic']);
     }
 
-    /**
-     * @return string[] List of AJAX action names owned by this controller.
-     *                  Used by the architecture test to verify the split.
-     */
-    public static function owned_actions(): array
-    {
-        return [
-            'linked3_genesis_generate',
-            'linked3_genesis_styles',
-            'linked3_genesis_generate_multi',
-            'linked3_genesis_test_connection',
-            'linked3_genesis_start_job',
-            'linked3_genesis_poll_job',
-            'linked3_genesis_cancel_job',
-            'linked3_genesis_seed_generate',
-            'linked3_genesis_seed_list',
-            'linked3_genesis_seed_delete',
-            'linked3_genesis_seed_export',
-            'linked3_genesis_generate_v9',
-            'linked3_genesis_v9_stage1',
-            'linked3_genesis_v9_stage2',
-            'linked3_genesis_server_diagnostic',
-        ];
-    }
 }

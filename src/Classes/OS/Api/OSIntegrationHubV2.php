@@ -86,19 +86,6 @@ class OSIntegrationHubV2 {
     }
 
     /**
-     * 按类型获取模块
-     */
-    public static function get_modules_by_type(string $type): array {
-        $result = [];
-        foreach (self::INTEGRATED_MODULES_V2 as $version => $info) {
-            if ($info['type'] === $type) {
-                $result[$version] = $info;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * 全模块健康检查
      */
     public static function health_check(): array {

@@ -33,17 +33,6 @@ class GenesisException extends \Exception {
     }
 
     /**
-     * 转为 AJAX 响应
-     */
-    public function toResponse() : mixed {
-        return GenesisErrorCode::to_response(
-            $this->error_code,
-            $this->getMessage(),
-            $this->context
-        );
-    }
-
-    /**
      * 从普通异常/错误转换
      */
     public static function from($e, $context = []) : mixed {

@@ -38,14 +38,6 @@ class Diagram8SystemCrossRef {
         ];
     }
 
-    public function getRelation(string $systemA, string $systemB): ?string {
-        $key1 = "{$systemA}×{$systemB}";
-        $key2 = "{$systemB}×{$systemA}";
-        return $this->crossRef[$key1] ?? $this->crossRef[$key2] ?? null;
-    }
-
-    public function getAllRelations(): array { return $this->crossRef; }
-    public function getSystems(): array { return $this->systems; }
 }
 
 // =================================================================

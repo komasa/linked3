@@ -72,16 +72,6 @@ class HealthMonitor {
         return implode("\n", $lines);
     }
 
-    public function getJsonReport(): array {
-        $health = $this->check();
-        return [
-            'version' => LINKED3_VERSION,
-            'passed' => count(array_filter($health)),
-            'total' => count($health),
-            'health' => $health,
-            'time' => current_time('mysql'),
-        ];
-    }
 }
 
 // =================================================================

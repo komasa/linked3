@@ -72,25 +72,6 @@ final class BillingEventRepository extends BaseRepository
     }
 
     /**
-     * Get recent events for a user.
-     *
-     * @param int $user_id
-     * @param int $limit
-     * @return array
-     */
-    public function for_user(int $user_id, int $limit = 50): array
-    {
-        global $wpdb;
-        $table = $this->get_table();
-        $rows = $wpdb->get_results($wpdb->prepare(
-            "SELECT * FROM {$table} WHERE user_id = %d ORDER BY created_at DESC LIMIT %d",
-            $user_id,
-            $limit
-        ), ARRAY_A);
-        return $rows ?: [];
-    }
-
-    /**
      * Aggregate revenue metrics for Business_Optimizer.
      *
      * @param int $days  Lookback window in days (default 30).

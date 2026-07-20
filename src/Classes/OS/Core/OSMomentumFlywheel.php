@@ -135,13 +135,6 @@ class OSMomentumFlywheel {
     }
 
     /**
-     * 获取因子详情
-     */
-    public static function get_factor_detail(string $factor_key): array {
-        return self::FLYWHEEL_FACTORS[$factor_key] ?? [];
-    }
-
-    /**
      * 建议改进方向
      */
     public static function suggest_improvement(array $factor_scores): array {

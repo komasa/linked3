@@ -131,18 +131,6 @@ class BookAjaxActions {
         return wp_create_nonce( $action );
     }
 
-    /**
-     * 验证进度查询nonce
-     *
-     * @param string $nonce
-     * @param string $project_id
-     * @return bool
-     */
-    public static function verify_progress_nonce( $nonce, $project_id ) {
-        $action = 'linked3_book_progress_' . $project_id;
-        return (bool) wp_verify_nonce( $nonce, $action );
-    }
-
     // ════════════════════════════════════════════════════════════════
     // v19.1: MetaMother 元母体端点 (嵌入自 genesis_meta2_M2_G3 母版)
     // ════════════════════════════════════════════════════════════════

@@ -13,7 +13,6 @@ if (!defined('ABSPATH')) exit;
 
 interface PaymentGatewayInterface {
     public function createCharge(float $amount, string $currency, array $metadata = []): array;
-    public function verifyCallback(array $data): bool;
     public function refund(string $chargeId, float $amount): array;
     public function getName(): string;
 }

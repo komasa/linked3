@@ -211,25 +211,6 @@ final class LocalVectorProvider implements VectorProviderInterface
     }
 
     /**
-     * @param float[] $a
-     * @param float[] $b
-     * @return float
-     */
-    private function cosine(array $a, array $b)
-    {
-        $n = min(count($a), count($b));
-        if ($n === 0) return 0.0;
-        $dot = 0.0; $na = 0.0; $nb = 0.0;
-        for ($i = 0; $i < $n; $i++) {
-            $dot += $a[$i] * $b[$i];
-            $na += $a[$i] * $a[$i];
-            $nb += $b[$i] * $b[$i];
-        }
-        if ($na == 0 || $nb == 0) return 0.0;
-        return $dot / (sqrt($na) * sqrt($nb));
-    }
-
-    /**
      * v4.8.5: Cosine similarity with partial-distance early exit.
      *
      * Computes the dot product over the first $sample_dims dimensions, then

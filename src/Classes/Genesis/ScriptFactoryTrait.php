@@ -282,17 +282,4 @@ trait ScriptFactoryTrait {
         return $this->seed_dna[$type] ?? [];
     }
 
-    /**
-     * 获取风格配置项
-     */
-    protected function get_style(string $key, $default = null) : mixed {
-        return $this->style_config[$key] ?? $default;
-    }
-
-    /**
-     * 获取上下文参数
-     */
-    protected function get_context(string $key, $default = null) : mixed {
-        return $this->context[$key] ?? ($this->context['extra'][$key] ?? $default);
-    }
 }

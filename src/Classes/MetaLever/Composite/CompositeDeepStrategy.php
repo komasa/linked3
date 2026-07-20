@@ -40,26 +40,6 @@ class CompositeDeepStrategy implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'L1→L2' => '洞察必须含[矛盾清单]，L2在矛盾上建模',
-            'L2→L3' => '模型必须含[杠杆点]，L3在杠杆点上编排资源',
-            'L3→L4' => '资源编排必须含[引爆序列]，L4按序列控制节奏',
-            'L4→L5' => '执行必须含[脉冲节点]，L5在节点上监测',
-            'L5→L1' => '监测发现偏差→回退L1重新扫描格局',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'L1格局扫描 → L2动态建模 → L5效果预判 → 输出V1战略草案',
-            'G2' => 'L3资源编排 → L4执行暗线 → L5压力测试 → L1矛盾修正 → 输出V2',
-            'G3' => 'L5终极检验(敌方智库伏击测试) → L2模型收敛 → A部打包终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['商业策略', '竞争分析', '长期规划', '博弈推演', '资源编排'];

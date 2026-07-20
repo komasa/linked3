@@ -14,7 +14,6 @@ if (!defined('ABSPATH')) exit;
 interface DiagramMasterTemplateInterface {
     public function generate(array $config): array;
     public function validate(array $diagram): array;
-    public function getSignature(): string;
 }
 
 /**

@@ -18,8 +18,6 @@ class CompositeIntentDecoder implements CompositeLeverInterface
             'PER' => ['name' => '说服路径', 'mission' => '设计最佳说服路径', 'lever' => 'meta_persuasion'],
         ];
     }
-    public function sla_contracts(): array { return ['CTX→EMO' => '语境分析 → 情绪识别', 'EMO→PER' => '情绪理解 → 说服设计']; }
-    public function evolution_cycle(): array { return ['G1' => '语境: 用户在什么场景下需要这个内容?', 'G2' => '情绪: 用户当前的情绪状态是什么?', 'G3' => '说服: 如何最有效地打动这个用户?']; }
     public function system_prompt(): string {
         return <<<PROMPT
 ## 用户意图解码器 (Intent Decoder)

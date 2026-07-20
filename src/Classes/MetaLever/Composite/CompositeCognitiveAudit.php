@@ -40,26 +40,6 @@ class CompositeCognitiveAudit implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'A1→A2' => '偏差检测必须输出[偏差清单]，A2在偏差上检查对应谬误',
-            'A2→A3' => '谬误审查必须输出[谬误清单]，A3对每条谬误评估证据强度',
-            'A3→A4' => '证据评估必须输出[证据评级]，A4在弱证据处扫描盲区',
-            'A4→A5' => '盲区扫描必须输出[盲区清单]，A5对每个盲区提出校准方案',
-            'A5→A1' => '校准方案实施后发现新偏差→回退A1重新检测',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'A1偏差检测 → A2谬误审查 → A5校准预判 → 输出V1审计报告',
-            'G2' => 'A3证据评估 → A4盲区扫描 → A2二次谬误审查 → A5二次校准 → 输出V2',
-            'G3' => 'A5终极校准(如果全错了会怎样) → A4终极盲区 → A1终极偏差 → 输出终稿',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['认知审计', '偏差检测', '逻辑审查', '证据评估', '盲区扫描'];

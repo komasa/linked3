@@ -48,5 +48,4 @@ final class DashboardAjaxRegistrar
         }
     }
 
-    public static function get_action_classes() : mixed { return self::$action_classes; }
 }

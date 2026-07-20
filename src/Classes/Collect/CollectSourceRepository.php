@@ -137,11 +137,6 @@ final class CollectSourceRepository extends BaseRepository
         ));
     }
 
-    public function mark_fetched($id)
-    {
-        return parent::update_by_pk($id, ['last_fetched' => current_time('mysql')]);
-    }
-
     private function sanitize_config(array $cfg)
     {
         $out = [];

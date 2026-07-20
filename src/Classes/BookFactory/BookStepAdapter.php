@@ -79,13 +79,6 @@ class BookStepAdapter implements BookStepInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get_label() : mixed {
-		return $this->label;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function execute( $state, $factory ) {
 		if ( ! method_exists( $factory, $this->method ) ) {
 			return new WP_Error(
@@ -96,10 +89,4 @@ class BookStepAdapter implements BookStepInterface {
 		return call_user_func( array( $factory, $this->method ), $state );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_next_step( $state ) {
-		return $this->next_step;
-	}
 }

@@ -59,9 +59,4 @@ class CostReporter {
         return $report;
     }
 
-    public static function formatCost(float $cost): string {
-        if ($cost < 0.01) return '$' . number_format($cost * 1000, 2) . 'm'; // milli
-        if ($cost < 1) return '$' . number_format($cost, 4);
-        return '$' . number_format($cost, 2);
-    }
 }

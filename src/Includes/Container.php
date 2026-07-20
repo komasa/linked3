@@ -88,20 +88,6 @@ final class Container
     }
 
     /**
-     * Register a pre-built instance.
-     *
-     * @param string $id
-     * @param object $instance
-     * @return self
-     */
-    public function set_instance(string $id, object $instance): self
-    {
-        $this->instances[$id] = $instance;
-        $this->shared[$id] = true;
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function get(string $id)

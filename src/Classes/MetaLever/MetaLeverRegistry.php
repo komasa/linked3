@@ -152,42 +152,6 @@ class MetaLeverRegistry
     }
 
     /**
-     * 按标签匹配杠杆.
-     *
-     * @param array $tags
-     * @return array<string, MetaLeverInterface>
-     */
-    public static function match_by_tags(array $tags): array
-    {
-        $result = [];
-        foreach (self::enabled() as $id => $lever) {
-            $overlap = array_intersect($tags, $lever->tags());
-            if (!empty($overlap)) {
-                $result[$id] = $lever;
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * 组合多个杠杆的 system_prompt.
-     *
-     * @param array $lever_ids 杠杆 ID 数组
-     * @return string 拼接后的 system_prompt
-     */
-    public static function combine_prompts(array $lever_ids): string
-    {
-        $parts = [];
-        foreach ($lever_ids as $id) {
-            $lever = self::get($id);
-            if ($lever && (self::$enabled[$id] ?? true)) {
-                $parts[] = $lever->system_prompt();
-            }
-        }
-        return implode("\n\n---\n\n", $parts);
-    }
-
-    /**
      * 为指定任务构建增强 system_prompt.
      *
      * @param string $task_type  任务类型
@@ -209,20 +173,6 @@ class MetaLeverRegistry
         $combined = implode("\n\n---\n\n", $lever_prompts);
 
         return $base_prompt . "\n\n---\n\n" . $combined;
-    }
-
-    /**
-     * 获取所有杠杆的 trace 字段名（用于验证）.
-     *
-     * @return array<string> e.g. ['learning_trace', 'logic_trace', ...]
-     */
-    public static function trace_fields(): array
-    {
-        $fields = [];
-        foreach (self::enabled() as $lever) {
-            $fields[] = $lever->trace_field();
-        }
-        return $fields;
     }
 
     /**

@@ -28,8 +28,6 @@ class AgentContentPipeline implements AgentWorkflowInterface {
     ];
 
     public function getName(): string { return 'content_pipeline'; }
-    public function getSteps(): array { return $this->steps; }
-
     public function execute(array $input): array {
         $state = new \Linked3\Classes\Agent\AgentStateMachine('idle');
         $state->addState('collecting')->addState('rewriting')->addState('seo')->addState('publishing')->addState('done')->addState('failed');

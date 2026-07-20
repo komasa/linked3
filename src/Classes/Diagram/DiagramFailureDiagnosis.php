@@ -12,31 +12,6 @@ namespace Linked3\Classes\Diagram;
 if (!defined('ABSPATH')) exit;
 
 class DiagramFailureDiagnosis {
-    public function diagnose(array $generated, array $seriesConfig): array {
-        $seriesDNA = new DiagramSeriesDNA4Lock();
-        $lockResult = $seriesDNA->verifyLocks($seriesConfig, $generated);
-
-        $fractures = [];
-        foreach ($lockResult['layers'] as $layer => $info) {
-            if (!$info['locked']) {
-                $fractures[] = [
-                    'layer' => $layer,
-                    'name' => $info['name'],
-                    'fracture_type' => 'layer_mismatch',
-                    'expected' => $info['expected'],
-                    'actual' => $info['actual'],
-                    'fix' => "将{$info['name']}修复为: {$info['expected']}",
-                ];
-            }
-        }
-
-        return [
-            'fracture_count' => count($fractures),
-            'fractures' => $fractures,
-            'all_passed' => empty($fractures),
-            'lock_result' => $lockResult,
-        ];
-    }
 }
 
 // =================================================================

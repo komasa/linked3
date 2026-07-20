@@ -46,11 +46,6 @@ final class ArticlePipeline implements ContentPipelineInterface
         return ['success' => true, 'post_id' => $post_id, 'title' => $result['title'], 'edit_url' => get_edit_post_link($post_id, 'raw')];
     }
 
-    public static function get_styles(): array
-    {
-        return [['id' => 'professional', 'name' => __('专业', 'linked3')], ['id' => 'casual', 'name' => __('轻松', 'linked3')], ['id' => 'academic', 'name' => __('学术', 'linked3')], ['id' => 'marketing', 'name' => __('营销', 'linked3')]];
-    }
-
     private function extract_title(string $content): string
     {
         if (preg_match('/^#\s+(.+)$/m', $content, $m)) return trim($m[1]);

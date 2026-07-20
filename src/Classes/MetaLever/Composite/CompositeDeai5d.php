@@ -40,26 +40,6 @@ class CompositeDeai5d implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'FP→EX' => '必须交付纯语义核，EX只准在核上变异句法，不可篡改原意',
-            'EX→C'  => '必须交付无连接词结构，C按AI特征清单执行抹杀',
-            'C→A'   => '驳回必须带[残留毒瘤]，A无权推翻C的否决，只能回退O部重注情绪',
-            'O→ALL' => '任何部门必须回应O的[机械感预警]，否则变异流转中断',
-            'A→ALL' => '每代终稿必须物理归档，作为下代变异基线',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => 'FP部提取信息核 → EX部粉碎句法重构 → C部绞杀残留AI节奏 → A部缝合V1',
-            'G2' => 'A部提取V1高分人类特征 → EX部交叉突变 → C部二次绞杀 → O部降维查翻译腔 → A部缝合V2',
-            'G3' => 'C部终选(0% AI特征) → O部零盲区语感确认 → A部字数对齐+瑕疵植入 → 物理打包',
-        ];
-    }
-
     public function scene_tags(): array
     {
         return ['去AI味', '人类化', '脱壳', '反检测', '文本脱敏'];

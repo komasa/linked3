@@ -40,23 +40,6 @@ class CompositeCodeOptimizer implements CompositeLeverInterface
         ];
     }
 
-    public function sla_contracts(): array
-    {
-        return [
-            'EVAL→STRESS' => '评估输出优化点清单 → 压测验证',
-            'STRESS→CAL' => '压测通过 → 校准评分+建议',
-        ];
-    }
-
-    public function evolution_cycle(): array
-    {
-        return [
-            'G1' => '评估: 代码结构、命名规范、复杂度、重复度',
-            'G2' => '压测: 高并发、大数据量、异常输入下的行为',
-            'G3' => '校准: 质量评分+具体优化建议(不拆分, 只优化)',
-        ];
-    }
-
     public function system_prompt(): string
     {
         return <<<PROMPT

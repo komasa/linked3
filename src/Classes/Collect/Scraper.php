@@ -111,14 +111,6 @@ final class Scraper
         return false;
     }
 
-    public function mark_collected($url, $content)
-    : void {
-        if (empty($url) || empty($content)) return;
-        $url_hash = md5($url);
-        $content_hash = $this->simhash($content);
-        set_transient('linked3_dedup_' . $url_hash, $content_hash, 30 * DAY_IN_SECONDS);
-    }
-
     /**
      * Extract readable text from HTML (strip scripts/styles/tags).
      *

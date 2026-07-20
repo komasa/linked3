@@ -37,28 +37,6 @@ final class PipelineOrchestrator
     const DEFAULT_ORDER = ['collect', 'generate', 'enhance', 'publish', 'distribute'];
 
     /**
-     * Register a pipeline stage.
-     *
-     * @param PipelineStageInterface $stage
-     * @return self
-     */
-    public function register_stage(PipelineStageInterface $stage): self
-    {
-        $this->stages[$stage->slug()] = $stage;
-        return $this;
-    }
-
-    /**
-     * Get all registered stage slugs.
-     *
-     * @return string[]
-     */
-    public function stage_slugs(): array
-    {
-        return array_keys($this->stages);
-    }
-
-    /**
      * Run the pipeline.
      *
      * @param array $pipeline_config  Configuration for the pipeline run:
@@ -136,36 +114,4 @@ final class PipelineOrchestrator
         ];
     }
 
-    /**
-     * Schedule a pipeline run via AutoGPT cron.
-     *
-     * v5.3.4: registers the pipeline as a recurring AutoGPT task so it
-     * runs on a schedule (e.g. "generate 3 articles per day from hot
-     * keywords and publish them").
-     *
-     * @param array  $pipeline_config
-     * @param string $schedule  Cron expression or WP schedule name.
-     * @return int The AutoGPT task ID (0 on failure).
-     */
-    public function schedule_via_autogpt(array $pipeline_config, string $schedule = 'hourly'): int
-    {
-        if (!class_exists('\\Linked3\\Classes\\AutoGPT\\AutoGPTTaskRepository')) {
-            return 0;
-        }
-
-        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
-        $task_id = $repo->create([
-            'user_id'   => get_current_user_id(),
-            'task_type' => 'content-writing',
-            'name'      => 'Pipeline: ' . ($pipeline_config['name'] ?? 'unnamed'),
-            'config'    => [
-                'pipeline'         => true,
-                'pipeline_config'  => $pipeline_config,
-                'schedule'         => $schedule,
-            ],
-            'schedule'  => $schedule,
-        ]);
-
-        return is_wp_error($task_id) ? 0 : (int) $task_id;
-    }
 }

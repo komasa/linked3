@@ -88,30 +88,6 @@ class OSAliasRegistry
     }
 }
 
-/**
- * Registers a class alias with optional deprecation notice.
- *
- * v27.1.0 (P11): Wrapped in Linked3\Classes\OS namespace. A global
- * alias function linked3_os_register_alias() is provided at the bottom
- * of this file for backward compatibility with any procedural callers.
- *
- * @param string $old_class Old class name (e.g. Linked3_Hong_Liu_Flywheel)
- * @param string $new_class New class name (e.g. OSMomentumFlywheel)
- * @param string $since     Version when the rename happened
- * @return void
- */
-function linked3_os_register_alias($old_class, $new_class, $since = '27.0.0')
-{
-    if (!class_exists($new_class)) {
-        // New class not loaded yet — queue for lazy alias resolution.
-        OSAliasRegistry::add($old_class, $new_class, $since);
-        return;
-    }
-    if (!class_exists($old_class, false)) {
-        class_alias($new_class, $old_class);
-    }
-}
-
 // ─── Alias registrations ────────────────────────────────────────────────────
 // Core concept classes
 linked3_os_register_alias('Linked3_Hong_Liu_Flywheel',          'OSMomentumFlywheel');

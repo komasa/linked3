@@ -61,59 +61,6 @@ class RateLimiterV2 {
         return true;
     }
 
-    /**
-     * 获取剩余配额。
-     */
-    public function getRemaining(string $key, string $limitType = 'ip_minute'): int {
-        $limit = $this->limits[$limitType] ?? ['max' => 60, 'window' => 60];
-        $now = time();
-        $count = 0;
-        if (isset($this->buckets[$key])) {
-            foreach ($this->buckets[$key] as $t) {
-                if (($now - $t) < $limit['window']) $count++;
-            }
-        }
-        return max(0, $limit['max'] - $count);
-    }
-
-    /**
-     * 获取 Retry-After 秒数。
-     */
-    public function getRetryAfter(string $key, string $limitType = 'ip_minute'): int {
-        $limit = $this->limits[$limitType] ?? ['max' => 60, 'window' => 60];
-        if (empty($this->buckets[$key])) return 0;
-        $oldest = min($this->buckets[$key]);
-        return max(0, $limit['window'] - (time() - $oldest));
-    }
-
-    /**
-     * IP 限流门 (AJAX 入口调用)。
-     */
-    public function gateIP(): bool {
-        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
-        return $this->check('ip:' . $ip, 'ip_minute');
-    }
-
-    /**
-     * 用户限流门。
-     */
-    public function gateUser(int $userId): bool {
-        return $this->check('user:' . $userId, 'user_hour');
-    }
-
-    /**
-     * AI 调用限流门。
-     */
-    public function gateAI(int $userId): bool {
-        return $this->check('ai:' . $userId, 'ai_minute');
-    }
-
-    /**
-     * 设置自定义限制。
-     */
-    public function setLimit(string $type, int $max, int $window): void {
-        $this->limits[$type] = ['max' => $max, 'window' => $window];
-    }
 }
 
 

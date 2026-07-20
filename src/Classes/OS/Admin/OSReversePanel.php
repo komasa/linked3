@@ -84,13 +84,6 @@ class OSReversePanel {
     }
 
     /**
-     * 面板页面回调
-     */
-    public static function panel_page(): void {
-        echo self::render_panel();
-    }
-
-    /**
      * 注册
      */
     public static function register(): void {

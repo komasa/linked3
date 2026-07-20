@@ -218,15 +218,6 @@ final class LongFormWriter
     }
 
     /**
-     * 段落摘要 (用于下一段的 previous_summary)
-     */
-    public static function summarize_section($content, $word_count = 80) : mixed {
-        $text = wp_strip_all_tags($content);
-        $text = preg_replace('/\s+/', ' ', $text);
-        return wp_trim_words($text, $word_count, '...');
-    }
-
-    /**
      * 默认大纲 (JSON 解析失败时的兜底)
      */
     private static function build_default_outline($topic, $target_words)

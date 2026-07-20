@@ -184,21 +184,6 @@ class BookAsyncRunner {
 		return ( defined( 'WP_CLI' ) && WP_CLI ) || ( php_sapi_name() === 'cli' );
 	}
 
-	/**
-	 * 取消项目的所有异步调度。
-	 *
-	 * @param string $project_id 项目 ID。
-	 */
-	public static function cancel( $project_id ) : void {
-		if ( false === BookSecurity::validate_project_id( $project_id ) ) {
-			return;
-		}
-
-		$timestamp = wp_next_scheduled( 'linked3_book_async_run_step', array( $project_id ) );
-		if ( $timestamp ) {
-			wp_unschedule_event( $timestamp, 'linked3_book_async_run_step', array( $project_id ) );
-		}
-	}
 }
 
 // 初始化异步调度器。

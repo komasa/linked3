@@ -16,18 +16,6 @@ class DiagramSeedReference {
     const MODE_CHAIN  = 'chain';       // 链式模式: A→B→C
     const MODE_DUAL   = 'dual';        // 双参照: 同时引用2个Seed
 
-    public function reference(string $mode, string $seedId, ?string $secondSeedId = null): array {
-        switch ($mode) {
-            case self::MODE_ANCHOR:
-                return ['mode' => $mode, 'primary' => $seedId];
-            case self::MODE_CHAIN:
-                return ['mode' => $mode, 'chain' => [$seedId, $secondSeedId]];
-            case self::MODE_DUAL:
-                return ['mode' => $mode, 'primary' => $seedId, 'secondary' => $secondSeedId];
-            default:
-                return ['mode' => self::MODE_ANCHOR, 'primary' => $seedId];
-        }
-    }
 }
 
 // =================================================================

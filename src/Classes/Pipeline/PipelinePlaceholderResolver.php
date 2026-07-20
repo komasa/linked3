@@ -68,29 +68,4 @@ final class PipelinePlaceholderResolver
         return $resolved;
     }
 
-    /**
-     * Get the list of all supported placeholder names.
-     *
-     * @return array
-     */
-    public static function supported_placeholders(): array
-    {
-        // Basic placeholders (v5.1)
-        $basic = [
-            'keyword', 'topic', 'title', 'outline', 'prev_summary',
-            'word_count', 'tone', 'complexity', 'language',
-            'sections', 'prompt', 'provider', 'model',
-            'temperature', 'max_tokens',
-        ];
-
-        // v15 placeholders (v5.2+ — reserved for future use)
-        $v15 = [
-            'brand', 'signature', 'color', 'mood', 'culture',
-            'platform', 'density', 'product_type',
-            'info_seed', 'id_seed', 'character_seed', 'chart_dna',
-            'script', 'arc', 'endpoint', 'footer',
-        ];
-
-        return array_merge($basic, $v15);
-    }
 }

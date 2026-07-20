@@ -36,11 +36,6 @@ class AlipayGateway implements PaymentGatewayInterface {
         ];
     }
 
-    public function verifyCallback(array $data): bool {
-        return !empty($data['trade_status'])
-            && in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED']);
-    }
-
     public function refund(string $chargeId, float $amount): array {
         return [
             'charge_id' => $chargeId,

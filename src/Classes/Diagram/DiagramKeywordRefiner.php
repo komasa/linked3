@@ -59,20 +59,6 @@ class DiagramKeywordRefiner {
         return $verbMap[$keyword] ?? $keyword;
     }
 
-    /**
-     * 校验四字黄金占比。
-     */
-    public function checkGoldenRatio(array $keywords): array {
-        $total = count($keywords);
-        $fourChar = count(array_filter($keywords, fn($k) => mb_strlen($k) === 4));
-        $ratio = $total > 0 ? $fourChar / $total : 0;
-        return [
-            'total' => $total,
-            'four_char_count' => $fourChar,
-            'golden_ratio' => round($ratio * 100, 1) . '%',
-            'passed' => $ratio >= 0.60,
-        ];
-    }
 }
 
 // =================================================================

@@ -93,9 +93,6 @@ class DiagramEndpointRegistry {
     public function get(string $id): ?array { return $this->endpoints[$id] ?? null; }
     public function all(): array { return $this->endpoints; }
 
-    public function getVisual(string $id): string {
-        return $this->endpoints[$id]['visual'] ?? '4 gears circular acceleration';
-    }
 }
 
 // =================================================================

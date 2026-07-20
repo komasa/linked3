@@ -31,8 +31,4 @@ final class ComicPipeline implements ContentPipelineInterface
         return ['success' => true, 'panels' => $result['panels'], 'total_panels' => $result['total_panels'], 'style' => $result['style'], 'platform' => $result['platform']];
     }
 
-    public static function get_styles(): array
-    {
-        return [['id' => 'exorcism_dark_ink', 'name' => __('暗黑水墨', 'linked3')], ['id' => 'cyberpunk', 'name' => __('赛博朋克', 'linked3')], ['id' => 'cinematic', 'name' => __('电影质感', 'linked3')]];
-    }
 }

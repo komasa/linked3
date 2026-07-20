@@ -298,17 +298,6 @@ final class SafeRemote
     }
 
     /**
-     * Allow modules to extend the default host whitelist at runtime.
-     *
-     * @param array $hosts
-     * @return void
-     */
-    public static function add_allowed_hosts(array $hosts)
-    : void {
-        self::$default_hosts = array_unique(array_merge(self::$default_hosts, $hosts));
-    }
-
-    /**
      * v4.3.5: 获取允许的主机列表 (支持 filter + option 扩展)
      */
     public static function get_allowed_hosts()

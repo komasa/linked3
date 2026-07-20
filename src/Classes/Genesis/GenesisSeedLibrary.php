@@ -31,14 +31,6 @@ class GenesisSeedLibrary {
     public function getOperators(): array {
         return $this->operators;
     }
-    public function forkCharacter(string $id, string $newId, array $overrides = []): ?array {
-        $base = $this->getCharacter($id);
-        if (!$base) return null;
-        $forked = array_merge($base, $overrides);
-        $forked['id'] = $newId;
-        $forked['forked_from'] = $id;
-        return $forked;
-    }
 }
 
 

@@ -40,15 +40,6 @@ class InvoiceManager {
         return ['invoice_id' => $invoiceId, 'invoice_no' => $invoiceNo, 'amount' => $amount];
     }
 
-    public function getByUser(int $userId): array {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_invoices';
-        return $wpdb->get_results($wpdb->prepare(
-            "SELECT * FROM {$table} WHERE user_id = %d ORDER BY created_at DESC",
-            $userId
-        ), ARRAY_A);
-    }
-
     private function ensureTable(): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_invoices';

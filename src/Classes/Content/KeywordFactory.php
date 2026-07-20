@@ -77,24 +77,6 @@ class KeywordFactory {
         return [];
     }
 
-    /**
-     * 获取完整关键词列表 (含分类)
-     */
-    public function get_classified_keywords(string $topic): array {
-        $raw = $this->content_ir['keywords'] ?? [];
-        if (empty($raw)) {
-            $this->eco_context['topic'] = $topic;
-            $this->content_ir['keywords'] = $this->generate_local_keywords($topic);
-            $raw = $this->content_ir['keywords'];
-        }
-
-        return [
-            'raw' => $raw,
-            'classified' => $this->classify_keywords($raw),
-            'dimensions' => $this->keyword_dimensions,
-        ];
-    }
-
     private function generate_local_keywords(string $topic): array {
         if (empty($topic)) return [];
 

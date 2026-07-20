@@ -306,21 +306,6 @@ class TypeModeRouter {
     }
 
     /**
-     * 获取模式标签
-     *
-     * @param string $mode
-     * @return string
-     */
-    public static function get_mode_label( $mode ) {
-        $labels = array(
-            'handwrite' => '手工写作',
-            'voice'     => '语音写作',
-            'ai'        => 'AI写书',
-        );
-        return isset( $labels[ $mode ] ) ? $labels[ $mode ] : 'AI写书';
-    }
-
-    /**
      * 获取所有类型 (供UI渲染)
      *
      * @return array
@@ -350,15 +335,6 @@ class TypeModeRouter {
     }
 
     /**
-     * v19.1: 获取所有探索原型 (嵌入自 meta的meta 元母体)
-     *
-     * @return array
-     */
-    public static function get_all_exploration_prototypes() {
-        return BookExplorationPrototypes::get_label_map();
-    }
-
-    /**
      * v19.1: 获取指定探索原型的配置
      *
      * @param string $prototype_key 原型key (book/experimental/observational/...)
@@ -366,33 +342,6 @@ class TypeModeRouter {
      */
     public static function get_exploration_prototype( $prototype_key ) {
         return BookExplorationPrototypes::get( $prototype_key );
-    }
-
-    /**
-     * v19.1: 路由查询 (扩展版) — 支持探索原型维度
-     *
-     * @param string $type           book|thesis|script|manual|textbook|whitepaper
-     * @param string $mode           handwrite|voice|ai
-     * @param string $prototype_key  v19.1新增: book|experimental|observational|...(默认book)
-     * @return array 路由配置 (含探索原型覆盖)
-     */
-    public static function route_with_prototype( $type, $mode, $prototype_key = 'book' ) {
-        // 获取基础路由
-        $route = self::route( $type, $mode );
-
-        // 注入探索原型配置
-        $prototype = self::get_exploration_prototype( $prototype_key );
-        if ( $prototype ) {
-            $route['exploration_prototype'] = $prototype;
-
-            // 非book原型: 覆盖扩写提示词风格
-            if ( 'book' !== $prototype_key ) {
-                $route['prompt_overrides']['step4_expand'] = $prototype['prompt_style'];
-                $route['prompt_overrides']['meta_prototype'] = $prototype_key;
-            }
-        }
-
-        return $route;
     }
 
     /**

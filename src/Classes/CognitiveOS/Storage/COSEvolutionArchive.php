@@ -111,16 +111,6 @@ class COSEvolutionArchive
     }
 
     /**
-     * 清空归档。
-     *
-     * @return bool
-     */
-    public static function clear(): bool
-    {
-        return delete_option(self::OPTION_KEY);
-    }
-
-    /**
      * 统计信息。
      *
      * @return array { count, by_generation, success_rate }

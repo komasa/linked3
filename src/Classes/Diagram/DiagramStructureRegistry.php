@@ -235,28 +235,6 @@ class DiagramStructureRegistry
     }
 
     /**
-     * 获取结构的 zones（区域定义）.
-     *
-     * @return array<string>
-     */
-    public static function get_zones(string $structure_id): array
-    {
-        $structure = self::get($structure_id);
-        return $structure['zones'] ?? ['hook', 'body', 'proof', 'cta'];
-    }
-
-    /**
-     * 获取结构的文案模板.
-     *
-     * @return array<string,string>
-     */
-    public static function get_text_templates(string $structure_id): array
-    {
-        $structure = self::get($structure_id);
-        return $structure['text_templates'] ?? [];
-    }
-
-    /**
      * 智能匹配最适合的结构.
      *
      * v19.52: 增加位置感知（第1镜/最后镜/中间镜）
@@ -327,15 +305,6 @@ class DiagramStructureRegistry
         }
 
         return $best;
-    }
-
-    /**
-     * 获取结构的 prompt 模板.
-     */
-    public static function get_prompt_template(string $structure_id): string
-    {
-        $structure = self::get($structure_id);
-        return $structure['prompt_template'] ?? self::get('4band')['prompt_template'];
     }
 
     /**

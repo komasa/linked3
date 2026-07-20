@@ -141,15 +141,6 @@ class SecurityValidator {
     }
 
     /**
-     * 综合安全检查 (XSS + SQL + 路径遍历)。
-     */
-    public function isSafe(string $input): bool {
-        return !$this->detectXSS($input)
-            && !$this->detectSQLInjection($input)
-            && !$this->detectPathTraversal($input);
-    }
-
-    /**
      * Nonce 验证。
      */
     public function verifyNonce(string $nonce, string $action): bool {
@@ -169,19 +160,6 @@ class SecurityValidator {
             $this->logViolation('no_capability', $cap, '');
         }
         return $ok;
-    }
-
-    /**
-     * AJAX 请求安全门 (Nonce + 权限 + 输入校验三合一)。
-     */
-    public function gateAjax(string $nonceAction, string $cap = 'edit_posts'): void {
-        if (!$this->checkCapability($cap)) {
-            wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
-        }
-        $nonce = sanitize_text_field(wp_unslash($_POST['nonce'] ?? $_GET['nonce'] ?? ''));
-        if (!$this->verifyNonce($nonce, $nonceAction)) {
-            wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
-        }
     }
 
     /**

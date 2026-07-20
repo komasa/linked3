@@ -68,9 +68,6 @@ class Diagram30Spectrum {
     }
 
     public function all(): array { return $this->spectrum; }
-    public function byCategory(string $cat): array {
-        return array_filter($this->spectrum, fn($d) => $d['category'] === $cat);
-    }
     public function get(string $code): ?array { return $this->spectrum[$code] ?? null; }
     public function count(): int { return count($this->spectrum); }
 

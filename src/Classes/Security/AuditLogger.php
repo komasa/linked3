@@ -36,34 +36,6 @@ class AuditLogger {
         ));
     }
 
-    /**
-     * 查询审计日志。
-     */
-    public function getLogs(int $limit = 50, string $action = '', int $userId = 0): array {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_audit_logs';
-        $where = '1=1';
-        $params = [];
-        if ($action) { $where .= ' AND action = %s'; $params[] = $action; }
-        if ($userId) { $where .= ' AND user_id = %d'; $params[] = $userId; }
-        $where .= ' ORDER BY time DESC LIMIT %d';
-        $params[] = $limit;
-        $query = $wpdb->prepare("SELECT * FROM {$table} WHERE {$where}", ...$params);
-        return $wpdb->get_results($query, ARRAY_A); // $wpdb->prepare applied above
-    }
-
-    /**
-     * 清理旧日志 (保留90天)。
-     */
-    public function cleanup(): void {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_audit_logs';
-        $wpdb->query($wpdb->prepare(
-            "DELETE FROM {$table} WHERE time < %s",
-            date('Y-m-d H:i:s', strtotime('-90 days'))
-        ));
-    }
-
     private function ensureTable(): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_audit_logs';

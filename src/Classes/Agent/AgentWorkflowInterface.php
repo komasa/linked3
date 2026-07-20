@@ -16,5 +16,4 @@ if (!defined('ABSPATH')) exit;
 interface AgentWorkflowInterface {
     public function execute(array $input): array;
     public function getName(): string;
-    public function getSteps(): array;
 }

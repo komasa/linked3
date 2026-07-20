@@ -9,6 +9,5 @@ interface ContentPipelineInterface
     public function prepare(array $input): array;
     public function generate(array $context, ?callable $progressCb = null): array;
     public function deliver(array $result): array;
-    public static function get_styles(): array;
     public static function label(): string;
 }

@@ -28,10 +28,6 @@ class DiagramPromptCompressor {
         return $prompt;
     }
 
-    public function checkLimit(string $prompt): array {
-        $len = strlen($prompt);
-        return ['length' => $len, 'exceeds' => $len > $this->maxChars, 'limit' => $this->maxChars];
-    }
 }
 
 // =================================================================

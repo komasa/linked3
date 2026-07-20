@@ -61,13 +61,6 @@ interface VisualScriptGeneratorInterface
     public function platform_label();
 
     /**
-     * 获取默认系统提示词模板。
-     *
-     * @return string
-     */
-    public function default_prompt_template();
-
-    /**
      * 获取可用预设风格列表。
      *
      * @return array [{ id, label, prompt_suffix }]

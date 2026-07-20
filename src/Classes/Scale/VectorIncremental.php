@@ -100,18 +100,6 @@ class VectorIncremental {
         return $dot;
     }
 
-    public function backfillMissing(int $batchSize = 50): array {
-        global $wpdb;
-        $posts = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish'
-             AND ID NOT IN (SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_linked3_vector')
-             LIMIT %s", $batchSize))
-        $count = 0;
-        foreach ($posts as $pid) {
-            $this->embedPost($pid);
-            $count++;
-        }
-        return ['embedded' => $count];
-    }
 }
 
 // =================================================================

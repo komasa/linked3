@@ -101,14 +101,6 @@ class Genesis9Engines
     }
 
     /**
-     * 获取所有9引擎信息
-     */
-    public static function getAllEngines(): array
-    {
-        return self::engine()->getModes();
-    }
-
-    /**
      * 获取引擎实例
      */
     private static function engine(): GenesisRecommendationEngine

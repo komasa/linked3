@@ -12,17 +12,6 @@ namespace Linked3\Classes\Diagram;
 if (!defined('ABSPATH')) exit;
 
 class DiagramVisualScriptTransform {
-    /**
-     * 3层管线: 图示 → 剧本 → 动画
-     */
-    public function transform(array $diagram): array {
-        return [
-            'layer1_diagram' => $diagram,
-            'layer2_script' => $this->diagramToScript($diagram),
-            'layer3_animation' => $this->scriptToAnimation($this->diagramToScript($diagram)),
-        ];
-    }
-
     private function diagramToScript(array $diagram): array {
         $scenes = [];
         foreach ($diagram['bands'] ?? [] as $i => $band) {

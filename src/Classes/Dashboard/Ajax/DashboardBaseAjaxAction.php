@@ -19,19 +19,6 @@ abstract class DashboardBaseAjaxAction
 
     abstract public static function register();
 
-    protected static function verify_request()
-    : bool {
-        if (!check_ajax_referer(static::NONCE_ACTION, 'nonce', false)) {
-            wp_send_json_error(['message' => __('Nonce verification failed.', 'linked3-ai')], 403);
-            return false;
-        }
-        if (!current_user_can(static::REQUIRED_CAP)) {
-            wp_send_json_error(['message' => __('Insufficient permissions.', 'linked3-ai')], 403);
-            return false;
-        }
-        return true;
-    }
-
     protected static function get_param($key, $default = '', $type = 'text') : mixed {
         $value = $_POST[$key] ?? $default;
         switch ($type) {
