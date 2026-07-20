@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Cost_Reporter — extracted from StreamOutput.php during PSR-4 migration.
+ * CostReporter — extracted from StreamOutput.php during PSR-4 migration.
  *
  * @package Linked3\Classes\AI\Pipeline
 

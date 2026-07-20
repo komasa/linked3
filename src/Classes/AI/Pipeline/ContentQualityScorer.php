@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Linked3_Content_Quality_Scorer — extracted from PromptEngine.php during PSR-4 migration.
+ * ContentQualityScorer — extracted from PromptEngine.php during PSR-4 migration.
  *
  * @package Linked3\Classes\AI\Pipeline
 
