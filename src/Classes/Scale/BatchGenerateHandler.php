@@ -10,7 +10,7 @@ namespace Linked3\Classes\Scale;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Batch_Generate_Handler {
+class BatchGenerateHandler {
     public function execute(array $payload): array {
         $topic = $payload['topic'];
         if (class_exists('\Linked3\Classes\Scale\AIDispatcher')) {

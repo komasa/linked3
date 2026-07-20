@@ -11,7 +11,7 @@ namespace Linked3\Classes\BookFactory;
 
 if (!defined('ABSPATH')) exit;
 
-interface Linked3_Book_Cost_Tracker_Interface {
+interface BookCostTrackerInterface {
 
 	/**
 	 * 记录一次 AI 调用的成本。

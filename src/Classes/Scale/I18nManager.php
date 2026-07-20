@@ -10,7 +10,7 @@ namespace Linked3\Classes\Scale;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_i18n_Manager {
+class I18nManager {
     private static ?Linked3_i18n_Manager $instance = null;
     private array $translations = [];
     private string $locale = 'zh_CN';

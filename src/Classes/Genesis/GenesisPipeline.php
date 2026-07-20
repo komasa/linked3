@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_Pipeline {
+class GenesisPipeline {
     private Linked3_Genesis_IRCompiler $compiler;
     private Linked3_Genesis_Mutator $mutator;
     private Linked3_Genesis_Evaluator $evaluator;

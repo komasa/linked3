@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_Bootstrap {
+class GenesisBootstrap {
     private static bool $booted = false;
 
     public static function boot(): void {

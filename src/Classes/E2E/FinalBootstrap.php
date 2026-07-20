@@ -10,7 +10,7 @@ namespace Linked3\Classes\E2E;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Final_Bootstrap {
+class FinalBootstrap {
     private static bool $booted = false;
 
     public static function boot(): void {

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Scale;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Batch_Engine {
+class BatchEngine {
     private static ?Linked3_Batch_Engine $instance = null;
     private int $batchSize = 10;
 

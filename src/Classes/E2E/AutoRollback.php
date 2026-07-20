@@ -11,7 +11,7 @@ namespace Linked3\Classes\E2E;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Auto_Rollback {
+class AutoRollback {
     private static ?Linked3_Auto_Rollback $instance = null;
     private int $failureThreshold = 3; // 超过3个系统失败触发回滚
 

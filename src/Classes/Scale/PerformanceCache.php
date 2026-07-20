@@ -10,7 +10,7 @@ namespace Linked3\Classes\Scale;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Performance_Cache {
+class PerformanceCache {
     private static ?Linked3_Performance_Cache $instance = null;
     private array $cache = [];
     private int $ttl = 3600;

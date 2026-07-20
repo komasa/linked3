@@ -10,7 +10,7 @@ namespace Linked3\Classes\Scale;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Scale_Bootstrap {
+class ScaleBootstrap {
     private static bool $booted = false;
 
     public static function boot(): void {

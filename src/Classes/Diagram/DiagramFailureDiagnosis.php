@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Failure_Diagnosis {
+class DiagramFailureDiagnosis {
     public function diagnose(array $generated, array $seriesConfig): array {
         $seriesDNA = new Linked3_Diagram_SeriesDNA_4Lock();
         $lockResult = $seriesDNA->verifyLocks($seriesConfig, $generated);

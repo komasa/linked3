@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_Mutator {
+class GenesisMutator {
     private array $operators;
 
     const DEFAULT_VARIANT_COUNT = 3;

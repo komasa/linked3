@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-interface DiagramMasterTemplate_Interface {
+interface DiagramMasterTemplateInterface {
     public function generate(array $config): array;
     public function validate(array $diagram): array;
     public function getSignature(): string;

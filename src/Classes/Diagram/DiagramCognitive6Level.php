@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Cognitive_6Level {
+class DiagramCognitive6Level {
     private array $levels = [
         'R'  => ['name_zh' => '记忆', 'name_en' => 'Remember', 'desc' => '识别/回忆'],
         'U'  => ['name_zh' => '理解', 'name_en' => 'Understand', 'desc' => '解释/概括'],

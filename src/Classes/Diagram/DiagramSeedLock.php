@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Seed_Lock {
+class DiagramSeedLock {
     const LEVEL_CRITICAL  = 'critical';  // 100%
     const LEVEL_IMPORTANT = 'important'; // >95%
     const LEVEL_FLEXIBLE  = 'flexible';  // >80%

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_StoryboardGenerator {
+class GenesisStoryboardGenerator {
     private array $shots = ['远景', '中景', '近景', '特写'];
     private array $angles = ['平视', '仰视', '俯视'];
     private array $comps = ['三分法', '对角线', '中心构图', '对称式'];

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_IRCompiler {
+class GenesisIRCompiler {
     public function validateAtom(array $atom): array {
         $errors = [];
         if (empty($atom['seeds']['character'])) $errors[] = 'missing character seed';

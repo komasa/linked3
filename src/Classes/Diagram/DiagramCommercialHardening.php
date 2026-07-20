@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Commercial_Hardening {
+class DiagramCommercialHardening {
     public function harden(): array {
         $checks = [];
 

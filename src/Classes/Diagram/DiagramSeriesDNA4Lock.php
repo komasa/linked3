@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_SeriesDNA_4Lock {
+class DiagramSeriesDNA4Lock {
     private array $locks = [
         'layer1' => ['name' => 'META签名锁', 'field' => 'signature', 'lock_level' => 'Critical 100%'],
         'layer2' => ['name' => '角标系统锁', 'field' => 'badge_system', 'lock_level' => 'Critical 100%'],

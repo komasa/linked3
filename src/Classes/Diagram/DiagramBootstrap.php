@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Bootstrap {
+class DiagramBootstrap {
     private static bool $booted = false;
 
     public static function boot(): void {

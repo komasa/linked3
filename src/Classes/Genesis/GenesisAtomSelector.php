@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_AtomSelector {
+class GenesisAtomSelector {
     private GenesisAtomIndex $index;
 
     public function __construct() {

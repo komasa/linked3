@@ -11,7 +11,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Selection_DecisionTree {
+class DiagramSelectionDecisionTree {
     private DiagramTypeRegistry $registry;
 
     public function __construct() {

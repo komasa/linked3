@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Seed_Reference {
+class DiagramSeedReference {
     const MODE_ANCHOR = 'anchor';      // 锚定模式: 直接引用
     const MODE_CHAIN  = 'chain';       // 链式模式: A→B→C
     const MODE_DUAL   = 'dual';        // 双参照: 同时引用2个Seed

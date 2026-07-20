@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Relationship_Encoder {
+class DiagramRelationshipEncoder {
     private array $codes = [
         'support'    => ['symbol' => '→', 'name_zh' => '支撑', 'meaning' => 'A支撑B'],
         'influence'  => ['symbol' => '~>', 'name_zh' => '影响', 'meaning' => 'A影响B'],

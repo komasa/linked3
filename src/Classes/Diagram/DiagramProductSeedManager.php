@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_ProductSeed_Manager {
+class DiagramProductSeedManager {
     private static ?Linked3_Diagram_ProductSeed_Manager $instance = null;
     private array $seeds = [];
 

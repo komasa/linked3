@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_E2E_TestSuite {
+class DiagramE2ETestSuite {
     public function runAll(): array {
         $tests = [];
 

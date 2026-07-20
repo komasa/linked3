@@ -11,7 +11,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_Exception extends \Exception {
+class GenesisException extends \Exception {
     /** @var string 错误码 */
     protected $error_code;
 

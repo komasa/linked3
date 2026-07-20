@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_PromptAssembler {
+class GenesisPromptAssembler {
     private GenesisAtomIndex $index;
 
     public function __construct() {

@@ -11,7 +11,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Seed_Compiler {
+class DiagramSeedCompiler {
     /**
      * MD格式 → JSON Seed。
      *

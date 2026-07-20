@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Complexity_Reduction {
+class DiagramComplexityReduction {
     /**
      * 象限降维: 多维信息 → 2x2矩阵。
      */

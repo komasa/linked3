@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Alipay_Gateway implements Linked3_Payment_Gateway_Interface {
+class AlipayGateway implements Linked3_Payment_Gateway_Interface {
     private string $appId;
     private string $privateKey;
     private string $publicKey;

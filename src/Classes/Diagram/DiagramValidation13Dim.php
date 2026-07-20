@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Validation_13Dim {
+class DiagramValidation13Dim {
     public function validate(array $diagram): array {
         $checks = [];
         // 1. 视觉一致性

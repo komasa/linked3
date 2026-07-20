@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_BrandSystem_5D {
+class DiagramBrandSystem5D {
     public function build(array $brandConfig): array {
         return [
             'dimension1_logo' => $brandConfig['logo'] ?? '',

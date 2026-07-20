@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Wechat_Gateway implements Linked3_Payment_Gateway_Interface {
+class WechatGateway implements Linked3_Payment_Gateway_Interface {
     private string $appId;
     private string $mchId;
     private string $apiKey;

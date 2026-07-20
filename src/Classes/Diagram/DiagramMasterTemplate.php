@@ -23,14 +23,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * 图示主模板接口
- */
-interface DiagramMasterTemplate_Interface {
-    public function generate(array $config): array;
-    public function validate(array $diagram): array;
-    public function getSignature(): string;
-}
 
 /**
  * 知识图谱型图示主模板
@@ -44,7 +36,7 @@ interface DiagramMasterTemplate_Interface {
  *   Endpoint: 右下角终点图示
  *   Footer: 底部全局价值观
  */
-class DiagramMasterTemplate implements DiagramMasterTemplate_Interface {
+class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
     const SIGNATURE = '带状切片全景图(独立线框模块+微观饱和卡片+精准图文咬合)';
     const GLOBAL_PRIMARY = '#2F4F4F';
     const BACKGROUND = '#F8F8FF';

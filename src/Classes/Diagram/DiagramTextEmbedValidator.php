@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_TextEmbed_Validator {
+class DiagramTextEmbedValidator {
     public function validate(array $diagram): array {
         $issues = [];
         $totalTexts = 0;

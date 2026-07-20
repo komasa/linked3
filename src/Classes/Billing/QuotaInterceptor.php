@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Quota_Interceptor {
+class QuotaInterceptor {
     private static ?Linked3_Quota_Interceptor $instance = null;
 
     public static function instance(): Linked3_Quota_Interceptor {

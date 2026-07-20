@@ -10,7 +10,7 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_AI_Pipeline_Bootstrap {
+class AIPipelineBootstrap {
     private static bool $booted = false;
 
     public static function boot(): void {

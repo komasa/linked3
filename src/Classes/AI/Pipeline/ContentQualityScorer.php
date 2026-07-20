@@ -10,7 +10,7 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Content_Quality_Scorer {
+class ContentQualityScorer {
     private array $rules = [];
 
     /**

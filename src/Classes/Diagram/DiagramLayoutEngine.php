@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Layout_Engine {
+class DiagramLayoutEngine {
     const RATIO = '9:16';
     const BAND_COUNT = 4;
     const BORDER_WIDTH = '0.75pt';

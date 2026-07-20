@@ -11,7 +11,7 @@ namespace Linked3\Classes\BookFactory;
 
 if (!defined('ABSPATH')) exit;
 
-interface Linked3_Book_Prompt_Provider_Interface {
+interface BookPromptProviderInterface {
 
 	/**
 	 * 获取提示词 (三级回退: DB → JSON → 硬编码)。

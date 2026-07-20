@@ -11,7 +11,7 @@ namespace Linked3\Classes\Security;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Audit_Logger {
+class AuditLogger {
     private static ?Linked3_Audit_Logger $instance = null;
 
     public static function instance(): Linked3_Audit_Logger {

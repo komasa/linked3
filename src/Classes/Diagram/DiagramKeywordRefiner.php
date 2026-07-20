@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Keyword_Refiner {
+class DiagramKeywordRefiner {
     /**
      * 5种提炼法: 概括/提取/压缩/转化/锚定
      */

@@ -11,7 +11,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Validation_Layer {
+class DiagramValidationLayer {
     /**
      * 构建4维一致性校验。
      */

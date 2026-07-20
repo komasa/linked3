@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_FooterFollowup_Matrix {
+class DiagramFooterFollowupMatrix {
     private array $matrix = [
         'values'    => ['E1' => true, 'E2' => true, 'E3' => true, 'E4' => false, 'E5' => false, 'E6' => true],
         'method'    => ['E1' => true, 'E2' => true, 'E3' => true, 'E4' => true, 'E5' => true, 'E6' => false],

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_Evaluator {
+class GenesisEvaluator {
     private int $threshold;
 
     public function __construct(int $threshold = 28) {

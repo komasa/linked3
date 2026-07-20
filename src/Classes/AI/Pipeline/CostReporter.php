@@ -10,7 +10,7 @@ namespace Linked3\Classes\AI\Pipeline;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Cost_Reporter {
+class CostReporter {
     public static function getReport(string $period = 'monthly', ?int $userId = null): array {
         $meter = TokenMeter::instance();
         $date = $period === 'monthly' ? current_time('Y-m') : current_time('Y-m-d');

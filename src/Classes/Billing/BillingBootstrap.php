@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Billing_Bootstrap {
+class BillingBootstrap {
     private static bool $booted = false;
 
     public static function boot(): void {

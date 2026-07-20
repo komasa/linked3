@@ -11,7 +11,7 @@ namespace Linked3\Classes\BookFactory;
 
 if (!defined('ABSPATH')) exit;
 
-interface Linked3_Book_State_Repository_Interface {
+interface BookStateRepositoryInterface {
 
 	/**
 	 * 加载项目状态。

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_3D_AR_Subsystem {
+class Diagram3DARSubsystem {
     public function generate3DConfig(array $diagram): array {
         return [
             'format' => '3D',

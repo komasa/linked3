@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Prompt_Compressor {
+class DiagramPromptCompressor {
     private int $maxChars = 4500;
 
     public function compress(string $prompt): string {

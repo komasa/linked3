@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Color_System {
+class DiagramColorSystem {
     const BADGE_COLORS = [
         '01' => '#4A90E2', '02' => '#F5A623', '03' => '#7ED321',
         '04' => '#D0506E', '05' => '#9013FE', '06' => '#50C8D6',

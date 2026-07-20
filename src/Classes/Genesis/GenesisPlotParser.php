@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_PlotParser {
+class GenesisPlotParser {
     private array $contentTypeKeywords = [
         'T1_动作战斗' => ['战斗', '对决', '打', '战', '攻击', '挥', '劈', '刺', '驱魔', '施法', '封印'],
         'T2_对话叙事' => ['说', '道', '问', '答', '对话', '讲述', '解释', '告诉'],

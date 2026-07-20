@@ -10,7 +10,7 @@ namespace Linked3\Classes\Scale;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_MultiSite_Publisher {
+class MultiSitePublisher {
     private static ?Linked3_MultiSite_Publisher $instance = null;
     private array $sites = [];
 

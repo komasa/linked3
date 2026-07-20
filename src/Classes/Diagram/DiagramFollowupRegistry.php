@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Followup_Registry {
+class DiagramFollowupRegistry {
     private static ?Linked3_Diagram_Followup_Registry $instance = null;
     private array $followups = [];
 

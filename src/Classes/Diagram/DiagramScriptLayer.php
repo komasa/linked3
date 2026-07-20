@@ -11,7 +11,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Script_Layer {
+class DiagramScriptLayer {
     /**
      * 构建剧本层。
      */

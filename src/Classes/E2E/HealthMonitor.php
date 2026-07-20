@@ -10,7 +10,7 @@ namespace Linked3\Classes\E2E;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Health_Monitor {
+class HealthMonitor {
     public function check(): array {
         $container = linked3_container();
         return [

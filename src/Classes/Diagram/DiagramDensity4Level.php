@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Density_4Level {
+class DiagramDensity4Level {
     private array $levels = [
         'minimal' => ['name_zh' => '极简版', 'modules_per_band' => 1, 'sub_topics_per_module' => 2, 'details_per_sub' => 2, 'char_target' => 2000],
         'standard' => ['name_zh' => '标准版', 'modules_per_band' => 1, 'sub_topics_per_module' => 3, 'details_per_sub' => 2, 'char_target' => 3000],

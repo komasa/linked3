@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Loop_Iterator {
+class DiagramLoopIterator {
     private array $steps = [
         1 => '生成初稿',
         2 => '校验13维',

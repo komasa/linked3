@@ -1,0 +1,768 @@
+{
+  "total": 76,
+  "unique_new_names": 76,
+  "conflicts": 0,
+  "mappings": [
+    {
+      "old_name": "Linked3_AI_Pipeline_Bootstrap",
+      "new_name": "AIPipelineBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\AI\\Pipeline",
+      "fqcn_old": "Linked3\\Classes\\AI\\Pipeline\\Linked3_AI_Pipeline_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\AI\\Pipeline\\AIPipelineBootstrap",
+      "file": "Classes/AI/Pipeline/PromptCache.php",
+      "line": 69
+    },
+    {
+      "old_name": "Linked3_Content_Quality_Scorer",
+      "new_name": "ContentQualityScorer",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\AI\\Pipeline",
+      "fqcn_old": "Linked3\\Classes\\AI\\Pipeline\\Linked3_Content_Quality_Scorer",
+      "fqcn_new": "Linked3\\Classes\\AI\\Pipeline\\ContentQualityScorer",
+      "file": "Classes/AI/Pipeline/PromptEngine.php",
+      "line": 121
+    },
+    {
+      "old_name": "Linked3_Cost_Reporter",
+      "new_name": "CostReporter",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\AI\\Pipeline",
+      "fqcn_old": "Linked3\\Classes\\AI\\Pipeline\\Linked3_Cost_Reporter",
+      "fqcn_new": "Linked3\\Classes\\AI\\Pipeline\\CostReporter",
+      "file": "Classes/AI/Pipeline/StreamOutput.php",
+      "line": 118
+    },
+    {
+      "old_name": "Linked3_Addon_Interface",
+      "new_name": "AddonInterface",
+      "type": "interface",
+      "namespace": "Linked3\\Classes\\Addons",
+      "fqcn_old": "Linked3\\Classes\\Addons\\Linked3_Addon_Interface",
+      "fqcn_new": "Linked3\\Classes\\Addons\\AddonInterface",
+      "file": "Classes/Addons/AddonManager.php",
+      "line": 22
+    },
+    {
+      "old_name": "Linked3_Payment_Gateway_Interface",
+      "new_name": "PaymentGatewayInterface",
+      "type": "interface",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Payment_Gateway_Interface",
+      "fqcn_new": "Linked3\\Classes\\Billing\\PaymentGatewayInterface",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 25
+    },
+    {
+      "old_name": "Linked3_Alipay_Gateway",
+      "new_name": "AlipayGateway",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Alipay_Gateway",
+      "fqcn_new": "Linked3\\Classes\\Billing\\AlipayGateway",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 73
+    },
+    {
+      "old_name": "Linked3_Wechat_Gateway",
+      "new_name": "WechatGateway",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Wechat_Gateway",
+      "fqcn_new": "Linked3\\Classes\\Billing\\WechatGateway",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 112
+    },
+    {
+      "old_name": "Linked3_Payment_Manager",
+      "new_name": "PaymentManager",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Payment_Manager",
+      "fqcn_new": "Linked3\\Classes\\Billing\\PaymentManager",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 150
+    },
+    {
+      "old_name": "Linked3_Quota_Interceptor",
+      "new_name": "QuotaInterceptor",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Quota_Interceptor",
+      "fqcn_new": "Linked3\\Classes\\Billing\\QuotaInterceptor",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 256
+    },
+    {
+      "old_name": "Linked3_Invoice_Manager",
+      "new_name": "InvoiceManager",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Invoice_Manager",
+      "fqcn_new": "Linked3\\Classes\\Billing\\InvoiceManager",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 324
+    },
+    {
+      "old_name": "Linked3_Referral_Manager",
+      "new_name": "ReferralManager",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Referral_Manager",
+      "fqcn_new": "Linked3\\Classes\\Billing\\ReferralManager",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 398
+    },
+    {
+      "old_name": "Linked3_Billing_Bootstrap",
+      "new_name": "BillingBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Billing",
+      "fqcn_old": "Linked3\\Classes\\Billing\\Linked3_Billing_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\Billing\\BillingBootstrap",
+      "file": "Classes/Billing/StripeGateway.php",
+      "line": 530
+    },
+    {
+      "old_name": "Linked3_Book_State_Repository_Interface",
+      "new_name": "BookStateRepositoryInterface",
+      "type": "interface",
+      "namespace": "Linked3\\Classes\\BookFactory",
+      "fqcn_old": "Linked3\\Classes\\BookFactory\\Linked3_Book_State_Repository_Interface",
+      "fqcn_new": "Linked3\\Classes\\BookFactory\\BookStateRepositoryInterface",
+      "file": "Classes/BookFactory/BookAICallerInterface.php",
+      "line": 45
+    },
+    {
+      "old_name": "Linked3_Book_Prompt_Provider_Interface",
+      "new_name": "BookPromptProviderInterface",
+      "type": "interface",
+      "namespace": "Linked3\\Classes\\BookFactory",
+      "fqcn_old": "Linked3\\Classes\\BookFactory\\Linked3_Book_Prompt_Provider_Interface",
+      "fqcn_new": "Linked3\\Classes\\BookFactory\\BookPromptProviderInterface",
+      "file": "Classes/BookFactory/BookAICallerInterface.php",
+      "line": 78
+    },
+    {
+      "old_name": "Linked3_Book_Cost_Tracker_Interface",
+      "new_name": "BookCostTrackerInterface",
+      "type": "interface",
+      "namespace": "Linked3\\Classes\\BookFactory",
+      "fqcn_old": "Linked3\\Classes\\BookFactory\\Linked3_Book_Cost_Tracker_Interface",
+      "fqcn_new": "Linked3\\Classes\\BookFactory\\BookCostTrackerInterface",
+      "file": "Classes/BookFactory/BookAICallerInterface.php",
+      "line": 104
+    },
+    {
+      "old_name": "Linked3_Diagram_BaseReuse_Flywheel",
+      "new_name": "DiagramBaseReuseFlywheel",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_BaseReuse_Flywheel",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramBaseReuseFlywheel",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 90
+    },
+    {
+      "old_name": "Linked3_Diagram_3D_AR_Subsystem",
+      "new_name": "Diagram3DARSubsystem",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_3D_AR_Subsystem",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\Diagram3DARSubsystem",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 136
+    },
+    {
+      "old_name": "Linked3_Diagram_VisualScript_Transform",
+      "new_name": "DiagramVisualScriptTransform",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_VisualScript_Transform",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramVisualScriptTransform",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 173
+    },
+    {
+      "old_name": "Linked3_Diagram_BrandSystem_5D",
+      "new_name": "DiagramBrandSystem5D",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_BrandSystem_5D",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramBrandSystem5D",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 216
+    },
+    {
+      "old_name": "Linked3_Diagram_8System_CrossRef",
+      "new_name": "Diagram8SystemCrossRef",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_8System_CrossRef",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\Diagram8SystemCrossRef",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 243
+    },
+    {
+      "old_name": "Linked3_Diagram_Commercial_Hardening",
+      "new_name": "DiagramCommercialHardening",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Commercial_Hardening",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramCommercialHardening",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 284
+    },
+    {
+      "old_name": "Linked3_Diagram_E2E_TestSuite",
+      "new_name": "DiagramE2ETestSuite",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_E2E_TestSuite",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramE2ETestSuite",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 317
+    },
+    {
+      "old_name": "Linked3_Diagram_Production_Bootstrap",
+      "new_name": "DiagramProductionBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Production_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramProductionBootstrap",
+      "file": "Classes/Diagram/Diagram30Spectrum.php",
+      "line": 392
+    },
+    {
+      "old_name": "Linked3_Diagram_4Layer_Anchor",
+      "new_name": "Diagram4LayerAnchor",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_4Layer_Anchor",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\Diagram4LayerAnchor",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 82
+    },
+    {
+      "old_name": "Linked3_Diagram_Selection_DecisionTree",
+      "new_name": "DiagramSelectionDecisionTree",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Selection_DecisionTree",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramSelectionDecisionTree",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 124
+    },
+    {
+      "old_name": "Linked3_Diagram_Complexity_Reduction",
+      "new_name": "DiagramComplexityReduction",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Complexity_Reduction",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramComplexityReduction",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 164
+    },
+    {
+      "old_name": "Linked3_Diagram_Layout_Engine",
+      "new_name": "DiagramLayoutEngine",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Layout_Engine",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramLayoutEngine",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 215
+    },
+    {
+      "old_name": "Linked3_Diagram_Color_System",
+      "new_name": "DiagramColorSystem",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Color_System",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramColorSystem",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 250
+    },
+    {
+      "old_name": "Linked3_Diagram_Validation_13Dim",
+      "new_name": "DiagramValidation13Dim",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Validation_13Dim",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramValidation13Dim",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 290
+    },
+    {
+      "old_name": "Linked3_Diagram_Bootstrap",
+      "new_name": "DiagramBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramBootstrap",
+      "file": "Classes/Diagram/Diagram3LayerDepth.php",
+      "line": 402
+    },
+    {
+      "old_name": "Linked3_Diagram_ProductSeed_Manager",
+      "new_name": "DiagramProductSeedManager",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_ProductSeed_Manager",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramProductSeedManager",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 106
+    },
+    {
+      "old_name": "Linked3_Diagram_Seed_Reference",
+      "new_name": "DiagramSeedReference",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Reference",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramSeedReference",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 137
+    },
+    {
+      "old_name": "Linked3_Diagram_Seed_Lock",
+      "new_name": "DiagramSeedLock",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Lock",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramSeedLock",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 160
+    },
+    {
+      "old_name": "Linked3_Diagram_Seed_Check",
+      "new_name": "DiagramSeedCheck",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Check",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramSeedCheck",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 191
+    },
+    {
+      "old_name": "Linked3_Diagram_SeriesDNA_4Lock",
+      "new_name": "DiagramSeriesDNA4Lock",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_SeriesDNA_4Lock",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramSeriesDNA4Lock",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 233
+    },
+    {
+      "old_name": "Linked3_Diagram_Failure_Diagnosis",
+      "new_name": "DiagramFailureDiagnosis",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Failure_Diagnosis",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramFailureDiagnosis",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 277
+    },
+    {
+      "old_name": "Linked3_Diagram_Loop_Character_Integration",
+      "new_name": "DiagramLoopCharacterIntegration",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Loop_Character_Integration",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramLoopCharacterIntegration",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 309
+    },
+    {
+      "old_name": "Linked3_Diagram_Seed_Compiler",
+      "new_name": "DiagramSeedCompiler",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Compiler",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramSeedCompiler",
+      "file": "Classes/Diagram/DiagramCharacterSeedManager.php",
+      "line": 358
+    },
+    {
+      "old_name": "Linked3_Diagram_Endpoint_DecisionTree",
+      "new_name": "DiagramEndpointDecisionTree",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Endpoint_DecisionTree",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramEndpointDecisionTree",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 105
+    },
+    {
+      "old_name": "Linked3_Diagram_Followup_Registry",
+      "new_name": "DiagramFollowupRegistry",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Followup_Registry",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramFollowupRegistry",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 137
+    },
+    {
+      "old_name": "Linked3_Diagram_Footer_Registry",
+      "new_name": "DiagramFooterRegistry",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Footer_Registry",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramFooterRegistry",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 166
+    },
+    {
+      "old_name": "Linked3_Diagram_FooterFollowup_Matrix",
+      "new_name": "DiagramFooterFollowupMatrix",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_FooterFollowup_Matrix",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramFooterFollowupMatrix",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 203
+    },
+    {
+      "old_name": "Linked3_Diagram_Relationship_Encoder",
+      "new_name": "DiagramRelationshipEncoder",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Relationship_Encoder",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramRelationshipEncoder",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 226
+    },
+    {
+      "old_name": "Linked3_Diagram_Cognitive_6Level",
+      "new_name": "DiagramCognitive6Level",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Cognitive_6Level",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramCognitive6Level",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 256
+    },
+    {
+      "old_name": "Linked3_Diagram_Density_4Level",
+      "new_name": "DiagramDensity4Level",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Density_4Level",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramDensity4Level",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 289
+    },
+    {
+      "old_name": "Linked3_Diagram_Visual_Frequency",
+      "new_name": "DiagramVisualFrequency",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Visual_Frequency",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramVisualFrequency",
+      "file": "Classes/Diagram/DiagramEndpointRegistry.php",
+      "line": 308
+    },
+    {
+      "old_name": "Linked3_Diagram_Script_Layer",
+      "new_name": "DiagramScriptLayer",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Script_Layer",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramScriptLayer",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 70
+    },
+    {
+      "old_name": "Linked3_Diagram_Validation_Layer",
+      "new_name": "DiagramValidationLayer",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Validation_Layer",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramValidationLayer",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 121
+    },
+    {
+      "old_name": "Linked3_Diagram_Prompt_Compiler",
+      "new_name": "DiagramPromptCompiler",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Prompt_Compiler",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramPromptCompiler",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 166
+    },
+    {
+      "old_name": "Linked3_Diagram_Prompt_Compressor",
+      "new_name": "DiagramPromptCompressor",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Prompt_Compressor",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramPromptCompressor",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 211
+    },
+    {
+      "old_name": "Linked3_Diagram_Keyword_Refiner",
+      "new_name": "DiagramKeywordRefiner",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Keyword_Refiner",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramKeywordRefiner",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 238
+    },
+    {
+      "old_name": "Linked3_Diagram_TextEmbed_Validator",
+      "new_name": "DiagramTextEmbedValidator",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_TextEmbed_Validator",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramTextEmbedValidator",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 306
+    },
+    {
+      "old_name": "Linked3_Diagram_Loop_Iterator",
+      "new_name": "DiagramLoopIterator",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Loop_Iterator",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramLoopIterator",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 349
+    },
+    {
+      "old_name": "Linked3_Diagram_Failure_Handbook",
+      "new_name": "DiagramFailureHandbook",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Diagram",
+      "fqcn_old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Failure_Handbook",
+      "fqcn_new": "Linked3\\Classes\\Diagram\\DiagramFailureHandbook",
+      "file": "Classes/Diagram/DiagramMETALayer.php",
+      "line": 421
+    },
+    {
+      "old_name": "Linked3_Health_Monitor",
+      "new_name": "HealthMonitor",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\E2E",
+      "fqcn_old": "Linked3\\Classes\\E2E\\Linked3_Health_Monitor",
+      "fqcn_new": "Linked3\\Classes\\E2E\\HealthMonitor",
+      "file": "Classes/E2E/E2eTestRunner.php",
+      "line": 140
+    },
+    {
+      "old_name": "Linked3_Auto_Rollback",
+      "new_name": "AutoRollback",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\E2E",
+      "fqcn_old": "Linked3\\Classes\\E2E\\Linked3_Auto_Rollback",
+      "fqcn_new": "Linked3\\Classes\\E2E\\AutoRollback",
+      "file": "Classes/E2E/E2eTestRunner.php",
+      "line": 217
+    },
+    {
+      "old_name": "Linked3_Final_Bootstrap",
+      "new_name": "FinalBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\E2E",
+      "fqcn_old": "Linked3\\Classes\\E2E\\Linked3_Final_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\E2E\\FinalBootstrap",
+      "file": "Classes/E2E/E2eTestRunner.php",
+      "line": 271
+    },
+    {
+      "old_name": "Linked3_Genesis_PlotParser",
+      "new_name": "GenesisPlotParser",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_PlotParser",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisPlotParser",
+      "file": "Classes/Genesis/GenesisAtomIndex.php",
+      "line": 67
+    },
+    {
+      "old_name": "Linked3_Genesis_AtomSelector",
+      "new_name": "GenesisAtomSelector",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_AtomSelector",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisAtomSelector",
+      "file": "Classes/Genesis/GenesisAtomIndex.php",
+      "line": 136
+    },
+    {
+      "old_name": "Linked3_Genesis_PromptAssembler",
+      "new_name": "GenesisPromptAssembler",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_PromptAssembler",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisPromptAssembler",
+      "file": "Classes/Genesis/GenesisAtomIndex.php",
+      "line": 244
+    },
+    {
+      "old_name": "Linked3_Genesis_PQSChecker",
+      "new_name": "GenesisPQSChecker",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_PQSChecker",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisPQSChecker",
+      "file": "Classes/Genesis/GenesisAtomIndex.php",
+      "line": 448
+    },
+    {
+      "old_name": "Linked3_Genesis_StoryboardGenerator",
+      "new_name": "GenesisStoryboardGenerator",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_StoryboardGenerator",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisStoryboardGenerator",
+      "file": "Classes/Genesis/GenesisAtomIndex.php",
+      "line": 516
+    },
+    {
+      "old_name": "Linked3_Genesis_Bootstrap",
+      "new_name": "GenesisBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisBootstrap",
+      "file": "Classes/Genesis/GenesisAtomIndex.php",
+      "line": 557
+    },
+    {
+      "old_name": "Linked3_Genesis_Exception",
+      "new_name": "GenesisException",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Exception",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisException",
+      "file": "Classes/Genesis/GenesisErrorCode.php",
+      "line": 196
+    },
+    {
+      "old_name": "Linked3_Genesis_IRCompiler",
+      "new_name": "GenesisIRCompiler",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_IRCompiler",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisIRCompiler",
+      "file": "Classes/Genesis/GenesisSeedLibrary.php",
+      "line": 44
+    },
+    {
+      "old_name": "Linked3_Genesis_Mutator",
+      "new_name": "GenesisMutator",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Mutator",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisMutator",
+      "file": "Classes/Genesis/GenesisSeedLibrary.php",
+      "line": 204
+    },
+    {
+      "old_name": "Linked3_Genesis_Evaluator",
+      "new_name": "GenesisEvaluator",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Evaluator",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisEvaluator",
+      "file": "Classes/Genesis/GenesisSeedLibrary.php",
+      "line": 333
+    },
+    {
+      "old_name": "Linked3_Genesis_Pipeline",
+      "new_name": "GenesisPipeline",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Genesis",
+      "fqcn_old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Pipeline",
+      "fqcn_new": "Linked3\\Classes\\Genesis\\GenesisPipeline",
+      "file": "Classes/Genesis/GenesisSeedLibrary.php",
+      "line": 417
+    },
+    {
+      "old_name": "Linked3_i18n_Manager",
+      "new_name": "I18nManager",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Scale",
+      "fqcn_old": "Linked3\\Classes\\Scale\\Linked3_i18n_Manager",
+      "fqcn_new": "Linked3\\Classes\\Scale\\I18nManager",
+      "file": "Classes/Scale/VectorIncremental.php",
+      "line": 122
+    },
+    {
+      "old_name": "Linked3_MultiSite_Publisher",
+      "new_name": "MultiSitePublisher",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Scale",
+      "fqcn_old": "Linked3\\Classes\\Scale\\Linked3_MultiSite_Publisher",
+      "fqcn_new": "Linked3\\Classes\\Scale\\MultiSitePublisher",
+      "file": "Classes/Scale/VectorIncremental.php",
+      "line": 181
+    },
+    {
+      "old_name": "Linked3_Batch_Engine",
+      "new_name": "BatchEngine",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Scale",
+      "fqcn_old": "Linked3\\Classes\\Scale\\Linked3_Batch_Engine",
+      "fqcn_new": "Linked3\\Classes\\Scale\\BatchEngine",
+      "file": "Classes/Scale/VectorIncremental.php",
+      "line": 230
+    },
+    {
+      "old_name": "Linked3_Batch_Generate_Handler",
+      "new_name": "BatchGenerateHandler",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Scale",
+      "fqcn_old": "Linked3\\Classes\\Scale\\Linked3_Batch_Generate_Handler",
+      "fqcn_new": "Linked3\\Classes\\Scale\\BatchGenerateHandler",
+      "file": "Classes/Scale/VectorIncremental.php",
+      "line": 277
+    },
+    {
+      "old_name": "Linked3_Performance_Cache",
+      "new_name": "PerformanceCache",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Scale",
+      "fqcn_old": "Linked3\\Classes\\Scale\\Linked3_Performance_Cache",
+      "fqcn_new": "Linked3\\Classes\\Scale\\PerformanceCache",
+      "file": "Classes/Scale/VectorIncremental.php",
+      "line": 300
+    },
+    {
+      "old_name": "Linked3_Scale_Bootstrap",
+      "new_name": "ScaleBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Scale",
+      "fqcn_old": "Linked3\\Classes\\Scale\\Linked3_Scale_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\Scale\\ScaleBootstrap",
+      "file": "Classes/Scale/VectorIncremental.php",
+      "line": 334
+    },
+    {
+      "old_name": "Linked3_Audit_Logger",
+      "new_name": "AuditLogger",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Security",
+      "fqcn_old": "Linked3\\Classes\\Security\\Linked3_Audit_Logger",
+      "fqcn_new": "Linked3\\Classes\\Security\\AuditLogger",
+      "file": "Classes/Security/RateLimiterV2.php",
+      "line": 123
+    },
+    {
+      "old_name": "Linked3_Security_Bootstrap",
+      "new_name": "SecurityBootstrap",
+      "type": "class",
+      "namespace": "Linked3\\Classes\\Security",
+      "fqcn_old": "Linked3\\Classes\\Security\\Linked3_Security_Bootstrap",
+      "fqcn_new": "Linked3\\Classes\\Security\\SecurityBootstrap",
+      "file": "Classes/Security/RateLimiterV2.php",
+      "line": 206
+    }
+  ],
+  "conflict_details": {}
+}

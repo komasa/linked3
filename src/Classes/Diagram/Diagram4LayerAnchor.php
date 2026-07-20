@@ -11,7 +11,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_4Layer_Anchor {
+class Diagram4LayerAnchor {
     /**
      * 为每个子主题添加应用锚点。
      */

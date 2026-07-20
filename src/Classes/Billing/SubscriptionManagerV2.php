@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * SubscriptionManager_V2 — extracted from StripeGateway.php during PSR-4 migration.
+ * SubscriptionManagerV2 — extracted from StripeGateway.php during PSR-4 migration.
  *
  * @package Linked3\Classes\Billing
 
@@ -10,10 +10,10 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class SubscriptionManager_V2 {
-    private static ?SubscriptionManager_V2 $instance = null;
+class SubscriptionManagerV2 {
+    private static ?SubscriptionManagerV2 $instance = null;
 
-    public static function instance(): SubscriptionManager_V2 {
+    public static function instance(): SubscriptionManagerV2 {
         if (self::$instance === null) self::$instance = new self();
         return self::$instance;
     }

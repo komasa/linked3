@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Prompt_Compiler {
+class DiagramPromptCompiler {
     private DiagramMETALayer $metaLayer;
     private Linked3_Diagram_Script_Layer $scriptLayer;
     private Linked3_Diagram_Validation_Layer $validationLayer;

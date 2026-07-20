@@ -10,7 +10,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Genesis_PQSChecker {
+class GenesisPQSChecker {
     public function check(array $panel): array {
         $prompt = $panel['prompt_en'] ?? '';
         $chars = $panel['characters'] ?? [];

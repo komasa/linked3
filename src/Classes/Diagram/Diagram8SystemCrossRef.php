@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_8System_CrossRef {
+class Diagram8SystemCrossRef {
     private array $systems = [
         'diagram'    => '图示系统',
         'animation'  => '动画系统',

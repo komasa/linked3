@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Invoice_Manager {
+class InvoiceManager {
     private static ?Linked3_Invoice_Manager $instance = null;
 
     public static function instance(): Linked3_Invoice_Manager {

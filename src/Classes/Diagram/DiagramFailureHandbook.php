@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Failure_Handbook {
+class DiagramFailureHandbook {
     private array $failures = [
         'F1' => [
             'name' => '图文脱咬',

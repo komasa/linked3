@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Seed_Check {
+class DiagramSeedCheck {
     public function check(array $seed, array $generated): array {
         return [
             'visual_dna'     => $this->checkVisualDNA($seed, $generated),

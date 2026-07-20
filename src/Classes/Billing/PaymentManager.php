@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Payment_Manager {
+class PaymentManager {
     private static ?Linked3_Payment_Manager $instance = null;
     private array $gateways = [];
 

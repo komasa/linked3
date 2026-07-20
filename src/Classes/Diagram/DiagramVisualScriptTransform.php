@@ -11,7 +11,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_VisualScript_Transform {
+class DiagramVisualScriptTransform {
     /**
      * 3层管线: 图示 → 剧本 → 动画
      */

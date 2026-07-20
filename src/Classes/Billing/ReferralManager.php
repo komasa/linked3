@@ -10,7 +10,7 @@ namespace Linked3\Classes\Billing;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Referral_Manager {
+class ReferralManager {
     private static ?Linked3_Referral_Manager $instance = null;
     private float $commissionRate = 0.20; // 20% 返佣
 

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Loop_Character_Integration {
+class DiagramLoopCharacterIntegration {
     private array $steps = [
         1 => '生成初稿 (含角色Seed)',
         2 => '校验角色Critical项 (100%)',

@@ -10,7 +10,7 @@ namespace Linked3\Classes\Diagram;
 
 if (!defined('ABSPATH')) exit;
 
-class Linked3_Diagram_Endpoint_DecisionTree {
+class DiagramEndpointDecisionTree {
     private array $rules = [
         '成长' => 'Mountain path',
         '修行' => 'Mountain path',
