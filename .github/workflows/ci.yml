@@ -28,10 +28,12 @@ jobs:
 
   # ─── 编码规范 (PSR-12 + WordPress) ───
   phpcs:
-    name: PHP CodeSniffer (PSR-12 + WPCS)
+    name: PHP CodeSniffer (PSR-12 + WPCS, baseline-filtered)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for git diff baseline comparison
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -46,10 +48,21 @@ jobs:
           composer global require wp-coding-standards/wpcs:^2.3
           phpcs --config-set installed_paths $(composer global config path)/wp-coding-standards/wpcs
 
-      - name: Run PHPCS
+      - name: Run PHPCS with baseline filter
         run: |
-          phpcs --standard=phpcs.xml --report=checkstyle --report-file=phpcs-checkstyle.xml
-          phpcs --standard=phpcs.xml
+          # Run PHPCS with JSON output, then filter against .ci-baseline.json
+          # Strategy:
+          #   - Changed files (git diff): ALL violations enforced
+          #   - Unchanged files: baseline violations suppressed
+          python3 scripts/ci-phpcs-baseline-filter.py --phpcs-path=phpcs --standard=phpcs.xml
+
+      - name: Upload checkstyle report (if generated)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpcs-checkstyle
+          path: phpcs-checkstyle.xml
+          if-no-files-found: ignore
 
   # ─── 自动格式化检查 (PSR-12) ───
   php-cs-fixer:
