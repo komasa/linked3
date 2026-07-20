@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Admin;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Admin/V18Dashboard.php
- * Original class: V18_Dashboard
+ * Original class: OSDashboard
  *
  * @package Linked3\Classes\OS
  */
@@ -54,26 +54,26 @@ class OSDashboard {
      */
     public static function get_module_status(): array {
         $modules = [
-            'v12.0.0' => 'Linked3_Reverse_Engine',
-            'v12.1.0' => 'Linked3_Neng_Suo_Structure',
-            'v12.2.0' => 'Linked3_Svg_Meta_Stats',
-            'v12.3.0' => 'Linked3_Three_Layer_Consciousness',
-            'v12.4.0' => 'Linked3_Ru_Liu_Tracker',
-            'v12.5.0' => 'Linked3_Reverse_Engineer_Registry',
-            'v12.6.0' => 'Linked3_Reverse_Text_Creation',
-            'v12.7.0' => 'Linked3_Hong_Liu_Flywheel',
-            'v12.8.0' => 'Linked3_Neng_Zhi_Three_Stages',
-            'v12.9.0' => 'Linked3_Reverse_Quality_Gate',
-            'v14.0.0' => 'Linked3_Reverse_Ajax',
-            'v14.1.0' => 'Linked3_Neng_Suo_Ajax',
-            'v14.2.0' => 'Linked3_Svg_Stats_Ajax',
-            'v14.3.0' => 'Linked3_Consciousness_Ajax',
-            'v14.4.0' => 'Linked3_Ru_Liu_Ajax',
-            'v14.5.0' => 'Linked3_Engineer_Registry_Ajax',
-            'v14.6.0' => 'Linked3_Reverse_Text_Ajax',
-            'v14.7.0' => 'Linked3_Hong_Liu_Ajax',
-            'v14.8.0' => 'Linked3_Neng_Zhi_Ajax',
-            'v14.9.0' => 'Linked3_Quality_Gate_Ajax',
+            'v12.0.0' => 'OSReverseEngine',
+            'v12.1.0' => 'OSCapabilityLock',
+            'v12.2.0' => 'OSVisualAnalytics',
+            'v12.3.0' => 'OSConsciousnessLayer',
+            'v12.4.0' => 'OSOnboardingTracker',
+            'v12.5.0' => 'OSEngineerRegistry',
+            'v12.6.0' => 'OSTextCreation',
+            'v12.7.0' => 'OSMomentumFlywheel',
+            'v12.8.0' => 'OSCapabilityStages',
+            'v12.9.0' => 'OSQualityGate',
+            'v14.0.0' => 'OSReverseAjax',
+            'v14.1.0' => 'OSCapabilityLockAjax',
+            'v14.2.0' => 'OSVisualAnalyticsAjax',
+            'v14.3.0' => 'OSConsciousnessAjax',
+            'v14.4.0' => 'OSOnboardingAjax',
+            'v14.5.0' => 'OSEngineerRegistryAjax',
+            'v14.6.0' => 'OSTextCreationAjax',
+            'v14.7.0' => 'OSMomentumAjax',
+            'v14.8.0' => 'OSCapabilityStagesAjax',
+            'v14.9.0' => 'OSQualityGateAjax',
         ];
         
         $status = [];
@@ -92,8 +92,8 @@ class OSDashboard {
      * 运行健康检查
      */
     public static function run_health_check(): array {
-        if (class_exists('\Linked3\Classes\OS\Admin\V18_Integration_Hub')) {
-            return V18_Integration_Hub::health_check();
+        if (class_exists('\Linked3\Classes\OS\Admin\OSIntegrationHub')) {
+            return OSIntegrationHub::health_check();
         }
         return ['error' => 'Integration Hub not loaded'];
     }

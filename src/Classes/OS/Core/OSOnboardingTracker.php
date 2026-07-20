@@ -23,7 +23,7 @@ namespace Linked3\Classes\OS\Core;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Core/RuLiuTracker.php
- * Original class: Linked3_Ru_Liu_Tracker
+ * Original class: OSOnboardingTracker
  *
  * @package Linked3\Classes\OS
  */

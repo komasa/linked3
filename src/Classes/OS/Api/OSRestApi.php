@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Api;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Api/V18RestApi.php
- * Original class: V18_Rest_Api
+ * Original class: OSRestApi
  *
  * @package Linked3\Classes\OS
  */
@@ -93,11 +93,11 @@ class OSRestApi {
         $json = $request->get_param('json') ?? '';
         $type = $request->get_param('type') ?? 'visual_system';
         
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Engine')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
             return new \WP_REST_Response(['error' => 'Reverse Engine not loaded'], 500);
         }
         
-        $result = Linked3_Reverse_Engine::reverse_parse($json, $type);
+        $result = OSReverseEngine::reverse_parse($json, $type);
         return new \WP_REST_Response($result, 200);
     }
 
@@ -105,15 +105,15 @@ class OSRestApi {
      * SVG统计
      */
     public static function rest_svg_stats(\WP_REST_Request $request): \WP_REST_Response {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Svg_Meta_Stats')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
             return new \WP_REST_Response(['error' => 'SVG Stats not loaded'], 500);
         }
         
         $chart_type = $request->get_param('chart_type');
         if ($chart_type) {
-            $result = Linked3_Svg_Meta_Stats::get_stats_by_chart_type($chart_type);
+            $result = OSVisualAnalytics::get_stats_by_chart_type($chart_type);
         } else {
-            $result = Linked3_Svg_Meta_Stats::get_baseline();
+            $result = OSVisualAnalytics::get_baseline();
         }
         return new \WP_REST_Response($result, 200);
     }
@@ -122,12 +122,12 @@ class OSRestApi {
      * 能知约束
      */
     public static function rest_neng_constraint(\WP_REST_Request $request): \WP_REST_Response {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Neng_Suo_Structure')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
             return new \WP_REST_Response(['error' => 'Neng-Suo not loaded'], 500);
         }
         
         $content_type = $request->get_param('content_type') ?? 'T1';
-        $result = Linked3_Neng_Suo_Structure::derive_from_content_type($content_type);
+        $result = OSCapabilityLock::derive_from_content_type($content_type);
         return new \WP_REST_Response($result, 200);
     }
 
@@ -135,12 +135,12 @@ class OSRestApi {
      * 飞轮分数
      */
     public static function rest_flywheel_score(\WP_REST_Request $request): \WP_REST_Response {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Hong_Liu_Flywheel')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
             return new \WP_REST_Response(['error' => 'Flywheel not loaded'], 500);
         }
         
         $input = $request->get_json_params() ?? [];
-        $result = Linked3_Hong_Liu_Flywheel::calculate_flywheel_score($input);
+        $result = OSMomentumFlywheel::calculate_flywheel_score($input);
         return new \WP_REST_Response($result, 200);
     }
 
@@ -148,12 +148,12 @@ class OSRestApi {
      * 质量检查
      */
     public static function rest_quality_check(\WP_REST_Request $request): \WP_REST_Response {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Quality_Gate')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             return new \WP_REST_Response(['error' => 'Quality Gate not loaded'], 500);
         }
         
         $input = $request->get_json_params() ?? [];
-        $result = Linked3_Reverse_Quality_Gate::generate_quality_report($input);
+        $result = OSQualityGate::generate_quality_report($input);
         return new \WP_REST_Response($result, 200);
     }
 
@@ -161,8 +161,8 @@ class OSRestApi {
      * 健康检查
      */
     public static function rest_health(\WP_REST_Request $request): \WP_REST_Response {
-        if (class_exists('\Linked3\Classes\OS\Api\V18_Integration_Hub')) {
-            $result = V18_Integration_Hub::health_check();
+        if (class_exists('\Linked3\Classes\OS\Api\OSIntegrationHub')) {
+            $result = OSIntegrationHub::health_check();
         } else {
             $result = ['error' => 'Integration Hub not loaded'];
         }

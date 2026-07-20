@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 质量门禁AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Reverse_Quality_Gate
+ * 目标类: OSQualityGate
  *
  * @package Linked3\Reverse
  * @since 14.9.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/QualityGateAjax.php
- * Original class: Linked3_Quality_Gate_Ajax
+ * Original class: OSQualityGateAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -131,7 +131,7 @@ class OSQualityGateAjax {
      * 执行逆向解析
      */
     private static function execute_reverse(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             return ['error' => '目标类未加载'];
         }
         $json_raw = $params['json_raw'] ?? '';
@@ -139,7 +139,7 @@ class OSQualityGateAjax {
             return ['error' => 'json_raw参数为空'];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
-        $result = call_user_func(['Linked3_Reverse_Quality_Gate', 'reverse_parse'], $json_raw, $engineer_type);
+        $result = call_user_func(['OSQualityGate', 'reverse_parse'], $json_raw, $engineer_type);
         if (is_wp_error($result)) {
             return ['error' => $result->get_error_message()];
         }
@@ -180,31 +180,31 @@ class OSQualityGateAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_categories')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_factors')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Reverse_Quality_Gate', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_all_options')) {
+            $options = call_user_func(['OSQualityGate', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_baseline')) {
+            $options = call_user_func(['OSQualityGate', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_all_chart_types')) {
+            $options = call_user_func(['OSQualityGate', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSQualityGate', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSQualityGate', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_categories')) {
+            $options = call_user_func(['OSQualityGate', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_text_types')) {
+            $options = call_user_func(['OSQualityGate', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_three_stages')) {
+            $options = call_user_func(['OSQualityGate', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_factors')) {
+            $options = call_user_func(['OSQualityGate', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSQualityGate', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_100day_plan')) {
+            $options = call_user_func(['OSQualityGate', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -245,12 +245,12 @@ class OSQualityGateAjax {
      * 生成报告
      */
     private static function execute_report(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             return ['error' => '目标类未加载'];
         }
         $reverse_result = json_decode($params['reverse_result'] ?? '{}', true) ?: [];
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Quality_Gate', 'generate_quality_report')) {
-            $report = call_user_func(['Linked3_Reverse_Quality_Gate', 'generate_quality_report'], $reverse_result);
+        if (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'generate_quality_report')) {
+            $report = call_user_func(['OSQualityGate', 'generate_quality_report'], $reverse_result);
         } else {
             $report = ['report' => '暂无报告'];
         }
@@ -280,7 +280,7 @@ class OSQualityGateAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.9.0',
-            'target_class' => 'Linked3_Reverse_Quality_Gate',
+            'target_class' => 'OSQualityGate',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '质量门禁AJAX接口',
         ];

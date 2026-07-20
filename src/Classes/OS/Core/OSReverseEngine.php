@@ -17,7 +17,7 @@ declare(strict_types=1);
  * 设计原理 (公理K: 独立类零继承):
  *   - 独立类, 无extends, 加载顺序安全
  *   - 所有方法为static, 无需实例化
- *   - 委托 Linked3_Reverse_Dimensions 获取维度定义
+ *   - 委托 OSReverseDimensions 获取维度定义
  *
  * @package Linked3\Reverse
  * @since 12.0.0
@@ -31,7 +31,7 @@ namespace Linked3\Classes\OS\Core;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Core/ReverseEngine.php
- * Original class: Linked3_Reverse_Engine
+ * Original class: OSReverseEngine
  *
  * @package Linked3\Classes\OS
  */
@@ -41,7 +41,7 @@ namespace Linked3\Classes\OS\Core;
 
 if (!defined('ABSPATH')) exit;
 
-if (!class_exists('\Linked3\Classes\OS\Core\Linked3_Reverse_Dimensions')) {
+if (!class_exists('\Linked3\Classes\OS\Core\OSReverseDimensions')) {
     require_once __DIR__ . '/OsReverseDimensions.php';
 }
 
@@ -76,7 +76,7 @@ class OSReverseEngine {
         }
 
         // 校验8维度通用框架
-        $universal = Linked3_Reverse_Dimensions::get_universal_dimensions();
+        $universal = OSReverseDimensions::get_universal_dimensions();
         $missing = [];
         foreach ($universal as $key => $dim) {
             $field_key = $dim['name_en'];
@@ -95,7 +95,7 @@ class OSReverseEngine {
 
         // 校验专属维度
         if (!empty($engineer_type)) {
-            $proprietary = Linked3_Reverse_Dimensions::get_dimensions_by_type($engineer_type);
+            $proprietary = OSReverseDimensions::get_dimensions_by_type($engineer_type);
             $missing_proprietary = [];
             foreach ($proprietary as $pkey => $pdim) {
                 if (!isset($decoded[$pkey]) && !isset($decoded[$pdim['label']])) {
@@ -262,9 +262,9 @@ class OSReverseEngine {
      * @return array {score, passed, missing, feedback}
      */
     public static function reverse_validate(array $reverse_result, string $engineer_type = ''): array {
-        $universal = Linked3_Reverse_Dimensions::get_universal_dimensions();
+        $universal = OSReverseDimensions::get_universal_dimensions();
         $proprietary = !empty($engineer_type)
-            ? Linked3_Reverse_Dimensions::get_dimensions_by_type($engineer_type)
+            ? OSReverseDimensions::get_dimensions_by_type($engineer_type)
             : [];
 
         $universal_present = 0;
@@ -326,7 +326,7 @@ class OSReverseEngine {
      * @return array {similarity, differences, common_tags}
      */
     public static function reverse_compare(array $result_a, array $result_b): array {
-        $universal = Linked3_Reverse_Dimensions::get_universal_dimensions();
+        $universal = OSReverseDimensions::get_universal_dimensions();
 
         $similarities = [];
         $differences = [];
@@ -382,9 +382,9 @@ class OSReverseEngine {
         return [
             'engine_version' => '12.0.0',
             'dimensions_version' => '12.0.0',
-            'universal_dims_count' => count(Linked3_Reverse_Dimensions::get_universal_dimensions()),
-            'proprietary_dims_count' => count(Linked3_Reverse_Dimensions::get_proprietary_dimensions()),
-            'engineer_types_count' => count(Linked3_Reverse_Dimensions::get_engineer_types()),
+            'universal_dims_count' => count(OSReverseDimensions::get_universal_dimensions()),
+            'proprietary_dims_count' => count(OSReverseDimensions::get_proprietary_dimensions()),
+            'engineer_types_count' => count(OSReverseDimensions::get_engineer_types()),
         ];
     }
 }

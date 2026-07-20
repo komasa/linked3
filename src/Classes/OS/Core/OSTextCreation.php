@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Core;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Core/ReverseTextCreation.php
- * Original class: Linked3_Reverse_Text_Creation
+ * Original class: OSTextCreation
  *
  * @package Linked3\Classes\OS
  */

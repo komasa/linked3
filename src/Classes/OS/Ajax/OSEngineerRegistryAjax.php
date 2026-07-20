@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 31类工程师AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Reverse_Engineer_Registry
+ * 目标类: OSEngineerRegistry
  *
  * @package Linked3\Reverse
  * @since 14.5.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/EngineerRegistryAjax.php
- * Original class: Linked3_Engineer_Registry_Ajax
+ * Original class: OSEngineerRegistryAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -166,31 +166,31 @@ class OSEngineerRegistryAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_categories')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_factors')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_all_options')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_baseline')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_all_chart_types')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_categories')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_text_types')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_three_stages')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_factors')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_100day_plan')) {
+            $options = call_user_func(['OSEngineerRegistry', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -211,13 +211,13 @@ class OSEngineerRegistryAjax {
      * 列出
      */
     private static function execute_list(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_all_engineers')) {
-            $list = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_all_engineers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'get_text_types')) {
-            $list = call_user_func(['Linked3_Reverse_Engineer_Registry', 'get_text_types']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_all_engineers')) {
+            $list = call_user_func(['OSEngineerRegistry', 'get_all_engineers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_text_types')) {
+            $list = call_user_func(['OSEngineerRegistry', 'get_text_types']);
         } else {
             $list = [];
         }
@@ -228,12 +228,12 @@ class OSEngineerRegistryAjax {
      * 注册
      */
     private static function execute_register(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry')) {
             return ['error' => '目标类未加载'];
         }
         $engineer_type = $params['engineer_type'] ?? '';
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engineer_Registry', 'register_engineer')) {
-            $result = call_user_func(['Linked3_Reverse_Engineer_Registry', 'register_engineer'], $engineer_type, $params);
+        if (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'register_engineer')) {
+            $result = call_user_func(['OSEngineerRegistry', 'register_engineer'], $engineer_type, $params);
         } else {
             $result = false;
         }
@@ -278,7 +278,7 @@ class OSEngineerRegistryAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.5.0',
-            'target_class' => 'Linked3_Reverse_Engineer_Registry',
+            'target_class' => 'OSEngineerRegistry',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '31类工程师AJAX接口',
         ];

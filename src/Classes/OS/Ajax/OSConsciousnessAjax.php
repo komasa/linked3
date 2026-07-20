@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 三层能观AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Three_Layer_Consciousness
+ * 目标类: OSConsciousnessLayer
  *
  * @package Linked3\Classes\OS
  * @since 14.3.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/ConsciousnessAjax.php
- * Original class: Linked3_Consciousness_Ajax
+ * Original class: OSConsciousnessAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -129,19 +129,19 @@ class OSConsciousnessAjax {
 
     /**
      * 执行逆向解析
-     * v16.0.22修复: 原调用reverse_parse(不存在), 改为委托给Linked3_Reverse_Engine
+     * v16.0.22修复: 原调用reverse_parse(不存在), 改为委托给OSReverseEngine
      */
     
 
     /**
      * 执行逆向转SEED
-     * v16.0.22修复: 原调用reverse_to_seed(不存在), 改为委托给Linked3_Reverse_Engine
+     * v16.0.22修复: 原调用reverse_to_seed(不存在), 改为委托给OSReverseEngine
      */
     
 
     /**
      * 执行逆向对比
-     * v16.0.22修复: 原调用reverse_compare(不存在), 改为委托给Linked3_Reverse_Engine
+     * v16.0.22修复: 原调用reverse_compare(不存在), 改为委托给OSReverseEngine
      */
     
 
@@ -149,18 +149,18 @@ class OSConsciousnessAjax {
      * 执行约束构建
      */
     private static function execute_constraint(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
             return ['error' => '目标类未加载'];
         }
         // v18复审修复: 前端传module_type+content, 直接调用assign_frequency(module_type, content)
         $module_type = $params['module_type'] ?? ($params['content_type'] ?? 'method');
         $content = $params['content'] ?? '';
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'assign_frequency')) {
-            $constraint = call_user_func(['Linked3_Three_Layer_Consciousness', 'assign_frequency'], $module_type, $content);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'derive_from_content_type')) {
-            $constraint = call_user_func(['Linked3_Three_Layer_Consciousness', 'derive_from_content_type'], $module_type);
+        if (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'assign_frequency')) {
+            $constraint = call_user_func(['OSConsciousnessLayer', 'assign_frequency'], $module_type, $content);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'derive_from_content_type')) {
+            $constraint = call_user_func(['OSConsciousnessLayer', 'derive_from_content_type'], $module_type);
         } else {
-            $constraint = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_all_options']);
+            $constraint = call_user_func(['OSConsciousnessLayer', 'get_all_options']);
         }
         return $constraint;
     }
@@ -169,15 +169,15 @@ class OSConsciousnessAjax {
      * 执行校验
      */
     private static function execute_validate(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
             return ['error' => '目标类未加载'];
         }
         $json_raw = $params['json_raw'] ?? '';
         $parsed = json_decode($json_raw, true) ?: [];
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'validate_neng_suo')) {
-            $result = call_user_func(['Linked3_Three_Layer_Consciousness', 'validate_neng_suo'], $parsed, $params);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'validate_frequency_distribution')) {
-            $result = call_user_func(['Linked3_Three_Layer_Consciousness', 'validate_frequency_distribution'], $parsed);
+        if (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'validate_neng_suo')) {
+            $result = call_user_func(['OSConsciousnessLayer', 'validate_neng_suo'], $parsed, $params);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'validate_frequency_distribution')) {
+            $result = call_user_func(['OSConsciousnessLayer', 'validate_frequency_distribution'], $parsed);
         } else {
             $result = ['valid' => true];
         }
@@ -198,31 +198,31 @@ class OSConsciousnessAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_categories')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_factors')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Three_Layer_Consciousness', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Three_Layer_Consciousness', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_all_options')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_baseline')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_all_chart_types')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_categories')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_text_types')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_three_stages')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_factors')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_100day_plan')) {
+            $options = call_user_func(['OSConsciousnessLayer', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -287,7 +287,7 @@ class OSConsciousnessAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.3.0',
-            'target_class' => 'Linked3_Three_Layer_Consciousness',
+            'target_class' => 'OSConsciousnessLayer',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '三层能观AJAX接口',
         ];

@@ -39,7 +39,7 @@ namespace Linked3\Classes\OS;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/V18Facade.php
- * Original class: V18_Facade
+ * Original class: Linked3_OS_Facade
  *
  * @package Linked3\Classes\OS
  */
@@ -56,24 +56,24 @@ class V18 {
      */
     private static $module_map = [
         // Core模块
-        'reverse_engine'        => 'Linked3_Reverse_Engine',
-        'reverse_dimensions'    => 'Linked3_Reverse_Dimensions',
-        'reverse_registry'      => 'Linked3_Reverse_Engineer_Registry',
-        'reverse_quality_gate'  => 'Linked3_Reverse_Quality_Gate',
-        'reverse_text'          => 'Linked3_Reverse_Text_Creation',
-        'neng_suo'              => 'Linked3_Neng_Suo_Structure',
-        'three_layer'           => 'Linked3_Three_Layer_Consciousness',
-        'ru_liu'                => 'Linked3_Ru_Liu_Tracker',
-        'hong_liu'              => 'Linked3_Hong_Liu_Flywheel',
-        'neng_zhi'              => 'Linked3_Neng_Zhi_Three_Stages',
-        'svg_stats'             => 'Linked3_Svg_Meta_Stats',
+        'reverse_engine'        => 'OSReverseEngine',
+        'reverse_dimensions'    => 'OSReverseDimensions',
+        'reverse_registry'      => 'OSEngineerRegistry',
+        'reverse_quality_gate'  => 'OSQualityGate',
+        'reverse_text'          => 'OSTextCreation',
+        'neng_suo'              => 'OSCapabilityLock',
+        'three_layer'           => 'OSConsciousnessLayer',
+        'ru_liu'                => 'OSOnboardingTracker',
+        'hong_liu'              => 'OSMomentumFlywheel',
+        'neng_zhi'              => 'OSCapabilityStages',
+        'svg_stats'             => 'OSVisualAnalytics',
         // 集成中心
-        'hub'                   => 'V18_Integration_Hub_V2',
+        'hub'                   => 'OSIntegrationHubV2',
         // Admin
-        'dashboard'             => 'V18_Dashboard',
+        'dashboard'             => 'OSDashboard',
         // API
-        'rest_api'              => 'V18_Rest_Api',
-        'db_schema'             => 'V18_Db_Schema',
+        'rest_api'              => 'OSRestApi',
+        'db_schema'             => 'OSDbSchema',
     ];
 
     /**
@@ -103,7 +103,7 @@ class V18 {
     }
 
     // ================================================================
-    // 逆向引擎 (Linked3_Reverse_Engine)
+    // 逆向引擎 (OSReverseEngine)
     // ================================================================
 
     /**
@@ -147,7 +147,7 @@ class V18 {
     }
 
     // ================================================================
-    // 能所结构 (Linked3_Neng_Suo_Structure)
+    // 能所结构 (OSCapabilityLock)
     // ================================================================
 
     /**
@@ -175,7 +175,7 @@ class V18 {
     }
 
     // ================================================================
-    // SVG统计 (Linked3_Svg_Meta_Stats)
+    // SVG统计 (OSVisualAnalytics)
     // ================================================================
 
     /**
@@ -203,7 +203,7 @@ class V18 {
     }
 
     // ================================================================
-    // 三层能观 (Linked3_Three_Layer_Consciousness)
+    // 三层能观 (OSConsciousnessLayer)
     // ================================================================
 
     /**
@@ -223,7 +223,7 @@ class V18 {
     }
 
     // ================================================================
-    // 入流追踪 (Linked3_Ru_Liu_Tracker)
+    // 入流追踪 (OSOnboardingTracker)
     // ================================================================
 
     /**
@@ -243,7 +243,7 @@ class V18 {
     }
 
     // ================================================================
-    // 洪流飞轮 (Linked3_Hong_Liu_Flywheel)
+    // 洪流飞轮 (OSMomentumFlywheel)
     // ================================================================
 
     /**
@@ -263,7 +263,7 @@ class V18 {
     }
 
     // ================================================================
-    // 能知三阶 (Linked3_Neng_Zhi_Three_Stages)
+    // 能知三阶 (OSCapabilityStages)
     // ================================================================
 
     /**
@@ -283,7 +283,7 @@ class V18 {
     }
 
     // ================================================================
-    // 质量门禁 (Linked3_Reverse_Quality_Gate)
+    // 质量门禁 (OSQualityGate)
     // ================================================================
 
     /**
@@ -303,7 +303,7 @@ class V18 {
     }
 
     // ================================================================
-    // 集成中心 (V18_Integration_Hub_V2)
+    // 集成中心 (OSIntegrationHubV2)
     // ================================================================
 
     /**
@@ -365,16 +365,16 @@ class V18 {
     public static function register() : void {
         // 注册AJAX (10个)
         $ajax_classes = [
-            'Linked3_Reverse_Ajax',
-            'Linked3_Neng_Suo_Ajax',
-            'Linked3_Svg_Stats_Ajax',
-            'Linked3_Consciousness_Ajax',
-            'Linked3_Ru_Liu_Ajax',
-            'Linked3_Engineer_Registry_Ajax',
-            'Linked3_Reverse_Text_Ajax',
-            'Linked3_Hong_Liu_Ajax',
-            'Linked3_Neng_Zhi_Ajax',
-            'Linked3_Quality_Gate_Ajax',
+            'OSReverseAjax',
+            'OSCapabilityLockAjax',
+            'OSVisualAnalyticsAjax',
+            'OSConsciousnessAjax',
+            'OSOnboardingAjax',
+            'OSEngineerRegistryAjax',
+            'OSTextCreationAjax',
+            'OSMomentumAjax',
+            'OSCapabilityStagesAjax',
+            'OSQualityGateAjax',
         ];
 
         foreach ($ajax_classes as $cls) {
@@ -384,28 +384,28 @@ class V18 {
         }
 
         // 注册REST API
-        if (class_exists('\Linked3\Classes\OS\V18_Rest_Api') && method_exists('\Linked3\Classes\OS\V18_Rest_Api', 'register')) {
-            call_user_func(['V18_Rest_Api', 'register']);
+        if (class_exists('\Linked3\Classes\OS\OSRestApi') && method_exists('\Linked3\Classes\OS\OSRestApi', 'register')) {
+            call_user_func(['OSRestApi', 'register']);
         }
 
         // 注册短代码
-        if (class_exists('\Linked3\Classes\OS\V18_Shortcodes') && method_exists('\Linked3\Classes\OS\V18_Shortcodes', 'register')) {
-            call_user_func(['V18_Shortcodes', 'register']);
+        if (class_exists('\Linked3\Classes\OS\OSShortcodes') && method_exists('\Linked3\Classes\OS\OSShortcodes', 'register')) {
+            call_user_func(['OSShortcodes', 'register']);
         }
 
         // 注册Widget
-        if (class_exists('\Linked3\Classes\OS\V18_Widget') && method_exists('\Linked3\Classes\OS\V18_Widget', 'register')) {
-            call_user_func(['V18_Widget', 'register']);
+        if (class_exists('\Linked3\Classes\OS\OSWidget') && method_exists('\Linked3\Classes\OS\OSWidget', 'register')) {
+            call_user_func(['OSWidget', 'register']);
         }
 
         // 注册Admin面板
-        if (class_exists('\Linked3\Classes\OS\V18_Dashboard') && method_exists('\Linked3\Classes\OS\V18_Dashboard', 'register')) {
-            call_user_func(['V18_Dashboard', 'register']);
+        if (class_exists('\Linked3\Classes\OS\OSDashboard') && method_exists('\Linked3\Classes\OS\OSDashboard', 'register')) {
+            call_user_func(['OSDashboard', 'register']);
         }
 
         // 注册DB Schema (激活时创建表)
-        if (class_exists('\Linked3\Classes\OS\V18_Db_Schema') && method_exists('\Linked3\Classes\OS\V18_Db_Schema', 'register')) {
-            call_user_func(['V18_Db_Schema', 'register']);
+        if (class_exists('\Linked3\Classes\OS\OSDbSchema') && method_exists('\Linked3\Classes\OS\OSDbSchema', 'register')) {
+            call_user_func(['OSDbSchema', 'register']);
         }
     }
 

@@ -29,7 +29,7 @@ namespace Linked3\Classes\OS;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/V18GenesisBridge.php
- * Original class: V18_Genesis_Bridge
+ * Original class: OSGenesisBridge
  *
  * @package Linked3\Classes\OS
  */
@@ -156,8 +156,8 @@ class OSGenesisBridge {
     public static function reverse_enhance_genesis(string $excellent_work_desc, string $engineer_type = 'visual_system'): array {
         // Step 1: 逆向拆解优秀作品
         $reverse_prompt = '';
-        if (class_exists('\Linked3\Classes\OS\Linked3_Reverse_Dimensions')) {
-            $reverse_prompt = Linked3_Reverse_Dimensions::build_reverse_prompt($engineer_type, $excellent_work_desc);
+        if (class_exists('\Linked3\Classes\OS\Core\OSReverseDimensions')) {
+            $reverse_prompt = OSReverseDimensions::build_reverse_prompt($engineer_type, $excellent_work_desc);
         }
 
         // Step 2: 转换为SEED DNA (模拟AI返回的逆向结果)
@@ -203,7 +203,7 @@ class OSGenesisBridge {
         ];
 
         // Stage 2: Genesis正向生产 (如果Genesis引擎可用)
-        if (class_exists('\Linked3\Classes\OS\Linked3_Genesis_Engine_V7')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisV7Generator')) {
             try {
                 $genesis_input = [
                     'seed_dna' => $reverse_result['enhanced_seed'],
@@ -220,7 +220,7 @@ class OSGenesisBridge {
         }
 
         // Stage 3: 质量校验
-        if (class_exists('\Linked3\Classes\OS\Linked3_Reverse_Quality_Gate')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             try {
                 $quality = ['status' => 'ok', 'message' => __('质量门禁通过(模拟)', 'linked3-ai')];
                 $result['stages']['quality'] = $quality;
@@ -251,10 +251,10 @@ class OSGenesisBridge {
     public static function get_version_info(): array {
         return [
             'bridge_version' => '16.0.0',
-            'genesis_available' => class_exists('\Linked3\Classes\OS\Linked3_Genesis_Engine_V7'),
-            'reverse_available' => class_exists('\Linked3\Classes\OS\Linked3_Reverse_Engine'),
+            'genesis_available' => class_exists('\Linked3\Classes\Genesis\GenesisV7Generator'),
+            'reverse_available' => class_exists('\Linked3\Classes\OS\Core\OSReverseEngine'),
             'seed_dna_available' => class_exists('\Linked3\Classes\OS\GenesisSeedDNA'),
-            'closed_loop_ready' => class_exists('\Linked3\Classes\OS\Linked3_Genesis_Engine_V7') && class_exists('\Linked3\Classes\OS\Linked3_Reverse_Engine'),
+            'closed_loop_ready' => class_exists('\Linked3\Classes\Genesis\GenesisV7Generator') && class_exists('\Linked3\Classes\OS\Core\OSReverseEngine'),
         ];
     }
 }

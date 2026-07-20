@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 能知三阶AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Neng_Zhi_Three_Stages
+ * 目标类: OSCapabilityStages
  *
  * @package Linked3\Classes\OS
  * @since 14.8.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/NengZhiAjax.php
- * Original class: Linked3_Neng_Zhi_Ajax
+ * Original class: OSCapabilityStagesAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -129,19 +129,19 @@ class OSCapabilityStagesAjax {
 
     /**
      * 执行逆向解析
-     * v16.0.22修复: 原调用Neng_Zhi_Three_Stages::reverse_parse(不存在), 改为委托Linked3_Reverse_Engine
+     * v16.0.22修复: 原调用Neng_Zhi_Three_Stages::reverse_parse(不存在), 改为委托OSReverseEngine
      */
     
 
     /**
      * 执行逆向转SEED
-     * v16.0.22修复: 委托Linked3_Reverse_Engine
+     * v16.0.22修复: 委托OSReverseEngine
      */
     
 
     /**
      * 执行逆向对比
-     * v16.0.22修复: 委托Linked3_Reverse_Engine
+     * v16.0.22修复: 委托OSReverseEngine
      */
     
 
@@ -149,17 +149,17 @@ class OSCapabilityStagesAjax {
      * 执行约束构建
      */
     private static function execute_constraint(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
             return ['error' => '目标类未加载'];
         }
         $content_type = $params['content_type'] ?? 'T1';
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages', 'derive_from_content_type')) {
-            $constraint = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'derive_from_content_type'], $content_type);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages', 'assign_frequency')) {
+        if (method_exists('\Linked3\Classes\OS\Core\OSCapabilityStages', 'derive_from_content_type')) {
+            $constraint = call_user_func(['OSCapabilityStages', 'derive_from_content_type'], $content_type);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSCapabilityStages', 'assign_frequency')) {
             $module_id = $params['module_id'] ?? 'M001';
-            $constraint = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'assign_frequency'], $module_id);
+            $constraint = call_user_func(['OSCapabilityStages', 'assign_frequency'], $module_id);
         } else {
-            $constraint = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'get_all_options']);
+            $constraint = call_user_func(['OSCapabilityStages', 'get_all_options']);
         }
         return ['constraint' => $constraint];
     }
@@ -183,12 +183,12 @@ class OSCapabilityStagesAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
             return ['error' => '目标类未加载'];
         }
         // v18复审修复: 直接调用get_three_stages, 返回stages键 (前端期望data.stages)
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages', 'get_three_stages')) {
-            $stages = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'get_three_stages']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSCapabilityStages', 'get_three_stages')) {
+            $stages = call_user_func(['OSCapabilityStages', 'get_three_stages']);
             return ['stages' => $stages, 'three_stages' => $stages];
         }
         return ['stages' => [], 'error' => 'get_three_stages方法不存在'];
@@ -223,13 +223,13 @@ class OSCapabilityStagesAjax {
      * 自动检测
      */
     private static function execute_detect(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
             return ['error' => '目标类未加载'];
         }
         // v18复审修复: 前端传content, 后端应取content (原reader_type参数名错误)
         $content = $params['content'] ?? ($params['reader_type'] ?? '');
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Neng_Zhi_Three_Stages', 'auto_detect_stage')) {
-            $detected = call_user_func(['Linked3_Neng_Zhi_Three_Stages', 'auto_detect_stage'], $content);
+        if (method_exists('\Linked3\Classes\OS\Core\OSCapabilityStages', 'auto_detect_stage')) {
+            $detected = call_user_func(['OSCapabilityStages', 'auto_detect_stage'], $content);
         } else {
             $detected = ['stage' => 'unknown'];
         }
@@ -264,7 +264,7 @@ class OSCapabilityStagesAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.8.0',
-            'target_class' => 'Linked3_Neng_Zhi_Three_Stages',
+            'target_class' => 'OSCapabilityStages',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '能知三阶AJAX接口',
         ];

@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Api;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Api/V18Widget.php
- * Original class: V18_Widget
+ * Original class: OSWidget
  *
  * @package Linked3\Classes\OS
  */
@@ -124,11 +124,11 @@ class OSWidget extends \WP_Widget {
      */
     private static function render_widget_modules(): string {
         $modules = [
-            'Linked3_Reverse_Engine',
-            'Linked3_Neng_Suo_Structure',
-            'Linked3_Svg_Meta_Stats',
-            'Linked3_Three_Layer_Consciousness',
-            'Linked3_Ru_Liu_Tracker',
+            'OSReverseEngine',
+            'OSCapabilityLock',
+            'OSVisualAnalytics',
+            'OSConsciousnessLayer',
+            'OSOnboardingTracker',
         ];
         
         $html = '<div class="widget-modules"><h4>模块状态</h4><ul>';
@@ -145,11 +145,11 @@ class OSWidget extends \WP_Widget {
      * 渲染入流进度
      */
     private static function render_widget_ruliu(): string {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Ru_Liu_Tracker')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
             return '<div class="widget-ruliu">入流追踪器未加载</div>';
         }
         
-        $states = Linked3_Ru_Liu_Tracker::get_ru_liu_states();
+        $states = OSOnboardingTracker::get_ru_liu_states();
         $html = '<div class="widget-ruliu"><h4>入流四状态</h4><ul>';
         foreach ($states as $key => $state) {
             $html .= '<li>' . esc_html($state['label'] ?? $key) . '</li>';

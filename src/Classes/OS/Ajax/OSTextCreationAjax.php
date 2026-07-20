@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 逆向文本AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Reverse_Text_Creation
+ * 目标类: OSTextCreation
  *
  * @package Linked3\Reverse
  * @since 14.6.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/ReverseTextAjax.php
- * Original class: Linked3_Reverse_Text_Ajax
+ * Original class: OSTextCreationAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -131,7 +131,7 @@ class OSTextCreationAjax {
      * 执行逆向解析
      */
     private static function execute_reverse(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSTextCreation')) {
             return ['error' => '目标类未加载'];
         }
         $json_raw = $params['json_raw'] ?? '';
@@ -139,7 +139,7 @@ class OSTextCreationAjax {
             return ['error' => 'json_raw参数为空'];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
-        $result = call_user_func(['Linked3_Reverse_Text_Creation', 'reverse_parse'], $json_raw, $engineer_type);
+        $result = call_user_func(['OSTextCreation', 'reverse_parse'], $json_raw, $engineer_type);
         if (is_wp_error($result)) {
             return ['error' => $result->get_error_message()];
         }
@@ -180,31 +180,31 @@ class OSTextCreationAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSTextCreation')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_categories')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_factors')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Text_Creation', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Reverse_Text_Creation', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_all_options')) {
+            $options = call_user_func(['OSTextCreation', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_baseline')) {
+            $options = call_user_func(['OSTextCreation', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_all_chart_types')) {
+            $options = call_user_func(['OSTextCreation', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSTextCreation', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSTextCreation', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_categories')) {
+            $options = call_user_func(['OSTextCreation', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_text_types')) {
+            $options = call_user_func(['OSTextCreation', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_three_stages')) {
+            $options = call_user_func(['OSTextCreation', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_factors')) {
+            $options = call_user_func(['OSTextCreation', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSTextCreation', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_100day_plan')) {
+            $options = call_user_func(['OSTextCreation', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -269,7 +269,7 @@ class OSTextCreationAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.6.0',
-            'target_class' => 'Linked3_Reverse_Text_Creation',
+            'target_class' => 'OSTextCreation',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '逆向文本AJAX接口',
         ];

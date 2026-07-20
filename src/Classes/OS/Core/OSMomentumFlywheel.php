@@ -26,7 +26,7 @@ namespace Linked3\Classes\OS\Core;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Core/HongLiuFlywheel.php
- * Original class: Linked3_Hong_Liu_Flywheel
+ * Original class: OSMomentumFlywheel
  *
  * @package Linked3\Classes\OS
  */

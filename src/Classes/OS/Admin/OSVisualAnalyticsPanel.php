@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Admin;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Admin/V18SvgStatsPanel.php
- * Original class: V18_Svg_Stats_Panel
+ * Original class: OSVisualAnalyticsPanel
  *
  * @package Linked3\Classes\OS
  */

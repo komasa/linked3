@@ -26,7 +26,7 @@ namespace Linked3\Classes\OS\Api;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Api/V18IntegrationHubV2.php
- * Original class: V18_Integration_Hub_V2
+ * Original class: OSIntegrationHubV2
  *
  * @package Linked3\Classes\OS
  */
@@ -43,39 +43,39 @@ class OSIntegrationHubV2 {
      */
     const INTEGRATED_MODULES_V2 = [
         // v12.0.0-v12.9.0 核心模块 (10个)
-        'v12.0.0' => ['class' => 'Linked3_Reverse_Engine', 'type' => 'core', 'title' => '逆向8维度通用框架引擎'],
-        'v12.1.0' => ['class' => 'Linked3_Neng_Suo_Structure', 'type' => 'core', 'title' => '李善友能所结构融入'],
-        'v12.2.0' => ['class' => 'Linked3_Svg_Meta_Stats', 'type' => 'core', 'title' => 'SVG原子级meta统计引擎'],
-        'v12.3.0' => ['class' => 'Linked3_Three_Layer_Consciousness', 'type' => 'core', 'title' => '三层能观Badge频率标注'],
-        'v12.4.0' => ['class' => 'Linked3_Ru_Liu_Tracker', 'type' => 'core', 'title' => '入流四状态100天追踪器'],
-        'v12.5.0' => ['class' => 'Linked3_Reverse_Engineer_Registry', 'type' => 'core', 'title' => '31类逆向工程师注册中心'],
-        'v12.6.0' => ['class' => 'Linked3_Reverse_Text_Creation', 'type' => 'core', 'title' => '逆向文本创作8维度'],
-        'v12.7.0' => ['class' => 'Linked3_Hong_Liu_Flywheel', 'type' => 'core', 'title' => '洪流公式出图飞轮量化'],
-        'v12.8.0' => ['class' => 'Linked3_Neng_Zhi_Three_Stages', 'type' => 'core', 'title' => '能知三阶认知层级映射'],
-        'v12.9.0' => ['class' => 'Linked3_Reverse_Quality_Gate', 'type' => 'core', 'title' => '逆向质量门禁系统'],
+        'v12.0.0' => ['class' => 'OSReverseEngine', 'type' => 'core', 'title' => '逆向8维度通用框架引擎'],
+        'v12.1.0' => ['class' => 'OSCapabilityLock', 'type' => 'core', 'title' => '李善友能所结构融入'],
+        'v12.2.0' => ['class' => 'OSVisualAnalytics', 'type' => 'core', 'title' => 'SVG原子级meta统计引擎'],
+        'v12.3.0' => ['class' => 'OSConsciousnessLayer', 'type' => 'core', 'title' => '三层能观Badge频率标注'],
+        'v12.4.0' => ['class' => 'OSOnboardingTracker', 'type' => 'core', 'title' => '入流四状态100天追踪器'],
+        'v12.5.0' => ['class' => 'OSEngineerRegistry', 'type' => 'core', 'title' => '31类逆向工程师注册中心'],
+        'v12.6.0' => ['class' => 'OSTextCreation', 'type' => 'core', 'title' => '逆向文本创作8维度'],
+        'v12.7.0' => ['class' => 'OSMomentumFlywheel', 'type' => 'core', 'title' => '洪流公式出图飞轮量化'],
+        'v12.8.0' => ['class' => 'OSCapabilityStages', 'type' => 'core', 'title' => '能知三阶认知层级映射'],
+        'v12.9.0' => ['class' => 'OSQualityGate', 'type' => 'core', 'title' => '逆向质量门禁系统'],
         // v13.0.0 集成中心v1
-        'v13.0.0' => ['class' => 'V18_Integration_Hub', 'type' => 'hub', 'title' => 'V18集成中心v1'],
+        'v13.0.0' => ['class' => 'OSIntegrationHub', 'type' => 'hub', 'title' => 'V18集成中心v1'],
         // v14.0.0-v14.9.0 AJAX接口模块 (10个)
-        'v14.0.0' => ['class' => 'Linked3_Reverse_Ajax', 'type' => 'ajax', 'title' => '逆向引擎AJAX接口'],
-        'v14.1.0' => ['class' => 'Linked3_Neng_Suo_Ajax', 'type' => 'ajax', 'title' => '能所结构AJAX接口'],
-        'v14.2.0' => ['class' => 'Linked3_Svg_Stats_Ajax', 'type' => 'ajax', 'title' => 'SVG统计AJAX接口'],
-        'v14.3.0' => ['class' => 'Linked3_Consciousness_Ajax', 'type' => 'ajax', 'title' => '三层能观AJAX接口'],
-        'v14.4.0' => ['class' => 'Linked3_Ru_Liu_Ajax', 'type' => 'ajax', 'title' => '入流追踪AJAX接口'],
-        'v14.5.0' => ['class' => 'Linked3_Engineer_Registry_Ajax', 'type' => 'ajax', 'title' => '31类工程师AJAX接口'],
-        'v14.6.0' => ['class' => 'Linked3_Reverse_Text_Ajax', 'type' => 'ajax', 'title' => '逆向文本AJAX接口'],
-        'v14.7.0' => ['class' => 'Linked3_Hong_Liu_Ajax', 'type' => 'ajax', 'title' => '洪流飞轮AJAX接口'],
-        'v14.8.0' => ['class' => 'Linked3_Neng_Zhi_Ajax', 'type' => 'ajax', 'title' => '能知三阶AJAX接口'],
-        'v14.9.0' => ['class' => 'Linked3_Quality_Gate_Ajax', 'type' => 'ajax', 'title' => '质量门禁AJAX接口'],
+        'v14.0.0' => ['class' => 'OSReverseAjax', 'type' => 'ajax', 'title' => '逆向引擎AJAX接口'],
+        'v14.1.0' => ['class' => 'OSCapabilityLockAjax', 'type' => 'ajax', 'title' => '能所结构AJAX接口'],
+        'v14.2.0' => ['class' => 'OSVisualAnalyticsAjax', 'type' => 'ajax', 'title' => 'SVG统计AJAX接口'],
+        'v14.3.0' => ['class' => 'OSConsciousnessAjax', 'type' => 'ajax', 'title' => '三层能观AJAX接口'],
+        'v14.4.0' => ['class' => 'OSOnboardingAjax', 'type' => 'ajax', 'title' => '入流追踪AJAX接口'],
+        'v14.5.0' => ['class' => 'OSEngineerRegistryAjax', 'type' => 'ajax', 'title' => '31类工程师AJAX接口'],
+        'v14.6.0' => ['class' => 'OSTextCreationAjax', 'type' => 'ajax', 'title' => '逆向文本AJAX接口'],
+        'v14.7.0' => ['class' => 'OSMomentumAjax', 'type' => 'ajax', 'title' => '洪流飞轮AJAX接口'],
+        'v14.8.0' => ['class' => 'OSCapabilityStagesAjax', 'type' => 'ajax', 'title' => '能知三阶AJAX接口'],
+        'v14.9.0' => ['class' => 'OSQualityGateAjax', 'type' => 'ajax', 'title' => '质量门禁AJAX接口'],
         // v15.0.0-rc1-rc9 深化模块 (9个)
-        'v15.0.0-rc1' => ['class' => 'V18_Dashboard', 'type' => 'admin', 'title' => 'V18管理后台仪表盘'],
-        'v15.0.0-rc2' => ['class' => 'V18_Reverse_Panel', 'type' => 'admin', 'title' => '逆向拆解操作面板'],
-        'v15.0.0-rc3' => ['class' => 'V18_Svg_Stats_Panel', 'type' => 'admin', 'title' => 'SVG统计可视化面板'],
-        'v15.0.0-rc4' => ['class' => 'V18_Ruliu_Panel', 'type' => 'admin', 'title' => '入流追踪进度面板'],
-        'v15.0.0-rc5' => ['class' => 'V18_Rest_Api', 'type' => 'rest', 'title' => 'REST API端点注册'],
-        'v15.0.0-rc6' => ['class' => 'V18_Cli', 'type' => 'cli', 'title' => 'WP-CLI命令'],
-        'v15.0.0-rc7' => ['class' => 'V18_Shortcodes', 'type' => 'shortcode', 'title' => '短代码支持'],
-        'v15.0.0-rc8' => ['class' => 'V18_Widget', 'type' => 'widget', 'title' => '小工具(Widget)'],
-        'v15.0.0-rc9' => ['class' => 'V18_Db_Schema', 'type' => 'db', 'title' => '数据库表创建'],
+        'v15.0.0-rc1' => ['class' => 'OSDashboard', 'type' => 'admin', 'title' => 'V18管理后台仪表盘'],
+        'v15.0.0-rc2' => ['class' => 'OSReversePanel', 'type' => 'admin', 'title' => '逆向拆解操作面板'],
+        'v15.0.0-rc3' => ['class' => 'OSVisualAnalyticsPanel', 'type' => 'admin', 'title' => 'SVG统计可视化面板'],
+        'v15.0.0-rc4' => ['class' => 'OSOnboardingPanel', 'type' => 'admin', 'title' => '入流追踪进度面板'],
+        'v15.0.0-rc5' => ['class' => 'OSRestApi', 'type' => 'rest', 'title' => 'REST API端点注册'],
+        'v15.0.0-rc6' => ['class' => 'OSCli', 'type' => 'cli', 'title' => 'WP-CLI命令'],
+        'v15.0.0-rc7' => ['class' => 'OSShortcodes', 'type' => 'shortcode', 'title' => '短代码支持'],
+        'v15.0.0-rc8' => ['class' => 'OSWidget', 'type' => 'widget', 'title' => '小工具(Widget)'],
+        'v15.0.0-rc9' => ['class' => 'OSDbSchema', 'type' => 'db', 'title' => '数据库表创建'],
     ];
 
     /**
@@ -159,9 +159,9 @@ class OSIntegrationHubV2 {
         ];
 
         // Stage 1: 逆向拆解 (v12.0.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Engine')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
             try {
-                $reverse_result = ['status' => 'ok', 'engine' => 'Linked3_Reverse_Engine'];
+                $reverse_result = ['status' => 'ok', 'engine' => 'OSReverseEngine'];
                 $result['stages']['reverse_parse'] = $reverse_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage reverse_parse: " . $e->getMessage();
@@ -169,9 +169,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 2: 能知约束 (v12.1.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Neng_Suo_Structure')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
             try {
-                $neng_result = ['status' => 'ok', 'engine' => 'Linked3_Neng_Suo_Structure'];
+                $neng_result = ['status' => 'ok', 'engine' => 'OSCapabilityLock'];
                 $result['stages']['neng_constraint'] = $neng_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage neng_constraint: " . $e->getMessage();
@@ -179,9 +179,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 3: SVG预测 (v12.2.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Svg_Meta_Stats')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
             try {
-                $svg_result = ['status' => 'ok', 'engine' => 'Linked3_Svg_Meta_Stats'];
+                $svg_result = ['status' => 'ok', 'engine' => 'OSVisualAnalytics'];
                 $result['stages']['svg_predict'] = $svg_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage svg_predict: " . $e->getMessage();
@@ -189,9 +189,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 4: 频率标注 (v12.3.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Three_Layer_Consciousness')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
             try {
-                $freq_result = ['status' => 'ok', 'engine' => 'Linked3_Three_Layer_Consciousness'];
+                $freq_result = ['status' => 'ok', 'engine' => 'OSConsciousnessLayer'];
                 $result['stages']['frequency_annotate'] = $freq_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage frequency_annotate: " . $e->getMessage();
@@ -199,9 +199,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 5: 入流追踪 (v12.4.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Ru_Liu_Tracker')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
             try {
-                $ruliu_result = ['status' => 'ok', 'engine' => 'Linked3_Ru_Liu_Tracker'];
+                $ruliu_result = ['status' => 'ok', 'engine' => 'OSOnboardingTracker'];
                 $result['stages']['ruliu_track'] = $ruliu_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage ruliu_track: " . $e->getMessage();
@@ -209,9 +209,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 6: 飞轮量化 (v12.7.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Hong_Liu_Flywheel')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
             try {
-                $flywheel_result = ['status' => 'ok', 'engine' => 'Linked3_Hong_Liu_Flywheel'];
+                $flywheel_result = ['status' => 'ok', 'engine' => 'OSMomentumFlywheel'];
                 $result['stages']['flywheel_score'] = $flywheel_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage flywheel_score: " . $e->getMessage();
@@ -219,9 +219,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 7: 三阶映射 (v12.8.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Neng_Zhi_Three_Stages')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
             try {
-                $stage_result = ['status' => 'ok', 'engine' => 'Linked3_Neng_Zhi_Three_Stages'];
+                $stage_result = ['status' => 'ok', 'engine' => 'OSCapabilityStages'];
                 $result['stages']['nengzhi_map'] = $stage_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage nengzhi_map: " . $e->getMessage();
@@ -229,9 +229,9 @@ class OSIntegrationHubV2 {
         }
 
         // Stage 8: 质量门禁 (v12.9.0)
-        if (class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Quality_Gate')) {
+        if (class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             try {
-                $quality_result = ['status' => 'ok', 'engine' => 'Linked3_Reverse_Quality_Gate'];
+                $quality_result = ['status' => 'ok', 'engine' => 'OSQualityGate'];
                 $result['stages']['quality_gate'] = $quality_result;
             } catch (\Throwable $e) {
                 $result['errors'][] = "Stage quality_gate: " . $e->getMessage();

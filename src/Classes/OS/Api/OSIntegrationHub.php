@@ -9,16 +9,16 @@ declare(strict_types=1);
  * 来源: V18 全维教科书 (10篇46章) → Linked3 v13.0.0
  *
  * 集成的10个模块:
- *   v12.0.0 Linked3_Reverse_Engine          逆向8维度通用框架引擎
- *   v12.1.0 Linked3_Neng_Suo_Structure      李善友能所结构融入
- *   v12.2.0 Linked3_Svg_Meta_Stats          SVG原子级meta统计引擎
- *   v12.3.0 Linked3_Three_Layer_Consciousness 三层能观Badge频率标注
- *   v12.4.0 Linked3_Ru_Liu_Tracker          入流四状态100天追踪器
- *   v12.5.0 Linked3_Reverse_Engineer_Registry 31类逆向工程师注册中心
- *   v12.6.0 Linked3_Reverse_Text_Creation   逆向文本创作8维度
- *   v12.7.0 Linked3_Hong_Liu_Flywheel       洪流公式出图飞轮量化
- *   v12.8.0 Linked3_Neng_Zhi_Three_Stages   能知三阶认知层级映射
- *   v12.9.0 Linked3_Reverse_Quality_Gate    逆向质量门禁系统
+ *   v12.0.0 OSReverseEngine          逆向8维度通用框架引擎
+ *   v12.1.0 OSCapabilityLock      李善友能所结构融入
+ *   v12.2.0 OSVisualAnalytics          SVG原子级meta统计引擎
+ *   v12.3.0 OSConsciousnessLayer 三层能观Badge频率标注
+ *   v12.4.0 OSOnboardingTracker          入流四状态100天追踪器
+ *   v12.5.0 OSEngineerRegistry 31类逆向工程师注册中心
+ *   v12.6.0 OSTextCreation   逆向文本创作8维度
+ *   v12.7.0 OSMomentumFlywheel       洪流公式出图飞轮量化
+ *   v12.8.0 OSCapabilityStages   能知三阶认知层级映射
+ *   v12.9.0 OSQualityGate    逆向质量门禁系统
  *
  * 核心能力:
  *   1. get_all_modules(): 获取所有已集成模块
@@ -38,7 +38,7 @@ namespace Linked3\Classes\OS\Api;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Api/V18IntegrationHub.php
- * Original class: V18_Integration_Hub
+ * Original class: OSIntegrationHub
  *
  * @package Linked3\Classes\OS
  */
@@ -55,70 +55,70 @@ class OSIntegrationHub {
      */
     const INTEGRATED_MODULES = [
         'v12.0.0' => [
-            'class' => 'Linked3_Reverse_Engine',
+            'class' => 'OSReverseEngine',
             'file' => 'ReverseEngine.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '逆向8维度通用框架引擎',
             'v18_source' => '道篇2.3+术篇8.2',
         ],
         'v12.1.0' => [
-            'class' => 'Linked3_Neng_Suo_Structure',
+            'class' => 'OSCapabilityLock',
             'file' => 'NengSuoStructure.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '李善友能所结构融入',
             'v18_source' => '道篇2.4',
         ],
         'v12.2.0' => [
-            'class' => 'Linked3_Svg_Meta_Stats',
+            'class' => 'OSVisualAnalytics',
             'file' => 'SvgMetaStats.php',
             'path' => 'src/Classes/SvgStats/',
             'title' => 'SVG原子级meta统计引擎',
             'v18_source' => '法篇6+术篇13',
         ],
         'v12.3.0' => [
-            'class' => 'Linked3_Three_Layer_Consciousness',
+            'class' => 'OSConsciousnessLayer',
             'file' => 'ThreeLayerConsciousness.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '三层能观Badge频率标注',
             'v18_source' => '道篇2.5',
         ],
         'v12.4.0' => [
-            'class' => 'Linked3_Ru_Liu_Tracker',
+            'class' => 'OSOnboardingTracker',
             'file' => 'RuLiuTracker.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '入流四状态100天追踪器',
             'v18_source' => '道篇2.7+行篇33.3',
         ],
         'v12.5.0' => [
-            'class' => 'Linked3_Reverse_Engineer_Registry',
+            'class' => 'OSEngineerRegistry',
             'file' => 'ReverseEngineerRegistry.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '31类逆向工程师注册中心',
             'v18_source' => '道篇2.3+附录A',
         ],
         'v12.6.0' => [
-            'class' => 'Linked3_Reverse_Text_Creation',
+            'class' => 'OSTextCreation',
             'file' => 'ReverseTextCreation.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '逆向文本创作8维度',
             'v18_source' => '用篇28-30',
         ],
         'v12.7.0' => [
-            'class' => 'Linked3_Hong_Liu_Flywheel',
+            'class' => 'OSMomentumFlywheel',
             'file' => 'HongLiuFlywheel.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '洪流公式出图飞轮量化',
             'v18_source' => '道篇2.6',
         ],
         'v12.8.0' => [
-            'class' => 'Linked3_Neng_Zhi_Three_Stages',
+            'class' => 'OSCapabilityStages',
             'file' => 'NengZhiThreeStages.php',
             'path' => 'src/Classes/Philosophy/',
             'title' => '能知三阶认知层级映射',
             'v18_source' => '道篇2.5',
         ],
         'v12.9.0' => [
-            'class' => 'Linked3_Reverse_Quality_Gate',
+            'class' => 'OSQualityGate',
             'file' => 'ReverseQualityGate.php',
             'path' => 'src/Classes/Reverse/',
             'title' => '逆向质量门禁系统',
@@ -255,11 +255,11 @@ class OSIntegrationHub {
      */
     private static function run_stage_reverse_parse(array $input, array &$result): void
     {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Engine')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
             return;
         }
         try {
-            $reverse_prompt = \Linked3_Reverse_Dimensions::build_reverse_prompt(
+            $reverse_prompt = \OSReverseDimensions::build_reverse_prompt(
                 $input['engineer_type'] ?? '视觉系统',
                 $input['target'] ?? ''
             );
@@ -281,11 +281,11 @@ class OSIntegrationHub {
      */
     private static function run_stage_capability_constraint(array $input, array &$result): void
     {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Neng_Suo_Structure')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
             return;
         }
         try {
-            $constraint = \Linked3_Neng_Suo_Structure::derive_from_content_type(
+            $constraint = \OSCapabilityLock::derive_from_content_type(
                 $input['content_type'] ?? 'T1'
             );
             $result['stages']['neng_constraint'] = [
@@ -306,11 +306,11 @@ class OSIntegrationHub {
      */
     private static function run_stage_visual_prediction(array $input, array &$result): void
     {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Svg_Meta_Stats')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
             return;
         }
         try {
-            $prediction = \Linked3_Svg_Meta_Stats::predict_atom_count(
+            $prediction = \OSVisualAnalytics::predict_atom_count(
                 $input['chart_type'] ?? 'Framework'
             );
             $result['stages']['svg_prediction'] = [
@@ -331,11 +331,11 @@ class OSIntegrationHub {
      */
     private static function run_stage_frequency_badge(array $input, array &$result): void
     {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Three_Layer_Consciousness')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
             return;
         }
         try {
-            $badge = \Linked3_Three_Layer_Consciousness::assign_frequency(
+            $badge = \OSConsciousnessLayer::assign_frequency(
                 $input['module_name'] ?? '核心模块',
                 $input['cognitive_level'] ?? 'R'
             );
@@ -357,11 +357,11 @@ class OSIntegrationHub {
      */
     private static function run_stage_flywheel_score(array $input, array &$result): void
     {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Hong_Liu_Flywheel')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
             return;
         }
         try {
-            $flywheel_score = \Linked3_Hong_Liu_Flywheel::calculate_flywheel_score([
+            $flywheel_score = \OSMomentumFlywheel::calculate_flywheel_score([
                 'template_potential' => $input['template_potential'] ?? 70,
                 'human_design'       => $input['human_design'] ?? 70,
                 'ai_execution'       => $input['ai_execution'] ?? 70,
@@ -384,11 +384,11 @@ class OSIntegrationHub {
      */
     private static function run_stage_quality_gate(array $input, array &$result): void
     {
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Quality_Gate')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
             return;
         }
         try {
-            $quality_report = \Linked3_Reverse_Quality_Gate::generate_quality_report(
+            $quality_report = \OSQualityGate::generate_quality_report(
                 $input['reverse_result'] ?? []
             );
             $result['stages']['quality_gate'] = [

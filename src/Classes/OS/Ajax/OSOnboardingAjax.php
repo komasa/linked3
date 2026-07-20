@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 入流追踪AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Ru_Liu_Tracker
+ * 目标类: OSOnboardingTracker
  *
  * @package Linked3\Classes\OS
  * @since 14.4.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/RuLiuAjax.php
- * Original class: Linked3_Ru_Liu_Ajax
+ * Original class: OSOnboardingAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -100,8 +100,8 @@ class OSOnboardingAjax {
 
             // 若有用户输入, 生成定制计划; 否则返回基础计划(兼容旧调用)
             if (!empty($user_input['profession']) || !empty($user_input['track']) || !empty($user_input['goal'])) {
-                if (class_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker') && method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'generate_personalized_plan')) {
-                    $result = Linked3_Ru_Liu_Tracker::generate_personalized_plan($user_input);
+                if (class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker') && method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'generate_personalized_plan')) {
+                    $result = OSOnboardingTracker::generate_personalized_plan($user_input);
                     $result['plan_type'] = 'personalized';
                 } else {
                     $result = self::execute_get_options();
@@ -188,31 +188,31 @@ class OSOnboardingAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_categories')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_factors')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Ru_Liu_Tracker', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_all_options')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_baseline')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_all_chart_types')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_categories')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_text_types')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_three_stages')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_factors')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_100day_plan')) {
+            $options = call_user_func(['OSOnboardingTracker', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -223,12 +223,12 @@ class OSOnboardingAjax {
      * 获取状态
      */
     private static function execute_get_status(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
             return ['error' => '目标类未加载'];
         }
         $day = $params['day'] ?? 1;
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Ru_Liu_Tracker', 'calculate_state_progress')) {
-            $status = call_user_func(['Linked3_Ru_Liu_Tracker', 'calculate_state_progress'], $day);
+        if (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'calculate_state_progress')) {
+            $status = call_user_func(['OSOnboardingTracker', 'calculate_state_progress'], $day);
         } else {
             $status = ['day' => $day];
         }
@@ -293,7 +293,7 @@ class OSOnboardingAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.4.0',
-            'target_class' => 'Linked3_Ru_Liu_Tracker',
+            'target_class' => 'OSOnboardingTracker',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '入流追踪AJAX接口',
         ];

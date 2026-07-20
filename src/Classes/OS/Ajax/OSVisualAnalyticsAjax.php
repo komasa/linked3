@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SVG统计AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Svg_Meta_Stats
+ * 目标类: OSVisualAnalytics
  *
  * @package Linked3\SvgStats
  * @since 14.2.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/SvgStatsAjax.php
- * Original class: Linked3_Svg_Stats_Ajax
+ * Original class: OSVisualAnalyticsAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -45,27 +45,27 @@ class OSVisualAnalyticsAjax {
         }
 
         try {
-            if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats')) {
+            if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
                 wp_send_json_error(['message' => __('SVG统计核心类未加载', 'linked3-ai')], 500);
             }
 
             // v18复审: 返回完整统计基线 (面向客户的功能化输出)
-            $baseline = Linked3_Svg_Meta_Stats::SVG_STATS_BASELINE;
-            $layout_dist = method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_layout_distribution')
-                ? Linked3_Svg_Meta_Stats::get_layout_distribution()
+            $baseline = OSVisualAnalytics::SVG_STATS_BASELINE;
+            $layout_dist = method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_layout_distribution')
+                ? OSVisualAnalytics::get_layout_distribution()
                 : [];
-            $chart_types = method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_all_chart_types')
-                ? Linked3_Svg_Meta_Stats::get_all_chart_types()
+            $chart_types = method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_all_chart_types')
+                ? OSVisualAnalytics::get_all_chart_types()
                 : [];
-            $scenes = method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_all_scenes')
-                ? Linked3_Svg_Meta_Stats::get_all_scenes()
+            $scenes = method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_all_scenes')
+                ? OSVisualAnalytics::get_all_scenes()
                 : [];
 
             // 按图示类型获取统计 (若前端传了 chart_type)
             $chart_type = Request::string('chart_type', '');
             $type_stats = [];
-            if (!empty($chart_type) && method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_stats_by_chart_type')) {
-                $type_stats = Linked3_Svg_Meta_Stats::get_stats_by_chart_type($chart_type);
+            if (!empty($chart_type) && method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_stats_by_chart_type')) {
+                $type_stats = OSVisualAnalytics::get_stats_by_chart_type($chart_type);
             }
 
             $result = [
@@ -210,11 +210,11 @@ class OSVisualAnalyticsAjax {
      * 执行预测
      */
     private static function execute_predict(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
             return ['error' => '目标类未加载'];
         }
         $chart_type = $params['chart_type'] ?? 'D08';
-        $prediction = call_user_func(['Linked3_Svg_Meta_Stats', 'predict_atom_count'], $chart_type);
+        $prediction = call_user_func(['OSVisualAnalytics', 'predict_atom_count'], $chart_type);
         return ['prediction' => $prediction];
     }
 
@@ -222,31 +222,31 @@ class OSVisualAnalyticsAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_categories')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_factors')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Svg_Meta_Stats', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Svg_Meta_Stats', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_all_options')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_baseline')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_all_chart_types')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_categories')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_text_types')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_three_stages')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_factors')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_100day_plan')) {
+            $options = call_user_func(['OSVisualAnalytics', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -311,7 +311,7 @@ class OSVisualAnalyticsAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.2.0',
-            'target_class' => 'Linked3_Svg_Meta_Stats',
+            'target_class' => 'OSVisualAnalytics',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => 'SVG统计AJAX接口',
         ];

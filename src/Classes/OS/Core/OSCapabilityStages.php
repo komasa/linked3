@@ -25,7 +25,7 @@ namespace Linked3\Classes\OS\Core;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Core/NengZhiThreeStages.php
- * Original class: Linked3_Neng_Zhi_Three_Stages
+ * Original class: OSCapabilityStages
  *
  * @package Linked3\Classes\OS
  */

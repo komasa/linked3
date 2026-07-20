@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Api;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Api/V18Shortcodes.php
- * Original class: V18_Shortcodes
+ * Original class: OSShortcodes
  *
  * @package Linked3\Classes\OS
  */
@@ -52,11 +52,11 @@ class OSShortcodes {
             'target' => '',
         ], $atts);
         
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Reverse_Dimensions')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSReverseDimensions')) {
             return '<div class="linked3-error">逆向引擎未加载</div>';
         }
         
-        $prompt = Linked3_Reverse_Dimensions::build_reverse_prompt($atts['type'], $atts['target']);
+        $prompt = OSReverseDimensions::build_reverse_prompt($atts['type'], $atts['target']);
         return '<div class="linked3-reverse-shortcode"><pre>' . esc_html($prompt) . '</pre></div>';
     }
 
@@ -68,14 +68,14 @@ class OSShortcodes {
             'chart_type' => '',
         ], $atts);
         
-        if (!class_exists('\Linked3\Classes\OS\Api\Linked3_Svg_Meta_Stats')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
             return '<div class="linked3-error">SVG统计未加载</div>';
         }
         
         if (!empty($atts['chart_type'])) {
-            $stats = Linked3_Svg_Meta_Stats::get_stats_by_chart_type($atts['chart_type']);
+            $stats = OSVisualAnalytics::get_stats_by_chart_type($atts['chart_type']);
         } else {
-            $stats = Linked3_Svg_Meta_Stats::get_baseline();
+            $stats = OSVisualAnalytics::get_baseline();
         }
         
         $html = '<div class="linked3-svg-stats-shortcode">';
@@ -94,11 +94,11 @@ class OSShortcodes {
      * 健康检查短代码
      */
     public static function shortcode_health(array $atts): string {
-        if (!class_exists('\Linked3\Classes\OS\Api\V18_Integration_Hub')) {
+        if (!class_exists('\Linked3\Classes\OS\Api\OSIntegrationHub')) {
             return '<div class="linked3-error">集成中心未加载</div>';
         }
         
-        $health = V18_Integration_Hub::health_check();
+        $health = OSIntegrationHub::health_check();
         $html = '<div class="linked3-health-shortcode">';
         $html .= '<h3>V18集成健康</h3>';
         $html .= '<pre>' . esc_html(json_encode($health, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)) . '</pre>';
@@ -111,16 +111,16 @@ class OSShortcodes {
      */
     public static function shortcode_modules(array $atts): string {
         $modules = [
-            ['v12.0.0', 'Linked3_Reverse_Engine'],
-            ['v12.1.0', 'Linked3_Neng_Suo_Structure'],
-            ['v12.2.0', 'Linked3_Svg_Meta_Stats'],
-            ['v12.3.0', 'Linked3_Three_Layer_Consciousness'],
-            ['v12.4.0', 'Linked3_Ru_Liu_Tracker'],
-            ['v12.5.0', 'Linked3_Reverse_Engineer_Registry'],
-            ['v12.6.0', 'Linked3_Reverse_Text_Creation'],
-            ['v12.7.0', 'Linked3_Hong_Liu_Flywheel'],
-            ['v12.8.0', 'Linked3_Neng_Zhi_Three_Stages'],
-            ['v12.9.0', 'Linked3_Reverse_Quality_Gate'],
+            ['v12.0.0', 'OSReverseEngine'],
+            ['v12.1.0', 'OSCapabilityLock'],
+            ['v12.2.0', 'OSVisualAnalytics'],
+            ['v12.3.0', 'OSConsciousnessLayer'],
+            ['v12.4.0', 'OSOnboardingTracker'],
+            ['v12.5.0', 'OSEngineerRegistry'],
+            ['v12.6.0', 'OSTextCreation'],
+            ['v12.7.0', 'OSMomentumFlywheel'],
+            ['v12.8.0', 'OSCapabilityStages'],
+            ['v12.9.0', 'OSQualityGate'],
         ];
         
         $html = '<div class="linked3-modules-shortcode"><ul>';

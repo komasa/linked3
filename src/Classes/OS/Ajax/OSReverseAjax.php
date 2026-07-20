@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 逆向引擎AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Reverse_Engine
+ * 目标类: OSReverseEngine
  *
  * @package Linked3\Reverse
  * @since 14.0.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/ReverseAjax.php
- * Original class: Linked3_Reverse_Ajax
+ * Original class: OSReverseAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -131,7 +131,7 @@ class OSReverseAjax {
      * 执行逆向解析
      */
     private static function execute_reverse(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engine')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
             return ['error' => '目标类未加载'];
         }
         $json_raw = $params['json_raw'] ?? '';
@@ -139,7 +139,7 @@ class OSReverseAjax {
             return ['error' => 'json_raw参数为空'];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
-        $result = call_user_func(['Linked3_Reverse_Engine', 'reverse_parse'], $json_raw, $engineer_type);
+        $result = call_user_func(['OSReverseEngine', 'reverse_parse'], $json_raw, $engineer_type);
         if (is_wp_error($result)) {
             return ['error' => $result->get_error_message()];
         }
@@ -150,18 +150,18 @@ class OSReverseAjax {
      * 执行逆向转SEED
      */
     private static function execute_to_seed(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engine')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
             return ['error' => '目标类未加载'];
         }
         $json_raw = $params['json_raw'] ?? '';
         if (empty($json_raw)) {
             return ['error' => 'json_raw参数为空'];
         }
-        $parsed = call_user_func(['Linked3_Reverse_Engine', 'reverse_parse'], $json_raw);
+        $parsed = call_user_func(['OSReverseEngine', 'reverse_parse'], $json_raw);
         if (is_wp_error($parsed)) {
             return ['error' => $parsed->get_error_message()];
         }
-        $seed = call_user_func(['Linked3_Reverse_Engine', 'reverse_to_seed'], $parsed);
+        $seed = call_user_func(['OSReverseEngine', 'reverse_to_seed'], $parsed);
         return ['seed' => $seed];
     }
 
@@ -169,14 +169,14 @@ class OSReverseAjax {
      * 执行逆向对比
      */
     private static function execute_compare(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Reverse_Engine')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
             return ['error' => '目标类未加载'];
         }
         $a = $params['result_a'] ?? '';
         $b = $params['result_b'] ?? '';
         $parsed_a = json_decode($a, true) ?: [];
         $parsed_b = json_decode($b, true) ?: [];
-        $comparison = call_user_func(['Linked3_Reverse_Engine', 'reverse_compare'], $parsed_a, $parsed_b);
+        $comparison = call_user_func(['OSReverseEngine', 'reverse_compare'], $parsed_a, $parsed_b);
         return ['comparison' => $comparison];
     }
 
@@ -263,7 +263,7 @@ class OSReverseAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.0.0',
-            'target_class' => 'Linked3_Reverse_Engine',
+            'target_class' => 'OSReverseEngine',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '逆向引擎AJAX接口',
         ];

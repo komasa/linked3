@@ -25,7 +25,7 @@ namespace Linked3\Classes\OS\Core;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Core/ThreeLayerConsciousness.php
- * Original class: Linked3_Three_Layer_Consciousness
+ * Original class: OSConsciousnessLayer
  *
  * @package Linked3\Classes\OS
  */

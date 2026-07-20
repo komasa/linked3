@@ -20,7 +20,7 @@ namespace Linked3\Classes\OS\Api;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Api/V18DbSchema.php
- * Original class: V18_Db_Schema
+ * Original class: OSDbSchema
  *
  * @package Linked3\Classes\OS
  */

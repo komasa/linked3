@@ -7,7 +7,7 @@ declare(strict_types=1);
  * 洪流飞轮AJAX接口
  *
  * 来源: V18方法论反哺 v14.x系列 AJAX接口层
- * 目标类: Linked3_Hong_Liu_Flywheel
+ * 目标类: OSMomentumFlywheel
  *
  * @package Linked3\Classes\OS
  * @since 14.7.0
@@ -21,7 +21,7 @@ namespace Linked3\Classes\OS\Ajax;
  *
  * Migrated from V18 实验室 in v27.0.0.
  * Original file: src/Classes/V18/Ajax/HongLiuAjax.php
- * Original class: Linked3_Hong_Liu_Ajax
+ * Original class: OSMomentumAjax
  *
  * @package Linked3\Classes\OS
  */
@@ -131,7 +131,7 @@ class OSMomentumAjax {
      * 执行逆向解析
      */
     private static function execute_reverse(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
             return ['error' => '目标类未加载'];
         }
         $json_raw = $params['json_raw'] ?? '';
@@ -139,7 +139,7 @@ class OSMomentumAjax {
             return ['error' => 'json_raw参数为空'];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
-        $result = call_user_func(['Linked3_Hong_Liu_Flywheel', 'reverse_parse'], $json_raw, $engineer_type);
+        $result = call_user_func(['OSMomentumFlywheel', 'reverse_parse'], $json_raw, $engineer_type);
         if (is_wp_error($result)) {
             return ['error' => $result->get_error_message()];
         }
@@ -180,31 +180,31 @@ class OSMomentumAjax {
      * 获取选项/基线
      */
     private static function execute_get_options(): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
             return ['error' => '目标类未加载'];
         }
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_all_options')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_all_options']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_baseline')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_baseline']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_all_chart_types')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_all_chart_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_consciousness_layers')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_consciousness_layers']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_ru_liu_states')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_ru_liu_states']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_categories')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_categories']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_text_types')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_text_types']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_three_stages')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_three_stages']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_factors')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_factors']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_gate_thresholds')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_gate_thresholds']);
-        } elseif (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'get_100day_plan')) {
-            $options = call_user_func(['Linked3_Hong_Liu_Flywheel', 'get_100day_plan']);
+        if (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_all_options')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_all_options']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_baseline')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_baseline']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_all_chart_types')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_all_chart_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_consciousness_layers')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_consciousness_layers']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_ru_liu_states')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_ru_liu_states']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_categories')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_categories']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_text_types')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_text_types']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_three_stages')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_three_stages']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_factors')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_factors']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_gate_thresholds')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_gate_thresholds']);
+        } elseif (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'get_100day_plan')) {
+            $options = call_user_func(['OSMomentumFlywheel', 'get_100day_plan']);
         } else {
             $options = ['status' => 'no_options_method'];
         }
@@ -235,12 +235,12 @@ class OSMomentumAjax {
      * 改进建议
      */
     private static function execute_suggest(array $params): array {
-        if (!class_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel')) {
+        if (!class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
             return ['error' => '目标类未加载'];
         }
         $flywheel_data = json_decode($params['flywheel_data'] ?? '{}', true) ?: [];
-        if (method_exists('\Linked3\Classes\OS\Ajax\Linked3_Hong_Liu_Flywheel', 'suggest_improvement')) {
-            $suggestion = call_user_func(['Linked3_Hong_Liu_Flywheel', 'suggest_improvement'], $flywheel_data);
+        if (method_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel', 'suggest_improvement')) {
+            $suggestion = call_user_func(['OSMomentumFlywheel', 'suggest_improvement'], $flywheel_data);
         } else {
             $suggestion = ['suggestion' => '暂无建议'];
         }
@@ -280,7 +280,7 @@ class OSMomentumAjax {
     public static function get_version_info(): array {
         return [
             'ajax_version' => '14.7.0',
-            'target_class' => 'Linked3_Hong_Liu_Flywheel',
+            'target_class' => 'OSMomentumFlywheel',
             'endpoints_count' => count(self::get_endpoints()),
             'title' => '洪流飞轮AJAX接口',
         ];
