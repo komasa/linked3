@@ -60,46 +60,6 @@ trait OutlineMerger {
     }
 
     /**
-     * 解析AI输出的大纲文本为结构化数据
-     *
-     * @param string $text AI输出的大纲文本
-     * @return array {chapters:[{title, sections:[{title}]}]}
-     */
-    protected function parse_outline_text( $text ) : array {
-        $chapters = array();
-        $current_chapter = null;
-
-        $lines = explode( "\n", $text );
-        foreach ( $lines as $line ) {
-            $line = trim( $line );
-            if ( empty( $line ) ) continue;
-
-            // 匹配章节: "第X章 标题" 或 "## 第X章 标题" 或 "X. 标题"
-            if ( preg_match( '/^(?:#+\s*)?第[一二三四五六七八九十百\d]+[章节幕课部分].*?\s*(.+)$/u', $line, $m ) ) {
-                if ( $current_chapter ) {
-                    $chapters[] = $current_chapter;
-                }
-                $current_chapter = array(
-                    'title'    => trim( $m[1] ),
-                    'sections' => array(),
-                );
-            }
-            // 匹配小节: "- 标题" 或 "X.X 标题" 或 "第X节 标题"
-            elseif ( preg_match( '/^(?:[-*]\s+|\d+[\.\、]\s*)(?:第[一二三四五六七八九十\d]+[节步])?\s*(.+)$/u', $line, $m ) ) {
-                if ( $current_chapter ) {
-                    $current_chapter['sections'][] = array( 'title' => trim( $m[1] ) );
-                }
-            }
-        }
-
-        if ( $current_chapter ) {
-            $chapters[] = $current_chapter;
-        }
-
-        return array( 'chapters' => $chapters );
-    }
-
-    /**
      * 构建大纲生成提示词
      *
      * @param BookProjectState $state

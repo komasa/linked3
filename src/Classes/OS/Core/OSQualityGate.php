@@ -113,61 +113,6 @@ class OSQualityGate {
     }
 
     /**
-     * 运行质量门禁
-     */
-    public static function run_quality_gate(array $reverse_result): array {
-        $scores = [];
-
-        // Q1 完整性
-        $universal_count = count(array_filter(array_keys($reverse_result), function($k) {
-            return preg_match('/^D[1-8]/', $k);
-        }));
-        $scores['Q1'] = min(100, $universal_count * 12.5);
-
-        // Q2 准确性 (简化: 有meta_tags即给基础分)
-        $scores['Q2'] = !empty($reverse_result['meta_tags']) ? 80 : 50;
-
-        // Q3 可复用性 (简化: 有角色DNA即给基础分)
-        $scores['Q3'] = !empty($reverse_result['character_dna']) ? 75 : 40;
-
-        // Q4 一致性 (需多次拆解对比,此处给默认值)
-        $scores['Q4'] = 70;
-
-        // Q5 深度 (简化: 字段数越多深度越高)
-        $field_count = count($reverse_result);
-        $scores['Q5'] = min(100, $field_count * 5);
-
-        // 加权总分
-        $total = 0;
-        foreach (self::QUALITY_DIMENSIONS as $key => $dim) {
-            $total += $scores[$key] * $dim['weight'];
-        }
-        $total = round($total, 1);
-
-        // 门禁判定
-        $gate = 'fail';
-        $gate_label = '不通过';
-        $gate_color = '#E74C3C';
-        foreach (self::GATE_THRESHOLDS as $key => $threshold) {
-            if ($total >= $threshold['min_score']) {
-                $gate = $key;
-                $gate_label = $threshold['label'];
-                $gate_color = $threshold['color'];
-                break;
-            }
-        }
-
-        return [
-            'total_score' => $total,
-            'gate' => $gate,
-            'gate_label' => $gate_label,
-            'gate_color' => $gate_color,
-            'dimension_scores' => $scores,
-            'passed' => $gate !== 'fail',
-        ];
-    }
-
-    /**
      * 获取门禁阈值
      */
     public static function get_gate_thresholds(): array {

@@ -184,56 +184,6 @@ class GenesisSeedDNA
     }
 
     /**
-     * 将 seed DNA 嵌入 prompt (生成分镜时调用)
-     *
-     * @param string $prompt 原始 prompt
-     * @param array $dna seed DNA
-     * @return string 嵌入 DNA 后的 prompt
-     */
-    public static function embedIntoPrompt(string $prompt, array $dna): string
-    {
-        $embedParts = [];
-
-        // 嵌入角色外观
-        if (!empty($dna['characters'])) {
-            $charDescs = [];
-            foreach ($dna['characters'] as $char) {
-                $name = $char['name'] ?? '';
-                $appearance = $char['appearance'] ?? '';
-                $clothing = $char['clothing'] ?? '';
-                $features = $char['distinctive_features'] ?? '';
-                if ($appearance || $clothing) {
-                    $charDescs[] = trim("$name: $appearance $clothing $features");
-                }
-            }
-            if ($charDescs) {
-                $embedParts[] = 'Characters: ' . implode('; ', $charDescs);
-            }
-        }
-
-        // 嵌入色彩基调
-        if (!empty($dna['color_palette'])) {
-            $cp = $dna['color_palette'];
-            $colors = [];
-            if (!empty($cp['primary'])) $colors[] = 'primary ' . $cp['primary'];
-            if (!empty($cp['secondary'])) $colors[] = 'secondary ' . $cp['secondary'];
-            if (!empty($cp['accent'])) $colors[] = 'accent ' . $cp['accent'];
-            if ($colors) {
-                $embedParts[] = 'Color palette: ' . implode(', ', $colors);
-            }
-        }
-
-        // 嵌入风格指纹
-        if (!empty($dna['style_fingerprint'])) {
-            $embedParts[] = 'Style: ' . $dna['style_fingerprint'];
-        }
-
-        if (empty($embedParts)) return $prompt;
-
-        return $prompt . ' ' . implode('. ', $embedParts) . '.';
-    }
-
-    /**
      * 导出 seed DNA 为 JSON (供生图软件使用)
      */
     public static function exportJSON(string $seedId): string

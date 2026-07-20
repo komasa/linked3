@@ -75,54 +75,6 @@ class ChartsFactory {
         return $snippet;
     }
 
-    private function get_scene_visual_approach(int $scene_idx, int $scene_total): array {
-        $approaches = [
-            1 => [
-                'approach' => '对比图',
-                'layout_desc' => 'binary comparison layout with two columns A vs B, left-right split showing before/after or problem/solution',
-                'visual_keywords' => 'split screen, comparison, VS layout, contrast columns',
-            ],
-            2 => [
-                'approach' => '流程图',
-                'layout_desc' => 'horizontal flowchart with numbered steps and arrows, sequential process diagram',
-                'visual_keywords' => 'flowchart, step-by-step, arrows, process flow, numbered nodes',
-            ],
-            3 => [
-                'approach' => '数据图表',
-                'layout_desc' => 'data visualization with bar chart and pie chart, statistical infographic with percentages',
-                'visual_keywords' => 'bar chart, pie chart, data visualization, statistics, percentage rings',
-            ],
-            4 => [
-                'approach' => '清单卡片',
-                'layout_desc' => 'checklist card layout with numbered badges 01-08, organized list with icons',
-                'visual_keywords' => 'checklist, numbered list, badge icons, card stack, organized items',
-            ],
-            5 => [
-                'approach' => '时间轴',
-                'layout_desc' => 'vertical timeline with milestone markers, chronological progression with dates',
-                'visual_keywords' => 'timeline, milestones, chronological, vertical axis, date markers',
-            ],
-            6 => [
-                'approach' => '思维导图',
-                'layout_desc' => 'radial mind map with central topic and branching sub-topics, knowledge graph style',
-                'visual_keywords' => 'mind map, radial layout, branching nodes, knowledge graph, central hub',
-            ],
-            7 => [
-                'approach' => '引用卡片',
-                'layout_desc' => 'large quote card with prominent text overlay, minimal visual with bold typography',
-                'visual_keywords' => 'quote card, large text, bold typography, minimal design, text-focused',
-            ],
-            8 => [
-                'approach' => '行动清单',
-                'layout_desc' => 'action checklist with checkbox icons, to-do list style with priority indicators',
-                'visual_keywords' => 'checkbox, action items, to-do list, priority flags, task cards',
-            ],
-        ];
-
-        $key = (($scene_idx - 1) % 8) + 1;
-        return $approaches[$key];
-    }
-
     protected function project(array $ir): array {
         $topic = $ir['topic'];
         $style_kw = $ir['style_keywords'];

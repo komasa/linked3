@@ -203,51 +203,6 @@ class OSIntegrationHub {
     }
 
     /**
-     * 运行V18全量集成流水线
-     *
-     * REFACTORED v27.0.0 (P3): Previously a 117-line monolith. Now delegates
-     * each stage to a dedicated private method for testability and readability.
-     *
-     * @param array $input 输入数据
-     * @return array 流水线结果
-     */
-    public static function run_full_pipeline(array $input): array {
-        $result = [
-            'input'        => $input,
-            'stages'       => [],
-            'final_output' => null,
-            'errors'       => [],
-        ];
-
-        // Stage 1: 逆向拆解 (v12.0.0)
-        self::run_stage_reverse_parse($input, $result);
-
-        // Stage 2: 能知约束注入 (v12.1.0)
-        self::run_stage_capability_constraint($input, $result);
-
-        // Stage 3: SVG统计预测 (v12.2.0)
-        self::run_stage_visual_prediction($input, $result);
-
-        // Stage 4: 频率标注 (v12.3.0)
-        self::run_stage_frequency_badge($input, $result);
-
-        // Stage 5: 飞轮量化 (v12.7.0)
-        self::run_stage_flywheel_score($input, $result);
-
-        // Stage 6: 质量门禁 (v12.9.0)
-        self::run_stage_quality_gate($input, $result);
-
-        $result['final_output'] = [
-            'pipeline_version' => '13.0.0',
-            'stages_completed' => count(array_filter($result['stages'], fn($s) => $s['status'] === 'ok')),
-            'stages_total'     => count($result['stages']),
-            'has_errors'       => !empty($result['errors']),
-        ];
-
-        return $result;
-    }
-
-    /**
      * Stage 1: 逆向拆解 — 使用逆向8维度引擎构建提示词.
      *
      * @param array $input  输入数据

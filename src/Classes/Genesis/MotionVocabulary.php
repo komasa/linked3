@@ -175,39 +175,4 @@ class MotionVocabulary {
         return $mapping[$arc_position] ?? $mapping['opening'];
     }
 
-    /**
-     * 构建Motion Prompt
-     */
-    public static function build_motion_prompt(string $camera_key, string $subject_key, string $speed_key, string $lang = 'en'): array {
-        $cameras = self::get_camera_movements();
-        $subjects = self::get_subject_actions();
-        $speeds = self::get_speed_modifiers();
-
-        $camera = $cameras[$camera_key] ?? $cameras['static_wide'];
-        $subject = $subjects[$subject_key] ?? $subjects['standing_still'];
-        $speed = $speeds[$speed_key] ?? $speeds['normal'];
-
-        $prompt = '';
-        if ($lang === 'en') {
-            $prompt = sprintf('%s, subject %s, %s', $camera['en'], $subject['en'], $speed['en']);
-        } elseif ($lang === 'cn') {
-            $prompt = sprintf('镜头%s, 主体%s, %s', $camera['cn'], $subject['cn'], $speed['cn']);
-        } else {
-            $prompt = sprintf('%s (%s), subject %s (%s), %s (%s)',
-                $camera['en'], $camera['cn'],
-                $subject['en'], $subject['cn'],
-                $speed['en'], $speed['cn']
-            );
-        }
-
-        return [
-            'prompt' => $prompt,
-            'vocabulary_used' => [
-                'camera' => $camera_key,
-                'subject' => $subject_key,
-                'speed' => $speed_key,
-            ],
-            'emotion_tags' => array_merge($camera['emotion'], $speed['emotion']),
-        ];
-    }
 }

@@ -54,59 +54,6 @@ class ProviderFailover {
     }
 
     /**
-     * 带故障转移的 AI 调用。
-     *
-     * @param string   $primary  主 Provider
-     * @param array    $messages 消息
-     * @param array    $options  AI 选项
-     * @param array    $config   Provider 配置
-     * @return array AI 响应
-     * @throws RuntimeException 所有 Provider 都失败
-     */
-    public function callWithFailover(string $primary, array $messages, array $options, array $config = []): array {
-        $chain = array_merge([$primary], $this->getDefaultChain($primary));
-        $chain = array_unique($chain); // 去重
-
-        $lastError = null;
-        $attempted = [];
-
-        foreach ($chain as $provider) {
-            // 检查熔断状态
-            if ($this->isCircuitOpen($provider)) {
-                linked3_container()->get('logger')->info("Provider {$provider} circuit open, skipping", ['chain' => $chain]);
-                continue;
-            }
-
-            $attempted[] = $provider;
-
-            try {
-                $options['provider'] = $provider;
-                $result = AIDispatcher::instance()->chat($messages, $options, $config);
-                $this->resetFailures($provider);
-                return $result;
-            } catch (Throwable $e) {
-                $this->recordFailure($provider);
-                $lastError = $e;
-                linked3_container()->get('logger')->warning("Provider {$provider} failed, trying failover", [
-                    'error' => $e->getMessage(),
-                    'next' => $this->getNextProvider($provider, $chain),
-                ]);
-                linked3_dispatch('linked3.ai.failover.triggered', [
-                    'from' => $provider,
-                    'reason' => $e->getMessage(),
-                    'attempted' => $attempted,
-                ]);
-                continue;
-            }
-        }
-
-        throw new RuntimeException(
-            'All providers failed. Attempted: ' . implode(', ', $attempted) .
-            '. Last error: ' . ($lastError ? $lastError->getMessage() : 'unknown')
-        );
-    }
-
-    /**
      * 负载均衡: 根据健康度和延迟选择最优 Provider。
      */
     public function selectByLoadBalance(array $providers): string {

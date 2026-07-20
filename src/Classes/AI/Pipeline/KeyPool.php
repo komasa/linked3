@@ -54,48 +54,6 @@ class KeyPool {
     }
 
     /**
-     * 获取一个可用的 Key (轮转 + 跳过限流)。
-     */
-    public function getKey(string $provider): string {
-        $pool = $this->keys[$provider] ?? [];
-        if (empty($pool)) {
-            throw new RuntimeException("No API keys configured for: {$provider}");
-        }
-
-        $now = time();
-        foreach ($pool as $i => $key) {
-            $status = $this->keyStatus[$key] ?? ['status' => 'active', 'rate_limited_until' => 0];
-            // 限流过期自动恢复
-            if ($status['status'] === 'rate_limited' && $now >= $status['rate_limited_until']) {
-                $this->keyStatus[$key]['status'] = 'active';
-                $this->keyStatus[$key]['rate_limited_until'] = 0;
-            }
-            if ($status['status'] === 'active') {
-                $this->rotationIndex = $i;
-                $this->keyStatus[$key]['calls']++;
-                return $key;
-            }
-        }
-
-        // 所有 Key 都限流, 找最快恢复的
-        $soonest = PHP_INT_MAX;
-        $bestKey = $pool[0];
-        foreach ($pool as $key) {
-            $until = $this->keyStatus[$key]['rate_limited_until'] ?? 0;
-            if ($until < $soonest) {
-                $soonest = $until;
-                $bestKey = $key;
-            }
-        }
-        $waitSec = max(0, $soonest - $now);
-        linked3_dispatch('linked3.ai.key.exhausted', [
-            'provider' => $provider,
-            'wait_seconds' => $waitSec,
-        ]);
-        throw new RuntimeException("All keys rate limited for {$provider}. Wait {$waitSec}s.");
-    }
-
-    /**
      * 标记 Key 被限流。
      */
     public function markRateLimited(string $key, int $retryAfter = 60): void {

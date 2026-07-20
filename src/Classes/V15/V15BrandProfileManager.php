@@ -85,61 +85,6 @@ final class V15BrandProfileManager
     }
 
     /**
-     * Save a brand profile (create or update).
-     *
-     * @param int   $user_id
-     * @param array $data
-     * @return int Profile ID (0 on failure).
-     */
-    public function save_profile($user_id, array $data) : mixed     {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_v15_brand_profiles';
-
-        $clean = [
-            'user_id'            => (int) $user_id,
-            'profile_name'       => sanitize_text_field($data['profile_name'] ?? ''),
-            'brand_name'         => sanitize_text_field($data['brand_name'] ?? ''),
-            'brand_logo'         => sanitize_text_field($data['brand_logo'] ?? ''),
-            'brand_font'         => sanitize_text_field($data['brand_font'] ?? ''),
-            'signature_name'     => sanitize_text_field($data['signature_name'] ?? ''),
-            'signature_title'    => sanitize_text_field($data['signature_title'] ?? ''),
-            'signature_slogan'   => sanitize_textarea_field($data['signature_slogan'] ?? ''),
-            'color_primary'      => sanitize_hex_color($data['color_primary'] ?? '#1B3A5C'),
-            'color_secondary'    => sanitize_hex_color($data['color_secondary'] ?? '#C8403C'),
-            'color_neutral'      => sanitize_hex_color($data['color_neutral'] ?? '#E8E4DD'),
-            'color_accent'       => sanitize_hex_color($data['color_accent'] ?? '#C9A961'),
-            'mood_primary'       => sanitize_text_field($data['mood_primary'] ?? '冷静理性'),
-            'mood_secondary'     => sanitize_text_field($data['mood_secondary'] ?? '严肃紧迫'),
-            'culture_region'     => sanitize_text_field($data['culture_region'] ?? ''),
-            'culture_age'        => sanitize_text_field($data['culture_age'] ?? ''),
-            'culture_occupation' => sanitize_text_field($data['culture_occupation'] ?? ''),
-            'culture_subculture' => sanitize_text_field($data['culture_subculture'] ?? ''),
-            'platform_name'      => sanitize_text_field($data['platform_name'] ?? '小红书'),
-            'platform_size'      => sanitize_text_field($data['platform_size'] ?? '1080x1440'),
-            'platform_ratio'     => sanitize_text_field($data['platform_ratio'] ?? '3:4'),
-            'density'            => sanitize_text_field($data['density'] ?? '标准16节点'),
-            'product_type'       => sanitize_text_field($data['product_type'] ?? '单图Card'),
-        ];
-
-        $id = (int) ($data['id'] ?? 0);
-        if ($id > 0) {
-            $fmt = array_fill(0, count($clean), '%s');
-            $wpdb->update($table, $clean, ['id' => $id, 'user_id' => $user_id], $fmt, ['%d', '%d']); // $wpdb->prepare equivalent via format params
-            return $id;
-        }
-
-        // If this is the first profile, make it default.
-        $existing = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE user_id = %d", $user_id));
-        if ($existing == 0) {
-            $clean['is_default'] = 1;
-        }
-
-        $fmt = array_fill(0, count($clean), '%s');
-        $wpdb->insert($table, $clean, $fmt); // $wpdb->prepare equivalent via format params
-        return (int) $wpdb->insert_id;
-    }
-
-    /**
      * Get the system default profile (used when user has no profile).
      *
      * @return array

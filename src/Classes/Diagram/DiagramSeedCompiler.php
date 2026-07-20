@@ -13,60 +13,6 @@ if (!defined('ABSPATH')) exit;
 
 class DiagramSeedCompiler {
     /**
-     * MD格式 → JSON Seed。
-     *
-     * 输入 MD:
-     * # CharacterSeed: flower_girl_v1
-     * ## VisualDNA
-     * Face: 鹅蛋脸+杏眼
-     * Body: 6.5头身+165cm
-     * ## Priority
-     * Critical: 圆脸+豆豆眼
-     * Important: 粉腮红
-     */
-    public function compileMD(string $md): array {
-        $lines = explode("\n", $md);
-        $result = ['id' => '', 'visual_dna' => [], 'personality_dna' => [], 'priority' => ['critical' => [], 'important' => [], 'flexible' => []]];
-        $currentSection = '';
-
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if (empty($line)) continue;
-
-            if (preg_match('/^# CharacterSeed:\s*(.+)/', $line, $m)) {
-                $result['id'] = $m[1];
-            } elseif (preg_match('/^## VisualDNA/', $line)) {
-                $currentSection = 'visual';
-            } elseif (preg_match('/^## PersonalityDNA/', $line)) {
-                $currentSection = 'personality';
-            } elseif (preg_match('/^## Priority/', $line)) {
-                $currentSection = 'priority';
-            } elseif (str_starts_with($line, 'Critical:')) {
-                $items = explode('+', trim(str_replace('Critical:', '', $line)));
-                $result['priority']['critical'] = array_map('trim', $items);
-            } elseif (str_starts_with($line, 'Important:')) {
-                $items = explode('+', trim(str_replace('Important:', '', $line)));
-                $result['priority']['important'] = array_map('trim', $items);
-            } elseif (str_starts_with($line, 'Flexible:')) {
-                $items = explode('+', trim(str_replace('Flexible:', '', $line)));
-                $result['priority']['flexible'] = array_map('trim', $items);
-            } elseif (str_contains($line, ':')) {
-                [$key, $val] = explode(':', $line, 2);
-                $key = trim($key);
-                $val = trim($val);
-                $keyLower = strtolower($key);
-                if ($currentSection === 'visual') {
-                    $result['visual_dna'][$keyLower] = $val;
-                } elseif ($currentSection === 'personality') {
-                    $result['personality_dna'][$keyLower] = $val;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * JSON Seed → MD格式。
      */
     public function toMD(array $seed): string {
