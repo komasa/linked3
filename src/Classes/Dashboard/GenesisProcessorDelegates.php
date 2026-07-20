@@ -133,8 +133,8 @@ class GenesisProcessorDelegates
             $parallelElapsedMs = (int) ((microtime(true) - $parallelStart) * 1000);
             if ($progressCb) $progressCb(80, 'assemble', '组装结果 + PQS 质检...');
             // ---------- 组装最终结果 (AI 成功的用 AI, 失败的用本地 PromptAssembler) ----------
-            $assembler   = new \Linked3_Genesis_PromptAssembler();
-            $pqsChecker  = new \Linked3_Genesis_PQSChecker();
+            $assembler   = new \GenesisPromptAssembler();
+            $pqsChecker  = new \GenesisPQSChecker();
             $results = [];
             $aiGeneratedCount = 0;
             $aiDegradedCount = 0;
@@ -203,7 +203,7 @@ class GenesisProcessorDelegates
                 // AI 失败 + 重试也失败 → 降级本地 PromptAssembler 组装
                 if (empty($promptEn)) {
                     try {
-                        $selector  = new \Linked3_Genesis_AtomSelector();
+                        $selector  = new \GenesisAtomSelector();
                         $atoms     = $selector->selectForScene($scene);
                         $assembled = $assembler->assembleFull($atoms, $node, $styleId, $platform);
                         $promptEn = $assembled['prompt_with_params'] ?? '';
@@ -384,9 +384,9 @@ class GenesisProcessorDelegates
         // 5. Genesis 核心类
         $requiredClasses = [
             'GenesisAtomIndex',
-            'Linked3_Genesis_PromptAssembler',
-            'Linked3_Genesis_PQSChecker',
-            'Linked3_Genesis_AtomSelector',
+            'GenesisPromptAssembler',
+            'GenesisPQSChecker',
+            'GenesisAtomSelector',
         ];
         foreach ($requiredClasses as $cls) {
             if (!class_exists($cls)) {

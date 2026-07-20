@@ -300,8 +300,8 @@ final class GenesisProcessor
                 'classes_loaded' => [
                     'AIDispatcher'           => class_exists('\Linked3\Classes\Dashboard\AIDispatcher'),
                     'GenesisAtomIndex'       => class_exists('\Linked3\Classes\Dashboard\GenesisAtomIndex'),
-                    'Linked3_Genesis_PromptAssembler' => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PromptAssembler'),
-                    'Linked3_Genesis_PQSChecker'      => class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PQSChecker'),
+                    'GenesisPromptAssembler' => class_exists('\Linked3\Classes\Genesis\GenesisPromptAssembler'),
+                    'GenesisPQSChecker'      => class_exists('\Linked3\Classes\Genesis\GenesisPQSChecker'),
                     'GenesisJobRunner'       => class_exists('\Linked3\Classes\Dashboard\GenesisJobRunner'),
                 ],
                 'preflight'      => self::genesisPreflightCheck(),

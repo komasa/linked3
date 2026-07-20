@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
 
 use Linked3\Classes\Addons\AddonManager;
-use Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon;
-use Linked3\Classes\Addons\Linked3_Consent_Compliance_Addon;
+use Linked3\Classes\Addons\IPAnonymizationAddon;
+use Linked3\Classes\Addons\ConsentComplianceAddon;
 use Linked3\Classes\Rest\RestController;
 
 
@@ -66,11 +66,11 @@ final class DashboardHooksRegistrar
         try {
             if (class_exists(AddonManager::class)) {
                 $mgr = AddonManager::instance();
-                if (class_exists(Linked3_IP_Anonymization_Addon::class)) {
-                    $mgr->register(new \Linked3\Classes\Addons\Linked3_IP_Anonymization_Addon());
+                if (class_exists(IPAnonymizationAddon::class)) {
+                    $mgr->register(new \Linked3\Classes\Addons\IPAnonymizationAddon());
                 }
-                if (class_exists(Linked3_Consent_Compliance_Addon::class)) {
-                    $mgr->register(new \Linked3\Classes\Addons\Linked3_Consent_Compliance_Addon());
+                if (class_exists(ConsentComplianceAddon::class)) {
+                    $mgr->register(new \Linked3\Classes\Addons\ConsentComplianceAddon());
                 }
                 add_action('init', [$mgr, 'init_all'], 20);
             }

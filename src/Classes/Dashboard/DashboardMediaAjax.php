@@ -97,8 +97,8 @@ class DashboardMediaAjax
 
             // 13维校验
             $validation13 = [];
-            if (class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Validation_13Dim')) {
-                $validator = new \Linked3_Diagram_Validation_13Dim();
+            if (class_exists('\Linked3\Classes\Diagram\DiagramValidation13Dim')) {
+                $validator = new \DiagramValidation13Dim();
                 $validation13 = $validator->validate($result);
             }
 
@@ -153,11 +153,11 @@ class DashboardMediaAjax
             wp_send_json_error(['message' => __('图示数据无效', 'linked3-ai')]);
         }
 
-        if (!class_exists('\Linked3\Classes\Dashboard\Linked3_Diagram_Validation_13Dim')) {
+        if (!class_exists('\Linked3\Classes\Diagram\DiagramValidation13Dim')) {
             wp_send_json_error(['message' => __('校验引擎未加载', 'linked3-ai')]);
         }
 
-        $validator = new \Linked3_Diagram_Validation_13Dim();
+        $validator = new \DiagramValidation13Dim();
         $result = $validator->validate($diagram);
 
         wp_send_json_success($result);

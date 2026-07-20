@@ -16,7 +16,7 @@ class GenesisAjaxCore
         if (empty($script)) {
             wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
         }
-        if (!class_exists('\Linked3\Classes\Dashboard\Linked3_Genesis_PlotParser')) {
+        if (!class_exists('\Linked3\Classes\Genesis\GenesisPlotParser')) {
             wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3-ai')]);
         }
         // v7.0.3: 统一走 AI 拆分路径 (不再用旧 PlotParser 直接解析)
@@ -42,8 +42,8 @@ class GenesisAjaxCore
                 ]];
             }
             // 用 AI 拆分结果组装 Prompt
-            $assembler = new \Linked3_Genesis_PromptAssembler();
-            $pqsChecker = new \Linked3_Genesis_PQSChecker();
+            $assembler = new \GenesisPromptAssembler();
+            $pqsChecker = new \GenesisPQSChecker();
             $results = [];
             foreach ($aiPanels as $i => $aiPanel) {
                 $scene = [
@@ -53,7 +53,7 @@ class GenesisAjaxCore
                     'action' => $aiPanel['action'] ?? '',
                     'mood' => $aiPanel['mood'] ?? '',
                 ];
-                $selector = new \Linked3_Genesis_AtomSelector();
+                $selector = new \GenesisAtomSelector();
                 $atoms = $selector->selectForScene($scene);
                 $assembled = $assembler->assembleFull($atoms, $aiPanel, $styleId, $platform);
                 $pqs = $pqsChecker->check($assembled);
