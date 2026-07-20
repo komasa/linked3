@@ -121,7 +121,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Pinecone HTTP %d', $code)];
     }
 
-    public function embed($text, array $config) : void     {
+    public function embed($text, array $config) : mixed     {
         // Pinecone does not host embedding models; defer to AI Dispatcher's
         // embed via OpenAI-compatible provider (same as Local provider).
         $provider = \Linked3\Classes\Core\Providers\ProviderFactory::instance()->make($config['embed_provider'] ?? 'openai');

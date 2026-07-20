@@ -34,7 +34,7 @@ class PerformanceCache {
     }
 
     public function delete(string $key): void { unset($this->cache[$key]); }
-    public function clear(): void { $this->cache = []; }
+    public function clear() : mixed { $this->cache = []; }
     public function getStats(): array {
         return ['items' => count($this->cache), 'memory' => strlen(serialize($this->cache))];
     }

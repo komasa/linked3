@@ -163,7 +163,7 @@ final class Container
      *
      * @return void
      */
-    private function register_defaults(): void
+    private function register_defaults() : mixed
     {
         // v4.4.2 — the 3 core singletons.
         $this->set(

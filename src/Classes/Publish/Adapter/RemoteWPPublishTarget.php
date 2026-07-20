@@ -191,10 +191,10 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
     /**
      * v3.0.0: 上传媒体文件到远端 WP。
      */
-    private function upload_media($url, $auth, $host, $image_url, $title = '') : void     {
+    private function upload_media($url, $auth, $host, $image_url, $title = '') : mixed     {
         // 下载图片到临时文件
         $tmp = download_url($image_url);
-        if (is_wp_error($tmp)) return 0;
+        if (is_wp_error($tmp)) return;
 
         $ext = pathinfo(wp_parse_url($image_url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
         $filename = 'linked3-' . time() . '.' . $ext;

@@ -129,7 +129,7 @@ final class WcAiGenerator
      * @param array $opts {provider, model, size, quality, prompt_override}
      * @return array{ok:bool, message:string, attachment_id?:int}
      */
-    public function generate_image($product_id, array $opts = []) : void {
+    public function generate_image($product_id, array $opts = []) : mixed {
         if (!class_exists('WooCommerce')) {
             return ['ok' => false, 'message' => __('WooCommerce 未启用。', 'linked3')];
         }

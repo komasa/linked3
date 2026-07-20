@@ -132,7 +132,7 @@ final class RestController
         return rest_ensure_response($result);
     }
 
-    public static function generate($req) : void     {
+    public static function generate($req) : mixed     {
         $keyword = sanitize_text_field($req->get_param('keyword') ?? '');
         $title = sanitize_text_field($req->get_param('title') ?? '');
         if (empty($keyword) && empty($title)) {

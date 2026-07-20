@@ -15,7 +15,7 @@ final class IPAnonymizationAddon implements AddonInterface
     public function slug() : string { return 'ip-anonymization'; }
     public function is_required() : bool { return false; }
     public function is_active() : bool { return (bool) get_option(LINKED3_OPTION_PREFIX . 'addon_ip_anon', true); }
-    public function execute() : void
+    public function execute() : mixed
     {
         add_filter('linked3/log_ip', static function ($ip) {
             // Zero out last octet for IPv4, last 80 bits for IPv6.
