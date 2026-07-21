@@ -74,121 +74,112 @@ class GenesisPanelRenderer
 
     public static function splitByChapters(string $script, string $marker = 'auto'): array
     {
-        $chapters = [];
-
         if ($marker === 'auto') {
-            if (preg_match('/【[^】]+】/', $script)) $marker = 'bracket';
-            elseif (preg_match('/第[一二三四五六七八九十百千\d]+[章节回]/u', $script)) $marker = 'chapter_cn';
-            elseif (preg_match('/Chapter\s+[\dIVX]+/i', $script)) $marker = 'chapter_en';
-            elseif (strpos($script, "---") !== false) $marker = 'separator';
-            else $marker = 'blank_line';
+            $marker = self::detectChapterMarker($script);
         }
 
-        switch ($marker) {
-            case 'bracket':
-                preg_match_all('/【([^】]+)】([^【]*)/u', $script, $m, PREG_SET_ORDER);
-                foreach ($m as $i => $match) {
-                    $title = trim($match[1]);
-                    $content = trim($match[2]);
-                    if (mb_strlen($content) < 5) continue;
-                    $chapters[] = [
-                        'node_id'    => $i + 1,
-                        'core_info'  => mb_substr($title, 0, 30),
-                        'location'   => mb_substr($title, 0, 10),
-                        'characters' => [],
-                        'action'     => mb_substr($content, 0, 100),
-                        'mood'       => '紧张',
-                        'shot'       => ['远景','中景','近景','特写'][$i % 4],
-                        'angle'      => ['平视','仰视','俯视'][$i % 3],
-                        'comp'       => ['三分法','对角线','中心构图'][$i % 3],
-                        'plot_point' => $title,
-                    ];
-                }
-                break;
+        $rawChapters = match ($marker) {
+            'bracket'     => self::splitByBracket($script),
+            'chapter_cn'  => self::splitByChapterCn($script),
+            'chapter_en'  => self::splitByChapterEn($script),
+            'separator'   => self::splitBySeparator($script),
+            default       => self::splitByBlankLine($script),
+        };
 
-            case 'chapter_cn':
-                preg_match_all('/(第[一二三四五六七八九十百千\d]+[章节回])\s*([^\n]*)\n?([^第]*)/u', $script, $m, PREG_SET_ORDER);
-                foreach ($m as $i => $match) {
-                    $title = trim($match[1] . ' ' . $match[2]);
-                    $content = trim($match[3]);
-                    if (mb_strlen($content) < 5) continue;
-                    $chapters[] = [
-                        'node_id'    => $i + 1,
-                        'core_info'  => mb_substr($title, 0, 30),
-                        'location'   => mb_substr($match[2], 0, 10) ?: mb_substr($content, 0, 10),
-                        'characters' => [],
-                        'action'     => mb_substr($content, 0, 100),
-                        'mood'       => '紧张',
-                        'shot'       => ['远景','中景','近景','特写'][$i % 4],
-                        'angle'      => ['平视','仰视','俯视'][$i % 3],
-                        'comp'       => ['三分法','对角线','中心构图'][$i % 3],
-                        'plot_point' => $title,
-                    ];
-                }
-                break;
-
-            case 'chapter_en':
-                preg_match_all('/(Chapter\s+[\dIVX]+)\s*:?\s*([^\n]*)\n?([^C]*)/i', $script, $m, PREG_SET_ORDER);
-                foreach ($m as $i => $match) {
-                    $title = trim($match[1] . ' ' . $match[2]);
-                    $content = trim($match[3]);
-                    if (mb_strlen($content) < 5) continue;
-                    $chapters[] = [
-                        'node_id'    => $i + 1,
-                        'core_info'  => mb_substr($title, 0, 30),
-                        'location'   => mb_substr($match[2], 0, 10) ?: mb_substr($content, 0, 10),
-                        'characters' => [],
-                        'action'     => mb_substr($content, 0, 100),
-                        'mood'       => 'tense',
-                        'shot'       => ['远景','中景','近景','特写'][$i % 4],
-                        'angle'      => ['平视','仰视','俯视'][$i % 3],
-                        'comp'       => ['三分法','对角线','中心构图'][$i % 3],
-                        'plot_point' => $title,
-                    ];
-                }
-                break;
-
-            case 'separator':
-                $parts = array_filter(array_map('trim', preg_split('/^-{3,}$/m', $script)));
-                foreach (array_values($parts) as $i => $content) {
-                    if (mb_strlen($content) < 5) continue;
-                    $chapters[] = [
-                        'node_id'    => $i + 1,
-                        'core_info'  => mb_substr($content, 0, 30),
-                        'location'   => mb_substr($content, 0, 10),
-                        'characters' => [],
-                        'action'     => mb_substr($content, 0, 100),
-                        'mood'       => '紧张',
-                        'shot'       => ['远景','中景','近景','特写'][$i % 4],
-                        'angle'      => ['平视','仰视','俯视'][$i % 3],
-                        'comp'       => ['三分法','对角线','中心构图'][$i % 3],
-                        'plot_point' => '',
-                    ];
-                }
-                break;
-
-            case 'blank_line':
-            default:
-                $parts = array_filter(array_map('trim', preg_split('/\n\s*\n/', $script)));
-                foreach (array_values($parts) as $i => $content) {
-                    if (mb_strlen($content) < 5) continue;
-                    $chapters[] = [
-                        'node_id'    => $i + 1,
-                        'core_info'  => mb_substr($content, 0, 30),
-                        'location'   => mb_substr($content, 0, 10),
-                        'characters' => [],
-                        'action'     => mb_substr($content, 0, 100),
-                        'mood'       => '紧张',
-                        'shot'       => ['远景','中景','近景','特写'][$i % 4],
-                        'angle'      => ['平视','仰视','俯视'][$i % 3],
-                        'comp'       => ['三分法','对角线','中心构图'][$i % 3],
-                        'plot_point' => '',
-                    ];
-                }
-                break;
+        $chapters = [];
+        foreach (array_values($rawChapters) as $i => $ch) {
+            if (mb_strlen($ch['content']) < 5) continue;
+            $chapters[] = self::buildChapterNode($i + 1, $ch['title'], $ch['content'], $ch['mood'] ?? '紧张');
         }
-
         return $chapters;
+    }
+
+    /**
+     * 自动检测章节标记类型
+     */
+    private static function detectChapterMarker(string $script): string
+    {
+        if (preg_match('/【[^】]+】/', $script)) return 'bracket';
+        if (preg_match('/第[一二三四五六七八九十百千\d]+[章节回]/u', $script)) return 'chapter_cn';
+        if (preg_match('/Chapter\s+[\dIVX]+/i', $script)) return 'chapter_en';
+        if (strpos($script, "---") !== false) return 'separator';
+        return 'blank_line';
+    }
+
+    /**
+     * 构建标准化的章节节点
+     */
+    private static function buildChapterNode(int $id, string $title, string $content, string $mood): array
+    {
+        return [
+            'node_id'    => $id,
+            'core_info'  => mb_substr($title ?: $content, 0, 30),
+            'location'   => mb_substr($title ?: $content, 0, 10),
+            'characters' => [],
+            'action'     => mb_substr($content, 0, 100),
+            'mood'       => $mood,
+            'shot'       => ['远景','中景','近景','特写'][($id - 1) % 4],
+            'angle'      => ['平视','仰视','俯视'][($id - 1) % 3],
+            'comp'       => ['三分法','对角线','中心构图'][($id - 1) % 3],
+            'plot_point' => $title,
+        ];
+    }
+
+    /** @return array<int, array{title:string, content:string}> */
+    private static function splitByBracket(string $script): array
+    {
+        preg_match_all('/【([^】]+)】([^【]*)/u', $script, $m, PREG_SET_ORDER);
+        $out = [];
+        foreach ($m as $match) {
+            $out[] = ['title' => trim($match[1]), 'content' => trim($match[2])];
+        }
+        return $out;
+    }
+
+    /** @return array<int, array{title:string, content:string}> */
+    private static function splitByChapterCn(string $script): array
+    {
+        preg_match_all('/(第[一二三四五六七八九十百千\d]+[章节回])\s*([^\n]*)\n?([^第]*)/u', $script, $m, PREG_SET_ORDER);
+        $out = [];
+        foreach ($m as $match) {
+            $title = trim($match[1] . ' ' . $match[2]);
+            $out[] = ['title' => $title, 'content' => trim($match[3])];
+        }
+        return $out;
+    }
+
+    /** @return array<int, array{title:string, content:string, mood:string}> */
+    private static function splitByChapterEn(string $script): array
+    {
+        preg_match_all('/(Chapter\s+[\dIVX]+)\s*:?\s*([^\n]*)\n?([^C]*)/i', $script, $m, PREG_SET_ORDER);
+        $out = [];
+        foreach ($m as $match) {
+            $title = trim($match[1] . ' ' . $match[2]);
+            $out[] = ['title' => $title, 'content' => trim($match[3]), 'mood' => 'tense'];
+        }
+        return $out;
+    }
+
+    /** @return array<int, array{title:string, content:string}> */
+    private static function splitBySeparator(string $script): array
+    {
+        $parts = array_filter(array_map('trim', preg_split('/^-{3,}$/m', $script)));
+        $out = [];
+        foreach ($parts as $content) {
+            $out[] = ['title' => '', 'content' => $content];
+        }
+        return $out;
+    }
+
+    /** @return array<int, array{title:string, content:string}> */
+    private static function splitByBlankLine(string $script): array
+    {
+        $parts = array_filter(array_map('trim', preg_split('/\n\s*\n/', $script)));
+        $out = [];
+        foreach ($parts as $content) {
+            $out[] = ['title' => '', 'content' => $content];
+        }
+        return $out;
     }
 
     public static function genesisRefineAndSplit(string $script, int $targetPanels, string $styleName, string $styleId = ''): array

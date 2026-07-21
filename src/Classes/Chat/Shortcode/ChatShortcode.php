@@ -49,20 +49,40 @@ final class ChatShortcode
      * @param bool $embedded
      * @return string
      */
-    private static function widget_html($bot_id, $embedded) : mixed     {
+    private static function widget_html($bot_id, $embedded) : mixed {
         $nonce = wp_create_nonce('linked3_chat');
         $ajax_url = admin_url('admin-ajax.php');
-        $is_guest = is_user_logged_in() ? '0' : '1';
-        $session_id = isset($_COOKIE['linked3_chat_sid']) ? sanitize_text_field(wp_unslash($_COOKIE['linked3_chat_sid'])) : wp_generate_password(24, false);
-        // Persist session ID in a cookie for guests.
-        if (!is_user_logged_in() && !headers_sent()) {
-            setcookie('linked3_chat_sid', $session_id, time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
-        }
+        [$session_id, $is_guest] = self::init_chat_session();
+
         $id = 'linked3-chat-' . wp_generate_password(6, false);
         $greeting = esc_html(get_option(LINKED3_OPTION_PREFIX . 'chat_greeting', __('您好!今天有什么可以帮您?', 'linked3')));
         $title = esc_html(get_option(LINKED3_OPTION_PREFIX . 'chat_title', __('AI 助手', 'linked3')));
 
         ob_start();
+        self::render_chat_html($id, $bot_id, $embedded, $nonce, $ajax_url, $is_guest, $session_id, $greeting, $title);
+        self::render_chat_js($id);
+        return ob_get_clean();
+    }
+
+    /**
+     * 初始化聊天会话 (访客 cookie / 登录用户)
+     * @return array{0:string,1:string} [session_id, is_guest]
+     */
+    private static function init_chat_session(): array {
+        $is_guest = is_user_logged_in() ? '0' : '1';
+        $session_id = isset($_COOKIE['linked3_chat_sid'])
+            ? sanitize_text_field(wp_unslash($_COOKIE['linked3_chat_sid']))
+            : wp_generate_password(24, false);
+        if (!is_user_logged_in() && !headers_sent()) {
+            setcookie('linked3_chat_sid', $session_id, time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+        }
+        return [$session_id, $is_guest];
+    }
+
+    /**
+     * 渲染聊天 widget HTML
+     */
+    private static function render_chat_html(string $id, int $bot_id, bool $embedded, string $nonce, string $ajax_url, string $is_guest, string $session_id, string $greeting, string $title): void {
         ?>
         <div class="linked3-chat<?php echo $embedded ? ' linked3-chat-embedded' : ' linked3-chat-floating'; ?>" id="<?php echo esc_attr($id); ?>"
              data-bot-id="<?php echo esc_attr($bot_id); ?>" data-nonce="<?php echo esc_attr($nonce); ?>"
@@ -88,6 +108,14 @@ final class ChatShortcode
                 </div>
             </div>
         </div>
+        <?php
+    }
+
+    /**
+     * 渲染聊天 widget JavaScript
+     */
+    private static function render_chat_js(string $id): void {
+        ?>
         <script>
         (function(){
             var w=document.getElementById('<?php echo esc_js($id); ?>');
@@ -125,7 +153,6 @@ final class ChatShortcode
         })();
         </script>
         <?php
-        return ob_get_clean();
     }
 
     public static function enqueue_assets()

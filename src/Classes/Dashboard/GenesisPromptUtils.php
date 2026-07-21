@@ -94,22 +94,52 @@ class GenesisPromptUtils
 
     public static function isAIPromptDegraded(string $prompt): bool
     {
-        $len = mb_strlen($prompt);
-        if ($len < 50) return true;
-        if ($len > 2000) return true;
+        if (self::isLengthDegraded($prompt)) return true;
 
+        $cleanWords = self::extractCleanWords($prompt);
+        if (count($cleanWords) < 10) return true;
+
+        if (self::hasExcessiveRepetition($cleanWords)) return true;
+        if (self::hasHighWordFrequency($cleanWords)) return true;
+        if (self::hasChineseContamination($prompt)) return true;
+        if (self::hasTemplateLeaks($prompt)) return true;
+        if (self::hasInvalidMjParams($prompt)) return true;
+
+        return false;
+    }
+
+    /**
+     * 长度检查: <50 或 >2000 字符
+     */
+    private static function isLengthDegraded(string $prompt): bool
+    {
+        $len = mb_strlen($prompt);
+        return $len < 50 || $len > 2000;
+    }
+
+    /**
+     * 提取去标点后的有效单词列表
+     */
+    private static function extractCleanWords(string $prompt): array
+    {
         $words = preg_split('/\s+/', strtolower($prompt));
         $words = array_filter($words, fn($w) => mb_strlen($w) > 0);
-        if (count($words) < 10) return true;
-
         $cleanWords = [];
         foreach ($words as $w) {
             $cw = preg_replace('/[^\w\-]/', '', $w);
             if ($cw !== '') $cleanWords[] = $cw;
         }
-        $totalWords = count($cleanWords);
-        if ($totalWords < 10) return true;
+        return $cleanWords;
+    }
 
+    /**
+     * 重复检测: 连续重复 / 窗口重复 / bigram重复
+     */
+    private static function hasExcessiveRepetition(array $cleanWords): bool
+    {
+        $totalWords = count($cleanWords);
+
+        // 连续相同词 >= 3
         $maxConsecutive = 0;
         $currentRepeat = 0;
         $prevWord = '';
@@ -124,36 +154,58 @@ class GenesisPromptUtils
         }
         if ($maxConsecutive >= 3) return true;
 
+        // 20词窗口内同一词 >= 5次
         $windowSize = 20;
-        $repeatThreshold = 5;
         for ($i = 0; $i <= $totalWords - $windowSize; $i++) {
             $window = array_slice($cleanWords, $i, $windowSize);
-            $counts = array_count_values($window);
-            $maxCount = max($counts);
-            if ($maxCount >= $repeatThreshold) return true;
+            if (max(array_count_values($window)) >= 5) return true;
         }
 
+        // bigram 重复 >= 3
         $bigrams = [];
         for ($i = 0; $i < $totalWords - 1; $i++) {
             $bg = $cleanWords[$i] . ' ' . $cleanWords[$i + 1];
             $bigrams[$bg] = ($bigrams[$bg] ?? 0) + 1;
         }
-        foreach ($bigrams as $bg => $cnt) {
+        foreach ($bigrams as $cnt) {
             if ($cnt >= 3) return true;
         }
+        return false;
+    }
 
+    /**
+     * 单词频率过高 (>25%)
+     */
+    private static function hasHighWordFrequency(array $cleanWords): bool
+    {
+        $totalWords = count($cleanWords);
         $wordCounts = array_count_values($cleanWords);
         foreach ($wordCounts as $word => $count) {
-            if (mb_strlen($word) < 3) continue;  // 跳过 2 字符以内
+            if (mb_strlen($word) < 3) continue;
             if ($count / $totalWords > 0.25) return true;
         }
+        return false;
+    }
 
+    /**
+     * 中文占比 > 20%
+     */
+    private static function hasChineseContamination(string $prompt): bool
+    {
+        $len = mb_strlen($prompt);
         $chineseCount = preg_match_all('/[\x{4e00}-\x{9fff}]/u', $prompt);
-        if ($chineseCount / max(1, $len) > 0.2) return true;
+        return $chineseCount / max(1, $len) > 0.2;
+    }
 
+    /**
+     * 模板泄漏 / 指令残留 / 方括号过多
+     */
+    private static function hasTemplateLeaks(string $prompt): bool
+    {
         $bracketCount = preg_match_all('/\[[^\]]+\]/', $prompt);
         if ($bracketCount >= 2) return true;
         if (stripos($prompt, 'params:') !== false) return true;
+
         $leakPatterns = [
             '/panel info/i',
             '/output (only )?the prompt/i',
@@ -164,17 +216,19 @@ class GenesisPromptUtils
         foreach ($leakPatterns as $pat) {
             if (preg_match($pat, $prompt)) return true;
         }
+        return false;
+    }
 
-        $allDashes = preg_match_all('/--(\w+)/', $prompt, $m);
+    /**
+     * 无效 MidJourney --params
+     */
+    private static function hasInvalidMjParams(string $prompt): bool
+    {
+        preg_match_all('/--(\w+)/', $prompt, $m);
         $validMjParams = ['ar', 's', 'style', 'no', 'v', 'niji', 'q', 'chaos', 'tile', 'fast', 'relax'];
-        $invalidDashCount = 0;
         foreach ($m[1] as $param) {
-            if (!in_array(strtolower($param), $validMjParams)) {
-                $invalidDashCount++;
-            }
+            if (!in_array(strtolower($param), $validMjParams)) return true;
         }
-        if ($invalidDashCount >= 1) return true;
-
         return false;
     }
 

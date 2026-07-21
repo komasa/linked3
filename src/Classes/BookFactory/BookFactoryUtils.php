@@ -8,131 +8,149 @@ class BookFactoryUtils
     public function smart_split_outline( $content ) : mixed {
         // 先尝试标准解析
         $outline = $this->parse_outline( $content );
-
-        // 如果解析出≥3章, 直接返回
         if ( count( $outline['chapters'] ) >= 3 ) {
             return $outline;
         }
 
         // v18.10: 解析失败或<3章, 用智能分段
+        $chapters = $this->split_by_title_lines( $content );
+
+        // 策略2: 如果仍<3章, 按段落强制切分
+        if ( count( $chapters ) < 3 ) {
+            $chapters = $this->split_by_paragraphs( $content );
+        }
+
+        // 策略3: 兜底, 强制切成4章
+        if ( count( $chapters ) < 3 ) {
+            $chapters = $this->force_split_quarters( $content );
+        }
+
+        // 确保每章至少有1个小节
+        $this->ensure_min_sections( $chapters );
+
+        return array( 'chapters' => $chapters );
+    }
+
+    /**
+     * 策略1: 按标题行切分(## / ** / 数字. / 第X章)
+     */
+    private function split_by_title_lines( string $content ) : array {
         $lines = explode( "\n", $content );
         $chapters = array();
         $current_chapter = null;
 
-        // 策略1: 按标题行切分(## / ** / 数字. / 第X章)
         foreach ( $lines as $line ) {
             $line = trim( $line );
             if ( empty( $line ) ) continue;
 
-            $is_title = false;
-            $title = '';
+            $title = $this->detect_title_line( $line );
 
-            // 匹配各种标题格式
-            if ( preg_match( '/^#{1,6}\s+(.+)$/', $line, $m ) ) {
-                $is_title = true;
-                $title = $m[1];
-            } elseif ( preg_match( '/^第[一二三四五六七八九十百零\d]+[章节][\s:：]*(.+)$/u', $line, $m ) ) {
-                $is_title = true;
-                $title = $m[1];
-            } elseif ( preg_match( '/^\*{2}(.+?)\*{2}$/', $line, $m ) ) {
-                $is_title = true;
-                $title = $m[1];
-            } elseif ( preg_match( '/^(\d+)[.、]\s*(.+)$/', $line, $m ) ) {
-                // 数字开头且是短行(标题)
-                if ( mb_strlen( $line ) < 30 ) {
-                    $is_title = true;
-                    $title = $m[2];
-                }
-            }
-
-            if ( $is_title && ! empty( $title ) ) {
-                // v18.10.1: 清理标题中的"第X章/节"前缀, 避免"第第"重复
-                $title = preg_replace( '/^第[一二三四五六七八九十百零\d]+[章节部分][\s:：]*/u', '', $title );
-                $title = preg_replace( '/^[#*\-\s]+/', '', $title );
-                $title = trim( $title );
-                if ( empty( $title ) ) {
-                    $title = '章节' . ( count( $chapters ) + 1 );
-                }
-
+            if ( $title !== null ) {
+                $title = $this->clean_chapter_title( $title, count( $chapters ) + 1 );
                 if ( $current_chapter ) {
                     $chapters[] = $current_chapter;
                 }
-                $current_chapter = array(
-                    'title' => $title,
-                    'sections' => array(),
-                );
+                $current_chapter = array( 'title' => $title, 'sections' => array() );
             } elseif ( $current_chapter ) {
-                // v18.10.3: 非标题行作为小节, 但每章最多5节 (避免132节爆炸)
-                if ( count( $current_chapter['sections'] ) < 5 ) {
-                    $clean = trim( preg_replace( '/^[-*]\s*/', '', $line ) );
-                    if ( ! empty( $clean ) && mb_strlen( $clean ) > 2 ) {
-                        $current_chapter['sections'][] = array( 'title' => mb_substr( $clean, 0, 50 ) );
-                    }
-                }
+                $this->add_section_to_chapter( $current_chapter, $line );
             }
         }
         if ( $current_chapter ) {
             $chapters[] = $current_chapter;
         }
+        return $chapters;
+    }
 
-        // 策略2: 如果仍<3章, 按段落强制切分
-        if ( count( $chapters ) < 3 ) {
-            $paragraphs = array_filter( explode( "\n\n", $content ) );
-            $paragraphs = array_filter( $paragraphs, function( $p ) {
-                return mb_strlen( trim( $p ) ) > 20;
-            });
-            $paragraphs = array_values( $paragraphs );
+    /**
+     * 检测行是否为标题, 返回标题文本或 null
+     */
+    private function detect_title_line( string $line ) : ?string {
+        if ( preg_match( '/^#{1,6}\s+(.+)$/', $line, $m ) ) return $m[1];
+        if ( preg_match( '/^第[一二三四五六七八九十百零\d]+[章节][\s:：]*(.+)$/u', $line, $m ) ) return $m[1];
+        if ( preg_match( '/^\*{2}(.+?)\*{2}$/', $line, $m ) ) return $m[1];
+        if ( preg_match( '/^(\d+)[.、]\s*(.+)$/', $line, $m ) && mb_strlen( $line ) < 30 ) return $m[2];
+        return null;
+    }
 
-            if ( count( $paragraphs ) >= 3 ) {
-                $chapters = array();
-                $chapter_count = min( count( $paragraphs ), 12 );
-                $paras_per_chapter = max( 1, intval( count( $paragraphs ) / $chapter_count ) );
-
-                for ( $i = 0; $i < $chapter_count; $i++ ) {
-                    $start = $i * $paras_per_chapter;
-                    $end = min( $start + $paras_per_chapter, count( $paragraphs ) );
-                    $chapter_content = implode( "\n\n", array_slice( $paragraphs, $start, $end - $start ) );
-                    $first_line = trim( explode( "\n", $chapter_content )[0] );
-                    // v18.10.1: 清理标题中的"第X章/部分"前缀, 避免"第第"重复
-                    $title = preg_replace( '/^第[一二三四五六七八九十百零\d]+[章节部分][\s:：]*/u', '', $first_line );
-                    $title = preg_replace( '/^[#*\-\s]+/', '', $title );
-                    $title = trim( mb_substr( $title, 0, 30 ) );
-                    if ( empty( $title ) ) {
-                        $title = '内容' . ( $i + 1 );
-                    }
-
-                    $chapters[] = array(
-                        'title' => '第' . ( $i + 1 ) . '章 ' . $title,
-                        'sections' => array(
-                            array( 'title' => '正文' ),
-                        ),
-                    );
-                }
-            }
+    /**
+     * v18.10.1: 清理标题中的"第X章/节"前缀, 避免"第第"重复
+     */
+    private function clean_chapter_title( string $title, int $fallback_num ) : string {
+        $title = preg_replace( '/^第[一二三四五六七八九十百零\d]+[章节部分][\s:：]*/u', '', $title );
+        $title = preg_replace( '/^[#*\-\s]+/', '', $title );
+        $title = trim( $title );
+        if ( empty( $title ) ) {
+            $title = '章节' . $fallback_num;
         }
+        return $title;
+    }
 
-        // 策略3: 兜底, 强制切成4章
-        if ( count( $chapters ) < 3 ) {
-            $mid = intval( mb_strlen( $content ) / 4 );
-            $chapters = array();
-            for ( $i = 0; $i < 4; $i++ ) {
-                $start = $i * $mid;
-                $chunk = mb_substr( $content, $start, $mid );
-                $chapters[] = array(
-                    'title' => '第' . ( $i + 1 ) . '章',
-                    'sections' => array( array( 'title' => '正文' ) ),
-                );
-            }
+    /**
+     * v18.10.3: 非标题行作为小节, 但每章最多5节 (避免132节爆炸)
+     */
+    private function add_section_to_chapter( array &$chapter, string $line ) : void {
+        if ( count( $chapter['sections'] ) >= 5 ) return;
+        $clean = trim( preg_replace( '/^[-*]\s*/', '', $line ) );
+        if ( ! empty( $clean ) && mb_strlen( $clean ) > 2 ) {
+            $chapter['sections'][] = array( 'title' => mb_substr( $clean, 0, 50 ) );
         }
+    }
 
-        // 确保每章至少有1个小节
+    /**
+     * 策略2: 按段落强制切分
+     */
+    private function split_by_paragraphs( string $content ) : array {
+        $paragraphs = array_filter( explode( "\n\n", $content ) );
+        $paragraphs = array_filter( $paragraphs, fn( $p ) => mb_strlen( trim( $p ) ) > 20 );
+        $paragraphs = array_values( $paragraphs );
+        if ( count( $paragraphs ) < 3 ) return [];
+
+        $chapters = array();
+        $chapter_count = min( count( $paragraphs ), 12 );
+        $paras_per_chapter = max( 1, intval( count( $paragraphs ) / $chapter_count ) );
+
+        for ( $i = 0; $i < $chapter_count; $i++ ) {
+            $start = $i * $paras_per_chapter;
+            $end = min( $start + $paras_per_chapter, count( $paragraphs ) );
+            $chapter_content = implode( "\n\n", array_slice( $paragraphs, $start, $end - $start ) );
+            $first_line = trim( explode( "\n", $chapter_content )[0] );
+            $title = $this->clean_chapter_title( $first_line, $i + 1 );
+            $title = trim( mb_substr( $title, 0, 30 ) );
+            if ( empty( $title ) ) {
+                $title = '内容' . ( $i + 1 );
+            }
+            $chapters[] = array(
+                'title' => '第' . ( $i + 1 ) . '章 ' . $title,
+                'sections' => array( array( 'title' => '正文' ) ),
+            );
+        }
+        return $chapters;
+    }
+
+    /**
+     * 策略3: 兜底, 强制切成4章
+     */
+    private function force_split_quarters( string $content ) : array {
+        $mid = intval( mb_strlen( $content ) / 4 );
+        $chapters = array();
+        for ( $i = 0; $i < 4; $i++ ) {
+            $chapters[] = array(
+                'title' => '第' . ( $i + 1 ) . '章',
+                'sections' => array( array( 'title' => '正文' ) ),
+            );
+        }
+        return $chapters;
+    }
+
+    /**
+     * 确保每章至少有1个小节
+     */
+    private function ensure_min_sections( array &$chapters ) : void {
         foreach ( $chapters as &$ch ) {
             if ( empty( $ch['sections'] ) ) {
                 $ch['sections'] = array( array( 'title' => '正文' ) );
             }
         }
-
-        return array( 'chapters' => $chapters );
     }
 
     public function parse_outline( $content ) : mixed {
@@ -140,45 +158,12 @@ class BookFactoryUtils
         $lines = explode( "\n", $content );
         $current_chapter = null;
 
-        // v18.9.2修复: 先去除Markdown前缀(## ### ** - 等), 兼容多种AI输出格式
         foreach ( $lines as $line ) {
             $line = trim( $line );
             if ( empty( $line ) ) continue;
 
-            // 去除Markdown前缀: ## / ### / ** / - / * (但保留数字.数字格式如1.1)
-            $clean_line = preg_replace( '/^[#*\-\s]+/', '', $line );
-            // 只去除 "数字. " 格式(如 "1. "), 不去除 "数字.数字" 格式(如 "1.1")
-            $clean_line = preg_replace( '/^(\d+)\.\s+(?=\D)/', '', $clean_line );
-            $clean_line = trim( $clean_line );
-
-            // 匹配 "第X章 标题" (兼容中文数字和阿拉伯数字)
-            if ( preg_match( '/^第[一二三四五六七八九十百零\d]+章[\s:：]*(.+)$/u', $clean_line, $m ) ) {
-                if ( $current_chapter ) {
-                    $outline['chapters'][] = $current_chapter;
-                }
-                $current_chapter = array(
-                    'title'    => trim( $m[1] ),
-                    'sections' => array(),
-                );
-            }
-            // 匹配 "第X节 标题"
-            elseif ( preg_match( '/^第[一二三四五六七八九十百零\d]+节[\s:：]*(.+)$/u', $clean_line, $m ) ) {
-                if ( $current_chapter ) {
-                    $current_chapter['sections'][] = array( 'title' => trim( $m[1] ) );
-                }
-            }
-            // 匹配 "1.1 标题" 或 "1.1、标题" (数字.数字格式)
-            elseif ( preg_match( '/^(\d+)\.(\d+)[\s、:：]*(.+)$/u', $clean_line, $m ) ) {
-                if ( $current_chapter && ! empty( trim( $m[3] ) ) ) {
-                    $current_chapter['sections'][] = array( 'title' => trim( $m[3] ) );
-                }
-            }
-            // 匹配 "- 标题" 或 "1. 标题" (兜底)
-            elseif ( preg_match( '/^[-\d.、]+[\s]*(.+)$/u', $clean_line, $m ) ) {
-                if ( $current_chapter && ! empty( trim( $m[1] ) ) && strlen( trim( $m[1] ) ) > 2 ) {
-                    $current_chapter['sections'][] = array( 'title' => trim( $m[1] ) );
-                }
-            }
+            $clean_line = $this->clean_outline_line( $line );
+            $current_chapter = $this->match_outline_pattern( $clean_line, $current_chapter, $outline );
         }
 
         if ( $current_chapter ) {
@@ -189,15 +174,55 @@ class BookFactoryUtils
         if ( empty( $outline['chapters'] ) ) {
             $outline['chapters'][] = array(
                 'title' => '正文内容',
-                'sections' => array(
-                    array( 'title' => '完整内容' ),
-                ),
+                'sections' => array( array( 'title' => '完整内容' ) ),
             );
-            // 记录原始输出供调试
             error_log( '[linked3 book_factory] parse_outline未匹配到章节, 原始输出前500字: ' . mb_substr( $content, 0, 500 ) );
         }
 
         return $outline;
+    }
+
+    /**
+     * v18.9.2: 去除Markdown前缀(## ### ** - 等), 兼容多种AI输出格式
+     */
+    private function clean_outline_line( string $line ) : string {
+        $clean = preg_replace( '/^[#*\-\s]+/', '', $line );
+        $clean = preg_replace( '/^(\d+)\.\s+(?=\D)/', '', $clean );
+        return trim( $clean );
+    }
+
+    /**
+     * 匹配大纲行模式 (第X章 / 第X节 / 1.1 / 兜底)
+     */
+    private function match_outline_pattern( string $clean_line, ?array $current_chapter, array &$outline ) : ?array {
+        // 匹配 "第X章 标题"
+        if ( preg_match( '/^第[一二三四五六七八九十百零\d]+章[\s:：]*(.+)$/u', $clean_line, $m ) ) {
+            if ( $current_chapter ) {
+                $outline['chapters'][] = $current_chapter;
+            }
+            return array( 'title' => trim( $m[1] ), 'sections' => array() );
+        }
+        // 匹配 "第X节 标题"
+        if ( preg_match( '/^第[一二三四五六七八九十百零\d]+节[\s:：]*(.+)$/u', $clean_line, $m ) ) {
+            if ( $current_chapter ) {
+                $current_chapter['sections'][] = array( 'title' => trim( $m[1] ) );
+            }
+            return $current_chapter;
+        }
+        // 匹配 "1.1 标题" 或 "1.1、标题"
+        if ( preg_match( '/^(\d+)\.(\d+)[\s、:：]*(.+)$/u', $clean_line, $m ) ) {
+            if ( $current_chapter && ! empty( trim( $m[3] ) ) ) {
+                $current_chapter['sections'][] = array( 'title' => trim( $m[3] ) );
+            }
+            return $current_chapter;
+        }
+        // 匹配 "- 标题" 或 "1. 标题" (兜底)
+        if ( preg_match( '/^[-\d.、]+[\s]*(.+)$/u', $clean_line, $m ) ) {
+            if ( $current_chapter && ! empty( trim( $m[1] ) ) && strlen( trim( $m[1] ) ) > 2 ) {
+                $current_chapter['sections'][] = array( 'title' => trim( $m[1] ) );
+            }
+        }
+        return $current_chapter;
     }
 
     public function rebuild_draft() : void {

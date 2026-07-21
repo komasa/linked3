@@ -337,70 +337,84 @@ final class ImageManager
     public function insert_into_content($content, $image_url, $settings = null)
     {
         if (!$settings) $settings = $this->get_settings();
+        $img_html = $this->build_img_html($image_url, $settings);
+        $position = $settings['insert_position'] ?? 'after_first_h2';
+
+        return match ($position) {
+            'before_content'         => $img_html . "\n" . $content,
+            'after_first_h2'         => $this->insert_after_first_h2($content, $img_html),
+            'after_h2'               => $this->insert_after_all_h2($content, $img_html),
+            'random'                 => $this->insert_random_paragraph($content, $img_html),
+            'after_content', 'end'   => $content . "\n" . $img_html,
+            'middle'                 => $this->insert_after_first_paragraph($content, $img_html),
+            default                  => $img_html . "\n" . $content,
+        };
+    }
+
+    /**
+     * 构建 <img> HTML 标签
+     */
+    private function build_img_html(string $image_url, array $settings): string {
         $w = $settings['img_width'] ?: 800;
         $h = $settings['img_height'] ?: 600;
         $alignment = $settings['image_alignment'] ?? 'center';
         $align_class = $alignment === 'none' ? '' : 'align' . $alignment;
-        $img_html = '<img src="' . esc_url($image_url) . '" alt="" width="' . $w . '" height="' . $h . '" class="' . $align_class . '" style="max-width:100%;height:auto;" />';
+        return '<img src="' . esc_url($image_url) . '" alt="" width="' . $w . '" height="' . $h . '" class="' . $align_class . '" style="max-width:100%;height:auto;" />';
+    }
 
-        $position = $settings['insert_position'] ?? 'after_first_h2';
-
-        switch ($position) {
-            case 'before_content':
-                return $img_html . "\n" . $content;
-
-            case 'after_first_h2':
-                // 在第一个 H2 标签后插入
-                if (preg_match('/(<h2[^>]*>.*?<\/h2>)/is', $content, $m, PREG_OFFSET_CAPTURE)) {
-                    $pos = $m[0][1] + strlen($m[0][0]);
-                    return substr($content, 0, $pos) . "\n" . $img_html . substr($content, $pos);
-                }
-                // 没有 H2 则用 Markdown ## 
-                if (preg_match('/(^##\s+.+$)/m', $content, $m, PREG_OFFSET_CAPTURE)) {
-                    $pos = $m[0][1] + strlen($m[0][0]);
-                    return substr($content, 0, $pos) . "\n\n" . $img_html . substr($content, $pos);
-                }
-                return $img_html . "\n" . $content;
-
-            case 'after_h2':
-                // 在每个 H2 后都插入 (分散图片)
-                if (preg_match_all('/(<h2[^>]*>.*?<\/h2>)/is', $content, $m, PREG_OFFSET_CAPTURE)) {
-                    $offset = 0;
-                    foreach ($m[0] as $match) {
-                        $pos = $match[1] + strlen($match[0]) + $offset;
-                        $content = substr($content, 0, $pos) . "\n" . $img_html . substr($content, $pos);
-                        $offset += strlen($img_html) + 1;
-                    }
-                    return $content;
-                }
-                return $img_html . "\n" . $content;
-
-            case 'random':
-                // 随机位置插入
-                $paragraphs = preg_split('/(<\/p>)/i', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
-                if (count($paragraphs) > 3) {
-                    $insert_idx = rand(1, count($paragraphs) - 2);
-                    $paragraphs[$insert_idx] .= "\n" . $img_html . "\n";
-                    return implode('', $paragraphs);
-                }
-                return $img_html . "\n" . $content;
-
-            case 'after_content':
-            case 'end':
-                return $content . "\n" . $img_html;
-
-            case 'first':
-            case 'middle':
-            default:
-                // 兼容旧值: middle = 第一个 </p> 后
-                if ($position === 'middle') {
-                    $pos = strpos($content, '</p>');
-                    if ($pos !== false) {
-                        return substr($content, 0, $pos + 4) . "\n" . $img_html . substr($content, $pos + 4);
-                    }
-                }
-                return $img_html . "\n" . $content;
+    /**
+     * 在第一个 H2 标签后插入 (HTML 或 Markdown ##)
+     */
+    private function insert_after_first_h2(string $content, string $img_html): string {
+        if (preg_match('/(<h2[^>]*>.*?<\/h2>)/is', $content, $m, PREG_OFFSET_CAPTURE)) {
+            $pos = $m[0][1] + strlen($m[0][0]);
+            return substr($content, 0, $pos) . "\n" . $img_html . substr($content, $pos);
         }
+        if (preg_match('/(^##\s+.+$)/m', $content, $m, PREG_OFFSET_CAPTURE)) {
+            $pos = $m[0][1] + strlen($m[0][0]);
+            return substr($content, 0, $pos) . "\n\n" . $img_html . substr($content, $pos);
+        }
+        return $img_html . "\n" . $content;
+    }
+
+    /**
+     * 在每个 H2 后都插入 (分散图片)
+     */
+    private function insert_after_all_h2(string $content, string $img_html): string {
+        if (!preg_match_all('/(<h2[^>]*>.*?<\/h2>)/is', $content, $m, PREG_OFFSET_CAPTURE)) {
+            return $img_html . "\n" . $content;
+        }
+        $offset = 0;
+        foreach ($m[0] as $match) {
+            $pos = $match[1] + strlen($match[0]) + $offset;
+            $content = substr($content, 0, $pos) . "\n" . $img_html . substr($content, $pos);
+            $offset += strlen($img_html) + 1;
+        }
+        return $content;
+    }
+
+    /**
+     * 随机段落位置插入
+     */
+    private function insert_random_paragraph(string $content, string $img_html): string {
+        $paragraphs = preg_split('/(<\/p>)/i', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+        if (count($paragraphs) > 3) {
+            $insert_idx = rand(1, count($paragraphs) - 2);
+            $paragraphs[$insert_idx] .= "\n" . $img_html . "\n";
+            return implode('', $paragraphs);
+        }
+        return $img_html . "\n" . $content;
+    }
+
+    /**
+     * 在第一个 </p> 后插入 (middle 兼容)
+     */
+    private function insert_after_first_paragraph(string $content, string $img_html): string {
+        $pos = strpos($content, '</p>');
+        if ($pos !== false) {
+            return substr($content, 0, $pos + 4) . "\n" . $img_html . substr($content, $pos + 4);
+        }
+        return $img_html . "\n" . $content;
     }
 
     /**

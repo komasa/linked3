@@ -172,6 +172,18 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $endpoint = $script['endpoint'];
         $footer = $script['footer'];
 
+        $prompt = $this->compileHeader($meta, $script, $config);
+        $prompt .= $this->compileLayoutSection($bands);
+        $prompt .= $this->compileTextOverlays($script);
+        $prompt .= $this->compileBandsDetail($bands);
+        $prompt .= $this->compileEndpointSection($endpoint, $footer);
+        $prompt .= $this->compileRelationshipsSection($config);
+        $prompt .= $this->compileConnectionsAndValidation($meta, $bands, $endpoint, $config);
+
+        return $prompt;
+    }
+
+    private function compileHeader(array $meta, array $script, array $config): string {
         $prompt = "[ID: " . ($config['id'] ?? 'DIAGRAM_001') . "]\n";
         $prompt .= "[Title: " . $script['dialogue']['main_title'] . "]\n";
         $prompt .= "[META:diagram_master_template]\n";
@@ -179,88 +191,110 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $prompt .= "Color:#F8F8FF(底)+#2F4F4F(全局主色)+9大模块专属强调色 | ";
         $prompt .= "Mood:{$meta['mood']} | Culture:{$meta['culture']} | ";
         $prompt .= "Platform:9:16竖版无UI长图 | Density:" . ucfirst($meta['density']) . "版\n\n";
-
         $prompt .= "# Script: " . ($config['english_title'] ?? 'System Architecture Map') . "\n";
         $prompt .= "Arc: {$script['arc']}\n";
         $prompt .= "Main Title: \"{$script['dialogue']['main_title']}\"\n\n";
+        return $prompt;
+    }
 
-        $prompt .= "# Layout & Visual Logic (DO NOT change structure)\n";
+    private function compileLayoutSection(array $bands): string {
+        $prompt = "# Layout & Visual Logic (DO NOT change structure)\n";
         $prompt .= "A vertical 9:16 infographic poster. No UI elements. Background: ghost white (#F8F8FF).\n";
         $prompt .= "Layout: Horizontally sliced into " . count($bands) . " distinct horizontal bands. Each band has a VERY FAINT background tint.\n";
         $prompt .= "Module Bounding: Every module MUST be enclosed in a THIN, CLEAN ROUNDED RECTANGLE BORDER with internal padding.\n";
         $prompt .= "Anchoring System: Every module MUST have a PROMINENT CIRCULAR COLORED BADGE with a white number (01-09) at its top-left corner.\n";
         $prompt .= "Density Rule: MUST be extremely dense with text, like a textbook page.\n";
         $prompt .= "Typographic Hierarchy: Main Title (Largest, Bold Dark Gray) > Module Titles (Large, Colored) > Text inside diagrams (Medium, Bold Black, EMBEDDED strictly inside shapes) > Dense side-cards (Small, Dark Gray).\n\n";
+        return $prompt;
+    }
 
-        $prompt .= "# Text Overlays (crisp Chinese)\n";
+    private function compileTextOverlays(array $script): string {
+        $prompt = "# Text Overlays (crisp Chinese)\n";
         $prompt .= "Top-Left: \"{$script['dialogue']['top_left']}\"\n";
         $prompt .= "Top-Right: \"{$script['dialogue']['top_right']}\"\n\n";
+        return $prompt;
+    }
 
+    private function compileBandsDetail(array $bands): string {
+        $prompt = "";
         foreach ($bands as $i => $band) {
             $bandNum = $i + 1;
             $bandTint = $band['tint'] ?? 'Light Blue';
             $actName = $band['act_name'] ?? "Act{$bandNum}";
             $bandTitle = $band['title'] ?? "Band {$bandNum}";
             $prompt .= "# Band {$bandNum} ({$bandTint} tint, {$actName} {$bandTitle}):\n";
-
             if (isset($band['modules']) && is_array($band['modules'])) {
                 foreach ($band['modules'] as $module) {
-                    $badgeNum = $module['badge'] ?? '01';
-                    $badgeColor = self::BADGE_COLORS[$badgeNum] ?? '#4A90E2';
-                    $cognitiveLevel = $module['cognitive_level'] ?? '[R]';
-                    $moduleTitle = $module['title'] ?? 'Module';
-                    $diagramType = $module['diagram_type'] ?? 'Stacked blocks';
-                    $prompt .= "Badge \"{$badgeNum}\" ({$badgeColor}) {$cognitiveLevel}. Title: \"{$moduleTitle}\". Diagram: {$diagramType}.\n";
-
-                    if (isset($module['sub_topics']) && is_array($module['sub_topics'])) {
-                        foreach ($module['sub_topics'] as $subTopic) {
-                            $stTitle = $subTopic['title'] ?? 'Sub-topic';
-                            $details = $subTopic['details'] ?? [];
-                            $anchor = $subTopic['anchor'] ?? null;
-                            $prompt .= "  Sub-topic: \"{$stTitle}\" -> Details: ";
-                            $detailStrs = array_map(fn($d) => "\"{$d}\"", $details);
-                            $prompt .= implode(', ', $detailStrs) . ".\n";
-                            if ($anchor) {
-                                $prompt .= "    Application Anchor: Case=\"{$anchor['case']}\", Metric=\"{$anchor['metric']}\", Action=\"{$anchor['action']}\".\n";
-                            }
-                        }
-                    }
-                    if (isset($module['text_embedded'])) {
-                        $prompt .= "  Text EMBEDDED: " . implode(', ', array_map(fn($t) => "\"{$t}\"", $module['text_embedded'])) . ".\n";
-                    }
-                    if (isset($module['side_cards'])) {
-                        $prompt .= "  Side-cards: " . implode(', ', array_map(fn($s) => "\"{$s}\"", $module['side_cards'])) . ".\n";
-                    }
-                    $prompt .= "\n";
+                    $prompt .= $this->compileModuleDetail($module);
                 }
             }
         }
+        return $prompt;
+    }
 
-        if (!empty($endpoint)) {
-            $epType = $endpoint['type'] ?? 'Flywheel';
-            $epQuestion = $endpoint['question'] ?? '飞轮：4个齿轮如何互相加速？';
-            $epMilestones = $endpoint['milestones'] ?? ['阶段1', '阶段2', '阶段3', '阶段4'];
-            $prompt .= "# Endpoint & Footer\n";
-            $prompt .= "Endpoint Type: {$epType}. Visual: " . $this->getEndpointVisual($epType) . ".\n";
-            $prompt .= "Question: \"{$epQuestion}\"\n";
-            $prompt .= "Milestones: " . implode(', ', array_map(fn($m) => "\"{$m}\"", $epMilestones)) . ".\n";
-            if (isset($endpoint['accelerators'])) {
-                $prompt .= "Accelerators: " . implode(', ', array_map(fn($a) => "\"{$a}\"", $endpoint['accelerators'])) . ".\n";
+    private function compileModuleDetail(array $module): string {
+        $badgeNum = $module['badge'] ?? '01';
+        $badgeColor = self::BADGE_COLORS[$badgeNum] ?? '#4A90E2';
+        $cognitiveLevel = $module['cognitive_level'] ?? '[R]';
+        $moduleTitle = $module['title'] ?? 'Module';
+        $diagramType = $module['diagram_type'] ?? 'Stacked blocks';
+        $prompt = "Badge \"{$badgeNum}\" ({$badgeColor}) {$cognitiveLevel}. Title: \"{$moduleTitle}\". Diagram: {$diagramType}.\n";
+
+        if (isset($module['sub_topics']) && is_array($module['sub_topics'])) {
+            foreach ($module['sub_topics'] as $subTopic) {
+                $stTitle = $subTopic['title'] ?? 'Sub-topic';
+                $details = $subTopic['details'] ?? [];
+                $anchor = $subTopic['anchor'] ?? null;
+                $prompt .= "  Sub-topic: \"{$stTitle}\" -> Details: ";
+                $prompt .= implode(', ', array_map(fn($d) => "\"{$d}\"", $details)) . ".\n";
+                if ($anchor) {
+                    $prompt .= "    Application Anchor: Case=\"{$anchor['case']}\", Metric=\"{$anchor['metric']}\", Action=\"{$anchor['action']}\".\n";
+                }
             }
         }
+        if (isset($module['text_embedded'])) {
+            $prompt .= "  Text EMBEDDED: " . implode(', ', array_map(fn($t) => "\"{$t}\"", $module['text_embedded'])) . ".\n";
+        }
+        if (isset($module['side_cards'])) {
+            $prompt .= "  Side-cards: " . implode(', ', array_map(fn($s) => "\"{$s}\"", $module['side_cards'])) . ".\n";
+        }
+        $prompt .= "\n";
+        return $prompt;
+    }
 
+    private function compileEndpointSection(array $endpoint, string $footer): string {
+        if (empty($endpoint)) {
+            return $footer ? "Footer: \"{$footer}\".\n" : '';
+        }
+        $epType = $endpoint['type'] ?? 'Flywheel';
+        $epQuestion = $endpoint['question'] ?? '飞轮：4个齿轮如何互相加速？';
+        $epMilestones = $endpoint['milestones'] ?? ['阶段1', '阶段2', '阶段3', '阶段4'];
+        $prompt = "# Endpoint & Footer\n";
+        $prompt .= "Endpoint Type: {$epType}. Visual: " . $this->getEndpointVisual($epType) . ".\n";
+        $prompt .= "Question: \"{$epQuestion}\"\n";
+        $prompt .= "Milestones: " . implode(', ', array_map(fn($m) => "\"{$m}\"", $epMilestones)) . ".\n";
+        if (isset($endpoint['accelerators'])) {
+            $prompt .= "Accelerators: " . implode(', ', array_map(fn($a) => "\"{$a}\"", $endpoint['accelerators'])) . ".\n";
+        }
         if ($footer) {
             $prompt .= "Footer: \"{$footer}\".\n";
         }
+        return $prompt;
+    }
 
-        if (isset($config['relationships']) && is_array($config['relationships'])) {
-            $prompt .= "\n# Relationships (max 9, max 2 per module)\n";
-            foreach ($config['relationships'] as $rel) {
-                $prompt .= $rel['from'] . $rel['code'] . $rel['to'] . ': ' . $rel['desc'] . "\n";
-            }
+    private function compileRelationshipsSection(array $config): string {
+        if (!isset($config['relationships']) || !is_array($config['relationships'])) {
+            return '';
         }
+        $prompt = "\n# Relationships (max 9, max 2 per module)\n";
+        foreach ($config['relationships'] as $rel) {
+            $prompt .= $rel['from'] . $rel['code'] . $rel['to'] . ': ' . $rel['desc'] . "\n";
+        }
+        return $prompt;
+    }
 
-        $prompt .= "\n# Connections\n";
+    private function compileConnectionsAndValidation(array $meta, array $bands, array $endpoint, array $config): string {
+        $prompt = "\n# Connections\n";
         $prompt .= "THICK GRAY SPINE lines connect bands. THIN GRAY ARROWS connect modules. ";
         $prompt .= "LONG DASHED LINE from " . ($endpoint['type'] ?? 'flywheel') . " back to ID, forming giant closed loop. ";
         $prompt .= "Professional, dense, hierarchically clear content marketing infographic.\n";
@@ -270,9 +304,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $prompt .= "深度/锚点/图示/Endpoint: 4层(模块->子主题->细节->锚点)，16种图示按决策树匹配，Endpoint=" . ($endpoint['type'] ?? 'Flywheel') . "。\n";
         $prompt .= "Footer/追问/关系/认知/密度: Footer=" . ($config['footer_type'] ?? '公式型') . "，追问=" . ($config['followup_type'] ?? '预测型') . "，";
         $prompt .= count($config['relationships'] ?? []) . "条关系，认知6级[R][A][U][An][E][C]，Density=" . ucfirst($meta['density']) . "版。\n";
-        // v18复审: 第9维度·视觉频率校验输出
         $prompt .= "视觉频率(第9维度): [HF]高频锚点前1/3密集→[MF]中频叙事中段支撑→[LF]低频氛围底部收束, 色彩HF暖亮/MF中性/LF冷暗, 禁止全频均匀分布。\n";
-
         return $prompt;
     }
 
@@ -299,11 +331,28 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $issues = [];
         $score = 100;
 
+        $this->validateBandCount($diagram, $issues, $score);
+        $this->validateSubTopics($diagram, $issues, $score);
+        $this->validateTextEmbedded($diagram, $issues, $score);
+        $this->validateBadges($diagram, $issues, $score);
+        $this->validateEndpoint($diagram, $issues, $score);
+        $this->validateRelationships($diagram, $issues, $score);
+
+        return [
+            'passed' => $score >= 70 && empty(array_filter($issues, fn($i) => strpos($i, '不足') !== false)),
+            'score' => max(0, $score),
+            'issues' => $issues,
+        ];
+    }
+
+    private function validateBandCount(array $diagram, array &$issues, int &$score): void {
         if (!isset($diagram['bands']) || count($diagram['bands']) < 3) {
             $issues[] = 'Band数量不足(最少3个)';
             $score -= 20;
         }
+    }
 
+    private function validateSubTopics(array $diagram, array &$issues, int &$score): void {
         foreach ($diagram['bands'] ?? [] as $band) {
             foreach ($band['modules'] ?? [] as $module) {
                 if (!isset($module['sub_topics']) || count($module['sub_topics']) < 2) {
@@ -318,21 +367,24 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
                 }
             }
         }
+    }
 
+    private function validateTextEmbedded(array $diagram, array &$issues, int &$score): void {
         foreach ($diagram['bands'] ?? [] as $band) {
             foreach ($band['modules'] ?? [] as $module) {
-                if (isset($module['text_embedded'])) {
-                    foreach ($module['text_embedded'] as $text) {
-                        $len = mb_strlen($text);
-                        if ($len < 2 || $len > 6) {
-                            $issues[] = "嵌入文字\"{$text}\"长度{$len}不在2-6字范围";
-                            $score -= 2;
-                        }
+                if (!isset($module['text_embedded'])) continue;
+                foreach ($module['text_embedded'] as $text) {
+                    $len = mb_strlen($text);
+                    if ($len < 2 || $len > 6) {
+                        $issues[] = "嵌入文字\"{$text}\"长度{$len}不在2-6字范围";
+                        $score -= 2;
                     }
                 }
             }
         }
+    }
 
+    private function validateBadges(array $diagram, array &$issues, int &$score): void {
         $badgeNums = [];
         foreach ($diagram['bands'] ?? [] as $band) {
             foreach ($band['modules'] ?? [] as $module) {
@@ -343,23 +395,21 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
             $issues[] = '徽章编号有重复';
             $score -= 10;
         }
+    }
 
+    private function validateEndpoint(array $diagram, array &$issues, int &$score): void {
         if (!isset($diagram['endpoint']['type'])) {
             $issues[] = 'Endpoint类型缺失';
             $score -= 10;
         }
+    }
 
+    private function validateRelationships(array $diagram, array &$issues, int &$score): void {
         $relCount = count($diagram['relationships'] ?? []);
         if ($relCount > 9) {
             $issues[] = "关系线{$relCount}条超过上限9条";
             $score -= 5;
         }
-
-        return [
-            'passed' => $score >= 70 && empty(array_filter($issues, fn($i) => strpos($i, '不足') !== false)),
-            'score' => max(0, $score),
-            'issues' => $issues,
-        ];
     }
 
 }
