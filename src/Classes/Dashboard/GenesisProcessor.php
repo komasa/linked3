@@ -267,36 +267,13 @@ final class GenesisProcessor
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+
         $info = [
-            'php' => [
-                'version'             => PHP_VERSION,
-                'sapi'                => PHP_SAPI,
-                'max_execution_time'  => ini_get('max_execution_time'),
-                'memory_limit'        => ini_get('memory_limit'),
-                'max_input_time'      => ini_get('max_input_time'),
-                'max_input_vars'      => ini_get('max_input_vars'),
-                'post_max_size'       => ini_get('post_max_size'),
-                'upload_max_filesize' => ini_get('upload_max_filesize'),
-            ],
-            'curl' => [
-                'enabled'        => function_exists('curl_init'),
-                'version'        => function_exists('curl_version') ? curl_version()['version'] : 'N/A',
-                'multi_enabled'  => function_exists('curl_multi_init'),
-                'ssl_version'    => function_exists('curl_version') ? (curl_version()['ssl_version'] ?? 'N/A') : 'N/A',
-            ],
-            'wordpress' => [
-                'version'        => get_bloginfo('version'),
-                'wp_debug'       => WP_DEBUG,
-                'wp_debug_log'   => defined('WP_DEBUG_LOG') ? WP_DEBUG_LOG : false,
-                'cron'           => defined('DISABLE_WP_CRON') && DISABLE_WP_CRON ? 'disabled' : 'enabled',
-                'alternate_cron' => defined('ALTERNATE_WP_CRON') && ALTERNATE_WP_CRON ? 'enabled' : 'disabled',
-            ],
-            'server' => [
-                'software'       => $_SERVER['SERVER_SOFTWARE'] ?? 'unknown',
-                'fastcgi_finish' => function_exists('fastcgi_finish_request'),
-                'proc_open'      => function_exists('proc_open'),
-            ],
-            'genesis' => [
+            'php'         => self::collect_php_info(),
+            'curl'        => self::collect_curl_info(),
+            'wordpress'   => self::collect_wp_info(),
+            'server'      => self::collect_server_info(),
+            'genesis'     => [
                 'classes_loaded' => [
                     'AIDispatcher'           => class_exists('\Linked3\Classes\Dashboard\AIDispatcher'),
                     'GenesisAtomIndex'       => class_exists('\Linked3\Classes\Dashboard\GenesisAtomIndex'),
@@ -306,31 +283,114 @@ final class GenesisProcessor
                 ],
                 'preflight'      => self::genesisPreflightCheck(),
             ],
-            'recommendations' => [],
+            'recommendations' => self::build_diagnostic_recommendations(),
         ];
-        // 生成建议
-        $rec = &$info['recommendations'];
-        if ((int)ini_get('max_execution_time') > 0 && (int)ini_get('max_execution_time') < 120) {
+
+        wp_send_json_success($info);
+    }
+
+    /**
+     * Collect PHP runtime info for diagnostic.
+     *
+     * @return array
+     */
+    private static function collect_php_info(): array
+    {
+        return [
+            'version'             => PHP_VERSION,
+            'sapi'                => PHP_SAPI,
+            'max_execution_time'  => ini_get('max_execution_time'),
+            'memory_limit'        => ini_get('memory_limit'),
+            'max_input_time'      => ini_get('max_input_time'),
+            'max_input_vars'      => ini_get('max_input_vars'),
+            'post_max_size'       => ini_get('post_max_size'),
+            'upload_max_filesize' => ini_get('upload_max_filesize'),
+        ];
+    }
+
+    /**
+     * Collect cURL info for diagnostic.
+     *
+     * @return array
+     */
+    private static function collect_curl_info(): array
+    {
+        $cv = function_exists('curl_version') ? curl_version() : [];
+        return [
+            'enabled'        => function_exists('curl_init'),
+            'version'        => $cv['version'] ?? 'N/A',
+            'multi_enabled'  => function_exists('curl_multi_init'),
+            'ssl_version'    => $cv['ssl_version'] ?? 'N/A',
+        ];
+    }
+
+    /**
+     * Collect WordPress info for diagnostic.
+     *
+     * @return array
+     */
+    private static function collect_wp_info(): array
+    {
+        return [
+            'version'        => get_bloginfo('version'),
+            'wp_debug'       => WP_DEBUG,
+            'wp_debug_log'   => defined('WP_DEBUG_LOG') ? WP_DEBUG_LOG : false,
+            'cron'           => defined('DISABLE_WP_CRON') && DISABLE_WP_CRON ? 'disabled' : 'enabled',
+            'alternate_cron' => defined('ALTERNATE_WP_CRON') && ALTERNATE_WP_CRON ? 'enabled' : 'disabled',
+        ];
+    }
+
+    /**
+     * Collect server info for diagnostic.
+     *
+     * @return array
+     */
+    private static function collect_server_info(): array
+    {
+        return [
+            'software'       => $_SERVER['SERVER_SOFTWARE'] ?? 'unknown',
+            'fastcgi_finish' => function_exists('fastcgi_finish_request'),
+            'proc_open'      => function_exists('proc_open'),
+        ];
+    }
+
+    /**
+     * Build diagnostic recommendations based on PHP/curl/WP-cron config.
+     *
+     * @return array
+     */
+    private static function build_diagnostic_recommendations(): array
+    {
+        $rec = [];
+
+        $maxExec = (int) ini_get('max_execution_time');
+        if ($maxExec > 0 && $maxExec < 120) {
             $rec[] = '⚠️ max_execution_time=' . ini_get('max_execution_time') . 's 过小, 建议 ≥120s (或 0=无限)';
         }
-        if (ini_get('memory_limit') && ini_get('memory_limit') !== '-1') {
-            $mem = (int)ini_get('memory_limit');
-            if (preg_match('/(\d+)M/', ini_get('memory_limit'), $m)) $mem = (int)$m[1];
-            if ($mem < 256) $rec[] = '⚠️ memory_limit=' . ini_get('memory_limit') . ' 过小, 建议 ≥512M';
+
+        $memLimit = ini_get('memory_limit');
+        if ($memLimit && $memLimit !== '-1') {
+            $mem = 0;
+            if (preg_match('/(\d+)M/', $memLimit, $m)) $mem = (int) $m[1];
+            if ($mem > 0 && $mem < 256) {
+                $rec[] = '⚠️ memory_limit=' . $memLimit . ' 过小, 建议 ≥512M';
+            }
         }
+
         if (!function_exists('curl_multi_init')) {
             $rec[] = '⚠️ curl_multi 不可用, 将降级串行模式 (慢)';
         }
         if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON) {
             $rec[] = '⚠️ WP-Cron 被禁用, 异步任务模式将退化为 fastcgi_finish_request 或同步模式';
         }
-        if (!$info['server']['fastcgi_finish']) {
+        if (!function_exists('fastcgi_finish_request')) {
             $rec[] = '⚠️ fastcgi_finish_request 不可用, 无法在响应后后台执行';
         }
+
         if (empty($rec)) {
             $rec[] = '✅ 服务器配置良好, 异步任务模式可正常工作';
         }
-        wp_send_json_success($info);
+        return $rec;
     }
     /**
      * v7.1.0: FP 部剥骨提纯语义核 — 融入 deai_5d 思想。
