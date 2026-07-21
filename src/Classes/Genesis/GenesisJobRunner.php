@@ -311,8 +311,10 @@ class GenesisJobRunner
      */
     private static function executeGeneration(string $jobId, string $script, string $styleId, string $platform, string $panelCountRaw, array $extraOptions = []): array
     {
-        // v7.1.8: 修复命名空间问题 — 必须用全限定名
-        $registrarClass = '\\Linked3\\Classes\\Dashboard\\DashboardAjaxRegistrar';
+        // v7.1.9: 修复 Bug 2 — DashboardAjaxRegistrar 有 __callStatic，导致 method_exists 恒 true
+        //         但 $delegateMap 里没有 genesisGenerateMultiInternal，会走 ghost method 返回 501。
+        //         正确目标：GenesisProcessor（真实方法，代理到 GenesisProcessorDelegates）
+        $registrarClass = '\\Linked3\\Classes\\Dashboard\\GenesisProcessor';
 
         if (method_exists($registrarClass, 'genesisGenerateMultiInternal')) {
             return $registrarClass::genesisGenerateMultiInternal($script, $styleId, $platform, $panelCountRaw, [self::class, 'on_generation_progress'], $extraOptions);
