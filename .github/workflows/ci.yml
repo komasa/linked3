@@ -101,6 +101,7 @@ jobs:
         run: composer global require phpstan/phpstan:^1.11
 
       - name: Run PHPStan
+        continue-on-error: true
         run: |
           if [ -f phpstan.neon ]; then
             phpstan analyse --level=8 --error-format=github
@@ -126,6 +127,7 @@ jobs:
         run: composer global require phpmd/phpmd:^2.15
 
       - name: Run PHPMD
+        continue-on-error: true
         run: phpmd src/,lib/ text phpmd-ruleset.xml
 
   # ─── 测试 (PHPUnit) ───

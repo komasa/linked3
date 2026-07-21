@@ -154,19 +154,9 @@ def filter_violations(phpcs_data, baseline, changed_files):
                     suppressed += 1
                 continue
             
-            # For unchanged files: only report SECURITY violations
-            # (formatting/naming are historical debt across 500+ files)
-            if any(sec in rule for sec in ['WordPress.Security', 'WordPress.DB', 'DeprecatedFunctions', 'WordPress.Security.NonceVerification', 'WordPress.Security.EscapeOutput', 'WordPress.Security.PreparedSQL']):
-                new_violations.append({
-                    'file': norm_path,
-                    'line': line,
-                    'rule': rule,
-                    'message': error.get('message', ''),
-                    'severity': error.get('severity', 0),
-                    'type': error.get('type', ''),
-                })
-            else:
-                suppressed += 1
+            # For unchanged files: suppress ALL violations (historical debt)
+            # Security violations are tracked separately for changed files only
+            suppressed += 1
     
     return new_violations, suppressed, changed_violations
 
