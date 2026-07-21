@@ -117,126 +117,60 @@ final class PostMetabox
     /**
      * 渲染 metabox 内联 JavaScript (事件绑定 + AJAX).
      */
-    private static function render_metabox_script($post): void
+    public function render_metabox_script($post)
     {
+        $ajax_url = admin_url('admin-ajax.php');
+        $nonce = wp_create_nonce('linked3_metabox');
+        $settings = $this->get_metabox_settings($post);
+        $providers = $this->get_provider_options();
+        $templates = $this->get_template_options();
         ?>
         <script>
-        (function(){
-            var nonce = document.getElementById('linked3_metabox_nonce').value;
-            var ajaxUrl = <?php echo wp_json_encode(admin_url('admin-ajax.php')); ?>;
-            var postId = <?php echo (int) $post->ID; ?>;
-
-            function getCurrentContent() {
-                if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
-                    return tinymce.get('content').getContent();
-                }
-                var ta = document.getElementById('content');
-                return ta ? ta.value : '';
-            }
-            function getCurrentTitle() {
-                var t = document.getElementById('title');
-                return t ? t.value : '';
-            }
-            function setResult(html) {
-                var r = document.getElementById('linked3-mb-result');
-                r.innerHTML = html;
-            }
-
-            // 文章级 AI 操作
-            document.querySelectorAll('.linked3-mb-btn').forEach(function(btn){
-                btn.addEventListener('click', function(){
-                    var action = btn.dataset.action;
-                    var fd = new FormData();
-                    fd.append('action', 'linked3_metabox_ai');
-                    fd.append('nonce', nonce);
-                    fd.append('sub_action', action);
-                    fd.append('post_id', postId);
-                    fd.append('title', getCurrentTitle());
-                    fd.append('content', getCurrentContent());
-                    setResult('生成中...');
-                    fetch(ajaxUrl, {method:'POST', body:fd, credentials:'same-origin'})
-                        .then(function(r){return r.json();})
-                        .then(function(res){
-                            if (res.success) {
-                                var html = '';
-                                var title = document.getElementById('title');
-                                if (res.data.title && title) title.value = res.data.title;
-                                if (res.data.excerpt) {
-                                    var ex = document.getElementById('excerpt');
-                                    if (ex) ex.value = res.data.excerpt;
-                                }
-                                if (res.data.tags) {
-                                    var tg = document.getElementById('new-tag-post_tag');
-                                    if (tg) tg.value = res.data.tags;
-                                }
-                                if (res.data.image_url) {
-                                    html += '<p>已设置特色图片</p><img src="' + res.data.image_url + '" style="max-width:100%;" />';
-                                }
-                                if (res.data.message) html += '<p>' + res.data.message + '</p>';
-                                setResult(html || '完成');
-                            } else {
-                                setResult(res.data && res.data.message ? res.data.message : '错误');
-                            }
-                        }).catch(function(e){ setResult('网络错误: ' + e.message); });
-                });
-            });
-
-            // 文本操作 (aipower 风格 v2.8.0)
-            document.querySelectorAll('.linked3-mb-text').forEach(function(btn){
-                btn.addEventListener('click', function(){
-                    var action = btn.dataset.action;
-                    var content = getCurrentContent();
-                    if (!content || content.length < 10) {
-                        alert('请先在编辑器里输入内容');
-                        return;
-                    }
-                    // 取选中文本优先,否则用全文前 2000 字
-                    var selected = '';
-                    if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
-                        var ed = tinymce.get('content');
-                        selected = ed.selection.getContent({format: 'text'});
-                    }
-                    var textToProcess = selected || content;
-                    var fd = new FormData();
-                    fd.append('action', 'linked3_metabox_process_text');
-                    fd.append('nonce', nonce);
-                    fd.append('process_action', action);
-                    fd.append('text', textToProcess);
-                    setResult('AI 处理中...');
-                    fetch(ajaxUrl, {method:'POST', body:fd, credentials:'same-origin'})
-                        .then(function(r){return r.json();})
-                        .then(function(res){
-                            if (res.success) {
-                                var html = '<p style="color:#080;font-weight:600;">✓ 处理完成</p>';
-                                html += '<div style="background:#f9fafb;border:1px solid #e5e7eb;padding:8px;margin-top:6px;border-radius:4px;max-height:200px;overflow-y:auto;font-size:11px;">' +
-                                    String(res.data.result).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>';
-                                // 一键插入按钮
-                                html += '<p style="margin-top:6px;"><button type="button" class="button button-small linked3-mb-insert">插入到编辑器</button></p>';
-                                setResult(html);
-                                // 绑定插入事件
-                                var insBtn = document.querySelector('.linked3-mb-insert');
-                                if (insBtn) {
-                                    insBtn.addEventListener('click', function(){
-                                        var insertText = res.data.result;
-                                        if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
-                                            var ed = tinymce.get('content');
-                                            ed.execCommand('mceInsertContent', false, '<p>' + insertText.replace(/\n/g, '</p><p>') + '</p>');
-                                        } else {
-                                            var ta = document.getElementById('content');
-                                            if (ta) ta.value += '\n\n' + insertText;
-                                        }
-                                        setResult('已插入到编辑器');
-                                    });
-                                }
-                            } else {
-                                setResult(res.data && res.data.message ? res.data.message : '错误');
-                            }
-                        }).catch(function(e){ setResult('网络错误: ' + e.message); });
-                });
-            });
-        })();
+        window.linked3Metabox = {
+            ajaxUrl: '<?php echo esc_js($ajax_url); ?>',
+            nonce: '<?php echo esc_js($nonce); ?>',
+            postId: <?php echo (int)$post->ID; ?>,
+            settings: <?php echo wp_json_encode($settings); ?>,
+            providers: <?php echo wp_json_encode($providers); ?>,
+            templates: <?php echo wp_json_encode($templates); ?>,
+        };
         </script>
         <?php
+    }
+
+    private function get_metabox_settings($post): array {
+        $settings = get_post_meta($post->ID, '_linked3_metabox_settings', true);
+        return is_array($settings) ? $settings : [
+            'provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'),
+            'model' => '',
+            'template' => 'blog_post',
+            'word_count' => 1200,
+            'tone' => 'professional',
+        ];
+    }
+
+    private function get_provider_options(): array {
+        $providers = [];
+        $saved = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
+        $models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
+        foreach ($saved as $slug => $keys) {
+            if (empty($keys)) continue;
+            $providers[] = [
+                'slug' => $slug,
+                'name' => ucfirst(str_replace('_', ' ', $slug)),
+                'model' => $models[$slug] ?? '',
+            ];
+        }
+        return $providers ?: [['slug' => 'siliconflow', 'name' => 'SiliconFlow', 'model' => 'Qwen/Qwen2.5-7B-Instruct']];
+    }
+
+    private function get_template_options(): array {
+        if (class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+            $tplMgr = new \Linked3\Classes\Templates\TemplateManager();
+            $all = $tplMgr->get_all();
+            return array_map(fn($t) => ['id' => $t['id'] ?? 0, 'name' => $t['name'] ?? ''], $all);
+        }
+        return [['id' => 1, 'name' => 'Blog Post']];
     }
 
     public static function save_metabox($post_id, $post)
@@ -249,114 +183,71 @@ final class PostMetabox
     /**
      * AJAX: 文章级 AI 操作 (标题/摘要/标签/Meta/图片)
      */
-    public static function ajax_ai()
-    : void {
-        if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
-        }
+    public function ajax_ai()
+    {
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_metabox')) {
-            wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
-        }
-        $sub = sanitize_text_field($_POST['sub_action'] ?? '');
-        $title = sanitize_text_field($_POST['title'] ?? '');
-        $content = wp_strip_all_tags(wp_unslash($_POST['content'] ?? ''));
-        $post_id = (int) ($_POST['post_id'] ?? 0);
+        if (!wp_verify_nonce($nonce, 'linked3_metabox')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
 
+        $input = $this->parse_ai_input();
+        $content = $this->generate_ai_content($input);
+        if (is_wp_error($content)) {
+            wp_send_json_error(['message' => $content->get_error_message()]);
+        }
+        $content = $this->post_process_content($content, $input);
+        $this->save_to_post($input['post_id'], $content, $input);
+        wp_send_json_success(['content' => $content, 'message' => __('生成成功', 'linked3-ai')]);
+    }
+
+    private function parse_ai_input(): array {
+        return [
+            'post_id'   => (int) ($_POST['post_id'] ?? 0),
+            'prompt'    => sanitize_textarea_field($_POST['prompt'] ?? ''),
+            'provider'  => sanitize_text_field($_POST['provider'] ?? 'siliconflow'),
+            'model'     => sanitize_text_field($_POST['model'] ?? ''),
+            'template'  => sanitize_text_field($_POST['template'] ?? 'blog_post'),
+            'word_count'=> (int) ($_POST['word_count'] ?? 1200),
+            'tone'      => sanitize_text_field($_POST['tone'] ?? 'professional'),
+        ];
+    }
+
+    private function generate_ai_content(array $input): string|\WP_Error {
+        if (empty($input['prompt'])) {
+            return new \WP_Error('empty_prompt', __('请输入提示词', 'linked3-ai'));
+        }
         try {
-            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
-            // v2.8.0: 用用户配置的默认 Provider,而非硬编码 openai
-            $provider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
-            $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
-            $model = $saved_models[$provider] ?? 'gpt-4o-mini';
-            $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
-            $api_key = $keys[$provider] ?? '';
-
-            switch ($sub) {
-                case 'title':
-                    $prompt = "为以下文章内容生成 5 个吸引人的标题(每行一个,不要编号):\n\n" . mb_substr($content, 0, 2000);
-                    $r = $dispatcher->chat(
-                        [['role' => 'user', 'content' => $prompt]],
-                        ['provider' => $provider, 'model' => $model, 'temperature' => 0.7, 'module' => 'metabox'],
-                        ['fallback_providers' => ['deepseek', 'zhipu']]
-                    );
-                    $titles = array_filter(array_map('trim', explode("\n", $r['content'])));
-                    wp_send_json_success(['title' => $titles[0] ?? '', 'message' => __('已生成标题(可选其他): ', 'linked3-ai') . implode(' / ', array_slice($titles, 1, 3))]);
-                    break;
-
-                case 'excerpt':
-                    $prompt = "为以下文章生成一段 100-150 字的摘要:\n\n标题: {$title}\n\n" . mb_substr($content, 0, 2000);
-                    $r = $dispatcher->chat(
-                        [['role' => 'user', 'content' => $prompt]],
-                        ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'module' => 'metabox'],
-                        ['fallback_providers' => ['deepseek', 'zhipu']]
-                    );
-                    wp_send_json_success(['excerpt' => trim($r['content'])]);
-                    break;
-
-                case 'tags':
-                    $prompt = "为以下文章生成 5-8 个标签(逗号分隔,不要编号):\n\n标题: {$title}\n\n" . mb_substr($content, 0, 1500);
-                    $r = $dispatcher->chat(
-                        [['role' => 'user', 'content' => $prompt]],
-                        ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'module' => 'metabox'],
-                        ['fallback_providers' => ['deepseek', 'zhipu']]
-                    );
-                    wp_send_json_success(['tags' => trim($r['content'])]);
-                    break;
-
-                case 'meta':
-                    $prompt = "为以下文章生成 SEO meta description (150 字以内):\n\n标题: {$title}\n\n" . mb_substr($content, 0, 1500);
-                    $r = $dispatcher->chat(
-                        [['role' => 'user', 'content' => $prompt]],
-                        ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'module' => 'metabox'],
-                        ['fallback_providers' => ['deepseek', 'zhipu']]
-                    );
-                    $meta = trim($r['content']);
-                    if ($post_id) {
-                        update_post_meta($post_id, '_linked3_meta_description', $meta);
-                        update_post_meta($post_id, '_aioseo_description', $meta);
-                        update_post_meta($post_id, '_yoast_wpseo_metadesc', $meta);
-                    }
-                    wp_send_json_success(['message' => __('SEO Meta 已保存: ', 'linked3-ai') . $meta]);
-                    break;
-
-                case 'image':
-                    if (empty($keys['openai'])) {
-                        wp_send_json_error(['message' => __('需要 OpenAI API Key 生成图片 (在 API 设置里配置)', 'linked3-ai')]);
-                    }
-                    $prompt = "为文章《{$title}》生成一张配图,风格: 现代简约,横版";
-                    $url = 'https://api.openai.com/v1/images/generations';
-                    $resp = \Linked3\Includes\Http\SafeRemote::post($url, [
-                        'timeout' => 60,
-                        'headers' => ['Authorization' => 'Bearer ' . $keys['openai'], 'Content-Type' => 'application/json'],
-                        'body' => wp_json_encode(['model' => 'dall-e-3', 'prompt' => $prompt, 'n' => 1, 'size' => '1792x1024']),
-                        'allowed_hosts' => ['api.openai.com'],
-                    ]);
-                    if (is_wp_error($resp)) {
-                        wp_send_json_error(['message' => $resp->get_error_message()]);
-                    }
-                    $body = json_decode(wp_remote_retrieve_body($resp), true);
-                    $image_url = $body['data'][0]['url'] ?? '';
-                    if (!$image_url) {
-                        wp_send_json_error(['message' => __('图片生成失败', 'linked3-ai')]);
-                    }
-                    if (!function_exists('media_handle_sideload')) {
-                        require_once ABSPATH . 'wp-admin/includes/image.php';
-                        require_once ABSPATH . 'wp-admin/includes/file.php';
-                        require_once ABSPATH . 'wp-admin/includes/media.php';
-                    }
-                    $tmp = download_url($image_url);
-                    if (is_wp_error($tmp)) wp_send_json_error(['message' => __('下载失败', 'linked3-ai')]);
-                    $file = ['name' => 'linked3-' . time() . '.png', 'tmp_name' => $tmp];
-                    $attach_id = media_handle_sideload($file, $post_id);
-                    if (is_wp_error($attach_id)) wp_send_json_error(['message' => __('媒体库插入失败', 'linked3-ai')]);
-                    set_post_thumbnail($post_id, $attach_id);
-                    wp_send_json_success(['image_url' => wp_get_attachment_url($attach_id), 'message' => __('特色图片已设置', 'linked3-ai')]);
-                    break;
-            }
+            $result = AIDispatcher::instance()->chat(
+                [['role' => 'user', 'content' => $input['prompt']]],
+                [
+                    'provider' => $input['provider'],
+                    'model' => $input['model'] ?: 'Qwen/Qwen2.5-7B-Instruct',
+                    'temperature' => 0.7,
+                    'max_tokens' => $input['word_count'] * 2,
+                    'module' => 'metabox',
+                ],
+                ['fallback_providers' => ['deepseek', 'zhipu']]
+            );
+            return $result['content'] ?? '';
         } catch (\Throwable $e) {
-            wp_send_json_error(['message' => $e->getMessage()]);
+            return new \WP_Error('ai_failed', 'AI 调用失败: ' . $e->getMessage());
         }
+    }
+
+    private function post_process_content(string $content, array $input): string {
+        if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+            $enhancer = new \Linked3\Classes\Core\AIEnhancer();
+            $content = $enhancer->append_identifier_suffix($content);
+        }
+        return $content;
+    }
+
+    private function save_to_post(int $postId, string $content, array $input): void {
+        if ($postId <= 0) return;
+        $post = get_post($postId);
+        if (!$post) return;
+        $existing = $post->post_content;
+        $newContent = $existing ? $existing . "\n\n" . $content : $content;
+        wp_update_post(['ID' => $postId, 'post_content' => wp_slash($newContent)]);
     }
 
     /**

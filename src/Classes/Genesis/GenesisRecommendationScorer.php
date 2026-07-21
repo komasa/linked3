@@ -59,71 +59,49 @@ class GenesisRecommendationScorer
     /**
      * v1.1: 模式专属差异化评分.
      */
-    private function scoreModeSpecific(array $style, array $features, string $mode): int
+    private function scoreModeSpecific(array $node, string $mode): float
     {
-        $score = 0;
-        $cat = $style['category'] ?? '';
-        $nameCn = $style['name_cn'] ?? '';
-        $g7 = $style['g7_track'] ?? '';
-        $genres = $style['suitable_genres'] ?? [];
-        $wondershare = !empty($style['wondershare_ready']);
-        $prodReady = !empty($style['production_ready']);
-        $commercial = !empty($style['commercial_grade']);
+        return match($mode) {
+            'cinematic'   => $this->scoreCinematic($node),
+            'documentary' => $this->scoreDocumentary($node),
+            'commercial'  => $this->scoreCommercial($node),
+            'artistic'    => $this->scoreArtistic($node),
+            default       => 0.0,
+        };
+    }
 
-        switch ($mode) {
-            case 'beginner':
-                // 新手友好: 生产就绪+商业级 权重放大(降低试错成本)
-                if ($prodReady) $score += 25;
-                if ($commercial) $score += 15;
-                // 信息图类: 新手易上手
-                if (stripos($cat, '信息图') !== false || stripos($cat, '企业扁平') !== false) $score += 10;
-                break;
+    private function scoreCinematic(array $node): float {
+        $score = 0.0;
+        if (!empty($node['shot']) && $node['shot'] !== '中景') $score += 0.2;
+        if (!empty($node['angle']) && $node['angle'] !== '平视') $score += 0.15;
+        if (!empty($node['mood']) && in_array($node['mood'], ['紧张','悲伤','激昂'], true)) $score += 0.25;
+        if (!empty($node['lighting'])) $score += 0.2;
+        if (!empty($node['color_grading'])) $score += 0.2;
+        return $score;
+    }
 
-            case 'designer':
-                // 设计师精选: 信息图类+融合技法 权重放大
-                if (stripos($cat, '信息图') !== false) $score += 20;
-                if (stripos($cat, '融合') !== false) $score += 25;
-                if (stripos($cat, '艺术插画') !== false) $score += 15;
-                break;
+    private function scoreDocumentary(array $node): float {
+        $score = 0.0;
+        if (!empty($node['shot']) && $node['shot'] === '中景') $score += 0.3;
+        if (!empty($node['angle']) && $node['angle'] === '平视') $score += 0.3;
+        if (empty($node['lighting'])) $score += 0.2;
+        if (!empty($node['location']) && mb_strlen($node['location']) > 3) $score += 0.2;
+        return $score;
+    }
 
-            case 'market':
-                // 万兴市场: wondershare_ready权重放大(修复后字段正确)
-                if ($wondershare) $score += 35;
-                if ($prodReady) $score += 15;
-                if (stripos($cat, '万兴') !== false) $score += 20;
-                break;
+    private function scoreCommercial(array $node): float {
+        $score = 0.0;
+        if (!empty($node['characters']) && count($node['characters']) >= 2) $score += 0.3;
+        if (!empty($node['mood']) && in_array($node['mood'], ['欢快','兴奋','自信'], true)) $score += 0.3;
+        if (!empty($node['brand_elements'])) $score += 0.4;
+        return $score;
+    }
 
-            case 'industry':
-                // 行业专家: 行业匹配权重翻倍
-                $score += $this->scoreIndustryMode($style, $features);
-                break;
-
-            case 'accessible':
-                // 无障碍优先: 高对比+信息图类 权重翻倍
-                $score += $this->scoreAccessibleMode($cat, $nameCn);
-                break;
-
-            case 'conversion':
-                // 高转化: 真人摄影+商业级 权重翻倍(CTA导向)
-                $score += $this->scoreConversionMode($cat, $commercial, $genres);
-                break;
-
-            case 'complex':
-                // 复杂内容: 融合技法+多模块 权重放大
-                $score += $this->scoreComplexMode($cat, $genres);
-                break;
-
-            case 'cross-platform':
-                // 跨平台: G5/G6生产级+多场景 权重放大
-                $score += $this->scoreCrossPlatformMode($g7, $wondershare, $genres);
-                break;
-
-            case 'auto':
-            default:
-                // auto: 均衡评分, 不额外加权(基础分已足够)
-                break;
-        }
-
+    private function scoreArtistic(array $node): float {
+        $score = 0.0;
+        if (!empty($node['comp']) && in_array($node['comp'], ['三分法','对角线','黄金螺旋'], true)) $score += 0.35;
+        if (!empty($node['color'])) $score += 0.3;
+        if (!empty($node['mood']) && in_array($node['mood'], ['梦幻','忧郁','宁静'], true)) $score += 0.35;
         return $score;
     }
 
