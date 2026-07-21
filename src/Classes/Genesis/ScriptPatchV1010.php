@@ -46,43 +46,18 @@ class ScriptPatchV1010 {
         $beatText = $fpCore['beat_text'] ?? '';
 
         // v11.2.0 #2: 首尾帧明确动作差异 (基于feicai4.0方法论)
-        $firstAction = $action;
-        $lastAction = $action;
-        if ($frameType === 'first') {
-            // 首帧: 动作即将开始/进行中
-            $firstAction = 'about to ' . $action . ', mid-action pose, tension in muscles';
-        } else {
-            // 尾帧: 动作完成/结果状态
-            // 根据动作类型推导完成状态
-            $actionMap = [
-                'standing' => 'has shifted weight, relaxed posture',
-                'sitting' => 'has settled into seat, composed',
-                'walking' => 'has arrived at destination, stopped',
-                'running' => 'has stopped, catching breath',
-                'turning' => 'has completed turn, facing new direction',
-                'looking' => 'gaze locked on target, focused',
-                'reaching' => 'has grasped the object, holding firmly',
-                'jumping' => 'has landed, balanced stance',
-                'fighting' => 'has struck, impact moment frozen',
-                'speaking' => 'has finished speaking, awaiting response',
-            ];
-            $lastAction = $actionMap[$action] ?? ('has completed ' . $action . ', result visible');
-        }
+        $actionDesc = self::resolveFrameAction($action, $frameType);
 
         // v11.2.0: 叙事式Prompt (参考feicai4.0 gemini-image-prompt-guide.md)
-        $prompt = '';
         $phaseLabel = ($frameType === 'first') ? '起始帧' : '结束帧';
 
+        $prompt = '';
         // 景别+环境
         $prompt .= '中景，';
-        if ($where) {
-            $prompt .= $where . '。';
-        } else {
-            $prompt .= '一个室内场景。';
-        }
+        $prompt .= $where ? ($where . '。') : '一个室内场景。';
 
         // 主体描述+动作 (首尾帧差异明确)
-        $prompt .= ucfirst($who) . '，' . ($frameType === 'first' ? $firstAction : $lastAction) . '。';
+        $prompt .= ucfirst($who) . '，' . $actionDesc . '。';
 
         // v11.2.0 #2: 基于beat_text补充场景叙事
         if (!empty($beatText)) {
@@ -90,16 +65,7 @@ class ScriptPatchV1010 {
         }
 
         // 情绪氛围 (叙事式, 首尾帧情绪可有变化)
-        $moodMap = [
-            '振奋' => $frameType === 'first' ? '光线渐亮，力量感蓄势待发。' : '光线明亮，充满力量感，胜利姿态。',
-            '紧张' => $frameType === 'first' ? '阴影加深，空气中弥漫着紧张的气息。' : '紧张达到顶点，动态模糊暗示冲突。',
-            '悲伤' => $frameType === 'first' ? '冷色调，沉静忧郁，低头姿态。' : '冷色调加深，泪水可见，情绪释放。',
-            '温情' => $frameType === 'first' ? '暖光初现，柔和而期待。' : '暖光包裹，微笑绽放，温馨时刻。',
-            '希望' => $frameType === 'first' ? '黑暗中微光初现，抬头仰望。' : '一束光照亮主体，黑暗退散，充满希望。',
-            '释然' => $frameType === 'first' ? '紧张感渐消，眉头舒展。' : '光线柔和，紧张感完全消散，平静微笑。',
-            'neutral' => $frameType === 'first' ? '自然光线，平静的氛围，准备状态。' : '自然光线，平静的氛围，完成状态。',
-        ];
-        $prompt .= $moodMap[$emotion] ?? $moodMap['neutral'];
+        $prompt .= self::resolveMoodNarrative($emotion, $frameType);
 
         // SEED visual_dna注入 (叙事式融入)
         if (!empty($seedDna['character'])) {
@@ -122,16 +88,52 @@ class ScriptPatchV1010 {
 
         // 负面关键词 — 强制包含text相关
         $negativeBase = 'text, watermark, letters, words, signature, logo';
-        if ($styleNegative) {
-            $prompt .= ' --no ' . $negativeBase . ', ' . $styleNegative;
-        } else {
-            $prompt .= ' --no ' . $negativeBase;
-        }
+        $prompt .= ' --no ' . $negativeBase . ($styleNegative ? ', ' . $styleNegative : '');
 
         // 平台参数
         $prompt .= ' --ar 16:9 --s 250 --style raw';
 
         return $prompt;
+    }
+
+    /**
+     * 解析帧动作描述 (首尾帧差异化).
+     */
+    private static function resolveFrameAction(string $action, string $frameType): string
+    {
+        if ($frameType === 'first') {
+            return 'about to ' . $action . ', mid-action pose, tension in muscles';
+        }
+        $actionMap = [
+            'standing' => 'has shifted weight, relaxed posture',
+            'sitting' => 'has settled into seat, composed',
+            'walking' => 'has arrived at destination, stopped',
+            'running' => 'has stopped, catching breath',
+            'turning' => 'has completed turn, facing new direction',
+            'looking' => 'gaze locked on target, focused',
+            'reaching' => 'has grasped the object, holding firmly',
+            'jumping' => 'has landed, balanced stance',
+            'fighting' => 'has struck, impact moment frozen',
+            'speaking' => 'has finished speaking, awaiting response',
+        ];
+        return $actionMap[$action] ?? ('has completed ' . $action . ', result visible');
+    }
+
+    /**
+     * 解析情绪氛围叙述 (首尾帧情绪变化).
+     */
+    private static function resolveMoodNarrative(string $emotion, string $frameType): string
+    {
+        $moodMap = [
+            '振奋' => $frameType === 'first' ? '光线渐亮，力量感蓄势待发。' : '光线明亮，充满力量感，胜利姿态。',
+            '紧张' => $frameType === 'first' ? '阴影加深，空气中弥漫着紧张的气息。' : '紧张达到顶点，动态模糊暗示冲突。',
+            '悲伤' => $frameType === 'first' ? '冷色调，沉静忧郁，低头姿态。' : '冷色调加深，泪水可见，情绪释放。',
+            '温情' => $frameType === 'first' ? '暖光初现，柔和而期待。' : '暖光包裹，微笑绽放，温馨时刻。',
+            '希望' => $frameType === 'first' ? '黑暗中微光初现，抬头仰望。' : '一束光照亮主体，黑暗退散，充满希望。',
+            '释然' => $frameType === 'first' ? '紧张感渐消，眉头舒展。' : '光线柔和，紧张感完全消散，平静微笑。',
+            'neutral' => $frameType === 'first' ? '自然光线，平静的氛围，准备状态。' : '自然光线，平静的氛围，完成状态。',
+        ];
+        return $moodMap[$emotion] ?? $moodMap['neutral'];
     }
 
     private static function suggest_transition(string $arcPosition): string {
@@ -220,14 +222,7 @@ class ScriptPatchV1010 {
                 $seed = \GenesisSeedCPT::get_by_seed_id($ref);
                 if (!$seed) continue;
                 $category = $seed['seed_category'] ?? '';
-                $visualDna = $seed['visual_dna'] ?? [];
-                if (is_string($visualDna)) $visualDna = json_decode($visualDna, true) ?: [];
-
-                $desc = '';
-                if (!empty($visualDna['appearance'])) $desc .= $visualDna['appearance'] . ' ';
-                if (!empty($visualDna['clothing'])) $desc .= $visualDna['clothing'] . ' ';
-                if (!empty($visualDna['description'])) $desc .= $visualDna['description'] . ' ';
-                if (!empty($visualDna['atmosphere'])) $desc .= $visualDna['atmosphere'] . ' ';
+                $desc = self::extractSeedDescription($seed['visual_dna'] ?? []);
 
                 if ($category === 'char' && empty($dna['character'])) {
                     $dna['character'] = trim($desc);
@@ -240,6 +235,26 @@ class ScriptPatchV1010 {
         }
 
         return $dna;
+    }
+
+    /**
+     * 从 seed visual_dna 提取描述串 (拼接 appearance/clothing/description/atmosphere).
+     */
+    private static function extractSeedDescription($visualDna): string
+    {
+        if (is_string($visualDna)) {
+            $visualDna = json_decode($visualDna, true) ?: [];
+        }
+        if (!is_array($visualDna)) {
+            return '';
+        }
+        $desc = '';
+        foreach (['appearance', 'clothing', 'description', 'atmosphere'] as $field) {
+            if (!empty($visualDna[$field])) {
+                $desc .= $visualDna[$field] . ' ';
+            }
+        }
+        return $desc;
     }
 
     /**
