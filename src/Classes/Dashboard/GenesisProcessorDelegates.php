@@ -13,145 +13,110 @@ class GenesisProcessorDelegates
 
     public static function genesisGenerateMultiInternal(string $script, string $styleId, string $platform, string $panelCountRaw, ?callable $progressCb = null, array $extraOptions = []): array
     {
-        // Phase 1: Initialize configuration
-        $config = self::initMultiConfig($script, $styleId, $platform, $panelCountRaw, $extraOptions);
-        if ($progressCb) $progressCb(5, 'init', '初始化风格配置...');
+        // Phase 1: Prepare generation context (seed DNA, split mode, target panels)
+        $ctx = self::prepare_genesis_context($script, $styleId, $platform, $panelCountRaw, $extraOptions, $progressCb);
 
-        // Phase 2: Extract nodes (FP extract / chapter / refine / fallback)
-        $nodes = self::extractNodes($script, $config, $progressCb);
-        $nodes = GenesisHelpers::enforcePanelCount($nodes, $config['targetPanels'], $script, $config['styleName']);
-        if ($progressCb) $progressCb(25, 'panel_count_enforced', '分镜数强制: ' . count($nodes) . ' 个 (目标 ' . $config['targetPanels'] . ')');
+        // Phase 2: Extract nodes (FP extract / chapter split / refine / fallback)
+        $nodes = self::extract_genesis_nodes($ctx, $progressCb);
 
-        // Phase 3: Parallel AI generation + assembly
-        $results = self::generateAndAssemble($nodes, $config, $progressCb);
+        // Phase 3: Enforce panel count
+        $nodes = \GenesisHelpers::enforcePanelCount($nodes, $ctx['target_panels'], $script, $ctx['style_name']);
+        if ($progressCb) $progressCb(25, 'panel_count_enforced', '分镜数强制: ' . count($nodes) . ' 个 (目标 ' . $ctx['target_panels'] . ')');
 
-        // Phase 4: Style audit + return
-        return self::finalizeResults($results, $nodes, $config, $progressCb);
+        // Phase 4: Parallel generate prompts via curl_multi
+        if ($progressCb) $progressCb(40, 'parallel_generate', '阶段2: curl_multi 并发调用 AI 生成画面 Prompt (' . count($nodes) . ' 节点)...');
+        $parallelStart = microtime(true);
+        $promptResults = \GenesisHelpers::genesisParallelGeneratePrompts($nodes, $styleId, $platform, $ctx['style_name']);
+        $parallelElapsedMs = (int) ((microtime(true) - $parallelStart) * 1000);
+
+        if ($progressCb) $progressCb(80, 'assemble', '组装结果 + PQS 质检...');
+
+        // Phase 5: Assemble results with AI/retry/local fallback
+        $assembled = self::assemble_genesis_results($nodes, $promptResults, $ctx, $parallelElapsedMs);
+
+        if ($progressCb) $progressCb(100, 'done', '生成完成! 共 ' . count($assembled['results']) . ' 个分镜');
+
+        // Phase 6: Build final response (with style audit)
+        return self::build_genesis_response($assembled, $ctx, $parallelElapsedMs, $promptResults);
     }
 
     /**
-     * Initialize configuration for multi-generate.
+     * Phase 1: Prepare generation context (seed DNA, split mode, target panels, style config).
      */
-    private static function initMultiConfig(string $script, string $styleId, string $platform, string $panelCountRaw, array $extraOptions): array
-    {
+    private static function prepare_genesis_context(string $script, string $styleId, string $platform, string $panelCountRaw, array $extraOptions, ?callable $progressCb): array {
         $seedId = $extraOptions['seed_id'] ?? '';
         $seedDNA = null;
-        if (!empty($seedId) && class_exists('\GenesisSeedDNA')) {
+        if (!empty($seedId) && class_exists('\\GenesisSeedDNA')) {
             $seedDNA = \GenesisSeedDNA::get($seedId);
+            if ($seedDNA && $progressCb) {
+                $progressCb(3, 'seed_loaded', '已加载 Seed DNA: ' . ($seedDNA['name'] ?? $seedId));
+            }
         }
         $splitMode = $extraOptions['split_mode'] ?? 'auto';
         $chapterMarker = $extraOptions['chapter_marker'] ?? 'auto';
         $isAuto = ($panelCountRaw === 'auto');
         if ($isAuto) {
-            $scriptLen = mb_strlen($script);
-            $estimated = intval($scriptLen / 100);
+            $estimated = intval(mb_strlen($script) / 100);
             $targetPanels = max(3, min(15, $estimated));
         } else {
             $targetPanels = max(5, min(200, (int)$panelCountRaw));
         }
         $chapterNodes = [];
         if ($splitMode === 'chapter') {
-            $chapterNodes = GenesisHelpers::splitByChapters($script, $chapterMarker);
-            if (count($chapterNodes) >= 2) {
-                $targetPanels = count($chapterNodes);
-            }
+            if ($progressCb) $progressCb(8, 'chapter_split', '章节模式: 按章节标记拆分剧本...');
+            $chapterNodes = \GenesisHelpers::splitByChapters($script, $chapterMarker);
+            if (count($chapterNodes) >= 2) $targetPanels = count($chapterNodes);
         }
         if ($splitMode === 'refine' && $isAuto) {
             $targetPanels = 5;
         }
+        if ($progressCb) $progressCb(5, 'init', '初始化风格配置...');
         $styleIndex = \GenesisAtomIndex::instance();
         $styleConfig = $styleIndex->getStyleConfig($styleId);
         $styleName = $styleConfig['name_cn'] ?? $styleId;
-        $primaryProvider = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow');
-        $retryProvider = $primaryProvider === 'deepseek' ? 'zhipu' : 'deepseek';
-        $savedModelsRetry = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
-        $retryModel = $savedModelsRetry[$retryProvider] ?? 'deepseek-chat';
+        $scriptTrimmed = mb_substr($script, 0, 4000);
+
         return [
-            'styleId' => $styleId,
-            'styleName' => $styleName,
-            'platform' => $platform,
-            'isAuto' => $isAuto,
-            'splitMode' => $splitMode,
-            'targetPanels' => $targetPanels,
-            'chapterNodes' => $chapterNodes,
-            'seedDNA' => $seedDNA,
-            'scriptTrimmed' => mb_substr($script, 0, 4000),
-            'primaryProvider' => $primaryProvider,
-            'retryProvider' => $retryProvider,
-            'retryModel' => $retryModel,
+            'script'         => $script,
+            'script_trimmed' => $scriptTrimmed,
+            'style_id'       => $styleId,
+            'style_name'     => $styleName,
+            'platform'       => $platform,
+            'split_mode'     => $splitMode,
+            'is_auto'        => $isAuto,
+            'target_panels'  => $targetPanels,
+            'chapter_nodes'  => $chapterNodes,
+            'seed_dna'       => $seedDNA,
+            'primary_provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'),
         ];
     }
 
     /**
-     * Extract nodes via FP/chapter/refine or fallback splitting.
+     * Phase 2: Extract nodes via FP extract / chapter split / refine / fallback.
      */
-    private static function extractNodes(string $script, array $config, ?callable $progressCb): array
-    {
-        if ($progressCb) $progressCb(10, 'fp_extract', '阶段1: FP 剥骨提纯语义核 (AI 调用中, 约 10-30s)...');
+    private static function extract_genesis_nodes(array $ctx, ?callable $progressCb): array {
+        $splitMode = $ctx['split_mode'];
+        $chapterNodes = $ctx['chapter_nodes'];
 
-        if ($config['splitMode'] === 'chapter' && count($config['chapterNodes']) >= 2) {
-            $nodes = $config['chapterNodes'];
-            if ($progressCb) $progressCb(20, 'chapter_done', '章节拆分完成, 共 ' . count($nodes) . ' 个章节节点');
-            return $nodes;
+        if ($splitMode === 'chapter' && count($chapterNodes) >= 2) {
+            if ($progressCb) $progressCb(20, 'chapter_done', '章节拆分完成, 共 ' . count($chapterNodes) . ' 个章节节点');
+            return $chapterNodes;
         }
-
-        if ($config['splitMode'] === 'refine') {
-            if ($progressCb) $progressCb(10, 'refine', '精炼模式: AI 提炼故事核心情节链, 精炼为 ' . $config['targetPanels'] . ' 个分镜...');
-            $nodes = GenesisHelpers::genesisRefineAndSplit($config['scriptTrimmed'], $config['targetPanels'], $config['styleName'], $config['styleId']);
+        if ($splitMode === 'refine') {
+            if ($progressCb) $progressCb(10, 'refine', '精炼模式: AI 提炼故事核心情节链...');
+            $nodes = \GenesisHelpers::genesisRefineAndSplit($ctx['script_trimmed'], $ctx['target_panels'], $ctx['style_name'], $ctx['style_id']);
             if ($progressCb) $progressCb(20, 'refine_done', '精炼完成, 共 ' . count($nodes) . ' 个分镜节点');
             return $nodes;
         }
 
-        $nodes = GenesisHelpers::genesisFPExtractCores($config['scriptTrimmed'], $config['targetPanels'], $config['styleName'], $config['isAuto'], $config['styleId']);
+        $nodes = \GenesisHelpers::genesisFPExtractCores($ctx['script_trimmed'], $ctx['target_panels'], $ctx['style_name'], $ctx['is_auto'], $ctx['style_id']);
+        if (count($nodes) >= 2) return $nodes;
 
-        // Fallback if FP extraction failed
-        if (count($nodes) < 2) {
-            if ($progressCb) $progressCb(15, 'fallback_split', 'FP 剥骨失败, 启用句号降级...');
-            $nodes = self::fallbackSplitScript($script, $config['targetPanels']);
-            if ($progressCb) $progressCb(20, 'fallback_split', '句号降级完成, 生成 ' . count($nodes) . ' 个节点');
-        }
-
-        return $nodes;
-    }
-
-    /**
-     * Multi-level fallback splitting when FP extraction fails.
-     */
-    private static function fallbackSplitScript(string $script, int $targetPanels): array
-    {
-        // Level 1: Chinese punctuation
-        $sentences = array_filter(array_map('trim', preg_split('/[。！？\n]+/u', $script)));
-        $sentences = array_filter($sentences, fn($s) => mb_strlen($s) >= 5);
-
-        // Level 2: English punctuation
-        if (count($sentences) < 2) {
-            $sentences = array_filter(array_map('trim', preg_split('/[.!?\n]+/u', $script)));
-            $sentences = array_filter($sentences, fn($s) => mb_strlen($s) >= 5);
-        }
-
-        // Level 3: Commas
-        if (count($sentences) < 2) {
-            $sentences = array_filter(array_map('trim', preg_split('/[，,;；]+/u', $script)));
-            $sentences = array_filter($sentences, fn($s) => mb_strlen($s) >= 5);
-        }
-
-        // Level 4: Force split by character count
-        if (count($sentences) < 2) {
-            $sentences = [];
-            $len = mb_strlen($script);
-            for ($i = 0; $i < $len; $i += 50) {
-                $chunk = trim(mb_substr($script, $i, 50));
-                if (mb_strlen($chunk) >= 5) $sentences[] = $chunk;
-            }
-        }
-
-        // Level 5: Use entire script as single node
-        if (empty($sentences)) {
-            $sentences = [mb_substr($script, 0, 200)];
-        }
-
+        // Fallback: multi-level sentence splitting
+        if ($progressCb) $progressCb(15, 'fallback_split', 'FP 剥骨失败, 启用句号降级...');
+        $sentences = self::fallback_split_sentences($ctx['script']);
         $nodes = [];
-        $fallbackCount = max($targetPanels, 10);
+        $fallbackCount = max($ctx['target_panels'], 10);
         foreach (array_slice($sentences, 0, $fallbackCount) as $i => $s) {
             $nodes[] = [
                 'node_id'    => $i + 1,
@@ -166,57 +131,71 @@ class GenesisProcessorDelegates
                 'plot_point' => '',
             ];
         }
+        if ($progressCb) $progressCb(20, 'fallback_split', '句号降级完成, 生成 ' . count($nodes) . ' 个节点');
         return $nodes;
     }
 
     /**
-     * Phase 3: Parallel AI generation + prompt assembly.
+     * Fallback sentence splitting (5 levels of degradation).
      */
-    private static function generateAndAssemble(array $nodes, array $config, ?callable $progressCb): array
-    {
-        if ($progressCb) $progressCb(40, 'parallel_generate', '阶段2: curl_multi 并发调用 AI 生成画面 Prompt (' . count($nodes) . ' 节点, 约 15-40s)...');
-        $parallelStart = microtime(true);
-        $promptResults = GenesisHelpers::genesisParallelGeneratePrompts($nodes, $config['styleId'], $config['platform'], $config['styleName']);
-        $parallelElapsedMs = (int) ((microtime(true) - $parallelStart) * 1000);
-        if ($progressCb) $progressCb(80, 'assemble', '组装结果 + PQS 质检...');
+    private static function fallback_split_sentences(string $script): array {
+        $sentences = array_filter(array_map('trim', preg_split('/[。！？\\n]+/u', $script)));
+        $sentences = array_filter($sentences, fn($s) => mb_strlen($s) >= 5);
+        if (count($sentences) >= 2) return array_values($sentences);
 
-        $assembler = new \GenesisPromptAssembler();
-        $pqsChecker = new \GenesisPQSChecker();
-        $results = [];
-        $aiGeneratedCount = 0;
-        $aiDegradedCount = 0;
-        $aiRetryCount = 0;
-        $localFallbackCount = 0;
+        $sentences = array_filter(array_map('trim', preg_split('/[.!?\\n]+/u', $script)));
+        $sentences = array_filter($sentences, fn($s) => mb_strlen($s) >= 5);
+        if (count($sentences) >= 2) return array_values($sentences);
 
-        foreach ($nodes as $i => $node) {
-            $result = self::assembleSingleNode($i, $node, $promptResults, $assembler, $pqsChecker, $config);
-            $results[] = $result['panel'];
-            $aiGeneratedCount += $result['ai_count'];
-            $aiRetryCount += $result['retry_count'];
-            $aiDegradedCount += $result['degraded_count'];
-            $localFallbackCount += $result['local_count'];
+        $sentences = array_filter(array_map('trim', preg_split('/[，,;；]+/u', $script)));
+        $sentences = array_filter($sentences, fn($s) => mb_strlen($s) >= 5);
+        if (count($sentences) >= 2) return array_values($sentences);
+
+        $sentences = [];
+        $len = mb_strlen($script);
+        for ($i = 0; $i < $len; $i += 50) {
+            $chunk = trim(mb_substr($script, $i, 50));
+            if (mb_strlen($chunk) >= 5) $sentences[] = $chunk;
         }
+        if (count($sentences) >= 2) return $sentences;
 
-        // Store metrics for finalizeResults
-        self::$lastMetrics = [
-            'parallel_elapsed_ms' => $parallelElapsedMs,
-            'ai_generated_count' => $aiGeneratedCount,
-            'ai_retry_count' => $aiRetryCount,
-            'ai_degraded_count' => $aiDegradedCount,
-            'local_fallback_count' => $localFallbackCount,
-            'parallel_mode' => $promptResults['__mode'] ?? 'unknown',
-        ];
-
-        return $results;
+        return [mb_substr($script, 0, 200)];
     }
 
-    private static array $lastMetrics = [];
+    /**
+     * Phase 5: Assemble results with AI/retry/local fallback per node.
+     */
+    private static function assemble_genesis_results(array $nodes, array $promptResults, array $ctx, int $parallelElapsedMs): array {
+        $assembler   = new \GenesisPromptAssembler();
+        $pqsChecker  = new \GenesisPQSChecker();
+        $results = [];
+        $aiGeneratedCount = $aiDegradedCount = $aiRetryCount = $localFallbackCount = 0;
+        $retryProvider = $ctx['primary_provider'] === 'deepseek' ? 'zhipu' : 'deepseek';
+        $savedModelsRetry = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
+        $retryModel = $savedModelsRetry[$retryProvider] ?? 'deepseek-chat';
+
+        foreach ($nodes as $i => $node) {
+            $result = self::assemble_single_node(
+                $i, $node, $promptResults, $ctx, $assembler, $pqsChecker,
+                $retryProvider, $retryModel,
+                $aiGeneratedCount, $aiDegradedCount, $aiRetryCount, $localFallbackCount
+            );
+            $results[] = $result;
+        }
+
+        return [
+            'results'              => $results,
+            'ai_generated_count'   => $aiGeneratedCount,
+            'ai_retry_count'       => $aiRetryCount,
+            'ai_degraded_count'    => $aiDegradedCount,
+            'local_fallback_count' => $localFallbackCount,
+        ];
+    }
 
     /**
-     * Assemble a single panel from node + AI result.
+     * Assemble a single node result with AI/retry/local emergency fallback.
      */
-    private static function assembleSingleNode(int $i, array $node, array $promptResults, \GenesisPromptAssembler $assembler, \GenesisPQSChecker $pqsChecker, array $config): array
-    {
+    private static function assemble_single_node(int $i, array $node, array $promptResults, array $ctx, $assembler, $pqsChecker, string $retryProvider, string $retryModel, int &$aiGeneratedCount, int &$aiDegradedCount, int &$aiRetryCount, int &$localFallbackCount): array {
         $scene = [
             'id'         => 'S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT),
             'location'   => $node['location'] ?? '',
@@ -227,53 +206,52 @@ class GenesisProcessorDelegates
         $promptEn = '';
         $promptSource = 'local';
         $aiDegraded = false;
-        $aiCount = 0;
-        $retryCount = 0;
-        $degradedCount = 0;
-        $localCount = 0;
 
         // Try AI result first
         if (isset($promptResults[$i]) && ($promptResults[$i]['ok'] ?? false)) {
             $aiContent = trim($promptResults[$i]['content'] ?? '');
             if (!empty($aiContent)) {
-                $cleaned = GenesisHelpers::cleanAIPrompt($aiContent, $config['platform']);
-                if (!GenesisHelpers::isAIPromptDegraded($cleaned)) {
+                $cleaned = \GenesisHelpers::cleanAIPrompt($aiContent, $ctx['platform']);
+                if (!\GenesisHelpers::isAIPromptDegraded($cleaned)) {
                     $promptEn = $cleaned;
                     $promptSource = 'ai';
-                    $aiCount++;
+                    $aiGeneratedCount++;
                 } else {
                     $aiDegraded = true;
-                    $degradedCount++;
+                    $aiDegradedCount++;
                 }
             }
         }
 
-        // AI degraded → retry with different provider
+        // Retry with larger model if degraded
         if (empty($promptEn) && $aiDegraded) {
-            $retryResult = self::retryWithFallbackProvider($node, $config);
-            if ($retryResult !== null) {
-                $promptEn = $retryResult;
-                $promptSource = 'ai_retry';
-                $retryCount++;
-                $aiDegraded = false;
+            $promptEn = self::retry_ai_generation($node, $ctx, $retryProvider, $retryModel, $aiRetryCount, $aiDegraded);
+            if (!empty($promptEn)) $promptSource = 'ai_retry';
+        }
+
+        // Local PromptAssembler fallback
+        if (empty($promptEn)) {
+            try {
+                $selector  = new \GenesisAtomSelector();
+                $atoms     = $selector->selectForScene($scene);
+                $assembled = $assembler->assembleFull($atoms, $node, $ctx['style_id'], $ctx['platform']);
+                $promptEn = $assembled['prompt_with_params'] ?? '';
+                $promptSource = 'local';
+                $localFallbackCount++;
+            } catch (\Throwable $e) {
+                $promptSource = 'local_emergency';
             }
         }
 
-        // AI failed → local PromptAssembler
+        // Emergency: construct prompt from node info
         if (empty($promptEn)) {
-            $promptEn = self::assembleLocalPrompt($scene, $node, $assembler, $config);
-            $promptSource = $promptEn ? 'local' : 'local_emergency';
-            $localCount++;
-        }
-
-        // Ultimate fallback
-        if (empty($promptEn)) {
-            $promptEn = self::emergencyPrompt($node, $config['platform']);
+            $promptEn = self::build_emergency_prompt($node, $ctx['platform']);
             $promptSource = 'local_emergency';
         }
 
         $pqs = $pqsChecker->check(['prompt_en' => $promptEn, 'characters' => $node['characters'] ?? []]);
-        $panel = [
+
+        return [
             'panel_id'   => 'P' . str_pad((string)($i + 1), 4, '0', STR_PAD_LEFT),
             'scene_id'   => $scene['id'],
             'location'   => $node['location'] ?? '',
@@ -286,9 +264,9 @@ class GenesisProcessorDelegates
             'characters' => $node['characters'] ?? [],
             'prompt_en'  => $promptEn,
             'prompt_with_params' => $promptEn,
-            'style'      => $config['styleId'],
-            'style_name' => $config['styleName'],
-            'platform'   => $config['platform'],
+            'style'      => $ctx['style_id'],
+            'style_name' => $ctx['style_name'],
+            'platform'   => $ctx['platform'],
             'platform_params' => '',
             'character_details' => [],
             'scene_detail' => '',
@@ -298,22 +276,19 @@ class GenesisProcessorDelegates
             'prompt_source' => $promptSource,
             'ai_degraded'   => $aiDegraded,
         ];
-
-        return ['panel' => $panel, 'ai_count' => $aiCount, 'retry_count' => $retryCount, 'degraded_count' => $degradedCount, 'local_count' => $localCount];
     }
 
     /**
-     * Retry with fallback provider when AI output is degraded.
+     * Retry AI generation with a larger model (deepseek-chat).
      */
-    private static function retryWithFallbackProvider(array $node, array $config): ?string
-    {
-        $retryPrompt = GenesisHelpers::genesisBuildNodePrompt($node, $config['styleName'], $config['platform'], $config['styleId'], $config['seedDNA']);
+    private static function retry_ai_generation(array $node, array $ctx, string $retryProvider, string $retryModel, int &$aiRetryCount, bool &$aiDegraded): string {
+        $retryPrompt = \GenesisHelpers::genesisBuildNodePrompt($node, $ctx['style_name'], $ctx['platform'], $ctx['style_id'], $ctx['seed_dna']);
         try {
             $retryResult = AIDispatcher::instance()->chat(
                 [['role' => 'user', 'content' => $retryPrompt]],
                 [
-                    'provider'          => $config['retryProvider'],
-                    'model'             => $config['retryModel'],
+                    'provider'          => $retryProvider,
+                    'model'             => $retryModel,
                     'temperature'       => 0.5,
                     'max_tokens'        => 800,
                     'frequency_penalty' => 0.4,
@@ -322,36 +297,20 @@ class GenesisProcessorDelegates
                 ],
                 ['fallback_providers' => ['zhipu', 'siliconflow'], 'force_bypass_circuit' => true]
             );
-            $retryCleaned = GenesisHelpers::cleanAIPrompt($retryResult['content'] ?? '', $config['platform']);
-            if (!empty($retryCleaned) && !GenesisHelpers::isAIPromptDegraded($retryCleaned)) {
+            $retryCleaned = \GenesisHelpers::cleanAIPrompt($retryResult['content'] ?? '', $ctx['platform']);
+            if (!empty($retryCleaned) && !\GenesisHelpers::isAIPromptDegraded($retryCleaned)) {
+                $aiRetryCount++;
+                $aiDegraded = false;
                 return $retryCleaned;
             }
-        } catch (\Throwable $e) {
-            // Retry failed → fall through to local
-        }
-        return null;
+        } catch (\Throwable $e) {}
+        return '';
     }
 
     /**
-     * Assemble prompt using local PromptAssembler.
+     * Emergency prompt builder from raw node info (no AI, no assembler).
      */
-    private static function assembleLocalPrompt(array $scene, array $node, \GenesisPromptAssembler $assembler, array $config): string
-    {
-        try {
-            $selector = new \GenesisAtomSelector();
-            $atoms = $selector->selectForScene($scene);
-            $assembled = $assembler->assembleFull($atoms, $node, $config['styleId'], $config['platform']);
-            return $assembled['prompt_with_params'] ?? '';
-        } catch (\Throwable $e) {
-            return '';
-        }
-    }
-
-    /**
-     * Emergency fallback: construct prompt from node info directly.
-     */
-    private static function emergencyPrompt(array $node, string $platform): string
-    {
+    private static function build_emergency_prompt(array $node, string $platform): string {
         $location = $node['location'] ?? 'scene';
         $action = $node['action'] ?? 'a character in action';
         $characters = implode(', ', $node['characters'] ?? []) ?: 'a lone figure';
@@ -363,15 +322,9 @@ class GenesisProcessorDelegates
         $shotEn = $shotMap[$shot] ?? 'medium shot';
         $angleEn = $angleMap[$angle] ?? 'eye level';
         switch ($platform) {
-            case 'sdxl':
-                $platformParams = ' high quality, masterpiece, best quality';
-                break;
-            case 'dalle':
-                $platformParams = ' photorealistic, cinematic, high-quality';
-                break;
-            default:
-                $platformParams = ' --ar 2:3 --s 750 --style raw --no text';
-                break;
+            case 'sdxl':  $platformParams = ' high quality, masterpiece, best quality'; break;
+            case 'dalle': $platformParams = ' photorealistic, cinematic, high-quality'; break;
+            default:      $platformParams = ' --ar 2:3 --s 750 --style raw --no text'; break;
         }
         return sprintf(
             '%s in %s, %s, %s from %s, %s atmosphere, cinematic lighting, detailed%s',
@@ -380,51 +333,51 @@ class GenesisProcessorDelegates
     }
 
     /**
-     * Phase 4: Finalize results with style audit and metrics.
+     * Phase 6: Build final response with style audit.
      */
-    private static function finalizeResults(array $results, array $nodes, array $config, ?callable $progressCb): array
-    {
-        if ($progressCb) $progressCb(100, 'done', '生成完成! 共 ' . count($results) . ' 个分镜');
-
+    private static function build_genesis_response(array $assembled, array $ctx, int $parallelElapsedMs, array $promptResults): array {
+        $results = $assembled['results'];
         if (empty($results)) {
             return [
-                'panels'      => [],
-                'total_panels' => 0,
-                'total_scenes' => 0,
-                'style'       => $config['styleId'],
-                'platform'    => $config['platform'],
-                'mode'        => 'v7_1_fp_parallel',
-                'fp_cores'    => count($nodes),
-                'is_auto'     => $config['isAuto'],
-                'error'       => '生成 0 个分镜 — nodes=' . count($nodes),
+                'panels'        => [],
+                'total_panels'  => 0,
+                'total_scenes'  => 0,
+                'style'         => $ctx['style_id'],
+                'platform'      => $ctx['platform'],
+                'mode'          => 'v7_1_fp_parallel',
+                'fp_cores'      => 0,
+                'is_auto'       => $ctx['is_auto'],
+                'error'         => '生成 0 个分镜',
+                'diagnostic'    => ['script_length' => mb_strlen($ctx['script'])],
             ];
         }
-
         $styleAudit = ['contaminated_count' => 0, 'clean_count' => count($results), 'issues' => []];
-        if (class_exists('\GenesisStyleEngine') && !empty($results)) {
-            $styleAudit = \GenesisStyleEngine::auditNodes($config['styleId'], $results);
+        if (class_exists('\\GenesisStyleEngine')) {
+            $styleAudit = \GenesisStyleEngine::auditNodes($ctx['style_id'], $results);
         }
+        $retryProvider = $ctx['primary_provider'] === 'deepseek' ? 'zhipu' : 'deepseek';
+        $savedModelsRetry = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
+        $retryModel = $savedModelsRetry[$retryProvider] ?? 'deepseek-chat';
 
-        $m = self::$lastMetrics;
         return [
-            'panels'      => $results,
-            'total_panels' => count($results),
-            'total_scenes' => count(array_unique(array_column($results, 'scene_id'))),
-            'style'       => $config['styleId'],
-            'platform'    => $config['platform'],
-            'mode'        => 'v7_1_fp_parallel',
-            'fp_cores'    => count($nodes),
-            'is_auto'     => $config['isAuto'],
-            'target_panels' => $config['targetPanels'],
-            'pipeline'    => 'fp_extract → curl_multi_parallel → assemble → style_audit',
-            'ai_generated_count'   => $m['ai_generated_count'] ?? 0,
-            'ai_retry_count'       => $m['ai_retry_count'] ?? 0,
-            'ai_degraded_count'    => $m['ai_degraded_count'] ?? 0,
-            'local_fallback_count' => $m['local_fallback_count'] ?? 0,
-            'parallel_elapsed_ms'  => $m['parallel_elapsed_ms'] ?? 0,
-            'parallel_mode'        => $m['parallel_mode'] ?? 'unknown',
-            'retry_provider'       => $config['retryProvider'],
-            'retry_model'          => $config['retryModel'],
+            'panels'               => $results,
+            'total_panels'         => count($results),
+            'total_scenes'         => count(array_unique(array_column($results, 'scene_id'))),
+            'style'                => $ctx['style_id'],
+            'platform'             => $ctx['platform'],
+            'mode'                 => 'v7_1_fp_parallel',
+            'fp_cores'             => count($results),
+            'is_auto'              => $ctx['is_auto'],
+            'target_panels'        => $ctx['target_panels'],
+            'pipeline'             => 'fp_extract → curl_multi_parallel → assemble → style_audit',
+            'ai_generated_count'   => $assembled['ai_generated_count'],
+            'ai_retry_count'       => $assembled['ai_retry_count'],
+            'ai_degraded_count'    => $assembled['ai_degraded_count'],
+            'local_fallback_count' => $assembled['local_fallback_count'],
+            'parallel_elapsed_ms'  => $parallelElapsedMs,
+            'parallel_mode'        => $promptResults['__mode'] ?? 'unknown',
+            'retry_provider'       => $retryProvider,
+            'retry_model'          => $retryModel,
             'style_audit'          => $styleAudit,
         ];
     }
@@ -432,6 +385,8 @@ class GenesisProcessorDelegates
     public static function genesisPreflightCheck(): array
     {
         // 1. AI Dispatcher
+        // v7.1.4: 修复 class_exists 误报 — 短名 'AIDispatcher' 在有 use 别名的命名空间文件里
+        // 可能返回 false (即使类已加载), 必须用全限定名
         if (!class_exists('\Linked3\Classes\Core\AIDispatcher')) {
             return [
                 'ok'            => false,
@@ -503,6 +458,7 @@ class GenesisProcessorDelegates
         }
         // 6. curl 扩展 (并发模式依赖)
         if (!function_exists('curl_multi_init')) {
+            // 不致命, 但会降级串行
             if (function_exists('error_log')) {
                 error_log('[linked3 genesis] curl_multi 不可用, 将降级串行模式 (慢)');
             }
@@ -513,3 +469,4 @@ class GenesisProcessorDelegates
     public static function ajax_genesis_test_connection() : mixed { return GenesisAjaxCore::ajax_genesis_test_connection(); }
 
 }
+

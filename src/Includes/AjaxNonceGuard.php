@@ -164,6 +164,7 @@ final class AjaxNonceGuard
         'nopriv_linked3_chat_send',
         'nopriv_linked3_form_submit',
         'nopriv_linked3_tts_synthesize',
+        'linked3_book_factory_progress',   // nopriv: progress polling (7-day nonce)
 
         // Read-only / diagnostic endpoints (no state change)
         'linked3_batch_check',           // CI batch scan (read-only)
