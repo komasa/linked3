@@ -25,16 +25,53 @@ class GenesisPromptAssembler {
     public function assembleFull(array $atoms, array $panel, string $styleId, string $platform = 'midjourney'): array {
         $styleConfig = $this->index->getStyleConfig($styleId);
         $styleName = $styleConfig['name_cn'] ?? $styleId;
-        $styleType = $styleConfig['style_type'] ?? 'painted'; // painted | realistic
+        $styleType = $styleConfig['style_type'] ?? 'painted';
 
-        $styleKeywords = $styleConfig['prompt_keywords'] ?? '';
-        $styleNegative = $styleConfig['negative_keywords'] ?? '';
-        $styleRender = $styleConfig['render'] ?? '';
-        $styleLighting = $styleConfig['lighting'] ?? '';
-        $styleAtmosphere = $styleConfig['atmosphere'] ?? [];
-        $styleSymbols = $styleConfig['symbols'] ?? [];
-        $styleLine = $styleConfig['line_style'] ?? '';
+        $charData = $this->buildCharacterPrompts($atoms);
+        $sceneDesc = $this->buildSceneDescription($atoms);
+        $cameraDesc = $this->buildCameraDescription($atoms, $panel);
+        $compEn = $this->buildComposition($atoms, $panel);
+        [$moodEn, $atmoStr] = $this->buildMoodAndAtmosphere($atoms, $panel, $styleConfig);
+        $colorDesc = $this->buildColorPalette($styleConfig);
+        $symbolDesc = $this->buildSymbols($styleConfig, $charData['details']);
+        $styleParts = $this->buildStyleParts($styleConfig);
+        $actionEn = $this->translateActionEn($panel['action'] ?? '');
 
+        $promptEn = $this->assemblePrompt(
+            $styleParts['keywords'], $charData['prompts'], $sceneDesc, $actionEn,
+            $cameraDesc, $compEn, $moodEn, $atmoStr, $colorDesc, $styleParts, $symbolDesc
+        );
+
+        $promptEn = $this->applyRealisticEnhancements($promptEn, $styleConfig, $styleType);
+        $promptEn = $this->applyNegativePrompt($promptEn, $styleParts['negative']);
+
+        $platformParams = $this->getPlatformParams($platform);
+        $promptWithParams = $this->adaptPlatform($promptEn, $platform, $platformParams);
+
+        return [
+            'prompt_en' => $promptEn,
+            'prompt_with_params' => $promptWithParams,
+            'style' => $styleId,
+            'style_name' => $styleName,
+            'style_type' => $styleType,
+            'platform' => $platform,
+            'platform_params' => $platformParams,
+            'characters' => $charData['details'],
+            'scene' => $atoms['scene']['fields'] ?? [],
+            'camera' => $atoms['camera']['fields'] ?? [],
+            'composition' => $atoms['composition']['fields'] ?? [],
+            'atmosphere' => $atoms['atmosphere']['fields'] ?? [],
+            'color_mapping' => $atoms['color_mapping']['fields'] ?? [],
+            'template' => $atoms['template']['fields'] ?? [],
+            'style_config' => $styleConfig,
+            'enhanced' => $styleType === 'realistic',
+        ];
+    }
+
+    /**
+     * Build character prompts and details from atoms.
+     */
+    private function buildCharacterPrompts(array $atoms): array {
         $charPrompts = [];
         $charDetails = [];
         foreach ($atoms['characters'] as $charId) {
@@ -57,7 +94,13 @@ class GenesisPromptAssembler {
                 'detail' => $dnaStr,
             ];
         }
+        return ['prompts' => $charPrompts, 'details' => $charDetails];
+    }
 
+    /**
+     * Build scene description from scene atom fields.
+     */
+    private function buildSceneDescription(array $atoms): string {
         $sceneFields = $atoms['scene']['fields'] ?? [];
         $sceneParts = array_filter([
             $sceneFields['scene_name'] ?? '',
@@ -66,11 +109,13 @@ class GenesisPromptAssembler {
             $sceneFields['time'] ?? '',
             $sceneFields['atmosphere'] ?? '',
         ]);
-        $sceneDesc = str_replace(['"', "'"], '', implode(', ', $sceneParts));
+        return str_replace(['"', "'"], '', implode(', ', $sceneParts));
+    }
 
-        $actionDesc = $panel['action'] ?? '';
-        $actionEn = $this->translateActionEn($actionDesc);
-
+    /**
+     * Build camera description from panel and camera atom.
+     */
+    private function buildCameraDescription(array $atoms, array $panel): string {
         $aiShot = $panel['shot'] ?? '';
         $aiAngle = $panel['angle'] ?? '';
         $cameraFields = $atoms['camera']['fields'] ?? [];
@@ -78,89 +123,118 @@ class GenesisPromptAssembler {
         $angleMap = ['平视' => 'eye level', '仰视' => 'low angle', '俯视' => 'high angle'];
         $shotEn = $shotMap[$aiShot] ?? ($cameraFields['prompt_kw'] ?? 'medium shot');
         $angleEn = $angleMap[$aiAngle] ?? 'eye level';
-        $cameraDesc = $shotEn . ' ' . $angleEn;
+        return $shotEn . ' ' . $angleEn;
+    }
 
+    /**
+     * Build composition from panel.
+     */
+    private function buildComposition(array $atoms, array $panel): string {
         $aiComp = $panel['comp'] ?? '';
-        $compFields = $atoms['composition']['fields'] ?? [];
         $compMap = ['三分法' => 'rule of thirds', '对角线' => 'diagonal composition', '中心构图' => 'center composition', '对称式' => 'symmetric composition', '引导线' => 'leading lines'];
-        $compEn = $compMap[$aiComp] ?? 'rule of thirds';
+        return $compMap[$aiComp] ?? 'rule of thirds';
+    }
 
+    /**
+     * Build mood and atmosphere strings.
+     */
+    private function buildMoodAndAtmosphere(array $atoms, array $panel, array $styleConfig): array {
         $aiMood = $panel['mood'] ?? '';
-        $atmoFields = $atoms['atmosphere']['fields'] ?? [];
         $moodMap = ['阴森神秘' => 'eerie mysterious', '肃杀紧张' => 'tense murderous', '恐怖压迫' => 'horror oppressive', '宿命沉重' => 'fatalistic heavy', '凄美哀婉' => 'poignant sorrowful'];
         $moodEn = $moodMap[$aiMood] ?? 'eerie mysterious';
+        $styleAtmosphere = $styleConfig['atmosphere'] ?? [];
         $atmoStr = implode(', ', $styleAtmosphere);
+        return [$moodEn, $atmoStr];
+    }
 
+    /**
+     * Build color palette description from style config.
+     */
+    private function buildColorPalette(array $styleConfig): string {
         $colorPalette = $styleConfig['color_palette'] ?? [];
         $colorParts = [];
-        foreach (($colorPalette['primary'] ?? []) as $c) {
-            $colorParts[] = $c['hex'] . ' ' . ($c['use'] ?? '');
+        foreach (['primary', 'secondary', 'accent'] as $tier) {
+            foreach (($colorPalette[$tier] ?? []) as $c) {
+                $colorParts[] = $c['hex'] . ' ' . ($c['use'] ?? '');
+            }
         }
-        foreach (($colorPalette['secondary'] ?? []) as $c) {
-            $colorParts[] = $c['hex'] . ' ' . ($c['use'] ?? '');
-        }
-        foreach (($colorPalette['accent'] ?? []) as $c) {
-            $colorParts[] = $c['hex'] . ' ' . ($c['use'] ?? '');
-        }
-        $colorDesc = 'color palette: ' . implode(', ', $colorParts);
+        return 'color palette: ' . implode(', ', $colorParts);
+    }
 
+    /**
+     * Build symbol description from style symbols and character details.
+     */
+    private function buildSymbols(array $styleConfig, array $charDetails): string {
+        $styleSymbols = $styleConfig['symbols'] ?? [];
         $allSymbols = array_unique(array_merge($styleSymbols, explode('+', $charDetails[0]['detail'] ?? '')));
-        $symbolDesc = implode(', ', array_filter($allSymbols));
+        return implode(', ', array_filter($allSymbols));
+    }
 
+    /**
+     * Extract style-related parts from config.
+     */
+    private function buildStyleParts(array $styleConfig): array {
+        return [
+            'keywords' => $styleConfig['prompt_keywords'] ?? '',
+            'negative' => $styleConfig['negative_keywords'] ?? '',
+            'render' => $styleConfig['render'] ?? '',
+            'lighting' => $styleConfig['lighting'] ?? '',
+            'line' => $styleConfig['line_style'] ?? '',
+        ];
+    }
+
+    /**
+     * Assemble the final English prompt from all parts.
+     */
+    private function assemblePrompt(
+        string $styleKeywords, array $charPrompts, string $sceneDesc,
+        string $actionEn, string $cameraDesc, string $compEn,
+        string $moodEn, string $atmoStr, string $colorDesc, array $styleParts, string $symbolDesc
+    ): string {
         $promptParts = array_filter([
-            $styleKeywords,                               // 风格基底
-            implode('; ', $charPrompts),                  // 角色 DNA
-            $sceneDesc,                                   // 场景
-            $actionEn,                                    // 动作
-            $cameraDesc,                                  // 镜头
-            $compEn,                                      // 构图
-            $moodEn . ' ' . $atmoStr . ' atmosphere',    // 氛围
-            $colorDesc,                                   // 色彩
-            $styleRender,                                 // 渲染
-            $styleLighting,                               // 光影
-            $styleLine,                                   // 线条
-            'symbols: ' . $symbolDesc,                    // 符号
+            $styleKeywords,
+            implode('; ', $charPrompts),
+            $sceneDesc,
+            $actionEn,
+            $cameraDesc,
+            $compEn,
+            $moodEn . ' ' . $atmoStr . ' atmosphere',
+            $colorDesc,
+            $styleParts['render'],
+            $styleParts['lighting'],
+            $styleParts['line'],
+            'symbols: ' . $symbolDesc,
         ]);
-        $promptEn = implode('. ', $promptParts) . '.';
+        return implode('. ', $promptParts) . '.';
+    }
 
-        if ($styleType === 'realistic') {
-            $enhancements = [];
-            if (!empty($styleConfig['camera'])) $enhancements[] = $styleConfig['camera'];
-            if (!empty($styleConfig['skin_detail'])) $enhancements[] = $styleConfig['skin_detail'];
-            if (!empty($styleConfig['lens_params'])) {
-                $lp = $styleConfig['lens_params'];
-                $enhancements[] = ($lp['focal_length'] ?? '') . ' ' . ($lp['aperture'] ?? '') . ' ' . ($lp['sensor'] ?? '');
-            }
-            if (!empty($enhancements)) {
-                $promptEn .= '. ' . implode(', ', $enhancements);
-            }
+    /**
+     * Apply realistic style enhancements if applicable.
+     */
+    private function applyRealisticEnhancements(string $promptEn, array $styleConfig, string $styleType): string {
+        if ($styleType !== 'realistic') return $promptEn;
+
+        $enhancements = [];
+        if (!empty($styleConfig['camera'])) $enhancements[] = $styleConfig['camera'];
+        if (!empty($styleConfig['skin_detail'])) $enhancements[] = $styleConfig['skin_detail'];
+        if (!empty($styleConfig['lens_params'])) {
+            $lp = $styleConfig['lens_params'];
+            $enhancements[] = ($lp['focal_length'] ?? '') . ' ' . ($lp['aperture'] ?? '') . ' ' . ($lp['sensor'] ?? '');
         }
+        if (!empty($enhancements)) {
+            $promptEn .= '. ' . implode(', ', $enhancements);
+        }
+        return $promptEn;
+    }
 
+    /**
+     * Append negative prompt if present.
+     */
+    private function applyNegativePrompt(string $promptEn, string $styleNegative): string {
         if ($styleNegative) {
             $promptEn .= ' || negative: ' . $styleNegative;
         }
-
-        $platformParams = $this->getPlatformParams($platform);
-        $promptWithParams = $this->adaptPlatform($promptEn, $platform, $platformParams);
-
-        return [
-            'prompt_en' => $promptEn,
-            'prompt_with_params' => $promptWithParams,
-            'style' => $styleId,
-            'style_name' => $styleName,
-            'style_type' => $styleType,
-            'platform' => $platform,
-            'platform_params' => $platformParams,
-            'characters' => $charDetails,
-            'scene' => $sceneFields,
-            'camera' => $cameraFields,
-            'composition' => $compFields,
-            'atmosphere' => $atmoFields,
-            'color_mapping' => $atoms['color_mapping']['fields'] ?? [],
-            'template' => $atoms['template']['fields'] ?? [],
-            'style_config' => $styleConfig,
-            'enhanced' => $styleType === 'realistic',
-        ];
+        return $promptEn;
     }
 
     private function adaptPlatform(string $prompt, string $platform, string $params): string {
