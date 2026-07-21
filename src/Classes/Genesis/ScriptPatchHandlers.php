@@ -21,7 +21,19 @@ class ScriptPatchHandlers
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
 
         if ($styleId === 'auto' && class_exists('\Linked3\Classes\Genesis\GenesisPatchV1006')) {
-            $styleId = \GenesisPatchV1006::auto_detect_style($script);
+            try {
+                $detected = \Linked3\Classes\Genesis\GenesisPatchV1006::auto_detect_style($script);
+                if (!empty($detected)) {
+                    $styleId = $detected;
+                    error_log("[Linked3] auto_detect_style: script → {$styleId}");
+                } else {
+                    $styleId = 'cinematic_still'; // safe fallback
+                    error_log("[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
+                }
+            } catch (\Throwable $e) {
+                $styleId = 'cinematic_still'; // safe fallback
+                error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
+            }
         }
 
         @set_time_limit(180);
@@ -194,7 +206,19 @@ class ScriptPatchHandlers
         [$cloudSource, $cloudPalette, $cloudTone] = self::loadCloudTemplate($cloudCategory);
 
         if ($styleId === 'auto' && class_exists('\Linked3\Classes\Genesis\GenesisPatchV1006')) {
-            $styleId = \GenesisPatchV1006::auto_detect_style($topic);
+            try {
+                $detected = \Linked3\Classes\Genesis\GenesisPatchV1006::auto_detect_style($topic);
+                if (!empty($detected)) {
+                    $styleId = $detected;
+                    error_log("[Linked3] auto_detect_style: topic → {$styleId}");
+                } else {
+                    $styleId = 'cinematic_still'; // safe fallback
+                    error_log("[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
+                }
+            } catch (\Throwable $e) {
+                $styleId = 'cinematic_still'; // safe fallback
+                error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
+            }
         }
 
         @set_time_limit(120);
