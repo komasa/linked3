@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 final class SEOAdapterYoast implements SEOAdapter
 {
     public function slug(): string
-    : string {
+    {
         return 'yoast';
     }
 

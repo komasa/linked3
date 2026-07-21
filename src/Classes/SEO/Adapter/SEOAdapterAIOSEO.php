@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 final class SEOAdapterAIOSEO implements SEOAdapter
 {
     public function slug(): string
-    : string {
+    {
         return 'aioseo';
     }
 

@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 final class PushEngineToutiao implements PushEngine
 {
     public function slug(): string
-    : string {
+    {
         return 'toutiao';
     }
 

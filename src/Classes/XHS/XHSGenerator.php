@@ -336,7 +336,7 @@ PROMPT;
     }
 
     public function platform(): string
-    : string {
+    {
         return 'xhs';
     }
 

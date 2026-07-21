@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) exit;
 final class SEOAdapterNone implements SEOAdapter
 {
     public function slug(): string
-    : string {
+    {
         return 'none';
     }
 
@@ -27,17 +27,17 @@ final class SEOAdapterNone implements SEOAdapter
     }
 
     public function is_active(): bool
-    : bool {
+    {
         return true; // always — represents the default path.
     }
 
     public function handles_schema(): bool
-    : bool {
+    {
         return false;
     }
 
     public function handles_meta_description(): bool
-    : bool {
+    {
         return false;
     }
 

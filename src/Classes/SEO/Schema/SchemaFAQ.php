@@ -25,12 +25,12 @@ if (!defined('ABSPATH')) {
 final class SchemaFAQ implements SchemaBuilder
 {
     public function type(): string
-    : string {
+    {
         return 'FAQPage';
     }
 
     public function build($post): ?array
-    : ?array {
+    {
         if (!$post) {
             return null;
         }

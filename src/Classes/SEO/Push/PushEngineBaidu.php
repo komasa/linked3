@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
 final class PushEngineBaidu implements PushEngine
 {
     public function slug(): string
-    : string {
+    {
         return 'baidu';
     }
 

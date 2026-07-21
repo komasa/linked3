@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
 final class PushEngineBing implements PushEngine
 {
     public function slug(): string
-    : string {
+    {
         return 'bing';
     }
 

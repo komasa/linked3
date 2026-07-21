@@ -134,7 +134,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @return array
      */
     public function format_embed_payload(string|array $input, array $options, array $config): array
-    : array {
+    {
         return [
             'model' => isset($options['model']) ? $options['model'] : ($config['embed_model'] ?? 'text-embedding-3-small'),
             'input' => $input,

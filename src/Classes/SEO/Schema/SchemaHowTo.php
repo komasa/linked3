@@ -20,12 +20,12 @@ if (!defined('ABSPATH')) {
 final class SchemaHowTo implements SchemaBuilder
 {
     public function type(): string
-    : string {
+    {
         return 'HowTo';
     }
 
     public function build($post): ?array
-    : ?array {
+    {
         if (!$post) {
             return null;
         }

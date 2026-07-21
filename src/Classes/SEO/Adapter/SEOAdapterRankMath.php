@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 final class SEOAdapterRankMath implements SEOAdapter
 {
     public function slug(): string
-    : string {
+    {
         return 'rankmath';
     }
 

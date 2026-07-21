@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 final class SchemaBlogPosting implements SchemaBuilder
 {
     public function type(): string
-    : string {
+    {
         return 'BlogPosting';
     }
 
