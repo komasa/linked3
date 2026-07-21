@@ -1,0 +1,83 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * Vector Provider Strategy Interface — abstracts vector store backends.
+ *
+ * 4 providers: Pinecone / Qdrant / OpenAI Embeddings / Local (SQLite-vec).
+ * Used by the RAG layer to index WP content and retrieve context.
+ *
+ * @package Linked3
+ * @subpackage Classes\Vector
+ */
+
+namespace Linked3\Classes\Vector;
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+interface VectorProviderInterface
+{
+    /** @return string slug */
+    public function slug(): string ;
+
+    /**
+     * Connect / verify credentials.
+     *
+     * @param array $config
+     * @return array{ok:bool, message:string}
+     */
+    public function connect(array $config);
+
+    /**
+     * Create an index/collection.
+     *
+     * @param string $name
+     * @param int    $dimensions
+     * @param array  $config
+     * @return array{ok:bool, message:string}
+     */
+    public function create_index(string $name, int $dimensions, array $config);
+
+    /**
+     * Upsert vectors.
+     *
+     * @param string $index
+     * @param array  $vectors [{id, embedding, metadata}]
+     * @param array  $config
+     * @return array{ok:bool, message:string}
+     */
+    public function upsert(string $index, array $vectors, array $config);
+
+    /**
+     * Query top-K nearest neighbors.
+     *
+     * @param string $index
+     * @param float[] $query_vector
+     * @param int    $top_k
+     * @param array  $filters
+     * @param array  $config
+     * @return array<int,array{id:string, score:float, metadata:array}>
+     */
+    public function query(string $index, array $query_vector, int $top_k = 5, array $filters = [], array $config = []): array ;
+
+    /**
+     * Delete vectors by ID or filter.
+     *
+     * @param string $index
+     * @param array  $ids
+     * @param array  $config
+     * @return array{ok:bool, message:string}
+     */
+    public function delete(string $index, array $ids, array $config);
+
+    /**
+     * Generate an embedding for text (using the linked AI Dispatcher).
+     *
+     * @param string $text
+     * @param array  $config
+     * @return float[]|\WP_Error
+     */
+    public function embed(string $text, array $config): array|WP_Error ;
+}

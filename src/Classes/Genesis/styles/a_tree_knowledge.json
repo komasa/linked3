@@ -1,0 +1,65 @@
+{
+  "name_cn": "树状知识树",
+  "name_en": "Tree Knowledge",
+  "category": "商业生产级信息图-G5图示专项",
+  "version": "1.0.0",
+  "source": "G5 Track A-02 演化结晶",
+  "color_palette": {
+    "primary": "#1B3A5C",
+    "accent": "#31ACF4",
+    "background": "#FFFFFF",
+    "description": "树状: 深蓝#1B3A5C根+蓝#31ACF4子层"
+  },
+  "typography": {
+    "font_family_primary": "OPPOSans",
+    "font_sizes": {
+      "main_title": "16pt",
+      "body": "11pt"
+    },
+    "description": "无衬线树状字体"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 5,
+    "card_style": "elbow joints, expand/collapse",
+    "description": "自上而下树状层级"
+  },
+  "visual_frequency": {
+    "HF": "根节点",
+    "MF": "一级子",
+    "LF": "二级子",
+    "description": "层级树状结构"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "学习者",
+    "content_adaptation": "知识体系"
+  },
+  "reader_constraint": {
+    "reader_state": "学习",
+    "reader_mode": "研读",
+    "reader_expectation": "层级结构"
+  },
+  "prompt_keywords": "tree diagram, top-down hierarchy, elbow connectors, node boxes, expand/collapse indicators, folder icons, alternating rows",
+  "negative_keywords": "radial, network, circular",
+  "suitable_genres": [
+    "知识体系",
+    "分类目录",
+    "组织架构"
+  ],
+  "scene_whitelist": [
+    "树状",
+    "层级",
+    "分类"
+  ],
+  "scene_blacklist": [
+    "网络关系"
+  ],
+  "style_constraint_cn": "树状知识树: 自上而下+肘形连接+层级展开",
+  "style_constraint_en": "Tree knowledge diagram ONLY. Top-down hierarchy with elbow connectors.",
+  "meta_prompt": "tree knowledge diagram, top-down hierarchy, root node dark blue #1B3A5C, level-1 blue #31ACF4, level-2 light blue #E8F0FC, elbow connectors, expand/collapse indicators. --ar 4:3 --s 200 --style raw",
+  "prompt_example": true,
+  "commercial_grade": true,
+  "production_ready": "G5 Track A-02演化结晶",
+  "reference_source": ""
+}

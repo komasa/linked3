@@ -1,0 +1,124 @@
+{
+  "name_cn": "少女漫画·梦幻柔焦",
+  "name_en": "Shojo Manga Dreamy",
+  "category": "日系漫画",
+  "usage_code": "Y07",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "集英社《Ribon》《Margaret》系: 美少女战士/好想告诉你/NANA",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFF5F7",
+        "ratio": "35%",
+        "use": "柔白底+梦幻留白"
+      },
+      {
+        "hex": "#FFB3C6",
+        "ratio": "20%",
+        "use": "樱花粉+柔焦"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#A8DADC",
+        "ratio": "12%",
+        "use": "薄雾蓝+清透"
+      },
+      {
+        "hex": "#F4A261",
+        "ratio": "8%",
+        "use": "暖琥珀+温柔光"
+      }
+    ],
+    "accent": [
+      "#E76F51",
+      "#9D4EDD"
+    ],
+    "mood_tone": "低饱和柔粉+薄雾蓝, 梦幻朦胧"
+  },
+  "line_style": "纤细柔线(0.5-1.5px)+渐变墨色, 笔触轻盈飘逸",
+  "render": "水彩柔焦+渐变网点+星光叠加, 柔光晕染",
+  "atmosphere": [
+    "梦幻",
+    "浪漫",
+    "温柔",
+    "忧伤",
+    "心动"
+  ],
+  "lighting": "柔光漫射+星光散射+逆光晕染, 低对比柔光",
+  "symbols": [
+    "星光",
+    "花瓣",
+    "气泡",
+    "蕾丝边框",
+    "闪粉",
+    "心形",
+    "丝带"
+  ],
+  "patterns": [
+    "渐变网点(柔焦)",
+    "星光散布",
+    "花瓣飘落",
+    "蕾丝花纹"
+  ],
+  "scene_templates": [
+    {
+      "scene": "心动邂逅",
+      "mood": "怦然心动",
+      "lighting": "逆光+星光散射",
+      "composition": "特写+柔焦背景"
+    },
+    {
+      "scene": "樱花树下",
+      "mood": "浪漫温柔",
+      "lighting": "花瓣滤光+柔光",
+      "composition": "双人中景+花瓣前景"
+    },
+    {
+      "scene": "离别雨中",
+      "mood": "忧伤不舍",
+      "lighting": "雨幕柔光+冷蓝",
+      "composition": "远景+雨丝前景"
+    },
+    {
+      "scene": "告白时刻",
+      "mood": "紧张期待",
+      "lighting": "暖光聚焦+星光",
+      "composition": "面部特写+闪粉"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "方正雅宋 / Yu Mincho",
+    "sfx_style": "手写圆体拟声词, 柔粉描边+白填色, 花瓣形外框",
+    "caption_style": "细明体, 斜排, 柔灰底色"
+  },
+  "layout": {
+    "panel_grid_default": "3-4格柔化网格",
+    "gutter_style": "无边框, 花瓣/星光分隔",
+    "splash_page": "全页柔焦大格用于心动/告白",
+    "panel_shape": "圆角格+花瓣形+无边框自由形"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "青少年女性·情感叙事爱好者",
+    "content_adaptation": "情感细腻型叙事, 需读者感受氛围与情绪"
+  },
+  "reader_constraint": {
+    "reader_state": "沉浸浪漫·渴望情感共鸣",
+    "reader_mode": "慢速细品+氛围感受",
+    "reader_expectation": "柔焦美感+星光梦幻+情感细腻表达"
+  },
+  "visual_frequency": {
+    "HF": "星光/花瓣/闪粉/心形(高频氛围装饰)",
+    "MF": "人物表情/眼神/手势(中频情感叙事)",
+    "LF": "柔焦背景/渐变天空/留白(低频情绪底色)",
+    "color_mapping": {
+      "HF": "#FFB3C6",
+      "MF": "#A8DADC",
+      "LF": "#FFF5F7"
+    },
+    "progression": "HF均匀散布营造梦幻, MF聚焦人物情感, LF大面积留白透气"
+  }
+}

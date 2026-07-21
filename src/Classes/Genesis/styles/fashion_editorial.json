@@ -1,0 +1,178 @@
+{
+  "name_cn": "时尚大片·杂志封面",
+  "name_en": "Fashion Editorial",
+  "category": "真人-时尚",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFFFFF",
+        "ratio": "35%",
+        "use": "纯白背景"
+      },
+      {
+        "hex": "#000000",
+        "ratio": "25%",
+        "use": "黑色主体"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#C0C0C0",
+        "ratio": "10%",
+        "use": "金属银"
+      },
+      {
+        "hex": "#FFC0CB",
+        "ratio": "8%",
+        "use": "柔粉点缀"
+      }
+    ],
+    "accent": [
+      "#FFD700",
+      "#4169E1"
+    ],
+    "mood_tone": "高对比黑白,精致质感"
+  },
+  "line_style": "无描边+锐利清晰,crisp edges",
+  "render": "杂志级修图+皮肤精修,editorial retouch",
+  "atmosphere": [
+    "精致",
+    "高级",
+    "冷艳",
+    "自信",
+    "奢华"
+  ],
+  "lighting": "影棚布光+环形灯+柔光箱,studio lighting",
+  "symbols": [
+    "高跟鞋",
+    "手包",
+    "墨镜",
+    "珠宝",
+    "杂志",
+    "聚光灯"
+  ],
+  "patterns": [
+    "几何构图",
+    "对称构图",
+    "负空间",
+    "极简线条"
+  ],
+  "prompt_keywords": "High fashion editorial photography, magazine cover style, studio lighting with softbox, crisp sharp focus, minimalist composition, luxury aesthetic, professional retouching",
+  "negative_keywords": "ancient mansion, historical, rural, natural landscape, cyberpunk, ukiyo-e, ink wash, fantasy, dark horror",
+  "suitable_genres": [
+    "时尚",
+    "杂志",
+    "品牌",
+    "美容",
+    "奢侈品"
+  ],
+  "scene_whitelist": [
+    "私人游艇",
+    "化妆间",
+    "摄影棚",
+    "极简白空间",
+    "品牌发布会",
+    "时装仓库",
+    "时尚派对",
+    "工业风loft",
+    "杂志社",
+    "时装周现场",
+    "复古公寓",
+    "街拍圣地",
+    "时装秀红毯",
+    "摩天楼观景台",
+    "米其林餐厅",
+    "摄影基地",
+    "艺术画廊",
+    "精品咖啡馆",
+    "后台",
+    "复古唱片店",
+    "奢侈品旗舰店",
+    "秀场T台",
+    "直升机坪",
+    "设计师工作室",
+    "城市街头",
+    "杂志编辑部",
+    "时装周后台",
+    "品牌旗舰店",
+    "豪华酒店"
+  ],
+  "scene_blacklist": [
+    "古宅",
+    "历史场景",
+    "自然田园",
+    "雨夜古宅",
+    "竹林",
+    "神社",
+    "废墟"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "模特登场",
+      "location": "秀场后台",
+      "characters": [
+        "模特"
+      ],
+      "action": "模特在后台化妆,镜中倒影",
+      "mood": "专注优雅",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "模特走秀",
+      "location": "秀场T台",
+      "characters": [
+        "模特",
+        "观众"
+      ],
+      "action": "模特在T台行走,聚光灯追随",
+      "mood": "自信闪耀",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "模特拍摄",
+      "location": "摄影棚",
+      "characters": [
+        "模特",
+        "摄影师"
+      ],
+      "action": "模特在摄影棚摆姿势,闪光灯频闪",
+      "mood": "专业精致",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "模特离场",
+      "location": "城市街头",
+      "characters": [
+        "模特"
+      ],
+      "action": "模特走出场馆,街拍风格",
+      "mood": "随性时尚",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A model poses confidently on a minimalist runway under stark spotlights, geometric shadows cutting across the avant-garde outfit, the model fixing the camera with an intense gaze, shot in a full body wide angle from low angle with symmetric composition, high fashion editorial style with crisp lighting and bold contrast --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 时尚大片·杂志封面\n✅ 允许场景: 秀场/摄影棚/街头/时尚场所 (从故事原文提取)\n❌ 禁止场景: 古宅/历史场景/自然田园\n❌ 禁止照抄: 不要用'雨夜古宅',必须用时尚场景\n氛围: 精致时尚,高级感",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use fashion scenes (runways, studios, streets). Do NOT use ancient mansions or historical scenes. Adapt to the story's actual setting in a fashion context.",
+  "meta_prompt": "High fashion editorial, magazine cover style, studio lighting, crisp sharp focus, minimalist luxury aesthetic, professional retouching",
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "时尚从业者·审美判断",
+    "content_adaptation": "进阶时尚解读, 需行业审美基础"
+  },
+  "reader_constraint": {
+    "reader_state": "时尚受众·期待编辑级视觉",
+    "reader_mode": "审美判断",
+    "reader_expectation": "高级构图+质感细节+品牌调性"
+  },
+  "visual_frequency": {
+    "HF": "模特面部/服装重点/配饰特写(高频时尚锚点)",
+    "MF": "服装整体/姿态构图/场景搭配(中频编辑叙事)",
+    "LF": "背景纯色/光影渐变/留白(低频高级感)",
+    "color_mapping": {
+      "HF": "#FFFFFF",
+      "MF": "#FF7F50",
+      "LF": "#36454F"
+    },
+    "progression": "HF聚焦时尚焦点, MF编辑构图叙事, LF极简背景衬高级"
+  }
+}

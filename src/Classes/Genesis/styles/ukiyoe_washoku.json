@@ -1,0 +1,175 @@
+{
+  "name_cn": "浮世绘·和风木版",
+  "name_en": "Ukiyo-e Woodblock Print",
+  "category": "和风古典",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F5E6D3",
+        "ratio": "30%",
+        "use": "和纸底色"
+      },
+      {
+        "hex": "#1B4332",
+        "ratio": "20%",
+        "use": "墨线轮廓"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#C9184A",
+        "ratio": "15%",
+        "use": "朱红主色"
+      },
+      {
+        "hex": "#FFB627",
+        "ratio": "10%",
+        "use": "金黄点缀"
+      }
+    ],
+    "accent": [
+      "#3A86FF",
+      "#8338EC"
+    ],
+    "mood_tone": "平面装饰,朱红墨线"
+  },
+  "line_style": "木版刀刻+平涂色块,2-3px粗线+flat color",
+  "render": "木版印刷+和纸纹理,woodblock-print texture",
+  "atmosphere": [
+    "宁静",
+    "古典",
+    "幽雅",
+    "物哀",
+    "风流"
+  ],
+  "lighting": "平面无阴影+装饰性色块,flat lighting",
+  "symbols": [
+    "樱花",
+    "富士山",
+    "灯笼",
+    "折扇",
+    "和伞",
+    "鲤鱼旗"
+  ],
+  "patterns": [
+    "波纹",
+    "云纹",
+    "花鸟",
+    "几何纹"
+  ],
+  "prompt_keywords": "Traditional Japanese ukiyo-e woodblock print style, flat color blocks with bold black outlines, decorative patterns, Edo period aesthetic, cherry blossom motifs, asymmetric composition",
+  "negative_keywords": "3d render, photorealistic, modern city, cyberpunk, neon, western architecture, sci-fi, ancient mansion",
+  "suitable_genres": [
+    "时代",
+    "武士",
+    "艺伎",
+    "怪谈",
+    "风雅"
+  ],
+  "scene_whitelist": [
+    "竹林小径",
+    "雪中松林",
+    "月下庭院",
+    "江户街道",
+    "寺庙山门",
+    "神社鸟居",
+    "荷塘水榭",
+    "富士山五合目",
+    "茶道室",
+    "茶室露台",
+    "樱花树下",
+    "相扑土俵",
+    "富士山",
+    "桥头",
+    "渔村码头",
+    "武士宅邸",
+    "茶屋内",
+    "古道驿站",
+    "花街柳巷",
+    "东海道驿站",
+    "河边柳树",
+    "雪国街道",
+    "秋枫山谷",
+    "海滨礁石",
+    "红叶山谷",
+    "歌舞伎座"
+  ],
+  "scene_blacklist": [
+    "现代都市",
+    "科幻场景",
+    "西方建筑",
+    "赛博朋克",
+    "古宅",
+    "中国书院",
+    "教堂"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "武士到访茶屋",
+      "location": "江户街道",
+      "characters": [
+        "武士"
+      ],
+      "action": "武士穿过樱花飘落的街道,来到茶屋",
+      "mood": "宁静古典",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "武士与艺伎对话",
+      "location": "茶屋内",
+      "characters": [
+        "武士",
+        "艺伎"
+      ],
+      "action": "武士与艺伎在榻榻米上对饮,窗外月色",
+      "mood": "暧昧幽雅",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "武士桥头决斗",
+      "location": "桥头",
+      "characters": [
+        "武士",
+        "对手"
+      ],
+      "action": "武士与对手在桥头拔刀对决,雪花纷飞",
+      "mood": "肃杀悲壮",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "武士归乡",
+      "location": "富士山下",
+      "characters": [
+        "武士"
+      ],
+      "action": "武士独自走向富士山,背影渐远",
+      "mood": "孤寂禅意",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A lone samurai walks along a cherry blossom-lined path at dusk, soft pink petals drifting across the traditional wooden bridge, the samurai carrying a sheathed katana with measured steps, flat ukiyo-e woodblock print style with bold outlines and limited palette, wide shot from eye level with rule of thirds composition --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 浮世绘·和风木版\n✅ 允许场景: 江户街道/茶屋/桥头/樱花/富士山 (从故事原文提取)\n❌ 禁止场景: 现代都市/科幻/西方建筑/赛博朋克\n❌ 禁止照抄: 不要用'雨夜古宅',必须用和风场景\n氛围: 宁静古典,木版画质感",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use ukiyo-e style scenes (Edo streets, tea houses, bridges). Do NOT use modern cities, sci-fi, or Western architecture. Adapt to the story's actual setting in a ukiyo-e context.",
+  "meta_prompt": "Traditional Japanese ukiyo-e woodblock print, flat color blocks, bold black outlines, decorative Edo period aesthetic, cherry blossom motifs",
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "浮世绘爱好者·鉴赏东瀛",
+    "content_adaptation": "进阶浮世绘鉴赏, 需日本美术基础"
+  },
+  "reader_constraint": {
+    "reader_state": "东瀛艺术爱好者·期待浮世绘之美",
+    "reader_mode": "鉴赏式品读",
+    "reader_expectation": "浮世绘线条+东瀛色彩+平面装饰"
+  },
+  "visual_frequency": {
+    "HF": "人物面部/服饰纹样/关键道具(高频审美锚点)",
+    "MF": "人物整体/构图线条/装饰边框(中频浮世绘叙事)",
+    "LF": "背景色块/留白/装饰纹样(低频平面感)",
+    "color_mapping": {
+      "HF": "#CC3333",
+      "MF": "#2F4F4F",
+      "LF": "#0D0D0D"
+    },
+    "progression": "HF浮世红聚焦人物, MF靛蓝线条构叙事, LF墨色留白衬平面"
+  }
+}

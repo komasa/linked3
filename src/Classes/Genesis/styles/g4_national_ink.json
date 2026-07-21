@@ -1,0 +1,66 @@
+{
+  "name_cn": "国风知识图谱",
+  "name_en": "National Ink Knowledge Map",
+  "category": "商业生产级信息图-G4国风融合",
+  "version": "1.0.0",
+  "source": "G4-01 国风融合演化结晶",
+  "color_palette": {
+    "primary": "#C0392B",
+    "accent": "#C9A961",
+    "background": "#F5EFE0",
+    "description": "国风: 朱砂红#C0392B+金#C9A961+宣纸#F5EFE0"
+  },
+  "typography": {
+    "font_family_primary": "Noto Serif SC",
+    "font_sizes": {
+      "main_title": "22pt",
+      "body": "11pt"
+    },
+    "description": "宋体+楷体国风字体"
+  },
+  "layout": {
+    "canvas_ratio": "3:4",
+    "module_count_default": 8,
+    "card_style": "brush-stroke borders, seal stamps",
+    "description": "印章编号+水墨渐变"
+  },
+  "visual_frequency": {
+    "HF": "模块标题+印章",
+    "MF": "子主题",
+    "LF": "细节",
+    "description": "国风知识图谱"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "文化爱好者",
+    "content_adaptation": "传统文化"
+  },
+  "reader_constraint": {
+    "reader_state": "学习",
+    "reader_mode": "研读",
+    "reader_expectation": "国风知识体系"
+  },
+  "prompt_keywords": "Chinese ink aesthetic, rice paper texture, brush-stroke borders, seal stamps, Song serif typography, ink wash gradient",
+  "negative_keywords": "3D render, neon, cyberpunk, photorealistic",
+  "suitable_genres": [
+    "传统文化",
+    "国潮",
+    "非遗"
+  ],
+  "scene_whitelist": [
+    "国风",
+    "文化",
+    "传统"
+  ],
+  "scene_blacklist": [
+    "科技产品",
+    "赛博朋克"
+  ],
+  "style_constraint_cn": "国风知识图谱: 水墨+印章+宋体+留白",
+  "style_constraint_en": "Chinese ink aesthetic ONLY. Rice paper texture, seal stamps as badges, Song serif.",
+  "meta_prompt": "Chinese ink knowledge map, rice paper #F5EFE0 background, brush-stroke card borders, seal stamps as numbered badges, cinnabar red #C0392B, gold #C9A961, Song serif typography, ink wash gradients. --ar 3:4 --s 300 --style raw",
+  "prompt_example": true,
+  "commercial_grade": true,
+  "production_ready": "G4-01国风融合演化结晶",
+  "reference_source": ""
+}

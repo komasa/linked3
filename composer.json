@@ -1,0 +1,59 @@
+{
+    "name": "linked3/linked3-ai",
+    "description": "Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "version": "27.6.2",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "friendsofphp/php-cs-fixer": "^3.49",
+        "phpstan/phpstan": "^1.10",
+        "squizlabs/php_codesniffer": "^3.7",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Linked3\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Linked3\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "test:unit": "phpunit --testsuite=Unit --colors=always",
+        "test:integration": "phpunit --testsuite=Integration --colors=always",
+        "test:coverage": "phpunit --coverage-html reports/coverage",
+        "lint": "php-cs-fixer fix --dry-run --diff",
+        "lint:fix": "php-cs-fixer fix",
+        "sniff": "phpcs --standard=PSR12 src/ tests/",
+        "stan": "phpstan analyse src/ --level=5 --memory-limit=512M",
+        "stan:baseline": "phpstan analyse src/ --level=5 --generate-baseline=phpstan-baseline.php",
+        "ci": [
+            "@sniff",
+            "@stan",
+            "@test"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts-descriptions": {
+        "test": "Run all PHPUnit tests.",
+        "test:unit": "Run only the Unit test suite.",
+        "test:coverage": "Run tests and generate HTML coverage report in reports/coverage.",
+        "lint": "Dry-run PHP-CS-Fixer to preview formatting changes.",
+        "lint:fix": "Apply PSR-12 formatting fixes automatically.",
+        "sniff": "Run PHP_CodeSniffer with PSR-12 standard."
+    }
+}

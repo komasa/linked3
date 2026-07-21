@@ -1,0 +1,65 @@
+{
+  "name_cn": "学习路径闭环",
+  "name_en": "Edu Path Loop",
+  "category": "商业生产级信息图-G7行业垂直-教育",
+  "version": "1.0.0",
+  "source": "G7 Track G-08 教育垂直",
+  "color_palette": {
+    "primary": "#31ACF4",
+    "accent": "#1B3A5C",
+    "background": "#FFFFFF",
+    "description": "教育: 浅蓝→深蓝渐变"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准字体"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层信息密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用用户",
+    "content_adaptation": "通用场景"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息获取"
+  },
+  "prompt_keywords": "learning loop learn practice assess feedback iterate, stage icons, growth upward spiral, color progression light to dark",
+  "negative_keywords": "3D render, photorealistic, complex textures",
+  "suitable_genres": [
+    "通用图示",
+    "知识图谱",
+    "信息图"
+  ],
+  "scene_whitelist": [
+    "通用",
+    "知识",
+    "信息"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "学习路径闭环: G7 Track G-08 教育垂直",
+  "style_constraint_en": "Edu Path Loop ONLY. learning loop learn practice assess feedback iterate, stage icons, growth upward",
+  "meta_prompt": "learning loop learn practice assess feedback iterate, stage icons, growth upward spiral, color progression light to dark, #31ACF4 primary, #FFFFFF background, professional infographic",
+  "prompt_example": "learning loop learn practice assess feedback iterate, stage icons, growth upward spiral, color progression light to dark, #31ACF4 primary color, #FFFFFF background, HarmonyOS Sans typography, 3-layer hierarchy, numbered badges. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G7 Track G-08 教育垂直"
+}

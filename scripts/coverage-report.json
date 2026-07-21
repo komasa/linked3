@@ -1,0 +1,1389 @@
+{
+  "summary": {
+    "total_aliases_registered": 214,
+    "legacy_aliases": 179,
+    "os_aliases": 35,
+    "os_function_defined": false,
+    "unique_old_names": 114,
+    "old_names_with_active_refs": 0,
+    "old_names_no_refs": 114,
+    "missing_new_class_targets": 37
+  },
+  "os_function_fatal_bug": true,
+  "missing_targets": [
+    {
+      "old": "Linked3\\Classes\\Addons\\Linked3_Addon_Interface",
+      "new": "Linked3\\Classes\\Addons\\AddonInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Addon_Interface",
+      "new": "Linked3\\Classes\\Addons\\AddonInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Hong_Liu_Flywheel",
+      "new": "OSMomentumFlywheel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Ru_Liu_Tracker",
+      "new": "OSOnboardingTracker",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Suo_Structure",
+      "new": "OSCapabilityLock",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Zhi_Three_Stages",
+      "new": "OSCapabilityStages",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Dimensions",
+      "new": "OSReverseDimensions",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Engine",
+      "new": "OSReverseEngine",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Engineer_Registry",
+      "new": "OSEngineerRegistry",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Quality_Gate",
+      "new": "OSQualityGate",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Text_Creation",
+      "new": "OSTextCreation",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Svg_Meta_Stats",
+      "new": "OSVisualAnalytics",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Three_Layer_Consciousness",
+      "new": "OSConsciousnessLayer",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Consciousness_Ajax",
+      "new": "OSConsciousnessAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Engineer_Registry_Ajax",
+      "new": "OSEngineerRegistryAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Hong_Liu_Ajax",
+      "new": "OSMomentumAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Suo_Ajax",
+      "new": "OSCapabilityLockAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Zhi_Ajax",
+      "new": "OSCapabilityStagesAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Quality_Gate_Ajax",
+      "new": "OSQualityGateAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Ajax",
+      "new": "OSReverseAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Text_Ajax",
+      "new": "OSTextCreationAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Ru_Liu_Ajax",
+      "new": "OSOnboardingAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Svg_Stats_Ajax",
+      "new": "OSVisualAnalyticsAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Dashboard",
+      "new": "OSDashboard",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Reverse_Panel",
+      "new": "OSReversePanel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Ruliu_Panel",
+      "new": "OSOnboardingPanel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Svg_Stats_Panel",
+      "new": "OSVisualAnalyticsPanel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Cli",
+      "new": "OSCli",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Db_Schema",
+      "new": "OSDbSchema",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Integration_Hub",
+      "new": "OSIntegrationHub",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Integration_Hub_V2",
+      "new": "OSIntegrationHubV2",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Rest_Api",
+      "new": "OSRestApi",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Shortcodes",
+      "new": "OSShortcodes",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Widget",
+      "new": "OSWidget",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Facade",
+      "new": "Linked3_OS_Facade",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Genesis_Bridge",
+      "new": "OSGenesisBridge",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Dependencies_Loader",
+      "new": "OSDependenciesLoader",
+      "registry": "OSAliasRegistry"
+    }
+  ],
+  "dead_aliases_no_refs": [
+    "Linked3_AI_Pipeline_Bootstrap",
+    "Linked3_Addon_Interface",
+    "Linked3_Alipay_Gateway",
+    "Linked3_Audit_Logger",
+    "Linked3_Auto_Rollback",
+    "Linked3_Batch_Engine",
+    "Linked3_Batch_Generate_Handler",
+    "Linked3_Billing_Bootstrap",
+    "Linked3_Book_Cost_Tracker_Interface",
+    "Linked3_Book_Prompt_Provider_Interface",
+    "Linked3_Book_State_Repository_Interface",
+    "Linked3_Consciousness_Ajax",
+    "Linked3_Consent_Compliance_Addon",
+    "Linked3_Content_Quality_Scorer",
+    "Linked3_Cost_Reporter",
+    "Linked3_Diagram_3D_AR_Subsystem",
+    "Linked3_Diagram_4Layer_Anchor",
+    "Linked3_Diagram_8System_CrossRef",
+    "Linked3_Diagram_BaseReuse_Flywheel",
+    "Linked3_Diagram_Bootstrap",
+    "Linked3_Diagram_BrandSystem_5D",
+    "Linked3_Diagram_Cognitive_6Level",
+    "Linked3_Diagram_Color_System",
+    "Linked3_Diagram_Commercial_Hardening",
+    "Linked3_Diagram_Complexity_Reduction",
+    "Linked3_Diagram_Density_4Level",
+    "Linked3_Diagram_E2E_TestSuite",
+    "Linked3_Diagram_Endpoint_DecisionTree",
+    "Linked3_Diagram_Failure_Diagnosis",
+    "Linked3_Diagram_Failure_Handbook",
+    "Linked3_Diagram_Followup_Registry",
+    "Linked3_Diagram_FooterFollowup_Matrix",
+    "Linked3_Diagram_Footer_Registry",
+    "Linked3_Diagram_Keyword_Refiner",
+    "Linked3_Diagram_Layout_Engine",
+    "Linked3_Diagram_Loop_Character_Integration",
+    "Linked3_Diagram_Loop_Iterator",
+    "Linked3_Diagram_ProductSeed_Manager",
+    "Linked3_Diagram_Production_Bootstrap",
+    "Linked3_Diagram_Prompt_Compiler",
+    "Linked3_Diagram_Prompt_Compressor",
+    "Linked3_Diagram_Relationship_Encoder",
+    "Linked3_Diagram_Script_Layer",
+    "Linked3_Diagram_Seed_Check",
+    "Linked3_Diagram_Seed_Compiler",
+    "Linked3_Diagram_Seed_Lock",
+    "Linked3_Diagram_Seed_Reference",
+    "Linked3_Diagram_Selection_DecisionTree",
+    "Linked3_Diagram_SeriesDNA_4Lock",
+    "Linked3_Diagram_TextEmbed_Validator",
+    "Linked3_Diagram_Validation_13Dim",
+    "Linked3_Diagram_Validation_Layer",
+    "Linked3_Diagram_VisualScript_Transform",
+    "Linked3_Diagram_Visual_Frequency",
+    "Linked3_Engineer_Registry_Ajax",
+    "Linked3_Final_Bootstrap",
+    "Linked3_Genesis_AtomSelector",
+    "Linked3_Genesis_Bootstrap",
+    "Linked3_Genesis_Evaluator",
+    "Linked3_Genesis_Exception",
+    "Linked3_Genesis_IRCompiler",
+    "Linked3_Genesis_Mutator",
+    "Linked3_Genesis_PQSChecker",
+    "Linked3_Genesis_Pipeline",
+    "Linked3_Genesis_PlotParser",
+    "Linked3_Genesis_PromptAssembler",
+    "Linked3_Genesis_StoryboardGenerator",
+    "Linked3_Health_Monitor",
+    "Linked3_Hong_Liu_Ajax",
+    "Linked3_Hong_Liu_Flywheel",
+    "Linked3_IP_Anonymization_Addon",
+    "Linked3_Invoice_Manager",
+    "Linked3_MultiSite_Publisher",
+    "Linked3_Neng_Suo_Ajax",
+    "Linked3_Neng_Suo_Structure",
+    "Linked3_Neng_Zhi_Ajax",
+    "Linked3_Neng_Zhi_Three_Stages",
+    "Linked3_Payment_Gateway_Interface",
+    "Linked3_Payment_Manager",
+    "Linked3_Performance_Cache",
+    "Linked3_Quality_Gate_Ajax",
+    "Linked3_Quota_Interceptor",
+    "Linked3_Referral_Manager",
+    "Linked3_Reverse_Ajax",
+    "Linked3_Reverse_Dimensions",
+    "Linked3_Reverse_Engine",
+    "Linked3_Reverse_Engineer_Registry",
+    "Linked3_Reverse_Quality_Gate",
+    "Linked3_Reverse_Text_Ajax",
+    "Linked3_Reverse_Text_Creation",
+    "Linked3_Ru_Liu_Ajax",
+    "Linked3_Ru_Liu_Tracker",
+    "Linked3_Scale_Bootstrap",
+    "Linked3_Security_Bootstrap",
+    "Linked3_Seed_CPT",
+    "Linked3_Svg_Meta_Stats",
+    "Linked3_Svg_Stats_Ajax",
+    "Linked3_Three_Layer_Consciousness",
+    "Linked3_Wechat_Gateway",
+    "Linked3_i18n_Manager",
+    "V18_Cli",
+    "V18_Dashboard",
+    "V18_Db_Schema",
+    "V18_Dependencies_Loader",
+    "V18_Facade",
+    "V18_Genesis_Bridge",
+    "V18_Integration_Hub",
+    "V18_Integration_Hub_V2",
+    "V18_Rest_Api",
+    "V18_Reverse_Panel",
+    "V18_Ruliu_Panel",
+    "V18_Shortcodes",
+    "V18_Svg_Stats_Panel",
+    "V18_Widget"
+  ],
+  "active_references": {},
+  "all_aliases": [
+    {
+      "old": "Linked3\\Classes\\AI\\Pipeline\\Linked3_AI_Pipeline_Bootstrap",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\AIPipelineBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\AI\\Pipeline\\Linked3_Content_Quality_Scorer",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\ContentQualityScorer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\AI\\Pipeline\\Linked3_Cost_Reporter",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\CostReporter",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Addons\\Linked3_Addon_Interface",
+      "new": "Linked3\\Classes\\Addons\\AddonInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Alipay_Gateway",
+      "new": "Linked3\\Classes\\Billing\\AlipayGateway",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Billing_Bootstrap",
+      "new": "Linked3\\Classes\\Billing\\BillingBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Invoice_Manager",
+      "new": "Linked3\\Classes\\Billing\\InvoiceManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Payment_Gateway_Interface",
+      "new": "Linked3\\Classes\\Billing\\PaymentGatewayInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Payment_Manager",
+      "new": "Linked3\\Classes\\Billing\\PaymentManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Quota_Interceptor",
+      "new": "Linked3\\Classes\\Billing\\QuotaInterceptor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Referral_Manager",
+      "new": "Linked3\\Classes\\Billing\\ReferralManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Billing\\Linked3_Wechat_Gateway",
+      "new": "Linked3\\Classes\\Billing\\WechatGateway",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\BookFactory\\Linked3_Book_Cost_Tracker_Interface",
+      "new": "Linked3\\Classes\\BookFactory\\BookCostTrackerInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\BookFactory\\Linked3_Book_Prompt_Provider_Interface",
+      "new": "Linked3\\Classes\\BookFactory\\BookPromptProviderInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\BookFactory\\Linked3_Book_State_Repository_Interface",
+      "new": "Linked3\\Classes\\BookFactory\\BookStateRepositoryInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_3D_AR_Subsystem",
+      "new": "Linked3\\Classes\\Diagram\\Diagram3DARSubsystem",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_4Layer_Anchor",
+      "new": "Linked3\\Classes\\Diagram\\Diagram4LayerAnchor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_8System_CrossRef",
+      "new": "Linked3\\Classes\\Diagram\\Diagram8SystemCrossRef",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_BaseReuse_Flywheel",
+      "new": "Linked3\\Classes\\Diagram\\DiagramBaseReuseFlywheel",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Bootstrap",
+      "new": "Linked3\\Classes\\Diagram\\DiagramBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_BrandSystem_5D",
+      "new": "Linked3\\Classes\\Diagram\\DiagramBrandSystem5D",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Cognitive_6Level",
+      "new": "Linked3\\Classes\\Diagram\\DiagramCognitive6Level",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Color_System",
+      "new": "Linked3\\Classes\\Diagram\\DiagramColorSystem",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Commercial_Hardening",
+      "new": "Linked3\\Classes\\Diagram\\DiagramCommercialHardening",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Complexity_Reduction",
+      "new": "Linked3\\Classes\\Diagram\\DiagramComplexityReduction",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Density_4Level",
+      "new": "Linked3\\Classes\\Diagram\\DiagramDensity4Level",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_E2E_TestSuite",
+      "new": "Linked3\\Classes\\Diagram\\DiagramE2ETestSuite",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Endpoint_DecisionTree",
+      "new": "Linked3\\Classes\\Diagram\\DiagramEndpointDecisionTree",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Failure_Diagnosis",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFailureDiagnosis",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Failure_Handbook",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFailureHandbook",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Followup_Registry",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFollowupRegistry",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_FooterFollowup_Matrix",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFooterFollowupMatrix",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Footer_Registry",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFooterRegistry",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Keyword_Refiner",
+      "new": "Linked3\\Classes\\Diagram\\DiagramKeywordRefiner",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Layout_Engine",
+      "new": "Linked3\\Classes\\Diagram\\DiagramLayoutEngine",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Loop_Character_Integration",
+      "new": "Linked3\\Classes\\Diagram\\DiagramLoopCharacterIntegration",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Loop_Iterator",
+      "new": "Linked3\\Classes\\Diagram\\DiagramLoopIterator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_ProductSeed_Manager",
+      "new": "Linked3\\Classes\\Diagram\\DiagramProductSeedManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Production_Bootstrap",
+      "new": "Linked3\\Classes\\Diagram\\DiagramProductionBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Prompt_Compiler",
+      "new": "Linked3\\Classes\\Diagram\\DiagramPromptCompiler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Prompt_Compressor",
+      "new": "Linked3\\Classes\\Diagram\\DiagramPromptCompressor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Relationship_Encoder",
+      "new": "Linked3\\Classes\\Diagram\\DiagramRelationshipEncoder",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Script_Layer",
+      "new": "Linked3\\Classes\\Diagram\\DiagramScriptLayer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Check",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedCheck",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Compiler",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedCompiler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Lock",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedLock",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Seed_Reference",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedReference",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Selection_DecisionTree",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSelectionDecisionTree",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_SeriesDNA_4Lock",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeriesDNA4Lock",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_TextEmbed_Validator",
+      "new": "Linked3\\Classes\\Diagram\\DiagramTextEmbedValidator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Validation_13Dim",
+      "new": "Linked3\\Classes\\Diagram\\DiagramValidation13Dim",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Validation_Layer",
+      "new": "Linked3\\Classes\\Diagram\\DiagramValidationLayer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_VisualScript_Transform",
+      "new": "Linked3\\Classes\\Diagram\\DiagramVisualScriptTransform",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Diagram_Visual_Frequency",
+      "new": "Linked3\\Classes\\Diagram\\DiagramVisualFrequency",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Auto_Rollback",
+      "new": "Linked3\\Classes\\E2E\\AutoRollback",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Final_Bootstrap",
+      "new": "Linked3\\Classes\\E2E\\FinalBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Health_Monitor",
+      "new": "Linked3\\Classes\\E2E\\HealthMonitor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_AtomSelector",
+      "new": "Linked3\\Classes\\Genesis\\GenesisAtomSelector",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Bootstrap",
+      "new": "Linked3\\Classes\\Genesis\\GenesisBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Evaluator",
+      "new": "Linked3\\Classes\\Genesis\\GenesisEvaluator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Exception",
+      "new": "Linked3\\Classes\\Genesis\\GenesisException",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_IRCompiler",
+      "new": "Linked3\\Classes\\Genesis\\GenesisIRCompiler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Mutator",
+      "new": "Linked3\\Classes\\Genesis\\GenesisMutator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_PQSChecker",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPQSChecker",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_Pipeline",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPipeline",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_PlotParser",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPlotParser",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_PromptAssembler",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPromptAssembler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Genesis_StoryboardGenerator",
+      "new": "Linked3\\Classes\\Genesis\\GenesisStoryboardGenerator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Scale\\Linked3_Batch_Engine",
+      "new": "Linked3\\Classes\\Scale\\BatchEngine",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Scale\\Linked3_Batch_Generate_Handler",
+      "new": "Linked3\\Classes\\Scale\\BatchGenerateHandler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Scale\\Linked3_MultiSite_Publisher",
+      "new": "Linked3\\Classes\\Scale\\MultiSitePublisher",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Scale\\Linked3_Performance_Cache",
+      "new": "Linked3\\Classes\\Scale\\PerformanceCache",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Scale\\Linked3_Scale_Bootstrap",
+      "new": "Linked3\\Classes\\Scale\\ScaleBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Scale\\Linked3_i18n_Manager",
+      "new": "Linked3\\Classes\\Scale\\I18nManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Security\\Linked3_Audit_Logger",
+      "new": "Linked3\\Classes\\Security\\AuditLogger",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Security\\Linked3_Security_Bootstrap",
+      "new": "Linked3\\Classes\\Security\\SecurityBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Addons\\Linked3_IP_Anonymization_Addon",
+      "new": "Linked3\\Classes\\Addons\\IPAnonymizationAddon",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Addons\\Linked3_Consent_Compliance_Addon",
+      "new": "Linked3\\Classes\\Addons\\ConsentComplianceAddon",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Genesis\\Linked3_Seed_CPT",
+      "new": "Linked3\\Classes\\Genesis\\GenesisSeedCPT",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Content_Quality_Scorer",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\ContentQualityScorer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Cost_Reporter",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\CostReporter",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Audit_Logger",
+      "new": "Linked3\\Classes\\Security\\AuditLogger",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Payment_Manager",
+      "new": "Linked3\\Classes\\Billing\\PaymentManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Quota_Interceptor",
+      "new": "Linked3\\Classes\\Billing\\QuotaInterceptor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Invoice_Manager",
+      "new": "Linked3\\Classes\\Billing\\InvoiceManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Referral_Manager",
+      "new": "Linked3\\Classes\\Billing\\ReferralManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_i18n_Manager",
+      "new": "Linked3\\Classes\\Scale\\I18nManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_MultiSite_Publisher",
+      "new": "Linked3\\Classes\\Scale\\MultiSitePublisher",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Batch_Engine",
+      "new": "Linked3\\Classes\\Scale\\BatchEngine",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Performance_Cache",
+      "new": "Linked3\\Classes\\Scale\\PerformanceCache",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_AI_Pipeline_Bootstrap",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\AIPipelineBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Security_Bootstrap",
+      "new": "Linked3\\Classes\\Security\\SecurityBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Billing_Bootstrap",
+      "new": "Linked3\\Classes\\Billing\\BillingBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\E2E\\Linked3_Scale_Bootstrap",
+      "new": "Linked3\\Classes\\Scale\\ScaleBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Performance_Cache",
+      "new": "Linked3\\Classes\\Scale\\PerformanceCache",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Diagram\\Linked3_Audit_Logger",
+      "new": "Linked3\\Classes\\Security\\AuditLogger",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Dashboard\\Linked3_Genesis_PromptAssembler",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPromptAssembler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Dashboard\\Linked3_Genesis_PQSChecker",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPQSChecker",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Dashboard\\Linked3_Diagram_Validation_13Dim",
+      "new": "Linked3\\Classes\\Diagram\\DiagramValidation13Dim",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3\\Classes\\Dashboard\\Linked3_Genesis_PlotParser",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPlotParser",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_AI_Pipeline_Bootstrap",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\AIPipelineBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Addon_Interface",
+      "new": "Linked3\\Classes\\Addons\\AddonInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Alipay_Gateway",
+      "new": "Linked3\\Classes\\Billing\\AlipayGateway",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Consent_Compliance_Addon",
+      "new": "Linked3\\Classes\\Addons\\ConsentComplianceAddon",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_IP_Anonymization_Addon",
+      "new": "Linked3\\Classes\\Addons\\IPAnonymizationAddon",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Seed_CPT",
+      "new": "Linked3\\Classes\\Genesis\\GenesisSeedCPT",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Audit_Logger",
+      "new": "Linked3\\Classes\\Security\\AuditLogger",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Auto_Rollback",
+      "new": "Linked3\\Classes\\E2E\\AutoRollback",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Batch_Engine",
+      "new": "Linked3\\Classes\\Scale\\BatchEngine",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Batch_Generate_Handler",
+      "new": "Linked3\\Classes\\Scale\\BatchGenerateHandler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Billing_Bootstrap",
+      "new": "Linked3\\Classes\\Billing\\BillingBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Book_Cost_Tracker_Interface",
+      "new": "Linked3\\Classes\\BookFactory\\BookCostTrackerInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Book_Prompt_Provider_Interface",
+      "new": "Linked3\\Classes\\BookFactory\\BookPromptProviderInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Book_State_Repository_Interface",
+      "new": "Linked3\\Classes\\BookFactory\\BookStateRepositoryInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Content_Quality_Scorer",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\ContentQualityScorer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Cost_Reporter",
+      "new": "Linked3\\Classes\\AI\\Pipeline\\CostReporter",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_3D_AR_Subsystem",
+      "new": "Linked3\\Classes\\Diagram\\Diagram3DARSubsystem",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_4Layer_Anchor",
+      "new": "Linked3\\Classes\\Diagram\\Diagram4LayerAnchor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_8System_CrossRef",
+      "new": "Linked3\\Classes\\Diagram\\Diagram8SystemCrossRef",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_BaseReuse_Flywheel",
+      "new": "Linked3\\Classes\\Diagram\\DiagramBaseReuseFlywheel",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Bootstrap",
+      "new": "Linked3\\Classes\\Diagram\\DiagramBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_BrandSystem_5D",
+      "new": "Linked3\\Classes\\Diagram\\DiagramBrandSystem5D",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Cognitive_6Level",
+      "new": "Linked3\\Classes\\Diagram\\DiagramCognitive6Level",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Color_System",
+      "new": "Linked3\\Classes\\Diagram\\DiagramColorSystem",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Commercial_Hardening",
+      "new": "Linked3\\Classes\\Diagram\\DiagramCommercialHardening",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Complexity_Reduction",
+      "new": "Linked3\\Classes\\Diagram\\DiagramComplexityReduction",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Density_4Level",
+      "new": "Linked3\\Classes\\Diagram\\DiagramDensity4Level",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_E2E_TestSuite",
+      "new": "Linked3\\Classes\\Diagram\\DiagramE2ETestSuite",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Endpoint_DecisionTree",
+      "new": "Linked3\\Classes\\Diagram\\DiagramEndpointDecisionTree",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Failure_Diagnosis",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFailureDiagnosis",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Failure_Handbook",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFailureHandbook",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Followup_Registry",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFollowupRegistry",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_FooterFollowup_Matrix",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFooterFollowupMatrix",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Footer_Registry",
+      "new": "Linked3\\Classes\\Diagram\\DiagramFooterRegistry",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Keyword_Refiner",
+      "new": "Linked3\\Classes\\Diagram\\DiagramKeywordRefiner",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Layout_Engine",
+      "new": "Linked3\\Classes\\Diagram\\DiagramLayoutEngine",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Loop_Character_Integration",
+      "new": "Linked3\\Classes\\Diagram\\DiagramLoopCharacterIntegration",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Loop_Iterator",
+      "new": "Linked3\\Classes\\Diagram\\DiagramLoopIterator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_ProductSeed_Manager",
+      "new": "Linked3\\Classes\\Diagram\\DiagramProductSeedManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Production_Bootstrap",
+      "new": "Linked3\\Classes\\Diagram\\DiagramProductionBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Prompt_Compiler",
+      "new": "Linked3\\Classes\\Diagram\\DiagramPromptCompiler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Prompt_Compressor",
+      "new": "Linked3\\Classes\\Diagram\\DiagramPromptCompressor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Relationship_Encoder",
+      "new": "Linked3\\Classes\\Diagram\\DiagramRelationshipEncoder",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Script_Layer",
+      "new": "Linked3\\Classes\\Diagram\\DiagramScriptLayer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Seed_Check",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedCheck",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Seed_Compiler",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedCompiler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Seed_Lock",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedLock",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Seed_Reference",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeedReference",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Selection_DecisionTree",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSelectionDecisionTree",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_SeriesDNA_4Lock",
+      "new": "Linked3\\Classes\\Diagram\\DiagramSeriesDNA4Lock",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_TextEmbed_Validator",
+      "new": "Linked3\\Classes\\Diagram\\DiagramTextEmbedValidator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Validation_13Dim",
+      "new": "Linked3\\Classes\\Diagram\\DiagramValidation13Dim",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Validation_Layer",
+      "new": "Linked3\\Classes\\Diagram\\DiagramValidationLayer",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_VisualScript_Transform",
+      "new": "Linked3\\Classes\\Diagram\\DiagramVisualScriptTransform",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Diagram_Visual_Frequency",
+      "new": "Linked3\\Classes\\Diagram\\DiagramVisualFrequency",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Final_Bootstrap",
+      "new": "Linked3\\Classes\\E2E\\FinalBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_AtomSelector",
+      "new": "Linked3\\Classes\\Genesis\\GenesisAtomSelector",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_Bootstrap",
+      "new": "Linked3\\Classes\\Genesis\\GenesisBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_Evaluator",
+      "new": "Linked3\\Classes\\Genesis\\GenesisEvaluator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_Exception",
+      "new": "Linked3\\Classes\\Genesis\\GenesisException",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_IRCompiler",
+      "new": "Linked3\\Classes\\Genesis\\GenesisIRCompiler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_Mutator",
+      "new": "Linked3\\Classes\\Genesis\\GenesisMutator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_PQSChecker",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPQSChecker",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_Pipeline",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPipeline",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_PlotParser",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPlotParser",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_PromptAssembler",
+      "new": "Linked3\\Classes\\Genesis\\GenesisPromptAssembler",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Genesis_StoryboardGenerator",
+      "new": "Linked3\\Classes\\Genesis\\GenesisStoryboardGenerator",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Health_Monitor",
+      "new": "Linked3\\Classes\\E2E\\HealthMonitor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Invoice_Manager",
+      "new": "Linked3\\Classes\\Billing\\InvoiceManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_MultiSite_Publisher",
+      "new": "Linked3\\Classes\\Scale\\MultiSitePublisher",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Payment_Gateway_Interface",
+      "new": "Linked3\\Classes\\Billing\\PaymentGatewayInterface",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Payment_Manager",
+      "new": "Linked3\\Classes\\Billing\\PaymentManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Performance_Cache",
+      "new": "Linked3\\Classes\\Scale\\PerformanceCache",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Quota_Interceptor",
+      "new": "Linked3\\Classes\\Billing\\QuotaInterceptor",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Referral_Manager",
+      "new": "Linked3\\Classes\\Billing\\ReferralManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Scale_Bootstrap",
+      "new": "Linked3\\Classes\\Scale\\ScaleBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Security_Bootstrap",
+      "new": "Linked3\\Classes\\Security\\SecurityBootstrap",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Wechat_Gateway",
+      "new": "Linked3\\Classes\\Billing\\WechatGateway",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_i18n_Manager",
+      "new": "Linked3\\Classes\\Scale\\I18nManager",
+      "registry": "LegacyAliasRegistry"
+    },
+    {
+      "old": "Linked3_Hong_Liu_Flywheel",
+      "new": "OSMomentumFlywheel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Ru_Liu_Tracker",
+      "new": "OSOnboardingTracker",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Suo_Structure",
+      "new": "OSCapabilityLock",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Zhi_Three_Stages",
+      "new": "OSCapabilityStages",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Dimensions",
+      "new": "OSReverseDimensions",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Engine",
+      "new": "OSReverseEngine",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Engineer_Registry",
+      "new": "OSEngineerRegistry",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Quality_Gate",
+      "new": "OSQualityGate",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Text_Creation",
+      "new": "OSTextCreation",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Svg_Meta_Stats",
+      "new": "OSVisualAnalytics",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Three_Layer_Consciousness",
+      "new": "OSConsciousnessLayer",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Consciousness_Ajax",
+      "new": "OSConsciousnessAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Engineer_Registry_Ajax",
+      "new": "OSEngineerRegistryAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Hong_Liu_Ajax",
+      "new": "OSMomentumAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Suo_Ajax",
+      "new": "OSCapabilityLockAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Neng_Zhi_Ajax",
+      "new": "OSCapabilityStagesAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Quality_Gate_Ajax",
+      "new": "OSQualityGateAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Ajax",
+      "new": "OSReverseAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Reverse_Text_Ajax",
+      "new": "OSTextCreationAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Ru_Liu_Ajax",
+      "new": "OSOnboardingAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "Linked3_Svg_Stats_Ajax",
+      "new": "OSVisualAnalyticsAjax",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Dashboard",
+      "new": "OSDashboard",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Reverse_Panel",
+      "new": "OSReversePanel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Ruliu_Panel",
+      "new": "OSOnboardingPanel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Svg_Stats_Panel",
+      "new": "OSVisualAnalyticsPanel",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Cli",
+      "new": "OSCli",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Db_Schema",
+      "new": "OSDbSchema",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Integration_Hub",
+      "new": "OSIntegrationHub",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Integration_Hub_V2",
+      "new": "OSIntegrationHubV2",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Rest_Api",
+      "new": "OSRestApi",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Shortcodes",
+      "new": "OSShortcodes",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Widget",
+      "new": "OSWidget",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Facade",
+      "new": "Linked3_OS_Facade",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Genesis_Bridge",
+      "new": "OSGenesisBridge",
+      "registry": "OSAliasRegistry"
+    },
+    {
+      "old": "V18_Dependencies_Loader",
+      "new": "OSDependenciesLoader",
+      "registry": "OSAliasRegistry"
+    }
+  ]
+}

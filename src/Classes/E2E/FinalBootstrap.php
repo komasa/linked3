@@ -1,0 +1,91 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * FinalBootstrap — extracted from E2eTestRunner.php during PSR-4 migration.
+ *
+ * @package Linked3\Classes\E2E
+ */
+
+namespace Linked3\Classes\E2E;
+
+use Linked3\Includes\EventBus;
+
+if (!defined('ABSPATH')) exit;
+
+class FinalBootstrap {
+    private static bool $booted = false;
+
+    public static function boot(): void {
+        if (self::$booted) return;
+        self::$booted = true;
+
+        // Phase 1: 核心 (v5.4.0)
+        if (class_exists('\Linked3\Classes\E2E\V54Bootstrap')) {
+            V54Bootstrap::boot();
+        }
+
+        // Phase 2: Agent (v5.5.0)
+        if (class_exists('\Linked3\Classes\E2E\AgentBootstrap')) {
+            AgentBootstrap::boot();
+        }
+
+        // Phase 3: AI 增强 (v5.6.0)
+        if (class_exists('\Linked3\Classes\AI\Pipeline\AIPipelineBootstrap')) {
+            AIPipelineBootstrap::boot();
+        }
+
+        // Phase 4: 安全 (v5.7.0)
+        if (class_exists('\Linked3\Classes\Security\SecurityBootstrap')) {
+            SecurityBootstrap::boot();
+        }
+
+        // Phase 5: 商业 (v5.8.0)
+        if (class_exists('\Linked3\Classes\Billing\BillingBootstrap')) {
+            BillingBootstrap::boot();
+        }
+
+        // Phase 6: 规模 (v5.9.0)
+        if (class_exists('\Linked3\Classes\Scale\ScaleBootstrap')) {
+            ScaleBootstrap::boot();
+        }
+
+        // Phase 7: 最终验证
+        if (class_exists('\Linked3\Classes\E2E\HealthMonitor')) {
+            $monitor = new HealthMonitor();
+            $health = $monitor->check();
+            $failedCount = count(array_filter($health, fn($v) => $v === false));
+
+            // ── FIX v16.0.1: Guard linked3_container() call ──────────────
+            if ($failedCount > 0 && function_exists('linked3_container')) {
+                $c = linked3_container();
+                if ($c->has('logger')) {
+                    $c->get('logger')->warning('Health check issues on boot', [
+                        'failed' => array_keys(array_filter($health, fn($v) => $v === false)),
+                    ]);
+                }
+            }
+
+            // 自动回滚评估
+            if (class_exists('\Linked3\Classes\E2E\AutoRollback')) {
+                AutoRollback::instance()->evaluate();
+            }
+        }
+
+        // 注册 E2E 测试
+        if (class_exists('\Linked3\Classes\E2E\E2eTestRunner')) {
+            $runner = E2eTestRunner::instance();
+            $runner->registerDefaultTests();
+        }
+
+        // 派发就绪事件
+        // ── FIX v16.0.1: Guard EventBus::dispatch() call ──────────────────
+        if (function_exists('linked3_dispatch')) {
+            EventBus::dispatch('linked3.system.ready', [
+                'version' => LINKED3_VERSION,
+                'health' => $health ?? [],
+                'timestamp' => time(),
+            ]);
+        }
+    }
+}

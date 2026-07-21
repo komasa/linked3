@@ -1,0 +1,122 @@
+{
+  "name_cn": "复古半调·美式复古",
+  "name_en": "Retro Halftone American",
+  "category": "美系漫画",
+  "usage_code": "G08",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "美式复古漫画: 1950s EC Comics/Pop Art/Andy Warhol",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F4E4C1",
+        "ratio": "25%",
+        "use": "泛黄旧纸底+复古质感"
+      },
+      {
+        "hex": "#1A1A1A",
+        "ratio": "20%",
+        "use": "粗墨线+半调阴影"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#D62828",
+        "ratio": "15%",
+        "use": "复古红+原色"
+      },
+      {
+        "hex": "#003566",
+        "ratio": "12%",
+        "use": "复古蓝+CMYK"
+      }
+    ],
+    "accent": [
+      "#FFD60A",
+      "#5B8C5A"
+    ],
+    "mood_tone": "泛黄旧纸+CMYK原色+半调网点, 复古怀旧"
+  },
+  "line_style": "粗墨线(2-4px)+半调网点阴影, 笔触粗犷复古, 50年代美式风",
+  "render": "半调网点(Ben-Day dots)+平涂原色+粗墨线, CMYK四色印刷质感, 做旧效果",
+  "atmosphere": [
+    "复古",
+    "怀旧",
+    "波普",
+    "经典",
+    "趣味"
+  ],
+  "lighting": "平涂光影+半调阴影, 无渐变, 复古印刷感",
+  "symbols": [
+    "半调点",
+    "爆炸星",
+    "对话气泡",
+    "复古标语",
+    "波普元素"
+  ],
+  "patterns": [
+    "Ben-Day半调网点",
+    "波普条纹",
+    "爆炸星",
+    "做旧纹理"
+  ],
+  "scene_templates": [
+    {
+      "scene": "城市街头",
+      "mood": "复古日常",
+      "lighting": "平涂日光",
+      "composition": "正面平视+复古建筑"
+    },
+    {
+      "scene": "爆炸场面",
+      "mood": "冲击趣味",
+      "lighting": "平涂+爆炸光",
+      "composition": "中心爆炸+冲击星"
+    },
+    {
+      "scene": "人物特写",
+      "mood": "经典戏剧",
+      "lighting": "平涂侧光",
+      "composition": "大特写+半调阴影"
+    },
+    {
+      "scene": "对话场景",
+      "mood": "叙事趣味",
+      "lighting": "平涂均匀光",
+      "composition": "中景+大对话气泡"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Bebas Neue / Impact / 思源黑体 Heavy",
+    "sfx_style": "粗体大写拟声词, 爆炸外框+半调填色, 倾斜",
+    "caption_style": "Courier New, 做旧效果, 方框"
+  },
+  "layout": {
+    "panel_grid_default": "4-6格经典网格",
+    "gutter_style": "粗黑边框(2-3px), 紧凑",
+    "splash_page": "全页复古大格用于爆炸/转折",
+    "panel_shape": "矩形+倾斜格+爆炸形"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "全年龄·复古文化爱好者",
+    "content_adaptation": "复古趣味叙事, 需读者欣赏半调美学与波普风格"
+  },
+  "reader_constraint": {
+    "reader_state": "怀旧趣味·渴望复古美学",
+    "reader_mode": "中速阅读+风格欣赏",
+    "reader_expectation": "半调网点+CMYK原色+粗墨线+复古质感"
+  },
+  "visual_frequency": {
+    "HF": "半调网点/爆炸星/拟声词(高频复古元素)",
+    "MF": "人物表情/动作/对话(中频叙事推进)",
+    "LF": "平涂背景/旧纸纹理/留白(低频复古底色)",
+    "color_mapping": {
+      "HF": "#D62828",
+      "MF": "#1A1A1A",
+      "LF": "#F4E4C1"
+    },
+    "progression": "HF均匀分布复古质感, MF推进趣味叙事, LF大面积旧纸底色"
+  }
+}

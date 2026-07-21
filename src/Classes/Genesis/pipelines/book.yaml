@@ -1,0 +1,178 @@
+# Linked3 AI v18.5 — 写书式写作工厂管线定义
+# 方案: S10 (G1) + S14 (G2动态生成fallback)
+# 公理: YAML即流程，代码只执行不硬编码
+
+name: book_factory
+version: "1.0"
+description: "写书式学习6步工厂管线 — 演示→探索→大纲→扩写→完成→审阅"
+
+# 管线级配置
+config:
+  # 类型×模式路由 (S3 + S14)
+  type_mode_router: "TypeModeRouter"
+  # 项目状态机 (S2 + S11)
+  project_state: "BookProjectState"
+  # 段落拼接器 (S4 + S13)
+  stitcher: "SectionStitcher"
+  # 成本追踪 (S20)
+  cost_tracker: "CostTracker"
+
+  # 默认参数
+  defaults:
+    max_outline_iterations: 3        # 标准档: 3次大纲迭代
+    max_chapters: 12                 # 默认12章
+    max_sections_per_chapter: 5      # 每章5节
+    rate_limit_rpm: 10               # AI调用速率: 10次/分钟
+    context_summary_length: 80       # 前段摘要长度
+
+  # 迭代档位 (O部幻觉3修正)
+  iteration_levels:
+    quick:    { outline_iterations: 1,  description: "快速: 1次大纲" }
+    standard: { outline_iterations: 3,  description: "标准: 3次大纲" }
+    deep:     { outline_iterations: 10, description: "深度: 10次大纲" }
+
+# 6步流程定义
+steps:
+
+  # ─────────────────────────────────────────
+  # Step 1: AI演示 (optional)
+  # ─────────────────────────────────────────
+  - id: step1_demo
+    name: "AI演示"
+    description: "AI模拟读者提问，演示书稿价值"
+    handler: "BookFactory::execute_step1_demo"
+    optional: true
+    inputs:
+      - book_title
+      - type
+      - mode
+    outputs:
+      - demo_questions
+    cost_estimate:
+      tokens_in: 500
+      tokens_out: 800
+
+  # ─────────────────────────────────────────
+  # Step 2: 探索主题 (optional)
+  # ─────────────────────────────────────────
+  - id: step2_explore
+    name: "探索主题"
+    description: "AI探索书稿主题，生成主题关键词与核心论点"
+    handler: "BookFactory::execute_step2_explore"
+    optional: true
+    depends_on: step1_demo
+    inputs:
+      - book_title
+      - type
+      - demo_questions
+    outputs:
+      - theme_keywords
+      - core_arguments
+    cost_estimate:
+      tokens_in: 800
+      tokens_out: 1200
+
+  # ─────────────────────────────────────────
+  # Step 3: 撰写大纲 (核心, 迭代合并)
+  # ─────────────────────────────────────────
+  - id: step3_outline
+    name: "撰写大纲"
+    description: "AI生成大纲，2-10次迭代合并为最终大纲"
+    handler: "BookFactory::execute_step3_outline_iter"
+    optional: false
+    depends_on: step2_explore
+    inputs:
+      - book_title
+      - type
+      - theme_keywords
+      - core_arguments
+      - iteration_level
+    outputs:
+      - final_outline
+      - outline_versions
+    cost_estimate:
+      tokens_in: 1500
+      tokens_out: 2000
+
+  # ─────────────────────────────────────────
+  # Step 4: 扩写小节 (核心, 逐节+上下文)
+  # ─────────────────────────────────────────
+  - id: step4_expand
+    name: "扩写小节"
+    description: "逐节扩写，前段摘要+完整大纲作上下文"
+    handler: "BookFactory::execute_step4_expand_one"
+    optional: false
+    depends_on: step3_outline
+    inputs:
+      - final_outline
+      - type
+      - mode
+    outputs:
+      - chapters
+      - sections
+    cost_estimate:
+      tokens_in: 50000
+      tokens_out: 80000
+
+  # ─────────────────────────────────────────
+  # Step 5: 完成初稿 (拼接)
+  # ─────────────────────────────────────────
+  - id: step5_complete
+    name: "完成初稿"
+    description: "拼接所有章节为完整书稿Markdown+HTML"
+    handler: "BookFactory::execute_step5_complete"
+    optional: false
+    depends_on: step4_expand
+    inputs:
+      - chapters
+      - sections
+      - type
+    outputs:
+      - draft_markdown
+      - draft_html
+      - draft_path
+    cost_estimate:
+      tokens_in: 0
+      tokens_out: 0
+
+  # ─────────────────────────────────────────
+  # Step 6: 阅读修改 (optional, 联动审阅)
+  # ─────────────────────────────────────────
+  - id: step6_review
+    name: "阅读修改"
+    description: "联动SEO/改写/标题模块，增量审阅"
+    handler: "BookFactory::execute_step6_review"
+    optional: true
+    depends_on: step5_complete
+    inputs:
+      - draft_markdown
+      - type
+    outputs:
+      - reviewed_markdown
+      - review_suggestions
+    cost_estimate:
+      tokens_in: 5000
+      tokens_out: 3000
+
+# 中断恢复配置
+resume:
+  enabled: true
+  state_key: "linked3_book_project_{project_id}"
+  checkpoint_after_each_step: true
+  max_retries: 3
+
+# 进度事件 (S11 实时同步)
+events:
+  step_start:    "linked3/book/step_start"
+  step_complete: "linked3/book/step_complete"
+  step_failed:   "linked3/book/step_failed"
+  progress:      "linked3/book/progress"
+  state_changed: "linked3/book/state_changed"
+
+# 成本追踪 (S20)
+cost_tracking:
+  enabled: true
+  log_each_step: true
+  log_each_section: true
+  budget_warning_threshold: 0.8  # 80%预算时警告
+  budget_hard_limit: 5.00        # $5硬上限

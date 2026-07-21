@@ -1,0 +1,124 @@
+{
+  "name_cn": "国漫·现代东方",
+  "name_en": "Chinese Modern Manhua",
+  "category": "国系漫画",
+  "usage_code": "Y11",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "国漫: 一人之下/镖人/长歌行/狐妖小红娘",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F5F0E8",
+        "ratio": "25%",
+        "use": "宣纸米白+东方底"
+      },
+      {
+        "hex": "#1A1A2E",
+        "ratio": "20%",
+        "use": "墨黑线+东方沉稳"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#C0392B",
+        "ratio": "12%",
+        "use": "中国红+东方暖色"
+      },
+      {
+        "hex": "#2C5F2D",
+        "ratio": "10%",
+        "use": "青绿+山水色"
+      }
+    ],
+    "accent": [
+      "#D4A574",
+      "#4A4E69"
+    ],
+    "mood_tone": "东方水墨调+现代设计, 新中式美学"
+  },
+  "line_style": "毛笔墨线+现代线稿混合(1-3px), 笔触有东方韵味又不失现代精致",
+  "render": "水墨+赛璐璐+现代平涂, 东方留白+现代色彩, 新中式质感",
+  "atmosphere": [
+    "东方",
+    "现代",
+    "侠义",
+    "神秘",
+    "热血"
+  ],
+  "lighting": "自然光+水墨晕染光+暖色点缀, 东方光影美学",
+  "symbols": [
+    "水墨",
+    "云纹",
+    "回纹",
+    "剑",
+    "符箓",
+    "灯笼",
+    "山水"
+  ],
+  "patterns": [
+    "水墨晕染",
+    "云纹",
+    "回纹边框",
+    "宣纸纹理"
+  ],
+  "scene_templates": [
+    {
+      "scene": "江湖对决",
+      "mood": "侠义紧张",
+      "lighting": "侧光+墨色阴影",
+      "composition": "对称+动态姿势"
+    },
+    {
+      "scene": "山水行旅",
+      "mood": "辽阔豪迈",
+      "lighting": "日光+云雾",
+      "composition": "广角+留白+山水"
+    },
+    {
+      "scene": "古街夜市",
+      "mood": "热闹烟火",
+      "lighting": "灯笼暖光+月光",
+      "composition": "纵深+人群"
+    },
+    {
+      "scene": "内功修炼",
+      "mood": "神秘专注",
+      "lighting": "能量光+墨色晕染",
+      "composition": "特写+气韵流动"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "思源宋体 / 方正清刻本悦宋",
+    "sfx_style": "毛笔行书拟声词, 墨色描边, 气势磅礴",
+    "caption_style": "思源宋体, 竖排, 宣纸底色"
+  },
+  "layout": {
+    "panel_grid_default": "4-6格东方网格",
+    "gutter_style": "细线边框+留白, 东方透气感",
+    "splash_page": "全页水墨大格用于意境/对决",
+    "panel_shape": "矩形+圆角+少量自由形"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "青少年·东方文化爱好者",
+    "content_adaptation": "东方侠义叙事, 需读者感受水墨美学与侠义精神"
+  },
+  "reader_constraint": {
+    "reader_state": "沉浸东方·渴望侠义热血",
+    "reader_mode": "中速阅读+意境感受",
+    "reader_expectation": "水墨线条+东方色彩+侠义叙事+新中式美学"
+  },
+  "visual_frequency": {
+    "HF": "墨溅/云纹/气韵/符箓(高频东方装饰)",
+    "MF": "人物动态/表情/招式(中频叙事推进)",
+    "LF": "山水留白/天空/水墨晕染(低频意境底色)",
+    "color_mapping": {
+      "HF": "#C0392B",
+      "MF": "#1A1A2E",
+      "LF": "#F5F0E8"
+    },
+    "progression": "HF点缀东方韵味, MF聚焦侠义动态, LF大面积留白透气"
+  }
+}

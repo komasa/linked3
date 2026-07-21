@@ -1,0 +1,14 @@
+{
+    "id": "C3",
+    "name": "老道长",
+    "base_prompt": "elderly taoist master, white long beard, thin build 165cm, wise deep-set eyes, wrinkled kind face",
+    "variants": {
+        "calm": "meditative pose, peaceful smile, eyes closed, holding whisk",
+        "serious": "stern expression, gripping staff, furrowed brow",
+        "casting": "arms raised, talisman floating, golden runes glowing, wind blowing robe",
+        "dying": "collapsed on ground, blood at corner of mouth, hand reaching out, fading glow"
+    },
+    "negative_base": "young, modern, cartoon, deformed, muscular",
+    "costume_default": "gray taoist robe, cloth shoes, prayer beads on wrist",
+    "accessories": ["whisk", "compass", "bagua mirror", "prayer beads"]
+}

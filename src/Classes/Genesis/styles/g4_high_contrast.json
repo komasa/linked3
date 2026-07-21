@@ -1,0 +1,66 @@
+{
+  "name_cn": "高对比知识卡",
+  "name_en": "High-Contrast Knowledge Card",
+  "category": "商业生产级信息图-G4无障碍",
+  "version": "1.0.0",
+  "source": "G4-06 无障碍优化演化结晶",
+  "color_palette": {
+    "primary": "#000000",
+    "accent": "#0033A0",
+    "background": "#FFFFFF",
+    "description": "无障碍: 纯黑#000000+纯白#FFFFFF+高对比蓝#0033A0"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "22pt",
+      "body": "14pt"
+    },
+    "description": "无衬线大字号WCAG AAA"
+  },
+  "layout": {
+    "canvas_ratio": "3:4",
+    "module_count_default": 6,
+    "card_style": "thick borders 2px",
+    "description": "WCAG AAA 7:1对比度"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文14pt+",
+    "LF": "无小字",
+    "description": "高对比无障碍"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "适老化用户",
+    "content_adaptation": "无障碍内容"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "大字号",
+    "reader_expectation": "WCAG AAA"
+  },
+  "prompt_keywords": "WCAG AAA contrast 7:1, pure black on white, thick borders, no color-only encoding, large font 14pt+",
+  "negative_keywords": "low contrast, gray text, small font, subtle gradients",
+  "suitable_genres": [
+    "适老化",
+    "无障碍",
+    "政府公告"
+  ],
+  "scene_whitelist": [
+    "无障碍",
+    "公益",
+    "适老"
+  ],
+  "scene_blacklist": [
+    "时尚",
+    "艺术"
+  ],
+  "style_constraint_cn": "高对比知识卡: WCAG AAA+纯黑白+大字号",
+  "style_constraint_en": "High-contrast WCAG AAA ONLY. Pure black on white, 14pt+ font.",
+  "meta_prompt": "high contrast knowledge card, WCAG AAA 7:1, pure black #000000 on white #FFFFFF, thick 2px borders, HarmonyOS Sans 22pt title 14pt body, no color-only encoding. --ar 3:4 --s 150 --style raw --contrast AAA",
+  "prompt_example": true,
+  "commercial_grade": true,
+  "production_ready": "G4-06无障碍演化结晶",
+  "reference_source": ""
+}

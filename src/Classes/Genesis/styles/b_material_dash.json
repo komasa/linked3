@@ -1,0 +1,61 @@
+{
+  "name_cn": "Material仪表盘",
+  "name_en": "Material Dashboard",
+  "category": "商业生产级信息图-G5规范融合",
+  "version": "1.0.0",
+  "source": "G5 B-02",
+  "color_palette": {
+    "primary": "#006495",
+    "accent": "#9CA3AF",
+    "background": "#F9F9F9",
+    "description": "Material仪表盘配色"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用",
+    "content_adaptation": "通用"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息"
+  },
+  "prompt_keywords": "Material dashboard, elevated cards, navigation drawer, Material charts, tabs",
+  "negative_keywords": "3D render, photorealistic",
+  "suitable_genres": [
+    "通用图示"
+  ],
+  "scene_whitelist": [
+    "通用"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "Material仪表盘: Material dashboard, elevated cards, navigation drawer, Mater",
+  "style_constraint_en": "Material Dashboard: Material dashboard, elevated cards, navigation drawer, Mater",
+  "meta_prompt": "material dashboard, elevated cards, navigation drawer, material charts, tabs, #006495 primary, #F9F9F9 background",
+  "prompt_example": "material dashboard, elevated cards, navigation drawer, material charts, tabs, #006495 primary, #F9F9F9 background, HarmonyOS Sans. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G5 B-02"
+}

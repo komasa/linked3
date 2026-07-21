@@ -1,0 +1,124 @@
+{
+  "name_cn": "少年漫画·热血动态",
+  "name_en": "Shonen Manga Dynamic",
+  "category": "日系漫画",
+  "usage_code": "Y06",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "集英社《周刊少年Jump》系: 龙珠/海贼王/火影/鬼灭之刃",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFFFFF",
+        "ratio": "35%",
+        "use": "高光留白+速度线底"
+      },
+      {
+        "hex": "#1A1A1A",
+        "ratio": "25%",
+        "use": "粗墨线+阴影"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#E63946",
+        "ratio": "15%",
+        "use": "热血红+冲击力"
+      },
+      {
+        "hex": "#F4A261",
+        "ratio": "10%",
+        "use": "暖橙+能量光"
+      }
+    ],
+    "accent": [
+      "#264653",
+      "#2A9D8F"
+    ],
+    "mood_tone": "高对比黑白+饱和暖色点缀, 热血冲击"
+  },
+  "line_style": "粗墨线(2-4px)+速度线+集中线, 笔触有力, 墨色饱满",
+  "render": "赛璐璐上色+网点纸+手绘墨线, 2-3色平涂+墨线阴影",
+  "atmosphere": [
+    "热血",
+    "紧张",
+    "爆发",
+    "友情",
+    "成长"
+  ],
+  "lighting": "高对比硬光+集中线放射光+能量光效, 戏剧性打光",
+  "symbols": [
+    "速度线",
+    "集中线",
+    "效果线",
+    "冲击星",
+    "汗滴",
+    "怒气符号",
+    "能量波"
+  ],
+  "patterns": [
+    "网点纸(60线)",
+    "速度线密度渐变",
+    "集中线放射",
+    "墨溅"
+  ],
+  "scene_templates": [
+    {
+      "scene": "对决对峙",
+      "mood": "紧张爆发",
+      "lighting": "顶光+集中线",
+      "composition": "对称构图, 人物对望"
+    },
+    {
+      "scene": "必杀技释放",
+      "mood": "热血高潮",
+      "lighting": "能量光+放射线",
+      "composition": "中心爆发, 速度线"
+    },
+    {
+      "scene": "伙伴集结",
+      "mood": "友情信任",
+      "lighting": "逆光剪影+暖光",
+      "composition": "三角构图, 背靠背"
+    },
+    {
+      "scene": "修炼突破",
+      "mood": "坚韧成长",
+      "lighting": "晨光+汗水反光",
+      "composition": "仰视, 动态姿势"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "思源黑体 Heavy / Matisse Pro EB",
+    "sfx_style": "拟声词大手写体, 粗描边+白填色, 爆裂形外框",
+    "caption_style": "方正兰亭黑, 粗体, 黑底白字"
+  },
+  "layout": {
+    "panel_grid_default": "4-6格动态网格",
+    "gutter_style": "白底无边框, 靠墨线分隔",
+    "splash_page": "全页大格用于必杀技/转折",
+    "panel_shape": "倾斜格+破格+跨格"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "青少年·热血叙事爱好者",
+    "content_adaptation": "动作密集型叙事, 需读者适应高信息密度分镜"
+  },
+  "reader_constraint": {
+    "reader_state": "热血沸腾·渴望冲突与成长",
+    "reader_mode": "快速翻阅+关键页停留",
+    "reader_expectation": "动态分镜+速度线冲击+角色爆发力"
+  },
+  "visual_frequency": {
+    "HF": "速度线/集中线/拟声词(高频视觉冲击)",
+    "MF": "人物表情/动作姿势/墨线阴影(中频叙事)",
+    "LF": "背景网点/天空留白/远景轮廓(低频底色)",
+    "color_mapping": {
+      "HF": "#E63946",
+      "MF": "#1A1A1A",
+      "LF": "#F5F5F5"
+    },
+    "progression": "HF集中在动作格爆发, MF支撑叙事节奏, LF在过渡格留白"
+  }
+}

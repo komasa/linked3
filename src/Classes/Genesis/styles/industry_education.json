@@ -1,0 +1,98 @@
+{
+  "name_cn": "教育知识手绘融合图",
+  "name_en": "Education Knowledge Sketch Fusion",
+  "category": "商业生产级信息图-行业垂直-教育",
+  "version": "1.0.0",
+  "source": "G7 Track G 演化结晶 - 教育培训行业垂直融合",
+
+  "color_palette": {
+    "primary": "#2196F3",
+    "primary_light": "#BBDEFB",
+    "primary_lighter": "#E3F2FD",
+    "accent": "#FFC107",
+    "accent_light": "#FFF8E1",
+    "auxiliary": "#4CAF50",
+    "auxiliary_light": "#C8E6C9",
+    "text_primary": "#333333",
+    "text_secondary": "#666666",
+    "text_title": "#000000",
+    "background": "#FAFAFA",
+    "description": "教育温暖多彩体系: 蓝#2196F3(数学) + 黄#FFC107(语言) + 绿#4CAF50(科学) + 红#E91E63(艺术), 学科色彩编码"
+  },
+
+  "typography": {
+    "font_family_primary": "LXGW WenKai",
+    "font_family_secondary": "Microsoft YaHei",
+    "font_sizes": {
+      "main_title": "32pt",
+      "module_title": "20pt",
+      "subtitle": "16pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "LXGW WenKai手写体(主) + Microsoft YaHei(辅), 手写风格亲和力, 6级字号层次"
+  },
+
+  "layout": {
+    "canvas_ratio": "4:3 (横版, 1920x1440px)",
+    "module_count_default": 6,
+    "hierarchy_layers": 3,
+    "card_style": "hand-drawn rounded rectangle, sketchy outlines, marker texture",
+    "card_background": "whiteboard #FAFAFA with pastel sticky notes",
+    "spacing": "friendly spacing, doodle decorations",
+    "badges": "hand-drawn numbered circles, doodle icons",
+    "description": "教育融合布局: 放射(学科中心)+树状(知识点), 手绘白板风格, 学科色彩编码, 亲和力"
+  },
+
+  "visual_frequency": {
+    "HF": "学科核心 + 手绘图标 + 主色强调 (前1/3画面)",
+    "MF": "知识点 + 教学内容 + 中性色支撑 (中段叙事)",
+    "LF": "练习题 + 注释 + 浅色背景 (底部收束)",
+    "color_mapping": {
+      "HF": "#2196F3",
+      "MF": "#FFC107",
+      "LF": "#4CAF50"
+    },
+    "progression": "学科中心(放射)→知识点(树状), 学科色彩编码(蓝数学/黄语言/绿科学/红艺术)"
+  },
+
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "学生·教师·需要亲和力知识呈现",
+    "content_adaptation": "教育知识可视化, 需符合教育场景, 手绘亲和, 色彩温暖"
+  },
+
+  "reader_constraint": {
+    "reader_state": "学习者·需要友好易懂的知识呈现",
+    "reader_mode": "学习模式(知识吸收+笔记)",
+    "reader_expectation": "手绘白板风格 + 学科色彩编码 + 亲和力 + 知识点清晰"
+  },
+
+  "prompt_keywords": "educational knowledge map, hand-drawn whiteboard style, sketchy outlines, marker texture, doodle icons, sticky notes, friendly approachable, subject color coding, LXGW WenKai handwritten typography, playful yet structured",
+
+  "negative_keywords": "3D render, shadows, gradients, photorealistic, dark background, formal, rigid, corporate, scary",
+
+  "suitable_genres": ["课程知识图", "学科体系", "教学板书", "知识点梳理", "学习路径"],
+
+  "scene_whitelist": ["课程知识图", "学科体系", "教学板书", "知识点梳理", "学习路径设计"],
+
+  "scene_blacklist": ["真人摄影", "艺术插画", "严肃商务", "非教育场景"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 教育知识手绘融合图\n✅ 必须: 手绘白板风格 + 学科色彩编码(蓝数学/黄语言/绿科学/红艺术) + LXGW WenKai手写体 + 放射+树状融合布局 + 亲和力\n❌ 禁止: 3D渲染 + 阴影 + 渐变 + 严肃商务 + 暗色背景 + 写实照片",
+
+  "style_constraint_en": "IMPORTANT: Educational hand-drawn whiteboard style ONLY. Sketchy outlines with marker texture. Subject color coding (blue=math, yellow=language, green=science, red=art). LXGW WenKai handwritten typography. Radial + tree fusion layout. NO 3D, NO formal corporate, NO dark background.",
+
+  "meta_prompt": "educational knowledge map, hand-drawn whiteboard aesthetic, sketchy rounded rectangle outlines, marker texture, doodle icons, sticky notes, radial center (subject) + tree branches (topics), subject color coding blue #2196F3 yellow #FFC107 green #4CAF50 red #E91E63, LXGW WenKai handwritten typography, friendly approachable, playful yet structured",
+
+  "prompt_example": "Education knowledge sketch fusion map, hand-drawn whiteboard aesthetic, radial center (subject) + tree branches (topics), sketchy rounded rectangle outlines with marker texture, doodle icons, sticky notes accents, subject color coding (blue #2196F3 math, yellow #FFC107 language, green #4CAF50 science, red #E91E63 art), LXGW WenKai handwritten typography (subject title 20pt, topic 14pt, detail 11pt), whiteboard #FAFAFA background, friendly approachable feel. --ar 4:3 --s 300 --style raw --industry education --fusion sketch --tool edrawmax",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G7 Track G演化结晶 - 万兴市场教育培训分类对齐, 适配学校/培训/在线教育场景"
+}

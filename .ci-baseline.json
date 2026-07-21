@@ -1,0 +1,996 @@
+{
+  "generated_at": "2026-07-20T00:10:00+08:00",
+  "scanner": "ci-baseline-scanner.py",
+  "files_scanned": 533,
+  "violation_count": 138,
+  "summary": {
+    "complexity_high": {
+      "count": 36,
+      "severity": "medium"
+    },
+    "dead_code_deprecated": {
+      "count": 40,
+      "severity": "info"
+    },
+    "security_nonce_missing": {
+      "count": 62,
+      "severity": "critical"
+    }
+  },
+  "type_coverage": {
+    "functions": 3178,
+    "params_total": 2873,
+    "params_typed": 1873,
+    "param_coverage_pct": 65.2,
+    "return_typed": 2702,
+    "return_coverage_pct": 85.0
+  },
+  "violations": [
+    {
+      "file": "src/Classes/Admin/PostMetabox.php",
+      "line": 49,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'render_metabox' complexity=31, lines=166"
+    },
+    {
+      "file": "src/Classes/AutoGPT/Cron/AutoGPTCron.php",
+      "line": 42,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'run' complexity=26, lines=136"
+    },
+    {
+      "file": "src/Classes/AutoGPT/Processors/ContentWritingProcessor.php",
+      "line": 36,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'process' complexity=35, lines=208"
+    },
+    {
+      "file": "src/Classes/BookFactory/BookFactory.php",
+      "line": 16,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 19.0 新代码请使用 BookPipelineOrchestrator"
+    },
+    {
+      "file": "src/Classes/BookFactory/BookFactoryUtils.php",
+      "line": 8,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'smart_split_outline' complexity=26, lines=129"
+    },
+    {
+      "file": "src/Classes/Chat/ChatHooksRegistrar.php",
+      "line": 20,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_chat_send' without nonce check"
+    },
+    {
+      "file": "src/Classes/Chat/ChatHooksRegistrar.php",
+      "line": 21,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_chat_send' without nonce check"
+    },
+    {
+      "file": "src/Classes/Chat/ChatHooksRegistrar.php",
+      "line": 22,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_chat_history' without nonce check"
+    },
+    {
+      "file": "src/Classes/Chat/Shortcode/ChatShortcode.php",
+      "line": 52,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'widget_html' complexity=22, lines=78"
+    },
+    {
+      "file": "src/Classes/CognitiveOS/COSEngine.php",
+      "line": 150,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'run_lever' complexity=25, lines=212"
+    },
+    {
+      "file": "src/Classes/Content/EcosystemAjax.php",
+      "line": 616,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'generate_content' complexity=30, lines=81"
+    },
+    {
+      "file": "src/Classes/Content/EcosystemAjaxAdvanced.php",
+      "line": 116,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_hot_collect' complexity=23, lines=116"
+    },
+    {
+      "file": "src/Classes/ContentWriter/Ajax/Actions/GenerateContentAction.php",
+      "line": 34,
+      "rule": "complexity_high",
+      "severity": "high",
+      "message": "Method 'handle' complexity=62, lines=364"
+    },
+    {
+      "file": "src/Classes/Core/AIDispatcher.php",
+      "line": 211,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'call_single' complexity=27, lines=237"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 39,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 52,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 65,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 79,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 93,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 107,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 121,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 135,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 149,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 163,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 177,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 191,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 20,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_sync_models' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 21,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_ai_suffix' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 22,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_advanced' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 23,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_custom_apis' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 24,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_provider_config' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 25,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_seo_enhance' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 26,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_image_settings' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 27,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_test_image_station' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 28,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_sync_image_models' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 29,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_geo' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 30,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_save_ai_search_keys' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardAIConfigActions.php",
+      "line": 31,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_regen_llms_txt' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardChartActions.php",
+      "line": 29,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardChartActions.php",
+      "line": 42,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardChartActions.php",
+      "line": 20,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_chart_outline' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardChartActions.php",
+      "line": 21,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_chart_segment' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardContentActions.php",
+      "line": 30,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardContentActions.php",
+      "line": 43,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardContentActions.php",
+      "line": 56,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardContentActions.php",
+      "line": 20,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_generate_outline' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardContentActions.php",
+      "line": 21,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_generate_section' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardContentActions.php",
+      "line": 22,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_generate_chart_prompts' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 31,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 44,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 57,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 71,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 20,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_diagram_generate' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 21,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_diagram_validate' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 22,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_diagram_types' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardDiagramActions.php",
+      "line": 23,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_diagram_generate_multi' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 30,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_generate' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 31,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_styles' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 32,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_generate_multi' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 33,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_test_connection' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 36,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_start_job' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 37,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_poll_job' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 38,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_cancel_job' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 41,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_generate' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 42,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_list' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 43,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_delete' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 44,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_export' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisActions.php",
+      "line": 45,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_server_diagnostic' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisV9Actions.php",
+      "line": 28,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_generate_v9' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisV9Actions.php",
+      "line": 29,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_v9_stage1' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardGenesisV9Actions.php",
+      "line": 30,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_v9_stage2' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardKeywordActions.php",
+      "line": 186,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardKeywordActions.php",
+      "line": 194,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardKeywordActions.php",
+      "line": 203,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardKeywordActions.php",
+      "line": 212,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
+      "line": 30,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
+      "line": 43,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
+      "line": 56,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 This delegate exists for backward compatibility."
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
+      "line": 20,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_video_generate_script' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
+      "line": 21,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_video_outline' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/Actions/DashboardVideoActions.php",
+      "line": 22,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_video_segment' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 56,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_generate' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 57,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_styles' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 58,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_generate_multi' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 59,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_test_connection' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 62,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_start_job' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 63,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_poll_job' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 64,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_cancel_job' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 67,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_generate' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 68,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_list' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 69,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_delete' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 70,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_seed_export' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 73,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_generate_v9' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 74,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_v9_stage1' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 75,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_v9_stage2' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/Ajax/DashboardAjaxGenesis.php",
+      "line": 76,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_genesis_server_diagnostic' without nonce check"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 115,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardTemplateActions::template_add()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 120,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardTemplateActions::template_update()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 125,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardTemplateActions::template_delete()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 130,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardTemplateActions::template_get()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 143,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardKeywordActions::keyword_fetch_hot()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 151,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardKeywordActions::keyword_generate_tail()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardAjaxRegistrarLegacy.php",
+      "line": 159,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G2.1 Migrated to DashboardKeywordActions::keyword_batch_generate()"
+    },
+    {
+      "file": "src/Classes/Dashboard/DashboardVideoAjax.php",
+      "line": 8,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_video_generate_script' complexity=37, lines=184"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisPanelRenderer.php",
+      "line": 75,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'splitByChapters' complexity=22, lines=118"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessor.php",
+      "line": 363,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'genesisCurlMultiPrompts' complexity=22, lines=141"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisProcessorDelegates.php",
+      "line": 14,
+      "rule": "complexity_high",
+      "severity": "high",
+      "message": "Method 'genesisGenerateMultiInternal' complexity=54, lines=312"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisPromptUtils.php",
+      "line": 95,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'isAIPromptDegraded' complexity=27, lines=85"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisV9Processor.php",
+      "line": 17,
+      "rule": "complexity_high",
+      "severity": "high",
+      "message": "Method 'ajax_genesis_generate_v9' complexity=45, lines=237"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisV9Stages.php",
+      "line": 12,
+      "rule": "complexity_high",
+      "severity": "high",
+      "message": "Method 'ajax_genesis_v9_stage1' complexity=53, lines=255"
+    },
+    {
+      "file": "src/Classes/Dashboard/GenesisV9Stages.php",
+      "line": 268,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_genesis_v9_stage2' complexity=33, lines=219"
+    },
+    {
+      "file": "src/Classes/Diagram/DiagramMasterTemplate.php",
+      "line": 298,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'validate' complexity=22, lines=66"
+    },
+    {
+      "file": "src/Classes/Diagram/DiagramStructureRegistry.php",
+      "line": 264,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'match_best' complexity=24, lines=70"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisPatchStage2.php",
+      "line": 12,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_v9_stage2_fixed' complexity=36, lines=177"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisPatchStage3.php",
+      "line": 8,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_seed_generate_full' complexity=37, lines=204"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisPatchStage3.php",
+      "line": 213,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_v9_stage1_fixed' complexity=38, lines=143"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisPatchV1006.php",
+      "line": 16,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 10.2.0 本补丁逻辑将合并至 Dashboard_Ajax_Registrar, 届时删除此类"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisRecommendationScorer.php",
+      "line": 12,
+      "rule": "complexity_high",
+      "severity": "high",
+      "message": "Method 'scoreByFeatures' complexity=63, lines=132"
+    },
+    {
+      "file": "src/Classes/Genesis/GenesisRecommendationScorer.php",
+      "line": 145,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'applyModeFilters' complexity=40, lines=149"
+    },
+    {
+      "file": "src/Classes/Genesis/QualityLoop.php",
+      "line": 140,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'pqs_check' complexity=32, lines=162"
+    },
+    {
+      "file": "src/Classes/Genesis/ScriptPatchHandlers.php",
+      "line": 143,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'ajax_charts_generate' complexity=24, lines=216"
+    },
+    {
+      "file": "src/Classes/Genesis/ScriptPatchV1010.php",
+      "line": 23,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_video_generate_v10' without nonce check"
+    },
+    {
+      "file": "src/Classes/Genesis/ScriptPatchV1010.php",
+      "line": 24,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_charts_generate_v10' without nonce check"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedAdmin.php",
+      "line": 13,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated G4.1 Use the split classes directly."
+    },
+    {
+      "file": "src/Classes/Genesis/SeedAdminExport.php",
+      "line": 18,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'export_md' complexity=31, lines=108"
+    },
+    {
+      "file": "src/Classes/Genesis/SeedAdminRender.php",
+      "line": 73,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'print_inline_assets' complexity=22, lines=166"
+    },
+    {
+      "file": "src/Classes/MetaLever/MetaLeverFitnessTracker.php",
+      "line": 127,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_lever_fitness' without nonce check"
+    },
+    {
+      "file": "src/Classes/Publish/Adapter/RemoteWPPublishTarget.php",
+      "line": 33,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'publish' complexity=24, lines=96"
+    },
+    {
+      "file": "src/Classes/SEO/Keyword/KeywordManager.php",
+      "line": 197,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'parse_source_response' complexity=33, lines=70"
+    },
+    {
+      "file": "src/Classes/SEO/Keyword/TextRankExtractor.php",
+      "line": 41,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'extract' complexity=24, lines=97"
+    },
+    {
+      "file": "src/Classes/SEO/Links/ExternalLinkProcessor.php",
+      "line": 73,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'replace_link_callback' complexity=21, lines=76"
+    },
+    {
+      "file": "src/Classes/XHS/XHSAjaxActions.php",
+      "line": 27,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_xhs_generate' without nonce check"
+    },
+    {
+      "file": "src/Classes/XHS/XHSAjaxActions.php",
+      "line": 28,
+      "rule": "security_nonce_missing",
+      "severity": "critical",
+      "message": "AJAX handler 'wp_ajax_linked3_xhs_optimize_prompt' without nonce check"
+    },
+    {
+      "file": "src/Includes/Activator.php",
+      "line": 58,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'do_activate' complexity=25, lines=95"
+    },
+    {
+      "file": "src/Includes/HookManager.php",
+      "line": 26,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'register_hooks' complexity=28, lines=175"
+    },
+    {
+      "file": "src/Includes/Http/SafeRemote.php",
+      "line": 138,
+      "rule": "complexity_high",
+      "severity": "medium",
+      "message": "Method 'request' complexity=21, lines=110"
+    },
+    {
+      "file": "src/Includes/functions-events.php",
+      "line": 86,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 Use Linked3\\Includes\\Linked3_EventBus::dispatch()."
+    },
+    {
+      "file": "src/Includes/functions-events.php",
+      "line": 102,
+      "rule": "dead_code_deprecated",
+      "severity": "info",
+      "message": "Deprecated marker: * @deprecated 27.1.0 Use Linked3\\Includes\\Linked3_EventBus::subscribe()."
+    }
+  ]
+}

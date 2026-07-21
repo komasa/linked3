@@ -1,0 +1,98 @@
+{
+  "name_cn": "万兴智能布局图示",
+  "name_en": "Wondershare Smart Layout Diagram",
+  "category": "商业生产级信息图-万兴垂直",
+  "version": "1.0.0",
+  "source": "G6 Track D 演化结晶 - 万兴图示(亿图图示)垂直深耕",
+
+  "color_palette": {
+    "primary": "#4A90D9",
+    "primary_light": "#CDE2FA",
+    "primary_lighter": "#E8F0FC",
+    "accent": "#FA9960",
+    "accent_light": "#FCDED2",
+    "auxiliary": "#666666",
+    "auxiliary_light": "#CCCCCC",
+    "text_primary": "#393939",
+    "text_secondary": "#999999",
+    "text_title": "#000000",
+    "background": "#FFFFFF",
+    "description": "万兴图示默认主题: 蓝#4A90D9主色 + 灰#666666文字 + 白底, 适配亿图图示智能布局算法"
+  },
+
+  "typography": {
+    "font_family_primary": "Microsoft YaHei",
+    "font_family_secondary": "SimHei",
+    "font_sizes": {
+      "main_title": "32pt",
+      "module_title": "20pt",
+      "subtitle": "16pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "Microsoft YaHei(主) + SimHei(辅), 适配万兴图示默认字体体系"
+  },
+
+  "layout": {
+    "canvas_ratio": "4:3 (横版, 1920x1440px)",
+    "module_count_default": 6,
+    "hierarchy_layers": 3,
+    "card_style": "rounded rectangle, border-radius 6px, 万兴标准卡片",
+    "card_background": "white #FFFFFF with light blue #E8F0FC accents",
+    "spacing": "optimal auto-spacing, no overlapping nodes, balanced distribution",
+    "badges": "numbered badges, 万兴标准编号样式",
+    "description": "万兴智能布局: 算法自动选择最优布局(层次/正交/放射/环形), 干净自动间距, 无重叠节点"
+  },
+
+  "visual_frequency": {
+    "HF": "模块标题 + 编号 + 主色强调 (万兴标准HF)",
+    "MF": "子主题 + 正文 + 中性色支撑 (万兴标准MF)",
+    "LF": "细节项 + 标注 + 浅色背景 (万兴标准LF)",
+    "color_mapping": {
+      "HF": "#4A90D9",
+      "MF": "#FA9960",
+      "LF": "#666666"
+    },
+    "progression": "万兴智能布局算法自动优化排版, HF密集前1/3, MF中段, LF底部收束"
+  },
+
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "万兴图示用户·非设计师·需要快速生成专业图示",
+    "content_adaptation": "通用知识图示, 适配万兴图示智能布局, 无需设计判断"
+  },
+
+  "reader_constraint": {
+    "reader_state": "快速获取信息·需要清晰结构",
+    "reader_mode": "浏览模式(快速扫描+重点阅读)",
+    "reader_expectation": "万兴标准图示 + 智能布局 + 一键生成 + 可编辑模板"
+  },
+
+  "prompt_keywords": "EdrawMax smart layout, auto-arrangement, algorithm-selected optimal layout, clean auto-spacing, no overlapping nodes, balanced distribution, professional EdrawMax aesthetic, Microsoft YaHei typography, optimal for static export, wondershare-diagram compatible",
+
+  "negative_keywords": "3D render, shadows, gradients, photorealistic, complex textures, dark background, handwritten, sketch, watercolor, overlapping, cluttered",
+
+  "suitable_genres": ["通用图示", "知识图", "流程图", "组织架构", "思维导图", "万兴模板"],
+
+  "scene_whitelist": ["快速生成图示", "不确定布局选择", "自动优化排版", "批量图示生产", "万兴市场发布"],
+
+  "scene_blacklist": ["真人摄影", "艺术插画", "复杂特效", "动态图示"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 万兴智能布局图示\n✅ 必须: 万兴图示智能布局算法 + 自动间距 + 无重叠节点 + 平衡分布 + Microsoft YaHei字体 + 静态导出优化\n❌ 禁止: 3D渲染 + 阴影 + 渐变 + 写实照片 + 动态参数 + 复杂特效",
+
+  "style_constraint_en": "IMPORTANT: EdrawMax smart layout ONLY. Algorithm-selected optimal layout with auto-spacing, no overlapping nodes, balanced distribution. Microsoft YaHei typography. Optimized for static export. NO 3D, NO shadows, NO dynamic parameters.",
+
+  "meta_prompt": "EdrawMax smart layout diagram, auto-arrangement, algorithm-selected optimal layout, clean auto-spacing, no overlapping nodes, balanced distribution, professional EdrawMax aesthetic, Microsoft YaHei typography, blue #4A90D9 primary, white background, optimal for static export, wondershare-diagram compatible",
+
+  "prompt_example": "Smart layout diagram, EdrawMax auto-arrangement, algorithm-selected optimal layout based on content structure, clean auto-spacing with no overlapping nodes, balanced distribution, professional EdrawMax aesthetic, Microsoft YaHei typography (title 20pt bold, body 14pt), blue #4A90D9 primary color, gray #666666 text, white #FFFFFF background with light blue #E8F0FC accents, numbered badges, optimal for static export. --ar 4:3 --s 200 --style raw --tool edrawmax --layout auto",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G6 Track D演化结晶 - 万兴图示(亿图图示)垂直深耕, 适配万兴市场发布"
+}

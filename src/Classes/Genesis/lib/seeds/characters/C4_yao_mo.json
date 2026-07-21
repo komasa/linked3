@@ -1,0 +1,14 @@
+{
+    "id": "C4",
+    "name": "妖魔",
+    "base_prompt": "terrifying demon beast, multiple red glowing eyes, twisted black horns, muscular dark body, jagged teeth, smoke and embers",
+    "variants": {
+        "lurking": "half-hidden in shadow, only eyes visible, smoke tendrils",
+        "attacking": "leaping forward, claws extended, mouth agape, fire breath",
+        "defeated": "crumbling to ash, dissolving, fading roar, black smoke",
+        "transformed": "disguised as human, subtle demonic features, unsettling smile"
+    },
+    "negative_base": "cute, friendly, bright, cartoon, deformed, human skin",
+    "costume_default": "none, natural dark exoskeleton",
+    "accessories": ["black chains", "cursed artifacts", "shadow tendrils"]
+}

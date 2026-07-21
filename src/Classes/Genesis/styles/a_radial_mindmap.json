@@ -1,0 +1,65 @@
+{
+  "name_cn": "放射思维导图",
+  "name_en": "Radial Mind Map",
+  "category": "商业生产级信息图-G5图示专项",
+  "version": "1.0.0",
+  "source": "G5 Track A-01 图示/导图专项演化结晶",
+  "color_palette": {
+    "primary": "#31ACF4",
+    "accent": "#FA9960",
+    "background": "#F8F9FB",
+    "description": "放射导图: 蓝#31ACF4中心+多色分支"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "18pt",
+      "body": "10pt"
+    },
+    "description": "无衬线导图字体"
+  },
+  "layout": {
+    "canvas_ratio": "1:1",
+    "module_count_default": 6,
+    "card_style": "curved organic connectors",
+    "description": "中心放射+曲线连接"
+  },
+  "visual_frequency": {
+    "HF": "中心节点",
+    "MF": "分支节点",
+    "LF": "叶节点",
+    "description": "放射思维发散"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "知识工作者",
+    "content_adaptation": "头脑风暴"
+  },
+  "reader_constraint": {
+    "reader_state": "发散",
+    "reader_mode": "思考",
+    "reader_expectation": "概念发散"
+  },
+  "prompt_keywords": "radial mind map, central node, curved organic connectors, color-coded branches, node size hierarchy, balanced radial distribution",
+  "negative_keywords": "linear, grid, matrix, rigid",
+  "suitable_genres": [
+    "头脑风暴",
+    "概念发散",
+    "创意梳理"
+  ],
+  "scene_whitelist": [
+    "思维导图",
+    "发散",
+    "创意"
+  ],
+  "scene_blacklist": [
+    "线性流程"
+  ],
+  "style_constraint_cn": "放射思维导图: 中心放射+曲线连接+色彩编码分支",
+  "style_constraint_en": "Radial mind map ONLY. Central node with curved organic branches.",
+  "meta_prompt": "radial mind map, central node blue #31ACF4, curved organic connectors, color-coded branches orange purple green teal, node size hierarchy, balanced distribution. --ar 1:1 --s 200 --style raw",
+  "prompt_example": true,
+  "commercial_grade": true,
+  "production_ready": "G5 Track A-01演化结晶",
+  "reference_source": ""
+}

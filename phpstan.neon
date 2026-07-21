@@ -1,0 +1,33 @@
+parameters:
+    level: 8
+
+    paths:
+        - src/
+        - lib/
+
+    excludePaths:
+        - */vendor/*
+        - */tests/*
+        - */assets/*
+        - admin/views/*
+
+    # ─── 忽略 WordPress 全局函数 (无存根) ───
+    ignoreErrors:
+        - '#Constant LINKED3_(DIR|URL|VERSION|BASENAME|FILE|PLUGIN_FILE) not found.#'
+        - '#Function (wp_|WP_|apply_filters|do_action|add_action|add_filter|register_activation_hook|register_deactivation_hook|plugin_dir_path|plugin_dir_url|plugin_basename|esc_html|esc_attr|esc_url|esc_js|esc_textarea|wp_kses|sanitize_title|sanitize_text_field|wp_verify_nonce|wp_create_nonce|check_ajax_referer|current_user_can|get_option|update_option|delete_option|get_post_meta|update_post_meta|delete_post_meta|get_posts|get_the_title|get_the_content|get_permalink|wp_insert_post|wp_update_post|wp_delete_post|wp_enqueue_script|wp_enqueue_style|wp_register_script|wp_register_style|wp_localize_script|admin_url|site_url|home_url|includes_url|content_url|plugins_url|wp_upload_dir|wp_remote_get|wp_remote_post|wp_remote_retrieve_body|wp_remote_retrieve_response_code|is_wp_error|wp_mail|get_current_user_id|wp_set_current_user|wp_get_current_user|is_user_logged_in|wp_redirect|add_menu_page|add_submenu_page|add_options_page|settings_fields|do_settings_sections|submit_button|register_setting|add_settings_section|add_settings_field|get_settings_errors|settings_errors) (was not found|is not found)#'
+
+    # ─── WordPress 全局变量 ───
+    universalObjectCratesClasses:
+        - WP_Query
+        - WP_Post
+        - WP_Error
+        - WP_HTTP
+        - WP_REST_Request
+        - WP_REST_Response
+        - WP_REST_Server
+
+    # ─── 允许混合数组 (WordPress 惯例) ───
+    checkAlwaysTrueInstanceof: false
+
+    # ─── 报告风格 ───
+    reportUnmatchedIgnoredErrors: false

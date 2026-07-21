@@ -1,0 +1,124 @@
+{
+  "name_cn": "剧画·写实暗黑",
+  "name_en": "Gekiga Realistic Dark",
+  "category": "日系漫画",
+  "usage_code": "Y09",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "白土三平/池上辽一/小岛刚夕《带子狼》/北斗神拳原画",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#0D0D0D",
+        "ratio": "35%",
+        "use": "深黑墨+阴影"
+      },
+      {
+        "hex": "#3C3C3C",
+        "ratio": "25%",
+        "use": "灰阶过渡+写实暗部"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#8B0000",
+        "ratio": "10%",
+        "use": "暗红+血色"
+      },
+      {
+        "hex": "#D4A574",
+        "ratio": "8%",
+        "use": "土黄+苍凉"
+      }
+    ],
+    "accent": [
+      "#2F4F4F",
+      "#708090"
+    ],
+    "mood_tone": "高对比黑白+暗红点缀, 压抑写实"
+  },
+  "line_style": "粗细变化墨线(1-5px)+交叉排线+写实素描, 笔触沉重有力",
+  "render": "写实素描+密集网点+墨水渲染, 高对比黑白灰阶, 写实皮肤质感",
+  "atmosphere": [
+    "压抑",
+    "残酷",
+    "苍凉",
+    "肃杀",
+    "沉重"
+  ],
+  "lighting": "高对比侧光+明暗交界线+体积阴影, 戏剧性伦勃朗光",
+  "symbols": [
+    "刀剑",
+    "血溅",
+    "雨",
+    "枯骨",
+    "残阳",
+    "裂痕",
+    "烟尘"
+  ],
+  "patterns": [
+    "交叉排线",
+    "密集网点(80线)",
+    "墨溅",
+    "裂纹纹理"
+  ],
+  "scene_templates": [
+    {
+      "scene": "荒野独行",
+      "mood": "苍凉孤独",
+      "lighting": "残阳侧光+长影",
+      "composition": "广角远景+孤影"
+    },
+    {
+      "scene": "雨夜杀阵",
+      "mood": "肃杀紧张",
+      "lighting": "雨幕逆光+冷光",
+      "composition": "低角度+刀光"
+    },
+    {
+      "scene": "对峙决斗",
+      "mood": "压抑爆发",
+      "lighting": "顶光+明暗交界",
+      "composition": "对称+眼神特写"
+    },
+    {
+      "scene": "残破废墟",
+      "mood": "荒芜绝望",
+      "lighting": "灰光+烟尘",
+      "composition": "广角+废墟纵深"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "思源宋体 Heavy / Yu Mincho Demibold",
+    "sfx_style": "毛笔手书拟声词, 墨溅外框, 粗犷有力",
+    "caption_style": "明朝体, 竖排, 黑底白字"
+  },
+  "layout": {
+    "panel_grid_default": "4-6格密集网格",
+    "gutter_style": "细黑边框, 紧凑排列",
+    "splash_page": "全页写实大格用于决斗/死亡",
+    "panel_shape": "矩形为主+少量倾斜"
+  },
+  "cognitive_level": {
+    "primary": "C",
+    "reader_profile": "成人·硬核叙事爱好者",
+    "content_adaptation": "写实残酷叙事, 需读者承受压抑氛围"
+  },
+  "reader_constraint": {
+    "reader_state": "沉浸压抑·渴望真实冲击",
+    "reader_mode": "慢速细读+氛围感受",
+    "reader_expectation": "写实素描+高对比墨线+残酷美学"
+  },
+  "visual_frequency": {
+    "HF": "排线/网点/墨溅/裂纹(高频质感细节)",
+    "MF": "人物表情/肌肉/刀剑(中频叙事支撑)",
+    "LF": "暗部阴影/灰阶天空/留黑(低频氛围底色)",
+    "color_mapping": {
+      "HF": "#3C3C3C",
+      "MF": "#0D0D0D",
+      "LF": "#1A1A1A"
+    },
+    "progression": "HF密集排线营造质感, MF聚焦人物冲突, LF大面积暗部压抑"
+  }
+}

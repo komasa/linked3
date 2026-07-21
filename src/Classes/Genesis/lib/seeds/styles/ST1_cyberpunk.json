@@ -1,0 +1,18 @@
+{
+    "id": "ST1",
+    "name": "赛博朋克·霓虹未来",
+    "name_en": "Cyberpunk Neon",
+    "prompt_keywords": "cyberpunk aesthetic, neon-lit dystopian city, holographic advertisements, rain-soaked streets reflecting magenta and cyan, high-tech low-life atmosphere, chrome and glass textures, anamorphic lens flare",
+    "negative_keywords": "medieval, fantasy, natural, organic, warm, cozy, traditional",
+    "color_palette": {
+        "primary": ["#FF00FF", "#00FFFF"],
+        "secondary": ["#1A0033", "#0D0D0D"],
+        "accent": ["#FFFF00", "#FF0066"]
+    },
+    "render": "digital painting, highly detailed, octane render quality",
+    "lighting": "neon rim lighting, volumetric fog with colored light, neon reflections on wet surfaces",
+    "line_style": "clean digital lines with glow effects on neon elements",
+    "atmosphere": ["dystopian", "high-tech", "rainy", "nocturnal", "neon-saturated"],
+    "symbols": ["holograms", "cyber implants", "data streams", "neon signs", "electric cables"],
+    "suitable_genres": ["科幻", "赛博", "反乌托邦", "未来", "黑客"]
+}

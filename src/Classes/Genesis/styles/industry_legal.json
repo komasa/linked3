@@ -1,0 +1,98 @@
+{
+  "name_cn": "法律关系时间线图谱",
+  "name_en": "Legal Relationship Timeline Map",
+  "category": "商业生产级信息图-行业垂直-法律",
+  "version": "1.0.0",
+  "source": "G7 Track G 演化结晶 - 法律合规行业垂直融合",
+
+  "color_palette": {
+    "primary": "#1B2838",
+    "primary_light": "#4A5C6E",
+    "primary_lighter": "#E8ECF0",
+    "accent": "#C9A961",
+    "accent_light": "#E8D9B0",
+    "auxiliary": "#8B2635",
+    "auxiliary_light": "#D4B5B5",
+    "text_primary": "#1C1C1C",
+    "text_secondary": "#666666",
+    "text_title": "#000000",
+    "background": "#FAF6F0",
+    "description": "法律庄重深蓝金体系: 主深蓝#1B2838(权威) + 金#C9A961(装饰) + 酒红#8B2635(诉求) + 米白#FAF6F0(背景)"
+  },
+
+  "typography": {
+    "font_family_primary": "Noto Serif SC",
+    "font_family_secondary": "SimSun",
+    "font_sizes": {
+      "main_title": "32pt",
+      "module_title": "20pt",
+      "subtitle": "16pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "Noto Serif SC(主) + SimSun(辅), 衬线字体体现法律权威感, 6级字号层次"
+  },
+
+  "layout": {
+    "canvas_ratio": "3:4 (A3竖版, 1786x2526px)",
+    "module_count_default": 6,
+    "hierarchy_layers": 3,
+    "card_style": "rounded rectangle, border-radius 4px, 法律文档卡片",
+    "card_background": "cream #FAF6F0 with navy header bars",
+    "spacing": "formal spacing, dignified composition",
+    "badges": "legal icons (scales/gavel/documents), gold accents",
+    "description": "法律融合布局: 网状关系图(当事人/诉求/证据)+线性时间线(法律事件), 法律图标, 庄重美学"
+  },
+
+  "visual_frequency": {
+    "HF": "法律核心关系 + 法槌图标 + 深蓝强调 (前1/3画面)",
+    "MF": "案件事实 + 法律依据 + 金色支撑 (中段叙事)",
+    "LF": "判决结果 + 法律注释 + 浅色背景 (底部收束)",
+    "color_mapping": {
+      "HF": "#1B2838",
+      "MF": "#C9A961",
+      "LF": "#8B2635"
+    },
+    "progression": "法律关系网络(顶部)→时间线(底部), 证据节点琥珀色, 诉求节点酒红色"
+  },
+
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "法律从业者·当事人·需要法律关系梳理",
+    "content_adaptation": "法律知识可视化, 需符合法律行业规范, 术语严谨, 配色庄重"
+  },
+
+  "reader_constraint": {
+    "reader_state": "法律案件分析者·需要严谨可靠信息",
+    "reader_mode": "研读模式(深度分析+法律决策参考)",
+    "reader_expectation": "法律庄重配色 + 衬线字体权威感 + 关系时间线复合 + 专业术语"
+  },
+
+  "prompt_keywords": "legal knowledge map, dignified navy gold palette, law firm aesthetic, legal icons scales gavel documents, network graph relationships, timeline events, formal serif typography, professional legal infographic, authoritative trustworthy",
+
+  "negative_keywords": "3D render, shadows, gradients, photorealistic, dark background, handwritten, sketch, watercolor, cluttered, casual, playful",
+
+  "suitable_genres": ["案件分析", "法律关系图", "诉讼时间线", "法条结构", "合规流程"],
+
+  "scene_whitelist": ["案件分析", "法律关系图", "诉讼时间线", "法律事件梳理", "法条解读", "合规要求"],
+
+  "scene_blacklist": ["真人摄影", "艺术插画", "轻松场景", "非法律场景"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 法律关系时间线图谱\n✅ 必须: 法律庄重深蓝金配色 + 衬线字体权威感 + 法律图标(天平/法槌/卷宗) + 关系网络+时间线复合布局\n❌ 禁止: 3D渲染 + 阴影 + 渐变 + 轻松配色 + 手绘风格 + 暗色背景",
+
+  "style_constraint_en": "IMPORTANT: Legal dignified aesthetic ONLY. Navy #1B2838 + gold #C9A961 + burgundy #8B2635 palette. Legal icons (scales/gavel/documents). Network graph + timeline layout. Noto Serif SC typography. NO 3D, NO casual colors, NO playful elements.",
+
+  "meta_prompt": "legal knowledge map, dignified navy #1B2838 primary, gold #C9A961 accents, burgundy #8B2635 claims, cream #FAF6F0 background, legal icons scales gavel documents, network graph of legal relationships, timeline of events, formal Noto Serif SC typography, professional law firm aesthetic, authoritative trustworthy",
+
+  "prompt_example": "Legal relationship timeline map, top section network graph of legal relationships (parties/claims/evidence connected), bottom section timeline of legal events, dignified navy #1B2838 background, gold #C9A961 accents, burgundy #8B2635 claim nodes, amber #D4A017 evidence nodes, legal icons (scales/gavel/documents), Noto Serif SC typography (title 20pt bold, body 14pt), cream #FAF6F0 cards, formal dignified composition, professional law firm aesthetic. --ar 3:4 --s 300 --style raw --industry legal --fusion rel-time --tool edrawmax",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G7 Track G演化结晶 - 万兴市场法律合规分类对齐, 适配律所/法务/合规场景"
+}

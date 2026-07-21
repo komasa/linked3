@@ -1,0 +1,120 @@
+# Linked3 BookFactory MetaMother 配置 (v19.1)
+#
+# 嵌入来源: genesis_meta2_M2_G3 母版 (meta的meta·真理探索系统元母体)
+#
+# 本配置定义元母体子系统的运行参数, 包括:
+#   - 4阶元流程的启用状态
+#   - 9大探索原型的默认参数
+#   - 5大元规律的评分阈值
+#   - 流水线前置分类(step0)的开关
+
+meta_mother:
+  version: "M2-G3"
+  enabled: true
+
+  # 双公理
+  axioms:
+    axiom_1: "元熵减: 从众多真理探索系统中萃取探索真理的元规律"
+    axiom_2: "元降维: 把探索真理降维为分类→生成→提炼→创造四阶"
+
+  # 绝对信息核
+  core_nucleus: "探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎"
+
+  # 4阶元流程配置
+  stages:
+    stage1_classify:
+      enabled: true
+      name: "探索方式分类"
+      description: "根据探索意图推荐最佳探索原型"
+      ai_required: true
+      fallback: "keyword"  # AI失败时回退到关键词匹配
+
+    stage2_generate:
+      enabled: true
+      name: "系统原型生成"
+      description: "根据原型key生成完整探索系统配置"
+      ai_required: false   # 纯配置合并, 无需AI
+
+    stage3_extract:
+      enabled: true
+      name: "元规律提炼"
+      description: "评估探索结果的元规律合规性"
+      ai_required: true
+      max_result_length: 3000  # 探索结果最大长度(字符)
+
+    stage4_create:
+      enabled: true
+      name: "新系统创造"
+      description: "按六步创造法生成新探索系统"
+      ai_required: true
+
+  # 5大元规律评分阈值
+  meta_laws:
+    falsifiability:
+      label: "可证伪"
+      description: "真理必须可被证伪，不可证伪的不是真理而是信仰"
+      threshold: 60  # 低于此分数视为不合规
+    transmissibility:
+      label: "可传递"
+      description: "真理必须可被传递，不可传递的不是真理而是直觉"
+      threshold: 60
+    embodiment:
+      label: "可具现"
+      description: "真理必须可被具现，不可具现的不是真理而是空想"
+      threshold: 60
+    evolvability:
+      label: "可进化"
+      description: "真理必须可被进化，不可进化的不是真理而是教条"
+      threshold: 60
+    protectability:
+      label: "可守护"
+      description: "真理必须可被守护，不可守护的不是真理而是流言"
+      threshold: 60
+
+  # 流水线前置分类 (step0_meta_classify)
+  pipeline_integration:
+    step0_enabled: true           # 是否启用step0元分类
+    step0_optional: true          # step0是否可选(用户可跳过)
+    auto_switch_prototype: false  # 是否自动切换到推荐原型( false=仅推荐, true=自动切换 )
+    keep_book_as_default: true    # 默认保持book原型, 仅当推荐置信度>阈值时切换
+
+  # 9大探索原型默认参数
+  prototypes:
+    book:
+      pipeline: "default_6step"     # 使用默认6步流水线
+      output_template: "book_default"
+    experimental:
+      pipeline: "experiment_6step"
+      output_template: "experiment_report"
+    observational:
+      pipeline: "observation_6step"
+      output_template: "observation_journal"
+    deductive:
+      pipeline: "deductive_6step"
+      output_template: "deductive_proof"
+    meditative:
+      pipeline: "meditation_6step"
+      output_template: "meditation_insight"
+    dialogic:
+      pipeline: "dialogue_6step"
+      output_template: "dialogue_transcript"
+    practical:
+      pipeline: "practice_6step"
+      output_template: "practice_report"
+    artistic:
+      pipeline: "artwork_6step"
+      output_template: "artwork_collection"
+    computational:
+      pipeline: "computation_6step"
+      output_template: "computation_result"
+    synthetic:
+      pipeline: "synthesis_6step"
+      output_template: "synthesis_report"
+
+  # 成本控制
+  cost_control:
+    classify_max_tokens: 500
+    generate_max_tokens: 300
+    extract_max_tokens: 1000
+    create_max_tokens: 1500
+    budget_per_meta_call: 0.05  # 每次元母体调用预算上限($)

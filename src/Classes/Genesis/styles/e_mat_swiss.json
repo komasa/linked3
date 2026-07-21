@@ -1,0 +1,65 @@
+{
+  "name_cn": "Material瑞士原子",
+  "name_en": "Mat-Swiss Atoms",
+  "category": "商业生产级信息图-G6原子重组",
+  "version": "1.0.0",
+  "source": "G6 Track E-01 原子化重组",
+  "color_palette": {
+    "primary": "#FF0000",
+    "accent": "#000000",
+    "background": "#FFFFFF",
+    "description": "Mat+瑞士: 红+黑+elevation"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "20pt",
+      "body": "12pt"
+    },
+    "description": "无衬线标准字体"
+  },
+  "layout": {
+    "canvas_ratio": "4:3",
+    "module_count_default": 6,
+    "card_style": "rounded rectangle",
+    "description": "标准布局"
+  },
+  "visual_frequency": {
+    "HF": "标题",
+    "MF": "正文",
+    "LF": "细节",
+    "description": "三层信息密度"
+  },
+  "cognitive_level": {
+    "primary": "B",
+    "reader_profile": "通用用户",
+    "content_adaptation": "通用场景"
+  },
+  "reader_constraint": {
+    "reader_state": "阅读",
+    "reader_mode": "标准",
+    "reader_expectation": "信息获取"
+  },
+  "prompt_keywords": "Swiss 12-column grid base, Material elevation shadows, Helvetica typography, left-aligned, red black accent",
+  "negative_keywords": "3D render, photorealistic, complex textures",
+  "suitable_genres": [
+    "通用图示",
+    "知识图谱",
+    "信息图"
+  ],
+  "scene_whitelist": [
+    "通用",
+    "知识",
+    "信息"
+  ],
+  "scene_blacklist": [
+    "真人摄影"
+  ],
+  "style_constraint_cn": "Material瑞士原子: G6 Track E-01 原子化重组",
+  "style_constraint_en": "Mat-Swiss Atoms ONLY. Swiss 12-column grid base, Material elevation shadows, Helvetica typography, lef",
+  "meta_prompt": "swiss 12-column grid base, material elevation shadows, helvetica typography, left-aligned, red black accent, #FF0000 primary, #FFFFFF background, professional infographic",
+  "prompt_example": "swiss 12-column grid base, material elevation shadows, helvetica typography, left-aligned, red black accent, #FF0000 primary color, #FFFFFF background, HarmonyOS Sans typography, 3-layer hierarchy, numbered badges. --ar 4:3 --s 250 --style raw",
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G6 Track E-01 原子化重组"
+}

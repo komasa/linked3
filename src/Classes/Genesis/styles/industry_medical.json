@@ -1,0 +1,98 @@
+{
+  "name_cn": "医疗融合图谱",
+  "name_en": "Medical Fusion Knowledge Map",
+  "category": "商业生产级信息图-行业垂直-医疗",
+  "version": "1.0.0",
+  "source": "G7 Track G 演化结晶 - 医疗健康行业垂直融合",
+
+  "color_palette": {
+    "primary": "#00897B",
+    "primary_light": "#B2DFDB",
+    "primary_lighter": "#E0F2F1",
+    "accent": "#1976D2",
+    "accent_light": "#BBDEFB",
+    "auxiliary": "#2EA86B",
+    "auxiliary_light": "#C8E6C9",
+    "text_primary": "#263238",
+    "text_secondary": "#90A4AE",
+    "text_title": "#000000",
+    "background": "#FAFCFE",
+    "description": "医疗冷静蓝绿体系: 主蓝绿#00897B(诊断) + 蓝#1976D2(治疗) + 绿#2EA86B(康复) + 琥珀#F57C00(警示) + 红#D32F2F(危急)"
+  },
+
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_family_secondary": "Microsoft YaHei",
+    "font_sizes": {
+      "main_title": "32pt",
+      "module_title": "20pt",
+      "subtitle": "16pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "HarmonyOS Sans(主) + Microsoft YaHei(辅), 医疗术语清晰可读, 6级字号层次"
+  },
+
+  "layout": {
+    "canvas_ratio": "3:4 (A3竖版, 1786x2526px)",
+    "module_count_default": 6,
+    "hierarchy_layers": 3,
+    "card_style": "rounded rectangle, border-radius 8px, 医疗标准卡片",
+    "card_background": "clinical white #FAFCFE with medical tint accents",
+    "spacing": "generous whitespace, clinical cleanliness",
+    "badges": "medical cross icons, clinical pathway markers",
+    "description": "医疗融合布局: 放射(疾病分类)+树状(治疗层级)+矩阵(症状严重度), 医疗十字图标, 临床洁净美学"
+  },
+
+  "visual_frequency": {
+    "HF": "医疗核心概念 + 诊断图标 + 主色强调 (前1/3画面)",
+    "MF": "治疗方案 + 用药信息 + 中性色支撑 (中段叙事)",
+    "LF": "注意事项 + 康复指导 + 浅色背景 (底部收束)",
+    "color_mapping": {
+      "HF": "#00897B",
+      "MF": "#1976D2",
+      "LF": "#2EA86B"
+    },
+    "progression": "医疗功能分区: 诊断(蓝绿)→治疗(蓝)→康复(绿), 警示色(琥珀/红)用于关键风险点"
+  },
+
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "医疗从业者·患者教育·健康科普受众",
+    "content_adaptation": "医疗知识可视化, 需符合医疗行业规范, 术语准确, 配色冷静专业"
+  },
+
+  "reader_constraint": {
+    "reader_state": "医疗知识学习者·需要准确可靠信息",
+    "reader_mode": "研读模式(深度学习+医疗决策参考)",
+    "reader_expectation": "医疗标准配色 + 临床洁净 + 专业术语 + 安全感"
+  },
+
+  "prompt_keywords": "medical knowledge map, clinical clean aesthetic, medical teal blue palette, healthcare icons, cross symbols, clinical pathway, diagnosis treatment recovery zones, professional medical infographic, HarmonyOS Sans typography, calm trustworthy",
+
+  "negative_keywords": "3D render, shadows, gradients, photorealistic, dark background, handwritten, sketch, watercolor, cluttered, scary imagery, blood",
+
+  "suitable_genres": ["医疗知识图谱", "疾病科普", "临床路径", "健康知识", "医院科室介绍"],
+
+  "scene_whitelist": ["医院科室介绍", "疾病知识图谱", "医疗流程全景", "健康科普体系", "临床路径图"],
+
+  "scene_blacklist": ["真人摄影", "艺术插画", "恐怖血腥", "非医疗场景"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 医疗融合图谱\n✅ 必须: 医疗冷静蓝绿配色 + 临床洁净美学 + 医疗十字图标 + 诊断/治疗/康复三区色彩编码 + HarmonyOS Sans字体\n❌ 禁止: 3D渲染 + 阴影 + 渐变 + 恐怖血腥 + 暗色背景 + 手绘风格",
+
+  "style_constraint_en": "IMPORTANT: Medical clinical clean aesthetic ONLY. Medical teal #00897B + blue #1976D2 + green #2EA86B palette. Medical cross icons. Clinical pathway zones (diagnosis/treatment/recovery). NO 3D, NO scary imagery, NO dark background.",
+
+  "meta_prompt": "medical knowledge map, clinical clean aesthetic, medical teal #00897B primary, blue #1976D2 accent, green #2EA86B recovery, amber #F57C00 alert, red #D32F2F critical, medical cross icons, clinical pathway zones, professional medical infographic, HarmonyOS Sans typography, calm trustworthy, clinical white #FAFCFE background",
+
+  "prompt_example": "Medical fusion knowledge map, radial layout for disease categories, tree hierarchy for treatment, matrix for symptom severity, medical teal #00897B (diagnosis), blue #1976D2 (treatment), green #2EA86B (recovery), amber #F57C00 (alert), red #D32F2F (critical), medical cross icons on nodes, clinical white #FAFCFE background, HarmonyOS Sans typography (title 20pt bold, body 14pt), 3-layer hierarchy, clinical cleanliness, professional medical aesthetic. --ar 3:4 --s 250 --style raw --industry medical --fusion multi --tool edrawmax",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "G7 Track G演化结晶 - 万兴市场医疗健康分类对齐, 适配医院/科室/健康科普场景"
+}

@@ -1,0 +1,123 @@
+{
+  "name_cn": "韩式条漫·竖屏彩漫",
+  "name_en": "Korean Webtoon Color",
+  "category": "韩系漫画",
+  "usage_code": "Y10",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "Naver Webtoon/Kakao Page: 看脸时代/女神降临/甜蜜家园",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFFFFF",
+        "ratio": "30%",
+        "use": "干净白底+现代感"
+      },
+      {
+        "hex": "#2D3436",
+        "ratio": "20%",
+        "use": "深灰墨线+现代暗部"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#6C5CE7",
+        "ratio": "12%",
+        "use": "梦幻紫+韩系柔光"
+      },
+      {
+        "hex": "#FD79A8",
+        "ratio": "10%",
+        "use": "柔粉+浪漫"
+      }
+    ],
+    "accent": [
+      "#00B894",
+      "#FDCB6E"
+    ],
+    "mood_tone": "干净现代+柔光滤镜, 韩系清新"
+  },
+  "line_style": "干净细线(0.8-1.5px)+数字线稿, 笔触精致均匀, 现代感",
+  "render": "数字赛璐璐+柔光滤镜+渐变叠加, 干净平涂+柔和光影, 高饱和柔焦",
+  "atmosphere": [
+    "清新",
+    "浪漫",
+    "现代",
+    "梦幻",
+    "时尚"
+  ],
+  "lighting": "柔光漫射+逆光晕染+光斑叠加, 韩系柔光滤镜",
+  "symbols": [
+    "光斑",
+    "气泡",
+    "闪粉",
+    "手机",
+    "时尚单品",
+    "咖啡"
+  ],
+  "patterns": [
+    "渐变叠加",
+    "光斑散布",
+    "柔焦滤镜",
+    "几何装饰"
+  ],
+  "scene_templates": [
+    {
+      "scene": "校园日常",
+      "mood": "清新青春",
+      "lighting": "柔光+窗光",
+      "composition": "中景+人物居中"
+    },
+    {
+      "scene": "都市街头",
+      "mood": "现代时尚",
+      "lighting": "城市光+霓虹柔光",
+      "composition": "竖构图+纵深"
+    },
+    {
+      "scene": "浪漫邂逅",
+      "mood": "心动梦幻",
+      "lighting": "逆光+光斑",
+      "composition": "双人特写+柔焦"
+    },
+    {
+      "scene": "情绪独白",
+      "mood": "内心波动",
+      "lighting": "柔光+暗角",
+      "composition": "面部大特写+留白"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Noto Sans KR / Pretendard / 思源黑体",
+    "sfx_style": "现代圆体, 渐变填色, 柔光描边",
+    "caption_style": "Noto Sans KR, 圆角气泡, 柔和阴影"
+  },
+  "layout": {
+    "panel_grid_default": "竖屏连续滚动(无格边框)",
+    "gutter_style": "无边框, 留白分隔, 竖向连续",
+    "splash_page": "全屏竖向大格用于情绪高潮",
+    "panel_shape": "全宽横条+竖向堆叠"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "青少年·移动端阅读者",
+    "content_adaptation": "竖屏滚动叙事, 需读者适应连续滚动阅读"
+  },
+  "reader_constraint": {
+    "reader_state": "碎片阅读·渴望清新代入",
+    "reader_mode": "竖屏滚动+快速浏览",
+    "reader_expectation": "干净彩漫+柔光滤镜+竖屏体验+现代审美"
+  },
+  "visual_frequency": {
+    "HF": "光斑/闪粉/气泡/渐变(高频氛围装饰)",
+    "MF": "人物表情/时尚穿搭/互动(中频叙事推进)",
+    "LF": "纯色背景/柔焦虚化/留白(低频情绪底色)",
+    "color_mapping": {
+      "HF": "#FD79A8",
+      "MF": "#6C5CE7",
+      "LF": "#FFFFFF"
+    },
+    "progression": "HF散布营造梦幻, MF聚焦人物互动, LF大面积纯色透气"
+  }
+}

@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+    PHP_CodeSniffer 配置 — Linked3 AI 商业生产级标准
+    
+    标准: PSR-12 + WordPress 安全相关规则
+    使用: vendor/bin/phpcs -standard=phpcs.xml src/ lib/ admin/
+-->
+<ruleset name="Linked3-AI-Production">
+    <description>Linked3 AI 商业生产级编码规范 — PSR-12 + WordPress Security</description>
+    
+    <!-- ── 排除目录 ────────────────────────────── -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/.git/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/assets/*</exclude-pattern>
+    <exclude-pattern>*/assets.dist/*</exclude-pattern>
+    <exclude-pattern>*/uploads/*</exclude-pattern>
+    <exclude-pattern>*/languages/*</exclude-pattern>
+    <exclude-pattern>*/docs/*</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>*.min.css</exclude-pattern>
+    
+    <!-- ── 基础标准 ────────────────────────────── -->
+    <rule ref="PSR1"/>
+    <rule ref="PSR2"/>
+    <rule ref="PSR12">
+        <!-- WordPress uses snake_case method names, not camelCase -->
+        <exclude name="PSR1.Methods.CamelCapsMethodName"/>
+    </rule>
+    
+    <!-- ── WordPress 安全相关 (需要WPCS, CI自动安装) ─── -->
+    <rule ref="WordPress.Security"/>
+
+    <!-- ── WordPress DB 相关 (需要WPCS, CI自动安装) ─── -->
+    <rule ref="WordPress.DB"/>
+
+    <!-- ── 额外严格规则 ────────────────────────── -->
+
+    <!-- 禁止使用 deprecated 函数 -->
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    
+    <!-- 禁止使用短开标签 -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    
+    <!-- 要求严格的比较运算符 -->
+    <rule ref="Squiz.PHP.CommentedOutCode"/>
+    
+    <!-- 禁止行内赋值 -->
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition"/>
+    
+    <!-- 要求空行分隔不同代码块 -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
+    
+    <!-- 限制文件行数 -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+    
+    <!-- ── 文件级规则 ────────────────────────────── -->
+    
+    <!-- 侧边允许的最大行数 -->
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="5"/>
+        </properties>
+    </rule>
+    
+    <!-- 圈复杂度 (商业生产级: ≤10 告警, ≤15 阻断) -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="15"/>
+        </properties>
+    </rule>
+    
+    <!-- ── WordPress惯例放宽 ──────────────────────── -->
+    <!-- 允许内联控制结构 (WordPress风格: if ($x) return;) -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure">
+        <severity>0</severity>
+    </rule>
+    
+    <!-- ── 命名规范 ──────────────────────────────── -->
+    
+    <!-- 变量命名: camelCase -->
+    <!-- Disabled: WordPress uses snake_case variables ($wpdb, $post) -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName">
+        <severity>0</severity>
+    </rule>
+    
+    <!-- 函数命名: camelCase -->
+    <!-- Disabled: WordPress uses snake_case function names -->
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName">
+        <severity>0</severity>
+    </rule>
+    
+    <!-- 常量命名: UPPER_SNAKE_CASE -->
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+</ruleset>

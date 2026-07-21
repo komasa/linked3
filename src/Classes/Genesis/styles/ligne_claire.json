@@ -1,0 +1,121 @@
+{
+  "name_cn": "清晰线条·丁丁风",
+  "name_en": "Ligne Claire (Hergé Style)",
+  "category": "欧系漫画",
+  "usage_code": "G05",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "Hergé《丁丁历险记》/艾尔热清晰线条画派",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#FFFFFF",
+        "ratio": "40%",
+        "use": "纯白底+干净留白"
+      },
+      {
+        "hex": "#1A1A1A",
+        "ratio": "15%",
+        "use": "均匀清晰墨线"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#4A90D9",
+        "ratio": "12%",
+        "use": "天空蓝+清爽"
+      },
+      {
+        "hex": "#E8A87C",
+        "ratio": "10%",
+        "use": "暖肤色+温和"
+      }
+    ],
+    "accent": [
+      "#C44536",
+      "#5B8C5A"
+    ],
+    "mood_tone": "低饱和平涂色+均匀清晰线, 干净理性"
+  },
+  "line_style": "均匀清晰墨线(1-1.5px), 无粗细变化, 纯粹线条画(ligne claire)",
+  "render": "平涂色块+均匀线稿, 无渐变无网点, 干净利落",
+  "atmosphere": [
+    "清晰",
+    "理性",
+    "冒险",
+    "经典",
+    "优雅"
+  ],
+  "lighting": "均匀漫射光, 无强阴影, 平涂色彩",
+  "symbols": [
+    "地标建筑",
+    "交通工具",
+    "地图",
+    "指南针",
+    "古董物件"
+  ],
+  "patterns": [
+    "平涂色块",
+    "均匀线条",
+    "简单纹理"
+  ],
+  "scene_templates": [
+    {
+      "scene": "城市街景",
+      "mood": "清晰有序",
+      "lighting": "均匀日光",
+      "composition": "正面平视+对称建筑"
+    },
+    {
+      "scene": "冒险旅途",
+      "mood": "探索期待",
+      "lighting": "均匀日光+柔和",
+      "composition": "中景+人物行进"
+    },
+    {
+      "scene": "室内对话",
+      "mood": "理性交流",
+      "lighting": "均匀室内光",
+      "composition": "中景+对称构图"
+    },
+    {
+      "scene": "异国风光",
+      "mood": "好奇探索",
+      "lighting": "均匀日光",
+      "composition": "广角+地标建筑"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Helvetica / Futura / 思源黑体 Regular",
+    "sfx_style": "无衬线圆体, 简洁描边, 适度大小",
+    "caption_style": "Helvetica, 白底黑字, 矩形框"
+  },
+  "layout": {
+    "panel_grid_default": "4格均匀网格",
+    "gutter_style": "均匀白边(3-4px), 规整",
+    "splash_page": "全页清晰大格用于场景建立",
+    "panel_shape": "标准矩形, 等大排列"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "全年龄·经典叙事爱好者",
+    "content_adaptation": "清晰冒险叙事, 需读者欣赏线条与构图的纯粹"
+  },
+  "reader_constraint": {
+    "reader_state": "轻松阅读·渴望清晰冒险",
+    "reader_mode": "匀速阅读+细节观察",
+    "reader_expectation": "清晰线条+平涂色+规整构图+冒险叙事"
+  },
+  "visual_frequency": {
+    "HF": "建筑细节/物件/地标(高频信息元素)",
+    "MF": "人物表情/动作/对话(中频叙事推进)",
+    "LF": "天空平涂/地面/留白(低频背景底色)",
+    "color_mapping": {
+      "HF": "#4A90D9",
+      "MF": "#1A1A1A",
+      "LF": "#FFFFFF"
+    },
+    "progression": "HF均匀分布信息丰富, MF推进叙事, LF大面积平涂留白"
+  }
+}

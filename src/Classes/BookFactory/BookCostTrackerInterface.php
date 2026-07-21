@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * BookCostTrackerInterface — extracted from BookAICallerInterface.php during PSR-4 migration.
+ *
+ * @package Linked3\Classes\BookFactory
+ */
+
+namespace Linked3\Classes\BookFactory;
+
+if (!defined('ABSPATH')) exit;
+
+interface BookCostTrackerInterface {
+
+	/**
+	 * 记录一次 AI 调用的成本。
+	 *
+	 * @param string $project_id 项目 ID。
+	 * @param array  $usage      token 用量 (prompt_tokens, completion_tokens)。
+	 * @param float  $cost       美元成本。
+	 * @param string $model      模型名称。
+	 * @return void
+	 */
+	public function record( string $project_id, array $usage, float $cost, string $model ) : void;
+
+}

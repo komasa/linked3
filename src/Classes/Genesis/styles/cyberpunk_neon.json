@@ -1,0 +1,210 @@
+{
+  "name_cn": "赛博朋克·霓虹未来",
+  "name_en": "Cyberpunk Neon Future",
+  "category": "科幻未来",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#0D0221",
+        "ratio": "30%",
+        "use": "深紫黑夜空"
+      },
+      {
+        "hex": "#1A0B2E",
+        "ratio": "20%",
+        "use": "霓虹反射暗部"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#FF006E",
+        "ratio": "12%",
+        "use": "霓虹粉"
+      },
+      {
+        "hex": "#00F5FF",
+        "ratio": "10%",
+        "use": "电光青"
+      }
+    ],
+    "accent": [
+      "#FFB400",
+      "#8338EC"
+    ],
+    "mood_tone": "高饱和霓虹,暗紫底色"
+  },
+  "line_style": "锐利硬边+发光描边,1-2px主线条+glow效果",
+  "render": "数字厚涂+霓虹发光,neon-glow texture",
+  "atmosphere": [
+    "压抑",
+    "迷幻",
+    "未来",
+    "颓废",
+    "科技"
+  ],
+  "lighting": "霓虹光源+全息投影+体积光,高饱和发光",
+  "symbols": [
+    "数据流",
+    "全息广告",
+    "机械义肢",
+    "霓虹招牌",
+    "无人机",
+    "芯片"
+  ],
+  "patterns": [
+    "电路纹",
+    "像素格",
+    "故障艺术",
+    "全息网格"
+  ],
+  "prompt_keywords": "Cyberpunk neon future style, high-saturation magenta and cyan neon glow, holographic advertisements, rain-slicked streets, dystopian atmosphere, digital glitch effects, chrome and glass surfaces",
+  "negative_keywords": "ancient mansion, traditional architecture, natural landscape, historical, rural, bright daylight, pastel, watercolor",
+  "suitable_genres": [
+    "科幻",
+    "赛博",
+    "反乌托邦",
+    "未来",
+    "黑客"
+  ],
+  "scene_whitelist": [
+    "全息广场",
+    "地下黑市",
+    "霓虹贫民窟",
+    "数据矩阵",
+    "飞行器内舱",
+    "霓虹小巷",
+    "数据瀑布",
+    "虚拟现实舱",
+    "霓虹街道",
+    "黑客密室",
+    "霓虹港口",
+    "量子计算中心",
+    "天台边缘",
+    "无人机蜂巢",
+    "悬浮餐厅",
+    "飞行摩托库",
+    "机械工厂",
+    "数据墓地",
+    "仿生人诊所",
+    "全息演唱会",
+    "轨道电梯",
+    "地下数据港",
+    "霓虹天桥",
+    "数据服务器农场",
+    "赛博赌场",
+    "悬浮花园",
+    "摩天楼顶层",
+    "机械义体店"
+  ],
+  "scene_blacklist": [
+    "古宅",
+    "传统建筑",
+    "自然田园",
+    "历史场景",
+    "雨夜古宅",
+    "竹林",
+    "古书院",
+    "教堂"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "黑客潜入企业",
+      "location": "霓虹街道",
+      "characters": [
+        "黑客"
+      ],
+      "action": "黑客在霓虹闪烁的街道潜行,全息广告环绕",
+      "mood": "压抑迷幻",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "黑客接入终端",
+      "location": "地下数据港",
+      "characters": [
+        "黑客",
+        "AI"
+      ],
+      "action": "黑客接入数据终端,AI全息投影出现对峙",
+      "mood": "紧张科技",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "黑客对抗特工",
+      "location": "摩天楼顶层",
+      "characters": [
+        "黑客",
+        "特工"
+      ],
+      "action": "黑客与特工在楼顶对决,无人机盘旋",
+      "mood": "激烈未来",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "黑客逃离城市",
+      "location": "霓虹港口",
+      "characters": [
+        "黑客"
+      ],
+      "action": "黑客驾驶飞行摩托冲出城市,霓虹渐远",
+      "mood": "孤独释然",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A lone hacker navigates a neon-drenched alleyway at midnight, holographic advertisements flickering across rain-slicked pavement, the hacker clutching a modified datapad with cybernetic fingers, shot in a moody wide angle from eye level with rule of thirds composition, cyberpunk atmosphere with saturated magenta and cyan neon glow --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 赛博朋克·霓虹未来\n✅ 允许场景: 霓虹街道/数据港/摩天楼/飞行器 (从故事原文提取)\n❌ 禁止场景: 古宅/传统建筑/自然田园/历史场景\n❌ 禁止照抄: 不要用'雨夜古宅',必须用赛博朋克场景\n氛围: 压抑迷幻,霓虹高饱和",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use cyberpunk scenes (neon streets, data hubs, skyscrapers). Do NOT use ancient mansions, traditional buildings, or natural landscapes. Adapt to the story's actual setting in a cyberpunk context.",
+  "meta_prompt": "Cyberpunk neon future, high-saturation magenta and cyan glow, holographic elements, rain-slicked surfaces, dystopian atmosphere, chrome and glass",
+  "scene_templates": [
+    {
+      "scene": "霓虹街道",
+      "mood": "压抑迷幻",
+      "lighting": "霓虹反射+全息投影",
+      "composition": "一点透视,街道纵深"
+    },
+    {
+      "scene": "地下数据港",
+      "mood": "紧张科技",
+      "lighting": "屏幕蓝光+服务器绿",
+      "composition": "对称式,机柜排列"
+    },
+    {
+      "scene": "摩天楼顶层",
+      "mood": "孤高冷酷",
+      "lighting": "城市灯火+玻璃反光",
+      "composition": "三分法,人物靠右"
+    },
+    {
+      "scene": "霓虹小巷",
+      "mood": "危险隐秘",
+      "lighting": "招牌粉光+蒸汽白雾",
+      "composition": "引导线,小巷延伸"
+    },
+    {
+      "scene": "全息广场",
+      "mood": "未来宏大",
+      "lighting": "全息彩光+体积光束",
+      "composition": "中心构图,全息居中"
+    }
+  ],
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "科技探索者·沉浸赛博世界",
+    "content_adaptation": "进阶技术概念可视化, 需读者有数字文化基础"
+  },
+  "reader_constraint": {
+    "reader_state": "科技爱好者·渴望未来感冲击",
+    "reader_mode": "沉浸式探索",
+    "reader_expectation": "霓虹光影+赛博朋克叙事+高密度信息层叠"
+  },
+  "visual_frequency": {
+    "HF": "霓虹招牌/全息投影/雨夜反光(高频视觉锚点)",
+    "MF": "建筑轮廓/人物剪影/机械细节(中频叙事支撑)",
+    "LF": "远景雾霭/天空渐变/背景虚化(低频氛围底色)",
+    "color_mapping": {
+      "HF": "#FF00FF",
+      "MF": "#00FFFF",
+      "LF": "#1A0033"
+    },
+    "progression": "HF密集分布前1/3画面抓眼球, MF中段叙事, LF底部收束氛围"
+  }
+}

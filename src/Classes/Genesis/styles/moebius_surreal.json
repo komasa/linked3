@@ -1,0 +1,123 @@
+{
+  "name_cn": "莫比乌斯·超现实细密",
+  "name_en": "Moebius Surreal Detail",
+  "category": "欧系漫画",
+  "usage_code": "G06",
+  "production_ready": false,
+  "wondershare_ready": false,
+  "industry": "",
+  "reference_source": "Jean Giraud/Moebius《Arzach》《The Incal》/Métal Hurlant",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#D4A574",
+        "ratio": "25%",
+        "use": "沙漠暖黄+超现实底"
+      },
+      {
+        "hex": "#2C1810",
+        "ratio": "20%",
+        "use": "深褐墨线+细密阴影"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#5B8C5A",
+        "ratio": "12%",
+        "use": "异星绿+奇幻"
+      },
+      {
+        "hex": "#8B5CF6",
+        "ratio": "10%",
+        "use": "超现实紫+迷幻"
+      }
+    ],
+    "accent": [
+      "#FF6B35",
+      "#00CED1"
+    ],
+    "mood_tone": "暖色沙漠调+超现实点缀, 迷幻细密"
+  },
+  "line_style": "极细密墨线(0.3-1px)+精密排线+蚀刻质感, 笔触细腻如铜版画",
+  "render": "水彩+彩色铅笔+细密线稿, 超现实色彩+精密细节, 透明叠色",
+  "atmosphere": [
+    "超现实",
+    "迷幻",
+    "奇幻",
+    "孤独",
+    "神秘"
+  ],
+  "lighting": "沙漠日光+异星光+体积光, 暖色为主+冷色点缀",
+  "symbols": [
+    "异星生物",
+    "沙漠",
+    "浮空物",
+    "奇异建筑",
+    "神秘符号",
+    "蛋形物"
+  ],
+  "patterns": [
+    "细密排线",
+    "蚀刻纹理",
+    "沙粒质感",
+    "异星花纹"
+  ],
+  "scene_templates": [
+    {
+      "scene": "沙漠旅途",
+      "mood": "孤独超现实",
+      "lighting": "沙漠日光+长影",
+      "composition": "广角+地平线+孤影"
+    },
+    {
+      "scene": "异星城邦",
+      "mood": "奇幻神秘",
+      "lighting": "异星光+体积光",
+      "composition": "仰视+奇异建筑"
+    },
+    {
+      "scene": "迷幻空间",
+      "mood": "超现实迷幻",
+      "lighting": "柔光+色彩晕染",
+      "composition": "非对称+漂浮元素"
+    },
+    {
+      "scene": "生物特写",
+      "mood": "好奇惊叹",
+      "lighting": "侧光+细密阴影",
+      "composition": "特写+精密细节"
+    }
+  ],
+  "typography": {
+    "font_family_primary": "Garamond / Trajan / 思源宋体",
+    "sfx_style": "手写细线体, 优雅斜体, 透明叠色",
+    "caption_style": "Garamond, 斜体, 柔和底色"
+  },
+  "layout": {
+    "panel_grid_default": "3-4格宽幅网格",
+    "gutter_style": "细线边框, 优雅留白",
+    "splash_page": "全页细密大格用于异星景观",
+    "panel_shape": "宽幅矩形+少量自由形"
+  },
+  "cognitive_level": {
+    "primary": "C",
+    "reader_profile": "成人·艺术漫画爱好者",
+    "content_adaptation": "超现实艺术叙事, 需读者欣赏细密美学与想象力"
+  },
+  "reader_constraint": {
+    "reader_state": "沉浸想象·渴望超现实美学",
+    "reader_mode": "慢速细赏+细节发现",
+    "reader_expectation": "细密线条+超现实色彩+异星想象+艺术质感"
+  },
+  "visual_frequency": {
+    "HF": "细密排线/纹理/异星符号(高频美学细节)",
+    "MF": "人物/生物/建筑形态(中频叙事元素)",
+    "LF": "沙漠/天空/色彩晕染(低频氛围底色)",
+    "color_mapping": {
+      "HF": "#2C1810",
+      "MF": "#5B8C5A",
+      "LF": "#D4A574"
+    },
+    "progression": "HF密集排线营造质感, MF呈现超现实形态, LF大面积暖色晕染"
+  }
+}

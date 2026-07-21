@@ -1,0 +1,175 @@
+{
+  "name_cn": "蒸汽朋克·机械维多利亚",
+  "name_en": "Steampunk Victorian",
+  "category": "复古工业",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#8B4513",
+        "ratio": "25%",
+        "use": "黄铜主体"
+      },
+      {
+        "hex": "#2C1810",
+        "ratio": "20%",
+        "use": "深褐背景"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#B8860B",
+        "ratio": "15%",
+        "use": "古金光泽"
+      },
+      {
+        "hex": "#704214",
+        "ratio": "10%",
+        "use": "铜锈绿"
+      }
+    ],
+    "accent": [
+      "#FFD700",
+      "#4A2C2A"
+    ],
+    "mood_tone": "黄铜暖调,机械质感"
+  },
+  "line_style": "精细蚀刻+机械纹理,2-3px主线条+齿轮细节",
+  "render": "油画厚涂+金属质感,brass-texture overlay",
+  "atmosphere": [
+    "复古",
+    "工业",
+    "机械",
+    "冒险",
+    "怀旧"
+  ],
+  "lighting": "煤气灯暖光+蒸汽雾气,中等对比暖调",
+  "symbols": [
+    "齿轮",
+    "蒸汽管道",
+    "黄铜仪表",
+    "飞艇",
+    "护目镜",
+    "怀表"
+  ],
+  "patterns": [
+    "齿轮纹",
+    "铆钉排列",
+    "蒸汽管道",
+    "维多利亚花纹"
+  ],
+  "prompt_keywords": "Steampunk Victorian style, brass and copper machinery, steam-powered devices, Victorian era fashion, sepia warm tones, intricate gear mechanisms, industrial revolution aesthetic",
+  "negative_keywords": "modern technology, digital screens, neon, cyberpunk, minimalism, bright pastel, anime",
+  "suitable_genres": [
+    "蒸汽朋克",
+    "维多利亚",
+    "冒险",
+    "发明家",
+    "机械"
+  ],
+  "scene_whitelist": [
+    "蒸汽船舱",
+    "蒸汽火车站",
+    "机械动物园",
+    "发明家工作室",
+    "机械钟塔",
+    "维多利亚街道",
+    "黄铜实验室",
+    "发明家阁楼",
+    "飞艇码头",
+    "机械工坊",
+    "齿轮塔楼",
+    "蒸汽矿坑",
+    "黄铜控制室",
+    "地下矿道",
+    "蒸汽酒馆",
+    "维多利亚书房",
+    "铜管走廊",
+    "蒸汽工厂",
+    "蒸汽实验室",
+    "机械图书馆",
+    "齿轮工厂",
+    "飞艇甲板",
+    "蒸汽火车头",
+    "贵族书房",
+    "钟楼内部"
+  ],
+  "scene_blacklist": [
+    "现代都市",
+    "数字屏幕",
+    "赛博朋克",
+    "霓虹灯",
+    "太空",
+    "极简白墙",
+    "古宅雨夜",
+    "自然田园"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "发明家启动机器",
+      "location": "蒸汽工厂",
+      "characters": [
+        "发明家"
+      ],
+      "action": "发明家拉动黄铜拉杆,蒸汽管道喷出白雾,齿轮开始转动",
+      "mood": "工业怀旧",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "发明家调试装置",
+      "location": "机械工坊",
+      "characters": [
+        "发明家",
+        "助手"
+      ],
+      "action": "发明家与助手在工坊内调试蒸汽装置,仪表指针跳动",
+      "mood": "专注紧张",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "机器失控暴走",
+      "location": "齿轮塔楼",
+      "characters": [
+        "发明家",
+        "机器"
+      ],
+      "action": "蒸汽机器失控,齿轮飞转,发明家紧急制动",
+      "mood": "危机激烈",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "发明家成功收工",
+      "location": "维多利亚街道",
+      "characters": [
+        "发明家"
+      ],
+      "action": "发明家走出工坊,怀表滴答,蒸汽火车驶过",
+      "mood": "释然怀旧",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "An inventor in Victorian attire pulls a brass lever in a steam-filled factory, white vapor billowing from copper pipes, intricate gear mechanisms spinning to life, warm sepia tones with gas-lamp lighting, detailed steampunk machinery --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 蒸汽朋克·机械维多利亚\n✅ 允许场景: 蒸汽工厂/飞艇/维多利亚街道/机械工坊 (从故事原文提取)\n❌ 禁止场景: 现代科技/数字屏幕/赛博朋克/霓虹\n❌ 禁止照抄: 不要用'古宅雨夜',必须用蒸汽机械场景\n氛围: 复古工业,黄铜暖调",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use steampunk scenes (factories, airships, Victorian streets). Do NOT use modern technology, digital screens, or 'ancient mansion'. Emphasize brass machinery and steam power.",
+  "meta_prompt": "Steampunk Victorian style, brass and copper machinery, steam-powered devices, sepia warm tones, intricate gear mechanisms, industrial revolution aesthetic",
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "蒸汽朋克爱好者·探索机械",
+    "content_adaptation": "进阶机械美学, 需蒸汽朋克文化基础"
+  },
+  "reader_constraint": {
+    "reader_state": "机械爱好者·期待蒸汽朋克世界",
+    "reader_mode": "探索式解构",
+    "reader_expectation": "黄铜机械+维多利亚美学+复古未来"
+  },
+  "visual_frequency": {
+    "HF": "齿轮/管道/蒸汽阀门/机械核心(高频机械锚点)",
+    "MF": "维多利亚服饰/建筑结构/铜质外壳(中频时代叙事)",
+    "LF": "蒸汽雾霭/远景城市/暗部细节(低频氛围)",
+    "color_mapping": {
+      "HF": "#B8860B",
+      "MF": "#B87333",
+      "LF": "#3D2817"
+    },
+    "progression": "HF齿轮机械密集抓眼球, MF维多利亚风格叙事, LF蒸汽雾霭造氛围"
+  }
+}

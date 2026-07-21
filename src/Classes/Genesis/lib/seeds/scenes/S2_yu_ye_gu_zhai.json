@@ -1,0 +1,10 @@
+{
+    "id": "S2",
+    "name": "雨夜古宅",
+    "base_prompt": "traditional chinese mansion courtyard, rainy night, wooden doors with warm light leaking through cracks, stone pathway, paper lanterns, old trees",
+    "weather": "night_rain",
+    "time": "night",
+    "lighting_default": "warm_door_light_cold_ambient",
+    "mood_base": "eerie, mysterious, gothic oriental",
+    "atmosphere_keywords": ["rain on tile roof", "warm door crack light", "swaying lanterns", "wet stone", "ancient wood"]
+}

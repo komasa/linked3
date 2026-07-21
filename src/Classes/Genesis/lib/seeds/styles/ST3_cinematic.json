@@ -1,0 +1,27 @@
+{
+    "id": "ST3",
+    "name": "影视剧照·电影质感",
+    "name_en": "Cinematic Still",
+    "prompt_keywords": "cinematic still photography, film grain, teal and orange color grading, volumetric lighting, 35mm lens shallow depth of field, realistic skin texture with pores, subsurface scattering, dramatic movie atmosphere, anamorphic lens flare",
+    "negative_keywords": "anime, cartoon, illustration, painting, flat, 2d, stylized, watercolor",
+    "color_palette": {
+        "primary": ["#1A2332", "#2C1810"],
+        "secondary": ["#D4A574", "#8B6914"],
+        "accent": ["#FF6B35", "#00CED1"]
+    },
+    "render": "photorealistic, cinematic color grading, teal-orange LUT, film grain",
+    "lighting": "volumetric light + backlight + practical sources, 35mm cinematic feel",
+    "line_style": "no lines, pure light and shadow shaping",
+    "atmosphere": ["cinematic", "narrative", "immersive", "dramatic", "epic"],
+    "symbols": ["film props", "set design", "costume design"],
+    "suitable_genres": ["电影", "电视剧", "剧情", "悬疑", "动作"],
+    "style_type": "realistic",
+    "camera": "35mm lens, f/2.8, shallow depth of field, cinematic composition",
+    "skin_detail": "realistic skin pores, subtle blemishes, skin oil, subsurface scattering",
+    "lens_params": {
+        "focal_length": "35mm",
+        "aperture": "f/2.8",
+        "iso": "800",
+        "sensor": "full frame"
+    }
+}

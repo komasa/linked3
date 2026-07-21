@@ -1,0 +1,10 @@
+{
+    "shot": ["extreme_wide", "wide", "medium_wide", "medium", "medium_close", "close_up", "extreme_close_up", "macro"],
+    "angle": ["eye_level", "low_angle", "high_angle", "bird_eye", "dutch_angle", "worm_eye"],
+    "light": ["natural", "side_light", "back_light", "rim_light_blue", "rim_light_warm", "hard_shadow", "soft_diffused", "volumetric", "practical_warm", "neon_glow"],
+    "mood": ["calm", "tense", "melancholy", "rage", "mysterious", "hopeful", "desperate", "serene", "horror", "epic"],
+    "composition": ["rule_of_thirds", "diagonal", "center", "symmetric", "leading_lines", "golden_ratio", "frame_within_frame"],
+    "focus": ["subject_face", "subject_eyes", "subject_hands", "environment", "silhouette", "detail_prop"],
+    "particle": ["rain", "snow", "dust", "embers", "petals", "fog_wisps", "none"],
+    "time_shift": ["dawn", "morning", "noon", "afternoon", "dusk", "night", "midnight", "void"]
+}

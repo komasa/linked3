@@ -1,0 +1,18 @@
+{
+    "id": "ST2",
+    "name": "驱魔录·暗黑水墨",
+    "name_en": "Exorcism Dark Ink-Wash",
+    "prompt_keywords": "Chinese dark ink-wash realistic manga style, fusion of traditional Chinese ink painting texture, Japanese dark manga high-contrast dramatic lighting, Western Gothic silhouette aesthetics, rough bold ink-bleed linework, low-saturation cold-tone base with high-saturation crimson and gold accents",
+    "negative_keywords": "bright, cheerful, pastel, anime, cute, 3d render",
+    "color_palette": {
+        "primary": ["#2D3748", "#1A1A1A"],
+        "secondary": ["#D4A574", "#8B0000"],
+        "accent": ["#D4AF37", "#C0392B"]
+    },
+    "render": "ink-wash bleeding texture, digital thick painting, sumi-e influence",
+    "lighting": "side lighting + point light source (lanterns/fire), high contrast chiaroscuro",
+    "line_style": "rough bold ink-bleed, 2-3px outlines + 0.5-1px detail lines",
+    "atmosphere": ["eerie", "murderous", "mysterious", "oppressive", "fatalistic"],
+    "symbols": ["peach wood sword", "copper coins", "talisman", "bagua", "straw hat", "prayer beads"],
+    "suitable_genres": ["灵异", "驱魔", "悬疑", "武侠", "仙侠"]
+}

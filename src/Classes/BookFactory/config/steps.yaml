@@ -1,0 +1,48 @@
+# Linked3 BookFactory 步骤配置 (v19.0)
+#
+# 将步骤定义外部化为配置文件, 替代 v18.x 中 Book_Factory::run_step() 的 switch-case 硬编码。
+# 步骤顺序由文件中的顺序决定, 新增步骤只需在此文件添加条目并实现 BookStepInterface。
+#
+# 字段说明:
+#   id:        步骤唯一标识 (与 Book_Factory::execute_stepN_xxx 方法对应)
+#   label:     步骤显示名称
+#   method:    Book_Factory 中的方法名 (v19.0 适配器模式, 未来可替换为独立类)
+#   next:      下一步骤 ID (null 表示流水线结束)
+#   enabled:   是否启用 (false 可临时跳过该步骤)
+
+steps:
+  - id: step1_demo
+    label: 演示
+    method: execute_step1_demo
+    next: step2_explore
+    enabled: true
+
+  - id: step2_explore
+    label: 探索
+    method: execute_step2_explore
+    next: step3_outline
+    enabled: true
+
+  - id: step3_outline
+    label: 大纲
+    method: execute_step3_outline_iter
+    next: step4_expand
+    enabled: true
+
+  - id: step4_expand
+    label: 扩写
+    method: execute_step4_expand_one
+    next: step5_complete
+    enabled: true
+
+  - id: step5_complete
+    label: 拼接
+    method: execute_step5_complete
+    next: step6_review
+    enabled: true
+
+  - id: step6_review
+    label: 审阅
+    method: execute_step6_review
+    next: null
+    enabled: true

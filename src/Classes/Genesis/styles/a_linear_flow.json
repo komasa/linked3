@@ -1,0 +1,65 @@
+{
+  "name_cn": "线性流程图",
+  "name_en": "Linear Flow",
+  "category": "商业生产级信息图-G5图示专项",
+  "version": "1.0.0",
+  "source": "G5 Track A-05 演化结晶",
+  "color_palette": {
+    "primary": "#31ACF4",
+    "accent": "#FA9960",
+    "background": "#FFFFFF",
+    "description": "流程: 蓝#31ACF4处理+橙#FA9960决策+绿#2EA86B起止"
+  },
+  "typography": {
+    "font_family_primary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "14pt",
+      "body": "11pt"
+    },
+    "description": "无衬线流程字体"
+  },
+  "layout": {
+    "canvas_ratio": "16:9",
+    "module_count_default": 6,
+    "card_style": "ANSI flowchart symbols",
+    "description": "线性流程+决策分支"
+  },
+  "visual_frequency": {
+    "HF": "起止节点",
+    "MF": "处理框",
+    "LF": "决策菱形",
+    "description": "线性流程步骤"
+  },
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "流程设计者",
+    "content_adaptation": "业务流程"
+  },
+  "reader_constraint": {
+    "reader_state": "执行",
+    "reader_mode": "操作",
+    "reader_expectation": "流程步骤"
+  },
+  "prompt_keywords": "linear flowchart, rectangular process boxes, diamond decision nodes, arrow connectors, start/end ovals, numbered steps, ANSI standard",
+  "negative_keywords": "radial, network, organic",
+  "suitable_genres": [
+    "业务流程",
+    "操作步骤",
+    "决策路径"
+  ],
+  "scene_whitelist": [
+    "流程",
+    "步骤",
+    "工作流"
+  ],
+  "scene_blacklist": [
+    "发散思维"
+  ],
+  "style_constraint_cn": "线性流程图: ANSI标准+处理框+决策菱形",
+  "style_constraint_en": "Linear flowchart ONLY. ANSI standard symbols with arrows.",
+  "meta_prompt": "linear flowchart, rectangular process boxes blue #31ACF4, diamond decision nodes orange #FA9960, start/end ovals green #2EA86B, arrow connectors, numbered steps, ANSI standard. --ar 16:9 --s 200 --style raw",
+  "prompt_example": true,
+  "commercial_grade": true,
+  "production_ready": "G5 Track A-05演化结晶",
+  "reference_source": ""
+}

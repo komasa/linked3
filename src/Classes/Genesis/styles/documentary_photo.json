@@ -1,0 +1,171 @@
+{
+  "name_cn": "纪实摄影·新闻质感",
+  "name_en": "Documentary Photography",
+  "category": "真人-纪实",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#808080",
+        "ratio": "25%",
+        "use": "中灰纪实"
+      },
+      {
+        "hex": "#2C2C2C",
+        "ratio": "20%",
+        "use": "深灰阴影"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#A0A0A0",
+        "ratio": "15%",
+        "use": "浅灰高光"
+      },
+      {
+        "hex": "#505050",
+        "ratio": "10%",
+        "use": "暗灰过渡"
+      }
+    ],
+    "accent": [
+      "#D4A574",
+      "#1A1A1A"
+    ],
+    "mood_tone": "真实中灰,新闻质感"
+  },
+  "line_style": "无线条,真实抓拍,高ISO颗粒感",
+  "render": "数码抓拍+新闻后期,documentary grain",
+  "atmosphere": [
+    "真实",
+    "即时",
+    "紧张",
+    "朴素",
+    "现场"
+  ],
+  "lighting": "现场光+闪光灯,高对比硬光,自然光",
+  "symbols": [
+    "新闻现场",
+    "人群",
+    "标语",
+    "设备",
+    "制服"
+  ],
+  "patterns": [
+    "颗粒纹理",
+    "高ISO噪点",
+    "现场抓拍"
+  ],
+  "prompt_keywords": "Documentary photography, photojournalism style, candid moment, high ISO grain, natural lighting, real emotion, news scene authenticity, unposed capture",
+  "negative_keywords": "studio lighting, posed, retouched, cartoon, anime, fantasy, sci-fi, fashion, glamour",
+  "suitable_genres": [
+    "新闻",
+    "纪实",
+    "社会",
+    "事件",
+    "现场"
+  ],
+  "scene_whitelist": [
+    "灾后现场",
+    "学校课堂",
+    "工地劳动",
+    "法庭审判",
+    "法庭内部",
+    "建筑工地",
+    "难民营地",
+    "选举投票",
+    "救援现场",
+    "体育场观众席",
+    "医院急诊",
+    "街头抗议",
+    "集会人群",
+    "市场交易",
+    "新闻发布厅",
+    "学校教室",
+    "市场集会",
+    "工厂车间",
+    "渔港码头",
+    "农田劳作",
+    "边境检查站",
+    "地铁站台",
+    "医院走廊",
+    "抗议游行"
+  ],
+  "scene_blacklist": [
+    "影棚摆拍",
+    "时尚秀场",
+    "奇幻场景",
+    "科幻太空",
+    "古宅雨夜",
+    "赛博朋克",
+    "哥特暗黑"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "记者抵达现场",
+      "location": "新闻发布厅",
+      "characters": [
+        "记者"
+      ],
+      "action": "记者举起相机,闪光灯亮起,记录发言人讲话",
+      "mood": "即时紧张",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "记者采访目击者",
+      "location": "街头现场",
+      "characters": [
+        "记者",
+        "目击者"
+      ],
+      "action": "记者在街头采访目击者,周围人群围观",
+      "mood": "真实朴素",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "记者记录冲突",
+      "location": "抗议现场",
+      "characters": [
+        "记者",
+        "人群"
+      ],
+      "action": "记者在抗议人群中抓拍,标语挥舞,情绪激烈",
+      "mood": "紧张现场",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "记者发稿收工",
+      "location": "编辑部",
+      "characters": [
+        "记者"
+      ],
+      "action": "记者在编辑部整理照片,屏幕光映在脸上",
+      "mood": "疲惫真实",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A photojournalist raises their camera in a crowded press conference, flash illuminating the speaker, high ISO grain, candid documentary moment, natural lighting, real emotion, news scene authenticity --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 纪实摄影·新闻质感\n✅ 允许场景: 新闻现场/街头/工厂/医院 (从故事原文提取)\n❌ 禁止场景: 影棚摆拍/时尚秀场/奇幻/科幻\n❌ 禁止照抄: 不要用'古宅雨夜',必须用真实纪实场景\n氛围: 真实中灰,新闻质感",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. Use realistic documentary scenes (press conferences, streets, factories). Do NOT use studio setups, fantasy, or 'ancient mansion'. Emphasize candid capture and high ISO grain.",
+  "meta_prompt": "Documentary photography, photojournalism style, candid moment, high ISO grain, natural lighting, real emotion, news scene authenticity",
+  "cognitive_level": {
+    "primary": "R",
+    "reader_profile": "大众读者·获取真实信息",
+    "content_adaptation": "入门级纪实, 信息直白易懂"
+  },
+  "reader_constraint": {
+    "reader_state": "信息获取者·期待真实记录",
+    "reader_mode": "信息获取",
+    "reader_expectation": "真实场景+自然光线+客观叙事"
+  },
+  "visual_frequency": {
+    "HF": "主体人物/关键动作/信息文字(高频信息锚点)",
+    "MF": "环境背景/道具细节/中景叙事(中频语境)",
+    "LF": "天空/远景/虚化区(低频氛围)",
+    "color_mapping": {
+      "HF": "#F5F5DC",
+      "MF": "#D2B48C",
+      "LF": "#696969"
+    },
+    "progression": "HF主体居中信息密集, MF环境环绕提供语境, LF远景自然过渡"
+  }
+}

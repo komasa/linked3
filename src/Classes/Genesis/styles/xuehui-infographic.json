@@ -1,0 +1,98 @@
+{
+  "name_cn": "学会写作2.0信息图",
+  "name_en": "Xuehui Writing 2.0 Infographic",
+  "category": "商业生产级信息图",
+  "version": "1.0.0",
+  "source": "《学会写作2.0》(粥左罗著) 原创知识图谱视觉DNA提取",
+
+  "color_palette": {
+    "primary": "#31ACF4",
+    "primary_light": "#CDE2FA",
+    "primary_lighter": "#E8F0FC",
+    "accent": "#FA9960",
+    "accent_light": "#FCDED2",
+    "auxiliary": "#A088FF",
+    "auxiliary_light": "#DFDAFF",
+    "text_primary": "#393939",
+    "text_secondary": "#CCCCCC",
+    "text_title": "#000000",
+    "background": "#FFFFFF",
+    "description": "蓝橙紫三色体系: 主蓝#31ACF4(标题/强调), 橙红#FA9960(对比/CTA), 紫#A088FF(辅助信息), 白底大量留白"
+  },
+
+  "typography": {
+    "font_family_primary": "OPPOSans",
+    "font_family_secondary": "HarmonyOS Sans",
+    "font_sizes": {
+      "main_title": "36pt",
+      "module_title": "24pt",
+      "subtitle": "20pt",
+      "body": "14pt",
+      "detail": "12pt",
+      "annotation": "10pt"
+    },
+    "font_weights": {
+      "title": "bold",
+      "subtitle": "medium",
+      "body": "regular"
+    },
+    "description": "OPPOSans(主) + HarmonyOS Sans(辅), 6级字号层次"
+  },
+
+  "layout": {
+    "canvas_ratio": "3:4 (A3竖版, 1786x2526px)",
+    "module_count_default": 8,
+    "hierarchy_layers": 3,
+    "card_style": "rounded rectangle, border-radius 8px",
+    "card_background": "light blue #E8F0FC or white",
+    "spacing": "generous whitespace between modules",
+    "badges": "numbered circular badges (01-08), top-left of each card",
+    "description": "便当格变体: 模块分区 + 内部3层层级展开(大模块→子主题→细节项)"
+  },
+
+  "visual_frequency": {
+    "HF": "模块标题 + 编号徽章 + 主色强调元素 (前1/3画面密集)",
+    "MF": "子主题 + 正文内容 + 中性色支撑 (中段叙事)",
+    "LF": "细节项 + 标注 + 浅色背景 (底部收束)",
+    "color_mapping": {
+      "HF": "#31ACF4",
+      "MF": "#FA9960",
+      "LF": "#A088FF"
+    },
+    "progression": "HF密集分布前1/3画面抓眼球, MF中段叙事, LF底部收束氛围"
+  },
+
+  "cognitive_level": {
+    "primary": "A",
+    "reader_profile": "内容创作者·知识工作者·渴望系统化方法论",
+    "content_adaptation": "进阶方法论可视化, 需读者有内容创作基础, 术语可占40%"
+  },
+
+  "reader_constraint": {
+    "reader_state": "学习者·渴望系统掌握写作方法论",
+    "reader_mode": "研读模式(深度学习+笔记)",
+    "reader_expectation": "8大模块完整体系 + 每模块3-5个要点 + 可操作步骤"
+  },
+
+  "prompt_keywords": "flat infographic design, rounded rectangle cards, clean three-color system, blue orange purple, white background, sans-serif typography, 3-layer hierarchy, professional knowledge map, no 3D no shadows no gradients, crisp vector, text-embedded cards, numbered badges",
+
+  "negative_keywords": "3D render, shadows, gradients, photorealistic, complex textures, dark background, cluttered, handwritten, sketch, watercolor",
+
+  "suitable_genres": ["知识图谱", "脑图", "信息图", "方法论总结", "技能体系", "商业图示", "教育内容"],
+
+  "scene_whitelist": ["知识总结", "方法论梳理", "技能体系", "学习笔记", "商业报告", "产品介绍", "流程说明"],
+
+  "scene_blacklist": ["真人摄影", "风景照", "艺术插画", "漫画叙事"],
+
+  "style_constraint_cn": "【风格强制约束】当前风格: 学会写作2.0信息图\n✅ 必须: 扁平化设计 + 圆角矩形卡片 + 蓝橙紫三色 + 白底留白 + 无3D无阴影无渐变 + 文字嵌入卡片 + 编号徽章\n❌ 禁止: 3D渲染 + 阴影 + 渐变 + 写实照片 + 复杂纹理 + 暗色背景",
+
+  "style_constraint_en": "IMPORTANT: Flat infographic design ONLY. Rounded rectangle cards with blue #31ACF4 / orange #FA9960 / purple #A088FF three-color system on white background. NO 3D, NO shadows, NO gradients. Text must be embedded inside cards. Use numbered circular badges.",
+
+  "meta_prompt": "flat infographic, rounded rectangle cards, blue #31ACF4 primary, orange #FA9960 accent, purple #A088FF auxiliary, white background, OPPOSans typography, 3-layer hierarchy, numbered badges, professional knowledge map, crisp vector, no 3D no shadows no gradients",
+
+  "prompt_example": "Hook section, flat infographic design, rounded rectangle cards, blue #31ACF4 primary color for title, orange #FA9960 accent for highlights, purple #A088FF for secondary info, white background with light blue #E8F0FC card fills, OPPOSans typography (title 24pt bold, body 12pt regular), 3-layer hierarchy, numbered circular badge 01, generous whitespace, no 3D no shadows no gradients, crisp vector aesthetic, text embedded inside shapes. --ar 3:4 --s 250 --style raw",
+
+  "commercial_grade": true,
+  "production_ready": true,
+  "reference_source": "《学会写作2.0》(粥左罗著) 原创知识图谱(终稿) - 制图:凯歌设计笔记 - 制图软件:亿图图示"
+}

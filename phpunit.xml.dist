@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    cacheResultFile=".phpunit.result.cache"
+    failOnRisky="true"
+    failOnWarning="true"
+>
+    <testsuites>
+        <!-- Critical architecture & contract tests (must always pass) -->
+        <testsuite name="critical">
+            <directory>tests/critical</directory>
+        </testsuite>
+        <!-- Integration tests: cross-module interactions (P12) -->
+        <testsuite name="integration">
+            <directory>tests/integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">src/Classes</directory>
+            <directory suffix=".php">src/Includes</directory>
+        </include>
+        <exclude>
+            <file>src/autoload.php</file>
+            <directory suffix=".php">src/Classes/OS</directory>
+        </exclude>
+    </coverage>
+
+    <php>
+        <ini name="error_reporting" value="E_ALL"/>
+        <ini name="display_errors" value="1"/>
+    </php>
+</phpunit>

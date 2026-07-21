@@ -1,0 +1,181 @@
+{
+  "name_cn": "墨韵·东方灵异",
+  "name_en": "Ink Spirit Variant",
+  "category": "东方灵异",
+  "color_palette": {
+    "primary": [
+      {
+        "hex": "#F5F5DC",
+        "ratio": "30%",
+        "use": "宣纸底色"
+      },
+      {
+        "hex": "#36454F",
+        "ratio": "25%",
+        "use": "墨色主体"
+      }
+    ],
+    "secondary": [
+      {
+        "hex": "#8B0000",
+        "ratio": "12%",
+        "use": "朱砂点缀"
+      },
+      {
+        "hex": "#2F4F4F",
+        "ratio": "10%",
+        "use": "淡墨渲染"
+      }
+    ],
+    "accent": [
+      "#DAA520",
+      "#800020"
+    ],
+    "mood_tone": "留白写意,朱砂点睛"
+  },
+  "line_style": "写意毛笔+飞白枯笔,1-2px主笔+0.3px细节",
+  "render": "宣纸水墨+淡彩渲染,xuan-paper texture",
+  "atmosphere": [
+    "空灵",
+    "诡谲",
+    "飘逸",
+    "幽玄",
+    "出尘"
+  ],
+  "lighting": "散射光+留白负空间,低对比柔和",
+  "symbols": [
+    "毛笔",
+    "朱砂符",
+    "卷轴",
+    "砚台",
+    "纸鹤",
+    "墨滴"
+  ],
+  "patterns": [
+    "留白",
+    "飞白",
+    "泼墨",
+    "破墨"
+  ],
+  "prompt_keywords": "Chinese xuan-paper ink wash painting, expressive brush strokes, minimalist composition with negative space, vermilion seal accents, ethereal supernatural atmosphere, calligraphic line quality",
+  "negative_keywords": "thick oil painting, 3d render, photorealistic, heavy shadows, western style, cyberpunk, neon",
+  "suitable_genres": [
+    "仙侠",
+    "志怪",
+    "文人",
+    "禅意",
+    "玄幻"
+  ],
+  "scene_whitelist": [
+    "雪中梅林",
+    "云深不知处",
+    "茶室幽居",
+    "月下庭院",
+    "山寺晨钟",
+    "竹林听雨",
+    "松下棋亭",
+    "云雾山巅",
+    "寒江独钓",
+    "秋枫古道",
+    "云中楼阁",
+    "荷塘清趣",
+    "瀑布深潭",
+    "松涛深处",
+    "云海仙台",
+    "莲池水榭",
+    "古琴台",
+    "雪夜访友",
+    "禅房静室",
+    "云深处",
+    "古书院",
+    "松下弈棋",
+    "月下独酌",
+    "月夜江畔",
+    "竹林精舍",
+    "石桥流水",
+    "山居草堂",
+    "晨雾竹林",
+    "荷塘月色",
+    "溪山行旅"
+  ],
+  "scene_blacklist": [
+    "现代都市",
+    "血腥场景",
+    "赛博朋克",
+    "西方哥特",
+    "科幻太空",
+    "时尚秀场",
+    "雨夜古宅",
+    "破败废墟",
+    "现代办公室"
+  ],
+  "fp_examples": [
+    {
+      "core_info": "书生夜读遇仙",
+      "location": "古书院",
+      "characters": [
+        "书生",
+        "仙人"
+      ],
+      "action": "书生在烛光下翻阅古籍,窗外仙影飘过",
+      "mood": "空灵幽玄",
+      "plot_point": "开场钩子"
+    },
+    {
+      "core_info": "书生悟道参禅",
+      "location": "禅房静室",
+      "characters": [
+        "书生"
+      ],
+      "action": "书生盘膝而坐,面前墨迹化为符箓升空",
+      "mood": "飘逸出尘",
+      "plot_point": "冲突升级"
+    },
+    {
+      "core_info": "书生御笔封妖",
+      "location": "月下庭院",
+      "characters": [
+        "书生",
+        "妖灵"
+      ],
+      "action": "书生挥毫泼墨,朱砂符箓镇压妖灵",
+      "mood": "诡谲对决",
+      "plot_point": "高潮战斗"
+    },
+    {
+      "core_info": "书生得道飞升",
+      "location": "云海仙台",
+      "characters": [
+        "书生"
+      ],
+      "action": "书生化为一缕墨烟,融入云海深处",
+      "mood": "超脱释然",
+      "plot_point": "收尾闭环"
+    }
+  ],
+  "prompt_example": "A scholar in flowing robes reads ancient texts by candlelight in a traditional study, an ethereal spirit form drifting past the window, expressive ink-wash brush strokes on xuan-paper texture, minimalist composition with generous negative space, vermilion seal accents, ethereal supernatural atmosphere --ar 2:3 --s 750 --style raw --no text",
+  "style_constraint_cn": "【风格强制约束】当前风格: 墨韵·东方灵异\n✅ 允许场景: 书院/禅房/竹林/云海/月庭 (从故事原文提取)\n❌ 禁止场景: 现代都市/血腥/赛博朋克/西方哥特\n❌ 禁止照抄: 不要用'雨夜古宅',本风格偏写意空灵非暗黑\n氛围: 空灵诡谲,留白写意",
+  "style_constraint_en": "IMPORTANT: Extract scenes from the story content. This style is ethereal ink-wash, NOT dark horror. Use minimalist composition with negative space, vermilion accents. Do NOT use 'rainy ancient mansion', modern cities, or cyberpunk.",
+  "meta_prompt": "Chinese xuan-paper ink wash painting, expressive calligraphic brush strokes, minimalist negative space, vermilion seal accents, ethereal supernatural atmosphere, soft diffused lighting",
+  "cognitive_level": {
+    "primary": "E",
+    "reader_profile": "文化研究者·深度解读志怪",
+    "content_adaptation": "专家级变体风格, 延续志怪解读深度"
+  },
+  "reader_constraint": {
+    "reader_state": "文化探索者·期待志怪变体表达",
+    "reader_mode": "深度解读",
+    "reader_expectation": "水墨变体+志怪符号+东方神秘"
+  },
+  "visual_frequency": {
+    "HF": "符箓变体/妖物核心/朱砂印记(高频符号锚点)",
+    "MF": "水墨晕染变体/衣袂/山石(中频意境)",
+    "LF": "留白/远山/雾气(低频禅意)",
+    "color_mapping": {
+      "HF": "#CC0000",
+      "MF": "#4A4A4A",
+      "LF": "#0D0D0D"
+    },
+    "progression": "HF朱砂点睛破墨色, MF水墨变体造意境, LF留白生禅意"
+  }
+}
