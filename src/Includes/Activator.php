@@ -72,42 +72,10 @@ final class Activator
         if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
             \Linked3\Includes\DB\MigrationRunner::run_pending();
         } else {
-            // Fallback: just stamp the version so check_for_updates picks it up later.
             update_option(LINKED3_DB_VERSION_OPTION, LINKED3_DB_VERSION);
         }
 
-        // Schedule the daily DB self-heal check (v0.1.2 will make it real).
-        if (!wp_next_scheduled('linked3_daily_health_check')) {
-            wp_schedule_event(time() + HOUR_IN_SECONDS, 'daily', 'linked3_daily_health_check');
-        }
-        // Schedule the daily token-quota reset (v0.1.10).
-        if (!wp_next_scheduled('linked3_token_reset')) {
-            // Run at 00:05 local.
-            $tomorrow = strtotime('tomorrow 00:05');
-            wp_schedule_event($tomorrow, 'daily', 'linked3_token_reset');
-        }
-        // Schedule the SSE cache cleanup (every 10 min).
-        if (!wp_next_scheduled('linked3_sse_cache_cleanup')) {
-            wp_schedule_event(time() + 10 * MINUTE_IN_SECONDS, 'linked3_every_10min', 'linked3_sse_cache_cleanup');
-        }
-        // Schedule the log prune (daily).
-        if (!wp_next_scheduled('linked3_log_prune')) {
-            wp_schedule_event(time() + HOUR_IN_SECONDS, 'daily', 'linked3_log_prune');
-        }
-        // Schedule the license heartbeat (daily) + subscription check + business optimize.
-        if (!wp_next_scheduled('linked3_license_heartbeat')) {
-            wp_schedule_event(time() + HOUR_IN_SECONDS, 'daily', 'linked3_license_heartbeat');
-        }
-        if (!wp_next_scheduled('linked3_subscription_check')) {
-            wp_schedule_event(time() + 2 * HOUR_IN_SECONDS, 'daily', 'linked3_subscription_check');
-        }
-        if (!wp_next_scheduled('linked3_business_optimize')) {
-            wp_schedule_event(time() + 3 * HOUR_IN_SECONDS, 'daily', 'linked3_business_optimize');
-        }
-        // Schedule the AutoGPT cron (every 10 min).
-        if (!wp_next_scheduled('linked3_autogpt_run')) {
-            wp_schedule_event(time() + 5 * MINUTE_IN_SECONDS, 'linked3_every_10min', 'linked3_autogpt_run');
-        }
+        self::schedule_cron_events();
 
         // Multi-site: tables per blog.
         if (is_multisite()) {
@@ -119,15 +87,46 @@ final class Activator
 
         // v3.3.0: 预设默认 Provider (硅基流动 + 测试 API key),方便用户开箱即用
         static::set_default_provider_config();
+        self::set_default_siliconflow_config();
 
+        flush_rewrite_rules();
+    }
 
-        // v3.8.0: 预设硅基流动默认配置 (安全 try-catch)
+    /**
+     * Schedule all cron events needed by the plugin.
+     *
+     * @return void
+     */
+    private static function schedule_cron_events(): void
+    {
+        $schedules = [
+            ['linked3_daily_health_check',     time() + HOUR_IN_SECONDS,                 'daily'],
+            ['linked3_token_reset',            strtotime('tomorrow 00:05'),              'daily'],
+            ['linked3_sse_cache_cleanup',      time() + 10 * MINUTE_IN_SECONDS,          'linked3_every_10min'],
+            ['linked3_log_prune',              time() + HOUR_IN_SECONDS,                 'daily'],
+            ['linked3_license_heartbeat',      time() + HOUR_IN_SECONDS,                 'daily'],
+            ['linked3_subscription_check',     time() + 2 * HOUR_IN_SECONDS,             'daily'],
+            ['linked3_business_optimize',      time() + 3 * HOUR_IN_SECONDS,             'daily'],
+            ['linked3_autogpt_run',            time() + 5 * MINUTE_IN_SECONDS,           'linked3_every_10min'],
+        ];
+        foreach ($schedules as [$hook, $ts, $recurrence]) {
+            if (!wp_next_scheduled($hook)) {
+                wp_schedule_event($ts, $recurrence, $hook);
+            }
+        }
+    }
+
+    /**
+     * Set default SiliconFlow provider config (v3.8.0).
+     *
+     * @return void
+     */
+    private static function set_default_siliconflow_config(): void
+    {
         try {
             $keys = get_option('linked3_provider_keys', []);
             if (!is_array($keys)) $keys = [];
             if (empty($keys) || empty($keys['siliconflow'])) {
-                // v25.0: Secret_Vault handles demo key fallback
-                
                 update_option('linked3_provider_keys', $keys);
             }
             if (!get_option('linked3_default_provider')) {
@@ -142,8 +141,6 @@ final class Activator
         } catch (\Throwable $e) {
             // 静默
         }
-
-        flush_rewrite_rules();
     }
 
     /**

@@ -55,45 +55,17 @@ class OSGenesisBridge {
 
         // D2角色DNA → Character Seed
         if (!empty($reverse_result['D2_character_dna'])) {
-            $char = $reverse_result['D2_character_dna'];
-            $seed['character'] = [
-                'gender_age' => $char['gender_age'] ?? '',
-                'hair' => $char['hair'] ?? '',
-                'face' => $char['face'] ?? '',
-                'body' => $char['body'] ?? '',
-                'costume' => $char['costume'] ?? '',
-                'accessory' => $char['accessory'] ?? '',
-                'pose' => $char['pose'] ?? '',
-                'expression' => $char['expression'] ?? '',
-                'special_mark' => $char['special_mark'] ?? '',
-            ];
+            $seed['character'] = self::mapCharacterSeed($reverse_result['D2_character_dna']);
         }
 
         // D6场景背景 → Scene Seed
         if (!empty($reverse_result['D6_scene_background'])) {
-            $scene = $reverse_result['D6_scene_background'];
-            $seed['scene'] = [
-                'location' => $scene['location'] ?? '',
-                'architecture' => $scene['architecture'] ?? '',
-                'nature' => $scene['nature'] ?? '',
-                'props' => $scene['props'] ?? '',
-                'atmosphere' => $scene['atmosphere'] ?? '',
-                'time' => $scene['time'] ?? '',
-                'weather' => $scene['weather'] ?? '',
-            ];
+            $seed['scene'] = self::mapSceneSeed($reverse_result['D6_scene_background']);
         }
 
         // D3色彩系统 → Color Palette
         if (!empty($reverse_result['D3_color_system'])) {
-            $color = $reverse_result['D3_color_system'];
-            $seed['color_palette'] = [
-                'primary' => $color['primary'] ?? '',
-                'secondary' => $color['secondary'] ?? '',
-                'accent' => $color['accent'] ?? '',
-                'background' => $color['background'] ?? '',
-                'lighting' => $color['lighting'] ?? '',
-                'shadow_depth' => $color['shadow_depth'] ?? '',
-            ];
+            $seed['color_palette'] = self::mapColorSeed($reverse_result['D3_color_system']);
         }
 
         // D1整体风格 + D8_META标签 → Style Fingerprint
@@ -114,6 +86,42 @@ class OSGenesisBridge {
         }
 
         return $seed;
+    }
+
+    /**
+     * Map D2 character DNA to Genesis seed format.
+     */
+    private static function mapCharacterSeed(array $char): array {
+        $fields = ['gender_age', 'hair', 'face', 'body', 'costume', 'accessory', 'pose', 'expression', 'special_mark'];
+        $result = [];
+        foreach ($fields as $f) {
+            $result[$f] = $char[$f] ?? '';
+        }
+        return $result;
+    }
+
+    /**
+     * Map D6 scene background to Genesis seed format.
+     */
+    private static function mapSceneSeed(array $scene): array {
+        $fields = ['location', 'architecture', 'nature', 'props', 'atmosphere', 'time', 'weather'];
+        $result = [];
+        foreach ($fields as $f) {
+            $result[$f] = $scene[$f] ?? '';
+        }
+        return $result;
+    }
+
+    /**
+     * Map D3 color system to Genesis seed format.
+     */
+    private static function mapColorSeed(array $color): array {
+        $fields = ['primary', 'secondary', 'accent', 'background', 'lighting', 'shadow_depth'];
+        $result = [];
+        foreach ($fields as $f) {
+            $result[$f] = $color[$f] ?? '';
+        }
+        return $result;
     }
 
     /**
