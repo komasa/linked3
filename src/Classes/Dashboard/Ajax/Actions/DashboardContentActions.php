@@ -17,8 +17,9 @@ class DashboardContentActions extends DashboardBaseAjaxAction
 {
     public static function register()
     : void {
-        add_action('wp_ajax_linked3_generate_outline', [__CLASS__, 'generate_outline']);
-        add_action('wp_ajax_linked3_generate_section', [__CLASS__, 'generate_section']);
+        // generate_outline / generate_section delegates removed:
+        // LongFormWriter already registers and implements these hooks.
+        // The ghost delegates here would intercept and return 501.
         add_action('wp_ajax_linked3_generate_chart_prompts', [__CLASS__, 'generate_chart_prompts']);
     }
 
