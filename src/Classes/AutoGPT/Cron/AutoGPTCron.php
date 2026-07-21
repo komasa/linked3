@@ -51,20 +51,35 @@ final class AutoGPTCron
                 return; // 不在时间段内,跳过本次执行
             }
         }
-        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
-        $log = Logger::instance();
-        $due = $repo->get_due_tasks();
-        $log->info('cron', sprintf('AutoGPT: %d due tasks', count($due)));
 
-        // Global concurrency limit by plan.
-        $plan = \Linked3\Classes\License\LicenseService::instance()->plan();
-        $concurrency = ['free' => 1, 'pro' => 3, 'premium' => 10][$plan] ?? 1;
-        $run = 0;
         $started = time();
 
+        self::process_due_tasks($started);
+
+        // 2) Drain the task_queue: retry any pending items whose scheduled_for
+        //    has arrived. This is the async-retry path for failed publish / AI
+        //    calls that were enqueued by processors.
+        self::drain_task_queue($started);
+    }
+
+    /**
+     * Process all due tasks subject to concurrency + wall-clock budget.
+     *
+     * @param int $started  Timestamp when the tick started.
+     * @return void
+     */
+    private static function process_due_tasks(int $started): void
+    {
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
+        $log  = Logger::instance();
+        $due  = $repo->get_due_tasks();
+        $log->info('cron', sprintf('AutoGPT: %d due tasks', count($due)));
+
+        $plan         = \Linked3\Classes\License\LicenseService::instance()->plan();
+        $concurrency  = ['free' => 1, 'pro' => 3, 'premium' => 10][$plan] ?? 1;
+        $run          = 0;
+
         foreach ($due as $task) {
-            // Wall-clock safety: bail before PHP's set_time_limit kills us
-            // mid-AI-call (which would leave the task in an undefined state).
             if ((time() - $started) > self::TICK_BUDGET_SECONDS) {
                 $log->warning('cron', sprintf(
                     'AutoGPT tick budget %ds exceeded after %d/%d tasks — remaining deferred to next tick',
@@ -75,9 +90,8 @@ final class AutoGPTCron
             if ($run >= $concurrency) break;
 
             $task['config'] = json_decode($task['config'], true) ?: [];
-
-            // v3.0.0: smart schedule 检查 — 时间窗 + 精确到分钟
             $cfg = $task['config'];
+
             if (!self::is_within_smart_schedule($cfg)) {
                 $log->info('cron', sprintf('Task #%d skipped: not in smart schedule window', $task['id']));
                 continue;
@@ -92,11 +106,11 @@ final class AutoGPTCron
                 continue;
             }
 
-            $ok = false;
+            $ok      = false;
             $message = '';
             try {
-                $result = $processor->process($task);
-                $ok = !empty($result['ok']);
+                $result  = $processor->process($task);
+                $ok      = !empty($result['ok']);
                 $message = $result['message'] ?? '';
             } catch (\Exception $e) {
                 $message = $e->getMessage();
@@ -110,37 +124,32 @@ final class AutoGPTCron
             ));
 
             if ($ok) {
-                // v0.8.0 fix: reset the breaker on success so a task that
-                // failed twice then succeeded does NOT accumulate to the
-                // threshold across days (original code only ever incremented,
-                // never reset → a flapping task would eventually pause even
-                // though its most recent run was healthy).
                 delete_transient('linked3_agpt_fail_' . $task['id']);
-                // Also clear the persistent option-based counter.
                 delete_option(LINKED3_OPTION_PREFIX . 'agpt_fail_' . $task['id']);
             } else {
-                // v0.8.0 fix: original code only tripped the breaker inside
-                // the catch block — meaning processors that consistently
-                // returned ['ok' => false] (e.g. all AI calls soft-failed,
-                // no articles written, all comments skipped) would NEVER
-                // pause, silently leaking tokens every tick. Now any failure
-                // (exception OR ok:false) advances the breaker.
                 self::trip_breaker($repo, $task, $message);
             }
             $run++;
         }
+    }
 
-        // 2) Drain the task_queue: retry any pending items whose scheduled_for
-        //    has arrived. This is the async-retry path for failed publish / AI
-        //    calls that were enqueued by processors.
+    /**
+     * Drain the async-retry queue: process pending items whose scheduled_for has arrived.
+     *
+     * @param int $started  Timestamp when the tick started.
+     * @return void
+     */
+    private static function drain_task_queue(int $started): void
+    {
+        $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         $queue_items = $repo->dequeue(5);
+
         foreach ($queue_items as $item) {
             if ((time() - $started) > self::TICK_BUDGET_SECONDS) break;
 
-            $payload = $item['payload'] ?? [];
+            $payload      = $item['payload'] ?? [];
             $payload_type = $payload['type'] ?? '';
 
-            // v3.0.0: 处理独立的分发/发布重试项 (task_id=0)
             if ((int) $item['task_id'] === 0 && in_array($payload_type, ['distribute_retry', 'publish_retry'], true)) {
                 self::process_standalone_retry($item);
                 continue;
@@ -152,7 +161,6 @@ final class AutoGPTCron
                 continue;
             }
             $task['config'] = json_decode($task['config'], true) ?: [];
-            // Merge queue payload into task config for this one-shot run.
             if (!empty($payload) && is_array($payload)) {
                 $task['config'] = array_merge($task['config'], $payload);
             }
@@ -161,7 +169,6 @@ final class AutoGPTCron
                 $repo->mark_queue_done($item['id'], 'error', __('无处理器。', 'linked3'));
                 continue;
             }
-            // Claim the item (mark in-progress) so other ticks don't double-run.
             $repo->mark_queue_done($item['id'], 'processing', '');
             try {
                 $r = $processor->process($task);

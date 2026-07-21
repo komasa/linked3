@@ -121,64 +121,110 @@ final class KeywordFetcher
     /** 通用解析器 (替代原 parse_source_response switch-case + 7 个 fetch_*_hot 解析)。 */
     private function parse(array $config, string $body, int $limit): array
     {
-        $words = [];
-
         if ($config['parser'] === 'json_path') {
-            $json = json_decode($body, true);
-            if (!is_array($json)) {
-                return [];
-            }
-            // 导航点分路径 (如 'data.cards.0.content')
-            $list = $json;
-            foreach (explode('.', $config['path']) as $key) {
-                if (!is_array($list) || !isset($list[$key])) {
-                    return [];
-                }
-                $list = $list[$key];
-            }
-            if (!is_array($list)) {
-                return [];
-            }
-            // 提取字段 (支持嵌套如 'target.title')
-            foreach ($list as $item) {
-                $val = $item;
-                foreach (explode('.', $config['field']) as $fld) {
-                    $val = is_array($val) && isset($val[$fld]) ? $val[$fld] : '';
-                    if ($val === '') break;
-                }
-                $word = is_string($val) ? trim($val) : '';
-                if ($word !== '') {
-                    $words[] = $word;
-                }
-                if (count($words) >= $limit) {
-                    break;
-                }
-            }
-        } elseif ($config['parser'] === 'xml') {
-            $xml = @simplexml_load_string($body);
-            if (!$xml) {
-                return [];
-            }
-            $items = $xml;
-            foreach (explode('.', $config['path']) as $part) {
-                $items = $items->$part;
-            }
-            if (!$items) {
-                return [];
-            }
-            $field = $config['field'];
-            foreach ($items as $item) {
-                $word = (string)($item->$field ?? '');
-                if ($word !== '') {
-                    $words[] = $word;
-                }
-                if (count($words) >= $limit) {
-                    break;
-                }
-            }
+            return $this->parse_json_path($config, $body, $limit);
+        }
+        if ($config['parser'] === 'xml') {
+            return $this->parse_xml($config, $body, $limit);
+        }
+        return [];
+    }
+
+    /**
+     * Parse JSON response using dot-notation path + field extraction.
+     *
+     * @param array  $config
+     * @param string $body
+     * @param int    $limit
+     * @return array
+     */
+    private function parse_json_path(array $config, string $body, int $limit): array
+    {
+        $json = json_decode($body, true);
+        if (!is_array($json)) {
+            return [];
         }
 
+        // Navigate dot-path (e.g. 'data.cards.0.content')
+        $list = $json;
+        foreach (explode('.', $config['path']) as $key) {
+            if (!is_array($list) || !isset($list[$key])) {
+                return [];
+            }
+            $list = $list[$key];
+        }
+        if (!is_array($list)) {
+            return [];
+        }
+
+        $words = [];
+        foreach ($list as $item) {
+            $val = $this->extract_nested_field($item, $config['field']);
+            $word = is_string($val) ? trim($val) : '';
+            if ($word !== '') {
+                $words[] = $word;
+            }
+            if (count($words) >= $limit) {
+                break;
+            }
+        }
         return $words;
+    }
+
+    /**
+     * Parse XML response using SimpleXML path + field extraction.
+     *
+     * @param array  $config
+     * @param string $body
+     * @param int    $limit
+     * @return array
+     */
+    private function parse_xml(array $config, string $body, int $limit): array
+    {
+        $xml = @simplexml_load_string($body);
+        if (!$xml) {
+            return [];
+        }
+
+        $items = $xml;
+        foreach (explode('.', $config['path']) as $part) {
+            $items = $items->$part;
+        }
+        if (!$items) {
+            return [];
+        }
+
+        $field  = $config['field'];
+        $words  = [];
+        foreach ($items as $item) {
+            $word = (string)($item->$field ?? '');
+            if ($word !== '') {
+                $words[] = $word;
+            }
+            if (count($words) >= $limit) {
+                break;
+            }
+        }
+        return $words;
+    }
+
+    /**
+     * Extract a nested field value using dot-notation.
+     *
+     * @param mixed  $item
+     * @param string $field_path
+     * @return mixed
+     */
+    private function extract_nested_field($item, string $field_path)
+    {
+        $val = $item;
+        foreach (explode('.', $field_path) as $fld) {
+            $val = is_array($val) && isset($val[$fld]) ? $val[$fld] : '';
+            if ($val === '') {
+                break;
+            }
+        }
+        return $val;
     }
 
     /** 百度搜索建议 (有种子词时使用)。 */

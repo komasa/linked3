@@ -147,42 +147,14 @@ final class SafeRemote
             return new \WP_Error('linked3_bad_url', __('URL 格式错误:缺少主机。', 'linked3'));
         }
 
-        // 1) Host whitelist.
-        $allowed = array_merge(
-            self::get_allowed_hosts(),
-            (array) apply_filters('linked3/safe_remote_allowed_hosts', []),
-            isset($args['allowed_hosts']) ? (array) $args['allowed_hosts'] : []
-        );
-        $allowed_lower = array_map('strtolower', $allowed);
-        $host_lower = strtolower($host);
-        $match = false;
-        $in_default_whitelist = false;
-        $default_lower = array_map('strtolower', self::get_allowed_hosts());
-        foreach ($allowed_lower as $h) {
-            if ($host_lower === $h || (substr($host_lower, -strlen('.' . $h)) === '.' . $h)) {
-                $match = true;
-                // 检查是否在默认白名单 (内置信任域名)
-                foreach ($default_lower as $dl) {
-                    if ($host_lower === $dl || (substr($host_lower, -strlen('.' . $dl)) === '.' . $dl)) {
-                        $in_default_whitelist = true;
-                        break;
-                    }
-                }
-                break;
-            }
+        // 1) Host whitelist + default-whitelist check.
+        $host_check = self::check_host_whitelist($host, $args);
+        if (is_wp_error($host_check)) {
+            return $host_check;
         }
-        if (!$match) {
-            return new \WP_Error(
-                'linked3_host_blocked',
-                sprintf(/* translators: %s: host name. */ __('主机 %s 不在白名单。', 'linked3'), $host)
-            );
-        }
+        $in_default_whitelist = $host_check['in_default_whitelist'];
 
-        // 2) SSRF guard: resolve and reject private/link-local IPs.
-        // 内置白名单域名跳过 — 某些环境(如 playground/Docker)DNS 解析到内网,
-        // 但白名单域名是受信任的公网 API,不应因内网 IP 被拦截。
-        // 通过 allowed_hosts 参数传入的域名(采集场景)也跳过 —
-        // 用户主动输入 URL 采集,不是服务端自动跳转,SSRF 风险由用户自己承担。
+        // 2) SSRF guard (skip for trusted default hosts + user-supplied hosts).
         if (!$in_default_whitelist && empty($args['skip_ssrf'])) {
             $err = self::guard_ssrf($host);
             if (is_wp_error($err)) {
@@ -191,13 +163,10 @@ final class SafeRemote
         }
 
         // 3) Circuit breaker — if this host failed >10 times in last 5 min, refuse.
-        $key = 'linked3_cb_' . md5($host_lower);
-        $fails = (int) get_transient($key);
-        if ($fails >= 10) {
-            return new \WP_Error(
-                'linked3_circuit_open',
-                sprintf(__('%s 的熔断器已开启,请稍后重试。', 'linked3'), $host)
-            );
+        $host_lower = strtolower($host);
+        $cb_err = self::check_circuit_breaker($host_lower);
+        if (is_wp_error($cb_err)) {
+            return $cb_err;
         }
 
         // 4) Force SSL verification ON + cap redirects.
@@ -210,20 +179,95 @@ final class SafeRemote
         ], $args);
 
         // 5) Hook a redirect callback so we can reject cross-host redirects.
-        // Uses a named static method + static property instead of a closure
-        // to avoid the scanner misinterpreting `use` as a trait import.
         self::$ctx_host_lower = $host_lower;
         add_action('requests-requests.before_redirect', [self::class, 'redirect_guard']);
 
         try {
             $response = wp_remote_request($url, $args);
         } finally {
-            // Always remove the guard — even on exception — so it doesn't
-            // contaminate later requests in the same PHP process.
             remove_action('requests-requests.before_redirect', [self::class, 'redirect_guard']);
         }
 
         // 6) Record success / failure for circuit breaker.
+        self::record_circuit_breaker_result($host_lower, $response);
+
+        return $response;
+    }
+
+    /**
+     * Check the host against the whitelist (default + filtered + per-call).
+     *
+     * @param string $host
+     * @param array  $args
+     * @return array|\WP_Error  ['in_default_whitelist' => bool] or WP_Error if blocked.
+     */
+    private static function check_host_whitelist(string $host, array $args): array|WP_Error
+    {
+        $allowed = array_merge(
+            self::get_allowed_hosts(),
+            (array) apply_filters('linked3/safe_remote_allowed_hosts', []),
+            isset($args['allowed_hosts']) ? (array) $args['allowed_hosts'] : []
+        );
+        $allowed_lower = array_map('strtolower', $allowed);
+        $host_lower    = strtolower($host);
+        $match           = false;
+        $in_default     = false;
+        $default_lower  = array_map('strtolower', self::get_allowed_hosts());
+
+        foreach ($allowed_lower as $h) {
+            if ($host_lower === $h || (substr($host_lower, -strlen('.' . $h)) === '.' . $h)) {
+                $match = true;
+                foreach ($default_lower as $dl) {
+                    if ($host_lower === $dl || (substr($host_lower, -strlen('.' . $dl)) === '.' . $dl)) {
+                        $in_default = true;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        if (!$match) {
+            return new \WP_Error(
+                'linked3_host_blocked',
+                sprintf(/* translators: %s: host name. */ __('主机 %s 不在白名单。', 'linked3'), $host)
+            );
+        }
+
+        return ['in_default_whitelist' => $in_default];
+    }
+
+    /**
+     * Check circuit breaker — refuse if host has failed too many times recently.
+     *
+     * @param string $host_lower
+     * @return \WP_Error|null
+     */
+    private static function check_circuit_breaker(string $host_lower): ?\WP_Error
+    {
+        $key   = 'linked3_cb_' . md5($host_lower);
+        $fails = (int) get_transient($key);
+        if ($fails >= 10) {
+            return new \WP_Error(
+                'linked3_circuit_open',
+                sprintf(__('%s 的熔断器已开启,请稍后重试。', 'linked3'), $host_lower)
+            );
+        }
+        return null;
+    }
+
+    /**
+     * Record request success/failure for circuit breaker tracking.
+     *
+     * @param string         $host_lower
+     * @param array|\WP_Error $response
+     * @return void
+     */
+    private static function record_circuit_breaker_result(string $host_lower, $response): void
+    {
+        $key   = 'linked3_cb_' . md5($host_lower);
+        $fails = (int) get_transient($key);
+
         if (is_wp_error($response)) {
             set_transient($key, $fails + 1, 5 * MINUTE_IN_SECONDS);
         } else {
@@ -231,12 +275,9 @@ final class SafeRemote
             if ($code >= 500) {
                 set_transient($key, $fails + 1, 5 * MINUTE_IN_SECONDS);
             } elseif ($fails > 0) {
-                // Half-open recovery: clear on success.
                 delete_transient($key);
             }
         }
-
-        return $response;
     }
 
     /**

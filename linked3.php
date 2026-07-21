@@ -233,6 +233,11 @@ if (version_compare(PHP_VERSION, '7.4.0', '<')) {
 // -----------------------------------------------------------------------------
 require_once LINKED3_DIR . 'src/autoload.php';
 
+// v27.6.2: AjaxNonceGuard — centralized nonce verification middleware.
+require_once LINKED3_DIR . 'src/Includes/AjaxNonceGuard.php';
+add_action('admin_init', ['\\Linked3\\Includes\\AjaxNonceGuard', 'init'], 1);
+add_action('admin_footer', ['\\Linked3\\Includes\\AjaxNonceGuard', 'print_nonce_script'], 999);
+
 // v19.2-fix: Load BookFactory Traits BEFORE any class that uses them.
 require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-outline-merger.php';
 require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-cost-tracker.php';
