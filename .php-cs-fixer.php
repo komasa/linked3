@@ -62,7 +62,6 @@ return (new PhpCsFixer\Config())
         // ── 函数规范 ──────────────────────────────────
         'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'none'],
-        'method_visibility_required' => true,
         'visibility_required' => true,
         
         // ── 类规范 ────────────────────────────────────
@@ -92,9 +91,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_var_without_name' => true,
         
         // ── 现代PHP特性 ───────────────────────────────
-        'short_list_syntax' => true,
         'list_syntax' => ['syntax' => 'short'],
-        'normalize_index_brace' => true,
         'dir_constant' => true,
         'modernize_types_casting' => true,
         'no_alias_functions' => true,
@@ -134,7 +131,6 @@ return (new PhpCsFixer\Config())
         'no_whitespace_in_blank_line' => true,
         
         // ── 安全相关 ──────────────────────────────────
-        'no_eval' => true,
         'no_alias_language_construct_call' => true,
     ])
     ->setFinder($finder)

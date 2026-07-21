@@ -3,7 +3,7 @@
     PHP_CodeSniffer 配置 — Linked3 AI 商业生产级标准
     
     标准: PSR-12 + WordPress 安全相关规则
-    使用: vendor/bin/phpcs --standard=phpcs.xml src/ lib/ admin/
+    使用: vendor/bin/phpcs -standard=phpcs.xml src/ lib/ admin/
 -->
 <ruleset name="Linked3-AI-Production">
     <description>Linked3 AI 商业生产级编码规范 — PSR-12 + WordPress Security</description>

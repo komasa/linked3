@@ -48,7 +48,7 @@ final class SeoMetaGenerator
      * }
      * @return array {title, seo_meta, focus_keyword, excerpt, tags}
      */
-    public static function generate_all(array $args) : void {
+    public static function generate_all(array $args) : array {
         $title = $args['title'] ?? '';
         $topic = $args['topic'] ?? '';
         $keywords = $args['keywords'] ?? '';
