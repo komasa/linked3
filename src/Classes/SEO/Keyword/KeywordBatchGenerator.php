@@ -39,24 +39,8 @@ final class KeywordBatchGenerator
         $generated     = 0;
         $errors         = [];
 
-        // 加载模板配置 (v2.6.0: template_id 是 get_all() 的 1-based 索引)
-        $tpl_config = [];
-        if ($template_id > 0 && class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
-            $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
-            $all = $tpl_mgr->get_all();
-            $idx = $template_id - 1;
-            if (isset($all[$idx])) {
-                $tpl_config = $all[$idx]['config'] ?? [];
-            }
-        }
-
-        // 读高级设置
-        $require_html = false;
-        if (class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
-            $enhancer = new \Linked3\Classes\Core\AIEnhancer();
-            $adv = $enhancer->get_settings();
-            $require_html = !empty($adv['require_html']);
-        }
+        $tpl_config   = $this->load_template_config($template_id);
+        $require_html = $this->load_require_html_setting();
 
         foreach ($keywords as $keyword) {
             $keyword = trim($keyword);
@@ -65,47 +49,13 @@ final class KeywordBatchGenerator
             }
 
             try {
-                if (!empty($custom_prompt)) {
-                    $prompt = str_replace(['{keyword}', '{word_count}'], [$keyword, $tpl_config['word_count'] ?? 1200], $custom_prompt);
-                    if (strpos($custom_prompt, '{keyword}') === false) {
-                        $prompt = $custom_prompt . "\n\n关键词: " . $keyword;
-                    }
-                    $result = AIDispatcher::instance()->chat(
-                        [['role' => 'user', 'content' => $prompt]],
-                        ['temperature' => 0.7, 'max_tokens' => 2000, 'module' => 'keyword_batch'],
-                        ['fallback_providers' => []]
-                    );
-                } else {
-                    $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([
-                        'tone'         => $tpl_config['tone'] ?? 'professional',
-                        'language'     => 'zh-CN',
-                        'complexity'   => $tpl_config['complexity'] ?? 'intermediate',
-                        'seo_focus'    => true,
-                        'require_html' => $require_html,
-                    ]);
-                    $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build([
-                        'keyword'    => $keyword,
-                        'word_count' => $tpl_config['word_count'] ?? 1200,
-                    ]);
-                    if (!empty($tpl_config['prompt'])) {
-                        $user = str_replace(['{keyword}', '{title}', '{word_count}'], [$keyword, $keyword, $tpl_config['word_count'] ?? 1200], $tpl_config['prompt']);
-                    }
-                    if ($additional) {
-                        $user .= "\n\n额外要求:{$additional}";
-                    }
-
-                    try { // v19.3.0: AI 调用容错
-                        $result = AIDispatcher::instance()->chat(
-                            [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],
-                            ['temperature' => $tpl_config['temperature'] ?? 0.7, 'max_tokens' => $tpl_config['max_tokens'] ?? 2000, 'module' => 'keyword_batch'],
-                            ['fallback_providers' => []]
-                        );
-                    } catch (\Throwable $e) {
-                        // FIX: 原 line 613 调用 $this->log(...) 把 Logger 对象当方法调用 (Fatal error)
-                        $this->log->error('keyword', "关键词批量生成失败 [{$keyword}]: " . $e->getMessage());
-                        continue;
-                    }
-                }
+                $result = $this->generate_for_keyword(
+                    $keyword,
+                    $tpl_config,
+                    $custom_prompt,
+                    $additional,
+                    $require_html
+                );
 
                 $content = $result['content'] ?? '';
                 $content = $this->append_ai_suffix($content);
@@ -128,6 +78,139 @@ final class KeywordBatchGenerator
         }
 
         return ['generated' => $generated, 'errors' => $errors];
+    }
+
+    /**
+     * Load template configuration by 1-based index.
+     *
+     * @param int $template_id
+     * @return array
+     */
+    private function load_template_config(int $template_id): array
+    {
+        if ($template_id <= 0 || !class_exists('\\Linked3\\Classes\\Templates\\TemplateManager')) {
+            return [];
+        }
+        $tpl_mgr = new \Linked3\Classes\Templates\TemplateManager();
+        $all     = $tpl_mgr->get_all();
+        $idx     = $template_id - 1;
+        return $all[$idx]['config'] ?? [];
+    }
+
+    /**
+     * Check whether the AIEnhancer require_html setting is active.
+     *
+     * @return bool
+     */
+    private function load_require_html_setting(): bool
+    {
+        if (!class_exists('\\Linked3\\Classes\\Core\\AIEnhancer')) {
+            return false;
+        }
+        $enhancer = new \Linked3\Classes\Core\AIEnhancer();
+        $adv      = $enhancer->get_settings();
+        return !empty($adv['require_html']);
+    }
+
+    /**
+     * Generate AI content for a single keyword.
+     *
+     * @param string $keyword
+     * @param array  $tpl_config
+     * @param string $custom_prompt
+     * @param string $additional
+     * @param bool   $require_html
+     * @return array
+     */
+    private function generate_for_keyword(
+        string $keyword,
+        array $tpl_config,
+        string $custom_prompt,
+        string $additional,
+        bool $require_html
+    ): array {
+        if (!empty($custom_prompt)) {
+            return $this->generate_with_custom_prompt($keyword, $custom_prompt, $tpl_config);
+        }
+        return $this->generate_with_template($keyword, $tpl_config, $additional, $require_html);
+    }
+
+    /**
+     * Generate using a custom prompt template.
+     *
+     * @param string $keyword
+     * @param string $custom_prompt
+     * @param array  $tpl_config
+     * @return array
+     */
+    private function generate_with_custom_prompt(string $keyword, string $custom_prompt, array $tpl_config): array
+    {
+        $prompt = str_replace(
+            ['{keyword}', '{word_count}'],
+            [$keyword, $tpl_config['word_count'] ?? 1200],
+            $custom_prompt
+        );
+        if (strpos($custom_prompt, '{keyword}') === false) {
+            $prompt = $custom_prompt . "\n\n关键词: " . $keyword;
+        }
+        return AIDispatcher::instance()->chat(
+            [['role' => 'user', 'content' => $prompt]],
+            ['temperature' => 0.7, 'max_tokens' => 2000, 'module' => 'keyword_batch'],
+            ['fallback_providers' => []]
+        );
+    }
+
+    /**
+     * Generate using system + user prompt from template config.
+     *
+     * @param string $keyword
+     * @param array  $tpl_config
+     * @param string $additional
+     * @param bool   $require_html
+     * @return array
+     */
+    private function generate_with_template(
+        string $keyword,
+        array $tpl_config,
+        string $additional,
+        bool $require_html
+    ): array {
+        $sys = (new \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder())->build([
+            'tone'         => $tpl_config['tone'] ?? 'professional',
+            'language'     => 'zh-CN',
+            'complexity'   => $tpl_config['complexity'] ?? 'intermediate',
+            'seo_focus'    => true,
+            'require_html' => $require_html,
+        ]);
+        $user = (new \Linked3\Classes\ContentWriter\Prompt\UserPromptBuilder())->build([
+            'keyword'    => $keyword,
+            'word_count' => $tpl_config['word_count'] ?? 1200,
+        ]);
+        if (!empty($tpl_config['prompt'])) {
+            $user = str_replace(
+                ['{keyword}', '{title}', '{word_count}'],
+                [$keyword, $keyword, $tpl_config['word_count'] ?? 1200],
+                $tpl_config['prompt']
+            );
+        }
+        if ($additional) {
+            $user .= "\n\n额外要求:{$additional}";
+        }
+
+        try {
+            return AIDispatcher::instance()->chat(
+                [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],
+                [
+                    'temperature' => $tpl_config['temperature'] ?? 0.7,
+                    'max_tokens'  => $tpl_config['max_tokens'] ?? 2000,
+                    'module'      => 'keyword_batch',
+                ],
+                ['fallback_providers' => []]
+            );
+        } catch (\Throwable $e) {
+            $this->log->error('keyword', "关键词批量生成失败 [{$keyword}]: " . $e->getMessage());
+            return ['content' => ''];
+        }
     }
 
     /** AI 附加备注 (原版 enable_random_identifier + AI 标识符后缀)。 */
