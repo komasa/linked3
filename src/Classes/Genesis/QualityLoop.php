@@ -136,144 +136,21 @@ class QualityLoop
         $validation  = (array)($shot_data['validation'] ?? []);
         $dialogue    = (string)($shot_data['dialogue'] ?? $script['dialogue'] ?? '');
         $fp_core     = (array)($shot_data['fp_core'] ?? []);
-        $seed_refs   = (array)($shot_data['seed_refs'] ?? []);
-        $character_seeds = $meta['character_seeds'] ?? [];
 
         $dims = [];
-
-        // 1. 视觉(比例/边框/留白) — prompt 含竖屏比例 9:16 或 --ar 2:3
-        $has_ratio = (preg_match('#9\s*:\s*16#', $prompt) || preg_match('#--ar\s*2\s*:\s*3#i', $prompt) || preg_match('#--ar\s*9\s*:\s*16#i', $prompt));
-        $has_frame = (bool) preg_match('#\b(frame|border|margin|padding|留白|边框)\b#i', $prompt);
-        if ($has_ratio && $has_frame) {
-            $dims['visual_ratio'] = ['passed' => true, 'score' => 100, 'msg' => '比例(竖屏)+边框/留白均声明'];
-        } elseif ($has_ratio) {
-            $dims['visual_ratio'] = ['passed' => true, 'score' => 70, 'msg' => '竖屏比例已声明, 边框/留白未显式表达'];
-        } else {
-            $dims['visual_ratio'] = ['passed' => false, 'score' => 0, 'msg' => '缺少 --ar 2:3 或 9:16 竖屏比例'];
-        }
-
-        // 2. 咬合(图文位置) — dialogue 存在且与画面描述对齐 (action_en 引用 dialogue 关键词)
-        $action_en = (string)($fp_core['action_en'] ?? '');
-        if ($dialogue === '') {
-            $dims['image_text_fit'] = ['passed' => true, 'score' => 60, 'msg' => '无画面文案, 咬合校验降级通过'];
-        } elseif ($action_en !== '' && self::text_overlap($dialogue, $action_en)) {
-            $dims['image_text_fit'] = ['passed' => true, 'score' => 90, 'msg' => 'dialogue 与画面描述语义对齐'];
-        } else {
-            $dims['image_text_fit'] = ['passed' => false, 'score' => 30, 'msg' => 'dialogue 与画面 action_en 未对齐, 咬合断裂'];
-        }
-
-        // 3. 系统(色彩/终点/质感) — color palette 存在 (兼顾 endpoint + texture)
-        $color = $meta['color'] ?? ($shot_data['color'] ?? '');
-        $endpoint = $shot_data['endpoint'] ?? ($meta['endpoint'] ?? '');
-        $texture = (bool) preg_match('#\b(ink|watercolor|oil painting|photography|cinematic|pencil|charcoal|neon|grain)\b#i', $prompt);
-        $sub = 0;
-        if (!empty($color)) $sub += 40;
-        if (!empty($endpoint)) $sub += 30;
-        if ($texture) $sub += 30;
-        $dims['system_color'] = [
-            'passed' => $sub >= 60,
-            'score'  => $sub,
-            'msg'    => $sub >= 60 ? '色彩/终点/质感系统完备' : '色彩系统缺失, 需补 color palette / endpoint / texture',
-        ];
-
-        // 4. 竖屏(16字原则) — 关键文案 dialogue ≤16 字
-        $dialogue_len = mb_strlen(trim($dialogue));
-        if ($dialogue === '') {
-            $dims['vertical_16'] = ['passed' => true, 'score' => 80, 'msg' => '无画面文案, 默认通过'];
-        } elseif ($dialogue_len <= 16) {
-            $dims['vertical_16'] = ['passed' => true, 'score' => 100, 'msg' => sprintf('画面文案 %d 字 ≤16, 符合竖屏 16 字原则', $dialogue_len)];
-        } else {
-            $dims['vertical_16'] = ['passed' => false, 'score' => max(0, 100 - ($dialogue_len - 16) * 5), 'msg' => sprintf('画面文案 %d 字超过 16 字, 需精简', $dialogue_len)];
-        }
-
-        // 5. 3层深度 — META / Script / Validation 三层都存在且非空
-        $layer_count = 0;
-        if (!empty($meta) && (!empty($meta['signature']) || !empty($meta['color']) || !empty($meta['character_seeds']))) $layer_count++;
-        if (!empty($script) && (!empty($script['arc_position']) || !empty($script['dialogue']) || !empty($script['emotion']))) $layer_count++;
-        if (!empty($validation) && (!empty($validation['visual_consistency']) || !empty($validation['narrative_completeness']))) $layer_count++;
-        $dims['three_layer_depth'] = [
-            'passed' => $layer_count === 3,
-            'score'  => (int) ($layer_count / 3 * 100),
-            'msg'    => sprintf('三层深度命中 %d/3 (META/Script/Validation)', $layer_count),
-        ];
-
-        // 6. 4层锚点 — subject / location / action / mood 全部声明
-        $anchors = [
-            'subject'  => !empty($fp_core['who']) || !empty($shot_data['subject']),
-            'location' => !empty($fp_core['where']) || !empty($shot_data['location']),
-            'action'   => !empty($fp_core['action_en']) || !empty($fp_core['what']),
-            'mood'     => !empty($script['emotion']) || !empty($shot_data['emotion']) || !empty($meta['mood']),
-        ];
-        $anchor_count = count(array_filter($anchors));
-        $dims['four_anchor'] = [
-            'passed' => $anchor_count === 4,
-            'score'  => (int) ($anchor_count / 4 * 100),
-            'msg'    => sprintf('4 层锚点命中 %d/4 (subject/location/action/mood), 缺失: %s', $anchor_count, implode(',', array_keys(array_filter($anchors, fn($v) => !$v))) ?: '无'),
-        ];
-
-        // 7. 图示选择 — diagram_type 已声明
-        $diagram_type = $shot_data['diagram_type'] ?? ($meta['diagram_type'] ?? '');
-        $dims['diagram_choice'] = [
-            'passed' => !empty($diagram_type),
-            'score'  => !empty($diagram_type) ? 100 : 0,
-            'msg'    => !empty($diagram_type) ? sprintf('图示类型: %s', $diagram_type) : '未选择图示类型 (建议从 Diagram Registry 中选定)',
-        ];
-
-        // 8. Endpoint选择 — endpoint 已声明 (终点/silhouette)
-        $dims['endpoint_choice'] = [
-            'passed' => !empty($endpoint),
-            'score'  => !empty($endpoint) ? 100 : 0,
-            'msg'    => !empty($endpoint) ? sprintf('Endpoint: %s', $endpoint) : '未选择 Endpoint (终点/silhouette)',
-        ];
-
-        // 9. Footer选择 — footer/署名 已声明
-        $footer = $shot_data['footer'] ?? ($meta['footer'] ?? '');
-        $dims['footer_choice'] = [
-            'passed' => !empty($footer) || !empty($meta['signature']),
-            'score'  => (!empty($footer) ? 70 : 0) + (!empty($meta['signature']) ? 30 : 0),
-            'msg'    => !empty($footer) ? sprintf('Footer: %s', $footer) : (!empty($meta['signature']) ? '已有 signature 兜底' : '未选择 Footer (建议补署名/Logo 文案)'),
-        ];
-
-        // 10. 追问选择 — followup/CTA 已声明
-        $followup = $shot_data['followup'] ?? ($script['followup'] ?? '');
-        $dims['followup_choice'] = [
-            'passed' => !empty($followup),
-            'score'  => !empty($followup) ? 100 : 0,
-            'msg'    => !empty($followup) ? sprintf('追问/CTA: %s', $followup) : '未声明追问/CTA, 互动闭环不完整',
-        ];
-
-        // 11. 关系编码 — prompt 含位置/关系关键词
-        $has_relation = (bool) preg_match('#\b(left of|right of|next to|behind|in front of|above|below|beside|between|surrounding|in the center)\b#i', $prompt);
-        $dims['relation_encoding'] = [
-            'passed' => $has_relation,
-            'score'  => $has_relation ? 100 : 40,
-            'msg'    => $has_relation ? '关系编码已声明 (位置/前后/邻接)' : '缺少关系编码, 视觉元素间位置关系不明确',
-        ];
-
-        // 12. 认知6级 — cognitive_level 命中 Bloom 6 级之一
-        $valid_levels = ['remember', 'understand', 'apply', 'analyze', 'evaluate', 'create'];
-        $cog = strtolower((string)($shot_data['cognitive_level'] ?? ($meta['cognitive_level'] ?? '')));
-        $dims['cognitive_6'] = [
-            'passed' => in_array($cog, $valid_levels, true),
-            'score'  => in_array($cog, $valid_levels, true) ? 100 : 0,
-            'msg'    => in_array($cog, $valid_levels, true) ? sprintf('认知层级: %s', $cog) : '未声明认知层级 (remember/understand/apply/analyze/evaluate/create)',
-        ];
-
-        // 13. 密度4档 — density 命中 4 档之一
-        $valid_density = ['low', 'mid', 'high', 'ultra'];
-        $density = strtolower((string)($shot_data['density'] ?? ($meta['density'] ?? '')));
-        if (!in_array($density, $valid_density, true)) {
-            $plen = str_word_count($prompt);
-            if ($plen < 30) $density = 'low';
-            elseif ($plen < 60) $density = 'mid';
-            elseif ($plen < 100) $density = 'high';
-            else $density = 'ultra';
-        }
-        $dims['density_4'] = [
-            'passed' => true,
-            'score'  => in_array($density, ['low', 'mid'], true) ? 100 : 70,
-            'msg'    => sprintf('信息密度: %s', $density),
-        ];
+        $dims['visual_ratio']      = self::checkVisualRatio($prompt);
+        $dims['image_text_fit']    = self::checkImageTextFit($dialogue, $fp_core);
+        $dims['system_color']      = self::checkSystemColor($prompt, $meta, $shot_data);
+        $dims['vertical_16']       = self::checkVertical16($dialogue);
+        $dims['three_layer_depth'] = self::checkThreeLayerDepth($meta, $script, $validation);
+        $dims['four_anchor']       = self::checkFourAnchor($fp_core, $script, $shot_data);
+        $dims['diagram_choice']    = self::checkDiagramChoice($shot_data, $meta);
+        $dims['endpoint_choice']   = self::checkEndpointChoice($shot_data, $meta);
+        $dims['footer_choice']     = self::checkFooterChoice($shot_data, $meta);
+        $dims['followup_choice']   = self::checkFollowupChoice($shot_data, $script);
+        $dims['relation_encoding'] = self::checkRelationEncoding($prompt);
+        $dims['cognitive_6']       = self::checkCognitive6($shot_data, $meta);
+        $dims['density_4']         = self::checkDensity4($shot_data, $meta, $prompt);
 
         $passed_count = count(array_filter($dims, fn($d) => !empty($d['passed'])));
         $total = count(self::PQS_DIMENSIONS);
@@ -285,6 +162,206 @@ class QualityLoop
             'total'         => $total,
             'overall_score' => $overall,
             'passed'        => $overall >= 80.0,
+        ];
+    }
+
+    /**
+     * 1. 视觉(比例/边框/留白) — prompt 含竖屏比例 9:16 或 --ar 2:3
+     */
+    private static function checkVisualRatio(string $prompt): array
+    {
+        $has_ratio = (preg_match('#9\s*:\s*16#', $prompt) || preg_match('#--ar\s*2\s*:\s*3#i', $prompt) || preg_match('#--ar\s*9\s*:\s*16#i', $prompt));
+        $has_frame = (bool) preg_match('#\b(frame|border|margin|padding|留白|边框)\b#i', $prompt);
+        if ($has_ratio && $has_frame) {
+            return ['passed' => true, 'score' => 100, 'msg' => '比例(竖屏)+边框/留白均声明'];
+        }
+        if ($has_ratio) {
+            return ['passed' => true, 'score' => 70, 'msg' => '竖屏比例已声明, 边框/留白未显式表达'];
+        }
+        return ['passed' => false, 'score' => 0, 'msg' => '缺少 --ar 2:3 或 9:16 竖屏比例'];
+    }
+
+    /**
+     * 2. 咬合(图文位置) — dialogue 存在且与画面描述对齐 (action_en 引用 dialogue 关键词)
+     */
+    private static function checkImageTextFit(string $dialogue, array $fp_core): array
+    {
+        $action_en = (string)($fp_core['action_en'] ?? '');
+        if ($dialogue === '') {
+            return ['passed' => true, 'score' => 60, 'msg' => '无画面文案, 咬合校验降级通过'];
+        }
+        if ($action_en !== '' && self::text_overlap($dialogue, $action_en)) {
+            return ['passed' => true, 'score' => 90, 'msg' => 'dialogue 与画面描述语义对齐'];
+        }
+        return ['passed' => false, 'score' => 30, 'msg' => 'dialogue 与画面 action_en 未对齐, 咬合断裂'];
+    }
+
+    /**
+     * 3. 系统(色彩/终点/质感) — color palette 存在 (兼顾 endpoint + texture)
+     */
+    private static function checkSystemColor(string $prompt, array $meta, array $shot_data): array
+    {
+        $color = $meta['color'] ?? ($shot_data['color'] ?? '');
+        $endpoint = $shot_data['endpoint'] ?? ($meta['endpoint'] ?? '');
+        $texture = (bool) preg_match('#\b(ink|watercolor|oil painting|photography|cinematic|pencil|charcoal|neon|grain)\b#i', $prompt);
+        $sub = 0;
+        if (!empty($color)) $sub += 40;
+        if (!empty($endpoint)) $sub += 30;
+        if ($texture) $sub += 30;
+        return [
+            'passed' => $sub >= 60,
+            'score'  => $sub,
+            'msg'    => $sub >= 60 ? '色彩/终点/质感系统完备' : '色彩系统缺失, 需补 color palette / endpoint / texture',
+        ];
+    }
+
+    /**
+     * 4. 竖屏(16字原则) — 关键文案 dialogue ≤16 字
+     */
+    private static function checkVertical16(string $dialogue): array
+    {
+        $dialogue_len = mb_strlen(trim($dialogue));
+        if ($dialogue === '') {
+            return ['passed' => true, 'score' => 80, 'msg' => '无画面文案, 默认通过'];
+        }
+        if ($dialogue_len <= 16) {
+            return ['passed' => true, 'score' => 100, 'msg' => sprintf('画面文案 %d 字 ≤16, 符合竖屏 16 字原则', $dialogue_len)];
+        }
+        return ['passed' => false, 'score' => max(0, 100 - ($dialogue_len - 16) * 5), 'msg' => sprintf('画面文案 %d 字超过 16 字, 需精简', $dialogue_len)];
+    }
+
+    /**
+     * 5. 3层深度 — META / Script / Validation 三层都存在且非空
+     */
+    private static function checkThreeLayerDepth(array $meta, array $script, array $validation): array
+    {
+        $layer_count = 0;
+        if (!empty($meta) && (!empty($meta['signature']) || !empty($meta['color']) || !empty($meta['character_seeds']))) $layer_count++;
+        if (!empty($script) && (!empty($script['arc_position']) || !empty($script['dialogue']) || !empty($script['emotion']))) $layer_count++;
+        if (!empty($validation) && (!empty($validation['visual_consistency']) || !empty($validation['narrative_completeness']))) $layer_count++;
+        return [
+            'passed' => $layer_count === 3,
+            'score'  => (int) ($layer_count / 3 * 100),
+            'msg'    => sprintf('三层深度命中 %d/3 (META/Script/Validation)', $layer_count),
+        ];
+    }
+
+    /**
+     * 6. 4层锚点 — subject / location / action / mood 全部声明
+     */
+    private static function checkFourAnchor(array $fp_core, array $script, array $shot_data): array
+    {
+        $anchors = [
+            'subject'  => !empty($fp_core['who']) || !empty($shot_data['subject']),
+            'location' => !empty($fp_core['where']) || !empty($shot_data['location']),
+            'action'   => !empty($fp_core['action_en']) || !empty($fp_core['what']),
+            'mood'     => !empty($script['emotion']) || !empty($shot_data['emotion']) || !empty($shot_data['meta']['mood'] ?? null),
+        ];
+        $anchor_count = count(array_filter($anchors));
+        return [
+            'passed' => $anchor_count === 4,
+            'score'  => (int) ($anchor_count / 4 * 100),
+            'msg'    => sprintf('4 层锚点命中 %d/4 (subject/location/action/mood), 缺失: %s', $anchor_count, implode(',', array_keys(array_filter($anchors, fn($v) => !$v))) ?: '无'),
+        ];
+    }
+
+    /**
+     * 7. 图示选择 — diagram_type 已声明
+     */
+    private static function checkDiagramChoice(array $shot_data, array $meta): array
+    {
+        $diagram_type = $shot_data['diagram_type'] ?? ($meta['diagram_type'] ?? '');
+        return [
+            'passed' => !empty($diagram_type),
+            'score'  => !empty($diagram_type) ? 100 : 0,
+            'msg'    => !empty($diagram_type) ? sprintf('图示类型: %s', $diagram_type) : '未选择图示类型 (建议从 Diagram Registry 中选定)',
+        ];
+    }
+
+    /**
+     * 8. Endpoint选择 — endpoint 已声明 (终点/silhouette)
+     */
+    private static function checkEndpointChoice(array $shot_data, array $meta): array
+    {
+        $endpoint = $shot_data['endpoint'] ?? ($meta['endpoint'] ?? '');
+        return [
+            'passed' => !empty($endpoint),
+            'score'  => !empty($endpoint) ? 100 : 0,
+            'msg'    => !empty($endpoint) ? sprintf('Endpoint: %s', $endpoint) : '未选择 Endpoint (终点/silhouette)',
+        ];
+    }
+
+    /**
+     * 9. Footer选择 — footer/署名 已声明
+     */
+    private static function checkFooterChoice(array $shot_data, array $meta): array
+    {
+        $footer = $shot_data['footer'] ?? ($meta['footer'] ?? '');
+        return [
+            'passed' => !empty($footer) || !empty($meta['signature']),
+            'score'  => (!empty($footer) ? 70 : 0) + (!empty($meta['signature']) ? 30 : 0),
+            'msg'    => !empty($footer) ? sprintf('Footer: %s', $footer) : (!empty($meta['signature']) ? '已有 signature 兜底' : '未选择 Footer (建议补署名/Logo 文案)'),
+        ];
+    }
+
+    /**
+     * 10. 追问选择 — followup/CTA 已声明
+     */
+    private static function checkFollowupChoice(array $shot_data, array $script): array
+    {
+        $followup = $shot_data['followup'] ?? ($script['followup'] ?? '');
+        return [
+            'passed' => !empty($followup),
+            'score'  => !empty($followup) ? 100 : 0,
+            'msg'    => !empty($followup) ? sprintf('追问/CTA: %s', $followup) : '未声明追问/CTA, 互动闭环不完整',
+        ];
+    }
+
+    /**
+     * 11. 关系编码 — prompt 含位置/关系关键词
+     */
+    private static function checkRelationEncoding(string $prompt): array
+    {
+        $has_relation = (bool) preg_match('#\b(left of|right of|next to|behind|in front of|above|below|beside|between|surrounding|in the center)\b#i', $prompt);
+        return [
+            'passed' => $has_relation,
+            'score'  => $has_relation ? 100 : 40,
+            'msg'    => $has_relation ? '关系编码已声明 (位置/前后/邻接)' : '缺少关系编码, 视觉元素间位置关系不明确',
+        ];
+    }
+
+    /**
+     * 12. 认知6级 — cognitive_level 命中 Bloom 6 级之一
+     */
+    private static function checkCognitive6(array $shot_data, array $meta): array
+    {
+        $valid_levels = ['remember', 'understand', 'apply', 'analyze', 'evaluate', 'create'];
+        $cog = strtolower((string)($shot_data['cognitive_level'] ?? ($meta['cognitive_level'] ?? '')));
+        return [
+            'passed' => in_array($cog, $valid_levels, true),
+            'score'  => in_array($cog, $valid_levels, true) ? 100 : 0,
+            'msg'    => in_array($cog, $valid_levels, true) ? sprintf('认知层级: %s', $cog) : '未声明认知层级 (remember/understand/apply/analyze/evaluate/create)',
+        ];
+    }
+
+    /**
+     * 13. 密度4档 — density 命中 4 档之一
+     */
+    private static function checkDensity4(array $shot_data, array $meta, string $prompt): array
+    {
+        $valid_density = ['low', 'mid', 'high', 'ultra'];
+        $density = strtolower((string)($shot_data['density'] ?? ($meta['density'] ?? '')));
+        if (!in_array($density, $valid_density, true)) {
+            $plen = str_word_count($prompt);
+            if ($plen < 30) $density = 'low';
+            elseif ($plen < 60) $density = 'mid';
+            elseif ($plen < 100) $density = 'high';
+            else $density = 'ultra';
+        }
+        return [
+            'passed' => true,
+            'score'  => in_array($density, ['low', 'mid'], true) ? 100 : 70,
+            'msg'    => sprintf('信息密度: %s', $density),
         ];
     }
 

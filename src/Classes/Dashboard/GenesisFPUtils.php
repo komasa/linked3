@@ -136,38 +136,81 @@ class GenesisFPUtils
         $text = preg_replace('/^```(?:json)?\s*/i', '', $text);
         $text = preg_replace('/\s*```$/', '', $text);
 
-        $decoded = json_decode($text, true);
-        if (is_array($decoded)) {
-            $nodes = $decoded['nodes'] ?? $decoded['panels'] ?? $decoded['scenes'] ?? $decoded;
-            if (is_array($nodes) && !empty($nodes)) {
-                return self::normalizeFPNodes($nodes);
-            }
+        // 1. 直接 JSON 解析
+        $nodes = self::parseFromDirectJson($text);
+        if ($nodes !== null) {
+            return $nodes;
         }
 
-        if (preg_match('/\{[\s\S]*\}/', $text, $m)) {
-            $obj = json_decode($m[0], true);
-            if (is_array($obj)) {
-                $nodes = $obj['nodes'] ?? $obj['panels'] ?? $obj['scenes'] ?? [];
-                if (is_array($nodes) && !empty($nodes)) {
-                    return self::normalizeFPNodes($nodes);
-                }
-            }
+        // 2. 从文本中提取嵌入的 JSON 对象
+        $nodes = self::parseFromEmbeddedJson($text);
+        if ($nodes !== null) {
+            return $nodes;
         }
 
-        if (preg_match_all('/\{[^{}]*"node_id"[^{}]*\}/', $text, $matches)) {
-            $nodes = [];
-            foreach ($matches[0] as $m) {
-                $decoded = json_decode($m, true);
-                if (is_array($decoded) && !empty($decoded['action'])) {
-                    $nodes[] = $decoded;
-                }
-            }
-            if (count($nodes) >= 2) {
-                return self::normalizeFPNodes($nodes);
-            }
+        // 3. 正则提取单个 node_id 对象
+        $nodes = self::parseFromRegexNodes($text);
+        if ($nodes !== null) {
+            return $nodes;
         }
 
         return [];
+    }
+
+    /**
+     * 直接 JSON 解码整个文本.
+     */
+    private static function parseFromDirectJson(string $text): ?array
+    {
+        $decoded = json_decode($text, true);
+        if (!is_array($decoded)) {
+            return null;
+        }
+        $nodes = $decoded['nodes'] ?? $decoded['panels'] ?? $decoded['scenes'] ?? $decoded;
+        if (is_array($nodes) && !empty($nodes)) {
+            return self::normalizeFPNodes($nodes);
+        }
+        return null;
+    }
+
+    /**
+     * 从文本中正则提取嵌入的 JSON 对象.
+     */
+    private static function parseFromEmbeddedJson(string $text): ?array
+    {
+        if (!preg_match('/\{[\s\S]*\}/', $text, $m)) {
+            return null;
+        }
+        $obj = json_decode($m[0], true);
+        if (!is_array($obj)) {
+            return null;
+        }
+        $nodes = $obj['nodes'] ?? $obj['panels'] ?? $obj['scenes'] ?? [];
+        if (is_array($nodes) && !empty($nodes)) {
+            return self::normalizeFPNodes($nodes);
+        }
+        return null;
+    }
+
+    /**
+     * 正则逐个提取 node_id 对象.
+     */
+    private static function parseFromRegexNodes(string $text): ?array
+    {
+        if (!preg_match_all('/\{[^{}]*"node_id"[^{}]*\}/', $text, $matches)) {
+            return null;
+        }
+        $nodes = [];
+        foreach ($matches[0] as $m) {
+            $decoded = json_decode($m, true);
+            if (is_array($decoded) && !empty($decoded['action'])) {
+                $nodes[] = $decoded;
+            }
+        }
+        if (count($nodes) >= 2) {
+            return self::normalizeFPNodes($nodes);
+        }
+        return null;
     }
 
     public static function normalizeFPNodes(array $nodes): array

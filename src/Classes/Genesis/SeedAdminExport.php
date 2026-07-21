@@ -19,6 +19,25 @@ class SeedAdminExport
         $seed = GenesisSeedCPT::get($post_id);
         if (!$seed) return '';
 
+        $lines = [];
+        self::appendMdHeader($lines, $seed, $post_id);
+        self::appendMdVisualDNA($lines, $seed['visual_dna'] ?? []);
+        self::appendMdPersonalityDNA($lines, $seed['personality_dna'] ?? []);
+        self::appendMdPriority($lines, $seed['priority'] ?? []);
+        self::appendMdLock($lines, $seed['lock'] ?? []);
+        self::appendMdAIAdapter($lines, $seed['ai_adapter'] ?? []);
+
+        $lines[] = '---';
+        $lines[] = sprintf('<!-- linked3_seed post_id="%d" seed_id="%s" -->', $post_id, esc_attr($seed['seed_id'] ?? ''));
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * 导出 Markdown 头部元信息.
+     */
+    private static function appendMdHeader(array &$lines, array $seed, $post_id): void
+    {
         $sid   = $seed['seed_id'] ?? '';
         $title = $seed['title'] ?? '';
         $cat   = $seed['seed_category'] ?? '';
@@ -27,7 +46,6 @@ class SeedAdminExport
         $parent = $seed['parent_seed'] ?? '';
         $project = $seed['project_ref'] ?? '';
 
-        $lines = [];
         $lines[] = sprintf('# %sSeed: %s', ucfirst($cat), $sid ?: $title);
         $lines[] = '';
         $lines[] = sprintf('> %s | %s | %s', $title, $cat_label, self::$TYPES[$type] ?? $type);
@@ -36,92 +54,112 @@ class SeedAdminExport
         $lines[] = '';
         $lines[] = sprintf('Exported: %s', current_time('mysql'));
         $lines[] = '';
+    }
 
-        // VisualDNA
-        $vdna = $seed['visual_dna'] ?? [];
-        if (is_array($vdna) && !empty($vdna)) {
-            $lines[] = '## VisualDNA';
-            $lines[] = '';
-            foreach (self::$VISUAL_FIELDS as $key => $label) {
-                if (isset($vdna[$key]) && $vdna[$key] !== '') {
-                    $lines[] = sprintf('- **%s**: %s', $label, $vdna[$key]);
+    /**
+     * 导出 VisualDNA 段.
+     */
+    private static function appendMdVisualDNA(array &$lines, array $vdna): void
+    {
+        if (!is_array($vdna) || empty($vdna)) {
+            return;
+        }
+        $lines[] = '## VisualDNA';
+        $lines[] = '';
+        foreach (self::$VISUAL_FIELDS as $key => $label) {
+            if (isset($vdna[$key]) && $vdna[$key] !== '') {
+                $lines[] = sprintf('- **%s**: %s', $label, $vdna[$key]);
+            }
+        }
+        // 额外字段
+        $extra = $vdna;
+        foreach (self::$VISUAL_FIELDS as $k => $_) unset($extra[$k]);
+        foreach ($extra as $k => $v) {
+            $lines[] = sprintf('- **%s**: %s', $k, is_array($v) ? wp_json_encode($v, JSON_UNESCAPED_UNICODE) : $v);
+        }
+        $lines[] = '';
+    }
+
+    /**
+     * 导出 PersonalityDNA 段.
+     */
+    private static function appendMdPersonalityDNA(array &$lines, array $pdna): void
+    {
+        if (!is_array($pdna) || empty($pdna)) {
+            return;
+        }
+        $lines[] = '## PersonalityDNA';
+        $lines[] = '';
+        foreach (self::$PERSONALITY_FIELDS as $key => $label) {
+            if (isset($pdna[$key]) && $pdna[$key] !== '') {
+                $lines[] = sprintf('- **%s**: %s', $label, $pdna[$key]);
+            }
+        }
+        $extra = $pdna;
+        foreach (self::$PERSONALITY_FIELDS as $k => $_) unset($extra[$k]);
+        foreach ($extra as $k => $v) {
+            $lines[] = sprintf('- **%s**: %s', $k, is_array($v) ? wp_json_encode($v, JSON_UNESCAPED_UNICODE) : $v);
+        }
+        $lines[] = '';
+    }
+
+    /**
+     * 导出 Priority 段.
+     */
+    private static function appendMdPriority(array &$lines, array $priority): void
+    {
+        if (!is_array($priority) || empty($priority)) {
+            return;
+        }
+        $lines[] = '## Priority';
+        $lines[] = '';
+        foreach (self::$PRIORITY_GROUPS as $key => $label) {
+            $items = $priority[$key] ?? [];
+            if (!empty($items)) {
+                $lines[] = sprintf('### %s', $label);
+                foreach ((array) $items as $item) {
+                    $lines[] = sprintf('- %s', $item);
                 }
-            }
-            // 额外字段
-            $extra = $vdna;
-            foreach (self::$VISUAL_FIELDS as $k => $_) unset($extra[$k]);
-            foreach ($extra as $k => $v) {
-                $lines[] = sprintf('- **%s**: %s', $k, is_array($v) ? wp_json_encode($v, JSON_UNESCAPED_UNICODE) : $v);
-            }
-            $lines[] = '';
-        }
-
-        // PersonalityDNA
-        $pdna = $seed['personality_dna'] ?? [];
-        if (is_array($pdna) && !empty($pdna)) {
-            $lines[] = '## PersonalityDNA';
-            $lines[] = '';
-            foreach (self::$PERSONALITY_FIELDS as $key => $label) {
-                if (isset($pdna[$key]) && $pdna[$key] !== '') {
-                    $lines[] = sprintf('- **%s**: %s', $label, $pdna[$key]);
-                }
-            }
-            $extra = $pdna;
-            foreach (self::$PERSONALITY_FIELDS as $k => $_) unset($extra[$k]);
-            foreach ($extra as $k => $v) {
-                $lines[] = sprintf('- **%s**: %s', $k, is_array($v) ? wp_json_encode($v, JSON_UNESCAPED_UNICODE) : $v);
-            }
-            $lines[] = '';
-        }
-
-        // Priority
-        $priority = $seed['priority'] ?? [];
-        if (is_array($priority) && !empty($priority)) {
-            $lines[] = '## Priority';
-            $lines[] = '';
-            foreach (self::$PRIORITY_GROUPS as $key => $label) {
-                $items = $priority[$key] ?? [];
-                if (!empty($items)) {
-                    $lines[] = sprintf('### %s', $label);
-                    foreach ((array) $items as $item) {
-                        $lines[] = sprintf('- %s', $item);
-                    }
-                    $lines[] = '';
-                }
+                $lines[] = '';
             }
         }
+    }
 
-        // Lock
-        $lock = $seed['lock'] ?? [];
-        if (is_array($lock) && !empty($lock)) {
-            $lines[] = '## Lock';
-            $lines[] = '';
-            foreach ($lock as $l) {
-                $lines[] = sprintf('- `%s`', $l);
-            }
-            $lines[] = '';
+    /**
+     * 导出 Lock 段.
+     */
+    private static function appendMdLock(array &$lines, array $lock): void
+    {
+        if (!is_array($lock) || empty($lock)) {
+            return;
         }
+        $lines[] = '## Lock';
+        $lines[] = '';
+        foreach ($lock as $l) {
+            $lines[] = sprintf('- `%s`', $l);
+        }
+        $lines[] = '';
+    }
 
-        // AI Adapter
-        $adapter = $seed['ai_adapter'] ?? [];
-        if (is_array($adapter) && !empty($adapter)) {
-            $lines[] = '## AI Adapter';
-            $lines[] = '';
-            foreach (self::$AI_PLATFORMS as $key => $label) {
-                if (isset($adapter[$key]) && $adapter[$key] !== '') {
-                    $lines[] = sprintf('### %s', $label);
-                    $lines[] = '```';
-                    $lines[] = $adapter[$key];
-                    $lines[] = '```';
-                    $lines[] = '';
-                }
+    /**
+     * 导出 AI Adapter 段.
+     */
+    private static function appendMdAIAdapter(array &$lines, array $adapter): void
+    {
+        if (!is_array($adapter) || empty($adapter)) {
+            return;
+        }
+        $lines[] = '## AI Adapter';
+        $lines[] = '';
+        foreach (self::$AI_PLATFORMS as $key => $label) {
+            if (isset($adapter[$key]) && $adapter[$key] !== '') {
+                $lines[] = sprintf('### %s', $label);
+                $lines[] = '```';
+                $lines[] = $adapter[$key];
+                $lines[] = '```';
+                $lines[] = '';
             }
         }
-
-        $lines[] = '---';
-        $lines[] = sprintf('<!-- linked3_seed post_id="%d" seed_id="%s" -->', $post_id, esc_attr($sid));
-
-        return implode("\n", $lines);
     }
 
     public static function export_json($post_id) : mixed     {

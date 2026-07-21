@@ -151,23 +151,76 @@ class GenesisErrorCode {
      */
     public static function infer($e) : mixed {
         $msg = is_string($e) ? $e : ($e instanceof \Exception ? $e->getMessage() : '');
-        $msg_lower = strtolower($msg);
 
+        $code = self::inferNetworkCode($msg);
+        if ($code !== null) return $code;
+
+        $code = self::inferApiCode($msg);
+        if ($code !== null) return $code;
+
+        $code = self::inferParseCode($msg);
+        if ($code !== null) return $code;
+
+        $code = self::inferSeedCode($msg);
+        if ($code !== null) return $code;
+
+        $code = self::inferSystemCode($msg);
+        if ($code !== null) return $code;
+
+        return self::E_UNKNOWN;
+    }
+
+    /**
+     * 网络类错误码推断.
+     */
+    private static function inferNetworkCode(string $msg): ?string
+    {
         if (preg_match('/timeout|timed out/i', $msg)) return self::E_NETWORK_TIMEOUT;
         if (preg_match('/failed to fetch|network|connection refused/i', $msg)) return self::E_NETWORK_CONN;
         if (preg_match('/dns|resolve host/i', $msg)) return self::E_NETWORK_DNS;
+        return null;
+    }
+
+    /**
+     * AI API 类错误码推断.
+     */
+    private static function inferApiCode(string $msg): ?string
+    {
         if (preg_match('/401|unauthorized|invalid.*key|api.*key/i', $msg)) return self::E_API_KEY_INVALID;
         if (preg_match('/402|quota|insufficient.*balance|余额/i', $msg)) return self::E_API_QUOTA;
         if (preg_match('/429|rate.*limit|too many requests/i', $msg)) return self::E_API_RATE_LIMIT;
         if (preg_match('/model.*not.*found|model.*unavailable/i', $msg)) return self::E_API_MODEL;
+        return null;
+    }
+
+    /**
+     * 解析类错误码推断.
+     */
+    private static function inferParseCode(string $msg): ?string
+    {
         if (preg_match('/json|parse|syntax/i', $msg)) return self::E_PARSE_JSON;
+        return null;
+    }
+
+    /**
+     * SEED 类错误码推断.
+     */
+    private static function inferSeedCode(string $msg): ?string
+    {
         if (preg_match('/seed.*not.*found|seed.*exist/i', $msg)) return self::E_SEED_NOT_FOUND;
         if (preg_match('/locked|immutable/i', $msg)) return self::E_SEED_LOCKED;
+        return null;
+    }
+
+    /**
+     * 系统/质检类错误码推断.
+     */
+    private static function inferSystemCode(string $msg): ?string
+    {
         if (preg_match('/memory|allowed.*size.*exhausted/i', $msg)) return self::E_SYSTEM_MEMORY;
         if (preg_match('/permission|forbidden|403/i', $msg)) return self::E_SYSTEM_PERMISSION;
         if (preg_match('/pqs|quality.*fail/i', $msg)) return self::E_PQS_CORE_FAILED;
-
-        return self::E_UNKNOWN;
+        return null;
     }
 
     /**

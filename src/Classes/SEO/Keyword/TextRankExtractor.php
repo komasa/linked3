@@ -50,6 +50,41 @@ final class TextRankExtractor
         }
 
         // Build vocabulary (filtered).
+        [$vocab, $seq] = $this->buildVocabulary($tokens, $stop_zh, $stop_en, $min_len);
+        $n = count($vocab);
+        if ($n === 0) {
+            return [];
+        }
+        if ($n === 1) {
+            $only = array_keys($vocab);
+            return [$only[0] => 1.0];
+        }
+
+        // Co-occurrence edges within window.
+        $edges = $this->buildCooccurrenceEdges($seq);
+
+        // Weighted degree (out) for normalisation.
+        $out_sum = $this->computeOutSums($edges, $n);
+
+        // Iterative PageRank-style score propagation.
+        $score = $this->iteratePageRank($edges, $out_sum, $n);
+
+        // Map back to keyword strings, sort, slice.
+        $out = [];
+        foreach ($vocab as $word => $idx) {
+            $out[$word] = $score[$idx];
+        }
+        arsort($out);
+        return array_slice($out, 0, $max_kw, true);
+    }
+
+    /**
+     * Build filtered vocabulary and token sequence.
+     *
+     * @return array{0: array<string,int>, 1: array<int>}
+     */
+    private function buildVocabulary(array $tokens, array $stop_zh, array $stop_en, int $min_len): array
+    {
         $vocab = [];
         $seq = [];
         foreach ($tokens as $tok) {
@@ -65,17 +100,18 @@ final class TextRankExtractor
             }
             $seq[] = $vocab[$tok];
         }
-        $n = count($vocab);
-        if ($n === 0) {
-            return [];
-        }
-        if ($n === 1) {
-            $only = array_keys($vocab);
-            return [$only[0] => 1.0];
-        }
+        return [$vocab, $seq];
+    }
 
-        // Co-occurrence edges within window.
-        $edges = []; // node → [neighbour => weight]
+    /**
+     * Build co-occurrence edges within sliding window.
+     *
+     * @param array<int> $seq
+     * @return array<int, array<int,float>>
+     */
+    private function buildCooccurrenceEdges(array $seq): array
+    {
+        $edges = [];
         $seq_len = count($seq);
         for ($i = 0; $i < $seq_len; $i++) {
             $from = $seq[$i];
@@ -92,8 +128,17 @@ final class TextRankExtractor
                 $edges[$from][$to] += 1.0;
             }
         }
+        return $edges;
+    }
 
-        // Weighted degree (out) for normalisation.
+    /**
+     * Compute weighted out-degree for each node (avoids divide-by-zero).
+     *
+     * @param array<int, array<int,float>> $edges
+     * @return array<float>
+     */
+    private function computeOutSums(array $edges, int $n): array
+    {
         $out_sum = array_fill(0, $n, 0.0);
         foreach ($edges as $from => $nbrs) {
             foreach ($nbrs as $to => $w) {
@@ -105,8 +150,18 @@ final class TextRankExtractor
                 $out_sum[$i] = 1.0; // avoid divide-by-zero (isolated nodes)
             }
         }
+        return $out_sum;
+    }
 
-        // Iterative PageRank-style score propagation.
+    /**
+     * Iterative PageRank-style score propagation until convergence.
+     *
+     * @param array<int, array<int,float>> $edges
+     * @param array<float> $out_sum
+     * @return array<float>
+     */
+    private function iteratePageRank(array $edges, array $out_sum, int $n): array
+    {
         $score = array_fill(0, $n, 1.0 / $n);
         for ($iter = 0; $iter < self::MAX_ITER; $iter++) {
             $next = array_fill(0, $n, (1.0 - self::DAMPING) / $n);
@@ -125,13 +180,6 @@ final class TextRankExtractor
                 break;
             }
         }
-
-        // Map back to keyword strings, sort, slice.
-        $out = [];
-        foreach ($vocab as $word => $idx) {
-            $out[$word] = $score[$idx];
-        }
-        arsort($out);
-        return array_slice($out, 0, $max_kw, true);
+        return $score;
     }
 }

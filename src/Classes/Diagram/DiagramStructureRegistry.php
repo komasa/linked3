@@ -242,61 +242,13 @@ class DiagramStructureRegistry
     public static function match_best(string $content, int $scene_idx = 0, int $scene_total = 1): string
     {
         // v19.52: 位置感知
-        // 第 1 镜（封面）→ 优先 quote_card 或 4band（强 Hook）
-        // 最后镜（总结）→ 优先 checklist 或 4band（强 CTA）
-        if ($scene_total > 1) {
-            if ($scene_idx === 1) {
-                // 封面：如果内容含金句/引用，用 quote_card；否则用 4band
-                if (preg_match('/"|"|「|『|指出|强调/', $content)) {
-                    return 'quote_card';
-                }
-                return '4band';
-            }
-            if ($scene_idx === $scene_total) {
-                // 总结：如果内容含要点/清单，用 checklist；否则用 4band
-                if (preg_match('/\d+\.\s|第[一二三四五六七八九十]+|条|项|要求/', $content)) {
-                    return 'checklist';
-                }
-                return '4band';
-            }
+        $positionMatch = self::matchByPosition($content, $scene_idx, $scene_total);
+        if ($positionMatch !== null) {
+            return $positionMatch;
         }
 
         // 中间镜：按内容语义匹配
-        $scores = [];
-        foreach (self::$structures as $id => $structure) {
-            $scores[$id] = 0;
-            $suitable = $structure['suitable_for'] ?? [];
-
-            foreach ($suitable as $keyword) {
-                if (mb_strpos($content, $keyword) !== false) {
-                    $scores[$id] += 10;
-                }
-            }
-
-            // 特殊模式检测
-            if ($id === 'timeline' && preg_match('/\d{4}年|\d+月|阶段|步骤/', $content)) {
-                $scores[$id] += 5;
-            }
-            if ($id === 'data_chart' && preg_match('/\d+%|\d+万|\d+亿|占比|比例/', $content)) {
-                $scores[$id] += 5;
-            }
-            if ($id === 'comparison' && preg_match('/对比|vs|VS|相比|区别|差异/', $content)) {
-                $scores[$id] += 5;
-            }
-            if ($id === 'checklist' && preg_match('/\d+\.\s|第[一二三四五六七八九十]+|条|项|要求/', $content)) {
-                $scores[$id] += 5;
-            }
-            if ($id === 'flowchart' && preg_match('/流程|步骤|先.*再|首先.*然后/', $content)) {
-                $scores[$id] += 5;
-            }
-            if ($id === 'quote_card' && preg_match('/"|"|「|『|指出|强调|表示/', $content)) {
-                $scores[$id] += 5;
-            }
-            if ($id === 'mindmap' && preg_match('/包括|包含|分为|类别|方面/', $content)) {
-                $scores[$id] += 5;
-            }
-        }
-
+        $scores = self::scoreStructures($content);
         arsort($scores);
         $best = array_key_first($scores);
 
@@ -305,6 +257,80 @@ class DiagramStructureRegistry
         }
 
         return $best;
+    }
+
+    /**
+     * 位置感知匹配: 第1镜(封面) / 最后镜(总结) 特殊处理.
+     *
+     * @return string|null 结构ID, null 表示中间镜需继续语义匹配.
+     */
+    private static function matchByPosition(string $content, int $scene_idx, int $scene_total): ?string
+    {
+        if ($scene_total <= 1) {
+            return null;
+        }
+        // 封面: 如果内容含金句/引用, 用 quote_card; 否则用 4band
+        if ($scene_idx === 1) {
+            if (preg_match('/"|"|「|『|指出|强调/', $content)) {
+                return 'quote_card';
+            }
+            return '4band';
+        }
+        // 总结: 如果内容含要点/清单, 用 checklist; 否则用 4band
+        if ($scene_idx === $scene_total) {
+            if (preg_match('/\d+\.\s|第[一二三四五六七八九十]+|条|项|要求/', $content)) {
+                return 'checklist';
+            }
+            return '4band';
+        }
+        return null;
+    }
+
+    /**
+     * 按内容语义为所有结构评分.
+     *
+     * @return array<string,int>
+     */
+    private static function scoreStructures(string $content): array
+    {
+        $scores = [];
+        foreach (self::$structures as $id => $structure) {
+            $scores[$id] = 0;
+            $suitable = $structure['suitable_for'] ?? [];
+            foreach ($suitable as $keyword) {
+                if (mb_strpos($content, $keyword) !== false) {
+                    $scores[$id] += 10;
+                }
+            }
+            // 特殊模式检测
+            $scores[$id] += self::scoreStructurePattern($id, $content);
+        }
+        return $scores;
+    }
+
+    /**
+     * 为单个结构类型计算特殊模式加分.
+     */
+    private static function scoreStructurePattern(string $id, string $content): int
+    {
+        switch ($id) {
+            case 'timeline':
+                return preg_match('/\d{4}年|\d+月|阶段|步骤/', $content) ? 5 : 0;
+            case 'data_chart':
+                return preg_match('/\d+%|\d+万|\d+亿|占比|比例/', $content) ? 5 : 0;
+            case 'comparison':
+                return preg_match('/对比|vs|VS|相比|区别|差异/', $content) ? 5 : 0;
+            case 'checklist':
+                return preg_match('/\d+\.\s|第[一二三四五六七八九十]+|条|项|要求/', $content) ? 5 : 0;
+            case 'flowchart':
+                return preg_match('/流程|步骤|先.*再|首先.*然后/', $content) ? 5 : 0;
+            case 'quote_card':
+                return preg_match('/"|"|「|『|指出|强调|表示/', $content) ? 5 : 0;
+            case 'mindmap':
+                return preg_match('/包括|包含|分为|类别|方面/', $content) ? 5 : 0;
+            default:
+                return 0;
+        }
     }
 
     /**
