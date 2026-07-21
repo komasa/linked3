@@ -98,6 +98,10 @@ final class MetaLeverFitnessTracker
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Forbidden'], 403);
         }
+        $nonce = sanitize_text_field($_POST['nonce'] ?? $_GET['nonce'] ?? '');
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) {
+            wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
+        }
         wp_send_json_success([
             'scores' => self::get_all_scores(),
             'report' => self::get_report(20),
