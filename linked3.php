@@ -363,6 +363,11 @@ add_action('plugins_loaded', ['\\Linked3\\Classes\\MetaLever\\MetaLeverHooksRegi
 require_once LINKED3_DIR . 'src/Classes/Diagram/DiagramStructureRegistry.php';
 add_action('plugins_loaded', ['\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry', 'init'], 7);
 
+// v27.6.2: AjaxNonceGuard — 统一 nonce 验证中间件 (映射每个action到对应nonce action)
+require_once LINKED3_DIR . 'src/Includes/AjaxNonceGuard.php';
+add_action('plugins_loaded', ['\\Linked3\\Includes\\AjaxNonceGuard', 'register'], 8);
+add_action('admin_footer', ['\\Linked3\\Includes\\AjaxNonceGuard', 'print_nonce_script']);
+
 // G3.2: Unified Content Pipeline
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/interface-linked3-content-pipeline.php";
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/ContentPipelineRegistry.php";
