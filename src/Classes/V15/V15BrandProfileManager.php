@@ -37,37 +37,6 @@ final class V15BrandProfileManager
     private function __construct() {}
 
     /**
-     * Get the default brand profile for a user (or the system default).
-     *
-     * @param int $user_id
-     * @return array|null
-     */
-    public function get_profile($user_id = 0) : void     {
-        global $wpdb;
-        $table = $wpdb->prefix . 'linked3_v15_brand_profiles';
-
-        // Try user's default profile first.
-        $row = $wpdb->get_row($wpdb->prepare(
-            "SELECT * FROM {$table} WHERE user_id = %d AND is_default = 1 LIMIT 1",
-            $user_id
-        ), ARRAY_A);
-
-        if (!$row) {
-            // Fall back to any profile for this user.
-            $row = $wpdb->get_row($wpdb->prepare(
-                "SELECT * FROM {$table} WHERE user_id = %d ORDER BY id ASC LIMIT 1",
-                $user_id
-            ), ARRAY_A);
-        }
-
-        if (!$row) {
-            return $this->get_default_profile();
-        }
-
-        return $this->format_profile($row);
-    }
-
-    /**
      * Get all profiles for a user.
      *
      * @param int $user_id

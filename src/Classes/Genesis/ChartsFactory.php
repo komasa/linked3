@@ -157,16 +157,6 @@ class ChartsFactory {
         return $output;
     }
 
-    private function get_band_visual_hint(string $band_key): string {
-        $hints = [
-            'hook'  => '顶部区域: 大字标题, 强对比色, 钩子文案',
-            'body'  => '中部区域: 信息图分点展示, 清晰排版, 核心内容',
-            'proof' => '下部区域: 数据图表(柱状图/饼图), 专业配色, 信任背书',
-            'cta'   => '底部区域: 箭头指向, 行动按钮, 引导互动',
-        ];
-        return $hints[$band_key] ?? '';
-    }
-
     private function build_unified_scene_prompt(array $ir, array $style_kw, array $scene_bands, int $scene_idx, int $scene_total, array $segment = [], array $structure_config = []): string {
         $scene_title = $segment['title'] ?? $ir['topic'];
         $scene_summary = $segment['summary'] ?? '';
@@ -303,18 +293,6 @@ class ChartsFactory {
             'cta' => '收藏本页，随时查阅' . $keyword,
         ];
         return $templates[$band] ?? '';
-    }
-
-    private function build_image_prompt(string $band_key, array $ir, array $style_kw): string {
-        $band_prompts = [
-            'hook' => '封面图，大字标题，强对比色，',
-            'body' => '信息图，分点展示，清晰排版，',
-            'proof' => '数据图表，柱状图/饼图，专业配色，',
-            'cta' => '引导图，箭头指向，行动按钮，',
-        ];
-        $base = $band_prompts[$band_key] ?? '';
-        $kw = implode(' ', array_slice($style_kw, 0, 5));
-        return $base . $kw . ' --ar 3:4 --style raw';
     }
 
     private function select_seed_for_band(string $band_key): array {

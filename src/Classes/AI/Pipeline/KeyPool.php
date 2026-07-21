@@ -54,62 +54,10 @@ class KeyPool {
     }
 
     /**
-     * 标记 Key 被限流。
-     */
-    public function markRateLimited(string $key, int $retryAfter = 60): void {
-        if (!isset($this->keyStatus[$key])) return;
-        $this->keyStatus[$key]['status'] = 'rate_limited';
-        $this->keyStatus[$key]['rate_limited_until'] = time() + $retryAfter;
-        linked3_dispatch('linked3.ai.key.rotated', ['key' => substr($key, 0, 10) . '***', 'retry_after' => $retryAfter]);
-    }
-
-    /**
      * 标记 Key 失效 (永久)。
      */
     public function markInvalid(string $key): void {
         if (!isset($this->keyStatus[$key])) return;
         $this->keyStatus[$key]['status'] = 'invalid';
-    }
-
-    /**
-     * 标记 Key 调用出错。
-     */
-    public function markError(string $key): void {
-        if (!isset($this->keyStatus[$key])) return;
-        $this->keyStatus[$key]['errors']++;
-        if ($this->keyStatus[$key]['errors'] >= 10) {
-            $this->markInvalid($key);
-        }
-    }
-
-    /**
-     * 获取 Key 池状态。
-     */
-    public function getPoolStatus(string $provider): array {
-        $pool = $this->keys[$provider] ?? [];
-        $result = [];
-        foreach ($pool as $key) {
-            $status = $this->keyStatus[$key] ?? ['status' => 'unknown'];
-            $result[] = [
-                'key' => substr($key, 0, 10) . '***',
-                'status' => $status['status'],
-                'calls' => $status['calls'] ?? 0,
-                'errors' => $status['errors'] ?? 0,
-            ];
-        }
-        return $result;
-    }
-
-    /**
-     * 获取活跃 Key 数量。
-     */
-    public function getActiveKeyCount(string $provider): int {
-        $pool = $this->keys[$provider] ?? [];
-        $count = 0;
-        foreach ($pool as $key) {
-            $status = $this->keyStatus[$key]['status'] ?? 'active';
-            if ($status === 'active') $count++;
-        }
-        return $count;
     }
 }

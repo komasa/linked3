@@ -145,34 +145,4 @@ class MotionVocabulary {
         ];
     }
 
-    /**
-     * 按情绪推荐运动组合
-     */
-    public static function recommend_by_emotion(string $emotion): array {
-        $mapping = [
-            'tension' => ['camera' => 'dolly_in', 'subject' => 'head_turn', 'speed' => 'fast'],
-            'calm' => ['camera' => 'static_wide', 'subject' => 'standing_still', 'speed' => 'slow'],
-            'curiosity' => ['camera' => 'dolly_in', 'subject' => 'head_turn', 'speed' => 'normal'],
-            'sadness' => ['camera' => 'dolly_out', 'subject' => 'look_back', 'speed' => 'slow'],
-            'excitement' => ['camera' => 'orbit_cw', 'subject' => 'walk_forward', 'speed' => 'fast'],
-            'awe' => ['camera' => 'tilt_up', 'subject' => 'standing_still', 'speed' => 'slow'],
-            'neutral' => ['camera' => 'static_wide', 'subject' => 'standing_still', 'speed' => 'normal'],
-        ];
-        return $mapping[$emotion] ?? $mapping['neutral'];
-    }
-
-    /**
-     * 按弧线位置推荐
-     */
-    public static function recommend_by_arc_position(string $arc_position): array {
-        $mapping = [
-            'opening' => ['camera' => 'static_wide', 'subject' => 'standing_still', 'speed' => 'normal', 'reason' => '开场建立场景'],
-            'rising' => ['camera' => 'pan_right', 'subject' => 'walk_forward', 'speed' => 'normal', 'reason' => '上升期跟随主体'],
-            'peak' => ['camera' => 'orbit_cw', 'subject' => 'turn_around', 'speed' => 'slow', 'reason' => '高潮环绕展示'],
-            'falling' => ['camera' => 'dolly_out', 'subject' => 'look_back', 'speed' => 'normal', 'reason' => '下降期拉远'],
-            'resolution' => ['camera' => 'static_wide', 'subject' => 'standing_still', 'speed' => 'normal', 'reason' => '结局固定全景'],
-        ];
-        return $mapping[$arc_position] ?? $mapping['opening'];
-    }
-
 }

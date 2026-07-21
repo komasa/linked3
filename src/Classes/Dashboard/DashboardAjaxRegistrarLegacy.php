@@ -54,10 +54,7 @@ final class DashboardAjaxRegistrarLegacy
         // AI 标识符后缀
         add_action('wp_ajax_linked3_save_ai_suffix', [__CLASS__, 'ajax_save_ai_suffix']);
         // 关键词管理 (热词采集/长尾生成/批量文章)
-        // G2.1: Keyword actions migrated to DashboardKeywordActions
-        // add_action('wp_ajax_linked3_keyword_fetch_hot', [__CLASS__, 'ajax_keyword_fetch_hot']);
-        // add_action('wp_ajax_linked3_keyword_generate_tail', [__CLASS__, 'ajax_keyword_generate_tail']);
-        // add_action('wp_ajax_linked3_keyword_batch_generate', [__CLASS__, 'ajax_keyword_batch_generate']);
+        // G2.1: Keyword actions migrated to DashboardKeywordActions (delegate methods removed)
         // 高级设置 (原版隐藏功能)
         add_action('wp_ajax_linked3_save_advanced', [__CLASS__, 'ajax_save_advanced']);
         // 图片设置 (原版 image_settings)
@@ -111,56 +108,12 @@ final class DashboardAjaxRegistrarLegacy
     }
 
     /**
-     * AJAX: 添加模板
-     * @deprecated G2.1 Migrated to DashboardTemplateActions::template_add()
-     */
-
-    /**
-     * AJAX: 更新模板
-     * @deprecated G2.1 Migrated to DashboardTemplateActions::template_update()
-     */
-
-    /**
-     * AJAX: 删除模板
-     * @deprecated G2.1 Migrated to DashboardTemplateActions::template_delete()
-     */
-
-    /**
-     * AJAX: 获取单个模板
-     * @deprecated G2.1 Migrated to DashboardTemplateActions::template_get()
-     */
-
-    /**
      * AJAX: 同步 Provider 的最新模型列表 (调用 /models 接口)。
      */
 
     /**
      * AJAX: 保存 AI 标识符后缀 (AI 生成内容自动追加的免责声明)。
      */
-
-    /**
-     * AJAX: 采集热词。
-     * @deprecated G2.1 Migrated to DashboardKeywordActions::keyword_fetch_hot()
-     */
-    public static function ajax_keyword_fetch_hot() : mixed {
-        return Ajax\Actions\DashboardKeywordActions::keyword_fetch_hot();
-    }
-
-    /**
-     * AJAX: AI 生成长尾关键词。
-     * @deprecated G2.1 Migrated to DashboardKeywordActions::keyword_generate_tail()
-     */
-    public static function ajax_keyword_generate_tail() : mixed     {
-        return Ajax\Actions\DashboardKeywordActions::keyword_generate_tail();
-    }
-
-    /**
-     * AJAX: 批量生成文章。
-     * @deprecated G2.1 Migrated to DashboardKeywordActions::keyword_batch_generate()
-     */
-    public static function ajax_keyword_batch_generate() : mixed {
-        return Ajax\Actions\DashboardKeywordActions::keyword_batch_generate();
-    }
 
     /**
      * AJAX: 保存高级设置 (原版隐藏功能)。

@@ -30,13 +30,6 @@ class ProviderFailover {
     }
 
     /**
-     * 设置 Provider 的故障转移链。
-     */
-    public function setFailoverChain(string $primary, array $fallbacks): void {
-        $this->failoverChain[$primary] = $fallbacks;
-    }
-
-    /**
      * 获取默认故障转移链 (按健康度排序)。
      */
     public function getDefaultChain(string $primary): array {
@@ -51,14 +44,6 @@ class ProviderFailover {
             'openai'      => ['siliconflow', 'deepseek', 'zhipu'],
         ];
         return $defaults[$primary] ?? ['siliconflow', 'deepseek', 'zhipu'];
-    }
-
-    /**
-     * 负载均衡: 根据健康度和延迟选择最优 Provider。
-     */
-    public function selectByLoadBalance(array $providers): string {
-        $healthCheck = ProviderHealthCheck::instance();
-        return $healthCheck->selectBest($providers);
     }
 
     /**
@@ -109,12 +94,5 @@ class ProviderFailover {
         $idx = array_search($current, $chain);
         if ($idx === false || $idx >= count($chain) - 1) return null;
         return $chain[$idx + 1];
-    }
-
-    /**
-     * 获取熔断状态 (调试用)。
-     */
-    public function getCircuitStatus(): array {
-        return $this->failureCounts;
     }
 }
