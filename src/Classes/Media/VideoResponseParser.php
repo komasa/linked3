@@ -9,7 +9,7 @@ declare(strict_types=1);
  *   - 标准化字段 (中英文兼容, 补全缺失字段)
  *   - 失败兜底 (返回默认结构, 不抛异常)
  *
- * 原 VideoGenerator 中 10 个 private parse_*/normalize_*/default_* 方法 +
+ * 原 VideoGenerator 中 10 个 private parse_* / normalize_* / default_* 方法 +
  * is_indexed_array 辅助方法整体迁移至此。extract_first_json_object 通过
  * JsonExtractor trait 引入。
  *
