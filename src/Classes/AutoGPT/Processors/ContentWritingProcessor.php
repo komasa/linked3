@@ -33,7 +33,7 @@ use Linked3\Classes\ContentWriter\{
 };
 final class ContentWritingProcessor implements AutoGPTProcessorInterface
 {
-    public function process(array $task) : mixed {
+    public function process(array $task) {
         $cfg = $task['config'];
         $keyword = $cfg['keyword'] ?? '';
         if (!$keyword) return ['ok' => false, 'message' => __('未配置关键词。', 'linked3'), 'items_processed' => 0];

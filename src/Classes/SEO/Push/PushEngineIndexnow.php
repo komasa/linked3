@@ -29,11 +29,11 @@ final class PushEngineIndexnow implements PushEngine
         return 'indexnow';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('Indexnow(多引擎)', 'linked3');
     }
 
-    public function is_configured() : mixed     {
+    public function is_configured(): bool     {
         return $this->key() !== '';
     }
 

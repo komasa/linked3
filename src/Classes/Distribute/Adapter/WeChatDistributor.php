@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 final class WeChatDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'wechat'; }
-    public function label() : mixed { return __('微信公众号', 'linked3'); }
+    public function label() : string { return __('微信公众号', 'linked3'); }
 
     public function publish(array $post_data, array $config)
     : array {

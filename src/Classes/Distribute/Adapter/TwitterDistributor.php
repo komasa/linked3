@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 final class TwitterDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'twitter'; }
-    public function label() : mixed { return __('Twitter / X', 'linked3'); }
+    public function label() : string { return __('Twitter / X', 'linked3'); }
 
     /**
      * 所需配置字段 (v3.0.0):

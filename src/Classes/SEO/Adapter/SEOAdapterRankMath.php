@@ -24,7 +24,7 @@ final class SEOAdapterRankMath implements SEOAdapter
         return 'rankmath';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('Rank Math SEO', 'linked3');
     }
 

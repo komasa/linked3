@@ -31,11 +31,11 @@ final class PushEngineBing implements PushEngine
         return 'bing';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('Bing Indexnow', 'linked3');
     }
 
-    public function is_configured() : mixed     {
+    public function is_configured(): bool     {
         return $this->key() !== '';
     }
 

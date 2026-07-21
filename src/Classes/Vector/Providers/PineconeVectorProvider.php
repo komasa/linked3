@@ -68,7 +68,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Pinecone HTTP %d: %s', $code, substr(wp_remote_retrieve_body($resp), 0, 200))];
     }
 
-    public function query($index, array $query_vector, $top_k = 5, array $filters = [], array $config = []) : mixed     {
+    public function query($index, array $query_vector, $top_k = 5, array $filters = [], array $config = []): array     {
         $key = $config['api_key'] ?? '';
         $host = rtrim($config['index_host'] ?? '', '/');
         if (!$key || !$host) return [];

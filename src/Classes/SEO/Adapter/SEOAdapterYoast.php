@@ -25,7 +25,7 @@ final class SEOAdapterYoast implements SEOAdapter
         return 'yoast';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('Yoast SEO', 'linked3');
     }
 

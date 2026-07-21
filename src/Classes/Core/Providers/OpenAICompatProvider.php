@@ -44,15 +44,15 @@ final class OpenAICompatProvider extends BaseProviderStrategy
         $this->default_base = $default_base;
     }
 
-    public function slug() : mixed {
+    public function slug() : string {
         return $this->slug;
     }
 
-    protected function default_api_base() : mixed     {
+    protected function default_api_base() : string {
         return $this->default_base;
     }
 
-    public function build_api_url($operation, array $config) : mixed {
+    public function build_api_url(string $operation, array $config) : string {
         $base = $this->api_base($config);
         switch ($operation) {
             case 'stream':
@@ -67,7 +67,7 @@ final class OpenAICompatProvider extends BaseProviderStrategy
         }
     }
 
-    public function get_models(array $config) : mixed     {
+    public function get_models(array $config) : array {
         // Static fallback model lists per provider; real list fetched live
         // via the 'models' operation when admin tests connection (v0.1.10).
         $fallbacks = [

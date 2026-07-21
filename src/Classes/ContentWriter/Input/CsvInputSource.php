@@ -15,9 +15,9 @@ if (!defined('ABSPATH')) exit;
 final class CsvInputSource implements InputSourceInterface
 {
     public function slug() : string { return 'csv'; }
-    public function label() : mixed { return __('CSV 文件', 'linked3'); }
+    public function label() : string { return __('CSV 文件', 'linked3'); }
 
-    public function fetch(array $config, $limit = 10) : mixed {
+    public function fetch(array $config, int $limit = 10): array {
         $file = $config['file_path'] ?? '';
         if (empty($file) || !file_exists($file)) {
             return [];

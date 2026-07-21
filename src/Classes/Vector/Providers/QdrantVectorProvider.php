@@ -88,7 +88,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Qdrant HTTP %d: %s', $code, substr(wp_remote_retrieve_body($resp), 0, 200))];
     }
 
-    public function query($index, array $query_vector, $top_k = 5, array $filters = [], array $config = []) : mixed     {
+    public function query($index, array $query_vector, $top_k = 5, array $filters = [], array $config = []): array     {
         $url = rtrim($config['host_url'] ?? '', '/');
         $key = $config['api_key'] ?? '';
         $headers = ['Content-Type' => 'application/json'];

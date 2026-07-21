@@ -30,11 +30,11 @@ final class PushEngineToutiao implements PushEngine
         return 'toutiao';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('神马/头条推送', 'linked3');
     }
 
-    public function is_configured() : mixed     {
+    public function is_configured(): bool     {
         $cfg = $this->config();
         return !empty($cfg['site']) && !empty($cfg['user_name']) && !empty($cfg['resource_name']);
     }

@@ -26,7 +26,7 @@ final class HunyuanProvider extends BaseProviderStrategy
         return 'https://hunyuan.tencentcloudapi.com';
     }
 
-    public function build_api_url($operation, array $config) : mixed {
+    public function build_api_url(string $operation, array $config) : string {
         // 腾讯云 API 用 POST 到固定 endpoint,操作由 Action 参数区分。
         return $this->api_base($config);
     }
@@ -68,7 +68,7 @@ final class HunyuanProvider extends BaseProviderStrategy
         return ['content' => $content, 'usage' => $usage, 'raw' => $body];
     }
 
-    public function parse_error_response($body, $status_code, array $config = [])
+    public function parse_error_response($body, int $status_code)
     : array {
         $body = is_array($body) ? $body : [];
         $code = 'hunyuan_error';
@@ -79,7 +79,7 @@ final class HunyuanProvider extends BaseProviderStrategy
         if (isset($body['Response']['Error']['Message'])) {
             $message = (string) $body['Response']['Error']['Message'];
         }
-        return ['code' => $code, 'message' => $message, 'status' => (int) $status_code];
+        return ['code' => $code, 'message' => $message, 'status' => $status_code];
     }
 
     public function get_models(array $config)

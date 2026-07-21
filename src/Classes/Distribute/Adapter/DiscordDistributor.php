@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 final class DiscordDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'discord'; }
-    public function label() : mixed { return __('Discord', 'linked3'); }
+    public function label() : string { return __('Discord', 'linked3'); }
 
     public function publish(array $post_data, array $config)
     : array {
@@ -59,7 +59,7 @@ final class DiscordDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => '', 'message' => 'ok'];
     }
 
-    public function test(array $config) : mixed {
+    public function test(array $config): array {
         $webhook = $config['webhook_url'] ?? '';
         if (!$webhook) return ['ok' => false, 'message' => __('缺少 Webhook URL。', 'linked3')];
         $resp = SafeRemote::post($webhook, [

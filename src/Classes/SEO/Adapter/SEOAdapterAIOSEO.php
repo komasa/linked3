@@ -24,7 +24,7 @@ final class SEOAdapterAIOSEO implements SEOAdapter
         return 'aioseo';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('All in One SEO', 'linked3');
     }
 

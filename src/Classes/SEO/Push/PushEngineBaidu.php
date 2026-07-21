@@ -33,11 +33,11 @@ final class PushEngineBaidu implements PushEngine
         return 'baidu';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('百度站点推送', 'linked3');
     }
 
-    public function is_configured() : mixed     {
+    public function is_configured(): bool     {
         $cfg = $this->config();
         return !empty($cfg['site']) && !empty($cfg['token']);
     }

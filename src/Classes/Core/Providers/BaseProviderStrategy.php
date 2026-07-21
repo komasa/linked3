@@ -37,7 +37,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return string
      */
-    protected function api_key(array $config) : mixed {
+    protected function api_key(array $config) : string {
         $key = isset($config['api_key']) ? (string) $config['api_key'] : '';
         return $key;
     }
@@ -46,7 +46,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return string
      */
-    protected function api_base(array $config) : mixed     {
+    protected function api_base(array $config) : string {
         $base = isset($config['api_base']) ? rtrim((string) $config['api_base'], '/') : '';
         if ($base === '') {
             $base = $this->default_api_base();
@@ -66,7 +66,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array<string,string>
      */
-    public function get_api_headers(array $config) : mixed {
+    public function get_api_headers(array $config) : array {
         $headers = [
             'Content-Type'  => 'application/json',
             'Accept'        => 'application/json',
@@ -86,7 +86,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array
      */
-    public function format_chat_payload(array $messages, array $options, array $config) : mixed     {
+    public function format_chat_payload(array $messages, array $options, array $config) : array {
         $payload = [
             'model'       => isset($options['model']) ? $options['model'] : ($config['model'] ?? ''),
             'messages'    => $messages,
