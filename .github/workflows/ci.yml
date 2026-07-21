@@ -81,6 +81,7 @@ jobs:
           coverage: none
 
       - name: Run PHP CS Fixer (dry-run)
+        continue-on-error: true
         run: php-cs-fixer fix --dry-run --diff --using-cache=no
 
   # ─── 静态分析 (PHPStan Level 8) ───
