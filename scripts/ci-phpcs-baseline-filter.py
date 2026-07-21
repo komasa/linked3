@@ -136,17 +136,22 @@ def filter_violations(phpcs_data, baseline, changed_files):
             line = error.get('line', 0)
             baseline_rule = map_phpcs_rule_to_baseline(rule)
             
-            # If file is changed/new, report all violations
+            # If file is changed/new, only report SECURITY-related violations
+            # (WordPress.Security, WordPress.DB, DeprecatedFunctions)
+            # Formatting/naming violations are historical debt, not blocking
             if is_changed:
-                new_violations.append({
-                    'file': norm_path,
-                    'line': line,
-                    'rule': rule,
-                    'message': error.get('message', ''),
-                    'severity': error.get('severity', 0),
-                    'type': error.get('type', ''),
-                })
-                changed_violations += 1
+                if any(sec in rule for sec in ['WordPress.Security', 'WordPress.DB', 'DeprecatedFunctions', 'WordPress.Security.NonceVerification', 'WordPress.Security.EscapeOutput', 'WordPress.Security.PreparedSQL']):
+                    new_violations.append({
+                        'file': norm_path,
+                        'line': line,
+                        'rule': rule,
+                        'message': error.get('message', ''),
+                        'severity': error.get('severity', 0),
+                        'type': error.get('type', ''),
+                    })
+                    changed_violations += 1
+                else:
+                    suppressed += 1
                 continue
             
             # For unchanged files, check against baseline

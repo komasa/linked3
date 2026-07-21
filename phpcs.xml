@@ -23,7 +23,10 @@
     <!-- ── 基础标准 ────────────────────────────── -->
     <rule ref="PSR1"/>
     <rule ref="PSR2"/>
-    <rule ref="PSR12"/>
+    <rule ref="PSR12">
+        <!-- WordPress uses snake_case method names, not camelCase -->
+        <exclude name="PSR1.Methods.CamelCapsMethodName"/>
+    </rule>
     
     <!-- ── WordPress 安全相关 (需要WPCS, CI自动安装) ─── -->
     <rule ref="WordPress.Security"/>
@@ -79,13 +82,25 @@
         </properties>
     </rule>
     
+    <!-- ── WordPress惯例放宽 ──────────────────────── -->
+    <!-- 允许内联控制结构 (WordPress风格: if ($x) return;) -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure">
+        <severity>0</severity>
+    </rule>
+    
     <!-- ── 命名规范 ──────────────────────────────── -->
     
     <!-- 变量命名: camelCase -->
-    <rule ref="Squiz.NamingConventions.ValidVariableName"/>
+    <!-- Disabled: WordPress uses snake_case variables ($wpdb, $post) -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName">
+        <severity>0</severity>
+    </rule>
     
     <!-- 函数命名: camelCase -->
-    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+    <!-- Disabled: WordPress uses snake_case function names -->
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName">
+        <severity>0</severity>
+    </rule>
     
     <!-- 常量命名: UPPER_SNAKE_CASE -->
     <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
