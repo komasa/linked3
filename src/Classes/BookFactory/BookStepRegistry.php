@@ -123,7 +123,7 @@ class BookStepRegistry {
          * @param string $content YAML 内容。
          * @return array 步骤配置数组。
          */
-        private static function parse_simple_yaml( $content ) : mixed {
+        private static function parse_simple_yaml(string $content) : mixed {
                 $steps   = array();
                 $current = array();
                 $in_list = false;
@@ -185,7 +185,7 @@ class BookStepRegistry {
          * @param string $step_id 步骤 ID。
          * @return BookStepInterface|null
          */
-        public static function get_step( $step_id ) {
+        public static function get_step(string $step_id): ?BookStepInterface {
                 self::init();
                 return self::$steps[ $step_id ] ?? null;
         }

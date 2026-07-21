@@ -460,7 +460,7 @@ class BookFactorySteps
      * @param BookProjectState|null $state 用于成本记录, null时跳过
      * @return array|WP_Error
      */
-    private function call_ai_with_rate_limit( $prompt, $state = null ) {
+    private function call_ai_with_rate_limit(string $prompt, ?BookProjectState $state = null): array|WP_Error {
         $min_interval = 1.0;
         $elapsed = microtime( true ) - $this->last_api_call;
         if ( $elapsed < $min_interval ) usleep( (int) ( ( $min_interval - $elapsed ) * 1000000 ) );
@@ -493,7 +493,7 @@ class BookFactorySteps
      *
      * @param BookProjectState $state
      */
-    private function rebuild_draft_incremental( $state ) {
+    private function rebuild_draft_incremental(BookProjectState $state) {
         $builder = new BookDraftBuilder();
         return $builder->rebuild( $state );
     }
@@ -504,7 +504,7 @@ class BookFactorySteps
      * @param string $content
      * @return mixed
      */
-    private function smart_split_outline( $content ) {
+    private function smart_split_outline(string $content) {
         $utils = new BookFactoryUtils();
         return $utils->smart_split_outline( $content );
     }
@@ -515,7 +515,7 @@ class BookFactorySteps
      * @param string $content
      * @return mixed
      */
-    private function parse_outline( $content ) {
+    private function parse_outline(string $content) {
         $utils = new BookFactoryUtils();
         return $utils->parse_outline( $content );
     }

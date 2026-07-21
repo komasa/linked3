@@ -46,7 +46,7 @@ final class LicenseSigner
      * @param string $nonce Random nonce.
      * @return string Hex HMAC.
      */
-    public function sign($key, $ts, $nonce)
+    public function sign(string $key, int $ts, string $nonce): string
     {
         $secret = $this->signing_secret($key);
         $payload = $key . '|' . $ts . '|' . $nonce;
@@ -60,7 +60,7 @@ final class LicenseSigner
      * @param string $key      License key (bound to the secret).
      * @return bool True if signature matches.
      */
-    public function verify_server_signature($response, $key)
+    public function verify_server_signature(array $response, string $key): bool
     {
         $secret = $this->signing_secret($key);
         $expected_fields = ['plan', 'expires_at', 'timestamp'];
@@ -83,7 +83,7 @@ final class LicenseSigner
      * @param string $key License key.
      * @return string Signing secret.
      */
-    private function signing_secret($key)
+    private function signing_secret(string $key): string
     {
         return $this->master_secret . '|' . $key;
     }

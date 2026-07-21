@@ -24,7 +24,7 @@ trait CostTracker {
      * @param int $tokens_out
      * @return float
      */
-    protected function calculate_cost( $tokens_in, $tokens_out ) : mixed {
+    protected function calculate_cost(int $tokens_in, int $tokens_out) : mixed {
         // 默认费率 (可配置)
         $rate_in  = 0.0000015;  // $1.5/1M tokens
         $rate_out = 0.000002;   // $2.0/1M tokens
@@ -48,7 +48,7 @@ trait CostTracker {
      * @param int $tokens_out
      * @param float $cost
      */
-    protected function log_cost_to_state( $state, $step_id, $tokens_in, $tokens_out, $cost ) : void {
+    protected function log_cost_to_state(BookProjectState $state, string $step_id, int $tokens_in, int $tokens_out, float $cost) : void {
         $state->log_cost( $step_id, $tokens_in, $tokens_out, $cost );
     }
 

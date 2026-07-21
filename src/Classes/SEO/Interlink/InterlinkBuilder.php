@@ -69,7 +69,7 @@ final class InterlinkBuilder
      * @param int    $source_post_id
      * @return string
      */
-    public function inject($content, $source_post_id) : mixed     {
+    public function inject(string $content, int $source_post_id) : mixed     {
         $content = (string) $content;
         if ($content === '' || (int) $source_post_id <= 0) {
             return $content;
@@ -156,7 +156,7 @@ final class InterlinkBuilder
      * @param string $anchor
      * @return void
      */
-    public function record_edge($source, $target, $anchor)
+    public function record_edge(int $source, int $target, string $anchor)
     : void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_interlink_map';

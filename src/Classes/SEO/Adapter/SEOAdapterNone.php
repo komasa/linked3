@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) exit;
  */
 final class SEOAdapterNone implements SEOAdapter
 {
-    public function slug()
+    public function slug(): string
     : string {
         return 'none';
     }
@@ -26,17 +26,17 @@ final class SEOAdapterNone implements SEOAdapter
         return __('Linked3 原生 SEO(无第三方适配器)', 'linked3');
     }
 
-    public function is_active()
+    public function is_active(): bool
     : bool {
         return true; // always — represents the default path.
     }
 
-    public function handles_schema()
+    public function handles_schema(): bool
     : bool {
         return false;
     }
 
-    public function handles_meta_description()
+    public function handles_meta_description(): bool
     : bool {
         return false;
     }

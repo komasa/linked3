@@ -44,26 +44,26 @@ interface VisualScriptGeneratorInterface
      *   @type array  $pages       页面数组 [{ title, content, image_prompt, is_cover }]
      * }
      */
-    public function generate_script(array $params);
+    public function generate_script(array $params): array|WP_Error ;
 
     /**
      * 获取平台标识（xhs/genesis/diagram/video）。
      *
      * @return string
      */
-    public function platform();
+    public function platform(): string ;
 
     /**
      * 获取平台显示名称。
      *
      * @return string
      */
-    public function platform_label();
+    public function platform_label(): string ;
 
     /**
      * 获取可用预设风格列表。
      *
      * @return array [{ id, label, prompt_suffix }]
      */
-    public function available_styles();
+    public function available_styles(): array ;
 }

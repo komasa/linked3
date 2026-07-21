@@ -80,7 +80,7 @@ class BookPipelineOrchestrator {
          * @param array $args 创建参数 (book_title, type, mode, iteration_level, options)。
          * @return array|WP_Error 返回 array('project_id'=>..., 'status'=>...) 或 WP_Error。
          */
-        public function create_book( $args ) : mixed {
+        public function create_book(array $args) : mixed {
                 $book_title = isset( $args['book_title'] ) ? sanitize_text_field( $args['book_title'] ) : '';
                 $type       = isset( $args['type'] ) ? sanitize_text_field( $args['type'] ) : 'book';
                 $mode       = isset( $args['mode'] ) ? sanitize_text_field( $args['mode'] ) : 'ai';
@@ -118,7 +118,7 @@ class BookPipelineOrchestrator {
          * @param string $project_id 项目 ID。
          * @return array|WP_Error
          */
-        public function run_step( $project_id ) : mixed {
+        public function run_step(string $project_id) : mixed {
                 $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
@@ -158,7 +158,7 @@ class BookPipelineOrchestrator {
          * @param string $project_id 项目 ID。
          * @return array|WP_Error
          */
-        public function get_progress( $project_id ) {
+        public function get_progress(string $project_id): array|WP_Error {
                 $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
@@ -183,7 +183,7 @@ class BookPipelineOrchestrator {
          * @param int    $section_index 节索引。
          * @return array|WP_Error
          */
-        public function regenerate_section( $project_id, $chapter_index, $section_index ) {
+        public function regenerate_section(string $project_id, int $chapter_index, int $section_index): array|WP_Error {
                 $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );
@@ -200,7 +200,7 @@ class BookPipelineOrchestrator {
          * @param int    $version_index 版本索引。
          * @return array|WP_Error
          */
-        public function rollback_version( $project_id, $version_index ) {
+        public function rollback_version(string $project_id, int $version_index): array|WP_Error {
                 $state = BookProjectState::get_project( $project_id );
                 if ( ! $state ) {
                         return new WP_Error( 'project_not_found', '项目不存在' );

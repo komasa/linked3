@@ -56,7 +56,7 @@ class MetaLeverHooksRegistrar
      * @param array  $params      上下文参数（可选）
      * @return string
      */
-    public static function enhance($base_prompt, $params = []) : mixed {
+    public static function enhance(string $base_prompt, array $params = []) : mixed {
         // 获取当前钩子名（确定任务类型）
         $current_hook = current_filter();
         $task = self::HOOK_TASK_MAP[$current_hook] ?? 'default';

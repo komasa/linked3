@@ -61,7 +61,7 @@ final class LicenseService
     /**
      * @return self
      */
-    public static function instance()
+    public static function instance(): self
     {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
@@ -85,7 +85,7 @@ final class LicenseService
      * @return self
      * @internal
      */
-    public static function instance_without_container()
+    public static function instance_without_container(): self
     {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -96,7 +96,7 @@ final class LicenseService
     /**
      * @return string License server base URL (filterable).
      */
-    public function server_url()
+    public function server_url(): string
     {
         // v4.7.2: prefer the LINKED3_LICENSE_SERVER_URL constant (set in
         // wp-config.php) over the hardcoded default. Empty = local mode.
@@ -109,7 +109,7 @@ final class LicenseService
      *
      * @return bool True if remote license validation is enabled.
      */
-    public function has_remote_server()
+    public function has_remote_server(): bool
     {
         return $this->server_url() !== '';
     }
@@ -117,7 +117,7 @@ final class LicenseService
     /**
      * @return string The stored license key (encrypted at rest).
      */
-    public function license_key()
+    public function license_key(): string
     {
         // 优先读 linked3_license_key (正式存储)
         $stored = get_option(LINKED3_OPTION_PREFIX . 'license_key', '');
@@ -142,7 +142,7 @@ final class LicenseService
      * @param string $key
      * @return void
      */
-    public function store_license_key($key)
+    public function store_license_key(string $key): void
     {
         $key = sanitize_text_field($key);
         if ($key === '') {
@@ -198,7 +198,7 @@ final class LicenseService
     /**
      * @return void
      */
-    public function revoke()
+    public function revoke(): void
     {
         delete_option(LINKED3_OPTION_PREFIX . 'license_key');
         delete_transient(LINKED3_OPTION_PREFIX . 'license_status');
@@ -210,7 +210,7 @@ final class LicenseService
      *
      * @return string
      */
-    public function plan()
+    public function plan(): string
     {
         if ($this->cached_plan !== null) {
             return $this->cached_plan;
@@ -280,7 +280,7 @@ final class LicenseService
      * @param string $key
      * @return string|null plan 或 null (非本地 key)
      */
-    private function local_plan_from_key($key)
+    private function local_plan_from_key(string $key): ?string
     {
         $key = strtoupper(trim($key));
         // Demo keys (预置在 license-server)
@@ -298,7 +298,7 @@ final class LicenseService
      *
      * @return string
      */
-    public function site_fingerprint()
+    public function site_fingerprint(): string
     {
         $parts = [
             site_url(),
@@ -317,7 +317,7 @@ final class LicenseService
      *
      * @return void
      */
-    public static function daily_heartbeat()
+    public static function daily_heartbeat(): void
     {
         $self = self::instance();
         // v4.7.2: skip heartbeat entirely in local mode (no remote server).
@@ -355,7 +355,7 @@ final class LicenseService
      *
      * @return bool True if clock looks tampered.
      */
-    public function detect_clock_tamper()
+    public function detect_clock_tamper(): bool
     {
         $last = (int) get_option(LINKED3_OPTION_PREFIX . 'last_seen_time', 0);
         $now = time();

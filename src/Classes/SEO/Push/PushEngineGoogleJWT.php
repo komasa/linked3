@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
 }
 final class PushEngineGoogleJWT implements PushEngine
 {
-    public function slug()
+    public function slug(): string
     : string {
         return 'google';
     }

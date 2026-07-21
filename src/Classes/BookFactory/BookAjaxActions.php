@@ -126,7 +126,7 @@ class BookAjaxActions {
      * @param string $project_id
      * @return string
      */
-    public static function generate_progress_nonce( $project_id ) {
+    public static function generate_progress_nonce(string $project_id): string {
         $action = 'linked3_book_progress_' . $project_id;
         return wp_create_nonce( $action );
     }
@@ -298,7 +298,7 @@ class BookAjaxActions {
      * @param string $prototype_key 原型key。
      * @return array
      */
-    private static function get_prototype_prompt_overrides( $prototype_key ) {
+    private static function get_prototype_prompt_overrides(string $prototype_key): array {
         $overrides = array(
             'book' => array(
                 'step4_expand' => '请以系统化、结构化、逻辑严密的方式扩写',

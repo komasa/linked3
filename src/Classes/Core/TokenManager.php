@@ -78,7 +78,7 @@ final class TokenManager
      * @param int $user_id
      * @return string 'free' | 'pro' | 'premium'
      */
-    public function user_plan($user_id) : mixed {
+    public function user_plan(int $user_id) : mixed {
         // v0.2.5 will wire real License Service; for v0.1.x everyone is Free.
         $plan = (string) get_user_meta($user_id, 'linked3_plan', true);
         return $plan !== '' ? $plan : 'free';
@@ -88,7 +88,7 @@ final class TokenManager
      * @param string $plan
      * @return int
      */
-    public function quota_for_plan($plan) : mixed     {
+    public function quota_for_plan(string $plan) : mixed     {
         return (int) ($this->plan_quotas[$plan] ?? $this->plan_quotas['free']);
     }
 
@@ -97,7 +97,7 @@ final class TokenManager
      * @param string $session_id
      * @return int Tokens used today.
      */
-    public function used_today($user_id, $session_id = '')
+    public function used_today(int $user_id, string $session_id = ''): int
     {
         if ($user_id > 0) {
             $this->maybe_reset_user($user_id);
@@ -131,7 +131,7 @@ final class TokenManager
      * @param int    $tokens_needed
      * @return array{ok:bool, used:int, quota:int, remaining:int}
      */
-    public function check($user_id, $session_id, $tokens_needed = 1)
+    public function check(int $user_id, string $session_id, int $tokens_needed = 1)
     : array {
         $plan = $this->user_plan($user_id);
         $quota = $this->quota_for_plan($plan);
@@ -161,7 +161,7 @@ final class TokenManager
      *                       token accounting (defaults to 0 for backward compat).
      * @return void
      */
-    public function record($user_id, $session_id, $tokens, $bot_id = 0)
+    public function record(int $user_id, string $session_id, int $tokens, int $bot_id = 0)
     : void {
         $tokens = max(0, (int) $tokens);
         if ($tokens === 0) {
@@ -186,7 +186,7 @@ final class TokenManager
      * @param int    $bot_id
      * @return void
      */
-    private function record_guest($session_id, $tokens, $bot_id = 0)
+    private function record_guest(string $session_id, int $tokens, int $bot_id = 0)
     : void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_guest_token_usage';
@@ -213,7 +213,7 @@ final class TokenManager
      * @param int $user_id
      * @return void
      */
-    private function maybe_reset_user($user_id)
+    private function maybe_reset_user(int $user_id)
     : void {
         $reset_at = (int) get_user_meta($user_id, self::META_RESET_AT, true);
         if ($reset_at === 0 || $reset_at < time() - DAY_IN_SECONDS) {

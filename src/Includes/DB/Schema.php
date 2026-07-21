@@ -532,7 +532,7 @@ final class Schema
      * @param string $sql
      * @return string|null
      */
-    private static function extract_table_name($sql)
+    private static function extract_table_name(string $sql): ?string
     {
         if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`"]?([^\s`"(]+)/i', $sql, $m)) {
             return $m[1];
@@ -543,7 +543,7 @@ final class Schema
     /**
      * @return string[] Fully-qualified table names (with prefix).
      */
-    public static function qualified_names()
+    public static function qualified_names(): array
     {
         global $wpdb;
         $out = [];

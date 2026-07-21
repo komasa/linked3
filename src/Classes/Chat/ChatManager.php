@@ -63,7 +63,7 @@ final class ChatManager
      * @param array  $bot_config {provider, model, system_prompt, use_rag, temperature}
      * @return array{ok:bool, reply:string, sources:array, usage:array, message:string}
      */
-    public function chat($session_id, $message, $bot_id, array $bot_config)
+    public function chat(string $session_id, string $message, int $bot_id, array $bot_config)
     : array {
         // v0.8.0 hardening: allow callers (e.g. AutoGPT comment-reply
         // processor) to override the operating user via $bot_config['user_id']
@@ -176,7 +176,7 @@ final class ChatManager
      * @param int    $bot_id
      * @return array{ok:bool, message:string}
      */
-    private function check_quota($user_id, $session_id, $bot_id)
+    private function check_quota(int $user_id, string $session_id, int $bot_id)
     : array {
         if ($user_id > 0) {
             $plan = LicenseService::instance()->plan();
@@ -240,7 +240,7 @@ final class ChatManager
      * @param string $provider
      * @return string
      */
-    private function get_api_key($provider) : mixed {
+    private function get_api_key(string $provider) : mixed {
         $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         return is_array($keys) && isset($keys[$provider]) ? $keys[$provider] : '';
     }
@@ -250,7 +250,7 @@ final class ChatManager
      * @param string $message
      * @return void
      */
-    private function log($level, $message)
+    private function log(string $level, string $message)
     : void {
         if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
             Logger::instance()->log('chat', $level, $message);

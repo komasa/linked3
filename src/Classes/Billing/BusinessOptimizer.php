@@ -72,7 +72,7 @@ final class BusinessOptimizer
      * @param array $plans
      * @return array
      */
-    public function apply_experiment($plans) : mixed {
+    public function apply_experiment(array $plans) : mixed {
         $experiments = $this->experiments();
         $exp = $experiments[$this->experiment_id] ?? null;
         if (!$exp || empty($exp['overrides'])) {
@@ -130,7 +130,7 @@ final class BusinessOptimizer
      * @param string $experiment_id
      * @return bool
      */
-    public function activate($experiment_id)
+    public function activate(string $experiment_id)
     : bool {
         $experiments = $this->experiments();
         if (!isset($experiments[$experiment_id])) {
@@ -235,7 +235,7 @@ final class BusinessOptimizer
      * @param array $baseline
      * @return string 'promote' | 'revert' | 'continue'
      */
-    private function decide($exp, $baseline)
+    private function decide(array $exp, array $baseline)
     : string {
         if (empty($baseline)) {
             return 'continue'; // no baseline to compare yet

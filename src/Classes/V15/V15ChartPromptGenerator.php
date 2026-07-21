@@ -43,7 +43,7 @@ final class V15ChartPromptGenerator
      * }
      * @throws \RuntimeException
      */
-    public function generate($topic, array $v15_context = [], array $opts = []) : mixed {
+    public function generate(string $topic, array $v15_context = [], array $opts = []) : mixed {
         $chart_codes = $opts['chart_codes'] ?? [];
         $category = $opts['category'] ?? '';
         $count = max(1, min(10, (int) ($opts['count'] ?? 3)));
@@ -295,7 +295,7 @@ final class V15ChartPromptGenerator
      * @return array{script:array, usage:array, provider:string, model:string}
      * @throws \RuntimeException
      */
-    public function generate_single($topic, array $chart_item, array $v15_context = [], array $opts = [])
+    public function generate_single(string $topic, array $chart_item, array $v15_context = [], array $opts = [])
     {
         $ctx = $this->build_v15_context($v15_context, ['topic' => $topic]);
 

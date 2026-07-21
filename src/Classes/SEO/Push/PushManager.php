@@ -79,7 +79,7 @@ final class PushManager
      * @param string|null $engine  Specific engine slug, or null = all configured.
      * @return array<string,array{ok:bool,code:int,pushed:int,message:string}>
      */
-    public function push_url($url, $engine = null) : mixed {
+    public function push_url(string $url, ?string $engine = null) : mixed {
         $url = esc_url_raw($url);
         if ($url === '') {
             return [];
@@ -97,7 +97,7 @@ final class PushManager
      * @param string|null $engine
      * @return array<string,array{ok:bool,code:int,pushed:int,message:string}>
      */
-    public function push_batch(array $urls, $engine = null) : mixed     {
+    public function push_batch(array $urls, ?string $engine = null) : mixed     {
         $urls = array_values(array_filter(array_map('esc_url_raw', $urls)));
         if (empty($urls)) {
             return [];
@@ -175,7 +175,7 @@ final class PushManager
      * @param string $engine
      * @return void
      */
-    private function record_failure($engine)
+    private function record_failure(string $engine)
     : void {
         $threshold = (int) SEOConfig::get('push.circuit_threshold', 5);
         $cooldown  = (int) SEOConfig::get('push.engine_cooldown', HOUR_IN_SECONDS);
@@ -192,7 +192,7 @@ final class PushManager
      * @param string $engine
      * @return void
      */
-    private function reset_circuit($engine)
+    private function reset_circuit(string $engine)
     : void {
         delete_transient(LINKED3_OPTION_PREFIX . 'push_fail_' . sanitize_key($engine));
         delete_transient(LINKED3_OPTION_PREFIX . 'push_cooldown_' . sanitize_key($engine));
@@ -202,7 +202,7 @@ final class PushManager
      * @param string $engine
      * @return bool
      */
-    private function is_circuit_open($engine) : mixed     {
+    private function is_circuit_open(string $engine) : mixed     {
         return (bool) get_transient(LINKED3_OPTION_PREFIX . 'push_cooldown_' . sanitize_key($engine));
     }
 }

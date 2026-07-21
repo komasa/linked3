@@ -80,7 +80,7 @@ class BookProjectState {
      *
      * @param array $init_data {book_title, type, mode, iteration_level}
      */
-    private function init_state( $init_data ) : void {
+    private function init_state(array $init_data) : void {
         $this->state = array(
             'project_id'          => $this->project_id,
             'schema_version'      => self::SCHEMA_VERSION, // v18.11: 状态 schema 版本号，支持未来迁移
@@ -166,7 +166,7 @@ class BookProjectState {
      * @param array $data 从文件/transient 加载的状态数据。
      * @return array 迁移后的状态数据。
      */
-    private function maybe_migrate( $data ) : mixed {
+    private function maybe_migrate(array $data) : mixed {
         $version = isset( $data['schema_version'] ) ? (int) $data['schema_version'] : 1;
 
         // v1 → v2: 添加 schema_version 字段
@@ -244,7 +244,7 @@ class BookProjectState {
      * @param mixed  $default
      * @return mixed
      */
-    public function get( $key, $default = null ) {
+    public function get(string $key, $default = null) {
         return isset( $this->state[ $key ] ) ? $this->state[ $key ] : $default;
     }
 
@@ -255,7 +255,7 @@ class BookProjectState {
      * @param mixed  $value
      * @return self
      */
-    public function set( $key, $value ) {
+    public function set(string $key, $value): self {
         $this->state[ $key ] = $value;
         return $this;
     }
@@ -268,7 +268,7 @@ class BookProjectState {
      * @param array  $extra
      * @return self
      */
-    public function log_step( $step_id, $status, $extra = array() ) {
+    public function log_step(string $step_id, string $status, array $extra = array()): self {
         $this->state['step_history'][] = array_merge( array(
             'step_id'   => $step_id,
             'status'    => $status,
@@ -284,7 +284,7 @@ class BookProjectState {
      * @param string $status
      * @return self
      */
-    public function set_status( $status ) {
+    public function set_status(string $status): self {
         $this->state['status'] = $status;
         return $this;
     }
@@ -298,7 +298,7 @@ class BookProjectState {
      * @param float  $cost
      * @return self
      */
-    public function log_cost( $step_id, $tokens_in, $tokens_out, $cost ) {
+    public function log_cost(string $step_id, int $tokens_in, int $tokens_out, float $cost): self {
         $this->state['cost_log'][] = array(
             'step_id'    => $step_id,
             'tokens_in'  => $tokens_in,
@@ -323,7 +323,7 @@ class BookProjectState {
      *
      * @return string
      */
-    private function get_json_path() {
+    private function get_json_path(): string {
         $upload_dir = wp_upload_dir();
         return $upload_dir['basedir'] . '/linked3-book-projects/' . $this->project_id . '.json';
     }
@@ -334,7 +334,7 @@ class BookProjectState {
      * @param string $project_id
      * @return self|null
      */
-    public static function get_project( $project_id ) {
+    public static function get_project(string $project_id): ?self {
         // v18.11: 校验 project_id 防止路径遍历。
         if ( false === BookSecurity::validate_project_id( $project_id ) ) {
             return null;

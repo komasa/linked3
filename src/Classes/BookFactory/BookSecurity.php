@@ -32,7 +32,7 @@ class BookSecurity {
 	 * @param string $project_id 待校验的项目 ID。
 	 * @return string|false 校验通过返回清洗后的 project_id，失败返回 false。
 	 */
-	public static function validate_project_id( $project_id ) : mixed {
+	public static function validate_project_id(string $project_id) : mixed {
 		if ( ! is_string( $project_id ) || '' === $project_id ) {
 			return false;
 		}
@@ -53,7 +53,7 @@ class BookSecurity {
 	 * @param string|\WP_Error $error 错误信息或 WP_Error 对象。
 	 * @return string 脱敏后的安全错误消息。
 	 */
-	public static function sanitize_error_message( $error ) {
+	public static function sanitize_error_message(string|WP_Error $error): string {
 		if ( is_wp_error( $error ) ) {
 			$error = $error->get_error_message();
 		}
@@ -78,7 +78,7 @@ class BookSecurity {
 	 * @return bool 写入成功返回 true。
 	 * @throws \RuntimeException 写入或 rename 失败时抛出异常。
 	 */
-	public static function atomic_write( $filepath, $content ) : bool {
+	public static function atomic_write(string $filepath, string $content) : bool {
 		$dir = dirname( $filepath );
 		if ( ! is_dir( $dir ) ) {
 			wp_mkdir_p( $dir );

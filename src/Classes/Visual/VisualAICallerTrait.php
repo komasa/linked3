@@ -83,7 +83,7 @@ trait VisualAICallerTrait
      * @param string $content
      * @return array|null
      */
-    protected function extract_json($content) : mixed {
+    protected function extract_json(string $content) : mixed {
         if (empty($content)) {
             return null;
         }

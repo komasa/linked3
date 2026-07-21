@@ -81,7 +81,7 @@ final class PublishManager
      * @param array $post
      * @return array{ok:bool, remote_id:string, message:string}
      */
-    public function publish_to_target($target_id, $user_id, array $post) : mixed {
+    public function publish_to_target(int $target_id, int $user_id, array $post) : mixed {
         $repo = new PublishTargetRepository();
         $target = $repo->get($target_id, $user_id);
         if (!$target) {
@@ -120,7 +120,7 @@ final class PublishManager
      * @param array $post
      * @return array<int,array{target_id:int, name:string, ok:bool, message:string}>
      */
-    public function publish_to_all($user_id, array $post) : mixed     {
+    public function publish_to_all(int $user_id, array $post) : mixed     {
         $repo = new PublishTargetRepository();
         $targets = $repo->all_for_user($user_id);
         $results = [];
@@ -143,7 +143,7 @@ final class PublishManager
      * @param int $user_id
      * @return array{ok:bool, message:string}
      */
-    public function test_target($target_id, $user_id)
+    public function test_target(int $target_id, int $user_id)
     {
         $repo = new PublishTargetRepository();
         $target = $repo->get($target_id, $user_id);
@@ -160,7 +160,7 @@ final class PublishManager
      * @param array  $result
      * @return void
      */
-    private function log_attempt($target_id, $user_id, $post_id, array $result)
+    private function log_attempt(int $target_id, int $user_id, int $post_id, array $result)
     : void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_publish_logs';

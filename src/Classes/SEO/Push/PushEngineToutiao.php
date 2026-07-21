@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
 }
 final class PushEngineToutiao implements PushEngine
 {
-    public function slug()
+    public function slug(): string
     : string {
         return 'toutiao';
     }
@@ -92,7 +92,7 @@ final class PushEngineToutiao implements PushEngine
      * @param int             $sent
      * @return array
      */
-    private function parse($response, $sent)
+    private function parse(array|WP_Error $response, int $sent)
     : array {
         if (is_wp_error($response)) {
             return [

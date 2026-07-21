@@ -50,7 +50,7 @@ final class ChatModeration
      * @param array  $context {ip, user_id}
      * @return array{ok:bool, reason:string, layer:string}
      */
-    public function check($message, array $context = []) : mixed {
+    public function check(string $message, array $context = []) : mixed {
         $message = (string) $message;
         $ip = isset($context['ip']) ? (string) $context['ip'] : RateLimiter::client_ip();
 
@@ -77,7 +77,7 @@ final class ChatModeration
      * @param string $message
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function check_banned_words($message)
+    private function check_banned_words(string $message)
     : array {
         $raw = get_option(LINKED3_OPTION_PREFIX . 'moderation_banned_words', '');
         $patterns = $this->parse_lines($raw);
@@ -119,7 +119,7 @@ final class ChatModeration
      * @param string $ip
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function check_banned_ip($ip)
+    private function check_banned_ip(string $ip)
     : array {
         if ($ip === '') {
             return ['ok' => true, 'reason' => '', 'layer' => ''];
@@ -153,7 +153,7 @@ final class ChatModeration
      * @param string $message
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function check_openai_moderation($message) : mixed     {
+    private function check_openai_moderation(string $message) : mixed     {
         if (!get_option(LINKED3_OPTION_PREFIX . 'moderation_openai_enabled', 0)) {
             return ['ok' => true, 'reason' => '', 'layer' => ''];
         }
@@ -228,7 +228,7 @@ final class ChatModeration
      * @param string $detail
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function fail_open($detail)
+    private function fail_open(string $detail)
     : array {
         $fail_closed = (bool) apply_filters('linked3/moderation_fail_closed', false);
         if ($fail_closed) {
@@ -259,7 +259,7 @@ final class ChatModeration
      * @param string $raw
      * @return string[]
      */
-    private function parse_lines($raw) : mixed     {
+    private function parse_lines(string $raw) : mixed     {
         $raw = (string) $raw;
         if ($raw === '') return [];
         $lines = preg_split('/\r\n|\r|\n/', $raw);
@@ -279,7 +279,7 @@ final class ChatModeration
      * @param string $rule
      * @return bool
      */
-    private function ip_matches($ip, $rule)
+    private function ip_matches(string $ip, string $rule): bool
     {
         // CIDR notation.
         if (strpos($rule, '/') !== false) {
@@ -313,7 +313,7 @@ final class ChatModeration
      * @param string $detail
      * @return void
      */
-    private function log_block($layer, $detail)
+    private function log_block(string $layer, string $detail)
     : void {
         if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
             Logger::instance()->warning('chat', 'Moderation block: ' . $layer . ' — ' . $detail);

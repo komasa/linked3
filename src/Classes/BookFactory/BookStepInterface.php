@@ -41,6 +41,6 @@ interface BookStepInterface {
 	 * @param BookFactory       $factory 工厂实例 (提供 AI 调用等能力)。
 	 * @return array|WP_Error 返回执行结果数组或 WP_Error。
 	 */
-	public function execute( BookProjectState $state, object $factory );
+	public function execute( BookProjectState $state, object $factory ): array|WP_Error ;
 
 }

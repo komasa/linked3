@@ -48,7 +48,7 @@ final class PayloadSanitizer
      * @param int   $depth
      * @return mixed
      */
-    private static function walk($data, $depth)
+    private static function walk($data, int $depth)
     {
         if ($depth > 8) {
             return '[truncated:depth]';
@@ -76,7 +76,7 @@ final class PayloadSanitizer
      * @param string $key
      * @return bool
      */
-    private static function is_secret_key($key)
+    private static function is_secret_key(string $key)
     : bool {
         $k = strtolower((string) $key);
         if (in_array($k, self::SECRET_KEYS, true)) {
@@ -94,7 +94,7 @@ final class PayloadSanitizer
      * @param string $s
      * @return string
      */
-    private static function mask($s)
+    private static function mask(string $s): string
     {
         $len = strlen($s);
         if ($len <= 4) {
@@ -107,7 +107,7 @@ final class PayloadSanitizer
      * @param string $s
      * @return string
      */
-    private static function sanitize_string($s)
+    private static function sanitize_string(string $s): string
     {
         // Detect base64 image payloads.
         if (preg_match('/^data:(image\/[a-z+]+);base64,/i', $s, $m)) {

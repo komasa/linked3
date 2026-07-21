@@ -127,7 +127,7 @@ final class DistributeManager
      * @param array      $platforms  平台 slug 数组;空数组表示"所有启用平台"
      * @return array<int,array{platform:string, ok:bool, message:string, remote_id:string}>
      */
-    public function distribute_post_to_platforms($post_id, array $platforms = [])
+    public function distribute_post_to_platforms(int $post_id, array $platforms = []): array
     {
         $post = get_post($post_id);
         if (!$post) return [];
@@ -235,7 +235,7 @@ final class DistributeManager
      * @param string $reason
      * @return int 队列项 ID
      */
-    public function enqueue_retry($post_id, $platform, $reason = '')
+    public function enqueue_retry(int $post_id, string $platform, string $reason = ''): int
     {
         if (!class_exists('\\Linked3\\Classes\\AutoGPT\\AutoGPTTaskRepository')) {
             return 0;

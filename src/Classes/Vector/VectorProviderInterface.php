@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 interface VectorProviderInterface
 {
     /** @return string slug */
-    public function slug();
+    public function slug(): string ;
 
     /**
      * Connect / verify credentials.
@@ -38,7 +38,7 @@ interface VectorProviderInterface
      * @param array  $config
      * @return array{ok:bool, message:string}
      */
-    public function create_index($name, $dimensions, array $config);
+    public function create_index(string $name, int $dimensions, array $config);
 
     /**
      * Upsert vectors.
@@ -48,7 +48,7 @@ interface VectorProviderInterface
      * @param array  $config
      * @return array{ok:bool, message:string}
      */
-    public function upsert($index, array $vectors, array $config);
+    public function upsert(string $index, array $vectors, array $config);
 
     /**
      * Query top-K nearest neighbors.
@@ -60,7 +60,7 @@ interface VectorProviderInterface
      * @param array  $config
      * @return array<int,array{id:string, score:float, metadata:array}>
      */
-    public function query($index, array $query_vector, $top_k = 5, array $filters = [], array $config = []);
+    public function query(string $index, array $query_vector, int $top_k = 5, array $filters = [], array $config = []): array ;
 
     /**
      * Delete vectors by ID or filter.
@@ -70,7 +70,7 @@ interface VectorProviderInterface
      * @param array  $config
      * @return array{ok:bool, message:string}
      */
-    public function delete($index, array $ids, array $config);
+    public function delete(string $index, array $ids, array $config);
 
     /**
      * Generate an embedding for text (using the linked AI Dispatcher).
@@ -79,5 +79,5 @@ interface VectorProviderInterface
      * @param array  $config
      * @return float[]|\WP_Error
      */
-    public function embed($text, array $config);
+    public function embed(string $text, array $config): array|WP_Error ;
 }

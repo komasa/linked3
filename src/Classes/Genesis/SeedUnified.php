@@ -56,7 +56,7 @@ class SeedUnified {
      * @param array $args 查询参数
      * @return array SEED列表
      */
-    public static function get_all($args = []) : mixed {
+    public static function get_all(array $args = []) : mixed {
         $defaults = [
             'category'   => '',      // 按分类过滤
             'type'       => '',      // 按类型过滤 (fixed/variable)
@@ -252,7 +252,7 @@ class SeedUnified {
      * @param array $data SEED数据
      * @return int|WP_Error
      */
-    public static function create($data) : mixed {
+    public static function create(array $data) : mixed {
         if (!post_type_exists(self::CPT)) {
             return new WP_Error('cpt_missing', 'SEED CPT未注册');
         }

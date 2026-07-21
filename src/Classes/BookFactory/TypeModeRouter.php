@@ -200,7 +200,7 @@ class TypeModeRouter {
      * @param string $mode handwrite|voice|ai
      * @return array 路由配置 (含 fallback)
      */
-    public static function route( $type, $mode ) : mixed {
+    public static function route(string $type, string $mode) : mixed {
         $key = $type . '_' . $mode;
 
         if ( isset( self::$routes[ $key ] ) ) {
@@ -230,7 +230,7 @@ class TypeModeRouter {
      * @param string $template_name
      * @return array
      */
-    private static function get_output_template( $template_name ) : mixed {
+    private static function get_output_template(string $template_name) : mixed {
         $templates = array(
             'book_default' => array(
                 'chapter_prefix' => '第',
@@ -293,7 +293,7 @@ class TypeModeRouter {
      * @param string $type
      * @return string
      */
-    public static function get_type_label( $type ) {
+    public static function get_type_label(string $type): string {
         $labels = array(
             'book'       => '图书',
             'thesis'     => '论文',
@@ -340,7 +340,7 @@ class TypeModeRouter {
      * @param string $prototype_key 原型key (book/experimental/observational/...)
      * @return array|null
      */
-    public static function get_exploration_prototype( $prototype_key ) {
+    public static function get_exploration_prototype(string $prototype_key): ?array {
         return BookExplorationPrototypes::get( $prototype_key );
     }
 

@@ -257,7 +257,7 @@ PROMPT;
      * @param string $content
      * @return array|null
      */
-    private function parse_json_response($content) : mixed     {
+    private function parse_json_response(string $content) : mixed     {
         // 尝试 1: 直接 json_decode
         $decoded = json_decode($content, true);
         if (is_array($decoded)) {
@@ -297,7 +297,7 @@ PROMPT;
      * @param int $expected_pages
      * @return array
      */
-    private function normalize_output($data, $expected_pages)
+    private function normalize_output(array $data, int $expected_pages)
     : array {
         $title = (string) ($data['title'] ?? '');
         $main_content = (string) ($data['main_content'] ?? '');
@@ -335,7 +335,7 @@ PROMPT;
         ];
     }
 
-    public function platform()
+    public function platform(): string
     : string {
         return 'xhs';
     }
@@ -344,7 +344,7 @@ PROMPT;
         return __('小红书图文', 'linked3');
     }
 
-    public function available_styles()
+    public function available_styles(): array
     {
         return self::STYLES;
     }

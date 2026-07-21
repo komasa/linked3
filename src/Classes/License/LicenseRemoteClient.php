@@ -53,7 +53,7 @@ final class LicenseRemoteClient
      * @return array{valid:bool, plan:string, message:string, transport_error?:bool}
      *         Returns ['plan'=>'free','status'=>'local'] in local mode (no 'valid' key).
      */
-    public function verify($key, $server_url, $fingerprint)
+    public function verify(string $key, string $server_url, string $fingerprint)
     {
         // Local mode: no remote server configured.
         if ($server_url === '') {
@@ -125,7 +125,7 @@ final class LicenseRemoteClient
      * @param string $fingerprint Site fingerprint.
      * @return array{valid:bool, plan:string, message:string, transport_error?:bool}
      */
-    public function activate($key, $server_url, $fingerprint)
+    public function activate(string $key, string $server_url, string $fingerprint): array
     {
         // Local mode: no remote server configured.
         if ($server_url === '') {

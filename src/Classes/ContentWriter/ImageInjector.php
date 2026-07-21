@@ -30,7 +30,7 @@ final class ImageInjector
      * @param array  $config   {provider, api_key}
      * @return string Modified content.
      */
-    public function inject($content, $keyword, $count = 2, array $config = []) : mixed {
+    public function inject(string $content, string $keyword, int $count = 2, array $config = []) : mixed {
         $provider = $config['provider'] ?? 'pexels';
         $images = $this->fetch_images($provider, $keyword, $count, $config);
         if (empty($images)) {
@@ -64,7 +64,7 @@ final class ImageInjector
      * @param array  $config
      * @return array<int,array{url:string, alt:string, credit:string}>
      */
-    private function fetch_images($provider, $keyword, $count, array $config) : mixed     {
+    private function fetch_images(string $provider, string $keyword, int $count, array $config) : mixed     {
         switch ($provider) {
             case 'pexels':
                 return $this->fetch_pexels($keyword, $count, $config);
@@ -79,7 +79,7 @@ final class ImageInjector
         return [];
     }
 
-    private function fetch_pexels($keyword, $count, $config) : mixed {
+    private function fetch_pexels(string $keyword, int $count, array $config) : mixed {
         $key = $config['api_key'] ?? '';
         if (!$key) return [];
         $url = 'https://api.pexels.com/v1/search?query=' . urlencode($keyword) . '&per_page=' . (int) $count;
@@ -165,7 +165,7 @@ final class ImageInjector
      * @param string $alt
      * @return int|\WP_Error Attachment ID.
      */
-    public function sideload($url, $alt = '')
+    public function sideload(string $url, string $alt = ''): int|WP_Error
     {
         $url = esc_url_raw($url);
         if (empty($url)) {

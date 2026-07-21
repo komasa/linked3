@@ -44,7 +44,7 @@ final class TemplateManager
      * @param string $category
      * @return array
      */
-    public function get_by_category($category = 'content') : mixed {
+    public function get_by_category(string $category = 'content') : mixed {
         // A 类 (content): 从 option 存储的模板
         if ($category === 'content') {
             return $this->get_all();
@@ -68,7 +68,7 @@ final class TemplateManager
      * @param string $stage  rewrite/outline/section/keyword/title/meta/excerpt/tags/video_script/visual
      * @return array
      */
-    public function get_pipeline_templates($stage = '') : mixed     {
+    public function get_pipeline_templates(string $stage = '') : mixed     {
         $all = $this->get_by_category('pipeline');
         if (empty($stage)) {
             return $all;

@@ -31,7 +31,7 @@ final class KeywordExtractor
      * @param array  $override_opts Override config defaults.
      * @return array<string,float>
      */
-    public function extract($text, array $override_opts = []) : mixed {
+    public function extract(string $text, array $override_opts = []) : mixed {
         $cfg = SEOConfig::get('keyword', []);
         $opts = array_merge([
             'algorithm'     => $cfg['algorithm'] ?? 'textrank',
@@ -68,7 +68,7 @@ final class KeywordExtractor
      * @param int    $limit
      * @return string[]
      */
-    public function extract_keywords($text, $limit = 10) : mixed     {
+    public function extract_keywords(string $text, int $limit = 10) : mixed     {
         $scores = $this->extract($text, ['max_keywords' => $limit]);
         return array_keys($scores);
     }

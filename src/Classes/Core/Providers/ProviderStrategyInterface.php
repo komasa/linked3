@@ -25,7 +25,7 @@ interface ProviderStrategyInterface
     /**
      * @return string Provider slug, e.g. 'openai', 'deepseek'.
      */
-    public function slug();
+    public function slug(): string ;
 
     /**
      * Build the API endpoint URL for the given operation.
@@ -34,13 +34,13 @@ interface ProviderStrategyInterface
      * @param array  $config    Provider config (api_base, model, etc).
      * @return string
      */
-    public function build_api_url($operation, array $config);
+    public function build_api_url(string $operation, array $config): string ;
 
     /**
      * @param array $config Provider config (includes api_key).
      * @return array<string,string> HTTP headers.
      */
-    public function get_api_headers(array $config);
+    public function get_api_headers(array $config): array ;
 
     /**
      * Format the chat completion request payload.
@@ -50,7 +50,7 @@ interface ProviderStrategyInterface
      * @param array $config   Provider config.
      * @return array
      */
-    public function format_chat_payload(array $messages, array $options, array $config);
+    public function format_chat_payload(array $messages, array $options, array $config): array ;
 
     /**
      * Parse a (non-streaming) chat response body.
@@ -68,13 +68,13 @@ interface ProviderStrategyInterface
      * @param int   $status_code
      * @return array{code:string, message:string, status:int}
      */
-    public function parse_error_response($body, $status_code);
+    public function parse_error_response($body, int $status_code);
 
     /**
      * @param array $config
      * @return array<int,string> List of model IDs.
      */
-    public function get_models(array $config);
+    public function get_models(array $config): array ;
 
     /**
      * Build an embeddings request payload.
@@ -84,7 +84,7 @@ interface ProviderStrategyInterface
      * @param array        $config
      * @return array
      */
-    public function format_embed_payload($input, array $options, array $config);
+    public function format_embed_payload(string|array $input, array $options, array $config): array ;
 
     /**
      * Parse an embeddings response body.
@@ -93,5 +93,5 @@ interface ProviderStrategyInterface
      * @param array $config
      * @return array<int,float[]> Vectors.
      */
-    public function parse_embed_response($body, array $config);
+    public function parse_embed_response($body, array $config): array ;
 }

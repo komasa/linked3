@@ -47,7 +47,7 @@ final class Hotwords
      * @param int    $limit
      * @return string[]
      */
-    public static function fetch($source = 'baidu', $limit = 30) : mixed     {
+    public static function fetch(string $source = 'baidu', int $limit = 30) : mixed     {
         $cache_key = LINKED3_OPTION_PREFIX . 'hot_' . $source;
         $cached = get_transient($cache_key);
         if (is_array($cached)) {
@@ -161,7 +161,7 @@ final class Hotwords
      * @param string $text
      * @return string[]
      */
-    private static function extract_zh_tokens($text) : mixed     {
+    private static function extract_zh_tokens(string $text) : mixed     {
         $text = wp_strip_all_tags((string) $text);
         // Decode entities first to avoid splitting on &nbsp;.
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');

@@ -128,7 +128,7 @@ final class PushLogRepository extends BaseRepository
      * @param int    $since_seconds
      * @return int
      */
-    public static function count_recent_success($url, $engine, $since_seconds) : mixed {
+    public static function count_recent_success(string $url, string $engine, int $since_seconds) : mixed {
         global $wpdb;
         $table = self::table();
         // ── FIX v16.0.1: Use PHP-computed timestamp for SQLite compatibility ──
@@ -150,7 +150,7 @@ final class PushLogRepository extends BaseRepository
      * @param array  $fields
      * @return bool
      */
-    public static function update($id, array $fields) : mixed     {
+    public static function update(int $id, array $fields) : mixed     {
         $allowed = ['status', 'response_code', 'response_body', 'message', 'retries'];
         $clean = [];
         foreach ($fields as $k => $v) {
@@ -167,7 +167,7 @@ final class PushLogRepository extends BaseRepository
     /**
      * @return int Total row count.
      */
-    public static function count_all()
+    public static function count_all(): int
     {
         return self::instance()->count();
     }
@@ -178,7 +178,7 @@ final class PushLogRepository extends BaseRepository
      * @param int $days
      * @return int Rows deleted.
      */
-    public static function prune_older_than($days)
+    public static function prune_older_than(int $days): int
     {
         global $wpdb;
         $table = self::table();

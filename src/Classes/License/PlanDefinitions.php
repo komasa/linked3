@@ -88,7 +88,7 @@ final class PlanDefinitions
      * @param string $plan
      * @return array|null
      */
-    public static function get($plan) : mixed     {
+    public static function get(string $plan) : mixed     {
         $all = self::all();
         return $all[$plan] ?? null;
     }
@@ -98,7 +98,7 @@ final class PlanDefinitions
      * @param string $feature
      * @return mixed
      */
-    public static function feature($plan, $feature) : mixed {
+    public static function feature(string $plan, string $feature) : mixed {
         $def = self::get($plan);
         if (!$def) {
             return null;
@@ -111,7 +111,7 @@ final class PlanDefinitions
      * @param string $module
      * @return bool|string false | 'limited' | 'full'
      */
-    public static function module_access($plan, $module) : mixed     {
+    public static function module_access(string $plan, string $module) : mixed     {
         $def = self::get($plan);
         if (!$def) {
             return false;

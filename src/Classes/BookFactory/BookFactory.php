@@ -56,7 +56,7 @@ class BookFactory {
      *
      * @param string $project_id
      */
-    public static function run_pipeline( $project_id ) : void {
+    public static function run_pipeline(string $project_id) : void {
         self::run_step( $project_id );
     }
 
@@ -74,7 +74,7 @@ class BookFactory {
      * @param string $project_id
      * @return array|WP_Error
      */
-    public static function run_step( $project_id ) {
+    public static function run_step(string $project_id): array|WP_Error {
         $state = BookProjectState::get_project( $project_id );
         if ( ! $state ) {
             return new WP_Error( 'no_project', '项目不存在' );
@@ -148,15 +148,15 @@ class BookFactory {
      *
      * @return array
      */
-        public function load_pipeline_config() { return BookFactoryUtils::load_pipeline_config(); }
+        public function load_pipeline_config(): array { return BookFactoryUtils::load_pipeline_config(); }
 
-    private function smart_split_outline( $content ) {
+    private function smart_split_outline( $content ): array {
         return BookFactoryUtils::smart_split_outline( $content );
     }
-    private function parse_outline( $content ) {
+    private function parse_outline( $content ): array {
         return BookFactoryUtils::parse_outline( $content );
     }
-    private function call_ai_with_rate_limit( $prompt ) {
+    private function call_ai_with_rate_limit( $prompt ): array {
         $min_interval = 1.0;
         $elapsed = microtime( true ) - $this->last_api_call;
         if ( $elapsed < $min_interval ) usleep( (int) ( ( $min_interval - $elapsed ) * 1000000 ) );

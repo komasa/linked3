@@ -23,7 +23,7 @@ trait OutlineMerger {
      * @param array $versions 大纲版本数组
      * @return array 最终大纲
      */
-    protected function merge_outlines( $versions ) : mixed {
+    protected function merge_outlines(array $versions) : mixed {
         if ( empty( $versions ) ) {
             return array( 'chapters' => array() );
         }
@@ -68,7 +68,7 @@ trait OutlineMerger {
      * @param array $previous_versions 之前的大纲版本
      * @return string
      */
-    protected function build_outline_prompt( $state, $route, $iteration, $previous_versions ) : mixed {
+    protected function build_outline_prompt(BookProjectState $state, array $route, int $iteration, array $previous_versions) : mixed {
         $book_title = $state->get( 'book_title' );
         $type_label = TypeModeRouter::get_type_label( $state->get( 'type' ) );
         $type_unit = $route['type_unit'];

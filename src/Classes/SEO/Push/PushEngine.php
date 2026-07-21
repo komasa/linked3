@@ -29,17 +29,17 @@ interface PushEngine
     /**
      * @return string Engine slug (baidu|bing|google|toutiao|indexnow).
      */
-    public function slug();
+    public function slug(): string ;
 
     /**
      * @return string Human-readable name for the admin UI.
      */
-    public function label();
+    public function label(): string ;
 
     /**
      * @return bool Whether this engine is configured (has the required API key / endpoint).
      */
-    public function is_configured();
+    public function is_configured(): bool ;
 
     /**
      * Push a list of URLs to this engine.

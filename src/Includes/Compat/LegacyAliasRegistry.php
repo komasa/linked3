@@ -53,7 +53,7 @@ class LegacyAliasRegistry
      * @param string $new_class Full FQCN of new class name
      * @return void
      */
-    public static function add($old_class, $new_class)
+    public static function add(string $old_class, string $new_class): void
     {
         self::$pending[$old_class] = $new_class;
         if (!self::$registered) {
@@ -68,7 +68,7 @@ class LegacyAliasRegistry
      * @param string $class The class name being autoloaded
      * @return void
      */
-    public static function autoload($class)
+    public static function autoload(string $class): void
     {
         if (!isset(self::$pending[$class])) {
             return;

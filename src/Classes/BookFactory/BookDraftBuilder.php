@@ -32,7 +32,7 @@ class BookDraftBuilder {
 	 * @param BookProjectState $state 项目状态。
 	 * @return array|WP_Error 返回 array('md_path'=>..., 'html_path'=>...) 或 WP_Error。
 	 */
-	public function rebuild( $state ) : mixed {
+	public function rebuild(BookProjectState $state) : mixed {
 		$project_id = $state->get( 'project_id' );
 		$book_title = $state->get( 'book_title' );
 		$outline    = $state->get( 'outline', array() );

@@ -19,7 +19,7 @@ interface InputSourceInterface
     /**
      * @return string Source slug.
      */
-    public function slug();
+    public function slug(): string ;
 
     /**
      * Fetch items from this source.
@@ -28,10 +28,10 @@ interface InputSourceInterface
      * @param int   $limit  Max items to return.
      * @return array<int,array{title:string, content:string, url:string, guid:string}>
      */
-    public function fetch(array $config, $limit = 10);
+    public function fetch(array $config, int $limit = 10): array ;
 
     /**
      * @return string Human-readable label.
      */
-    public function label();
+    public function label(): string ;
 }

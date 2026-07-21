@@ -49,7 +49,7 @@ final class ChatShortcode
      * @param bool $embedded
      * @return string
      */
-    private static function widget_html($bot_id, $embedded) : mixed {
+    private static function widget_html(int $bot_id, bool $embedded) : mixed {
         $nonce = wp_create_nonce('linked3_chat');
         $ajax_url = admin_url('admin-ajax.php');
         [$session_id, $is_guest] = self::init_chat_session();

@@ -38,7 +38,7 @@ final class TextRankExtractor
      * @param array  $opts
      * @return array<string,float>
      */
-    public function extract($text, array $opts = []) : mixed {
+    public function extract(string $text, array $opts = []) : mixed {
         $stop_zh = $opts['stopwords_zh'] ?? [];
         $stop_en = $opts['stopwords_en'] ?? [];
         $min_len = (int) ($opts['min_word_len'] ?? 2);

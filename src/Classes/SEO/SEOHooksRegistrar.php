@@ -141,7 +141,7 @@ final class SEOHooksRegistrar
      * @param \WP_Post $post
      * @return void
      */
-    public static function render_scorecard_metabox($post)
+    public static function render_scorecard_metabox(WP_Post $post)
     : void {
         $nonce = wp_create_nonce('linked3_seo');
         $post_id = (int) $post->ID;
@@ -182,7 +182,7 @@ final class SEOHooksRegistrar
      * @param string $content
      * @return string
      */
-    public static function filter_the_content($content) : mixed {
+    public static function filter_the_content(string $content) : mixed {
         if (is_admin() || is_feed()) {
             return $content;
         }
@@ -231,7 +231,7 @@ final class SEOHooksRegistrar
      * @param string $hook
      * @return void
      */
-    public static function enqueue_metabox_assets($hook)
+    public static function enqueue_metabox_assets(string $hook)
     : void {
         if (!in_array($hook, ['post.php', 'post-new.php'], true)) {
             return;

@@ -55,7 +55,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param int $user_id
      * @return array
      */
-    public function all_for_user($user_id) : mixed {
+    public function all_for_user(int $user_id) : mixed {
         global $wpdb;
         $table = $this->get_table();
         $rows = $wpdb->get_results($wpdb->prepare(
@@ -76,7 +76,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param int $user_id
      * @return array|null
      */
-    public function get($id, $user_id) : mixed     {
+    public function get(int $id, int $user_id) : mixed     {
         global $wpdb;
         $table = $this->get_table();
         $row = $wpdb->get_row($wpdb->prepare(
@@ -145,7 +145,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param array $data
      * @return bool|\WP_Error
      */
-    public function update($id, $user_id, array $data)
+    public function update(int $id, int $user_id, array $data): bool|WP_Error
     {
         global $wpdb;
         $table = $this->get_table();
@@ -189,7 +189,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param int $user_id
      * @return bool
      */
-    public function delete($id, $user_id)
+    public function delete(int $id, int $user_id): bool
     {
         global $wpdb;
         $table = $this->get_table();
@@ -204,7 +204,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param int $user_id
      * @return int -1 for unlimited.
      */
-    private function plan_limit($user_id)
+    private function plan_limit(int $user_id): int
     {
         $plan = \Linked3\Classes\License\LicenseService::instance()->plan();
         $limits = ['free' => 1, 'pro' => 5, 'premium' => -1];
@@ -215,7 +215,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param array $config
      * @return string JSON with sensitive fields encrypted.
      */
-    private function encrypt_config(array $config)
+    private function encrypt_config(array $config): string
     {
         if (class_exists('\\Linked3\\Includes\\Crypto')) {
             foreach (self::SENSITIVE_FIELDS as $field) {
@@ -234,7 +234,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param string $json
      * @return array
      */
-    private function decrypt_config($json)
+    private function decrypt_config(string $json): array
     {
         $config = json_decode($json, true);
         if (!is_array($config)) {

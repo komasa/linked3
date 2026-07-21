@@ -22,12 +22,12 @@ interface PublishTargetInterface
     /**
      * @return string Target type slug.
      */
-    public function type();
+    public function type(): string ;
 
     /**
      * @return string Human-readable label.
      */
-    public function label();
+    public function label(): string ;
 
     /**
      * Publish a single post to this target.

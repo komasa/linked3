@@ -23,7 +23,7 @@ final class ChatStorage
      * @param string $module
      * @return array|null
      */
-    public function get_session($session_id, $bot_id, $user_id, $module = 'chat') : mixed {
+    public function get_session(string $session_id, int $bot_id, int $user_id, string $module = 'chat') : mixed {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_chat_logs';
         $row = $wpdb->get_row($wpdb->prepare(
@@ -61,7 +61,7 @@ final class ChatStorage
      * @param int    $tokens_used
      * @return void
      */
-    public function append_message($session_id, $bot_id, $user_id, array $message, $tokens_used = 0)
+    public function append_message(string $session_id, int $bot_id, int $user_id, array $message, int $tokens_used = 0)
     : void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_chat_logs';

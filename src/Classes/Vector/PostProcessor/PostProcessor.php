@@ -27,7 +27,7 @@ final class PostProcessor
      * @param bool    $update
      * @return void
      */
-    public static function on_save_post($post_id, $post, $update)
+    public static function on_save_post(int $post_id, WP_Post $post, bool $update)
     : void {
         // Skip revisions + autosaves.
         if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) return;
@@ -75,7 +75,7 @@ final class PostProcessor
      * @param int $post_id
      * @return void
      */
-    public static function on_delete_post($post_id)
+    public static function on_delete_post(int $post_id)
     : void {
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return;
@@ -93,7 +93,7 @@ final class PostProcessor
      * @param int    $size
      * @return string[]
      */
-    private static function chunk($text, $size) : mixed {
+    private static function chunk(string $text, int $size) : mixed {
         $text = trim($text);
         if (mb_strlen($text) <= $size) return [$text];
         $chunks = [];

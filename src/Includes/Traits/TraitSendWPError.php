@@ -21,7 +21,7 @@ trait TraitSendWPError
      * @param int              $status_code
      * @return never
      */
-    protected function send_error($error, $status_code = 400)
+    protected function send_error(WP_Error|string $error, int $status_code = 400)
     : void {
         if (is_wp_error($error)) {
             $data = [
@@ -43,7 +43,7 @@ trait TraitSendWPError
      * @param int   $status_code
      * @return never
      */
-    protected function send_success($data = null, $status_code = 200)
+    protected function send_success($data = null, int $status_code = 200)
     : void {
         wp_send_json_success($data, $status_code);
     }

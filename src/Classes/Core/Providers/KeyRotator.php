@@ -32,7 +32,7 @@ final class KeyRotator
      * @param string[] $keys
      * @return array{key:string, index:int, degraded:bool}
      */
-    public function pick($provider_slug, array $keys) : mixed {
+    public function pick(string $provider_slug, array $keys) : mixed {
         $keys = array_values(array_filter($keys, static function ($k) {
             return is_string($k) && $k !== '';
         }));
@@ -80,7 +80,7 @@ final class KeyRotator
      * @param int    $index
      * @return void
      */
-    public function mark_failed($provider_slug, $index)
+    public function mark_failed(string $provider_slug, int $index)
     : void {
         set_transient(
             $this->health_key($provider_slug, $index),
@@ -94,7 +94,7 @@ final class KeyRotator
      * @param int    $index
      * @return bool
      */
-    public function is_unhealthy($provider_slug, $index) : mixed     {
+    public function is_unhealthy(string $provider_slug, int $index) : mixed     {
         return (bool) get_transient($this->health_key($provider_slug, $index));
     }
 
@@ -102,7 +102,7 @@ final class KeyRotator
      * @param string $provider_slug
      * @return int
      */
-    private function cursor($provider_slug) : mixed {
+    private function cursor(string $provider_slug) : mixed {
         return (int) get_transient('linked3_kc_' . $provider_slug);
     }
 
@@ -111,7 +111,7 @@ final class KeyRotator
      * @param int    $val
      * @return void
      */
-    private function set_cursor($provider_slug, $val)
+    private function set_cursor(string $provider_slug, int $val)
     : void {
         set_transient('linked3_kc_' . $provider_slug, $val, DAY_IN_SECONDS);
     }
@@ -121,7 +121,7 @@ final class KeyRotator
      * @param int    $index
      * @return string
      */
-    private function health_key($provider_slug, $index)
+    private function health_key(string $provider_slug, int $index)
     : string {
         return 'linked3_kh_' . $provider_slug . '_' . $index;
     }
@@ -131,7 +131,7 @@ final class KeyRotator
      * @param int    $index
      * @return int
      */
-    private function failure_ts($provider_slug, $index) : mixed     {
+    private function failure_ts(string $provider_slug, int $index) : mixed     {
         $v = get_transient($this->health_key($provider_slug, $index));
         return is_array($v) && isset($v['failed_at']) ? (int) $v['failed_at'] : 0;
     }

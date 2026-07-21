@@ -68,7 +68,7 @@ final class InterlinkStrategyFrequent implements InterlinkStrategy
      * @param string[] $keywords
      * @return string
      */
-    private function pick_anchor($post, array $keywords) : mixed     {
+    private function pick_anchor(WP_Post $post, array $keywords) : mixed     {
         $title = (string) $post->post_title;
         if ($title === '') {
             return '';

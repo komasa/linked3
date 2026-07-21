@@ -38,7 +38,7 @@ final class TFIDFExtractor
      * }
      * @return array<string,float> keyword → score
      */
-    public function extract($text, array $opts = []) : mixed {
+    public function extract(string $text, array $opts = []) : mixed {
         $stop_zh = $opts['stopwords_zh'] ?? [];
         $stop_en = $opts['stopwords_en'] ?? [];
         $min_len = (int) ($opts['min_word_len'] ?? 2);
@@ -92,7 +92,7 @@ final class TFIDFExtractor
      * @param string $text
      * @return string[]
      */
-    public function tokenize($text) : mixed     {
+    public function tokenize(string $text) : mixed     {
         $text = wp_strip_all_tags((string) $text);
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
         // CJK Unified Ideographs + ASCII letters/digits.

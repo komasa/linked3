@@ -88,7 +88,7 @@ final class PublishSaveTargetAction extends PublishBaseAjaxAction
      * @param string $value
      * @return string
      */
-    private function sanitize_secret($value) : mixed     {
+    private function sanitize_secret(string $value) : mixed     {
         $value = is_string($value) ? $value : '';
         // Strip tags, line breaks, and control chars; keep all printable chars.
         $value = wp_strip_all_tags($value);

@@ -133,7 +133,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array        $config
      * @return array
      */
-    public function format_embed_payload($input, array $options, array $config)
+    public function format_embed_payload(string|array $input, array $options, array $config): array
     : array {
         return [
             'model' => isset($options['model']) ? $options['model'] : ($config['embed_model'] ?? 'text-embedding-3-small'),
@@ -148,7 +148,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array<int,float[]>
      */
-    public function parse_embed_response($body, array $config)
+    public function parse_embed_response($body, array $config): array
     {
         $body = is_array($body) ? $body : [];
         $out = [];
@@ -169,7 +169,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param int   $status_code
      * @return array{code:string, message:string, status:int}
      */
-    public function parse_error_response($body, $status_code)
+    public function parse_error_response($body, int $status_code)
     : array {
         $body = is_array($body) ? $body : [];
         $status_code = (int) $status_code;
@@ -215,7 +215,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
     /**
      * @return int
      */
-    public function default_timeout()
+    public function default_timeout(): int
     {
         return (int) apply_filters('linked3/provider_timeout', $this->default_timeout, $this->slug());
     }

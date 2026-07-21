@@ -58,7 +58,7 @@ final class Logger
     /**
      * @return self
      */
-    public static function instance()
+    public static function instance(): self
     {
         if (null === self::$instance) {
             // v4.4.6: delegate to the DI container when available.
@@ -82,7 +82,7 @@ final class Logger
      * @return self
      * @internal
      */
-    public static function instance_without_container()
+    public static function instance_without_container(): self
     {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -97,7 +97,7 @@ final class Logger
      * @param array  $context
      * @return void
      */
-    public function log($channel, $level, $message, array $context = [])
+    public function log(string $channel, string $level, string $message, array $context = [])
     : void {
         $level = strtolower($level);
         $level_value = self::LEVELS[$level] ?? 200;
@@ -136,7 +136,7 @@ final class Logger
      * @param int $retention_days
      * @return int Files removed.
      */
-    public function prune($retention_days = 30)
+    public function prune(int $retention_days = 30): int
     {
         $retention_days = max(1, (int) $retention_days);
         $cutoff = time() - $retention_days * DAY_IN_SECONDS;

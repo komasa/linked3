@@ -35,17 +35,17 @@ interface SEOAdapter
     /**
      * @return string Adapter slug (yoast|rankmath|aioseo|none).
      */
-    public function slug();
+    public function slug(): string ;
 
     /**
      * @return string Human-readable name.
      */
-    public function label();
+    public function label(): string ;
 
     /**
      * @return bool Whether the active plugin is present + active.
      */
-    public function is_active();
+    public function is_active(): bool ;
 
     /**
      * Does the active plugin emit its own Schema.org JSON-LD?
@@ -53,7 +53,7 @@ interface SEOAdapter
      *
      * @return bool
      */
-    public function handles_schema();
+    public function handles_schema(): bool ;
 
     /**
      * Does the active plugin emit its own meta description tag?
@@ -61,6 +61,6 @@ interface SEOAdapter
      *
      * @return bool
      */
-    public function handles_meta_description();
+    public function handles_meta_description(): bool ;
 
 }

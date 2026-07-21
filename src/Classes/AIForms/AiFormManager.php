@@ -125,7 +125,7 @@ final class AiFormManager
      * @param string $nonce_action
      * @return void
      */
-    private static function verify_admin($nonce_action)
+    private static function verify_admin(string $nonce_action)
     : void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限。', 'linked3')], 403);

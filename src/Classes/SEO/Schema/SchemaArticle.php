@@ -19,12 +19,12 @@ if (!defined('ABSPATH')) {
 
 final class SchemaArticle implements SchemaBuilder
 {
-    public function type()
+    public function type(): string
     : string {
         return 'Article';
     }
 
-    public function build($post)
+    public function build($post): ?array
     : ?array {
         if (!$post) {
             return null;

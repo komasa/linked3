@@ -97,7 +97,7 @@ final class AjaxAuditor
      * @param callable|array|string $cb
      * @return string
      */
-    private function callback_label($cb) : mixed {
+    private function callback_label(callable|array|string $cb) : mixed {
         if (is_string($cb)) {
             return $cb;
         }

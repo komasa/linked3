@@ -79,7 +79,7 @@ class BookStepAdapter implements BookStepInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function execute( BookProjectState $state, object $factory ) {
+	public function execute( BookProjectState $state, object $factory ): array|WP_Error {
 		if ( ! method_exists( $factory, $this->method ) ) {
 			return new WP_Error(
 				'method_not_found',

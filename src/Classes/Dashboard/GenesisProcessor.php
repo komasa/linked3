@@ -66,7 +66,7 @@ final class GenesisProcessor
      * @param callable|null $progressCb 进度回调 fn(int $progress, string $stage, string $message)
      * @return array 生成结果
      */
-        public static function genesisGenerateMultiInternal(string $script, string $styleId, string $platform, string $panelCountRaw, $progressCb = null, array $extraOptions = []) : mixed { return GenesisProcessorDelegates::genesisGenerateMultiInternal($script, $styleId, $platform, $panelCountRaw, $progressCb, $extraOptions); }
+        public static function genesisGenerateMultiInternal(string $script, string $styleId, string $platform, string $panelCountRaw, ?callable $progressCb = null, array $extraOptions = []) : mixed { return GenesisProcessorDelegates::genesisGenerateMultiInternal($script, $styleId, $platform, $panelCountRaw, $progressCb, $extraOptions); }
     /**
      * v7.1.3: 预检 — 在进入长流程前验证配置, 快速失败。
      *

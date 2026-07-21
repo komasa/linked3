@@ -95,7 +95,7 @@ final class RestController
      * @param \WP_REST_Request $req
      * @return true|\WP_Error
      */
-    public static function check_access($req) : mixed     {
+    public static function check_access(WP_REST_Request $req) : mixed     {
         // Require authentication (v2.9.0: 移除 plan gate,本地模式开放 REST API).
         if (!is_user_logged_in()) {
             return new \WP_Error('rest_unauthorized', __('需要认证。', 'linked3'), ['status' => 401]);
@@ -111,7 +111,7 @@ final class RestController
         return true;
     }
 
-    public static function chat($req) : mixed {
+    public static function chat(WP_REST_Request $req) : mixed {
         $message = sanitize_textarea_field($req->get_param('message') ?? '');
         $bot_id = (int) ($req->get_param('bot_id') ?? 0);
         $session_id = sanitize_text_field($req->get_param('session_id') ?? wp_generate_password(24, false));
@@ -192,7 +192,7 @@ final class RestController
      * @param \WP_REST_Request $req
      * @return \WP_REST_Response|\WP_Error
      */
-    public static function stream_poll($req)
+    public static function stream_poll(WP_REST_Request $req): WP_REST_Response|WP_Error
     {
         global $wpdb;
         $cache_key = sanitize_text_field($req->get_param('cache_key') ?? '');
@@ -263,7 +263,7 @@ final class RestController
      * @param \WP_REST_Request $req
      * @return \WP_REST_Response
      */
-    public static function billing_webhook($req)
+    public static function billing_webhook(WP_REST_Request $req): WP_REST_Response
     {
         // Get the raw body for signature verification.
         $raw_body = $req->get_body();

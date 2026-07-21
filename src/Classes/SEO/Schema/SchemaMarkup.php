@@ -104,7 +104,7 @@ final class SchemaMarkup
      * @param bool   $enabled
      * @return void
      */
-    public function set_enabled($type, $enabled)
+    public function set_enabled(string $type, bool $enabled)
     : void {
         $this->enabled[$type] = (bool) $enabled;
     }
@@ -130,7 +130,7 @@ final class SchemaMarkup
      * @param \WP_Post $post
      * @return string
      */
-    public function for_post($post) : mixed     {
+    public function for_post(WP_Post $post) : mixed     {
         $payloads = [];
         foreach ($this->builders as $type => $builder) {
             if (!empty($this->enabled) && empty($this->enabled[$type])) {

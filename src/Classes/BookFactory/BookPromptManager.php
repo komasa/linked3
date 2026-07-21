@@ -63,7 +63,7 @@ class BookPromptManager {
      * @param string $step_key step1_demo|step2_explore|step3_outline|step4_expand|step5_complete|step6_review
      * @return array
      */
-    public static function get_step_prompts( $step_key ) : mixed {
+    public static function get_step_prompts(string $step_key) : mixed {
         $all = self::get_all();
         return isset( $all[ $step_key ] ) ? $all[ $step_key ] : array();
     }
@@ -76,7 +76,7 @@ class BookPromptManager {
      * @param int    $prompt_idx 选择第几个提示词 (1-based)
      * @return string
      */
-    public static function get_prompt( $step_key, $vars = array(), $prompt_idx = 1 ) {
+    public static function get_prompt(string $step_key, array $vars = array(), int $prompt_idx = 1): string {
         $step_prompts = self::get_step_prompts( $step_key );
 
         // 选择提示词 (优先用户保存的, fallback到默认)
@@ -110,7 +110,7 @@ class BookPromptManager {
      * @param string $prompt_text
      * @return bool|WP_Error
      */
-    public static function save_prompt( $step_key, $prompt_text ) {
+    public static function save_prompt(string $step_key, string $prompt_text): bool|WP_Error {
         $all = self::get_all();
         if ( ! isset( $all[ $step_key ] ) ) {
             $all[ $step_key ] = array( 'prompts' => array() );
@@ -134,7 +134,7 @@ class BookPromptManager {
      * @param string $step_key
      * @return string
      */
-    private static function get_builtin_default( $step_key ) {
+    private static function get_builtin_default(string $step_key): string {
         $defaults = array(
             'step1_demo' => '请系统演示如何一步一步写一本书《{book_title}》。',
             'step2_explore' => '请开放探索有长期价值的{book_type}类别和《{book_title}》名,带{book_type}和人群定位说明。',
@@ -151,7 +151,7 @@ class BookPromptManager {
      *
      * @return array
      */
-    private static function load_defaults_from_index() {
+    private static function load_defaults_from_index(): array {
         // v18.9: 优先加载增长黑客版提示词库
         $gh_path = LINKED3_DIR . 'src/Classes/BookFactory/prompt_library/growth_hack_prompts.json';
         if ( file_exists( $gh_path ) ) {
@@ -173,7 +173,7 @@ class BookPromptManager {
      *
      * @return array
      */
-    private static function load_from_index_json() {
+    private static function load_from_index_json(): array {
         $path = LINKED3_DIR . 'src/Classes/ContentWriter/book_templates/_index.json';
         if ( ! file_exists( $path ) ) {
             return self::get_hardcoded_defaults();
@@ -286,7 +286,7 @@ class BookPromptManager {
      * @param array  $vars 变量键值对
      * @return string 填充后的提示词
      */
-    public static function fill_variables( $prompt_text, $vars ) {
+    public static function fill_variables(string $prompt_text, array $vars): string {
         if ( empty( $prompt_text ) ) {
             return '';
         }
@@ -311,7 +311,7 @@ class BookPromptManager {
      * @param string $level
      * @return array
      */
-    public static function build_context_vars( $book_title, $type, $mode, $level = 'standard' ) : array {
+    public static function build_context_vars(string $book_title, string $type, string $mode, string $level = 'standard') : array {
         $type_labels = TypeModeRouter::get_all_types();
         $type_unit_map = array(
             'book' => '本', 'thesis' => '篇', 'script' => '部',

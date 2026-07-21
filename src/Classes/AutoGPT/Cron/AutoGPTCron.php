@@ -270,7 +270,7 @@ final class AutoGPTCron
      * @param string                          $message
      * @return void
      */
-    private static function trip_breaker($repo, array $task, $message)
+    private static function trip_breaker(AutoGPTTaskRepository $repo, array $task, string $message)
     : void {
         $log = Logger::instance();
         // Persist the consecutive-failure count in an option (not transient)

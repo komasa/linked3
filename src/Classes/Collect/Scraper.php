@@ -40,7 +40,7 @@ final class Scraper
      * @param string $url
      * @return array{ok:bool, html:string, title:string, text:string, message:string}
      */
-    public function fetch($url)
+    public function fetch(string $url)
     : array {
         $url = esc_url_raw($url);
         if (!$url) return ['ok' => false, 'html' => '', 'title' => '', 'text' => '', 'message' => __('无效 URL。', 'linked3')];
@@ -98,7 +98,7 @@ final class Scraper
      * @param string $content
      * @return bool True if duplicate.
      */
-    public function is_duplicate($url, $content)
+    public function is_duplicate(string $url, string $content)
     : bool {
         $url_hash = md5($url);
         $content_hash = $this->simhash($content);
@@ -117,7 +117,7 @@ final class Scraper
      * @param string $html
      * @return string
      */
-    private function extract_text($html) : mixed {
+    private function extract_text(string $html) : mixed {
         $body = preg_replace('#<script[^>]*>.*?</script>#is', '', $html);
         $body = preg_replace('#<style[^>]*>.*?</style>#is', '', $body);
         $body = preg_replace('#<noscript[^>]*>.*?</noscript>#is', '', $body);
@@ -131,7 +131,7 @@ final class Scraper
      * @param string $text
      * @return string Hex string.
      */
-    private function simhash($text) : mixed     {
+    private function simhash(string $text) : mixed     {
         $text = mb_strtolower($text);
         // Tokenise by CJK char + ASCII word.
         $tokens = [];
@@ -171,7 +171,7 @@ final class Scraper
      * @param string $url
      * @return void
      */
-    private function throttle($url)
+    private function throttle(string $url)
     : void {
         $host = wp_parse_url($url, PHP_URL_HOST);
         if (!$host) return;

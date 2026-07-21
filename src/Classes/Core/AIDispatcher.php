@@ -208,7 +208,7 @@ final class AIDispatcher
      * @return array{content:string, usage:array, provider:string, model:string, raw:array}
      * @throws \RuntimeException
      */
-    private function call_single($slug, array $messages, array $options, array $config)
+    private function call_single(string $slug, array $messages, array $options, array $config)
     : array {
         // 自定义 API 站点支持: slug 格式 custom_xxx
         if (strpos($slug, 'custom_') === 0) {
@@ -485,7 +485,7 @@ final class AIDispatcher
      * @param int    $completion
      * @return float
      */
-    private function estimate_cost_usd($provider, $model, $prompt, $completion) : mixed     {
+    private function estimate_cost_usd(string $provider, string $model, int $prompt, int $completion) : mixed     {
         // Rates per 1K tokens (rough, as of 2024). Replace with live config.
         $rates = [
             'openai'   => ['in' => 0.005, 'out' => 0.015],
@@ -504,7 +504,7 @@ final class AIDispatcher
      * @param string $slug
      * @return bool
      */
-    private function is_circuit_open($slug)
+    private function is_circuit_open(string $slug): bool
     {
         return (int) get_transient('linked3_pcb_' . $slug) >= self::CIRCUIT_THRESHOLD;
     }
@@ -513,7 +513,7 @@ final class AIDispatcher
      * @param string $slug
      * @return void
      */
-    private function reset_circuit($slug)
+    private function reset_circuit(string $slug)
     : void {
         delete_transient('linked3_pcb_' . $slug);
     }
@@ -523,7 +523,7 @@ final class AIDispatcher
      * @param string $message
      * @return void
      */
-    private function record_failure($slug, $message)
+    private function record_failure(string $slug, string $message)
     : void {
         $key = 'linked3_pcb_' . $slug;
         // Read-modify-write race is acceptable here: transient TTL is short,

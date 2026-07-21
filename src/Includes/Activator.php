@@ -195,7 +195,7 @@ final class Activator
      * @param int $blog_id
      * @return void
      */
-    public static function setup_for_blog($blog_id)
+    public static function setup_for_blog(int $blog_id)
     : void {
         if (!function_exists('switch_to_blog')) {
             return;
@@ -247,7 +247,7 @@ final class Activator
     /**
      * @return bool True if any expected table is missing.
      */
-    public static function are_tables_missing()
+    public static function are_tables_missing(): bool
     {
         if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
             return \Linked3\Includes\DB\MigrationRunner::are_tables_missing();

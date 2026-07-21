@@ -219,7 +219,7 @@ class BookExplorationPrototypes {
 	 * @param string $key 原型key。
 	 * @return array|null
 	 */
-	public static function get( $key ) : mixed {
+	public static function get(string $key) : mixed {
 		return self::$prototypes[ $key ] ?? null;
 	}
 
@@ -228,7 +228,7 @@ class BookExplorationPrototypes {
 	 *
 	 * @return array
 	 */
-	public static function get_label_map() {
+	public static function get_label_map(): array {
 		$map = array();
 		foreach ( self::$prototypes as $key => $proto ) {
 			$map[ $key ] = $proto['icon'] . ' ' . $proto['name'];
@@ -241,7 +241,7 @@ class BookExplorationPrototypes {
 	 *
 	 * @return array
 	 */
-	public static function get_by_category() {
+	public static function get_by_category(): array {
 		$grouped = array();
 		foreach ( self::$prototypes as $key => $proto ) {
 			$category = $proto['category'];

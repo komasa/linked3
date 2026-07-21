@@ -26,7 +26,7 @@ class SectionStitcher {
      * @param array  $meta        元数据
      * @return array {markdown, html}
      */
-    public static function stitch( $chapters, $template, $book_title, $meta = array() ) : array {
+    public static function stitch(array $chapters, array $template, string $book_title, array $meta = array()) : array {
         $meta = wp_parse_args( $meta, array(
             'author'    => '',
             'date'      => current_time( 'Y-m-d' ),
@@ -51,7 +51,7 @@ class SectionStitcher {
      * @param int    $chapter_index 章节序号(1-based)
      * @return string Markdown
      */
-    public static function stitch_chapter( $chapter, $template, $chapter_index ) : mixed {
+    public static function stitch_chapter(array $chapter, array $template, int $chapter_index) : mixed {
         $prefix = isset( $template['chapter_prefix'] ) ? $template['chapter_prefix'] : '第';
         $suffix = isset( $template['chapter_suffix'] ) ? $template['chapter_suffix'] : '章';
         $number_format = isset( $template['number_format'] ) ? $template['number_format'] : 'chinese';
@@ -91,7 +91,7 @@ class SectionStitcher {
      * @param array  $meta
      * @return string
      */
-    private static function build_markdown( $chapters, $template, $book_title, $meta ) : mixed {
+    private static function build_markdown(array $chapters, array $template, string $book_title, array $meta) : mixed {
         $md = '';
 
         // 标题
@@ -143,7 +143,7 @@ class SectionStitcher {
      * @param string $markdown
      * @return string
      */
-    private static function markdown_to_html( $markdown ) {
+    private static function markdown_to_html(string $markdown): string {
         // 优先使用 Parsedown
         if ( class_exists( 'Parsedown' ) ) {
             $parsedown = new Parsedown();
@@ -171,7 +171,7 @@ class SectionStitcher {
      * @param string $content
      * @return string
      */
-    public static function sanitize_markdown( $content ) {
+    public static function sanitize_markdown(string $content): string {
         // 去除危险HTML标签
         $content = wp_strip_all_tags( $content, true );
 
@@ -194,7 +194,7 @@ class SectionStitcher {
      * @param int $num
      * @return string
      */
-    private static function number_to_chinese( $num ) {
+    private static function number_to_chinese(int $num): string {
         $chinese = array( '零', '一', '二', '三', '四', '五', '六', '七', '八', '九' );
 
         if ( $num < 10 ) {
@@ -224,7 +224,7 @@ class SectionStitcher {
      * @param string $html
      * @return array
      */
-    public static function save_to_file( $project_id, $markdown, $html ) : array {
+    public static function save_to_file(string $project_id, string $markdown, string $html) : array {
         $upload_dir = wp_upload_dir();
         $book_dir = $upload_dir['basedir'] . '/linked3-book-projects/' . $project_id;
         if ( ! file_exists( $book_dir ) ) {

@@ -83,7 +83,7 @@ final class PublishConfig
      * @param mixed  $fallback
      * @return mixed
      */
-    public static function get($path, $fallback = null) : mixed     {
+    public static function get(string $path, $fallback = null) : mixed     {
         $cfg = self::all();
         $node = $cfg;
         foreach (explode('.', $path) as $seg) {

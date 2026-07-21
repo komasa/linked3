@@ -68,7 +68,7 @@ final class MigrationRunner
     /**
      * @return bool
      */
-    public static function are_tables_missing()
+    public static function are_tables_missing(): bool
     {
         global $wpdb;
         $names = Schema::qualified_names();

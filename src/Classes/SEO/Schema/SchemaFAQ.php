@@ -24,12 +24,12 @@ if (!defined('ABSPATH')) {
 
 final class SchemaFAQ implements SchemaBuilder
 {
-    public function type()
+    public function type(): string
     : string {
         return 'FAQPage';
     }
 
-    public function build($post)
+    public function build($post): ?array
     : ?array {
         if (!$post) {
             return null;
@@ -60,7 +60,7 @@ final class SchemaFAQ implements SchemaBuilder
      * @param string $content
      * @return array<int,array{question:string,answer:string}>
      */
-    public function extract_faq($content) : mixed {
+    public function extract_faq(string $content) : mixed {
         $content = (string) $content;
         $out = [];
 

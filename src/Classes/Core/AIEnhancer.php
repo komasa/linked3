@@ -32,7 +32,7 @@ final class AIEnhancer
      * @param array $settings {require_html, require_tag, enable_ai_summary}
      * @return string
      */
-    public function apply_format_requirements($prompt, array $settings = []) : mixed {
+    public function apply_format_requirements(string $prompt, array $settings = []) : mixed {
         $settings = wp_parse_args($settings, $this->default_settings());
 
         if (!empty($settings['require_html'])) {
@@ -56,7 +56,7 @@ final class AIEnhancer
      * @param string $content
      * @return string
      */
-    public function append_identifier_suffix($content) : mixed     {
+    public function append_identifier_suffix(string $content) : mixed     {
         $enabled = get_option(LINKED3_OPTION_PREFIX . 'ai_suffix_enabled', 0);
         if (!$enabled) return $content;
 
@@ -74,7 +74,7 @@ final class AIEnhancer
      * @param array $settings {time_window_enabled, time_window_start, time_window_end}
      * @return bool
      */
-    public function is_within_time_window(array $settings = [])
+    public function is_within_time_window(array $settings = []): bool
     {
         if (empty($settings['time_window_enabled'])) {
             return true; // 未启用时间段限制

@@ -30,7 +30,7 @@ class BookDefaultAICaller implements BookAICallerInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function call( string $prompt, array $options = array(), array $context = array() ) {
+	public function call( string $prompt, array $options = array(), array $context = array() ): array|WP_Error {
 		// 委托给现有的 AI 引擎。
 		// v19.0 保持与 v18.x 的调用方式一致, 未来可在此处增加多模型路由。
 		if ( class_exists( '\Linked3\Classes\BookFactory\AIEngine' ) ) {

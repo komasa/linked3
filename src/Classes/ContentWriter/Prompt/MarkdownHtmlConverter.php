@@ -51,7 +51,7 @@ final class MarkdownHtmlConverter
      * @param bool   $require_html 是否要求 HTML 格式
      * @return string
      */
-    public static function convert($content, $require_html = true) : mixed {
+    public static function convert(string $content, bool $require_html = true) : mixed {
         if (empty($content) || !$require_html) {
             return $content;
         }

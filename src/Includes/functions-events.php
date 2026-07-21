@@ -43,7 +43,7 @@ namespace Linked3\Includes {
          * @param mixed  ...$args Variable arguments passed to subscribers.
          * @return void
          */
-        public static function dispatch($event, ...$args)
+        public static function dispatch(string $event, ...$args)
         : void {
             $hook = 'linked3/' . $event;
             do_action_ref_array($hook, $args);
@@ -61,7 +61,7 @@ namespace Linked3\Includes {
          * @param int      $args     Accepted args count (default 1).
          * @return void
          */
-        public static function subscribe($event, $callback, $priority = 10, $args = 1)
+        public static function subscribe(string $event, callable $callback, int $priority = 10, int $args = 1)
         : void {
             $hook = 'linked3/' . $event;
             add_action($hook, $callback, $priority, $args);

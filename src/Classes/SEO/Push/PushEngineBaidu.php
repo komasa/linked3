@@ -28,7 +28,7 @@ if (!defined('ABSPATH')) {
 }
 final class PushEngineBaidu implements PushEngine
 {
-    public function slug()
+    public function slug(): string
     : string {
         return 'baidu';
     }
@@ -91,7 +91,7 @@ final class PushEngineBaidu implements PushEngine
      * @param int             $sent
      * @return array
      */
-    private function parse($response, $sent)
+    private function parse(array|WP_Error $response, int $sent)
     : array {
         if (is_wp_error($response)) {
             return [

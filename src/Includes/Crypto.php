@@ -53,7 +53,7 @@ final class Crypto
      * @param string $plaintext
      * @return string Prefixed base64 payload ("enc::..."), or '' on empty input.
      */
-    public static function encrypt($plaintext)
+    public static function encrypt(string $plaintext): string
     {
         if (!is_string($plaintext) || $plaintext === '') {
             return '';
@@ -95,7 +95,7 @@ final class Crypto
      * @param string $value
      * @return string
      */
-    public static function decrypt($value)
+    public static function decrypt(string $value): string
     {
         if (!is_string($value) || $value === '') {
             return '';
@@ -135,7 +135,7 @@ final class Crypto
      * @param string $value
      * @return bool
      */
-    public static function is_encrypted($value)
+    public static function is_encrypted(string $value): bool
     {
         return is_string($value) && strpos($value, self::PREFIX) === 0;
     }
@@ -143,7 +143,7 @@ final class Crypto
     /**
      * @return bool
      */
-    public static function is_available()
+    public static function is_available(): bool
     {
         return function_exists('openssl_encrypt')
             && function_exists('random_bytes')
@@ -162,7 +162,7 @@ final class Crypto
      *
      * @return string 32 raw bytes.
      */
-    private static function derive_key()
+    private static function derive_key(): string
     {
         if (self::$key_cache !== null) {
             return self::$key_cache;
@@ -185,7 +185,7 @@ final class Crypto
      * @param string $bin
      * @return string
      */
-    private static function base64url_encode($bin)
+    private static function base64url_encode(string $bin): string
     {
         return rtrim(strtr(base64_encode($bin), '+/', '-_'), '=');
     }
@@ -194,7 +194,7 @@ final class Crypto
      * @param string $s
      * @return string|false
      */
-    private static function base64url_decode($s)
+    private static function base64url_decode(string $s): string|bool
     {
         $pad = strlen($s) % 4;
         if ($pad > 0) {

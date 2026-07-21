@@ -33,7 +33,7 @@ final class ArticleRewriter
      * @param array  $opts {tone, complexity, seo_focus, simplify, keep_headings}
      * @return array{system:string, user:string}
      */
-    public function build_prompt($original, array $opts)
+    public function build_prompt(string $original, array $opts)
     : array {
         $tone = $opts['tone'] ?? 'professional';
         $complexity = $opts['complexity'] ?? 'intermediate';
@@ -60,7 +60,7 @@ final class ArticleRewriter
      * @param array  $opts
      * @return array{ok:bool, content:string, usage:array, message:string}
      */
-    public function rewrite($original, array $opts = [])
+    public function rewrite(string $original, array $opts = [])
     : array {
         // v0.8.0 fix: accept an optional user_id override from $opts so
         // background callers (AutoGPT enhancement processor) bill the task
@@ -105,7 +105,7 @@ final class ArticleRewriter
      * @param string $provider
      * @return string
      */
-    private function get_api_key($provider) : mixed {
+    private function get_api_key(string $provider) : mixed {
         $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         return is_array($keys) && isset($keys[$provider]) ? $keys[$provider] : '';
     }

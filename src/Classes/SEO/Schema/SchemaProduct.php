@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 
 final class SchemaProduct implements SchemaBuilder
 {
-    public function type()
+    public function type(): string
     : string {
         return 'Product';
     }

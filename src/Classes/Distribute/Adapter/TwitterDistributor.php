@@ -130,7 +130,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
      * @param string $access_token_secret
      * @return string "OAuth oauth_..." 头
      */
-    private function build_oauth1_header($http_method, $url, $body_or_query, $ck, $cs, $at, $ats)
+    private function build_oauth1_header(string $http_method, string $url, array $body_or_query, $ck, $cs, $at, $ats)
     : string {
         // 收集所有参数 (body/query 参数 + oauth_* 参数) 用于签名
         $oauth_params = [

@@ -25,7 +25,7 @@ final class RAGRetriever
      * @param int    $top_k
      * @return array<int,array{content:string, title:string, url:string, score:float}>
      */
-    public function retrieve($query, $top_k = 5) : mixed {
+    public function retrieve(string $query, int $top_k = 5) : mixed {
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return [];
         $provider = VectorFactory::instance()->make($config['provider'] ?? 'local');

@@ -203,7 +203,7 @@ class GenesisSeedCPT
      * @param array $data {title, seed_id, seed_type, seed_category, visual_dna, ...}
      * @return int|WP_Error post_id
      */
-    public static function create($data)
+    public static function create(array $data): int|WP_Error
     {
         $post_id = wp_insert_post([
             'post_type'   => self::POST_TYPE,

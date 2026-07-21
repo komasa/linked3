@@ -116,7 +116,7 @@ final class ImageManager
      * @param string $prompt 图片提示词
      * @return array{ok:bool, url:string, message:string}
      */
-    public function generate_image($prompt) : mixed {
+    public function generate_image(string $prompt) : mixed {
         $settings = $this->get_settings();
         if (!$settings['auto_generate']) {
             return ['ok' => false, 'url' => '', 'message' => __('图片生成未启用', 'linked3-ai')];
@@ -253,7 +253,7 @@ final class ImageManager
      * @param int $count 采集数量
      * @return string[] 图片 URL 列表
      */
-    public function fetch_from_station($station_url, $count = 5) : mixed     {
+    public function fetch_from_station(string $station_url, int $count = 5) : mixed     {
         if (empty($station_url)) return [];
         $resp = SafeRemote::get($station_url, [
             'timeout' => 15,
@@ -286,7 +286,7 @@ final class ImageManager
      * @param int $post_id 关联文章 ID
      * @return int|\WP_Error 附件 ID
      */
-    public function sideload($url, $alt = '', $post_id = 0)
+    public function sideload(string $url, string $alt = '', int $post_id = 0): int|WP_Error
     {
         if (!function_exists('media_handle_sideload')) {
             require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -316,7 +316,7 @@ final class ImageManager
      * @param array $settings 图片设置
      * @return string
      */
-    public function build_prompt($title, $content, $settings = null)
+    public function build_prompt(string $title, string $content, array $settings = null): string
     {
         if (!$settings) $settings = $this->get_settings();
         $source = $settings['prompt_source'] === 'content'
@@ -334,7 +334,7 @@ final class ImageManager
      * @param array $settings {insert_position, img_width, img_height}
      * @return string
      */
-    public function insert_into_content($content, $image_url, $settings = null)
+    public function insert_into_content(string $content, string $image_url, array $settings = null): string
     {
         if (!$settings) $settings = $this->get_settings();
         $img_html = $this->build_img_html($image_url, $settings);

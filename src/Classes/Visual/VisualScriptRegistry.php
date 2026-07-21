@@ -41,7 +41,7 @@ final class VisualScriptRegistry
      * @param string $platform
      * @return VisualScriptGeneratorInterface|null
      */
-    public static function get($platform) : mixed {
+    public static function get(string $platform) : mixed {
         return self::$generators[$platform] ?? null;
     }
 

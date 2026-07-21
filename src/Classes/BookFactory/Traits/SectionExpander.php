@@ -24,7 +24,7 @@ trait SectionExpander {
      * @param int $max_length
      * @return string
      */
-    protected function build_context_summary( $content, $max_length = 80 ) : mixed {
+    protected function build_context_summary(string $content, int $max_length = 80) : mixed {
         // 去除Markdown标记
         $plain = wp_strip_all_tags( $content );
         $plain = preg_replace( '/[#*`>\-]/u', '', $plain );
@@ -45,7 +45,7 @@ trait SectionExpander {
      * @param string $content
      * @return string
      */
-    protected function sanitize_section_content( $content ) {
+    protected function sanitize_section_content(string $content): string {
         // 复用拼接器的清洗逻辑 (H5约束)
         if ( class_exists( '\Linked3\Classes\BookFactory\Traits\SectionStitcher' ) ) {
             return SectionStitcher::sanitize_markdown( $content );

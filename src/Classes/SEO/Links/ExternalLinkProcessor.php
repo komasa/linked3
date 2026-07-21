@@ -45,7 +45,7 @@ final class ExternalLinkProcessor
      * @param string $content
      * @return string
      */
-    public static function process($content) : mixed {
+    public static function process(string $content) : mixed {
         $content = (string) $content;
         if ($content === '') {
             return $content;
@@ -70,7 +70,7 @@ final class ExternalLinkProcessor
      * @param array $m 正则匹配
      * @return string 替换后的 HTML
      */
-    private static function replace_link_callback($m) : mixed     {
+    private static function replace_link_callback(array $m) : mixed     {
         $attrs = $m[1];
         $inner = $m[2];
         $site_host = self::$ctx_site_host;
@@ -147,7 +147,7 @@ final class ExternalLinkProcessor
      * @param string $inner
      * @return string
      */
-    private static function ensure_target_blank_safety($original, $attrs, $inner) : mixed {
+    private static function ensure_target_blank_safety(string $original, string $attrs, string $inner) : mixed {
         if (!preg_match('/\btarget\s*=\s*(["\'])_blank\1/iu', $attrs)) {
             return $original;
         }

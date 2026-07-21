@@ -32,7 +32,7 @@ class SQLSafety
      * @param string $table
      * @return string|false  返回清理后的表名，或 false 如果包含危险字符
      */
-    public static function validate_table_name($table) : mixed {
+    public static function validate_table_name(string $table) : mixed {
         if (!is_string($table) || empty($table)) {
             return false;
         }
@@ -52,7 +52,7 @@ class SQLSafety
      * @param string $table  完整表名（含 $wpdb->prefix）
      * @return bool
      */
-    public static function table_exists($table) : mixed     {
+    public static function table_exists(string $table) : mixed     {
         global $wpdb;
         $safe = self::validate_table_name($table);
         if ($safe === false) {

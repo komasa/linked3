@@ -94,7 +94,7 @@ final class SafeRemote
      * @param array  $args  wp_remote_get args + optional 'allowed_hosts' override.
      * @return array|\WP_Error
      */
-    public static function get($url, array $args = [])
+    public static function get(string $url, array $args = []): array|WP_Error
     {
         return self::request('GET', $url, $args);
     }
@@ -104,7 +104,7 @@ final class SafeRemote
      * @param array  $args
      * @return array|\WP_Error
      */
-    public static function post($url, array $args = [])
+    public static function post(string $url, array $args = []): array|WP_Error
     {
         return self::request('POST', $url, $args);
     }
@@ -114,7 +114,7 @@ final class SafeRemote
      * @param array  $args
      * @return array|\WP_Error
      */
-    public static function put($url, array $args = [])
+    public static function put(string $url, array $args = []): array|WP_Error
     {
         return self::request('PUT', $url, $args);
     }
@@ -124,7 +124,7 @@ final class SafeRemote
      * @param array  $args
      * @return array|\WP_Error
      */
-    public static function delete($url, array $args = [])
+    public static function delete(string $url, array $args = []): array|WP_Error
     {
         return self::request('DELETE', $url, $args);
     }
@@ -135,7 +135,7 @@ final class SafeRemote
      * @param array  $args
      * @return array|\WP_Error
      */
-    private static function request($method, $url, array $args = [])
+    private static function request(string $method, string $url, array $args = []): array|WP_Error
     {
         $url = esc_url_raw($url);
         if (empty($url)) {
@@ -246,7 +246,7 @@ final class SafeRemote
      * @param string $host
      * @return true|\WP_Error
      */
-    private static function guard_ssrf($host)
+    private static function guard_ssrf(string $host): bool|WP_Error
     {
         // If host is already an IP literal, validate directly.
         if (filter_var($host, FILTER_VALIDATE_IP)) {
@@ -280,7 +280,7 @@ final class SafeRemote
      * @param string $ip
      * @return bool
      */
-    public static function is_private_ip($ip)
+    public static function is_private_ip(string $ip)
     : bool {
         $ip = trim($ip);
         if (!filter_var($ip, FILTER_VALIDATE_IP)) {

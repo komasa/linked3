@@ -133,7 +133,7 @@ final class GEOEnhancer
      * @param \WP $wp The WordPress request object.
      * @return void
      */
-    public static function handle_llms_txt_request($wp)
+    public static function handle_llms_txt_request(WP $wp)
     : void {
         // Defensive: only serve on the frontend, never in admin or AJAX.
         if (is_admin() || (defined('DOING_AJAX') && DOING_AJAX) || (defined('REST_REQUEST') && REST_REQUEST)) {
@@ -223,7 +223,7 @@ final class GEOEnhancer
      * @param int   $post_id The post ID.
      * @return array The (possibly augmented) FAQ JSON-LD.
      */
-    public static function boost_faq_schema($faq, $post_id) : mixed     {
+    public static function boost_faq_schema(array $faq, int $post_id) : mixed     {
         $settings = self::get_settings();
         if (empty($settings['faq_schema_boost'])) {
             return $faq;
@@ -264,7 +264,7 @@ final class GEOEnhancer
      * @param \WP_Post $post
      * @return string Max 160 chars, no HTML, no newlines.
      */
-    private static function extract_excerpt($post) : mixed     {
+    private static function extract_excerpt(WP_Post $post) : mixed     {
         $text = $post->post_excerpt;
         if (!$text) {
             $text = wp_trim_words(wp_strip_all_tags($post->post_content), 30, '');

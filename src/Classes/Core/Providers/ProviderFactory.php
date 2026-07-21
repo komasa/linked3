@@ -102,7 +102,7 @@ final class ProviderFactory
      * @param callable $builder Returns a ProviderStrategyInterface.
      * @return void
      */
-    public function register($slug, callable $builder)
+    public function register(string $slug, callable $builder)
     : void {
         $this->builders[$slug] = $builder;
     }
@@ -111,7 +111,7 @@ final class ProviderFactory
      * @param string $slug
      * @return bool
      */
-    public function has($slug) : mixed     {
+    public function has(string $slug) : mixed     {
         return isset($this->builders[$slug]);
     }
 
@@ -119,7 +119,7 @@ final class ProviderFactory
      * @param string $slug
      * @return ProviderStrategyInterface|null
      */
-    public function make($slug)
+    public function make(string $slug): ?ProviderStrategyInterface
     {
         if (isset($this->instances[$slug])) {
             return $this->instances[$slug];
@@ -139,7 +139,7 @@ final class ProviderFactory
     /**
      * @return KeyRotator
      */
-    public function rotator()
+    public function rotator(): KeyRotator
     {
         return $this->rotator;
     }

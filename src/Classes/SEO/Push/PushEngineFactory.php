@@ -47,7 +47,7 @@ final class PushEngineFactory
      * @param string $slug
      * @return PushEngine|null
      */
-    public static function get($slug) : mixed     {
+    public static function get(string $slug) : mixed     {
         $all = self::all();
         return $all[$slug] ?? null;
     }

@@ -19,12 +19,12 @@ if (!defined('ABSPATH')) {
 
 final class SchemaHowTo implements SchemaBuilder
 {
-    public function type()
+    public function type(): string
     : string {
         return 'HowTo';
     }
 
-    public function build($post)
+    public function build($post): ?array
     : ?array {
         if (!$post) {
             return null;
@@ -45,7 +45,7 @@ final class SchemaHowTo implements SchemaBuilder
      * @param string $content
      * @return array<int,array{@type:string,name:string,text:string}>
      */
-    public function extract_steps($content) : mixed {
+    public function extract_steps(string $content) : mixed {
         $content = (string) $content;
         $out = [];
         // Match <ol> blocks; for each, treat <li> as a step.

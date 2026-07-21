@@ -51,7 +51,7 @@ class OSAliasRegistry
     /**
      * Queue an alias for lazy resolution.
      */
-    public static function add($old_class, $new_class, $since)
+    public static function add($old_class, $new_class, $since): void
     {
         self::$pending[$old_class] = [$new_class, $since];
         if (!self::$registered) {
@@ -63,7 +63,7 @@ class OSAliasRegistry
     /**
      * spl_autoload callback — resolves a pending alias on first access.
      */
-    public static function autoload($class)
+    public static function autoload($class): void
     {
         if (!isset(self::$pending[$class])) {
             return;

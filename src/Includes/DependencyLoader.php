@@ -166,7 +166,7 @@ final class DependencyLoader
      *
      * @return void
      */
-    private static function load_skeleton()
+    private static function load_skeleton(): void
     {
         foreach (self::CORE_SKELETON as $relative) {
             $path = LINKED3_DIR . 'src/' . $relative;
@@ -188,7 +188,7 @@ final class DependencyLoader
      *
      * @return void
      */
-    private static function glob_scan_classes()
+    private static function glob_scan_classes(): void
     {
         $root = LINKED3_DIR . 'src/Classes';
         if (!is_dir($root)) {
@@ -259,7 +259,7 @@ final class DependencyLoader
      * @param string $val
      * @return int
      */
-    private static function parse_memory_string($val)
+    private static function parse_memory_string(string $val): int
     {
         $val = trim($val);
         $last = strtolower(substr($val, -1));
@@ -281,7 +281,7 @@ final class DependencyLoader
      *
      * @return void
      */
-    private static function load_module_loaders()
+    private static function load_module_loaders(): void
     {
         $module_loaders = array_merge(
             self::MODULE_LOADERS,
@@ -317,7 +317,7 @@ final class DependencyLoader
      * @param string $relative Display path for error messages.
      * @return void
      */
-    private static function require_safe($path, $relative)
+    private static function require_safe(string $path, string $relative): void
     {
         if (!file_exists($path)) {
             // Silently skip missing skeleton entries — they may belong to

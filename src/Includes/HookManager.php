@@ -23,7 +23,7 @@ final class HookManager
      * @param string $version
      * @return void
      */
-    public static function register_hooks($version)
+    public static function register_hooks(string $version)
     : void {
         // i18n — always on.
         $i18n = new I18n();
@@ -284,7 +284,7 @@ final class HookManager
      * @param array $schedules
      * @return array
      */
-    public static function register_cron_schedules($schedules)
+    public static function register_cron_schedules(array $schedules): array
     {
         $schedules['linked3_every_10min'] = [
             'interval' => 10 * MINUTE_IN_SECONDS,

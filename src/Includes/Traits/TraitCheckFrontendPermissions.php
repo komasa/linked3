@@ -27,7 +27,7 @@ trait TraitCheckFrontendPermissions
      * @param string $nonce_key
      * @return true
      */
-    protected function verify($action, $nonce_key = 'nonce')
+    protected function verify(string $action, string $nonce_key = 'nonce')
     : bool {
         // Constitution §2: global 60 req/min/IP ceiling on every Linked3 AJAX.
         \Linked3\Classes\Security\RateLimiter::gate('ajax');
@@ -51,7 +51,7 @@ trait TraitCheckFrontendPermissions
      * @param int    $max_per_minute Default 30.
      * @return true
      */
-    protected function verify_public($action, $nonce_key = 'nonce', $max_per_minute = 30)
+    protected function verify_public(string $action, string $nonce_key = 'nonce', int $max_per_minute = 30)
     : bool {
         // Constitution §2: global 60 req/min/IP ceiling on every Linked3 AJAX.
         \Linked3\Classes\Security\RateLimiter::gate('ajax');
@@ -82,7 +82,7 @@ trait TraitCheckFrontendPermissions
      *
      * @return string
      */
-    protected function client_ip()
+    protected function client_ip(): string
     {
         return \Linked3\Classes\Security\RateLimiter::client_ip();
     }
@@ -91,7 +91,7 @@ trait TraitCheckFrontendPermissions
      * @param string $message
      * @return never
      */
-    protected function forbidden($message)
+    protected function forbidden(string $message)
     : void {
         wp_send_json_error(
             ['code' => 'linked3_forbidden', 'message' => $message],

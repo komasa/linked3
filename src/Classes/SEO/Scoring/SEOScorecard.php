@@ -45,7 +45,7 @@ final class SEOScorecard
      *     tips:string[]
      * }
      */
-    public function evaluate($post)
+    public function evaluate(WP_Post $post)
     : array {
         $text = wp_strip_all_tags((string) $post->post_content);
         $title = (string) $post->post_title;
@@ -94,7 +94,7 @@ final class SEOScorecard
      * @param \WP_Post $post
      * @return string
      */
-    private function meta_description($post) : mixed {
+    private function meta_description(WP_Post $post) : mixed {
         $meta = (string) get_post_meta($post->ID, '_linked3_meta_description', true);
         if ($meta === '') {
             $meta = (string) $post->post_excerpt;
@@ -109,7 +109,7 @@ final class SEOScorecard
      * @param string $text
      * @return string
      */
-    private function primary_keyword($text) : mixed     {
+    private function primary_keyword(string $text) : mixed     {
         $kw = (new \Linked3\Classes\SEO\Keyword\KeywordExtractor())->extract_keywords($text, 1);
         return $kw[0] ?? '';
     }
@@ -197,7 +197,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_external_links($content)
+    private function score_external_links($content): float
     {
         $site_host = (string) wp_parse_url(site_url(), PHP_URL_HOST);
         $external = 0;
@@ -215,7 +215,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_image_alt($content)
+    private function score_image_alt($content): float
     {
         $total = preg_match_all('#<img\b#i', (string) $content);
         if ($total === 0 || $total === false) {
@@ -229,7 +229,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_readability($text)
+    private function score_readability($text): float
     {
         $text = trim((string) $text);
         if ($text === '') {
@@ -259,7 +259,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_content_length($text)
+    private function score_content_length($text): float
     {
         $words = str_word_count($text);
         if ($words === 0) {
@@ -277,7 +277,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_schema_present($post)
+    private function score_schema_present($post): float
     {
         $json = SchemaMarkup::instance()->for_post($post);
         return $json !== '' ? 1.0 : 0.0;
@@ -287,7 +287,7 @@ final class SEOScorecard
      * @param int $score
      * @return string
      */
-    public static function grade($score)
+    public static function grade(int $score)
     : string {
         if ($score >= 90) return 'A';
         if ($score >= 80) return 'B';
@@ -299,7 +299,7 @@ final class SEOScorecard
     /**
      * @return string[]
      */
-    private function tips(array $subscores, $title, $meta, $text, $keyword)
+    private function tips(array $subscores, $title, $meta, $text, $keyword): array
     {
         $tips = [];
         if ($subscores['keyword_density'] < 0.6) {

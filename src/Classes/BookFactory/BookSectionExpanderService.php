@@ -65,7 +65,7 @@ class BookSectionExpanderService {
          * @param int                         $section_index  节索引。
          * @return array|WP_Error
          */
-        public function regenerate_section( $state, $chapter_index, $section_index ) : mixed {
+        public function regenerate_section(BookProjectState $state, int $chapter_index, int $section_index) : mixed {
                 return $this->do_regenerate_section( $state, $chapter_index, $section_index );
         }
 }

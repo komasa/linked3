@@ -142,7 +142,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Qdrant HTTP %d', $code)];
     }
 
-    public function embed($text, array $config)
+    public function embed($text, array $config): array|WP_Error
     {
         $provider = \Linked3\Classes\Core\Providers\ProviderFactory::instance()->make($config['embed_provider'] ?? 'openai');
         if (!$provider) return new \WP_Error('no_provider', __('无嵌入 Provider。', 'linked3'));

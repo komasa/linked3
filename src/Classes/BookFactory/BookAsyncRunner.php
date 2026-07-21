@@ -48,7 +48,7 @@ class BookAsyncRunner {
          * @param array $schedules 现有调度间隔。
          * @return array
          */
-        public static function add_cron_interval( $schedules ) : mixed {
+        public static function add_cron_interval(array $schedules) : mixed {
                 $schedules['linked3_15s'] = array(
                         'interval' => 15,
                         'display'  => __( 'Linked3 每15秒', 'linked3-ai' ),
@@ -62,7 +62,7 @@ class BookAsyncRunner {
          * @param string $project_id 项目 ID。
          * @param int    $delay      延迟秒数 (默认 5 秒, 避免 API 速率限制)。
          */
-        public static function schedule_next_step( $project_id, $delay = 5 ) : void {
+        public static function schedule_next_step(string $project_id, int $delay = 5) : void {
                 // v18.11: 校验 project_id。
                 if ( false === BookSecurity::validate_project_id( $project_id ) ) {
                         return;
@@ -82,7 +82,7 @@ class BookAsyncRunner {
          *
          * @param string $project_id 项目 ID。
          */
-        public static function cron_run_step( $project_id ) : void {
+        public static function cron_run_step(string $project_id) : void {
                 // v18.11: 校验 project_id。
                 if ( false === BookSecurity::validate_project_id( $project_id ) ) {
                         return;
@@ -129,7 +129,7 @@ class BookAsyncRunner {
          *
          * @param string $project_id 项目 ID。
          */
-        public static function run_to_completion( $project_id ) : void {
+        public static function run_to_completion(string $project_id) : void {
                 if ( false === BookSecurity::validate_project_id( $project_id ) ) {
                         return;
                 }

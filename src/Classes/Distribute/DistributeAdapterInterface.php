@@ -29,9 +29,9 @@ if (!defined('ABSPATH')) {
 interface DistributeAdapterInterface
 {
     /** @return string platform slug */
-    public function slug();
+    public function slug(): string ;
     /** @return string human label */
-    public function label();
+    public function label(): string ;
     /**
      * @param array $post_data {title, content, url, excerpt, image_url}
      * @param array $config platform-specific credentials

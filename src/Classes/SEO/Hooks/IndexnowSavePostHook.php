@@ -50,7 +50,7 @@ final class IndexnowSavePostHook
      * @param bool     $update
      * @return void
      */
-    public static function on_save_post($post_id, $post, $update)
+    public static function on_save_post(int $post_id, WP_Post $post, bool $update)
     : void {
         // Skip autosaves + revisions + non-public types.
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {

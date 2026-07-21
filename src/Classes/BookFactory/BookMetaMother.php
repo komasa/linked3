@@ -82,7 +82,7 @@ class BookMetaMother {
 	 * @param string $intent 探索意图 (如 "探索意识的本质")。
 	 * @return array|WP_Error 返回 array('recommended'=>..., 'alternatives'=>..., 'reasoning'=>...) 或 WP_Error。
 	 */
-	public function classify_exploration( $intent ) : mixed {
+	public function classify_exploration(string $intent) : mixed {
 		if ( empty( $intent ) ) {
 			return new WP_Error( 'empty_intent', '探索意图不能为空' );
 		}
@@ -134,7 +134,7 @@ class BookMetaMother {
 	 * @param string $exploration_result 探索结果文本。
 	 * @return array|WP_Error 返回 array('laws'=>..., 'compliance'=>...) 或 WP_Error。
 	 */
-	public function extract_meta_laws( $exploration_result ) : mixed {
+	public function extract_meta_laws(string $exploration_result) : mixed {
 		if ( empty( $exploration_result ) ) {
 			return new WP_Error( 'empty_result', '探索结果不能为空' );
 		}
@@ -192,7 +192,7 @@ class BookMetaMother {
 	 * @param string $domain      应用领域。
 	 * @return array|WP_Error
 	 */
-	public function create_new_system( $system_name, $domain = '' ) {
+	public function create_new_system(string $system_name, string $domain = ''): array|WP_Error {
 		if ( empty( $system_name ) ) {
 			return new WP_Error( 'empty_name', '系统名称不能为空' );
 		}
@@ -251,7 +251,7 @@ class BookMetaMother {
 	 * @param string $content AI返回内容。
 	 * @return array|WP_Error
 	 */
-	protected function parse_json_response( $content ) {
+	protected function parse_json_response(string $content): array|WP_Error {
 		// 移除Markdown代码块标记。
 		$content = preg_replace( '/^```(?:json)?\s*/m', '', $content );
 		$content = preg_replace( '/\s*```$/m', '', $content );
@@ -277,7 +277,7 @@ class BookMetaMother {
 	 * @param string $intent 探索意图。
 	 * @return array
 	 */
-	protected function fallback_classify( $intent ) : array {
+	protected function fallback_classify(string $intent) : array {
 		$intent_lower = mb_strtolower( $intent );
 		$rules = array(
 			'book'           => array( '写书', '图书', '知识', '学习', '理论' ),

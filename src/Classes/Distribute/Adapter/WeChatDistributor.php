@@ -74,7 +74,7 @@ final class WeChatDistributor implements DistributeAdapterInterface
      * @param string $app_secret
      * @return string|\WP_Error
      */
-    private function get_access_token($app_id, $app_secret) : mixed {
+    private function get_access_token(string $app_id, string $app_secret) : mixed {
         $cache_key = 'linked3_wechat_token_' . md5($app_id);
         $cached = get_transient($cache_key);
         if ($cached && is_string($cached)) return $cached;

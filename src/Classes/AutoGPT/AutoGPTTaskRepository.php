@@ -170,7 +170,7 @@ final class AutoGPTTaskRepository extends BaseRepository
     /**
      * @return array Tasks due to run now.
      */
-    public function get_due_tasks()
+    public function get_due_tasks(): array
     {
         global $wpdb;
         $table = $this->get_table();
@@ -182,7 +182,7 @@ final class AutoGPTTaskRepository extends BaseRepository
 
     // ----- Queue -----
 
-    public function enqueue($task_id, array $payload, $scheduled_for = null)
+    public function enqueue($task_id, array $payload, $scheduled_for = null): array
     {
         global $wpdb;
         $table = $this->queue_table();
@@ -193,7 +193,7 @@ final class AutoGPTTaskRepository extends BaseRepository
         return (int) $wpdb->insert_id;
     }
 
-    public function dequeue($limit = 5)
+    public function dequeue($limit = 5): array
     {
         global $wpdb;
         $table = $this->queue_table();

@@ -35,7 +35,7 @@ final class Plugin
      * @param string $version Optional, only used on first call.
      * @return self
      */
-    public static function instance($version = '')
+    public static function instance(string $version = ''): self
     {
         if (null === self::$instance) {
             self::$instance = new self($version ?: LINKED3_VERSION);
@@ -46,7 +46,7 @@ final class Plugin
     /**
      * @return string
      */
-    public function version()
+    public function version(): string
     {
         return $this->version;
     }

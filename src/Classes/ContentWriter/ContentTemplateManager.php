@@ -32,7 +32,7 @@ final class ContentTemplateManager
      * @param int $user_id
      * @return void
      */
-    public function ensure_defaults($user_id = 0)
+    public function ensure_defaults(int $user_id = 0)
     : void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
@@ -55,7 +55,7 @@ final class ContentTemplateManager
      * @param string $template_type Optional filter.
      * @return array
      */
-    public function get_for_user($user_id, $template_type = '') : mixed     {
+    public function get_for_user(int $user_id, string $template_type = '') : mixed     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
         $sql = "SELECT * FROM {$table} WHERE user_id = %d";
@@ -73,7 +73,7 @@ final class ContentTemplateManager
      * @param int   $user_id
      * @return array|null
      */
-    public function get($id, $user_id) : mixed {
+    public function get(int $id, int $user_id) : mixed {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
         $row = $wpdb->get_row($wpdb->prepare(
@@ -110,7 +110,7 @@ final class ContentTemplateManager
      * @param array $data
      * @return bool|\WP_Error
      */
-    public function update($id, $user_id, array $data)
+    public function update(int $id, int $user_id, array $data): bool|WP_Error
     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
@@ -134,7 +134,7 @@ final class ContentTemplateManager
      * @param int $user_id
      * @return bool
      */
-    public function delete($id, $user_id)
+    public function delete(int $id, int $user_id): bool
     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';

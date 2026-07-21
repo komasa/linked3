@@ -33,3 +33,4 @@ Thumbs.db
 
 # 报告目录
 reports/
+phpcs.xml.bak

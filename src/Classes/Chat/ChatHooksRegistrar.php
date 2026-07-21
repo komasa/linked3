@@ -65,12 +65,12 @@ final class ChatHooksRegistrar
         }
     }
 
-    public static function register_admin_menu()
+    public static function register_admin_menu(): void
     {
         add_submenu_page('linked3-dashboard', 'AI 对话', 'AI 对话', 'manage_options', 'linked3-chat', [__CLASS__, 'render_admin_page']);
     }
 
-    public static function render_admin_page()
+    public static function render_admin_page(): void
     {
         if (!current_user_can('manage_options')) return;
         include LINKED3_DIR . 'admin/views/chat/settings.php';

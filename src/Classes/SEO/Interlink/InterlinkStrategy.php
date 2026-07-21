@@ -27,5 +27,5 @@ interface InterlinkStrategy
      * @param int      $max_per_target  Hard ceiling per target post (anti-over-opt).
      * @return array<int,array{post_id:int,title:string,url:string,anchor:string,score:float}>
      */
-    public function candidates($source_post_id, array $keywords, $limit, $max_per_target);
+    public function candidates(int $source_post_id, array $keywords, int $limit, int $max_per_target): array ;
 }

@@ -21,7 +21,7 @@ final class ModuleInitializer
      * @param string $version
      * @return void
      */
-    public static function init($version)
+    public static function init(string $version)
     : void {
         /**
          * Modules (chat, content-writer, seo, autogpt, etc.) hook here

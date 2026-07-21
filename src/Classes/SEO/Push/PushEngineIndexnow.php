@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 }
 final class PushEngineIndexnow implements PushEngine
 {
-    public function slug()
+    public function slug(): string
     : string {
         return 'indexnow';
     }

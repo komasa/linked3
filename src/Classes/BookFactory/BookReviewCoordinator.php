@@ -61,7 +61,7 @@ class BookReviewCoordinator {
          * @param BookProjectState $state 项目状态。
          * @return array|WP_Error 返回审校结果或 WP_Error。
          */
-        public function review( $state ) : mixed {
+        public function review(BookProjectState $state) : mixed {
                 // 委托给 Review_Linker Trait 的方法。
                 return $this->do_review( $state );
         }

@@ -63,7 +63,7 @@ abstract class SEOBaseAjaxAction
      * @param string $plan 'pro' or 'premium'
      * @return true
      */
-    protected function require_seo_plan($plan = 'pro') : mixed {
+    protected function require_seo_plan(string $plan = 'pro') : mixed {
         return $this->require_plan($plan);
     }
 
@@ -77,7 +77,7 @@ abstract class SEOBaseAjaxAction
      * @param string $engine Push engine slug (baidu|bing|google|toutiao|indexnow).
      * @return true True on allow; never returns on denial (sends 402).
      */
-    protected function require_push_quota($engine)
+    protected function require_push_quota(string $engine)
     : bool {
         $service = LicenseService::instance();
         $plan    = $service->plan();

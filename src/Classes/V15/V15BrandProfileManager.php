@@ -42,7 +42,7 @@ final class V15BrandProfileManager
      * @param int $user_id
      * @return array
      */
-    public function get_all_profiles($user_id = 0) : mixed {
+    public function get_all_profiles(int $user_id = 0) : mixed {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_v15_brand_profiles';
         $rows = $wpdb->get_results($wpdb->prepare(
@@ -92,7 +92,7 @@ final class V15BrandProfileManager
      * @param array $row
      * @return array
      */
-    private function format_profile($row)
+    private function format_profile(array $row)
     : array {
         return [
             'id'                 => (int) $row['id'],
@@ -131,7 +131,7 @@ final class V15BrandProfileManager
      * @param array $profile
      * @return array
      */
-    public function profile_to_placeholders($profile)
+    public function profile_to_placeholders(array $profile)
     : array {
         return [
             'brand'        => $profile['brand_name'] ?? '',

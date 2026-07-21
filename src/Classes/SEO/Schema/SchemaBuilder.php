@@ -22,11 +22,11 @@ interface SchemaBuilder
     /**
      * @return string Schema @type identifier (e.g. 'Article', 'FAQPage').
      */
-    public function type();
+    public function type(): string ;
 
     /**
      * @param \WP_Post $post
      * @return array<string,mixed>|null Schema array; null = skip.
      */
-    public function build($post);
+    public function build(WP_Post $post): ?array ;
 }
