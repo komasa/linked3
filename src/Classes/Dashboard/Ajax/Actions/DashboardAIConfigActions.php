@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard\Ajax\Actions;
 use Linked3\Classes\Dashboard\Ajax\DashboardBaseAjaxAction;
+use Linked3\Classes\Dashboard\DashboardConfigAjax;
 if (!defined('ABSPATH')) exit;
 
 /**
@@ -33,168 +34,111 @@ class DashboardAIConfigActions extends DashboardBaseAjaxAction
 
 
     /**
-     * Delegate to legacy registrar method ajax_sync_models().
      * Action: wp_ajax_linked3_sync_models
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_sync_models().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_sync_models()
      */
     public static function sync_models() : mixed {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_sync_models();
+        return DashboardConfigAjax::ajax_sync_models();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_ai_suffix().
      * Action: wp_ajax_linked3_save_ai_suffix
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_ai_suffix().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_ai_suffix()
      */
     public static function save_ai_suffix() : mixed     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_ai_suffix();
+        return DashboardConfigAjax::ajax_save_ai_suffix();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_advanced().
      * Action: wp_ajax_linked3_save_advanced
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_advanced().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_advanced()
      */
     public static function save_advanced()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_advanced();
+        return DashboardConfigAjax::ajax_save_advanced();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_custom_apis().
      * Action: wp_ajax_linked3_save_custom_apis
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_custom_apis().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_custom_apis()
      */
     public static function save_custom_apis()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_custom_apis();
+        return DashboardConfigAjax::ajax_save_custom_apis();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_provider_config().
      * Action: wp_ajax_linked3_save_provider_config
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_provider_config().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_provider_config()
      */
     public static function save_provider_config()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_provider_config();
+        return DashboardConfigAjax::ajax_save_provider_config();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_seo_enhance().
      * Action: wp_ajax_linked3_save_seo_enhance
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_seo_enhance().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_seo_enhance()
      */
     public static function save_seo_enhance()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_seo_enhance();
+        return DashboardConfigAjax::ajax_save_seo_enhance();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_image_settings().
      * Action: wp_ajax_linked3_save_image_settings
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_image_settings().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_image_settings()
      */
     public static function save_image_settings()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_image_settings();
+        return DashboardConfigAjax::ajax_save_image_settings();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_test_image_station().
      * Action: wp_ajax_linked3_test_image_station
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_test_image_station().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_test_image_station()
      */
     public static function test_image_station()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_test_image_station();
+        return DashboardConfigAjax::ajax_test_image_station();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_sync_image_models().
      * Action: wp_ajax_linked3_sync_image_models
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_sync_image_models().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_sync_image_models()
      */
     public static function sync_image_models()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_sync_image_models();
+        return DashboardConfigAjax::ajax_sync_image_models();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_geo().
      * Action: wp_ajax_linked3_save_geo
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_geo().
-     *             Will be migrated into this class in a future version.
+     * Ghost method: never had an implementation.
      */
     public static function save_geo()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_geo();
+        wp_send_json_error([
+            'message' => __('AJAX endpoint "ajax_save_geo" is not implemented. This is a known issue from PSR-4 migration.', 'linked3'),
+            'code' => 'ghost_method',
+        ], 501);
     }
 
     /**
-     * Delegate to legacy registrar method ajax_save_ai_search_keys().
      * Action: wp_ajax_linked3_save_ai_search_keys
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_save_ai_search_keys().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_save_ai_search_keys()
      */
     public static function save_ai_search_keys()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_save_ai_search_keys();
+        return DashboardConfigAjax::ajax_save_ai_search_keys();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_regen_llms_txt().
      * Action: wp_ajax_linked3_regen_llms_txt
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_regen_llms_txt().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardConfigAjax::ajax_regen_llms_txt()
      */
     public static function regen_llms_txt()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_regen_llms_txt();
+        return DashboardConfigAjax::ajax_regen_llms_txt();
     }
 }

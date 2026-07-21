@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard\Ajax\Actions;
 use Linked3\Classes\Dashboard\Ajax\DashboardBaseAjaxAction;
+use Linked3\Classes\Dashboard\DashboardMediaAjax;
 if (!defined('ABSPATH')) exit;
 
 /**
@@ -25,56 +26,36 @@ class DashboardDiagramActions extends DashboardBaseAjaxAction
 
 
     /**
-     * Delegate to legacy registrar method ajax_diagram_generate().
      * Action: wp_ajax_linked3_diagram_generate
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_diagram_generate().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardMediaAjax::ajax_diagram_generate()
      */
     public static function diagram_generate() : mixed {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_diagram_generate();
+        return DashboardMediaAjax::ajax_diagram_generate();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_diagram_validate().
      * Action: wp_ajax_linked3_diagram_validate
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_diagram_validate().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardMediaAjax::ajax_diagram_validate()
      */
     public static function diagram_validate() : mixed     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_diagram_validate();
+        return DashboardMediaAjax::ajax_diagram_validate();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_diagram_types().
      * Action: wp_ajax_linked3_diagram_types
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_diagram_types().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardMediaAjax::ajax_diagram_types()
      */
     public static function diagram_types()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_diagram_types();
+        return DashboardMediaAjax::ajax_diagram_types();
     }
 
     /**
-     * Delegate to legacy registrar method ajax_diagram_generate_multi().
      * Action: wp_ajax_linked3_diagram_generate_multi
-     *
-     * @deprecated 27.1.0 This delegate exists for backward compatibility.
-     *             The actual implementation lives in
-     *             DashboardAjaxRegistrar::ajax_diagram_generate_multi().
-     *             Will be migrated into this class in a future version.
+     * Implementation: DashboardMediaAjax::ajax_diagram_generate_multi()
      */
     public static function diagram_generate_multi()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_diagram_generate_multi();
+        return DashboardMediaAjax::ajax_diagram_generate_multi();
     }
 }

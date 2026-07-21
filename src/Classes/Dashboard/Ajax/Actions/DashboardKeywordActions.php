@@ -6,6 +6,7 @@ use Linked3\Classes\Dashboard\Ajax\DashboardBaseAjaxAction;
 use Linked3\Classes\SEO\Keyword\KeywordManager;
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\Core\AIDispatcher;
+use Linked3\Classes\Dashboard\DashboardConfigAjax;
 
 if (!defined('ABSPATH')) exit;
 
@@ -183,36 +184,36 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
 
     /**
      * AJAX: 保存关键词库。
-     * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2.
+     * Implementation: DashboardConfigAjax::ajax_kw_save_library()
      */
     public static function kw_save_library() : mixed     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_kw_save_library();
+        return DashboardConfigAjax::ajax_kw_save_library();
     }
 
     /**
      * AJAX: 启用关键词定时任务。
-     * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2.
+     * Implementation: DashboardConfigAjax::ajax_kw_cron_enable()
      */
     public static function kw_cron_enable()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_kw_cron_enable();
+        return DashboardConfigAjax::ajax_kw_cron_enable();
     }
 
     /**
      * AJAX: 禁用关键词定时任务。
-     * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2.
+     * Implementation: DashboardConfigAjax::ajax_kw_cron_disable()
      */
     public static function kw_cron_disable()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_kw_cron_disable();
+        return DashboardConfigAjax::ajax_kw_cron_disable();
     }
 
     /**
      * AJAX: 查询关键词定时任务状态。
-     * @deprecated G2.1 Still delegates to legacy; will be migrated in G2.2.
+     * Implementation: DashboardConfigAjax::ajax_kw_cron_status()
      */
     public static function kw_cron_status()
     {
-        return \Linked3\Classes\Dashboard\DashboardAjaxRegistrar::ajax_kw_cron_status();
+        return DashboardConfigAjax::ajax_kw_cron_status();
     }
 }

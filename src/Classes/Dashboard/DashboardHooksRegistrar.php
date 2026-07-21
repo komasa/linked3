@@ -91,8 +91,6 @@ final class DashboardHooksRegistrar
         try {
             if (class_exists(\Linked3\Classes\Dashboard\Ajax\DashboardAjaxRegistrar::class)) {
                 \Linked3\Classes\Dashboard\Ajax\DashboardAjaxRegistrar::register();
-            } elseif (class_exists(DashboardAjaxRegistrar::class)) {
-                DashboardAjaxRegistrar::register();
             }
         } catch (\Throwable $e) {
             self::log_failure('AJAX registrar', $e);
