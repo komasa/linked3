@@ -311,88 +311,18 @@ class EcosystemAjaxAdvanced
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
 
-        $topics_raw = wp_unslash($_POST['topics'] ?? '');
-        $topics = array_filter(array_map('sanitize_text_field', explode("\n", $topics_raw)));
-        $topics = array_slice($topics, 0, 50);
-
+        [$topics, $target_status, $keywords_list] = self::parse_csv_batch_input();
         if (empty($topics)) wp_send_json_error(['message' => __('请输入至少一个主题', 'linked3-ai')]);
-
-        // v18复审修复E3 [公理α: H↓ 消除"选了发布却没发布"不确定性]
-        // 消费 target_status 参数, 据此 wp_insert_post 落地为草稿/已发布文章
-        $target_status = sanitize_key($_POST['target_status'] ?? 'draft');
-        if (!in_array($target_status, ['draft', 'publish'], true)) {
-            $target_status = 'draft';
-        }
-        // 关键词列表 (可选, 用于文章标签)
-        $keywords_raw = wp_unslash($_POST['keywords_list'] ?? '');
-        $keywords_list = array_filter(array_map('sanitize_text_field', explode("\n", $keywords_raw)));
 
         @set_time_limit(300);
 
         $results = [];
         $ai_available = class_exists('\\Linked3\\Classes\\Core\\AIDispatcher');
         foreach ($topics as $i => $topic) {
-            // v10.9.3: 真实AI批量生成 (绞杀假大空"关于X的文章内容...")
-            if (!$ai_available) {
-                $results[] = [
-                    'topic' => $topic,
-                    'success' => false,
-                    'word_count' => 0,
-                    'content' => '',
-                    'error' => 'AI API未配置',
-                ];
-                continue;
-            }
-            // v11.8.0: 贯彻全局require_html格式变量
-            $adv_csv = wp_parse_args((array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []), ['require_html' => false]);
-            $csv_format = !empty($adv_csv['require_html'])
-                ? "1. HTML标签格式, 含<h1>标题, 段落用<p>标签"
-                : "1. Markdown格式, 含H1标题";
-            $prompt = sprintf(
-                "请为主题「%s」撰写一篇约800字的文章。要求:\n%s\n2. 内容具体有信息量, 不要空话\n3. 适合博客/公众号发布\n4. 不要使用「赋能/闭环/抓手」等AI高频词\n\n直接输出正文。",
-                $topic, $csv_format
-            );
-            $content = self::call_ai($prompt, 1500);
-
-            $row = [
-                'topic' => $topic,
-                'success' => !empty($content),
-                'word_count' => mb_strlen($content),
-                'content' => $content,
-                'error' => empty($content) ? 'AI生成失败' : '',
-                'post_id' => 0,
-                'post_status' => '',
-            ];
-
-            // v18复审修复E3: 生成成功则 wp_insert_post 落地
-            if (!empty($content)) {
-                $post_data = [
-                    'post_title'   => $topic,
-                    'post_content' => $content,
-                    'post_status'  => $target_status,
-                    'post_type'    => 'post',
-                    'post_author'  => get_current_user_id(),
-                ];
-                // 关键词作为标签 (若有对应行)
-                if (isset($keywords_list[$i]) && !empty($keywords_list[$i])) {
-                    $tags = array_filter(array_map('trim', explode('|', $keywords_list[$i])));
-                    if (!empty($tags)) {
-                        $post_data['tags_input'] = $tags;
-                    }
-                }
-                $post_id = wp_insert_post($post_data, true);
-                if (!is_wp_error($post_id) && $post_id > 0) {
-                    $row['post_id'] = $post_id;
-                    $row['post_status'] = $target_status;
-                } else {
-                    $row['error'] = is_wp_error($post_id) ? $post_id->get_error_message() : 'wp_insert_post失败';
-                }
-            }
-
-            $results[] = $row;
+            $results[] = self::generate_batch_article($topic, $i, $ai_available, $target_status, $keywords_list);
         }
 
-        $saved_count = count(array_filter($results, function($r) { return !empty($r['post_id']); }));
+        $saved_count = count(array_filter($results, fn($r) => !empty($r['post_id'])));
         wp_send_json_success([
             'results' => $results,
             'total' => count($results),
@@ -400,6 +330,83 @@ class EcosystemAjaxAdvanced
             'target_status' => $target_status,
             'message' => __('批量生成完成: ', 'linked3-ai') . count($results) . '篇, 落地' . $saved_count . '篇' . ($target_status === 'publish' ? '(已发布)' : '(草稿)'),
         ]);
+    }
+
+    /**
+     * 解析批量生成输入参数
+     * @return array{0:array,1:string,2:array}
+     */
+    private static function parse_csv_batch_input(): array {
+        $topics_raw = wp_unslash($_POST['topics'] ?? '');
+        $topics = array_filter(array_map('sanitize_text_field', explode("\n", $topics_raw)));
+        $topics = array_slice($topics, 0, 50);
+
+        $target_status = sanitize_key($_POST['target_status'] ?? 'draft');
+        if (!in_array($target_status, ['draft', 'publish'], true)) {
+            $target_status = 'draft';
+        }
+
+        $keywords_raw = wp_unslash($_POST['keywords_list'] ?? '');
+        $keywords_list = array_filter(array_map('sanitize_text_field', explode("\n", $keywords_raw)));
+
+        return [$topics, $target_status, $keywords_list];
+    }
+
+    /**
+     * 生成单篇文章并落地为 post
+     */
+    private static function generate_batch_article(string $topic, int $idx, bool $ai_available, string $target_status, array $keywords_list): array {
+        if (!$ai_available) {
+            return [
+                'topic' => $topic, 'success' => false, 'word_count' => 0,
+                'content' => '', 'error' => 'AI API未配置', 'post_id' => 0, 'post_status' => '',
+            ];
+        }
+
+        $adv_csv = wp_parse_args((array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []), ['require_html' => false]);
+        $csv_format = !empty($adv_csv['require_html'])
+            ? "1. HTML标签格式, 含<h1>标题, 段落用<p>标签"
+            : "1. Markdown格式, 含H1标题";
+        $prompt = sprintf(
+            "请为主题「%s」撰写一篇约800字的文章。要求:\n%s\n2. 内容具体有信息量, 不要空话\n3. 适合博客/公众号发布\n4. 不要使用「赋能/闭环/抓手」等AI高频词\n\n直接输出正文。",
+            $topic, $csv_format
+        );
+        $content = self::call_ai($prompt, 1500);
+
+        $row = [
+            'topic' => $topic, 'success' => !empty($content), 'word_count' => mb_strlen($content),
+            'content' => $content, 'error' => empty($content) ? 'AI生成失败' : '',
+            'post_id' => 0, 'post_status' => '',
+        ];
+
+        if (!empty($content)) {
+            self::insert_batch_post($row, $topic, $content, $target_status, $idx, $keywords_list);
+        }
+        return $row;
+    }
+
+    /**
+     * v18复审修复E3: 生成成功则 wp_insert_post 落地
+     */
+    private static function insert_batch_post(array &$row, string $topic, string $content, string $target_status, int $idx, array $keywords_list): void {
+        $post_data = [
+            'post_title'   => $topic,
+            'post_content' => $content,
+            'post_status'  => $target_status,
+            'post_type'    => 'post',
+            'post_author'  => get_current_user_id(),
+        ];
+        if (isset($keywords_list[$idx]) && !empty($keywords_list[$idx])) {
+            $tags = array_filter(array_map('trim', explode('|', $keywords_list[$idx])));
+            if (!empty($tags)) $post_data['tags_input'] = $tags;
+        }
+        $post_id = wp_insert_post($post_data, true);
+        if (!is_wp_error($post_id) && $post_id > 0) {
+            $row['post_id'] = $post_id;
+            $row['post_status'] = $target_status;
+        } else {
+            $row['error'] = is_wp_error($post_id) ? $post_id->get_error_message() : 'wp_insert_post失败';
+        }
     }
 
 }

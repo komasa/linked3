@@ -122,7 +122,6 @@ class EcosystemAjax {
 
         $seed = sanitize_text_field($_POST['seed'] ?? '');
         $count = intval($_POST['count'] ?? 20);
-        // v11.9.0 R1: 支持多热词批量生成长尾词 (不再只基于第一个热词)
         $multi_seeds_raw = isset($_POST['seeds']) ? wp_unslash($_POST['seeds']) : '';
         $mode = sanitize_key($_POST['mode'] ?? 'single');
 
@@ -131,31 +130,9 @@ class EcosystemAjax {
         }
 
         try {
-            $all_keywords = [];
-            $all_long_tail = [];
-
-            if ($mode === 'multi' && !empty($multi_seeds_raw)) {
-                // v11.9.0 R1: 多热词模式 — 每个热词各生成长尾词
-                $seeds = array_filter(array_map('trim', explode("\n", $multi_seeds_raw)));
-                $per_seed_count = max(3, intval($count / max(1, count($seeds))));
-                foreach ($seeds as $s) {
-                    $s = sanitize_text_field($s);
-                    if (empty($s)) continue;
-                    $kw = EcosystemKeywordService::generate_keywords($s, $per_seed_count);
-                    foreach ($kw as $k) {
-                        if (!in_array($k, $all_keywords)) {
-                            $all_keywords[] = $k;
-                            if (mb_strlen($k) > 8) $all_long_tail[] = $k;
-                        }
-                    }
-                    if (count($all_keywords) >= $count) break;
-                }
-                $all_keywords = array_slice($all_keywords, 0, $count);
-            } else {
-                // 单种子词模式 (兼容原逻辑)
-                $all_keywords = EcosystemKeywordService::generate_keywords($seed, $count);
-                $all_long_tail = array_filter($all_keywords, function($k) { return mb_strlen($k) > 8; });
-            }
+            [$all_keywords, $all_long_tail, $seed_count] = self::generate_keywords_by_mode(
+                $mode, $seed, $multi_seeds_raw, $count
+            );
 
             $classified = EcosystemKeywordService::classify_keywords($all_keywords);
 
@@ -164,11 +141,44 @@ class EcosystemAjax {
                 'classified' => $classified,
                 'long_tail' => $all_long_tail,
                 'mode' => $mode,
-                'seed_count' => $mode === 'multi' ? count($seeds ?? []) : 1,
+                'seed_count' => $seed_count,
             ]);
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => __('关键词生成失败: ', 'linked3-ai') . $e->getMessage()]);
         }
+    }
+
+    /**
+     * 根据模式生成关键词 (单种子/多种子)
+     * @return array{0:array,1:array,2:int} [keywords, long_tail, seed_count]
+     */
+    private static function generate_keywords_by_mode(string $mode, string $seed, string $multi_seeds_raw, int $count): array {
+        $all_keywords = [];
+        $all_long_tail = [];
+
+        if ($mode === 'multi' && !empty($multi_seeds_raw)) {
+            $seeds = array_filter(array_map('trim', explode("\n", $multi_seeds_raw)));
+            $per_seed_count = max(3, intval($count / max(1, count($seeds))));
+            foreach ($seeds as $s) {
+                $s = sanitize_text_field($s);
+                if (empty($s)) continue;
+                $kw = EcosystemKeywordService::generate_keywords($s, $per_seed_count);
+                foreach ($kw as $k) {
+                    if (!in_array($k, $all_keywords)) {
+                        $all_keywords[] = $k;
+                        if (mb_strlen($k) > 8) $all_long_tail[] = $k;
+                    }
+                }
+                if (count($all_keywords) >= $count) break;
+            }
+            $all_keywords = array_slice($all_keywords, 0, $count);
+            return [$all_keywords, $all_long_tail, count($seeds)];
+        }
+
+        // 单种子词模式 (兼容原逻辑)
+        $all_keywords = EcosystemKeywordService::generate_keywords($seed, $count);
+        $all_long_tail = array_filter($all_keywords, fn($k) => mb_strlen($k) > 8);
+        return [$all_keywords, $all_long_tail, 1];
     }
 
     /**

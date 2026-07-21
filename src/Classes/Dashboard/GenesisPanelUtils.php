@@ -21,54 +21,78 @@ class GenesisPanelUtils
     {
         if (empty($raw)) return [];
         $text = trim($raw);
-
         $text = preg_replace('/^```(?:json)?\s*/i', '', $text);
         $text = preg_replace('/\s*```$/', '', $text);
 
-        $decoded = json_decode($text, true);
-        if (is_array($decoded)) {
-            $panels = $decoded['panels'] ?? $decoded['scenes'] ?? $decoded;
-            if (is_array($panels) && count($panels) >= 2) {
-                return self::normalizePanels($panels);
-            }
-        }
+        // 策略1: 直接JSON解析
+        $panels = self::try_parse_full_json($text);
+        if ($panels !== null) return $panels;
 
-        if (preg_match('/\{[\s\S]*\}/', $text, $m)) {
-            $decoded = json_decode($m[0], true);
-            if (is_array($decoded)) {
-                $panels = $decoded['panels'] ?? $decoded['scenes'] ?? $decoded;
-                if (is_array($panels) && count($panels) >= 2) {
-                    return self::normalizePanels($panels);
-                }
-            }
-        }
+        // 策略2: 提取第一个JSON对象
+        $panels = self::try_extract_json_object($text);
+        if ($panels !== null) return $panels;
 
-        if (preg_match_all('/\{[^{}]*"scene_id"[^{}]*\}/', $text, $matches)) {
-            $panels = [];
-            foreach ($matches[0] as $m) {
-                $decoded = json_decode($m, true);
-                if (is_array($decoded) && !empty($decoded['action'])) {
-                    $panels[] = $decoded;
-                }
-            }
-            if (count($panels) >= 2) return self::normalizePanels($panels);
-        }
+        // 策略3: 逐个提取 scene_id JSON 片段
+        $panels = self::try_extract_scene_fragments($text);
+        if ($panels !== null) return $panels;
 
-        if (preg_match_all('/"location"\s*:\s*"([^"]+)".*?"action"\s*:\s*"([^"]+)"/s', $text, $locs, $acts)) {
-            $panels = [];
-            for ($i = 0; $i < count($locs[1]); $i++) {
-                $panels[] = [
-                    'scene_id' => 'S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT),
-                    'location' => $locs[1][$i],
-                    'action' => $acts[1][$i],
-                    'mood' => '紧张', 'shot' => '中景', 'angle' => '平视', 'comp' => '三分法',
-                    'prompt_en' => '',
-                ];
-            }
-            if (count($panels) >= 2) return $panels;
-        }
+        // 策略4: 正则提取 location+action 对
+        $panels = self::try_extract_location_action_pairs($text);
+        if ($panels !== null) return $panels;
 
         return [];
+    }
+
+    /** 策略1: 直接JSON解析 */
+    private static function try_parse_full_json(string $text): ?array {
+        $decoded = json_decode($text, true);
+        if (!is_array($decoded)) return null;
+        $panels = $decoded['panels'] ?? $decoded['scenes'] ?? $decoded;
+        if (is_array($panels) && count($panels) >= 2) {
+            return self::normalizePanels($panels);
+        }
+        return null;
+    }
+
+    /** 策略2: 提取第一个 {...} JSON对象 */
+    private static function try_extract_json_object(string $text): ?array {
+        if (!preg_match('/\{[\s\S]*\}/', $text, $m)) return null;
+        $decoded = json_decode($m[0], true);
+        if (!is_array($decoded)) return null;
+        $panels = $decoded['panels'] ?? $decoded['scenes'] ?? $decoded;
+        if (is_array($panels) && count($panels) >= 2) {
+            return self::normalizePanels($panels);
+        }
+        return null;
+    }
+
+    /** 策略3: 逐个提取含 scene_id 的 JSON 片段 */
+    private static function try_extract_scene_fragments(string $text): ?array {
+        if (!preg_match_all('/\{[^{}]*"scene_id"[^{}]*\}/', $text, $matches)) return null;
+        $panels = [];
+        foreach ($matches[0] as $m) {
+            $decoded = json_decode($m, true);
+            if (is_array($decoded) && !empty($decoded['action'])) {
+                $panels[] = $decoded;
+            }
+        }
+        return count($panels) >= 2 ? self::normalizePanels($panels) : null;
+    }
+
+    /** 策略4: 正则提取 location+action 对 */
+    private static function try_extract_location_action_pairs(string $text): ?array {
+        if (!preg_match_all('/"location"\s*:\s*"([^"]+)".*?"action"\s*:\s*"([^"]+)"/s', $text, $locs, $acts)) return null;
+        $panels = [];
+        for ($i = 0; $i < count($locs[1]); $i++) {
+            $panels[] = [
+                'scene_id' => 'S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT),
+                'location' => $locs[1][$i],
+                'action' => $acts[1][$i],
+                'mood' => '紧张', 'shot' => '中景', 'angle' => '平视', 'comp' => '三分法',
+                'prompt_en' => '',
+            ];
+        }
+        return count($panels) >= 2 ? $panels : null;
     }
 
     public static function normalizePanels(array $panels): array

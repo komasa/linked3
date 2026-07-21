@@ -216,49 +216,18 @@ class COSAjax
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
 
-        // v20.4-fix10: 降低超时从 300s → 120s, 并在响应中提示已废弃
-        // 注意: 如果杠杆数 > 2, 此端点仍可能超时, 请使用前端分块串行模式
         @set_time_limit(120);
         @ini_set('max_execution_time', '120');
 
-        // 解析杠杆列表
-        $lever_ids = [];
-        if (isset($_POST['levers']) && is_string($_POST['levers'])) {
-            $decoded = json_decode(wp_unslash($_POST['levers']), true);
-            if (is_array($decoded)) {
-                $lever_ids = array_map('sanitize_key', $decoded);
-            }
-        } elseif (isset($_POST['levers']) && is_array($_POST['levers'])) {
-            $lever_ids = array_map('sanitize_key', $_POST['levers']);
-        }
-
+        $lever_ids = self::parse_lever_ids_from_request();
         if (empty($lever_ids)) {
             wp_send_json_error(['message' => __('请至少选择一个杠杆', 'linked3')], 400);
         }
 
-        // 解析输入上下文
-        $input = [];
-        if (isset($_POST['problem'])) {
-            $input['problem'] = sanitize_textarea_field(wp_unslash($_POST['problem']));
-        }
-        if (isset($_POST['approach'])) {
-            $input['approach'] = sanitize_textarea_field(wp_unslash($_POST['approach']));
-        }
-        if (isset($_POST['steps'])) {
-            $input['steps'] = sanitize_textarea_field(wp_unslash($_POST['steps']));
-        }
+        $input = self::parse_chain_input_from_request();
 
-        // 如果传了 skill_name, 从 Skill 库加载
         if (isset($_POST['skill_name']) && empty($input['approach'])) {
-            $skill_name = sanitize_key($_POST['skill_name']);
-            if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) {
-                $skill = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::get($skill_name);
-                if ($skill) {
-                    $input['approach'] = $skill['mvp_approach'] ?? '';
-                    $input['steps']    = $skill['mvp_steps'] ?? '';
-                    $input['problem']  = $input['problem'] ?? ($skill['problem'] ?? '');
-                }
-            }
+            self::load_skill_for_chain($input, sanitize_key($_POST['skill_name']));
         }
 
         if (empty($input['approach']) && empty($input['problem'])) {
@@ -276,6 +245,47 @@ class COSAjax
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * 从 POST 解析杠杆 ID 列表
+     */
+    private static function parse_lever_ids_from_request(): array {
+        $lever_ids = [];
+        if (isset($_POST['levers']) && is_string($_POST['levers'])) {
+            $decoded = json_decode(wp_unslash($_POST['levers']), true);
+            if (is_array($decoded)) {
+                $lever_ids = array_map('sanitize_key', $decoded);
+            }
+        } elseif (isset($_POST['levers']) && is_array($_POST['levers'])) {
+            $lever_ids = array_map('sanitize_key', $_POST['levers']);
+        }
+        return $lever_ids;
+    }
+
+    /**
+     * 从 POST 解析输入上下文 (problem/approach/steps)
+     */
+    private static function parse_chain_input_from_request(): array {
+        $input = [];
+        foreach (['problem', 'approach', 'steps'] as $field) {
+            if (isset($_POST[$field])) {
+                $input[$field] = sanitize_textarea_field(wp_unslash($_POST[$field]));
+            }
+        }
+        return $input;
+    }
+
+    /**
+     * 从 Skill 库加载方案数据到 input
+     */
+    private static function load_skill_for_chain(array &$input, string $skill_name): void {
+        if (!class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSSkillLibrary')) return;
+        $skill = \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::get($skill_name);
+        if (!$skill) return;
+        $input['approach'] = $input['approach'] ?? ($skill['mvp_approach'] ?? '');
+        $input['steps']    = $input['steps']    ?? ($skill['mvp_steps'] ?? '');
+        $input['problem']  = $input['problem']  ?? ($skill['problem'] ?? '');
     }
 
     /**
@@ -335,68 +345,23 @@ class COSAjax
                 wp_send_json_error(['message' => __('Skill 不存在', 'linked3')], 404);
             }
 
-            // 增加使用次数
             \Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary::increment_usage($name);
 
-            // 构造 system_prompt — v20.4: 注入完整方案 + 步骤 + 规则
-            $rules    = $skill['rules'] ?? [];
-            $approach = $skill['mvp_approach'] ?? '';
-            $steps    = $skill['mvp_steps'] ?? '';
-            $problem  = $skill['problem'] ?? '';
-            $fitness  = $skill['fitness'] ?? 0;
-            // v20.4-fix3: 处理空字符串 domain (旧 Skill 可能存了空串)
-            $domain   = !empty($skill['domain']) ? $skill['domain'] : 'general';
-
-            // v20.4-fix3: 旧 Skill 数据兼容 — 如果 approach 为空但 rules 有旧占位文本,
-            // 尝试从 rules[0] 提取 approach (旧格式: rules = [approach])
-            if (empty($approach) && !empty($rules) && is_string($rules[0])) {
-                $approach = $rules[0];
-            }
-            // 如果 rules 是旧格式 (只有1条且是占位文本), 重新提取
-            if (count($rules) <= 1 && !empty($approach)) {
-                $rules = \Linked3\Classes\CognitiveOS\Core\COSDepartments::extract_rules([
-                    'approach' => $approach,
-                    'steps'    => $steps,
-                ]);
-            }
-
-            // v20.4-fix23: Skill应用prompt也增加超级Prompt双层壳+纳什均衡
-            $prompt  = "你是一个经过认知操作系统 (COS) 三代演化验证的「{$domain}」领域专家。\n\n";
-            $prompt .= "<rules>\n";
-            $prompt .= "输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 规则不可违\n";
-            $prompt .= "公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险>8或可行<4直接抹杀\n";
-            $prompt .= "纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n";
-            $prompt .= "落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n";
-            $prompt .= "</rules>\n\n";
-            $prompt .= "你的方案经过 FP→EX→C→O→A 五部门流水线筛选, 从 10 个候选方案中经三代演化锁定为最优解 (MVP, 适应度 {$fitness})。\n\n";
-            $prompt .= "## 原始问题\n{$problem}\n\n";
-            $prompt .= "## 最优方案 (MVP)\n{$approach}\n\n";
-            if (!empty($steps)) {
-                $prompt .= "## 执行步骤\n{$steps}\n\n";
-            }
-            $prompt .= "## 固化规则 (经演化验证, 必须遵守)\n";
-            if (!empty($rules)) {
-                foreach ($rules as $i => $rule) {
-                    $prompt .= ($i + 1) . ". " . $rule . "\n";
-                }
-            } else {
-                $prompt .= "1. 严格遵循上述最优方案的执行步骤\n";
-            }
-            $prompt .= "\n## 工作要求\n";
-            $prompt .= "<answer_operator>\n";
-            $prompt .= "Analyze → Synthesize(纳什均衡) → Recommend(可落地) → Verify(用户价值) → Execute\n";
-            $prompt .= "</answer_operator>\n";
-            $prompt .= "1. 基于以上经过验证的方案和规则, 完成用户的内容生成任务\n";
-            $prompt .= "2. 不得偏离固化规则, 如遇冲突以规则为准\n";
-            $prompt .= "3. 输出需符合原始问题的领域特征和目标约束\n";
-            $prompt .= "4. 始终以用户目的为锚点, 输出必须可落地执行\n";
-            $prompt .= "5. 在信息密度与系统降维之间找到纳什均衡点\n";
+            [$approach, $rules] = self::normalize_skill_data($skill);
+            $prompt = self::build_apply_skill_prompt(
+                $skill['domain'] ?? 'general',
+                $skill['problem'] ?? '',
+                $approach,
+                $skill['mvp_steps'] ?? '',
+                $rules,
+                $skill['fitness'] ?? 0,
+            );
 
             wp_send_json_success([
                 'skill_name'    => $name,
                 'task_type'      => $task_type,
                 'system_prompt' => $prompt,
-                'fitness'       => $fitness,
+                'fitness'       => $skill['fitness'] ?? 0,
                 'usage_count'   => ($skill['usage_count'] ?? 0) + 1,
                 'approach_preview' => mb_substr($approach, 0, 200),
                 'rules_count'   => count($rules),
@@ -405,6 +370,66 @@ class COSAjax
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * v20.4-fix3: 旧 Skill 数据兼容 — 从 rules[0] 提取 approach, 重新提取 rules
+     * @return array{0:string,1:array} [approach, rules]
+     */
+    private static function normalize_skill_data(array $skill): array {
+        $approach = $skill['mvp_approach'] ?? '';
+        $rules    = $skill['rules'] ?? [];
+        $steps    = $skill['mvp_steps'] ?? '';
+
+        // 如果 approach 为空但 rules 有旧占位文本, 从 rules[0] 提取
+        if (empty($approach) && !empty($rules) && is_string($rules[0])) {
+            $approach = $rules[0];
+        }
+        // 如果 rules 是旧格式 (只有1条且是占位文本), 重新提取
+        if (count($rules) <= 1 && !empty($approach)) {
+            $rules = \Linked3\Classes\CognitiveOS\Core\COSDepartments::extract_rules([
+                'approach' => $approach,
+                'steps'    => $steps,
+            ]);
+        }
+        return [$approach, $rules];
+    }
+
+    /**
+     * v20.4-fix23: 构造 Skill 应用 system_prompt (超级Prompt双层壳+纳什均衡)
+     */
+    private static function build_apply_skill_prompt(string $domain, string $problem, string $approach, string $steps, array $rules, float $fitness): string {
+        $prompt  = "你是一个经过认知操作系统 (COS) 三代演化验证的「{$domain}」领域专家。\n\n";
+        $prompt .= "<rules>\n";
+        $prompt .= "输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 规则不可违\n";
+        $prompt .= "公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险>8或可行<4直接抹杀\n";
+        $prompt .= "纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n";
+        $prompt .= "落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n";
+        $prompt .= "</rules>\n\n";
+        $prompt .= "你的方案经过 FP→EX→C→O→A 五部门流水线筛选, 从 10 个候选方案中经三代演化锁定为最优解 (MVP, 适应度 {$fitness})。\n\n";
+        $prompt .= "## 原始问题\n{$problem}\n\n";
+        $prompt .= "## 最优方案 (MVP)\n{$approach}\n\n";
+        if (!empty($steps)) {
+            $prompt .= "## 执行步骤\n{$steps}\n\n";
+        }
+        $prompt .= "## 固化规则 (经演化验证, 必须遵守)\n";
+        if (!empty($rules)) {
+            foreach ($rules as $i => $rule) {
+                $prompt .= ($i + 1) . ". " . $rule . "\n";
+            }
+        } else {
+            $prompt .= "1. 严格遵循上述最优方案的执行步骤\n";
+        }
+        $prompt .= "\n## 工作要求\n";
+        $prompt .= "<answer_operator>\n";
+        $prompt .= "Analyze → Synthesize(纳什均衡) → Recommend(可落地) → Verify(用户价值) → Execute\n";
+        $prompt .= "</answer_operator>\n";
+        $prompt .= "1. 基于以上经过验证的方案和规则, 完成用户的内容生成任务\n";
+        $prompt .= "2. 不得偏离固化规则, 如遇冲突以规则为准\n";
+        $prompt .= "3. 输出需符合原始问题的领域特征和目标约束\n";
+        $prompt .= "4. 始终以用户目的为锚点, 输出必须可落地执行\n";
+        $prompt .= "5. 在信息密度与系统降维之间找到纳什均衡点\n";
+        return $prompt;
     }
 
     /**
