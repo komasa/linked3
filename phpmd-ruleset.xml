@@ -58,8 +58,7 @@
         <rule ref="ExitExpression"/>
         <!-- goto 语句检测 -->
         <rule ref="GotoStatement"/>
-        <!-- 全局变量检测 -->
-        <rule ref="Superglobals"/>
+        <!-- Superglobals: disabled, WordPress requires $_POST/$_GET/$_SERVER -->
         <!-- eval 检测 -->
         <rule ref="EvalExpression"/>
     </rule>
@@ -101,13 +100,12 @@
     </rule>
 
     <!-- ─── 代码异味 ─── -->
+    <!-- WordPress uses snake_case for variables/properties/methods/parameters -->
+    <!-- Only enforce CamelCase on class names (PSR-4 requirement) -->
     <rule ref="rulesets/controversial.xml">
-        <rule ref="Superglobals"/>
         <rule ref="CamelCaseClassName"/>
-        <rule ref="CamelCasePropertyName"/>
-        <rule ref="CamelCaseMethodName"/>
-        <rule ref="CamelCaseParameterName"/>
-        <rule ref="CamelCaseVariableName"/>
+        <!-- Disabled: WordPress uses snake_case -->
+        <!-- Superglobals, CamelCasePropertyName, CamelCaseMethodName, CamelCaseParameterName, CamelCaseVariableName -->
     </rule>
 
     <!-- ─── 清洁代码规则 ─── -->
