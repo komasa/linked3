@@ -149,6 +149,10 @@ final class AjaxNonceGuard
         'linked3_book_meta_info'             => 'linked3_book_factory',
         'linked3_book_meta_prototype'        => 'linked3_book_factory',
         'linked3_book_meta_prototypes'       => 'linked3_book_factory',
+
+        // ─── Templates (via TemplateActions / Ecosystem) ───
+        'linked3_template_list'              => 'linked3_content_writer',
+        'linked3_template_save'              => 'linked3_content_writer',
     ];
 
     /**
