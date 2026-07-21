@@ -90,34 +90,63 @@ final class ExternalLinkProcessor
             return self::ensure_target_blank_safety($m[0], $attrs, $inner);
         }
 
-        // Already has an explicit rel? Merge rather than overwrite.
-        $existing_rel = '';
-        if (preg_match('/\brel\s*=\s*(["\'])(.*?)\1/iu', $attrs, $rel_match)) {
-            $existing_rel = $rel_match[2];
-            $attrs = preg_replace('/\s*\brel\s*=\s*(["\']).*?\1/iu', '', $attrs);
-        }
-        $rel_parts = $existing_rel === '' ? [] : preg_split('/\s+/', trim($existing_rel));
+        // Parse existing rel attribute and strip it from attrs.
+        $rel_parts = self::extract_existing_rel($attrs, $attrs);
 
-        // Sponsored hosts.
-        $is_sponsored = false;
-        foreach ($sponsored as $needle) {
-            if ($needle !== '' && stripos($host, $needle) !== false) {
-                $is_sponsored = true;
-                break;
-            }
+        // Apply sponsored / nofollow / noopener rules.
+        $rel_parts = self::apply_rel_rules($host, $rel_parts, $sponsored, $whitelist, $nofollow_default, $attrs);
+
+        $rel_str = implode(' ', array_unique(array_filter($rel_parts)));
+        if ($rel_str !== '') {
+            $attrs .= ' rel="' . esc_attr($rel_str) . '"';
         }
-        if ($is_sponsored && !in_array('sponsored', $rel_parts, true)) {
+        return '<a' . $attrs . '>' . $inner . '</a>';
+    }
+
+    /**
+     * Extract the existing rel attribute from $attrs and return its parts.
+     * Modifies $attrs in place to remove the rel="..." fragment.
+     *
+     * @param string $attrs_in   Original attributes string.
+     * @param string &$attrs_out Attributes string with rel stripped.
+     * @return array  Existing rel parts.
+     */
+    private static function extract_existing_rel(string $attrs_in, string &$attrs_out): array
+    {
+        $existing_rel = '';
+        if (preg_match('/\brel\s*=\s*(["\'])(.*?)\1/iu', $attrs_in, $rel_match)) {
+            $existing_rel = $rel_match[2];
+            $attrs_out = preg_replace('/\s*\brel\s*=\s*(["\']).*?\1/iu', '', $attrs_in);
+        }
+        return $existing_rel === '' ? [] : preg_split('/\s+/', trim($existing_rel));
+    }
+
+    /**
+     * Apply sponsored / nofollow / noopener rules to build the final rel parts.
+     *
+     * @param string $host
+     * @param array  $rel_parts
+     * @param array  $sponsored
+     * @param array  $whitelist
+     * @param bool   $nofollow_default
+     * @param string $attrs
+     * @return array
+     */
+    private static function apply_rel_rules(
+        string $host,
+        array $rel_parts,
+        array $sponsored,
+        array $whitelist,
+        bool $nofollow_default,
+        string $attrs
+    ): array {
+        // Sponsored hosts.
+        if (self::host_matches_any($host, $sponsored) && !in_array('sponsored', $rel_parts, true)) {
             $rel_parts[] = 'sponsored';
         }
 
         // Whitelisted dofollow hosts → no nofollow.
-        $is_whitelisted = false;
-        foreach ($whitelist as $needle) {
-            if ($needle !== '' && stripos($host, $needle) !== false) {
-                $is_whitelisted = true;
-                break;
-            }
-        }
+        $is_whitelisted = self::host_matches_any($host, $whitelist);
         if (!$is_whitelisted && $nofollow_default && !in_array('nofollow', $rel_parts, true)) {
             $rel_parts[] = 'nofollow';
         }
@@ -132,11 +161,24 @@ final class ExternalLinkProcessor
             }
         }
 
-        $rel_str = implode(' ', array_unique(array_filter($rel_parts)));
-        if ($rel_str !== '') {
-            $attrs .= ' rel="' . esc_attr($rel_str) . '"';
+        return $rel_parts;
+    }
+
+    /**
+     * Check if $host matches any needle in $list (case-insensitive substring).
+     *
+     * @param string $host
+     * @param array  $list
+     * @return bool
+     */
+    private static function host_matches_any(string $host, array $list): bool
+    {
+        foreach ($list as $needle) {
+            if ($needle !== '' && stripos($host, $needle) !== false) {
+                return true;
+            }
         }
-        return '<a' . $attrs . '>' . $inner . '</a>';
+        return false;
     }
 
     /**
