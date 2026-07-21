@@ -47,13 +47,17 @@ final class HookManager
         }
 
         // v8.1.0 M1.2+M1.3: Seed DNA Admin UI + Export 层
-        if (class_exists('\Linked3\Includes\SeedAdmin')) {
-            add_action('admin_menu', ['\Linked3\Classes\Genesis\SeedAdmin', 'register_menu'], 20);
-            add_action('admin_post_linked3_seed_bulk', ['\Linked3\Classes\Genesis\SeedAdmin', 'handle_bulk_post']);
-            add_action('wp_ajax_linked3_save_seed', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_save_seed']);
-            add_action('wp_ajax_linked3_trash_all_seeds', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_trash_all']);
-            add_action('wp_ajax_linked3_download_seed', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_download_seed']);
-            add_action('wp_ajax_linked3_export_batch_seeds', ['\Linked3\Classes\Genesis\SeedAdmin', 'ajax_export_batch']);
+        // G4.1 split: SeedAdmin delegates to SeedAdminRender/SeedAdminAjax.
+        // Call the split classes directly.
+        if (class_exists('\Linked3\Classes\Genesis\SeedAdminRender')) {
+            add_action('admin_menu', ['\Linked3\Classes\Genesis\SeedAdminRender', 'register_menu'], 20);
+            add_action('admin_post_linked3_seed_bulk', ['\Linked3\Classes\Genesis\SeedAdminRender', 'handle_bulk_post']);
+        }
+        if (class_exists('\Linked3\Classes\Genesis\SeedAdminAjax')) {
+            add_action('wp_ajax_linked3_save_seed', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_save_seed']);
+            add_action('wp_ajax_linked3_trash_all_seeds', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_trash_all']);
+            add_action('wp_ajax_linked3_download_seed', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_download_seed']);
+            add_action('wp_ajax_linked3_export_batch_seeds', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_export_batch']);
         }
 
         // Activation check — DB version alignment, self-heal.
