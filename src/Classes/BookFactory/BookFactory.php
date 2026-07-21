@@ -75,42 +75,9 @@ class BookFactory {
      * @return array|WP_Error
      */
     public static function run_step(string $project_id): array|WP_Error {
-        $state = BookProjectState::get_project( $project_id );
-        if ( ! $state ) {
-            return new WP_Error( 'no_project', '项目不存在' );
-        }
-
-        $factory = new self();
-        $factory->state = $state;
-        $factory->pipeline_config = $factory->load_pipeline_config();
-        $factory->route = $state->get( 'route' );
-
-        $current_step = $state->get( 'current_step' );
-        $status = $state->get( 'status' );
-
-        // 已完成或失败, 不再执行
-        if ( $status === 'done' ) {
-            return array( 'done' => true, 'message' => __('已完成', 'linked3-ai') );
-        }
-        if ( $status === 'failed' ) {
-            return new WP_Error( 'already_failed', '项目已失败' );
-        }
-
-        // v18.11: 通过步骤注册表路由, 替代 switch-case 硬编码。
-        // 第三方插件可通过 linked3_book_register_step 钩子注册自定义步骤。
-        $step = BookStepRegistry::get_step( $current_step );
-
-        if ( $step instanceof BookStepInterface ) {
-            return $step->execute( $state, $factory );
-        }
-
-        // 向后兼容: 如果注册表中没有, 回退到 switch-case (处理 done 等特殊状态)。
-        switch ( $current_step ) {
-            case 'done':
-                return array( 'done' => true, 'message' => __('已完成', 'linked3-ai') );
-            default:
-                return new WP_Error( 'unknown_step', '未知步骤: ' . $current_step );
-        }
+        // v19.0: 委托到 BookPipelineOrchestrator (外观模式)
+        $orchestrator = new BookPipelineOrchestrator();
+        return $orchestrator->run_step($project_id);
     }
 
     /**
