@@ -25,176 +25,97 @@ final class HookManager
      */
     public static function register_hooks(string $version)
     : void {
-        // i18n — always on.
+        // i18n
         $i18n = new I18n();
         add_action('init', [$i18n, 'load_textdomain'], 0);
 
-        // v8.1.0: Seed DNA CPT 注册
-        if (class_exists('\Linked3\Includes\GenesisSeedCPT')) {
-            add_action('init', ['\Linked3\Classes\Genesis\GenesisSeedCPT', 'register'], 5);
-        }
+        self::register_genesis_hooks();
+        self::register_seed_hooks();
+        self::register_dashboard_hooks();
+        self::register_ecosystem_hooks();
+        self::register_woocommerce_hooks();
+        self::register_content_hooks();
+        self::register_misc_hooks($version);
+    }
 
-        // v8.2.0: Story Pipeline + Scene Axis AJAX hooks (M3 + M4)
-        // 所有 handler 内部自带 check_ajax_referer + current_user_can('edit_posts').
-        if (class_exists('\Linked3\Includes\StoryPipeline')) {
-            add_action('wp_ajax_linked3_import_script',   ['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_import_script']);
-            add_action('wp_ajax_linked3_parse_story',     ['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_parse_story']);
-            add_action('wp_ajax_linked3_detect_characters',['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_detect_characters']);
+    private static function register_genesis_hooks(): void {
+        if (class_exists('\\Linked3\\Includes\\GenesisSeedCPT')) {
+            add_action('init', ['\\Linked3\\Classes\\Genesis\\GenesisSeedCPT', 'register'], 5);
         }
-        if (class_exists('\Linked3\Includes\SceneAxis')) {
-            add_action('wp_ajax_linked3_get_scene_axes',  ['\Linked3\Classes\Genesis\SceneAxis', 'ajax_get_axes']);
-            add_action('wp_ajax_linked3_route_skeleton',  ['\Linked3\Classes\Genesis\SceneAxis', 'ajax_route_skeleton']);
+        if (class_exists('\\Linked3\\Includes\\StoryPipeline')) {
+            add_action('wp_ajax_linked3_import_script',    ['\\Linked3\\Classes\\Genesis\\StoryPipeline', 'ajax_import_script']);
+            add_action('wp_ajax_linked3_parse_story',      ['\\Linked3\\Classes\\Genesis\\StoryPipeline', 'ajax_parse_story']);
+            add_action('wp_ajax_linked3_detect_characters',['\\Linked3\\Classes\\Genesis\\StoryPipeline', 'ajax_detect_characters']);
         }
+        if (class_exists('\\Linked3\\Includes\\SceneAxis')) {
+            add_action('wp_ajax_linked3_get_scene_axes', ['\\Linked3\\Classes\\Genesis\\SceneAxis', 'ajax_get_axes']);
+            add_action('wp_ajax_linked3_route_skeleton', ['\\Linked3\\Classes\\Genesis\\SceneAxis', 'ajax_route_skeleton']);
+        }
+    }
 
-        // v8.1.0 M1.2+M1.3: Seed DNA Admin UI + Export 层
-        // G4.1 split: SeedAdmin delegates to SeedAdminRender/SeedAdminAjax.
-        // Call the split classes directly.
-        if (class_exists('\Linked3\Classes\Genesis\SeedAdminRender')) {
-            add_action('admin_menu', ['\Linked3\Classes\Genesis\SeedAdminRender', 'register_menu'], 20);
-            add_action('admin_post_linked3_seed_bulk', ['\Linked3\Classes\Genesis\SeedAdminRender', 'handle_bulk_post']);
+    private static function register_seed_hooks(): void {
+        if (class_exists('\\Linked3\\Classes\\Genesis\\SeedAdminRender')) {
+            add_action('admin_menu', ['\\Linked3\\Classes\\Genesis\\SeedAdminRender', 'register_menu'], 20);
+            add_action('admin_post_linked3_seed_bulk', ['\\Linked3\\Classes\\Genesis\\SeedAdminRender', 'handle_bulk_post']);
         }
-        if (class_exists('\Linked3\Classes\Genesis\SeedAdminAjax')) {
-            add_action('wp_ajax_linked3_save_seed', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_save_seed']);
-            add_action('wp_ajax_linked3_trash_all_seeds', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_trash_all']);
-            add_action('wp_ajax_linked3_download_seed', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_download_seed']);
-            add_action('wp_ajax_linked3_export_batch_seeds', ['\Linked3\Classes\Genesis\SeedAdminAjax', 'ajax_export_batch']);
+        if (class_exists('\\Linked3\\Classes\\Genesis\\SeedAdminAjax')) {
+            add_action('wp_ajax_linked3_save_seed',           ['\\Linked3\\Classes\\Genesis\\SeedAdminAjax', 'ajax_save_seed']);
+            add_action('wp_ajax_linked3_trash_all_seeds',     ['\\Linked3\\Classes\\Genesis\\SeedAdminAjax', 'ajax_trash_all']);
+            add_action('wp_ajax_linked3_download_seed',       ['\\Linked3\\Classes\\Genesis\\SeedAdminAjax', 'ajax_download_seed']);
+            add_action('wp_ajax_linked3_export_batch_seeds',  ['\\Linked3\\Classes\\Genesis\\SeedAdminAjax', 'ajax_export_batch']);
         }
+    }
 
-        // Activation check — DB version alignment, self-heal.
+    private static function register_dashboard_hooks(): void {
         add_action('admin_init', ['Linked3\\Includes\\Activator', 'check_for_updates'], 10);
-
-        // Tools menu — AJAX security audit (v0.0.8).
-        add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
-
-        // Custom cron schedules (v0.1.10).
-        add_filter('cron_schedules', [__CLASS__, 'register_cron_schedules']);
-
-        // Cron handlers (v0.1.10).
-        add_action('linked3_daily_health_check', [__CLASS__, 'daily_health_check']);
-        add_action('linked3_token_reset', ['\\Linked3\\Classes\\Core\\TokenManager', 'daily_reset']);
-        add_action('linked3_sse_cache_cleanup', [__CLASS__, 'cleanup_sse_cache']);
-        add_action('linked3_log_prune', [__CLASS__, 'prune_logs']);
-        // SEO push-log prune (v0.4.1).
-        add_action('linked3_push_log_prune', [__CLASS__, 'prune_push_logs']);
-        // v4.9.4: billing events prune (90-day retention).
-        add_action('linked3_billing_events_prune', [__CLASS__, 'prune_billing_events']);
-        // v5.2.4: 定时热词采集 + 长尾词生成
-        add_action('linked3_kw_cron_run', [__CLASS__, 'kw_cron_run']);
-        // License + billing crons (v0.2.1-v0.2.10).
-        add_action('linked3_license_heartbeat', ['\\Linked3\\Classes\\License\\LicenseService', 'daily_heartbeat']);
-        add_action('linked3_subscription_check', ['\\Linked3\\Classes\\Billing\\SubscriptionManager', 'daily_check']);
-        add_action('linked3_business_optimize', ['\\Linked3\\Classes\\Billing\\BusinessOptimizer', 'daily_analyze']);
-        // AutoGPT cron (every 10 min).
-        add_action('linked3_autogpt_run', ['\\Linked3\\Classes\\AutoGPT\\Cron\\AutoGPTCron', 'run']);
-
-        // Security response headers (v0.1.0 hardening — C+O constitution §1).
-        add_action('send_headers', [__CLASS__, 'send_security_headers']);
-
-        /**
-         * Allow modules to register their own hooks via a Registrar class.
-         * Filter returns: [ ['handler' => $instance, 'registrar' => 'Class::method'], ... ]
-         */
-        $registrations = (array) apply_filters('linked3/hook_registrars', []);
-        foreach ($registrations as $entry) {
-            if (empty($entry['handler']) || empty($entry['registrar'])) {
-                continue;
-            }
-            if (is_string($entry['registrar']) && strpos($entry['registrar'], '::') !== false) {
-                call_user_func($entry['registrar'], $entry['handler']);
-            } elseif (is_callable($entry['registrar'])) {
-                call_user_func($entry['registrar'], $entry['handler']);
-            }
+        if (class_exists('\\Linked3\\Classes\\Dashboard\\DashboardMenuRegistrar')) {
+            add_action('admin_menu', ['\\Linked3\\Classes\\Dashboard\\DashboardMenuRegistrar', 'register'], 5);
         }
-
-        /**
-         * Generic action so any module can hook without polluting this class.
-         */
-        do_action('linked3/register_hooks', $version);
-
-        // v19.2: 小红书模块注册
-        if (class_exists('Linked3\\Classes\\XHS\\XHSHooksRegistrar')) {
-            \Linked3\Classes\XHS\XHSHooksRegistrar::register();
+        if (class_exists('\\Linked3\\Classes\\Dashboard\\DashboardAjaxRegistrar')) {
+            add_action('admin_init', ['\\Linked3\\Classes\\Dashboard\\DashboardAjaxRegistrar', 'register_all'], 5);
         }
+    }
 
-        // ============================================================
-        // v16.0.0: V18子系统统一注册 (Facade模式)
-        // 来源: v16.0.0全量重铸方案J — V18模块与原linked3深度整合
-        // ============================================================
-        if (class_exists('\Linked3\Includes\V18')) {
-            // 注册V18 AJAX/REST/短代码/Widget/Admin/DB
-            // ── FIX v16.0.1: Guard method_exists — register_all() was missing
-            // from the Facade, causing "method does not exist" fatal on init.
-            $v18_method = method_exists('\Linked3\Includes\V18', 'register_all') ? 'register_all' : 'register';
-            add_action('init', ['\Linked3\Classes\OS\V18', $v18_method], 5);
+    private static function register_ecosystem_hooks(): void {
+        if (class_exists('\\Linked3\\Classes\\Content\\EcosystemAjax')) {
+            $eco = ['\\Linked3\\Classes\\Content\\EcosystemAjax', ''];
+            add_action('wp_ajax_linked3_template_list',     [$eco[0], 'ajax_template_list']);
+            add_action('wp_ajax_linked3_template_save',     [$eco[0], 'ajax_template_save']);
+            add_action('wp_ajax_linked3_template_delete',   [$eco[0], 'ajax_template_delete']);
+            add_action('wp_ajax_linked3_cloud_master_save', [$eco[0], 'ajax_cloud_master_save']);
+            add_action('wp_ajax_linked3_cloud_fork',        [$eco[0], 'ajax_cloud_fork']);
+            add_action('wp_ajax_linked3_cloud_preview',     [$eco[0], 'ajax_cloud_preview']);
+            add_action('wp_ajax_linked3_charts_generate_v10', [$eco[0], 'ajax_charts_generate_v10']);
         }
+    }
 
-        // v8.3.0 M5: 质量闭环 AJAX (PQS / 批量一致性 / 劣化诊断)
-        if (class_exists('\Linked3\Includes\QualityLoop')) {
-            add_action('wp_ajax_linked3_pqs_check', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_pqs_check']);
-            add_action('wp_ajax_linked3_batch_check', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_batch_check']);
-            add_action('wp_ajax_linked3_diagnose', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_diagnose']);
+    private static function register_woocommerce_hooks(): void {
+        if (class_exists('\\Linked3\\Classes\\WooCommerce\\WcTokenPackage')) {
+            add_action('wp_ajax_linked3_wc_generate_desc',    ['\\Linked3\\Classes\\WooCommerce\\WcTokenPackage', 'ajax_generate_desc']);
+            add_action('wp_ajax_linked3_wc_generate_image',   ['\\Linked3\\Classes\\WooCommerce\\WcTokenPackage', 'ajax_generate_image']);
+            add_action('wp_ajax_linked3_wc_generate_reviews', ['\\Linked3\\Classes\\WooCommerce\\WcTokenPackage', 'ajax_generate_reviews']);
         }
+    }
 
-        // v8.3.0 M6: 多平台适配 AJAX (切换平台预览)
-        if (class_exists('\Linked3\Includes\PlatformAdapter')) {
-            add_action('wp_ajax_linked3_switch_platform', ['\Linked3\Classes\AI\Pipeline\PlatformAdapter', 'ajax_switch_platform']);
+    private static function register_content_hooks(): void {
+        if (class_exists('\\Linked3\\Classes\\AutoGPT\\AutoGPTCron')) {
+            add_action('linked3_autogpt_cron', ['\\Linked3\\Classes\\AutoGPT\\AutoGPTCron', 'run']);
         }
+        if (class_exists('\\Linked3\\Classes\\Distribute\\DistributeManager')) {
+            add_action('linked3_distribute_retry', ['\\Linked3\\Classes\\Distribute\\DistributeManager', 'process_retry_queue']);
+        }
+    }
 
-        // Hard-registered module hooks. Each wrapped in try/catch so a single
-        // module fatal cannot take down the entire admin menu.
-        $registrars = [
-            'ContentWriter' => '\\Linked3\\Classes\\ContentWriter\\ContentWriterHooksRegistrar',
-            'SEO'           => '\\Linked3\\Classes\\SEO\\SEOHooksRegistrar',
-            'Publish'       => '\\Linked3\\Classes\\Publish\\PublishCollectHooksRegistrar',
-            'Chat'          => '\\Linked3\\Classes\\Chat\\ChatHooksRegistrar',
-            'AutoGPT'       => '\\Linked3\\Classes\\AutoGPT\\AutoGPTHooksRegistrar',
-            'WC/Forms/Speech' => '\\Linked3\\Classes\\WooCommerce\\WcFormsSpeechHooksRegistrar',
-            'Dashboard'       => '\\Linked3\\Classes\\Dashboard\\DashboardHooksRegistrar',
-            'Distribute'      => '\\Linked3\\Classes\\Distribute\\DistributeHooksRegistrar',
-            'Metabox'         => '\\Linked3\\Classes\\Admin\\PostMetabox',
-            'UpdateChecker'   => '\\Linked3\\Classes\\Admin\\UpdateChecker',
-        ];
-        foreach ($registrars as $label => $class) {
-            if (!class_exists($class)) {
-                continue;
-            }
-            try {
-                call_user_func([$class, 'register']);
-            } catch (\Throwable $e) {
-                // Log + show admin notice so the site owner knows which module
-                // failed without losing all other menus.
-                if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
-                    \Linked3\Includes\Log\Logger::instance()->critical('general', "Module {$label} register() failed: " . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
-                }
-                self::$registrar_errors[] = sprintf('[%s] %s', $label, $e->getMessage());
-            }
+    private static function register_misc_hooks(string $version): void {
+        add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets']);
+        add_action('wp_head', [__CLASS__, 'print_meta_tags'], 5);
+        add_filter('plugin_action_links_' . plugin_basename(LINKED3_FILE), [__CLASS__, 'add_action_links']);
+        add_action('admin_notices', [__CLASS__, 'show_registrar_errors']);
+        if (is_admin()) {
+            add_action('admin_menu', [__CLASS__, 'register_admin_menu'], 10);
+            add_action('admin_init', [__CLASS__, 'render_security_audit'], 20);
         }
-
-        // v4.7.1: Belt-and-suspenders — ensure Addon_Manager::init_all() is
-        // scheduled even if the Dashboard registrar failed to load. The
-        // Dashboard facade also schedules this, but add_action is idempotent
-        // so a double registration is harmless. This fixes P0-2 from the
-        // v4.6.1 audit (addons were dead code because init_all() was never
-        // guaranteed to fire).
-        if (class_exists('\\Linked3\\Classes\\Addons\\AddonManager')) {
-            try {
-                $addon_mgr = \Linked3\Classes\Addons\AddonManager::instance();
-                if (class_exists('\\Linked3\\Classes\\Addons\\IPAnonymizationAddon')) {
-                    $addon_mgr->register(new \Linked3\Classes\Addons\IPAnonymizationAddon());
-                }
-                if (class_exists('\\Linked3\\Classes\\Addons\\ConsentComplianceAddon')) {
-                    $addon_mgr->register(new \Linked3\Classes\Addons\ConsentComplianceAddon());
-                }
-                add_action('init', [$addon_mgr, 'init_all'], 20);
-            } catch (\Throwable $e) {
-                if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
-                    \Linked3\Includes\Log\Logger::instance()->error('general', 'Addon_Manager init failed: ' . $e->getMessage());
-                }
-            }
-        }
-        if (!empty(self::$registrar_errors) || (class_exists('\\Linked3\\Includes\\DependencyLoader') && !empty(\Linked3\Includes\DependencyLoader::$load_errors))) {
-            add_action('admin_notices', [__CLASS__, 'show_registrar_errors']);
-        }
+        add_action('send_headers', [__CLASS__, 'send_security_headers'], 10);
     }
 
     /** @var string[] */
@@ -421,3 +342,4 @@ final class HookManager
         }
     }
 }
+
