@@ -20,20 +20,8 @@ class ScriptPatchHandlers
 
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
 
-        if ($styleId === 'auto' && class_exists('\Linked3\Classes\Genesis\GenesisPatchV1006')) {
-            try {
-                $detected = \Linked3\Classes\Genesis\GenesisPatchV1006::auto_detect_style($script);
-                if (!empty($detected)) {
-                    $styleId = $detected;
-                    error_log("[Linked3] auto_detect_style: script → {$styleId}");
-                } else {
-                    $styleId = 'cinematic_still'; // safe fallback
-                    error_log("[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
-                }
-            } catch (\Throwable $e) {
-                $styleId = 'cinematic_still'; // safe fallback
-                error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
-            }
+        if ($styleId === 'auto') {
+            $styleId = self::auto_detect_style($script);
         }
 
         @set_time_limit(180);
@@ -205,20 +193,8 @@ class ScriptPatchHandlers
 
         [$cloudSource, $cloudPalette, $cloudTone] = self::loadCloudTemplate($cloudCategory);
 
-        if ($styleId === 'auto' && class_exists('\Linked3\Classes\Genesis\GenesisPatchV1006')) {
-            try {
-                $detected = \Linked3\Classes\Genesis\GenesisPatchV1006::auto_detect_style($topic);
-                if (!empty($detected)) {
-                    $styleId = $detected;
-                    error_log("[Linked3] auto_detect_style: topic → {$styleId}");
-                } else {
-                    $styleId = 'cinematic_still'; // safe fallback
-                    error_log("[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
-                }
-            } catch (\Throwable $e) {
-                $styleId = 'cinematic_still'; // safe fallback
-                error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
-            }
+        if ($styleId === 'auto') {
+            $styleId = self::auto_detect_style($topic);
         }
 
         @set_time_limit(120);
@@ -436,6 +412,44 @@ class ScriptPatchHandlers
             'aspect_ratio' => $aspectRatio,
             'platform' => $platform,
         ];
+    }
+
+    /**
+     * 自动检测画风 (从 GenesisPatchV1006 内联, v10.2.0).
+     *
+     * @param string $script 输入文本 (剧本或主题)
+     * @return string 检测到的 styleId, 默认 cinematic_still
+     */
+    private static function auto_detect_style(string $script): string {
+        try {
+            $text = mb_strtolower($script);
+            $rules = [
+                'exorcism_dark_ink'      => ['驱魔', '道士', '妖魔', '鬼', '灵异', '古宅', '阴间', '符箓', '桃木剑', '超自然'],
+                'exorcism_ink_variant'   => ['水墨', '东方', '古风', '侠客', '江湖', '武侠'],
+                'cyberpunk_neon'         => ['赛博', '霓虹', '未来', '机械', '义体', '黑客', 'ai', '机器人', '2077', 'dystopia'],
+                'ukiyoe_washoku'         => ['日本', '和风', '浮世绘', '武士', '樱花', '东京', '京都', '忍者'],
+                'cinematic_still'        => ['电影', '剧照', '大片', '好莱坞', '导演', '演员', '片场', 'cinematic'],
+                'fashion_editorial'      => ['时尚', '杂志', '封面', '模特', '时装', '秀场', 'vogue', 'fashion', '品牌大片'],
+                'hanfu_photography'      => ['汉服', '古风', '国风', '唐朝', '宋朝', '汉', '宫', '妃', '古装'],
+                'gothic_dark_stained'    => ['哥特', '暗黑', '教堂', '彩窗', '吸血鬼', 'dark', 'gothic'],
+                'watercolor_soft'        => ['水彩', '柔美', '梦幻', '治愈', '清新', 'pastel', 'watercolor'],
+                'oil_painting_classical' => ['油画', '古典', '文艺复兴', 'renaissance', 'oil painting'],
+                'comic_pop_art'          => ['漫画', '波普', 'pop art', 'comic', '美漫'],
+                'documentary_photo'      => ['纪录片', '纪实', '真实', '写实', 'documentary', 'photo'],
+            ];
+
+            foreach ($rules as $style => $keywords) {
+                foreach ($keywords as $kw) {
+                    if (mb_strpos($text, $kw) !== false) {
+                        error_log("[Linked3] auto_detect_style: matched '{$kw}' → {$style}");
+                        return $style;
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
+        }
+        return 'cinematic_still';
     }
 
 }
