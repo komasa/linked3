@@ -138,6 +138,29 @@ PROMPT;
      * @return array|\WP_Error
      */
     public function generate_script(array $params) : mixed {
+        $input = $this->parseXhsInput($params);
+        if (is_wp_error($input)) {
+            return $input;
+        }
+
+        $prompt = $this->buildXhsPrompt($input);
+        $result = $this->callXhsAI($prompt, $input['model'], $params);
+        if (is_wp_error($result)) {
+            return $result;
+        }
+
+        $parsed = $this->parse_json_response($result['content'] ?? '');
+        if ($parsed === null) {
+            return new \WP_Error('parse_failed', __('AI 返回内容无法解析为 JSON。', 'linked3'), ['status' => 500]);
+        }
+
+        return $this->normalize_output($parsed, $input['page_count']);
+    }
+
+    /**
+     * Parse and validate XHS input parameters.
+     */
+    private function parseXhsInput(array $params): array|\WP_Error {
         $topic       = sanitize_text_field($params['topic'] ?? '');
         $keyword     = sanitize_text_field($params['keyword'] ?? '');
         $style_id    = sanitize_text_field($params['style'] ?? 'lifestyle');
@@ -150,70 +173,69 @@ PROMPT;
             return new \WP_Error('missing_input', __('需要主题或关键词。', 'linked3'), ['status' => 400]);
         }
 
-        // 自动页数：3-6 页
-        if ($page_count <= 0) {
-            $page_count = 5;
-        }
-        $page_count = max(3, min(8, $page_count));
-
-        // 解析风格
-        $style_prompt = '';
-        foreach (self::STYLES as $s) {
-            if ($s['id'] === $style_id) {
-                $style_prompt = $s['prompt_suffix'];
-                break;
-            }
-        }
-        if (!empty($custom_style)) {
-            $style_prompt .= "\n自定义风格要求: " . $custom_style;
-        }
-
-        // V15 上下文
-        $brand   = $v15['brand'] ?? '通用';
-        $color   = $v15['color'] ?? '温暖明亮';
-        $mood    = $v15['mood'] ?? '亲切自然';
-        $culture = $v15['culture'] ?? '中文互联网';
-        $density = $v15['density'] ?? '中等';
-
-        // 语气映射
-        $tone_map = [
-            'lifestyle'   => '亲切自然，像闺蜜分享',
-            'tutorial'    => '专业但易懂，像老师教学',
-            'aesthetic'   => '文艺优雅，有画面感',
-            'trending'    => '活泼网感，有梗有料',
-            'professional'=> '权威专业，有理有据',
-            'story'       => '叙事感强，有情感共鸣',
-            'compare'     => '客观中立，有数据感',
-            'checkin'     => '现场体验感，真实生动',
-        ];
-        $tone = $tone_map[$style_id] ?? '亲切自然';
-
-        // 构建提示词
-        $prompt = strtr(self::PROMPT_TEMPLATE, [
-            '{topic}'        => $topic ?: $keyword,
-            '{keyword}'      => $keyword,
-            '{page_count}'   => $page_count,
-            '{style}'        => $style_prompt ?: '自由发挥',
-            '{custom_style}' => $custom_style ?: '无',
-            '{tone}'         => $tone,
-            '{brand}'        => $brand,
-            '{color}'        => $color,
-            '{mood}'         => $mood,
-            '{culture}'      => $culture,
-            '{density}'      => $density,
-        ]);
-
-        // 获取模型
+        $page_count = ($page_count <= 0) ? 5 : max(3, min(8, $page_count));
         if (empty($model)) {
             $model = get_option(LINKED3_OPTION_PREFIX . 'default_chat_model', 'gpt-4o-mini');
         }
 
-        // 调用 AI — v19.2.1 修复：chat() 签名为 ($messages, $options, $config) 三参，
-        // 旧代码误传单数组导致 PHP ArgumentCountError → WP fatal handler 输出
-        // "<p>There has been a critical error...</p>" → 前端 JSON.parse 失败。
-        // 同时改用 ::instance() 单例（构造器为 private，new 会再触发 fatal）。
-        $dispatcher = AIDispatcher::instance();
-        // v19.40: 绞杀模式 — system_prompt 通过 apply_filters 可被元提示词杠杆增强
+        return [
+            'topic'        => $topic,
+            'keyword'      => $keyword,
+            'style_id'     => $style_id,
+            'custom_style' => $custom_style,
+            'page_count'   => $page_count,
+            'model'        => $model,
+            'v15'          => $v15,
+        ];
+    }
+
+    /**
+     * Build the XHS prompt from input + style + V15 context.
+     */
+    private function buildXhsPrompt(array $input): string {
+        $style_prompt = '';
+        foreach (self::STYLES as $s) {
+            if ($s['id'] === $input['style_id']) {
+                $style_prompt = $s['prompt_suffix'];
+                break;
+            }
+        }
+        if (!empty($input['custom_style'])) {
+            $style_prompt .= "\n自定义风格要求: " . $input['custom_style'];
+        }
+
+        $v15 = $input['v15'];
+        $tone_map = [
+            'lifestyle'    => '亲切自然，像闺蜜分享',
+            'tutorial'     => '专业但易懂，像老师教学',
+            'aesthetic'    => '文艺优雅，有画面感',
+            'trending'     => '活泼网感，有梗有料',
+            'professional' => '权威专业，有理有据',
+            'story'        => '叙事感强，有情感共鸣',
+            'compare'      => '客观中立，有数据感',
+            'checkin'      => '现场体验感，真实生动',
+        ];
+        $tone = $tone_map[$input['style_id']] ?? '亲切自然';
+
+        return strtr(self::PROMPT_TEMPLATE, [
+            '{topic}'        => $input['topic'] ?: $input['keyword'],
+            '{keyword}'      => $input['keyword'],
+            '{page_count}'   => $input['page_count'],
+            '{style}'        => $style_prompt ?: '自由发挥',
+            '{custom_style}' => $input['custom_style'] ?: '无',
+            '{tone}'         => $tone,
+            '{brand}'        => $v15['brand'] ?? '通用',
+            '{color}'        => $v15['color'] ?? '温暖明亮',
+            '{mood}'         => $v15['mood'] ?? '亲切自然',
+            '{culture}'      => $v15['culture'] ?? '中文互联网',
+            '{density}'      => $v15['density'] ?? '中等',
+        ]);
+    }
+
+    /**
+     * Call AI Dispatcher for XHS generation.
+     */
+    private function callXhsAI(string $prompt, string $model, array $params): array|\WP_Error {
         $base_system_prompt = '你是专业的小红书内容创作者，精通爆款图文笔记创作。必须严格输出JSON格式。';
         $system_prompt = apply_filters('linked3_xhs_system_prompt', $base_system_prompt, $params);
         $messages = [
@@ -230,24 +252,10 @@ PROMPT;
         $config = ['fallback_providers' => ['deepseek', 'zhipu']];
 
         try {
-            $result = $dispatcher->chat($messages, $options, $config);
+            return AIDispatcher::instance()->chat($messages, $options, $config);
         } catch (\RuntimeException $e) {
             return new \WP_Error('ai_failed', $e->getMessage(), ['status' => 502]);
         }
-
-        // Dispatcher 成功返回 ['content','usage','provider','model','raw']；
-        // 失败时抛异常（已在上方捕获），不再有 $result['ok'] 字段。
-
-        // 解析 JSON（容错处理 — 吸收小红书生成器的 JSON 提取模式）
-        $content = $result['content'] ?? '';
-        $parsed = $this->parse_json_response($content);
-
-        if ($parsed === null) {
-            return new \WP_Error('parse_failed', __('AI 返回内容无法解析为 JSON。', 'linked3'), ['status' => 500]);
-        }
-
-        // 规范化输出
-        return $this->normalize_output($parsed, $page_count);
     }
 
     /**
