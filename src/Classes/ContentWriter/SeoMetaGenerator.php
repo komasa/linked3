@@ -59,100 +59,181 @@ final class SeoMetaGenerator
         $model = $args['model'] ?? ($saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct');
         $user_id = $args['user_id'] ?? get_current_user_id();
 
-        $gen_title = !empty($args['gen_title']);
-        $gen_meta = !empty($args['gen_meta']);
-        $gen_keyword = !empty($args['gen_keyword']);
-        $gen_excerpt = !empty($args['gen_excerpt']);
-        $gen_tags = !empty($args['gen_tags']);
-
-        $result = [
-            'title' => '',
-            'seo_meta' => '',
-            'focus_keyword' => '',
-            'excerpt' => '',
-            'tags' => '',
+        $ctx = [
+            'title'    => $title,
+            'topic'    => $topic,
+            'keywords' => $keywords,
+            'content'  => $content,
+            'cfg'      => $cfg,
+            'provider' => $provider,
+            'model'    => $model,
+            'user_id'  => $user_id,
         ];
 
         $dispatcher = AIDispatcher::instance();
+        $result = [
+            'title'         => '',
+            'seo_meta'      => '',
+            'focus_keyword' => '',
+            'excerpt'       => '',
+            'tags'          => '',
+        ];
 
-        // 1. 生成标题
-        if ($gen_title && empty($title)) {
-            try {
-                $prompt = !empty($cfg['custom_title_prompt'])
-                    ? str_replace(['{topic}', '{keywords}'], [$topic, $keywords], $cfg['custom_title_prompt'])
-                    : '为以下主题生成一个 SEO 友好的中文标题(8-15字),只返回标题文本,不要其他内容。' . "\n\n主题:{$topic}\n关键词:{$keywords}";
-                // v19.41: 绞杀模式 — system_prompt 可被元提示词杠杆增强
-                $seo_system = apply_filters('linked3_seo_system_prompt', '你是专业的SEO内容优化专家。', ['task' => 'title', 'topic' => $topic]);
-                $r = $dispatcher->chat(
-                    [['role' => 'system', 'content' => $seo_system], ['role' => 'user', 'content' => $prompt]],
-                    ['provider' => $provider, 'model' => $model, 'temperature' => 0.5, 'max_tokens' => 80, 'module' => 'content_writer', 'user_id' => $user_id],
-                    ['fallback_providers' => []]
-                );
-                $result['title'] = trim(wp_strip_all_tags($r['content']), "\"'“”‘’");
-            } catch (\Throwable $e) { /* 静默失败 */ }
+        // 1. Title (only if not already provided)
+        if (!empty($args['gen_title']) && empty($title)) {
+            $result['title'] = self::generate_single($dispatcher, $ctx, 'title', [
+                'temperature' => 0.5,
+                'max_tokens'  => 80,
+                'system'      => apply_filters('linked3_seo_system_prompt', '你是专业的SEO内容优化专家。', ['task' => 'title', 'topic' => $topic]),
+            ]);
         }
 
-        // 2. 生成 Meta Description
-        if ($gen_meta) {
-            try {
-                $prompt = !empty($cfg['custom_meta_prompt'])
-                    ? str_replace(['{title}', '{keywords}', '{topic}'], [$title ?: $topic, $keywords, $topic], $cfg['custom_meta_prompt'])
-                    : '为以下文章生成 150-160 字的 SEO meta description,包含主关键词,只返回描述文本。' . "\n\n标题:" . ($title ?: $topic) . "\n关键词:{$keywords}\n\n正文摘要:" . mb_substr(wp_strip_all_tags($content), 0, 500);
-                $r = $dispatcher->chat(
-                    [['role' => 'user', 'content' => $prompt]],
-                    ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'max_tokens' => 200, 'module' => 'content_writer', 'user_id' => $user_id],
-                    ['fallback_providers' => []]
-                );
-                $result['seo_meta'] = trim(wp_strip_all_tags($r['content']));
-            } catch (\Throwable $e) { /* 静默失败 */ }
+        // 2. Meta Description
+        if (!empty($args['gen_meta'])) {
+            $result['seo_meta'] = self::generate_single($dispatcher, $ctx, 'meta', [
+                'temperature' => 0.3,
+                'max_tokens'  => 200,
+            ]);
         }
 
-        // 3. 提取焦点关键词
-        if ($gen_keyword) {
-            try {
-                $prompt = !empty($cfg['custom_keyword_prompt'])
-                    ? str_replace(['{title}', '{topic}'], [$title ?: $topic, $topic], $cfg['custom_keyword_prompt'])
-                    : '从以下文章中提取 1 个焦点关键词和 5 个长尾关键词,用逗号分隔,只返回关键词。' . "\n\n标题:" . ($title ?: $topic) . "\n\n正文:" . mb_substr(wp_strip_all_tags($content), 0, 800);
-                $r = $dispatcher->chat(
-                    [['role' => 'user', 'content' => $prompt]],
-                    ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'max_tokens' => 150, 'module' => 'content_writer', 'user_id' => $user_id],
-                    ['fallback_providers' => []]
-                );
-                $result['focus_keyword'] = trim(wp_strip_all_tags($r['content']));
-            } catch (\Throwable $e) { /* 静默失败 */ }
+        // 3. Focus Keyword
+        if (!empty($args['gen_keyword'])) {
+            $result['focus_keyword'] = self::generate_single($dispatcher, $ctx, 'keyword', [
+                'temperature' => 0.3,
+                'max_tokens'  => 150,
+            ]);
         }
 
-        // 4. 生成摘要
-        if ($gen_excerpt) {
-            try {
-                $prompt = !empty($cfg['custom_excerpt_prompt'])
-                    ? str_replace(['{title}', '{topic}'], [$title ?: $topic, $topic], $cfg['custom_excerpt_prompt'])
-                    : '为以下文章生成 100 字以内的摘要,只返回摘要文本。' . "\n\n标题:" . ($title ?: $topic) . "\n\n正文:" . mb_substr(wp_strip_all_tags($content), 0, 800);
-                $r = $dispatcher->chat(
-                    [['role' => 'user', 'content' => $prompt]],
-                    ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'max_tokens' => 150, 'module' => 'content_writer', 'user_id' => $user_id],
-                    ['fallback_providers' => []]
-                );
-                $result['excerpt'] = trim(wp_strip_all_tags($r['content']));
-            } catch (\Throwable $e) { /* 静默失败 */ }
+        // 4. Excerpt
+        if (!empty($args['gen_excerpt'])) {
+            $result['excerpt'] = self::generate_single($dispatcher, $ctx, 'excerpt', [
+                'temperature' => 0.3,
+                'max_tokens'  => 150,
+            ]);
         }
 
-        // 5. 生成标签
-        if ($gen_tags) {
-            try {
-                $prompt = !empty($cfg['custom_tags_prompt'])
-                    ? str_replace(['{title}', '{keywords}', '{topic}'], [$title ?: $topic, $keywords, $topic], $cfg['custom_tags_prompt'])
-                    : '为以下文章生成 5-8 个标签,用逗号分隔,只返回标签。' . "\n\n标题:" . ($title ?: $topic) . "\n关键词:{$keywords}";
-                $r = $dispatcher->chat(
-                    [['role' => 'user', 'content' => $prompt]],
-                    ['provider' => $provider, 'model' => $model, 'temperature' => 0.3, 'max_tokens' => 100, 'module' => 'content_writer', 'user_id' => $user_id],
-                    ['fallback_providers' => []]
-                );
-                $result['tags'] = trim(wp_strip_all_tags($r['content']));
-            } catch (\Throwable $e) { /* 静默失败 */ }
+        // 5. Tags
+        if (!empty($args['gen_tags'])) {
+            $result['tags'] = self::generate_single($dispatcher, $ctx, 'tags', [
+                'temperature' => 0.3,
+                'max_tokens'  => 100,
+            ]);
         }
 
         return $result;
+    }
+
+    /**
+     * Default prompt templates for each metadata type.
+     *
+     * @param string $type
+     * @param array  $ctx
+     * @return string
+     */
+    private static function build_default_prompt(string $type, array $ctx): string
+    {
+        $title    = $ctx['title'] ?: $ctx['topic'];
+        $topic    = $ctx['topic'];
+        $keywords = $ctx['keywords'];
+        $content  = $ctx['content'];
+
+        switch ($type) {
+            case 'title':
+                return "为以下主题生成一个 SEO 友好的中文标题(8-15字),只返回标题文本,不要其他内容。\n\n主题:{$topic}\n关键词:{$keywords}";
+
+            case 'meta':
+                $excerpt = mb_substr(wp_strip_all_tags($content), 0, 500);
+                return "为以下文章生成 150-160 字的 SEO meta description,包含主关键词,只返回描述文本。\n\n标题:{$title}\n关键词:{$keywords}\n\n正文摘要:{$excerpt}";
+
+            case 'keyword':
+                $body = mb_substr(wp_strip_all_tags($content), 0, 800);
+                return "从以下文章中提取 1 个焦点关键词和 5 个长尾关键词,用逗号分隔,只返回关键词。\n\n标题:{$title}\n\n正文:{$body}";
+
+            case 'excerpt':
+                $body = mb_substr(wp_strip_all_tags($content), 0, 800);
+                return "为以下文章生成 100 字以内的摘要,只返回摘要文本。\n\n标题:{$title}\n\n正文:{$body}";
+
+            case 'tags':
+                return "为以下文章生成 5-8 个标签,用逗号分隔,只返回标签。\n\n标题:{$title}\n关键词:{$keywords}";
+
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * Resolve a custom prompt template (if configured) or fall back to default.
+     *
+     * @param array  $cfg
+     * @param string $type
+     * @param string $default
+     * @return string
+     */
+    private static function resolve_prompt(array $cfg, string $type, string $default): string
+    {
+        $key = 'custom_' . $type . '_prompt';
+        if (!empty($cfg[$key])) {
+            return $cfg[$key];
+        }
+        return $default;
+    }
+
+    /**
+     * Generate a single piece of SEO metadata via AI dispatch.
+     *
+     * @param AIDispatcher $dispatcher
+     * @param array        $ctx       Generation context
+     * @param string       $type      One of: title, meta, keyword, excerpt, tags
+     * @param array        $opts      temperature, max_tokens, optional system prompt
+     * @return string
+     */
+    private static function generate_single(
+        AIDispatcher $dispatcher,
+        array $ctx,
+        string $type,
+        array $opts
+    ): string {
+        try {
+            $cfg     = $ctx['cfg'];
+            $title   = $ctx['title'] ?: $ctx['topic'];
+            $topic   = $ctx['topic'];
+            $keywords = $ctx['keywords'];
+
+            // Build prompt: custom template or default
+            $default_prompt = self::build_default_prompt($type, $ctx);
+            $prompt = self::resolve_prompt($cfg, $type, $default_prompt);
+
+            // Apply placeholder substitution for custom prompts
+            if (!empty($cfg['custom_' . $type . '_prompt'])) {
+                $prompt = str_replace(
+                    ['{title}', '{keywords}', '{topic}'],
+                    [$title, $keywords, $topic],
+                    $prompt
+                );
+            }
+
+            $messages = [];
+            if (!empty($opts['system'])) {
+                $messages[] = ['role' => 'system', 'content' => $opts['system']];
+            }
+            $messages[] = ['role' => 'user', 'content' => $prompt];
+
+            $r = $dispatcher->chat(
+                $messages,
+                [
+                    'provider'  => $ctx['provider'],
+                    'model'     => $ctx['model'],
+                    'temperature' => $opts['temperature'] ?? 0.3,
+                    'max_tokens'  => $opts['max_tokens'] ?? 200,
+                    'module'    => 'content_writer',
+                    'user_id'   => $ctx['user_id'],
+                ],
+                ['fallback_providers' => []]
+            );
+            return trim(wp_strip_all_tags($r['content']), "\"'“”‘’");
+        } catch (\Throwable $e) {
+            return ''; // 静默失败
+        }
     }
 
     /**
