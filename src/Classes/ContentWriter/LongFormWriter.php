@@ -126,17 +126,65 @@ final class LongFormWriter
         $saved_models = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_models', []);
         $model = $saved_models[$provider] ?? 'Qwen/Qwen2.5-7B-Instruct';
 
-        // 构造完整大纲概览 (让 AI 看到全篇结构)
-        $outline_overview = '';
-        foreach ($outline as $i => $s) {
-            $marker = ($i === $section_index) ? ' ← 当前段落' : '';
-            $outline_overview .= sprintf("%d. %s (%d字)%s\n", $i + 1, $s['h2'] ?? '', $s['target_words'] ?? 0, $marker);
+        $outline_overview = self::buildOutlineOverview($outline, $section_index);
+        $style_prompt = self::buildStylePrompt($style_dna);
+        $prompt = self::buildSectionPrompt(
+            $topic, $outline_overview, $keywords, $section_keywords, $tone,
+            $style_prompt, $previous_summary, $section_index, $h2,
+            $target_words, $key_points, $is_last
+        );
+
+        try { // v19.3.0: AI 调用容错
+            $result = AIDispatcher::instance()->chat(
+                [['role' => 'user', 'content' => $prompt]],
+                [
+                    'provider' => $provider, 'model' => $model,
+                    'temperature' => 0.7,
+                    // v17.0: 修复输出不完整 — 增大max_tokens到目标字数的3倍 (原为2倍)
+                    'max_tokens' => min(4096, max(2000, $target_words * 3)),
+                    'module' => 'content_writer',
+                    'user_id' => $args['user_id'] ?? get_current_user_id(),
+                ],
+                ['fallback_providers' => ['deepseek', 'zhipu']]
+            );
+        } catch (\Throwable $e) {
+            return new \WP_Error('ai_failed', '章节生成失败: ' . $e->getMessage());
         }
 
-        // v17.0: 加载风格DNA
-        $style_prompt = '';
+        // v17.0: 检测输出是否完整 (末尾是否有句号/问号/感叹号)
+        $content = trim($result['content'] ?? '');
+        if ($content && !preg_match('/[。！？\.\!\?]$/', $content)) {
+            // 输出不完整,追加省略号提示 (后续可考虑自动续写)
+            $content .= "\n\n[本段内容可能因长度限制未完整输出,建议重新生成]";
+        }
+
+        return [
+            'content' => $content,
+            'usage' => $result['usage'] ?? [],
+        ];
+    }
+
+    /**
+     * 构造完整大纲概览 (标记当前段落).
+     */
+    private static function buildOutlineOverview(array $outline, int $section_index): string
+    {
+        $overview = '';
+        foreach ($outline as $i => $s) {
+            $marker = ($i === $section_index) ? ' ← 当前段落' : '';
+            $overview .= sprintf("%d. %s (%d字)%s\n", $i + 1, $s['h2'] ?? '', $s['target_words'] ?? 0, $marker);
+        }
+        return $overview;
+    }
+
+    /**
+     * 构造风格 DNA + 反 AI 规则 prompt.
+     */
+    private static function buildStylePrompt(string $style_dna): string
+    {
         if ($style_dna && class_exists('\Linked3\Classes\ContentWriter\SystemInstructionBuilder')) {
             $style = \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder::get_style_dna($style_dna);
+            $style_prompt = '';
             if (!empty($style['prompt_dna'])) {
                 $style_prompt = "\n## 写作风格DNA\n" . $style['prompt_dna'] . "\n";
             }
@@ -146,15 +194,23 @@ final class LongFormWriter
                     $style_prompt .= ($i + 1) . '. ' . $rule . "\n";
                 }
             }
+            if ($style_prompt) {
+                return $style_prompt;
+            }
         }
+        // v17.0: 通用反AI规则 (兜底)
+        return "\n## 反AI规则\n1. 禁止'总之/综上所述/首先其次最后'\n2. 段落长度不均匀\n3. 至少一处第一人称'我'\n4. 用具体数字代替模糊词\n";
+    }
 
-        // v17.0: 通用反AI规则
-        if (!$style_prompt) {
-            $style_prompt = "\n## 反AI规则\n1. 禁止'总之/综上所述/首先其次最后'\n2. 段落长度不均匀\n3. 至少一处第一人称'我'\n4. 用具体数字代替模糊词\n";
-        }
-
-        // 构造 prompt (v17.0: 风格DNA + 完整性指令)
-        $prompt = sprintf(
+    /**
+     * 构造完整的 section prompt.
+     */
+    private static function buildSectionPrompt(
+        string $topic, string $outline_overview, string $keywords, array $section_keywords,
+        string $tone, string $style_prompt, string $previous_summary,
+        int $section_index, string $h2, int $target_words, array $key_points, bool $is_last
+    ): string {
+        return sprintf(
             "你正在撰写一篇长文,标题: %s\n\n" .
             "完整大纲:\n%s" .
             "关键词: %s\n" .
@@ -185,36 +241,6 @@ final class LongFormWriter
             implode(',', $section_keywords),
             $is_last ? "- 作为最后一段,需有总结性结论,必须完整收束\n" : ""
         );
-
-        try { // v19.3.0: AI 调用容错
-            $result = AIDispatcher::instance()->chat(
-                [['role' => 'user', 'content' => $prompt]],
-                [
-                    'provider' => $provider, 'model' => $model,
-                    'temperature' => 0.7,
-                    // v17.0: 修复输出不完整 — 增大max_tokens到目标字数的3倍 (原为2倍)
-                    'max_tokens' => min(4096, max(2000, $target_words * 3)),
-                    'module' => 'content_writer',
-                    'user_id' => $args['user_id'] ?? get_current_user_id(),
-                ],
-                ['fallback_providers' => ['deepseek', 'zhipu']]
-            );
-        } catch (\Throwable $e) {
-            return new \WP_Error('ai_failed', '章节生成失败: ' . $e->getMessage());
-        }
-
-        // v17.0: 检测输出是否完整 (末尾是否有句号/问号/感叹号)
-        $content = $result['content'] ?? '';
-        $content = trim($content);
-        if ($content && !preg_match('/[。！？\.\!\?]$/', $content)) {
-            // 输出不完整,追加省略号提示 (后续可考虑自动续写)
-            $content .= "\n\n[本段内容可能因长度限制未完整输出,建议重新生成]";
-        }
-
-        return [
-            'content' => $content,
-            'usage' => $result['usage'] ?? [],
-        ];
     }
 
     /**
