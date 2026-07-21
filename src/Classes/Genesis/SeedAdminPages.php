@@ -15,18 +15,54 @@ class SeedAdminPages
             wp_die(__('无权限', 'linked3'));
         }
 
-        $search   = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';
-        $cat_filt = isset($_GET['cat']) ? sanitize_key($_GET['cat']) : '';
-        $type_filt = isset($_GET['type']) ? sanitize_key($_GET['type']) : '';
+        [$search, $cat_filt, $type_filt] = self::parseListFilters();
+        $query = self::buildSeedQuery($search, $cat_filt, $type_filt);
+        $groups = self::groupPostsByCategory($query->posts);
 
-        // 构造 meta_query
+        $list_url   = admin_url('admin.php?page=' . self::PAGE_SLUG_LIST);
+        $new_url    = admin_url('admin.php?page=' . self::PAGE_SLUG_NEW);
+        $trash_nonce = wp_create_nonce(self::NONCE_ACTION_TRASH);
+        $bulk_form_url = admin_url('admin-post.php');
+
+        echo '<div class="wrap linked3-seed-wrap">';
+        echo '<h2>' . esc_html__('Seed DNA 库', 'linked3') . ' <a class="page-title-action" href="' . esc_url($new_url) . '">' . esc_html__('新建 Seed', 'linked3') . '</a></h2>';
+        echo '<div class="linked3-notice-info">' . esc_html__('提示: Seed DNA 是分镜的"视觉基因库", 必须在分镜生成之前定义。固定风格 Seed (CharacterSeed/BrandSeed) 跨分镜不变, 可变场景 Seed (SceneSeed/PropSeed) 随分镜推进演化。', 'linked3') . '</div>';
+
+        self::renderListToolbar($search, $cat_filt, $type_filt);
+        self::renderBulkForm($bulk_form_url);
+        self::renderBulkActionBar($list_url, $trash_nonce);
+        echo '<script>jQuery(function($){ $("#linked3-cb-all").on("change", function(){ $(".linked3-seed-cb").prop("checked", this.checked); }); });</script>';
+
+        if (empty($query->posts)) {
+            self::renderEmptyState($new_url);
+        } else {
+            self::renderGroupedSeedTables($groups, $cat_filt);
+        }
+
+        self::maybe_handle_download();
+        self::maybe_handle_export_all();
+
+        echo '</div>';
+    }
+
+    /**
+     * 解析列表页筛选参数.
+     */
+    private static function parseListFilters(): array {
+        return [
+            isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '',
+            isset($_GET['cat']) ? sanitize_key($_GET['cat']) : '',
+            isset($_GET['type']) ? sanitize_key($_GET['type']) : '',
+        ];
+    }
+
+    /**
+     * 构造 WP_Query.
+     */
+    private static function buildSeedQuery(string $search, string $cat_filt, string $type_filt): \WP_Query {
         $meta_query = ['relation' => 'AND'];
-        if ($cat_filt) {
-            $meta_query[] = ['key' => 'seed_category', 'value' => $cat_filt];
-        }
-        if ($type_filt) {
-            $meta_query[] = ['key' => 'seed_type', 'value' => $type_filt];
-        }
+        if ($cat_filt) $meta_query[] = ['key' => 'seed_category', 'value' => $cat_filt];
+        if ($type_filt) $meta_query[] = ['key' => 'seed_type', 'value' => $type_filt];
         if (count($meta_query) === 1) $meta_query = [];
 
         $args = [
@@ -36,38 +72,31 @@ class SeedAdminPages
             'orderby'        => 'title',
             'order'          => 'ASC',
         ];
-        if ($search) {
-            $args['s'] = $search;
-        }
-        if ($meta_query) {
-            $args['meta_query'] = $meta_query;
-        }
+        if ($search) $args['s'] = $search;
+        if ($meta_query) $args['meta_query'] = $meta_query;
+        return new \WP_Query($args);
+    }
 
-        $query = new \WP_Query($args);
-
-        // 按分类分组
+    /**
+     * 按 seed_category 分组.
+     */
+    private static function groupPostsByCategory(array $posts): array {
         $groups = [];
-        foreach (self::$CATEGORIES as $cat => $label) {
+        foreach (self::$CATEGORIES as $cat => $_) {
             $groups[$cat] = [];
         }
-        foreach ($query->posts as $p) {
+        foreach ($posts as $p) {
             $cat = get_post_meta($p->ID, 'seed_category', true);
             if (!isset($groups[$cat])) $groups[$cat] = [];
             $groups[$cat][] = $p;
         }
+        return $groups;
+    }
 
-        $list_url   = admin_url('admin.php?page=' . self::PAGE_SLUG_LIST);
-        $edit_url   = admin_url('admin.php?page=' . self::PAGE_SLUG_EDIT);
-        $new_url    = admin_url('admin.php?page=' . self::PAGE_SLUG_NEW);
-        $trash_nonce = wp_create_nonce(self::NONCE_ACTION_TRASH);
-        $bulk_form_url = admin_url('admin-post.php');
-
-        echo '<div class="wrap linked3-seed-wrap">';
-        echo '<h2>' . esc_html__('Seed DNA 库', 'linked3') . ' <a class="page-title-action" href="' . esc_url($new_url) . '">' . esc_html__('新建 Seed', 'linked3') . '</a></h2>';
-
-        echo '<div class="linked3-notice-info">' . esc_html__('提示: Seed DNA 是分镜的"视觉基因库", 必须在分镜生成之前定义。固定风格 Seed (CharacterSeed/BrandSeed) 跨分镜不变, 可变场景 Seed (SceneSeed/PropSeed) 随分镜推进演化。', 'linked3') . '</div>';
-
-        // 工具栏: 搜索 + 筛选
+    /**
+     * 渲染列表页工具栏 (搜索+筛选).
+     */
+    private static function renderListToolbar(string $search, string $cat_filt, string $type_filt): void {
         echo '<form method="get" class="linked3-seed-toolbar">';
         echo '<input type="hidden" name="page" value="' . esc_attr(self::PAGE_SLUG_LIST) . '" />';
         echo '<input type="search" name="s" value="' . esc_attr($search) . '" placeholder="' . esc_attr__('搜索 Seed 名称...', 'linked3') . '" />';
@@ -83,16 +112,24 @@ class SeedAdminPages
         echo '</select>';
         submit_button(__('筛选', 'linked3'), 'secondary', 'filter', false);
         echo '</form>';
+    }
 
-        // 批量操作 (隐藏 form, POST 到 admin-post → 由 ajax handler 或 admin-post handler 接管)
+    /**
+     * 渲染批量操作隐藏 form.
+     */
+    private static function renderBulkForm(string $bulk_form_url): void {
         echo '<form id="linked3-bulk-form" method="post" action="' . esc_url($bulk_form_url) . '">';
         wp_nonce_field('linked3_seed_bulk', 'linked3_seed_bulk_nonce');
         echo '<input type="hidden" name="action" value="linked3_seed_bulk" />';
         echo '<input type="hidden" name="linked3_bulk_action" id="linked3-bulk-action-input" value="" />';
         echo '<input type="hidden" name="linked3_bulk_ids" id="linked3-bulk-ids-input" value="" />';
         echo '</form>';
+    }
 
-        // 批量操作栏
+    /**
+     * 渲染批量操作栏.
+     */
+    private static function renderBulkActionBar(string $list_url, string $trash_nonce): void {
         echo '<div class="linked3-bulk-bar">';
         echo '<input type="checkbox" id="linked3-cb-all" /> <label for="linked3-cb-all">' . esc_html__('全选', 'linked3') . '</label>';
         echo '<select class="linked3-bulk-action-select">';
@@ -102,61 +139,65 @@ class SeedAdminPages
         echo '<option value="export_json">' . esc_html__('导出 JSON', 'linked3') . '</option>';
         echo '</select>';
         echo '<span style="margin-left:auto;">';
-        echo '<button type="button" class="button button-primary" onclick="location.href=\'' . esc_js(admin_url('admin.php?page=' . self::PAGE_SLUG_LIST . '&export=all_md')) . '\'">' . esc_html__('导出全部 MD', 'linked3') . '</button> ';
-        echo '<button type="button" class="button" onclick="location.href=\'' . esc_js(admin_url('admin.php?page=' . self::PAGE_SLUG_LIST . '&export=all_json')) . '\'">' . esc_html__('导出全部 JSON', 'linked3') . '</button> ';
+        echo '<button type="button" class="button button-primary" onclick="location.href=\'' . esc_js(add_query_arg(['export' => 'all_md'], $list_url)) . '\'">' . esc_html__('导出全部 MD', 'linked3') . '</button> ';
+        echo '<button type="button" class="button" onclick="location.href=\'' . esc_js(add_query_arg(['export' => 'all_json'], $list_url)) . '\'">' . esc_html__('导出全部 JSON', 'linked3') . '</button> ';
         echo '<button type="button" class="button button-link-delete linked3-trash-all-btn" data-nonce="' . esc_attr($trash_nonce) . '">' . esc_html__('清空所有 Seed', 'linked3') . '</button>';
         echo '</span>';
         echo '</div>';
+    }
 
-        // 全选 JS
-        echo '<script>jQuery(function($){ $("#linked3-cb-all").on("change", function(){ $(".linked3-seed-cb").prop("checked", this.checked); }); });</script>';
+    /**
+     * 渲染空状态.
+     */
+    private static function renderEmptyState(string $new_url): void {
+        echo '<div class="linked3-empty">';
+        echo '<span class="dashicons dashicons-id-alt"></span>';
+        echo '<h3>' . esc_html__('还没有 Seed DNA', 'linked3') . '</h3>';
+        echo '<p>' . esc_html__('Seed DNA 是漫画/分镜生成的视觉基因库, 先创建一个 Seed 开始吧。', 'linked3') . '</p>';
+        echo '<p><a class="button button-primary button-large" href="' . esc_url($new_url) . '">' . esc_html__('+ 新建 Seed', 'linked3') . '</a></p>';
+        echo '</div>';
+    }
 
-        if (empty($query->posts)) {
-            echo '<div class="linked3-empty">';
-            echo '<span class="dashicons dashicons-id-alt"></span>';
-            echo '<h3>' . esc_html__('还没有 Seed DNA', 'linked3') . '</h3>';
-            echo '<p>' . esc_html__('Seed DNA 是漫画/分镜生成的视觉基因库, 先创建一个 Seed 开始吧。', 'linked3') . '</p>';
-            echo '<p><a class="button button-primary button-large" href="' . esc_url($new_url) . '">' . esc_html__('+ 新建 Seed', 'linked3') . '</a></p>';
-            echo '</div>';
-        } else {
-            // 按分类分组渲染
-            foreach (self::$CATEGORIES as $cat => $label) {
-                if (empty($groups[$cat])) continue;
-                $count = count($groups[$cat]);
-                echo '<details class="linked3-seed-group"' . ($cat_filt === $cat || (!$cat_filt && $cat === 'char') ? ' open' : '') . '>';
-                echo '<summary><span class="badge badge-cat-' . esc_attr($cat) . '">' . esc_html($label) . '</span> <span class="group-count">' . esc_html($count) . ' 个</span></summary>';
-                echo '<table class="linked3-seed-table"><thead><tr>';
-                echo '<th style="width:30px;"></th><th>' . esc_html__('Seed ID', 'linked3') . '</th><th>' . esc_html__('名称', 'linked3') . '</th><th>' . esc_html__('类型', 'linked3') . '</th><th>' . esc_html__('父 Seed', 'linked3') . '</th><th>' . esc_html__('操作', 'linked3') . '</th>';
-                echo '</tr></thead><tbody>';
-                foreach ($groups[$cat] as $p) {
-                    $sid = get_post_meta($p->ID, 'seed_id', true);
-                    $type = get_post_meta($p->ID, 'seed_type', true);
-                    $parent = get_post_meta($p->ID, 'parent_seed', true);
-                    $row_edit = add_query_arg(['page' => self::PAGE_SLUG_EDIT, 'post_id' => $p->ID], admin_url('admin.php'));
-                    $dl_md = add_query_arg(['page' => self::PAGE_SLUG_LIST, 'download' => 'md', 'post_id' => $p->ID, '_wpnonce' => wp_create_nonce(self::NONCE_ACTION)], admin_url('admin.php'));
-                    $dl_json = add_query_arg(['page' => self::PAGE_SLUG_LIST, 'download' => 'json', 'post_id' => $p->ID, '_wpnonce' => wp_create_nonce(self::NONCE_ACTION)], admin_url('admin.php'));
-                    echo '<tr>';
-                    echo '<td><input type="checkbox" class="linked3-seed-cb" name="seed_ids[]" value="' . esc_attr($p->ID) . '" /></td>';
-                    echo '<td><code>' . esc_html($sid ?: '—') . '</code></td>';
-                    echo '<td><strong><a href="' . esc_url($row_edit) . '">' . esc_html($p->post_title) . '</a></strong>';
-                    echo '<div class="row-actions"><a href="' . esc_url($row_edit) . '">' . esc_html__('编辑', 'linked3') . '</a> | <a href="' . esc_url($dl_md) . '">' . esc_html__('下载 MD', 'linked3') . '</a> | <a href="' . esc_url($dl_json) . '">' . esc_html__('下载 JSON', 'linked3') . '</a></div>';
-                    echo '</td>';
-                    echo '<td><span class="badge badge-' . esc_attr($type ?: 'fixed') . '">' . esc_html(self::$TYPES[$type] ?? $type) . '</span></td>';
-                    echo '<td>' . esc_html($parent ?: '—') . '</td>';
-                    echo '<td><a class="button button-small" href="' . esc_url($row_edit) . '">' . esc_html__('编辑', 'linked3') . '</a></td>';
-                    echo '</tr>';
-                }
-                echo '</tbody></table>';
-                echo '</details>';
+    /**
+     * 按分类分组渲染表格.
+     */
+    private static function renderGroupedSeedTables(array $groups, string $cat_filt): void {
+        foreach (self::$CATEGORIES as $cat => $label) {
+            if (empty($groups[$cat])) continue;
+            $count = count($groups[$cat]);
+            echo '<details class="linked3-seed-group"' . ($cat_filt === $cat || (!$cat_filt && $cat === 'char') ? ' open' : '') . '>';
+            echo '<summary><span class="badge badge-cat-' . esc_attr($cat) . '">' . esc_html($label) . '</span> <span class="group-count">' . esc_html($count) . ' 个</span></summary>';
+            echo '<table class="linked3-seed-table"><thead><tr>';
+            echo '<th style="width:30px;"></th><th>' . esc_html__('Seed ID', 'linked3') . '</th><th>' . esc_html__('名称', 'linked3') . '</th><th>' . esc_html__('类型', 'linked3') . '</th><th>' . esc_html__('父 Seed', 'linked3') . '</th><th>' . esc_html__('操作', 'linked3') . '</th>';
+            echo '</tr></thead><tbody>';
+            foreach ($groups[$cat] as $p) {
+                self::renderSeedRow($p);
             }
+            echo '</tbody></table>';
+            echo '</details>';
         }
+    }
 
-        // 处理 download 请求
-        self::maybe_handle_download();
-        // 处理 batch export 请求
-        self::maybe_handle_export_all();
-
-        echo '</div>'; // .wrap
+    /**
+     * 渲染单个 Seed 行.
+     */
+    private static function renderSeedRow(\WP_Post $p): void {
+        $sid = get_post_meta($p->ID, 'seed_id', true);
+        $type = get_post_meta($p->ID, 'seed_type', true);
+        $parent = get_post_meta($p->ID, 'parent_seed', true);
+        $row_edit = add_query_arg(['page' => self::PAGE_SLUG_EDIT, 'post_id' => $p->ID], admin_url('admin.php'));
+        $dl_md = add_query_arg(['page' => self::PAGE_SLUG_LIST, 'download' => 'md', 'post_id' => $p->ID, '_wpnonce' => wp_create_nonce(self::NONCE_ACTION)], admin_url('admin.php'));
+        $dl_json = add_query_arg(['page' => self::PAGE_SLUG_LIST, 'download' => 'json', 'post_id' => $p->ID, '_wpnonce' => wp_create_nonce(self::NONCE_ACTION)], admin_url('admin.php'));
+        echo '<tr>';
+        echo '<td><input type="checkbox" class="linked3-seed-cb" name="seed_ids[]" value="' . esc_attr($p->ID) . '" /></td>';
+        echo '<td><code>' . esc_html($sid ?: '—') . '</code></td>';
+        echo '<td><strong><a href="' . esc_url($row_edit) . '">' . esc_html($p->post_title) . '</a></strong>';
+        echo '<div class="row-actions"><a href="' . esc_url($row_edit) . '">' . esc_html__('编辑', 'linked3') . '</a> | <a href="' . esc_url($dl_md) . '">' . esc_html__('下载 MD', 'linked3') . '</a> | <a href="' . esc_url($dl_json) . '">' . esc_html__('下载 JSON', 'linked3') . '</a></div>';
+        echo '</td>';
+        echo '<td><span class="badge badge-' . esc_attr($type ?: 'fixed') . '">' . esc_html(self::$TYPES[$type] ?? $type) . '</span></td>';
+        echo '<td>' . esc_html($parent ?: '—') . '</td>';
+        echo '<td><a class="button button-small" href="' . esc_url($row_edit) . '">' . esc_html__('编辑', 'linked3') . '</a></td>';
+        echo '</tr>';
     }
 
     public static function render_edit_page()

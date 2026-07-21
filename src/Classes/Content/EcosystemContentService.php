@@ -91,7 +91,21 @@ class EcosystemContentService
             } catch (\Throwable $e) {}
         }
 
-        // v11.0.9 #4: use template-enhanced prompt for AI generation
+        $prompt = self::buildTemplateEnhancedPrompt($topic, $keywords, $template, $tone, $word_count);
+        $prompt = self::applyGlobalFormatSettings($prompt);
+        $ai_content = EcosystemImageService::call_ai($prompt, max(1000, intval($word_count * 1.5)));
+
+        if (empty($ai_content)) {
+            return '';
+        }
+        return self::postProcessContent($ai_content);
+    }
+
+    /**
+     * 构建模板增强的 AI prompt.
+     */
+    private static function buildTemplateEnhancedPrompt(string $topic, array $keywords, array $template, string $tone, int $word_count): string
+    {
         $cfg = $template['config'] ?? $template;
         $prompt_parts = [];
         if (!empty($cfg['role'])) $prompt_parts[] = '你的角色: ' . $cfg['role'];
@@ -117,8 +131,14 @@ class EcosystemContentService
         $prompt .= "字数: 约{$word_count}字\n";
         $prompt .= "语气: {$tone}\n\n";
         $prompt .= "严格要求:\n1. 内容具体、有信息量, 不要空话套话\n2. 不要使用「赋能/闭环/抓手/底层逻辑/范式/矩阵」等AI高频词\n3. 适合博客/公众号发布\n4. 直接输出正文, 不要说明\n";
+        return $prompt;
+    }
 
-        // v11.8.0: apply global format settings
+    /**
+     * 应用全局格式设置 (HTML / AI 摘要 / 标签).
+     */
+    private static function applyGlobalFormatSettings(string $prompt): string
+    {
         $adv_settings = wp_parse_args(
             (array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []),
             ['require_html' => false, 'require_tag' => false, 'enable_ai_summary' => false]
@@ -131,28 +151,33 @@ class EcosystemContentService
         } elseif (!empty($adv_settings['require_html'])) {
             $prompt .= "\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。";
         }
+        return $prompt;
+    }
 
-        $ai_content = EcosystemImageService::call_ai($prompt, max(1000, intval($word_count * 1.5)));
-        if (!empty($ai_content)) {
-            // v11.8.0: convert Markdown to HTML if required
-            if (!empty($adv_settings['require_html'])
-                && class_exists('\Linked3\Classes\Content\MarkdownHtmlConverter')
-                && strpos($ai_content, '<') === false) {
-                try {
-                    $ai_content = \MarkdownHtmlConverter::convert($ai_content);
-                } catch (\Throwable $e) {}
-            }
-            // v11.8.0: append AI identifier suffix
-            if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
-                try {
-                    $ai_content = (new \AIEnhancer())->append_identifier_suffix($ai_content);
-                } catch (\Throwable $e) {}
-            }
-            return self::self_check_content($ai_content);
+    /**
+     * 后处理 AI 内容: Markdown→HTML + AI 标识符 + self-check.
+     */
+    private static function postProcessContent(string $ai_content): string
+    {
+        $adv_settings = wp_parse_args(
+            (array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []),
+            ['require_html' => false]
+        );
+        // v11.8.0: convert Markdown to HTML if required
+        if (!empty($adv_settings['require_html'])
+            && class_exists('\Linked3\Classes\Content\MarkdownHtmlConverter')
+            && strpos($ai_content, '<') === false) {
+            try {
+                $ai_content = \MarkdownHtmlConverter::convert($ai_content);
+            } catch (\Throwable $e) {}
         }
-
-        // Final fallback: return empty string (no fake content)
-        return '';
+        // v11.8.0: append AI identifier suffix
+        if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
+            try {
+                $ai_content = (new \AIEnhancer())->append_identifier_suffix($ai_content);
+            } catch (\Throwable $e) {}
+        }
+        return self::self_check_content($ai_content);
     }
 
     /**

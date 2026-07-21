@@ -114,60 +114,99 @@ final class DistributeHooksRegistrar
 
     private static function parse_config($platform) : mixed {
         $cfg = ['enabled' => !empty($_POST['enabled'])];
-        switch ($platform) {
-            case 'twitter':
-                $cfg['bearer_token'] = sanitize_text_field($_POST['bearer_token'] ?? '');
-                break;
-            case 'telegram':
-                $cfg['bot_token'] = sanitize_text_field($_POST['bot_token'] ?? '');
-                $cfg['chat_id'] = sanitize_text_field($_POST['chat_id'] ?? '');
-                break;
-            case 'discord':
-                $cfg['webhook_url'] = esc_url_raw($_POST['webhook_url'] ?? '');
-                $cfg['bot_name'] = sanitize_text_field($_POST['bot_name'] ?? 'Linked3');
-                break;
-            case 'wechat':
-                $cfg['app_id'] = sanitize_text_field($_POST['app_id'] ?? '');
-                $cfg['app_secret'] = sanitize_text_field($_POST['app_secret'] ?? '');
-                $cfg['default_thumb_media_id'] = sanitize_text_field($_POST['default_thumb_media_id'] ?? '');
-                break;
-            case 'xiaohongshu':
-                $cfg['api_url'] = esc_url_raw($_POST['api_url'] ?? '');
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                break;
-            case 'weibo':
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                break;
-            // v3.2.0: 恢复知乎/SMZDM (MCP 中转模式)
-            case 'zhihu':
-                $cfg['api_url'] = esc_url_raw($_POST['api_url'] ?? '');
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                $cfg['column_id'] = sanitize_text_field($_POST['column_id'] ?? '');
-                break;
-            case 'smzdm':
-                $cfg['api_url'] = esc_url_raw($_POST['api_url'] ?? '');
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                break;
-            case 'juejin':
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                $cfg['category_id'] = sanitize_text_field($_POST['category_id'] ?? '');
-                break;
-            case 'csdn':
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                break;
-            case 'blogger':
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                $cfg['blog_id'] = sanitize_text_field($_POST['blog_id'] ?? '');
-                break;
-            case 'medium':
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                break;
-            case 'reddit':
-                $cfg['access_token'] = sanitize_text_field($_POST['access_token'] ?? '');
-                $cfg['subreddit'] = sanitize_text_field($_POST['subreddit'] ?? '');
-                break;
+        $method = 'parse_' . $platform . '_config';
+        if (method_exists(__CLASS__, $method)) {
+            $cfg = array_merge($cfg, self::$method());
         }
         return $cfg;
+    }
+
+    private static function parse_twitter_config(): array {
+        return ['bearer_token' => sanitize_text_field($_POST['bearer_token'] ?? '')];
+    }
+
+    private static function parse_telegram_config(): array {
+        return [
+            'bot_token' => sanitize_text_field($_POST['bot_token'] ?? ''),
+            'chat_id'   => sanitize_text_field($_POST['chat_id'] ?? ''),
+        ];
+    }
+
+    private static function parse_discord_config(): array {
+        return [
+            'webhook_url' => esc_url_raw($_POST['webhook_url'] ?? ''),
+            'bot_name'    => sanitize_text_field($_POST['bot_name'] ?? 'Linked3'),
+        ];
+    }
+
+    private static function parse_wechat_config(): array {
+        return [
+            'app_id'                => sanitize_text_field($_POST['app_id'] ?? ''),
+            'app_secret'            => sanitize_text_field($_POST['app_secret'] ?? ''),
+            'default_thumb_media_id'=> sanitize_text_field($_POST['default_thumb_media_id'] ?? ''),
+        ];
+    }
+
+    private static function parse_xiaohongshu_config(): array {
+        return [
+            'api_url'      => esc_url_raw($_POST['api_url'] ?? ''),
+            'access_token' => sanitize_text_field($_POST['access_token'] ?? ''),
+        ];
+    }
+
+    private static function parse_weibo_config(): array {
+        return self::parse_token_only_config();
+    }
+
+    private static function parse_zhihu_config(): array {
+        return [
+            'api_url'      => esc_url_raw($_POST['api_url'] ?? ''),
+            'access_token' => sanitize_text_field($_POST['access_token'] ?? ''),
+            'column_id'    => sanitize_text_field($_POST['column_id'] ?? ''),
+        ];
+    }
+
+    private static function parse_smzdm_config(): array {
+        return [
+            'api_url'      => esc_url_raw($_POST['api_url'] ?? ''),
+            'access_token' => sanitize_text_field($_POST['access_token'] ?? ''),
+        ];
+    }
+
+    private static function parse_juejin_config(): array {
+        return [
+            'access_token'=> sanitize_text_field($_POST['access_token'] ?? ''),
+            'category_id' => sanitize_text_field($_POST['category_id'] ?? ''),
+        ];
+    }
+
+    private static function parse_csdn_config(): array {
+        return self::parse_token_only_config();
+    }
+
+    private static function parse_blogger_config(): array {
+        return [
+            'access_token' => sanitize_text_field($_POST['access_token'] ?? ''),
+            'blog_id'      => sanitize_text_field($_POST['blog_id'] ?? ''),
+        ];
+    }
+
+    private static function parse_medium_config(): array {
+        return self::parse_token_only_config();
+    }
+
+    private static function parse_reddit_config(): array {
+        return [
+            'access_token'=> sanitize_text_field($_POST['access_token'] ?? ''),
+            'subreddit'   => sanitize_text_field($_POST['subreddit'] ?? ''),
+        ];
+    }
+
+    /**
+     * 共用: 仅 access_token 字段的平台 (weibo/csdn/medium).
+     */
+    private static function parse_token_only_config(): array {
+        return ['access_token' => sanitize_text_field($_POST['access_token'] ?? '')];
     }
 
     public static function register_admin_menu()

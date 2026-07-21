@@ -51,49 +51,75 @@ final class PostMetabox
         $score = get_post_meta($post->ID, '_linked3_seo_score', true);
         ?>
         <div id="linked3-metabox">
-            <!-- 文本操作 (aipower Post Enhancer 对标 v2.8.0) -->
-            <div style="border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:8px;">
-                <p style="font-weight:600;margin:0 0 6px;">📝 文本操作</p>
-                <p style="margin:0 0 4px;">
-                    <button type="button" class="button button-small linked3-mb-text" data-action="rewrite">改写</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="expand">扩写</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="fix_grammar">纠错</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="summarize">总结</button>
-                </p>
-                <p style="margin:0 0 4px;">
-                    <button type="button" class="button button-small linked3-mb-text" data-action="outline">大纲</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="faqs">FAQ</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="simplify">简化</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="translate_en">中→英</button>
-                </p>
-                <p style="margin:0 0 4px;">
-                    <button type="button" class="button button-small linked3-mb-text" data-action="translate_zh">英→中</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="make_longer">加长</button>
-                    <button type="button" class="button button-small linked3-mb-text" data-action="make_shorter">缩短</button>
-                </p>
-            </div>
-
-            <!-- 文章级 AI 操作 -->
-            <div style="border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:8px;">
-                <p style="font-weight:600;margin:0 0 6px;">🎯 文章 AI</p>
-                <p>
-                    <button type="button" class="button linked3-mb-btn" data-action="title">生成标题</button>
-                    <button type="button" class="button linked3-mb-btn" data-action="excerpt">生成摘要</button>
-                </p>
-                <p>
-                    <button type="button" class="button linked3-mb-btn" data-action="tags">生成标签</button>
-                    <button type="button" class="button linked3-mb-btn" data-action="meta">生成 SEO Meta</button>
-                </p>
-                <p>
-                    <button type="button" class="button button-primary linked3-mb-btn" data-action="image">生成特色图片</button>
-                </p>
-            </div>
-
-            <?php if ($score) : ?>
-            <p><strong>SEO 评分:</strong> <span id="linked3-seo-score"><?php echo esc_html($score); ?>/100</span></p>
-            <?php endif; ?>
+            <?php self::render_text_ops(); ?>
+            <?php self::render_article_ai_ops($score); ?>
             <div id="linked3-mb-result" style="margin-top:10px;font-size:12px;max-height:300px;overflow-y:auto;"></div>
         </div>
+        <?php self::render_metabox_script($post); ?>
+        <?php
+    }
+
+    /**
+     * 渲染文本操作按钮组 (7+4 个操作).
+     */
+    private static function render_text_ops(): void
+    {
+        ?>
+        <div style="border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:8px;">
+            <p style="font-weight:600;margin:0 0 6px;">📝 文本操作</p>
+            <p style="margin:0 0 4px;">
+                <button type="button" class="button button-small linked3-mb-text" data-action="rewrite">改写</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="expand">扩写</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="fix_grammar">纠错</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="summarize">总结</button>
+            </p>
+            <p style="margin:0 0 4px;">
+                <button type="button" class="button button-small linked3-mb-text" data-action="outline">大纲</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="faqs">FAQ</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="simplify">简化</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="translate_en">中→英</button>
+            </p>
+            <p style="margin:0 0 4px;">
+                <button type="button" class="button button-small linked3-mb-text" data-action="translate_zh">英→中</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="make_longer">加长</button>
+                <button type="button" class="button button-small linked3-mb-text" data-action="make_shorter">缩短</button>
+            </p>
+        </div>
+        <?php
+    }
+
+    /**
+     * 渲染文章级 AI 操作 + SEO 评分.
+     */
+    private static function render_article_ai_ops($score): void
+    {
+        ?>
+        <div style="border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:8px;">
+            <p style="font-weight:600;margin:0 0 6px;">🎯 文章 AI</p>
+            <p>
+                <button type="button" class="button linked3-mb-btn" data-action="title">生成标题</button>
+                <button type="button" class="button linked3-mb-btn" data-action="excerpt">生成摘要</button>
+            </p>
+            <p>
+                <button type="button" class="button linked3-mb-btn" data-action="tags">生成标签</button>
+                <button type="button" class="button linked3-mb-btn" data-action="meta">生成 SEO Meta</button>
+            </p>
+            <p>
+                <button type="button" class="button button-primary linked3-mb-btn" data-action="image">生成特色图片</button>
+            </p>
+        </div>
+
+        <?php if ($score) : ?>
+        <p><strong>SEO 评分:</strong> <span id="linked3-seo-score"><?php echo esc_html($score); ?>/100</span></p>
+        <?php endif;
+    }
+
+    /**
+     * 渲染 metabox 内联 JavaScript (事件绑定 + AJAX).
+     */
+    private static function render_metabox_script($post): void
+    {
+        ?>
         <script>
         (function(){
             var nonce = document.getElementById('linked3_metabox_nonce').value;

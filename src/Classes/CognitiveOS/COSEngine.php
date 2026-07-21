@@ -152,6 +152,42 @@ class COSEngine
     public function run_lever(string $lever_id, array $input): array
     {
         // v20.4-fix22: 先检查是否是复合杠杆
+        [$system_prompt, $trace_field, $lever_label] = $this->resolveLeverPrompt($lever_id);
+        if ($system_prompt === null) {
+            return ['lever' => $lever_id, 'status' => 'not_found'];
+        }
+
+        $user_msg = $this->buildLeverUserMessage($input);
+
+        [$analysis, $ai_status] = $this->dispatchLeverAI($system_prompt, $user_msg, $input);
+
+        // 降级: AI 不可用时返回结构化占位 (非空)
+        if (empty($analysis)) {
+            $analysis = $this->buildDegradedAnalysis($lever_label, $input, $trace_field, $ai_status);
+        }
+
+        // v20.4-fix13: 清理 AI 输出, 去掉 JSON 代码块和乱码
+        $analysis = self::clean_ai_output($analysis);
+
+        return [
+            'lever'           => $lever_id,
+            'lever_name'      => $lever_label,
+            'status'          => 'success',
+            'ai_status'       => $ai_status,
+            'prompt'          => $system_prompt,
+            'trace'           => $trace_field,
+            'analysis'        => $analysis,
+            'accumulated_analysis' => ($input['accumulated_analysis'] ?? '') . "\n\n--- {$lever_label} ---\n" . $analysis,
+        ];
+    }
+
+    /**
+     * 解析杠杆 system_prompt (优先复合杠杆, 其次 MetaLever).
+     *
+     * @return array{0:?string,1:string,2:string} [system_prompt|null, trace_field, lever_label]
+     */
+    private function resolveLeverPrompt(string $lever_id): array
+    {
         $system_prompt = '';
         $trace_field = $lever_id . '_trace';
         $lever_label = $lever_id;
@@ -159,29 +195,25 @@ class COSEngine
         if (class_exists('\\Linked3\\Classes\\MetaLever\\Composite\\CompositeLeverRegistry')) {
             $composite = \Linked3\Classes\MetaLever\Composite\CompositeLeverRegistry::get($lever_id);
             if ($composite) {
-                $system_prompt = $composite->system_prompt();
-                $lever_label = $composite->label();
-                $trace_field = $lever_id . '_trace';
+                return [$composite->system_prompt(), $trace_field, $composite->label()];
             }
         }
 
-        // 如果不是复合杠杆, 桥接到基础 MetaLever Registry
-        if (empty($system_prompt)) {
-            if (!class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
-                return ['lever' => $lever_id, 'status' => 'not_found'];
-            }
-
-            $lever = \Linked3\Classes\MetaLever\MetaLeverRegistry::get($lever_id);
-            if (!$lever) {
-                return ['lever' => $lever_id, 'status' => 'not_found'];
-            }
-
-            $system_prompt = $lever->system_prompt();
-            $trace_field   = $lever->trace_field();
-            $lever_label   = $lever->label();
+        if (!class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
+            return [null, $trace_field, $lever_label];
         }
+        $lever = \Linked3\Classes\MetaLever\MetaLeverRegistry::get($lever_id);
+        if (!$lever) {
+            return [null, $trace_field, $lever_label];
+        }
+        return [$lever->system_prompt(), $lever->trace_field(), $lever->label()];
+    }
 
-        // v20.4: 构造用户消息, 真实调用 AI 做认知审查
+    /**
+     * 构造杠杆审查的 user message (含差异化审查约束).
+     */
+    private function buildLeverUserMessage(array $input): string
+    {
         $problem   = $input['problem']   ?? '';
         $approach  = $input['approach']  ?? '';
         $steps     = $input['steps']     ?? '';
@@ -195,8 +227,6 @@ class COSEngine
         }
         if (!empty($prev_analysis)) {
             // v20.4-fix12: 截断前序分析, 避免累积过长导致 AI 超时
-            // 旧实现把全部前序分析传入, 第 6 个杠杆的 prompt 可能 >5000 字,
-            // AI 处理时间 >60s → web server 掐断 → "Failed to fetch"
             $prev_trimmed = mb_strlen($prev_analysis) > 1500
                 ? mb_substr($prev_analysis, 0, 700) . "\n...(已截断, 仅保留前序要点)...\n" . mb_substr($prev_analysis, -700)
                 : $prev_analysis;
@@ -215,7 +245,6 @@ class COSEngine
         $user_msg .= "3. 每个要点用'•'或数字编号开头\n";
         $user_msg .= "4. 先给出核心结论, 再展开分析\n";
         $user_msg .= "5. 最后给出 1-2 条**具体可执行**的改进建议 (含操作步骤或工具示例)\n\n";
-        // v20.4-fix23: 超级Prompt双层壳 — 纳什均衡+用户目的性优先
         $user_msg .= "<rules>\n";
         $user_msg .= "输出≤600字 | 装饰≤20% | 核心目标不偏离 | 杠杆使命不可违\n";
         $user_msg .= "绝对禁止高概率词元 | 强制语义与字数双守恒 | 认知注入不可逆\n";
@@ -225,131 +254,110 @@ class COSEngine
         $user_msg .= "<answer_operator>\n";
         $user_msg .= "Analyze(独有视角) → Compare(与前序对比) → Synthesize(纳什均衡) → Recommend(可落地步骤) → Verify(用户价值)\n";
         $user_msg .= "</answer_operator>";
+        return $user_msg;
+    }
 
+    /**
+     * 调度杠杆 AI 调用 (多模型尝试 + 多 provider fallback).
+     *
+     * @return array{0:string,1:string} [analysis, ai_status]
+     */
+    private function dispatchLeverAI(string $system_prompt, string $user_msg, array $input): array
+    {
+        if (!class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
+            return ['', 'skipped'];
+        }
+        $prev_analysis = $input['accumulated_analysis'] ?? '';
         $analysis = '';
         $ai_status = 'skipped';
 
-        // 尝试调用 AI Dispatcher
-        if (class_exists('\\Linked3\\Classes\\Core\\AIDispatcher')) {
-            try {
-                $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
-
-                // v20.4-fix14: 修复 fix13 的 bug — 不再硬编码 provider=deepseek
-                // fix13 错误地指定 'provider' => 'deepseek', 但用户可能只配置了 siliconflow
-                // 导致 deepseek 调用失败 (无 API Key) → 全部降级
-                // fix14: 使用 default_provider + 指定更强的模型 (Qwen2.5-72B)
-                $default_provider = function_exists('get_option')
-                    ? get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow')
-                    : 'siliconflow';
-
-                // v20.4-fix14: 只把已配置 API Key 的 provider 作为 fallback
-                $saved_keys = function_exists('get_option')
-                    ? (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', [])
-                    : [];
-                $candidate_pool = ['siliconflow', 'deepseek', 'qwen', 'openai', 'kimi'];
-                $diverse_fallbacks = [];
-                foreach ($candidate_pool as $p) {
-                    // 排除 primary, 且只保留已配置 Key 的 (siliconflow 有内置默认 Key, 始终可用)
-                    if ($p !== $default_provider && (!empty($saved_keys[$p]) || $p === 'siliconflow')) {
-                        $diverse_fallbacks[] = $p;
-                    }
+        try {
+            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
+            $default_provider = function_exists('get_option')
+                ? get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow')
+                : 'siliconflow';
+            $saved_keys = function_exists('get_option')
+                ? (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', [])
+                : [];
+            $candidate_pool = ['siliconflow', 'deepseek', 'qwen', 'openai', 'kimi'];
+            $diverse_fallbacks = [];
+            foreach ($candidate_pool as $p) {
+                if ($p !== $default_provider && (!empty($saved_keys[$p]) || $p === 'siliconflow')) {
+                    $diverse_fallbacks[] = $p;
                 }
-                $diverse_fallbacks = array_slice($diverse_fallbacks, 0, 3);
+            }
+            $diverse_fallbacks = array_slice($diverse_fallbacks, 0, 3);
 
-                // v20.4-fix25: 动态timeout — 根据累积分析长度动态调整
-                // 前2个杠杆35s, 第3-4个40s, 第5-6个45s, 避免后期杠杆超时降级
-                $lever_timeout = 35;
-                if (!empty($prev_analysis)) {
-                    $prev_len = mb_strlen($prev_analysis);
-                    if ($prev_len > 1200) {
-                        $lever_timeout = 45; // 第5-6个杠杆
-                    } elseif ($prev_len > 600) {
-                        $lever_timeout = 40; // 第3-4个杠杆
-                    }
-                }
+            // 动态 timeout
+            $lever_timeout = 35;
+            if (!empty($prev_analysis)) {
+                $prev_len = mb_strlen($prev_analysis);
+                if ($prev_len > 1200) $lever_timeout = 45;
+                elseif ($prev_len > 600) $lever_timeout = 40;
+            }
 
-                // v20.4-fix26: 配额耗尽容错 — 捕获Quota exhausted异常, 尝试更轻量模型
-                $models_to_try = ['Qwen/Qwen2.5-32B-Instruct', 'Qwen/Qwen2.5-7B-Instruct'];
-                $ai_result = null;
-                $last_error = '';
-
-                foreach ($models_to_try as $model) {
-                    try {
-                        $ai_result = $dispatcher->chat(
-                            [
-                                ['role' => 'system', 'content' => $system_prompt],
-                                ['role' => 'user',   'content' => $user_msg],
-                            ],
-                            [
-                                'temperature' => 0.7,
-                                'max_tokens'  => 800,
-                                'module'      => 'cos_lever',
-                                'user_id'     => get_current_user_id(),
-                                'timeout'     => $lever_timeout,
-                                'model'       => $model,
-                            ],
-                            [
-                                'fallback_providers' => $diverse_fallbacks,
-                                'force_bypass_circuit' => true,
-                            ]
-                        );
-
-                        if (!empty($ai_result['content'])) {
-                            $analysis = $ai_result['content'];
-                            $ai_status = 'success';
-                            break; // 成功则不再尝试其他模型
-                        } elseif (!empty($ai_result['error'])) {
-                            $last_error = $ai_result['error'];
-                            // 如果是配额耗尽, 尝试下一个模型
-                            if (strpos($last_error, 'Quota exhausted') !== false) {
-                                continue;
-                            }
-                            // 其他错误直接记录
-                            $ai_status = 'error: ' . substr($last_error, 0, 200);
-                            break;
-                        }
-                    } catch (\Throwable $e) {
-                        $last_error = $e->getMessage();
-                        // 如果是配额耗尽, 尝试下一个模型
-                        if (strpos($last_error, 'Quota exhausted') !== false) {
-                            continue;
-                        }
+            $models_to_try = ['Qwen/Qwen2.5-32B-Instruct', 'Qwen/Qwen2.5-7B-Instruct'];
+            $ai_result = null;
+            $last_error = '';
+            foreach ($models_to_try as $model) {
+                try {
+                    $ai_result = $dispatcher->chat(
+                        [
+                            ['role' => 'system', 'content' => $system_prompt],
+                            ['role' => 'user',   'content' => $user_msg],
+                        ],
+                        [
+                            'temperature' => 0.7,
+                            'max_tokens'  => 800,
+                            'module'      => 'cos_lever',
+                            'user_id'     => get_current_user_id(),
+                            'timeout'     => $lever_timeout,
+                            'model'       => $model,
+                        ],
+                        [
+                            'fallback_providers' => $diverse_fallbacks,
+                            'force_bypass_circuit' => true,
+                        ]
+                    );
+                    if (!empty($ai_result['content'])) {
+                        $analysis = $ai_result['content'];
+                        $ai_status = 'success';
+                        break;
+                    } elseif (!empty($ai_result['error'])) {
+                        $last_error = $ai_result['error'];
+                        if (strpos($last_error, 'Quota exhausted') !== false) continue;
                         $ai_status = 'error: ' . substr($last_error, 0, 200);
                         break;
                     }
-                }
-
-                // v20.4-fix26: 如果所有模型都失败, 记录最后的错误
-                if (empty($analysis) && !empty($last_error)) {
+                } catch (\Throwable $e) {
+                    $last_error = $e->getMessage();
+                    if (strpos($last_error, 'Quota exhausted') !== false) continue;
                     $ai_status = 'error: ' . substr($last_error, 0, 200);
+                    break;
                 }
-            } catch (\Throwable $e) {
-                $ai_status = 'error: ' . $e->getMessage();
             }
+            if (empty($analysis) && !empty($last_error)) {
+                $ai_status = 'error: ' . substr($last_error, 0, 200);
+            }
+        } catch (\Throwable $e) {
+            $ai_status = 'error: ' . $e->getMessage();
         }
+        return [$analysis, $ai_status];
+    }
 
-        // 降级: AI 不可用时返回结构化占位 (非空)
-        if (empty($analysis)) {
-            $analysis = $lever_label . " 审查 (降级模式, AI 未调用):\n";
-            $analysis .= "- 审查对象: {$problem}\n";
-            $analysis .= "- 方案摘要: " . mb_substr($approach, 0, 200) . "\n";
-            $analysis .= "- {$trace_field}: 杠杆已注入, 但 AI 调用失败 ({$ai_status}), 请检查 AI 配置后重试。\n";
-            $analysis .= "- 建议: 确认 AI Dispatcher 已配置有效的 API Key。";
-        }
-
-        // v20.4-fix13: 清理 AI 输出, 去掉 JSON 代码块和乱码
-        $analysis = self::clean_ai_output($analysis);
-
-        return [
-            'lever'           => $lever_id,
-            'lever_name'      => $lever_label,
-            'status'          => 'success',
-            'ai_status'       => $ai_status,
-            'prompt'          => $system_prompt,
-            'trace'           => $trace_field,
-            'analysis'        => $analysis,
-            'accumulated_analysis' => ($input['accumulated_analysis'] ?? '') . "\n\n--- {$lever_label} ---\n" . $analysis,
-        ];
+    /**
+     * AI 不可用时返回降级占位分析.
+     */
+    private function buildDegradedAnalysis(string $lever_label, array $input, string $trace_field, string $ai_status): string
+    {
+        $problem  = $input['problem']  ?? '';
+        $approach = $input['approach'] ?? '';
+        $analysis  = $lever_label . " 审查 (降级模式, AI 未调用):\n";
+        $analysis .= "- 审查对象: {$problem}\n";
+        $analysis .= "- 方案摘要: " . mb_substr($approach, 0, 200) . "\n";
+        $analysis .= "- {$trace_field}: 杠杆已注入, 但 AI 调用失败 ({$ai_status}), 请检查 AI 配置后重试。\n";
+        $analysis .= "- 建议: 确认 AI Dispatcher 已配置有效的 API Key。";
+        return $analysis;
     }
 
     /**

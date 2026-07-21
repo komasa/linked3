@@ -71,6 +71,12 @@ class SeedAdminRender
     }
 
     public static function print_inline_assets() : mixed {
+        self::print_seed_css();
+        self::print_seed_admin_js();
+        return null;
+    }
+
+    private static function print_seed_css(): void {
         ?>
         <style>
             .linked3-seed-wrap { background:#fff; border:1px solid #c3c4c7; border-radius:4px; padding:20px; margin:15px 0; }
@@ -121,9 +127,25 @@ class SeedAdminRender
             .linked3-danger-zone { border:1px solid #d63638; background:#fef2f2; padding:15px; border-radius:4px; margin-top:20px; }
             .linked3-notice-info { background:#e5f1f9; border-left:4px solid #2271b1; padding:10px 15px; margin:10px 0; }
         </style>
+        <?php
+    }
+
+    private static function print_seed_admin_js(): void {
+        $list_url = esc_js(admin_url('admin.php?page=' . self::PAGE_SLUG_LIST));
+        ?>
         <script>
         jQuery(function($) {
-            // Tabs
+            <?php self::print_tabs_js(); ?>
+            <?php self::print_wizard_js(); ?>
+            <?php self::print_bulk_js(); ?>
+            <?php self::print_save_js($list_url); ?>
+        });
+        </script>
+        <?php
+    }
+
+    private static function print_tabs_js(): void {
+        echo <<<JS
             $('.linked3-tabs').each(function() {
                 var $wrap = $(this);
                 $wrap.find('.nav-tab').on('click', function(e) {
@@ -134,7 +156,11 @@ class SeedAdminRender
                     $wrap.find($(this).attr('href')).addClass('active');
                 });
             });
-            // Wizard
+JS;
+    }
+
+    private static function print_wizard_js(): void {
+        echo <<<JS
             $('.linked3-wizard').each(function() {
                 var $wiz = $(this);
                 function showStep(i) {
@@ -159,7 +185,11 @@ class SeedAdminRender
                     if (i > 0) showStep(i - 1);
                 });
             });
-            // Bulk action confirm
+JS;
+    }
+
+    private static function print_bulk_js(): void {
+        echo <<<JS
             $(document).on('change', '.linked3-bulk-action-select', function() {
                 var action = $(this).val();
                 if (!action) return;
@@ -170,7 +200,6 @@ class SeedAdminRender
                 $('#linked3-bulk-ids-input').val(ids.join(','));
                 $('#linked3-bulk-form').submit();
             });
-            // Trash-all confirm
             $(document).on('click', '.linked3-trash-all-btn', function(e) {
                 e.preventDefault();
                 if (!confirm('警告: 此操作将软删除所有 Seed! 30天内可在回收站恢复, 确认前请先导出备份。')) return;
@@ -189,7 +218,11 @@ class SeedAdminRender
                     }
                 });
             });
-            // Save seed (edit page form submit)
+JS;
+    }
+
+    private static function print_save_js(string $list_url): void {
+        echo <<<JS
             $(document).on('click', '.linked3-save-seed-btn', function(e) {
                 e.preventDefault();
                 var $btn = $(this);
@@ -212,7 +245,6 @@ class SeedAdminRender
                     }
                 });
             });
-            // Wizard save
             $(document).on('click', '.linked3-wizard-save', function(e) {
                 e.preventDefault();
                 var $btn = $(this);
@@ -226,15 +258,13 @@ class SeedAdminRender
                     $btn.prop('disabled', false).text('保存 Seed');
                     if (resp.success) {
                         alert('Seed 已创建, ID=' + resp.data.seed_id);
-                        location.href = '<?php echo esc_js(admin_url('admin.php?page=' . self::PAGE_SLUG_LIST)); ?>';
+                        location.href = '{$list_url}';
                     } else {
                         alert('保存失败: ' + (resp.data && resp.data.message ? resp.data.message : '未知错误'));
                     }
                 });
             });
-        });
-        </script>
-        <?php
+JS;
     }
 
         public static function render_list_page() : mixed { return SeedAdminPages::render_list_page(); }
