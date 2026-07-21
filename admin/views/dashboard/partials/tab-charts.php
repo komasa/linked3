@@ -515,13 +515,15 @@ ChatGPT使用技巧,auto,linear-progression,2
         html += '</div></details>';
 
         // v16.3.0: 镜卡片 — 每镜含完整结构布局预览 + 1个整体提示词
+        // v27.6.2-fix: 支持多种 band 模式 (3band/4band/5band/6band/unified)
         modules.forEach(function(m, idx) {
-            var isUnified = (m.band === '4band-unified' || m.bands); // v16.3.0: 新模式标识
+            var isUnified = (m.band === '4band-unified' || m.band === '3band' || m.band === '5band' || m.band === '6band' || m.band === 'unified' || m.bands);
             html += '<div class="lk3-charts-module-card" style="border-left-color:#6366f1;">';
             html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">';
             html += '<div>';
-            // v16.3.0: 镜标题 (非单个Band标签)
+            var bandLabel = m.band ? escapeHtml(m.band) : '4band';
             html += '<span class="lk3-charts-band-tag" style="background:#F4F4F5;color:#4338ca;border:1px solid #6366f1;">🎬 ' + escapeHtml(m.scene_id || m.module_id || ('S' + (idx+1))) + '</span> ';
+            html += '<span style="font-size:10px;color:#6366f1;margin-left:4px;">[' + bandLabel + ']</span> ';
             if (m.scene_total && m.scene_total > 1) {
                 html += '<span style="font-size:10px;color:#A1A1AA;">第' + escapeHtml(String(m.scene_index || (idx+1))) + '镜/共' + escapeHtml(String(m.scene_total)) + '镜</span> ';
             }
@@ -530,29 +532,27 @@ ChatGPT使用技巧,auto,linear-progression,2
             html += '<button type="button" class="lk3-charts-btn lk3-charts-btn-sm lk3-charts-copy" data-idx="' + idx + '">📋 复制提示词</button>';
             html += '</div>';
 
-            // v16.3.0: 4Band布局预览 (若新模式含bands结构)
+            // v27.6.2-fix: 动态读取 band keys 而非硬编码 Hook/Body/Proof/CTA
             if (isUnified && m.bands) {
                 html += '<div style="margin-bottom:8px;padding:8px;background:#FAFAFA;border-radius:6px;border:1px dashed #D4D4D8;">';
-                html += '<div style="font-size:11px;font-weight:600;color:#52525B;margin-bottom:6px;">📐 结构布局预览 (单张信息图内的区域)</div>';
-                html += '<div style="display:grid;grid-template-rows:auto auto auto auto;gap:4px;">';
-                var bandColors = {Hook:'#EF4444', Body:'#0F172A', Proof:'#10B981', CTA:'#F59E0B'};
-                var bandZones = {Hook:'顶部', Body:'中部', Proof:'下部', CTA:'底部'};
-                ['Hook','Body','Proof','CTA'].forEach(function(bk) {
+                var bandKeys = Object.keys(m.bands);
+                var bandCount = bandKeys.length;
+                html += '<div style="font-size:11px;font-weight:600;color:#52525B;margin-bottom:6px;">📐 ' + bandCount + 'Band布局预览 (单张信息图内的' + bandCount + '个区域)</div>';
+                html += '<div style="display:grid;grid-template-rows:repeat(' + bandCount + ',auto);gap:4px;">';
+                var bandColors = {Hook:'#EF4444', Body:'#0F172A', Proof:'#10B981', CTA:'#F59E0B', Title:'#3B82F6', Data:'#8B5CF6', Insight:'#EC4899', Action:'#F97316', Summary:'#06B6D4', Quote:'#84CC16'};
+                bandKeys.forEach(function(bk) {
                     var bd = m.bands[bk] || {};
                     var color = bandColors[bk] || '#71717A';
-                    var zone = bandZones[bk] || '';
-                    var text = bd.text_overlay || '';
+                    var text = bd.text_overlay || bd.text || '';
                     html += '<div style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:#fff;border-radius:4px;border-left:3px solid ' + color + ';">';
                     html += '<span style="font-size:10px;font-weight:700;color:' + color + ';min-width:50px;">' + escapeHtml(bk) + '</span>';
-                    html += '<span style="font-size:9px;color:#A1A1AA;min-width:30px;">[' + escapeHtml(zone) + ']</span>';
                     html += '<span style="font-size:11px;color:#3F3F46;flex:1;">' + escapeHtml(text) + '</span>';
                     html += '</div>';
                 });
                 html += '</div>';
-                html += '<div style="font-size:10px;color:#A1A1AA;margin-top:4px;">💡 以上结构区域合并为下方1个整体提示词, 生成1张含4区域的信息图</div>';
+                html += '<div style="font-size:10px;color:#A1A1AA;margin-top:4px;">💡 以上' + bandCount + 'Band合并为下方1个整体提示词, 生成1张含' + bandCount + '区域的信息图</div>';
                 html += '</div>';
             } else if (m.text_overlay) {
-                // 向后兼容: 旧模式仅显示text_overlay
                 html += '<div style="font-size:12px;color:#3F3F46;margin-bottom:4px;"><strong>画面文字:</strong> ' + escapeHtml(m.text_overlay) + '</div>';
             }
 
@@ -563,9 +563,10 @@ ChatGPT使用技巧,auto,linear-progression,2
                 });
                 html += '</div>';
             }
-            // v16.3.0: 整体提示词 (每镜1个, 非每Band1个)
+            // v27.6.2-fix: 动态显示 band 数量
+            var promptBandLabel = (m.bands ? Object.keys(m.bands).length + 'Band' : (m.band || '4band'));
             html += '<div class="lk3-charts-prompt-box">';
-            html += '<div style="font-size:10px;color:#6366f1;margin-bottom:2px;font-weight:600;">🎯 整体提示词 (含结构布局, 生成1张完整信息图)</div>';
+            html += '<div style="font-size:10px;color:#6366f1;margin-bottom:2px;font-weight:600;">🎯 整体提示词 (含' + promptBandLabel + '布局, 生成1张完整信息图)</div>';
             html += '<textarea readonly class="lk3-charts-prompt" data-idx="' + idx + '">' + escapeHtml(m.visual_prompt || '') + '</textarea>';
             html += '</div>';
             html += '</div>';

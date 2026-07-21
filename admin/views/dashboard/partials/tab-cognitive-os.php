@@ -271,9 +271,11 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;" id="cos-lever-chain">
             <?php
-            // v20.4-fix20: 从 MetaLever Registry 动态获取杠杆列表, 按6大能力域分组显示
+            // v27.6.2-fix: 基础杠杆 (MetaLeverRegistry) + 复合杠杆 (CompositeLeverRegistry)
             $levers_for_chain = [];
             $levers_by_domain = [];
+
+            // 1. 基础杠杆
             if (class_exists('\\Linked3\\Classes\\MetaLever\\MetaLeverRegistry')) {
                 $all_levers = \Linked3\Classes\MetaLever\MetaLeverRegistry::info();
                 foreach ($all_levers as $l) {
@@ -283,6 +285,7 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                         'description' => $l['description'] ?? '',
                         'domain' => $l['domain'] ?? 'cognitive',
                         'domain_label' => $l['domain_label'] ?? '🔍 认知与元认知',
+                        'level' => '基础',
                     ];
                     $domain_key = $l['domain'] ?? 'cognitive';
                     if (!isset($levers_by_domain[$domain_key])) {
@@ -294,14 +297,37 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                     $levers_by_domain[$domain_key]['levers'][] = $l;
                 }
             }
+
+            // 2. 复合杠杆 — v27.6.2-fix: 之前前端从未调用, 现在补齐
+            if (class_exists('\\Linked3\\Classes\\MetaLever\\Composite\\CompositeLeverRegistry')) {
+                $composite_levers = \Linked3\Classes\MetaLever\Composite\CompositeLeverRegistry::info();
+                foreach ($composite_levers as $cl) {
+                    $levers_for_chain[] = [
+                        'id'    => $cl['id'],
+                        'label' => '[' . ($cl['level'] ?? '复合') . '] ' . $cl['label'],
+                        'description' => $cl['description'] ?? '',
+                        'domain' => 'composite',
+                        'domain_label' => '🧬 复合杠杆',
+                        'level' => $cl['level'] ?? '复合',
+                    ];
+                    if (!isset($levers_by_domain['composite'])) {
+                        $levers_by_domain['composite'] = [
+                            'label' => '🧬 复合杠杆',
+                            'levers' => [],
+                        ];
+                    }
+                    $levers_by_domain['composite']['levers'][] = $cl;
+                }
+            }
+
             if (empty($levers_for_chain)) {
                 $levers_for_chain = [
-                    ['id' => 'meta_learning', 'label' => '元学习', 'description' => '从示例提取可迁移模式', 'domain' => 'cognitive', 'domain_label' => '🔍 认知与元认知'],
-                    ['id' => 'meta_logic', 'label' => '逻辑学', 'description' => '演绎/归纳/溯因推理', 'domain' => 'logic', 'domain_label' => '🧠 逻辑与推理'],
-                    ['id' => 'meta_critique', 'label' => '元批判', 'description' => '红队攻击+证伪测试', 'domain' => 'logic', 'domain_label' => '🧠 逻辑与推理'],
-                    ['id' => 'meta_problem_finding', 'label' => '问题发现', 'description' => '问题质疑+根因追问', 'domain' => 'logic', 'domain_label' => '🧠 逻辑与推理'],
-                    ['id' => 'meta_abstraction', 'label' => '元抽象', 'description' => '从案例提取通用模型', 'domain' => 'analytical', 'domain_label' => '📊 分析与评估'],
-                    ['id' => 'meta_evaluation', 'label' => '元评估', 'description' => '多维评分+基线对比', 'domain' => 'analytical', 'domain_label' => '📊 分析与评估'],
+                    ['id' => 'meta_learning', 'label' => '元学习', 'description' => '从示例提取可迁移模式', 'domain' => 'cognitive', 'domain_label' => '🔍 认知与元认知', 'level' => '基础'],
+                    ['id' => 'meta_logic', 'label' => '逻辑学', 'description' => '演绎/归纳/溯因推理', 'domain' => 'logic', 'domain_label' => '🧠 逻辑与推理', 'level' => '基础'],
+                    ['id' => 'meta_critique', 'label' => '元批判', 'description' => '红队攻击+证伪测试', 'domain' => 'logic', 'domain_label' => '🧠 逻辑与推理', 'level' => '基础'],
+                    ['id' => 'meta_problem_finding', 'label' => '问题发现', 'description' => '问题质疑+根因追问', 'domain' => 'logic', 'domain_label' => '🧠 逻辑与推理', 'level' => '基础'],
+                    ['id' => 'meta_abstraction', 'label' => '元抽象', 'description' => '从案例提取通用模型', 'domain' => 'analytical', 'domain_label' => '📊 分析与评估', 'level' => '基础'],
+                    ['id' => 'meta_evaluation', 'label' => '元评估', 'description' => '多维评分+基线对比', 'domain' => 'analytical', 'domain_label' => '📊 分析与评估', 'level' => '基础'],
                 ];
                 $levers_by_domain = [
                     'cognitive' => ['label' => '🔍 认知与元认知', 'levers' => [$levers_for_chain[0]]],
@@ -325,6 +351,7 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                 'analytical' => '#e0e7ff',
                 'strategic' => '#dcfce7',
                 'communication' => '#f3e8ff',
+                'composite' => '#ede9fe',
             ];
             foreach ($levers_by_domain as $domain_key => $domain_data):
                 $bg_color = $domain_colors[$domain_key] ?? '#f3f4f6';
