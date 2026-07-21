@@ -46,71 +46,20 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
             'Authorization' => $auth,
         ];
 
-        // v3.0.0: 查 remote_id 映射表 (重发=更新)
-        $remote_id = '';
-        if (!empty($post['local_post_id']) && !empty($config['target_id'])) {
-            $remote_id = $this->lookup_remote_id((int) $post['local_post_id'], (int) $config['target_id']);
-        }
-        // 兼容旧调用: post['remote_id'] 优先
-        if (!empty($post['remote_id'])) {
-            $remote_id = (string) $post['remote_id'];
-        }
+        $remote_id = $this->resolve_remote_id($post, $config);
+        $body      = $this->build_post_body($post);
+        $this->sync_taxonomies($post, $url, $headers, $host, $body);
 
-        $endpoint = $url . '/wp-json/wp/v2/posts';
-        $body = [
-            'title'   => $post['post_title'] ?? '',
-            'content' => $post['post_content'] ?? '',
-            'excerpt' => $post['post_excerpt'] ?? '',
-            'status'  => $post['post_status'] ?? 'publish',
-        ];
-        // v3.0.0: 补全字段
-        if (!empty($post['post_name'])) $body['slug'] = $post['post_name'];
-        if (!empty($post['post_author'])) $body['author'] = (int) $post['post_author'];
-        if (!empty($post['post_date'])) $body['date'] = $post['post_date'];
-
-        // v3.0.0: 分类同步
-        if (!empty($post['post_category_names'])) {
-            $cat_ids = $this->sync_terms($url, $headers, $host, 'categories', $post['post_category_names']);
-            if (!empty($cat_ids)) $body['categories'] = $cat_ids;
-        } elseif (!empty($post['post_category'])) {
-            // 如果直接传了分类 ID 数组(同站点假设)
-            $body['categories'] = array_map('intval', (array) $post['post_category']);
-        }
-
-        // v3.0.0: 标签同步
-        if (!empty($post['tags_input_names'])) {
-            $tag_ids = $this->sync_terms($url, $headers, $host, 'tags', $post['tags_input_names']);
-            if (!empty($tag_ids)) $body['tags'] = $tag_ids;
-        } elseif (!empty($post['tags_input'])) {
-            $body['tags'] = array_map('intval', (array) $post['tags_input']);
-        }
-
-        // v3.0.0: 特色图上传
         if (!empty($post['featured_image_url'])) {
             $media_id = $this->upload_media($url, $auth, $host, $post['featured_image_url'], $post['post_title'] ?? 'featured');
             if ($media_id) $body['featured_media'] = $media_id;
         }
 
-        // POST (新建) 或 PUT (更新)
-        if ($remote_id) {
-            $endpoint .= '/' . (int) $remote_id;
-            $resp = SafeRemote::put($endpoint, [
-                'timeout' => 30,
-                'headers' => $headers,
-                'body'    => wp_json_encode($body),
-                'allowed_hosts' => [$host],
-            ]);
-        } else {
-            $resp = SafeRemote::post($endpoint, [
-                'timeout' => 30,
-                'headers' => $headers,
-                'body'    => wp_json_encode($body),
-                'allowed_hosts' => [$host],
-            ]);
-        }
+        $resp = $this->send_post_request($url, $headers, $host, $body, $remote_id);
         if (is_wp_error($resp)) {
             return ['ok' => false, 'remote_id' => '', 'message' => $resp->get_error_message(), 'response_code' => 0];
         }
+
         $code = (int) wp_remote_retrieve_response_code($resp);
         $json = json_decode(wp_remote_retrieve_body($resp), true);
         if ($code >= 400) {
@@ -119,12 +68,106 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
         }
         $new_remote_id = (string) ($json['id'] ?? '');
 
-        // v3.0.0: 保存 remote_id 映射
         if ($new_remote_id && !empty($post['local_post_id']) && !empty($config['target_id'])) {
             $this->store_remote_id((int) $post['local_post_id'], (int) $config['target_id'], $new_remote_id);
         }
 
         return ['ok' => true, 'remote_id' => $new_remote_id, 'message' => 'ok', 'response_code' => $code];
+    }
+
+    /**
+     * Resolve the remote post ID for update vs create.
+     *
+     * @param array $post
+     * @param array $config
+     * @return string
+     */
+    private function resolve_remote_id(array $post, array $config): string
+    {
+        $remote_id = '';
+        if (!empty($post['local_post_id']) && !empty($config['target_id'])) {
+            $remote_id = $this->lookup_remote_id((int) $post['local_post_id'], (int) $config['target_id']);
+        }
+        if (!empty($post['remote_id'])) {
+            $remote_id = (string) $post['remote_id'];
+        }
+        return $remote_id;
+    }
+
+    /**
+     * Build the REST API request body from post data.
+     *
+     * @param array $post
+     * @return array
+     */
+    private function build_post_body(array $post): array
+    {
+        $body = [
+            'title'   => $post['post_title'] ?? '',
+            'content' => $post['post_content'] ?? '',
+            'excerpt' => $post['post_excerpt'] ?? '',
+            'status'  => $post['post_status'] ?? 'publish',
+        ];
+        if (!empty($post['post_name']))   $body['slug']   = $post['post_name'];
+        if (!empty($post['post_author'])) $body['author'] = (int) $post['post_author'];
+        if (!empty($post['post_date']))   $body['date']   = $post['post_date'];
+        return $body;
+    }
+
+    /**
+     * Sync categories and tags to the remote site, adding IDs to body.
+     *
+     * @param array  $post
+     * @param string $url
+     * @param array  $headers
+     * @param string $host
+     * @param array  &$body  Modified by reference
+     * @return void
+     */
+    private function sync_taxonomies(array $post, string $url, array $headers, string $host, array &$body): void
+    {
+        // Categories
+        if (!empty($post['post_category_names'])) {
+            $cat_ids = $this->sync_terms($url, $headers, $host, 'categories', $post['post_category_names']);
+            if (!empty($cat_ids)) $body['categories'] = $cat_ids;
+        } elseif (!empty($post['post_category'])) {
+            $body['categories'] = array_map('intval', (array) $post['post_category']);
+        }
+
+        // Tags
+        if (!empty($post['tags_input_names'])) {
+            $tag_ids = $this->sync_terms($url, $headers, $host, 'tags', $post['tags_input_names']);
+            if (!empty($tag_ids)) $body['tags'] = $tag_ids;
+        } elseif (!empty($post['tags_input'])) {
+            $body['tags'] = array_map('intval', (array) $post['tags_input']);
+        }
+    }
+
+    /**
+     * Send POST (create) or PUT (update) to remote WordPress REST API.
+     *
+     * @param string $url
+     * @param array  $headers
+     * @param string $host
+     * @param array  $body
+     * @param string $remote_id
+     * @return array|\WP_Error
+     */
+    private function send_post_request(string $url, array $headers, string $host, array $body, string $remote_id)
+    {
+        $endpoint = $url . '/wp-json/wp/v2/posts';
+        $payload  = [
+            'timeout'       => 30,
+            'headers'       => $headers,
+            'body'          => wp_json_encode($body),
+            'allowed_hosts' => [$host],
+        ];
+
+        if ($remote_id) {
+            $endpoint .= '/' . (int) $remote_id;
+            return SafeRemote::put($endpoint, $payload);
+        }
+        return SafeRemote::post($endpoint, $payload);
     }
 
     public function test(array $config)
