@@ -45,8 +45,8 @@ jobs:
       - name: Install PHP_CodeSniffer + WordPress Coding Standards
         run: |
           composer global require squizlabs/php_codesniffer:^3.8
-          composer global require wp-coding-standards/wpcs:^2.3
-          phpcs --config-set installed_paths $(composer global config path)/wp-coding-standards/wpcs
+          composer global require dealerdirect/phpcodesniffer-composer-installer:^1.0 wp-coding-standards/wpcs:^2.3
+          phpcs -i
 
       - name: Run PHPCS with baseline filter
         run: |

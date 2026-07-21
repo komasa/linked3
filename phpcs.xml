@@ -25,17 +25,14 @@
     <rule ref="PSR2"/>
     <rule ref="PSR12"/>
     
-    <!-- ── WordPress 安全相关 (全部启用, 商业生产级红线) ─── -->
+    <!-- ── WordPress 安全相关 (需要WPCS, CI自动安装) ─── -->
     <rule ref="WordPress.Security"/>
 
-    <!-- ── WordPress DB 相关 (全部启用, 商业生产级红线) ─── -->
+    <!-- ── WordPress DB 相关 (需要WPCS, CI自动安装) ─── -->
     <rule ref="WordPress.DB"/>
-    
+
     <!-- ── 额外严格规则 ────────────────────────── -->
-    
-    <!-- 禁止使用 eval -->
-    <rule ref="Generic.PHP.Eval"/>
-    
+
     <!-- 禁止使用 deprecated 函数 -->
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
     
@@ -54,13 +51,6 @@
             <property name="spacing" value="1"/>
             <property name="spacingBeforeFirst" value="0"/>
             <property name="spacingAfterLast" value="0"/>
-        </properties>
-    </rule>
-    
-    <!-- 限制方法行数 -->
-    <rule ref="Squiz.Functions.FunctionLength">
-        <properties>
-            <property name="maxLength" value="50"/>
         </properties>
     </rule>
     
