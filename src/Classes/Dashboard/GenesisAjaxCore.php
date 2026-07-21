@@ -19,66 +19,17 @@ class GenesisAjaxCore
         if (!class_exists('\Linked3\Classes\Genesis\GenesisPlotParser')) {
             wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3-ai')]);
         }
-        // v7.0.3: 统一走 AI 拆分路径 (不再用旧 PlotParser 直接解析)
         $panelCountRaw = sanitize_text_field($_POST['panel_count'] ?? 'auto');
         $isAuto = ($panelCountRaw === 'auto');
         $targetPanels = $isAuto ? 0 : max(5, min(500, (int)$panelCountRaw));
         @set_time_limit(300);
         @ini_set('memory_limit', '512M');
         try {
-            // v7.0.3: 始终调用 AI 拆分 (不再降级到 PlotParser)
             $aiPanels = self::genesisAIGeneratePanels($script, $targetPanels, $styleId, $isAuto);
             if (empty($aiPanels)) {
-                // AI 拆分失败 — 极端降级: 把整段文本作为1个分镜
-                $aiPanels = [[
-                    'scene_id' => 'S001',
-                    'location' => mb_substr($script, 0, 20),
-                    'characters' => [],
-                    'action' => mb_substr($script, 0, 100),
-                    'mood' => '紧张',
-                    'shot' => '中景',
-                    'angle' => '平视',
-                    'comp' => '三分法',
-                ]];
+                $aiPanels = self::buildFallbackPanel($script);
             }
-            // 用 AI 拆分结果组装 Prompt
-            $assembler = new \GenesisPromptAssembler();
-            $pqsChecker = new \GenesisPQSChecker();
-            $results = [];
-            foreach ($aiPanels as $i => $aiPanel) {
-                $scene = [
-                    'id' => $aiPanel['scene_id'] ?? ('S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT)),
-                    'location' => $aiPanel['location'] ?? '',
-                    'characters' => $aiPanel['characters'] ?? [],
-                    'action' => $aiPanel['action'] ?? '',
-                    'mood' => $aiPanel['mood'] ?? '',
-                ];
-                $selector = new \GenesisAtomSelector();
-                $atoms = $selector->selectForScene($scene);
-                $assembled = $assembler->assembleFull($atoms, $aiPanel, $styleId, $platform);
-                $pqs = $pqsChecker->check($assembled);
-                $results[] = [
-                    'panel_id'   => 'P' . str_pad((string)($i + 1), 4, '0', STR_PAD_LEFT),
-                    'scene_id'   => $scene['id'],
-                    'location'   => $aiPanel['location'] ?? '',
-                    'action'     => $aiPanel['action'] ?? '',
-                    'mood'       => $aiPanel['mood'] ?? '',
-                    'focus'      => ($aiPanel['characters'][0] ?? ''),
-                    'shot'       => $aiPanel['shot'] ?? '中景',
-                    'angle'      => $aiPanel['angle'] ?? '平视',
-                    'comp'       => $aiPanel['comp'] ?? '三分法',
-                    'characters' => $aiPanel['characters'] ?? [],
-                    'prompt_en'  => $assembled['prompt_en'],
-                    'prompt_with_params' => $assembled['prompt_with_params'],
-                    'style'      => $assembled['style'],
-                    'style_name' => $assembled['style_name'],
-                    'platform'   => $assembled['platform'],
-                    'platform_params' => $assembled['platform_params'],
-                    'character_details' => $assembled['characters'],
-                    'scene_detail' => $assembled['scene']['scene_name'] ?? '',
-                    'pqs'        => $pqs,
-                ];
-            }
+            $results = self::assemblePanelResults($aiPanels, $styleId, $platform);
             wp_send_json_success([
                 'panels'      => $results,
                 'total_panels' => count($results),
@@ -93,6 +44,73 @@ class GenesisAjaxCore
                 'trace'   => WP_DEBUG ? $e->getTraceAsString() : '',
             ]);
         }
+    }
+
+    /**
+     * Build a single fallback panel when AI splitting fails.
+     */
+    private static function buildFallbackPanel(string $script): array {
+        return [[
+            'scene_id' => 'S001',
+            'location' => mb_substr($script, 0, 20),
+            'characters' => [],
+            'action' => mb_substr($script, 0, 100),
+            'mood' => '紧张',
+            'shot' => '中景',
+            'angle' => '平视',
+            'comp' => '三分法',
+        ]];
+    }
+
+    /**
+     * Assemble prompt results for all AI-generated panels.
+     */
+    private static function assemblePanelResults(array $aiPanels, string $styleId, string $platform): array {
+        $assembler = new \GenesisPromptAssembler();
+        $pqsChecker = new \GenesisPQSChecker();
+        $results = [];
+        foreach ($aiPanels as $i => $aiPanel) {
+            $scene = [
+                'id' => $aiPanel['scene_id'] ?? ('S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT)),
+                'location' => $aiPanel['location'] ?? '',
+                'characters' => $aiPanel['characters'] ?? [],
+                'action' => $aiPanel['action'] ?? '',
+                'mood' => $aiPanel['mood'] ?? '',
+            ];
+            $selector = new \GenesisAtomSelector();
+            $atoms = $selector->selectForScene($scene);
+            $assembled = $assembler->assembleFull($atoms, $aiPanel, $styleId, $platform);
+            $pqs = $pqsChecker->check($assembled);
+            $results[] = self::buildPanelResultEntry($i, $aiPanel, $scene, $assembled, $pqs);
+        }
+        return $results;
+    }
+
+    /**
+     * Build a single result entry for a panel.
+     */
+    private static function buildPanelResultEntry(int $i, array $aiPanel, array $scene, array $assembled, array $pqs): array {
+        return [
+            'panel_id'   => 'P' . str_pad((string)($i + 1), 4, '0', STR_PAD_LEFT),
+            'scene_id'   => $scene['id'],
+            'location'   => $aiPanel['location'] ?? '',
+            'action'     => $aiPanel['action'] ?? '',
+            'mood'       => $aiPanel['mood'] ?? '',
+            'focus'      => ($aiPanel['characters'][0] ?? ''),
+            'shot'       => $aiPanel['shot'] ?? '中景',
+            'angle'      => $aiPanel['angle'] ?? '平视',
+            'comp'       => $aiPanel['comp'] ?? '三分法',
+            'characters' => $aiPanel['characters'] ?? [],
+            'prompt_en'  => $assembled['prompt_en'],
+            'prompt_with_params' => $assembled['prompt_with_params'],
+            'style'      => $assembled['style'],
+            'style_name' => $assembled['style_name'],
+            'platform'   => $assembled['platform'],
+            'platform_params' => $assembled['platform_params'],
+            'character_details' => $assembled['characters'],
+            'scene_detail' => $assembled['scene']['scene_name'] ?? '',
+            'pqs'        => $pqs,
+        ];
     }
 
     public static function ajax_genesis_styles()
