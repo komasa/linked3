@@ -3,7 +3,7 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           27.6.2
+ * Version:           27.6.3
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Linked3 Group
@@ -20,6 +20,22 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// -----------------------------------------------------------------------------
+// ── EARLY ERROR HANDLER (v27.6.3) ───────────────────────────────────────────
+// Batch syntax scan + runtime fatal handler + require path validation.
+// Must load BEFORE any other plugin code to catch all errors.
+// -----------------------------------------------------------------------------
+require_once __DIR__ . '/lib/wp-early-error-handler.php';
+wp_early_error_handler_init([
+    'plugin_name' => 'Linked3 AI',
+    'plugin_dir'  => __DIR__,
+    'main_file'   => __FILE__,
+    'scan_on_load' => true,
+    'skip_dirs'   => ['node_modules', '.git', 'vendor', 'tests/bin', 'assets'],
+    'persist_errors' => true,
+    'option_name' => 'linked3_early_errors',
+]);
 
 
 // -----------------------------------------------------------------------------
@@ -187,7 +203,7 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '27.6.2');
+define('LINKED3_VERSION', '27.6.3');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
