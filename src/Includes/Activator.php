@@ -55,91 +55,103 @@ final class Activator
      *
      * @return void
      */
-    private static function do_activate()
+    public static function do_activate()
     : void {
-        // Activation runs BEFORE plugins_loaded, so the Dependency_Loader has
-        // not run yet. We must manually require the DB classes we need.
-        if (!class_exists('Linked3\\Includes\\DB\\Schema')) {
-            $schema_file = LINKED3_DIR . 'src/Includes/DB/Schema.php';
-            if (file_exists($schema_file)) require_once $schema_file;
-        }
-        if (!class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
-            $runner_file = LINKED3_DIR . 'src/Includes/DB/MigrationRunner.php';
-            if (file_exists($runner_file)) require_once $runner_file;
-        }
+        $version = defined('LINKED3_VERSION') ? LINKED3_VERSION : '0.0.0';
+        self::create_tables($version);
+        self::set_default_options($version);
+        self::register_post_types();
+        self::flush_rewrites();
+        self::schedule_cron_jobs();
+        update_option('linked3_activated_version', $version);
+    }
 
-        // Create all tables + run pending migrations.
-        if (class_exists('Linked3\\Includes\\DB\\MigrationRunner')) {
-            \Linked3\Includes\DB\MigrationRunner::run_pending();
-        } else {
-            update_option(LINKED3_DB_VERSION_OPTION, LINKED3_DB_VERSION);
+    private static function create_tables(string $version): void {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        $tables = self::get_table_schemas($wpdb->prefix, $charset_collate);
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        foreach ($tables as $sql) {
+            dbDelta($sql);
         }
+    }
 
-        self::schedule_cron_events();
+    private static function get_table_schemas(string $prefix, string $charset): array {
+        return [
+            "CREATE TABLE {$prefix}linked3_usage_logs (
+                id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+                user_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+                module VARCHAR(50) NOT NULL DEFAULT 'general',
+                provider VARCHAR(50) NOT NULL DEFAULT '',
+                model VARCHAR(100) NOT NULL DEFAULT '',
+                prompt_tokens INT UNSIGNED NOT NULL DEFAULT 0,
+                completion_tokens INT UNSIGNED NOT NULL DEFAULT 0,
+                total_tokens INT UNSIGNED NOT NULL DEFAULT 0,
+                status VARCHAR(20) NOT NULL DEFAULT 'ok',
+                elapsed_ms INT UNSIGNED NOT NULL DEFAULT 0,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                KEY user_module (user_id, module),
+                KEY provider_created (provider, created_at)
+            ) {$charset};",
+            "CREATE TABLE {$prefix}linked3_autogpt_tasks (
+                id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+                user_id BIGINT(20) UNSIGNED NOT NULL,
+                config TEXT NOT NULL,
+                status VARCHAR(20) NOT NULL DEFAULT 'pending',
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                next_run DATETIME NULL,
+                PRIMARY KEY (id),
+                KEY user_status (user_id, status)
+            ) {$charset};",
+            "CREATE TABLE {$prefix}linked3_book_projects (
+                id VARCHAR(64) NOT NULL,
+                user_id BIGINT(20) UNSIGNED NOT NULL,
+                title VARCHAR(255) NOT NULL DEFAULT '',
+                state LONGTEXT,
+                status VARCHAR(20) NOT NULL DEFAULT 'active',
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                KEY user_status (user_id, status)
+            ) {$charset};",
+        ];
+    }
 
-        // Multi-site: tables per blog.
-        if (is_multisite()) {
-            $sites = get_sites(['fields' => 'ids', 'number' => 0]);
-            foreach ($sites as $blog_id) {
-                static::setup_for_blog($blog_id);
+    private static function set_default_options(string $version): void {
+        $defaults = [
+            'linked3_default_provider' => 'siliconflow',
+            'linked3_provider_models' => ['siliconflow' => 'Qwen/Qwen2.5-7B-Instruct'],
+            'linked3_content_template' => 'blog_post',
+            'linked3_seo_auto_optimize' => 1,
+            'linked3_image_injection' => 0,
+        ];
+        foreach ($defaults as $key => $value) {
+            if (get_option($key) === false) {
+                add_option($key, $value);
             }
         }
+    }
 
-        // v3.3.0: 预设默认 Provider (硅基流动 + 测试 API key),方便用户开箱即用
-        static::set_default_provider_config();
-        self::set_default_siliconflow_config();
+    private static function register_post_types(): void {
+        if (post_type_exists('linked3_content')) return;
+        register_post_type('linked3_content', [
+            'labels' => ['name' => 'Linked3 Content', 'singular_name' => 'Content'],
+            'public' => false, 'show_ui' => true, 'show_in_menu' => false,
+            'supports' => ['title', 'editor', 'custom-fields'],
+        ]);
+    }
 
+    private static function flush_rewrites(): void {
         flush_rewrite_rules();
     }
 
-    /**
-     * Schedule all cron events needed by the plugin.
-     *
-     * @return void
-     */
-    private static function schedule_cron_events(): void
-    {
-        $schedules = [
-            ['linked3_daily_health_check',     time() + HOUR_IN_SECONDS,                 'daily'],
-            ['linked3_token_reset',            strtotime('tomorrow 00:05'),              'daily'],
-            ['linked3_sse_cache_cleanup',      time() + 10 * MINUTE_IN_SECONDS,          'linked3_every_10min'],
-            ['linked3_log_prune',              time() + HOUR_IN_SECONDS,                 'daily'],
-            ['linked3_license_heartbeat',      time() + HOUR_IN_SECONDS,                 'daily'],
-            ['linked3_subscription_check',     time() + 2 * HOUR_IN_SECONDS,             'daily'],
-            ['linked3_business_optimize',      time() + 3 * HOUR_IN_SECONDS,             'daily'],
-            ['linked3_autogpt_run',            time() + 5 * MINUTE_IN_SECONDS,           'linked3_every_10min'],
-        ];
-        foreach ($schedules as [$hook, $ts, $recurrence]) {
-            if (!wp_next_scheduled($hook)) {
-                wp_schedule_event($ts, $recurrence, $hook);
-            }
+    private static function schedule_cron_jobs(): void {
+        if (!wp_next_scheduled('linked3_autogpt_cron')) {
+            wp_schedule_event(time(), '5min', 'linked3_autogpt_cron');
         }
-    }
-
-    /**
-     * Set default SiliconFlow provider config (v3.8.0).
-     *
-     * @return void
-     */
-    private static function set_default_siliconflow_config(): void
-    {
-        try {
-            $keys = get_option('linked3_provider_keys', []);
-            if (!is_array($keys)) $keys = [];
-            if (empty($keys) || empty($keys['siliconflow'])) {
-                update_option('linked3_provider_keys', $keys);
-            }
-            if (!get_option('linked3_default_provider')) {
-                update_option('linked3_default_provider', 'siliconflow');
-            }
-            $models = get_option('linked3_provider_models', []);
-            if (!is_array($models)) $models = [];
-            if (empty($models['siliconflow'])) {
-                $models['siliconflow'] = 'Qwen/Qwen2.5-7B-Instruct';
-                update_option('linked3_provider_models', $models);
-            }
-        } catch (\Throwable $e) {
-            // 静默
+        if (!wp_next_scheduled('linked3_distribute_retry')) {
+            wp_schedule_event(time() + 300, '10min', 'linked3_distribute_retry');
         }
     }
 

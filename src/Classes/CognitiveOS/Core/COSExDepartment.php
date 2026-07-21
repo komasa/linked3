@@ -97,14 +97,31 @@ class COSExDepartment
      */
     private static function generate_via_ai(string $problem, string $generation, int $count, array $baseline, array $info_core): array
     {
-        // 检查 AI Dispatcher 是否可用
         if (!class_exists('\Linked3\Classes\Core\AIDispatcher')) {
             return [];
         }
 
+        $messages = self::buildCosPrompts($problem, $generation, $count, $baseline, $info_core);
+        $content  = self::callCosAI($messages);
+        if (empty($content)) {
+            return [];
+        }
+
+        $parsed = self::parseCosJsonResponse($content);
+        if (!is_array($parsed) || empty($parsed)) {
+            return [];
+        }
+
+        return self::buildCosVariants($parsed, $generation, $count);
+    }
+
+    /**
+     * Build system + user prompts for COS variant generation.
+     */
+    private static function buildCosPrompts(string $problem, string $generation, int $count, array $baseline, array $info_core): array
+    {
         $domain = $info_core['context']['domain'] ?? '通用';
 
-        // 构建 system prompt — 教 AI 如何生成多样化方案
         $sys_prompt = "你是一位认知操作系统 (COS) 的方案生成专家。"
             . "你的任务是为给定问题生成 {$count} 个**不同思路**的解决方案。\n\n"
             . "要求:\n"
@@ -116,26 +133,24 @@ class COSExDepartment
             . "输出格式 (纯JSON, 不要markdown代码块):\n"
             . '[{"approach":"方案描述","steps":"步骤1;步骤2;步骤3","risk":5,"feasibility":8,"novelty":7}]';
 
-        // 构建 user prompt
-        $user_prompt = "问题: {$problem}\n";
-        $user_prompt .= "领域: {$domain}\n";
-        $user_prompt .= "代际: {$generation} (需生成 {$count} 个方案)\n";
-
+        $user_prompt = "问题: {$problem}\n领域: {$domain}\n代际: {$generation} (需生成 {$count} 个方案)\n";
         if (!empty($baseline) && $generation !== 'G1') {
-            $baseline_text = $baseline['approach'] ?? '';
-            $user_prompt .= "\n上一代 MVP 方案 (作为变异基线, 请在其基础上重组/变异/优化, 但也要有全新思路):\n";
-            $user_prompt .= $baseline_text . "\n";
+            $user_prompt .= "\n上一代 MVP 方案 (作为变异基线, 请在其基础上重组/变异/优化, 但也要有全新思路):\n"
+                . ($baseline['approach'] ?? '') . "\n";
         }
-
         $user_prompt .= "\n请生成 {$count} 个差异化方案, 严格输出 JSON 数组。";
 
-        $messages = [
+        return [
             ['role' => 'system', 'content' => $sys_prompt],
             ['role' => 'user',   'content' => $user_prompt],
         ];
+    }
 
-        // v20.4-fix15: 降级模型 72B→32B, max_tokens 1200→800, timeout 40→35
-        // 72B 太慢 (40-60s), 32B 平衡质量与速度 (15-25s)
+    /**
+     * Call AI Dispatcher with COS-specific options and fallback config.
+     */
+    private static function callCosAI(array $messages): string
+    {
         $options = [
             'temperature' => 0.9,
             'max_tokens'  => 800,
@@ -144,7 +159,7 @@ class COSExDepartment
             'timeout'     => 35,
             'model'       => 'Qwen/Qwen2.5-32B-Instruct',
         ];
-        // v20.4-fix14: 只把已配置 API Key 的 provider 作为 fallback (与 run_lever 一致)
+
         $default_provider = function_exists('get_option')
             ? get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow')
             : 'siliconflow';
@@ -158,44 +173,48 @@ class COSExDepartment
                 $diverse_fallbacks[] = $p;
             }
         }
-        $diverse_fallbacks = array_slice($diverse_fallbacks, 0, 2);
         $config = [
-            'fallback_providers'    => $diverse_fallbacks,
-            'force_bypass_circuit'  => true,
+            'fallback_providers'   => array_slice($diverse_fallbacks, 0, 2),
+            'force_bypass_circuit' => true,
         ];
 
         try {
-            $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
-            $result = $dispatcher->chat($messages, $options, $config);
-            $content = $result['content'] ?? '';
+            $result = \Linked3\Classes\Core\AIDispatcher::instance()->chat($messages, $options, $config);
+            return $result['content'] ?? '';
         } catch (\Exception $e) {
-            // AI 调用失败, 返回空让 fallback 接管
-            return [];
+            return '';
         }
+    }
 
-        if (empty($content)) {
-            return [];
-        }
-
-        // 解析 JSON (容错: 去除 markdown 代码块包裹)
+    /**
+     * Parse AI JSON response with markdown code-block tolerance.
+     */
+    private static function parseCosJsonResponse(string $content): ?array
+    {
         $content = trim($content);
         $content = preg_replace('/^```(?:json)?\s*/i', '', $content);
         $content = preg_replace('/\s*```$/', '', $content);
         $content = trim($content);
 
         $parsed = json_decode($content, true);
-        if (!is_array($parsed)) {
-            // 尝试提取第一个 JSON 数组
-            if (preg_match('/\[.*\]/s', $content, $m)) {
-                $parsed = json_decode($m[0], true);
+        if (is_array($parsed)) {
+            return $parsed;
+        }
+        // Fallback: extract first JSON array
+        if (preg_match('/\[.*\]/s', $content, $m)) {
+            $parsed = json_decode($m[0], true);
+            if (is_array($parsed)) {
+                return $parsed;
             }
         }
+        return null;
+    }
 
-        if (!is_array($parsed) || empty($parsed)) {
-            return [];
-        }
-
-        // 构建 variants
+    /**
+     * Build variants array from parsed AI response items.
+     */
+    private static function buildCosVariants(array $parsed, string $generation, int $count): array
+    {
         $variants = [];
         $i = 1;
         foreach ($parsed as $item) {
@@ -205,28 +224,20 @@ class COSExDepartment
             if (!is_array($item) || empty($item['approach'])) {
                 continue;
             }
-
-            $approach = (string) $item['approach'];
-            $steps    = (string) ($item['steps'] ?? '');
-            $risk       = max(1, min(10, (int) ($item['risk'] ?? 5)));
-            $feasibility = max(1, min(10, (int) ($item['feasibility'] ?? 6)));
-            $novelty    = max(1, min(10, (int) ($item['novelty'] ?? 5)));
-
             $variants[] = [
                 'id'         => $generation . '_V' . str_pad((string)$i, 2, '0', STR_PAD_LEFT),
                 'generation' => $generation,
-                'approach'   => $approach,
-                'steps'      => $steps,
+                'approach'   => (string) $item['approach'],
+                'steps'      => (string) ($item['steps'] ?? ''),
                 'score'      => [
-                    'risk'       => $risk,
-                    'feasibility' => $feasibility,
-                    'novelty'    => $novelty,
+                    'risk'        => max(1, min(10, (int) ($item['risk'] ?? 5))),
+                    'feasibility' => max(1, min(10, (int) ($item['feasibility'] ?? 6))),
+                    'novelty'     => max(1, min(10, (int) ($item['novelty'] ?? 5))),
                 ],
                 'source'     => 'ai',
             ];
             $i++;
         }
-
         return $variants;
     }
 
