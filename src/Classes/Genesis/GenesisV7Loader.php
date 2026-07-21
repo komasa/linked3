@@ -10,40 +10,36 @@ if (!defined('ABSPATH')) exit;
 class GenesisV7Loader
 {
     public function loadAll(): void {
-        $charDir = $this->libDir . '/seeds/characters';
-        if (is_dir($charDir)) {
-            foreach (glob($charDir . '/*.json') as $file) {
-                $data = json_decode(file_get_contents($file), true);
-                if ($data && isset($data['id'])) {
-                    $this->characters[$data['id']] = $data;
-                }
+        $this->load_seed_dir('characters');
+        $this->load_seed_dir('scenes');
+        $this->load_seed_dir('styles');
+        $this->load_operator_dir();
+    }
+
+    /**
+     * 从 seeds/{type} 目录加载 JSON 文件到对应属性
+     */
+    private function load_seed_dir(string $type): void {
+        $dir = $this->libDir . '/seeds/' . $type;
+        if (!is_dir($dir)) return;
+        foreach (glob($dir . '/*.json') as $file) {
+            $data = json_decode(file_get_contents($file), true);
+            if ($data && isset($data['id'])) {
+                $this->{$type}[$data['id']] = $data;
             }
         }
-        $sceneDir = $this->libDir . '/seeds/scenes';
-        if (is_dir($sceneDir)) {
-            foreach (glob($sceneDir . '/*.json') as $file) {
-                $data = json_decode(file_get_contents($file), true);
-                if ($data && isset($data['id'])) {
-                    $this->scenes[$data['id']] = $data;
-                }
-            }
-        }
-        $styleDir = $this->libDir . '/seeds/styles';
-        if (is_dir($styleDir)) {
-            foreach (glob($styleDir . '/*.json') as $file) {
-                $data = json_decode(file_get_contents($file), true);
-                if ($data && isset($data['id'])) {
-                    $this->styles[$data['id']] = $data;
-                }
-            }
-        }
-        $opDir = $this->libDir . '/operators';
-        if (is_dir($opDir)) {
-            foreach (glob($opDir . '/*.json') as $file) {
-                $data = json_decode(file_get_contents($file), true);
-                if ($data && isset($data['id'])) {
-                    $this->operators[$data['id']] = $data;
-                }
+    }
+
+    /**
+     * 从 operators 目录加载算子
+     */
+    private function load_operator_dir(): void {
+        $dir = $this->libDir . '/operators';
+        if (!is_dir($dir)) return;
+        foreach (glob($dir . '/*.json') as $file) {
+            $data = json_decode(file_get_contents($file), true);
+            if ($data && isset($data['id'])) {
+                $this->operators[$data['id']] = $data;
             }
         }
     }

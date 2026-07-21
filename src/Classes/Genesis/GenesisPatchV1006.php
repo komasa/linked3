@@ -91,34 +91,42 @@ class GenesisPatchV1006 {
         $characters = [];
         $seen = [];
 
-        // 1. 提取中文人名 (2-4字, 常见姓氏开头)
+        self::extract_chinese_names($script, $characters, $seen);
+        self::extract_role_characters($script, $characters);
+
+        return array_slice($characters, 0, 5);
+    }
+
+    /**
+     * 1. 提取中文人名 (2-4字, 常见姓氏开头, 出现≥2次)
+     */
+    private static function extract_chinese_names(string $script, array &$characters, array &$seen): void {
         $commonSurnames = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜郭梅盛林刁钟徐邱骆高夏蔡田樊胡凌霍虞万支柯昝管卢莫经房裘缪干解应宗丁宣贲邓郁单杭洪包诸左石崔吉钮龚程嵇邢滑裴陆荣翁荀羊於惠甄曲家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班仰秋仲伊宫宁仇栾暴甘钭厉戎祖武符刘景詹束龙叶幸司韶郜黎蓟薄印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阴鬱胥能苍双闻莘党翟谭贡劳逄姬申扶堵冉宰郦雍卻璩桑桂濮牛寿通边扈燕冀郏浦尚农温别庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满弘匡国文寇广禄阙东欧殳沃利蔚越夔隆师巩厍聂晁勾敖融冷訾辛阚那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逯盖益桓公';
-        // 用正则提取 "姓+名" 模式 (2-4字中文, 出现2次以上才算角色名)
+        $excludeWords = ['这个', '一个', '什么', '怎么', '可以', '已经', '现在', '他们', '我们', '自己', '没有', '不是', '这样', '那种', '的话', '因为', '所以', '但是', '如果', '虽然', '然而', '之后', '之前', '之间', '起来', '下去', '过来', '过去', '时候', '地方', '东西', '事情', '问题', '感觉', '觉得', '知道', '认为', '看到', '听到', '想到', '发现', '出现', '发生', '存在', '继续', '开始', '结束', '完成', '进行'];
+
         preg_match_all('/[\x{4e00}-\x{9fa5}]{2,4}/u', $script, $matches);
+        if (empty($matches[0])) return;
+
+        $nameCount = array_count_values($matches[0]);
         $nameCandidates = [];
-        if (!empty($matches[0])) {
-            $nameCount = array_count_values($matches[0]);
-            foreach ($nameCount as $name => $count) {
-                if ($count >= 2 && mb_strlen($name) >= 2 && mb_strlen($name) <= 4) {
-                    // 检查是否以常见姓氏开头
-                    $firstChar = mb_substr($name, 0, 1);
-                    if (mb_strpos($commonSurnames, $firstChar) !== false) {
-                        // 排除常见非人名词
-                        $excludeWords = ['这个', '一个', '什么', '怎么', '可以', '已经', '现在', '他们', '我们', '自己', '没有', '不是', '这样', '那种', '的话', '因为', '所以', '但是', '如果', '虽然', '然而', '之后', '之前', '之间', '之后', '起来', '下去', '过来', '过去', '时候', '地方', '东西', '事情', '问题', '感觉', '觉得', '知道', '认为', '看到', '听到', '想到', '发现', '出现', '发生', '存在', '继续', '开始', '结束', '完成', '进行'];
-                        if (!in_array($name, $excludeWords)) {
-                            $nameCandidates[] = $name;
-                        }
-                    }
-                }
-            }
+        foreach ($nameCount as $name => $count) {
+            if ($count < 2 || mb_strlen($name) < 2 || mb_strlen($name) > 4) continue;
+            $firstChar = mb_substr($name, 0, 1);
+            if (mb_strpos($commonSurnames, $firstChar) === false) continue;
+            if (in_array($name, $excludeWords)) continue;
+            $nameCandidates[] = $name;
         }
-        $nameCandidates = array_slice(array_unique($nameCandidates), 0, 5);
-        foreach ($nameCandidates as $name) {
+
+        foreach (array_slice(array_unique($nameCandidates), 0, 5) as $name) {
             $characters[] = ['name' => $name, 'appearance' => '人物外观待补充', 'clothing' => '', 'distinctive_features' => ''];
             $seen[] = $name;
         }
+    }
 
-        // 2. 提取职业角色
+    /**
+     * 2. 提取职业角色 (学生/记者/老师/医生等)
+     */
+    private static function extract_role_characters(string $script, array &$characters): void {
         $roleRules = [
             'a student' => ['学生', '少年', '青年', '学子', '同学'],
             'a journalist' => ['记者', '编辑', '媒体人'],
@@ -132,22 +140,21 @@ class GenesisPatchV1006 {
             'a parent' => ['父亲', '母亲', '爸爸', '妈妈', '父母'],
         ];
         foreach ($roleRules as $en => $cnList) {
+            if (count($characters) >= 5) break;
             foreach ($cnList as $cn) {
-                if (mb_strpos($script, $cn) !== false) {
-                    // 避免重复
-                    $alreadyHas = false;
-                    foreach ($characters as $c) {
-                        if (isset($c['appearance']) && strpos($c['appearance'], $en) !== false) { $alreadyHas = true; break; }
+                if (mb_strpos($script, $cn) === false) continue;
+                $alreadyHas = false;
+                foreach ($characters as $c) {
+                    if (isset($c['appearance']) && strpos($c['appearance'], $en) !== false) {
+                        $alreadyHas = true; break;
                     }
-                    if (!$alreadyHas && count($characters) < 5) {
-                        $characters[] = ['name' => $cn, 'appearance' => $en . ' appearance', 'clothing' => '', 'distinctive_features' => ''];
-                    }
-                    break;
                 }
+                if (!$alreadyHas) {
+                    $characters[] = ['name' => $cn, 'appearance' => $en . ' appearance', 'clothing' => '', 'distinctive_features' => ''];
+                }
+                break;
             }
         }
-
-        return array_slice($characters, 0, 5);
     }
 
     // ================================================================

@@ -145,94 +145,41 @@ class OSIntegrationHubV2 {
             'errors' => [],
         ];
 
-        // Stage 1: 逆向拆解 (v12.0.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
-            try {
-                $reverse_result = ['status' => 'ok', 'engine' => 'OSReverseEngine'];
-                $result['stages']['reverse_parse'] = $reverse_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage reverse_parse: " . $e->getMessage();
-            }
-        }
+        $stages = [
+            'reverse_parse'       => '\Linked3\Classes\OS\Core\OSReverseEngine',
+            'neng_constraint'     => '\Linked3\Classes\OS\Core\OSCapabilityLock',
+            'svg_predict'         => '\Linked3\Classes\OS\Core\OSVisualAnalytics',
+            'frequency_annotate'  => '\Linked3\Classes\OS\Core\OSConsciousnessLayer',
+            'ruliu_track'         => '\Linked3\Classes\OS\Core\OSOnboardingTracker',
+            'flywheel_score'      => '\Linked3\Classes\OS\Core\OSMomentumFlywheel',
+            'nengzhi_map'         => '\Linked3\Classes\OS\Core\OSCapabilityStages',
+            'quality_gate'        => '\Linked3\Classes\OS\Core\OSQualityGate',
+        ];
 
-        // Stage 2: 能知约束 (v12.1.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
-            try {
-                $neng_result = ['status' => 'ok', 'engine' => 'OSCapabilityLock'];
-                $result['stages']['neng_constraint'] = $neng_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage neng_constraint: " . $e->getMessage();
-            }
-        }
-
-        // Stage 3: SVG预测 (v12.2.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
-            try {
-                $svg_result = ['status' => 'ok', 'engine' => 'OSVisualAnalytics'];
-                $result['stages']['svg_predict'] = $svg_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage svg_predict: " . $e->getMessage();
-            }
-        }
-
-        // Stage 4: 频率标注 (v12.3.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
-            try {
-                $freq_result = ['status' => 'ok', 'engine' => 'OSConsciousnessLayer'];
-                $result['stages']['frequency_annotate'] = $freq_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage frequency_annotate: " . $e->getMessage();
-            }
-        }
-
-        // Stage 5: 入流追踪 (v12.4.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
-            try {
-                $ruliu_result = ['status' => 'ok', 'engine' => 'OSOnboardingTracker'];
-                $result['stages']['ruliu_track'] = $ruliu_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage ruliu_track: " . $e->getMessage();
-            }
-        }
-
-        // Stage 6: 飞轮量化 (v12.7.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSMomentumFlywheel')) {
-            try {
-                $flywheel_result = ['status' => 'ok', 'engine' => 'OSMomentumFlywheel'];
-                $result['stages']['flywheel_score'] = $flywheel_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage flywheel_score: " . $e->getMessage();
-            }
-        }
-
-        // Stage 7: 三阶映射 (v12.8.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
-            try {
-                $stage_result = ['status' => 'ok', 'engine' => 'OSCapabilityStages'];
-                $result['stages']['nengzhi_map'] = $stage_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage nengzhi_map: " . $e->getMessage();
-            }
-        }
-
-        // Stage 8: 质量门禁 (v12.9.0)
-        if (class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
-            try {
-                $quality_result = ['status' => 'ok', 'engine' => 'OSQualityGate'];
-                $result['stages']['quality_gate'] = $quality_result;
-            } catch (\Throwable $e) {
-                $result['errors'][] = "Stage quality_gate: " . $e->getMessage();
-            }
+        foreach ($stages as $stageName => $engineClass) {
+            self::run_pipeline_stage($result, $stageName, $engineClass);
         }
 
         $result['final_output'] = [
             'pipeline_version' => '15.0.0',
-            'stages_completed' => count(array_filter($result['stages'], function($s) { return $s['status'] === 'ok'; })),
+            'stages_completed' => count(array_filter($result['stages'], fn($s) => $s['status'] === 'ok')),
             'stages_total' => count($result['stages']),
             'has_errors' => !empty($result['errors']),
         ];
 
         return $result;
+    }
+
+    /**
+     * 运行单个 pipeline stage (class_exists 检查 + try-catch)
+     */
+    private static function run_pipeline_stage(array &$result, string $stageName, string $engineClass): void {
+        if (!class_exists($engineClass)) return;
+        try {
+            $result['stages'][$stageName] = ['status' => 'ok', 'engine' => substr(strrchr($engineClass, '\\'), 1)];
+        } catch (\Throwable $e) {
+            $result['errors'][] = "Stage {$stageName}: " . $e->getMessage();
+        }
     }
 
     /**

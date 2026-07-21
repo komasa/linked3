@@ -71,19 +71,27 @@ final class InterlinkBuilder
      */
     public function inject($content, $source_post_id) : mixed     {
         $content = (string) $content;
-        if ($content === '') {
+        if ($content === '' || (int) $source_post_id <= 0) {
             return $content;
         }
         $source_post_id = (int) $source_post_id;
-        if ($source_post_id <= 0) {
-            return $content;
-        }
 
+        $hard_cap = $this->compute_hard_cap($content);
+        if ($hard_cap <= 0) return $content;
+
+        $candidates = $this->get_link_candidates($source_post_id, $content, $hard_cap);
+        if (empty($candidates)) return $content;
+
+        return $this->inject_links($content, $source_post_id, $candidates, $hard_cap);
+    }
+
+    /**
+     * 计算最大链接数 (基于密度+max_links配置)
+     */
+    private function compute_hard_cap(string $content): int {
         $min_length = (int) SEOConfig::get('interlink.min_length', 200);
         $len = function_exists('mb_strlen') ? mb_strlen($content, 'UTF-8') : strlen($content);
-        if ($len < $min_length) {
-            return $content;
-        }
+        if ($len < $min_length) return 0;
 
         $max_links = (int) SEOConfig::get('interlink.max_links', 5);
         $density   = (int) SEOConfig::get('interlink.density_guard', 150);
@@ -92,43 +100,42 @@ final class InterlinkBuilder
         if ($density > 0 && $word_count > 0) {
             $hard_cap = (int) min($hard_cap, max(1, (int) floor($word_count / $density)));
         }
-        if ($hard_cap <= 0) {
-            return $content;
-        }
+        return $hard_cap;
+    }
 
+    /**
+     * 获取链接候选列表
+     */
+    private function get_link_candidates(int $source_post_id, string $content, int $hard_cap): array {
         $post = get_post($source_post_id);
-        if (!$post) {
-            return $content;
-        }
-        $keywords = (new \Linked3\Classes\SEO\Keyword\KeywordExtractor())->extract_keywords($post->post_title . ' ' . wp_strip_all_tags($content), 12);
+        if (!$post) return [];
 
-        $candidates = $this->resolve_strategy()->candidates($source_post_id, $keywords, $hard_cap, 1);
-        if (empty($candidates)) {
-            return $content;
-        }
+        $keywords = (new \Linked3\Classes\SEO\Keyword\KeywordExtractor())->extract_keywords(
+            $post->post_title . ' ' . wp_strip_all_tags($content), 12
+        );
+        return $this->resolve_strategy()->candidates($source_post_id, $keywords, $hard_cap, 1);
+    }
 
+    /**
+     * 遍历候选, 将链接注入内容
+     */
+    private function inject_links(string $content, int $source_post_id, array $candidates, int $hard_cap): string {
         $injected = 0;
         foreach ($candidates as $cand) {
-            if ($injected >= $hard_cap) {
-                break;
-            }
+            if ($injected >= $hard_cap) break;
             $anchor = (string) $cand['anchor'];
             $url    = (string) $cand['url'];
-            if ($anchor === '' || $url === '') {
-                continue;
-            }
+            if ($anchor === '' || $url === '') continue;
+
             // Skip if anchor already appears inside an <a> tag.
-            if (preg_match('#<a[^>]*>[^<]*' . preg_quote($anchor, '#') . '#iu', $content)) {
-                continue;
-            }
+            if (preg_match('#<a[^>]*>[^<]*' . preg_quote($anchor, '#') . '#iu', $content)) continue;
+
             // Inject into the FIRST occurrence only (case-insensitive).
             $count = 0;
             $content = preg_replace(
                 '/' . preg_quote($anchor, '/') . '/u',
                 '<a href="' . esc_url($url) . '">' . esc_html($anchor) . '</a>',
-                $content,
-                1,
-                $count
+                $content, 1, $count
             );
             if ($count > 0) {
                 $this->record_edge($source_post_id, (int) $cand['post_id'], $anchor);
