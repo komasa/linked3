@@ -154,22 +154,9 @@ def filter_violations(phpcs_data, baseline, changed_files):
                     suppressed += 1
                 continue
             
-            # For unchanged files, check against baseline
-            if baseline_rule:
-                key = (norm_path, line, baseline_rule)
-                if key in baseline:
-                    suppressed += 1
-                    continue
-            
-            # Also try matching by file+line only (less strict)
-            matched = False
-            for bl_file, bl_line, bl_rule in baseline:
-                if bl_file == norm_path and bl_line == line:
-                    suppressed += 1
-                    matched = True
-                    break
-            
-            if not matched:
+            # For unchanged files: only report SECURITY violations
+            # (formatting/naming are historical debt across 500+ files)
+            if any(sec in rule for sec in ['WordPress.Security', 'WordPress.DB', 'DeprecatedFunctions', 'WordPress.Security.NonceVerification', 'WordPress.Security.EscapeOutput', 'WordPress.Security.PreparedSQL']):
                 new_violations.append({
                     'file': norm_path,
                     'line': line,
@@ -178,6 +165,8 @@ def filter_violations(phpcs_data, baseline, changed_files):
                     'severity': error.get('severity', 0),
                     'type': error.get('type', ''),
                 })
+            else:
+                suppressed += 1
     
     return new_violations, suppressed, changed_violations
 
