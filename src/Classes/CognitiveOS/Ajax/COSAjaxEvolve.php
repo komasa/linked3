@@ -200,6 +200,10 @@ class COSAjaxEvolve
 
     public static function ajax_version(): void
     {
+        check_ajax_referer('linked3_cos', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
+        }
         $patch = 'unknown';
         if (class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
             $patch = \Linked3\Classes\CognitiveOS\COSEngine::patch_version();

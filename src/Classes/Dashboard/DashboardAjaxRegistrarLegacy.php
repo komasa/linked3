@@ -188,6 +188,8 @@ final class DashboardAjaxRegistrarLegacy
     public static function ajax_save_provider_config()
     : void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => 'Forbidden'], 403);
+        $nonce = sanitize_text_field($_POST['nonce'] ?? '');
+        if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         $models = $_POST['provider_models'] ?? [];
         if (is_array($models)) {
             $clean_models = [];
