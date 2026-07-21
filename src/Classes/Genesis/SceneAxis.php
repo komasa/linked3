@@ -32,13 +32,6 @@ class SceneAxis
         public static function get_l1_types() : mixed { return SceneAxisUtils::get_l1_types(); }
 
     /**
-     * 3.5 L1 扁平化: 把分类树压平为 [{id, name, name_en, category}]
-     *
-     * @return array
-     */
-        public static function get_l1_flat() : mixed { return SceneAxisUtils::get_l1_flat(); }
-
-    /**
      * 3.5 L2: 8 垂直商业专栏
      *
      * 每个: {id, name, meta_signature, prompt_skeleton_id, color_system}

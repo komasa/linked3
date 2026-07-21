@@ -106,13 +106,6 @@ class OSQualityGate {
     ];
 
     /**
-     * 获取5维质量定义
-     */
-    public static function get_quality_dimensions(): array {
-        return self::QUALITY_DIMENSIONS;
-    }
-
-    /**
      * 获取门禁阈值
      */
     public static function get_gate_thresholds(): array {

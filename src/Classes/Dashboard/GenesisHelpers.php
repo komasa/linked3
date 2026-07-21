@@ -74,8 +74,6 @@ class GenesisHelpers
 
         public static function normalizeFPNodes(array $nodes) : mixed { return GenesisPanelUtils::normalizeFPNodes($nodes); }
 
-        public static function v7ParsePanels(string $raw) : mixed { return GenesisPanelUtils::v7ParsePanels($raw); }
-
         public static function normalizePanels(array $panels) : mixed { return GenesisPanelUtils::normalizePanels($panels); }
 
         public static function genesisAIGeneratePanels(string $script, int $targetPanels, string $styleId, bool $isAuto) : mixed { return GenesisPanelUtils::genesisAIGeneratePanels($script, $targetPanels, $styleId, $isAuto); }
@@ -83,7 +81,5 @@ class GenesisHelpers
         public static function fallbackParsePanels(string $raw, string $originalScript) : mixed { return GenesisPanelUtils::fallbackParsePanels($raw, $originalScript); }
 
         public static function parseGenesisPanelsJson(string $raw) : mixed { return GenesisPanelUtils::parseGenesisPanelsJson($raw); }
-
-        public static function formatGenesisPanel(array $panel, array $assembled, array $pqs) : mixed { return GenesisPanelUtils::formatGenesisPanel($panel, $assembled, $pqs); }
 
 }

@@ -101,15 +101,6 @@ class QualityLoop
         public static function pqs_check_tiered(array $shot_data, int $retry_count = 0) : mixed { return QualityChecker::pqs_check_tiered($shot_data, $retry_count); }
 
     /**
-     * v10.0.1 新增: 带回流的质量循环
-     *
-     * @param array    $shot_data      原始分镜数据
-     * @param callable $retry_callback 回流回调, 接收 $shot_data + $fix_suggestions, 返回新的 $shot_data
-     * @return array 最终校验结果 (含 retry_count)
-     */
-        public static function validate_with_retry(array $shot_data, callable $retry_callback) : mixed { return QualityChecker::validate_with_retry($shot_data, $retry_callback); }
-
-    /**
      * 5.1 PQS 13 维校验 (保留原方法, 内部不变)
      *
      * @param array $shot_data {

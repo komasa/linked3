@@ -144,11 +144,6 @@ class BookFactory {
         public function execute_step6_review( $state ) { $s = new BookFactorySteps(); return $s->execute_step6_review($state); }
 
     /**
-     * 增量重拼书稿 (S13)
-     */
-        public function rebuild_draft() { return BookFactoryUtils::rebuild_draft(); }
-
-    /**
      * 加载管线配置 (book.yaml)
      *
      * @return array

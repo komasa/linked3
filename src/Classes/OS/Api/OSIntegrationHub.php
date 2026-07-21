@@ -23,8 +23,7 @@ declare(strict_types=1);
  * 核心能力:
  *   1. get_all_modules(): 获取所有已集成模块
  *   2. run_full_pipeline(): 运行V18全量集成流水线
- *   3. get_integration_status(): 获取集成状态
- *   4. health_check(): 全模块健康检查
+ *   3. health_check(): 全模块健康检查
  *
  * @package Linked3\Integration
  * @since 13.0.0
@@ -131,36 +130,6 @@ class OSIntegrationHub {
      */
     public static function get_all_modules(): array {
         return self::INTEGRATED_MODULES;
-    }
-
-    /**
-     * 获取集成状态
-     */
-    public static function get_integration_status(): array {
-        $status = [
-            'total_modules' => count(self::INTEGRATED_MODULES),
-            'loaded_modules' => 0,
-            'missing_modules' => [],
-            'module_details' => [],
-        ];
-
-        foreach (self::INTEGRATED_MODULES as $version => $info) {
-            $class_exists = class_exists($info['class']);
-            $status['module_details'][$version] = [
-                'title' => $info['title'],
-                'class' => $info['class'],
-                'v18_source' => $info['v18_source'],
-                'loaded' => $class_exists,
-            ];
-            if ($class_exists) {
-                $status['loaded_modules']++;
-            } else {
-                $status['missing_modules'][] = $version;
-            }
-        }
-
-        $status['all_loaded'] = $status['loaded_modules'] === $status['total_modules'];
-        return $status;
     }
 
     /**
