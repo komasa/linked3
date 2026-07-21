@@ -97,8 +97,36 @@ class CloudTemplateFactory {
     // ─── 内置母版库 ───
 
     public function load_template_by_category(string $category): array {
-        // v10.7.3: 内置母版库 (10类完整模版)
-        $builtin_masters = [
+        $builtin_masters = self::get_builtin_masters();
+
+        // 返回内置母版
+        if (isset($builtin_masters[$category])) {
+            return $builtin_masters[$category];
+        }
+
+        // 委托 Template_Manager (若存在)
+        if (class_exists('\Linked3\Classes\Content\TemplateManager')) {
+            try {
+                $mgr = new \TemplateManager();
+                if (method_exists($mgr, 'get_by_category')) {
+                    $templates = $mgr->get_by_category($category);
+                    if (!empty($templates)) return $templates[0];
+                }
+            } catch (\Throwable $e) {}
+        }
+
+        // 降级: 默认模版
+        return self::get_default_template($category);
+    }
+
+    /**
+     * 内置母版库 (v10.7.3: 10类完整模版)
+     * Extracted from load_template_by_category to reduce method size.
+     *
+     * @return array<string,array>
+     */
+    private static function get_builtin_masters(): array {
+        return [
             'content' => [
                 'name' => '通用文章模版',
                 'type' => 'content',
@@ -271,24 +299,12 @@ class CloudTemplateFactory {
                 ],
             ],
         ];
+    }
 
-        // 返回内置母版
-        if (isset($builtin_masters[$category])) {
-            return $builtin_masters[$category];
-        }
-
-        // 委托 Template_Manager (若存在)
-        if (class_exists('\Linked3\Classes\Content\TemplateManager')) {
-            try {
-                $mgr = new \TemplateManager();
-                if (method_exists($mgr, 'get_by_category')) {
-                    $templates = $mgr->get_by_category($category);
-                    if (!empty($templates)) return $templates[0];
-                }
-            } catch (\Throwable $e) {}
-        }
-
-        // 降级: 默认模版
+    /**
+     * Fallback default template when category is not found.
+     */
+    private static function get_default_template(string $category): array {
         return [
             'name' => $category . '_default',
             'type' => $category,
