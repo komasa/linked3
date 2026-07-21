@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Billing;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class BillingBootstrap {
@@ -25,6 +27,6 @@ class BillingBootstrap {
         $container->set('billing.invoice', fn() => InvoiceManager::instance());
         $container->set('billing.referral', fn() => ReferralManager::instance());
 
-        linked3_dispatch('linked3.billing.boot', ['version' => LINKED3_VERSION]);
+        EventBus::dispatch('linked3.billing.boot', ['version' => LINKED3_VERSION]);
     }
 }

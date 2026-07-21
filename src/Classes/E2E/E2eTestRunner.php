@@ -18,6 +18,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\E2E;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 // =================================================================
@@ -96,10 +98,10 @@ class E2eTestRunner {
 
         $this->registerTest('event_bus_working', function() {
             self::$e2e_triggered = false;
-            linked3_subscribe('e2e_test_event', function() {
+            EventBus::subscribe('e2e_test_event', function() {
                 self::$e2e_triggered = true;
             });
-            linked3_dispatch('e2e_test_event', []);
+            EventBus::dispatch('e2e_test_event', []);
             return self::$e2e_triggered;
         }, 'infrastructure');
 

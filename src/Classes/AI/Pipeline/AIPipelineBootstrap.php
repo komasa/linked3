@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\AI\Pipeline;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class AIPipelineBootstrap {
@@ -32,14 +34,14 @@ class AIPipelineBootstrap {
         $container->set('ai.prompt_cache', fn() => PromptCache::instance());
 
         // 注册核心事件
-        linked3_subscribe('linked3.ai.token.consumed', function($evt) use ($container) {
+        EventBus::subscribe('linked3.ai.token.consumed', function($evt) use ($container) {
             $container->get('logger')->debug('Token consumed', is_object($evt) ? $evt->getPayload() : $evt);
         });
 
-        linked3_subscribe('linked3.ai.failover.triggered', function($evt) use ($container) {
+        EventBus::subscribe('linked3.ai.failover.triggered', function($evt) use ($container) {
             $container->get('logger')->warning('Provider failover', is_object($evt) ? $evt->getPayload() : $evt);
         });
 
-        linked3_dispatch('linked3.ai.pipeline.boot', ['version' => LINKED3_VERSION]);
+        EventBus::dispatch('linked3.ai.pipeline.boot', ['version' => LINKED3_VERSION]);
     }
 }

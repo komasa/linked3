@@ -9,6 +9,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Agent;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class AgentBootstrap {
@@ -39,6 +41,6 @@ class AgentBootstrap {
         $orchestrator = $container->get('agent.orchestrator');
         $orchestrator->register('content_pipeline', new \Linked3\Classes\Agent\Workflow\AgentContentPipeline());
 
-        linked3_dispatch('linked3.agent.boot', ['version' => LINKED3_VERSION]);
+        EventBus::dispatch('linked3.agent.boot', ['version' => LINKED3_VERSION]);
     }
 }

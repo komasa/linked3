@@ -20,6 +20,8 @@
 
 namespace Linked3\Includes {
 
+use Linked3\Includes\EventBus;
+
     if (!defined('ABSPATH')) {
         exit;
     }

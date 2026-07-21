@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Billing;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class InvoiceManager {
@@ -34,7 +36,7 @@ class InvoiceManager {
         ));
 
         $invoiceId = $wpdb->insert_id;
-        linked3_dispatch('linked3.billing.invoice.created', [
+        EventBus::dispatch('linked3.billing.invoice.created', [
             'invoice_id' => $invoiceId, 'invoice_no' => $invoiceNo, 'user_id' => $userId,
         ]);
         return ['invoice_id' => $invoiceId, 'invoice_no' => $invoiceNo, 'amount' => $amount];

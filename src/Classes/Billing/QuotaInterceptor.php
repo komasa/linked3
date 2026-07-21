@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Billing;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class QuotaInterceptor {
@@ -38,7 +40,7 @@ class QuotaInterceptor {
         $remaining = $quota - $used;
 
         if ($remaining < $tokensNeeded) {
-            linked3_dispatch('linked3.billing.quota.exceeded', [
+            EventBus::dispatch('linked3.billing.quota.exceeded', [
                 'user_id' => $userId, 'plan' => $plan, 'used' => $used, 'quota' => $quota,
             ]);
             return [

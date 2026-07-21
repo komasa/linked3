@@ -9,6 +9,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Agent;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class AgentOrchestrator {
@@ -35,18 +37,18 @@ class AgentOrchestrator {
         $runId = uniqid('agent_', true);
         $this->running[$runId] = ['name' => $name, 'status' => 'running', 'started' => time()];
 
-        linked3_dispatch('linked3.agent.run.start', ['run_id' => $runId, 'name' => $name, 'input' => $input]);
+        EventBus::dispatch('linked3.agent.run.start', ['run_id' => $runId, 'name' => $name, 'input' => $input]);
 
         try {
             $result = $workflow->execute($input);
             $this->running[$runId]['status'] = 'completed';
             $this->running[$runId]['result'] = $result;
-            linked3_dispatch('linked3.agent.run.complete', ['run_id' => $runId, 'result' => $result]);
+            EventBus::dispatch('linked3.agent.run.complete', ['run_id' => $runId, 'result' => $result]);
             return ['run_id' => $runId, 'status' => 'completed', 'result' => $result];
         } catch (Throwable $e) {
             $this->running[$runId]['status'] = 'failed';
             $this->running[$runId]['error'] = $e->getMessage();
-            linked3_dispatch('linked3.agent.run.failed', ['run_id' => $runId, 'error' => $e->getMessage()]);
+            EventBus::dispatch('linked3.agent.run.failed', ['run_id' => $runId, 'error' => $e->getMessage()]);
             return ['run_id' => $runId, 'status' => 'failed', 'error' => $e->getMessage()];
         }
     }

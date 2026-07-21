@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Diagram;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class DiagramBootstrap {
@@ -62,6 +64,6 @@ class DiagramBootstrap {
         $container->set('diagram.loop_character', fn() => new DiagramLoopCharacterIntegration());
         $container->set('diagram.seed_compiler', fn() => new DiagramSeedCompiler());
 
-        linked3_dispatch('linked3.diagram.boot', ['version' => LINKED3_VERSION]);
+        EventBus::dispatch('linked3.diagram.boot', ['version' => LINKED3_VERSION]);
     }
 }

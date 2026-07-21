@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Genesis;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class GenesisBootstrap {
@@ -31,7 +33,7 @@ class GenesisBootstrap {
         $container->set('genesis.storyboard', fn() => new GenesisStoryboardGenerator());
 
         if (function_exists('linked3_dispatch')) {
-            linked3_dispatch('linked3.genesis.boot', ['version' => LINKED3_VERSION]);
+            EventBus::dispatch('linked3.genesis.boot', ['version' => LINKED3_VERSION]);
         }
     }
 }

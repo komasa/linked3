@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Scale;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class ScaleBootstrap {
@@ -25,6 +27,6 @@ class ScaleBootstrap {
         $container->set('batch.engine', fn() => BatchEngine::instance());
         $container->set('performance.cache', fn() => PerformanceCache::instance());
 
-        linked3_dispatch('linked3.scale.boot', ['version' => LINKED3_VERSION]);
+        EventBus::dispatch('linked3.scale.boot', ['version' => LINKED3_VERSION]);
     }
 }

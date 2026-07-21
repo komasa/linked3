@@ -9,6 +9,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Agent;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class AgentStateMachine {
@@ -46,7 +48,7 @@ class AgentStateMachine {
             if ($t['guard'] && !($t['guard'])($this->data)) return false;
             $this->history[] = ['from' => $from, 'to' => $to, 'time' => time()];
             $this->current = $to;
-            linked3_dispatch('linked3.agent.state.transition', [
+            EventBus::dispatch('linked3.agent.state.transition', [
                 'from' => $from, 'to' => $to, 'data' => $this->data
             ]);
             return true;

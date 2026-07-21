@@ -16,6 +16,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Scale;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 // =================================================================
@@ -44,7 +46,7 @@ class VectorIncremental {
     public function onPostDelete(int $postId): void {
         delete_post_meta($postId, '_linked3_vector');
         delete_post_meta($postId, '_linked3_embedded');
-        linked3_dispatch('linked3.vector.removed', ['post_id' => $postId]);
+        EventBus::dispatch('linked3.vector.removed', ['post_id' => $postId]);
     }
 
     public function embedPost(int $postId): array {
@@ -56,7 +58,7 @@ class VectorIncremental {
         update_post_meta($postId, '_linked3_vector', wp_json_encode($vector));
         update_post_meta($postId, '_linked3_embedded', time());
 
-        linked3_dispatch('linked3.vector.embed', ['post_id' => $postId, 'dim' => $this->dim]);
+        EventBus::dispatch('linked3.vector.embed', ['post_id' => $postId, 'dim' => $this->dim]);
         return ['post_id' => $postId, 'dim' => $this->dim, 'embedded' => true];
     }
 

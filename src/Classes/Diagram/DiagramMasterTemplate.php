@@ -19,6 +19,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Diagram;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -89,7 +91,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         }
 
         if (function_exists('linked3_dispatch')) {
-            linked3_dispatch('linked3.diagram.generated', [
+            EventBus::dispatch('linked3.diagram.generated', [
                 'diagram_id' => $diagramId, 'brand' => $config['brand'] ?? '', 'char_count' => $charCount,
             ]);
         }

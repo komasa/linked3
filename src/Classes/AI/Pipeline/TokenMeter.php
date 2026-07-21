@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\AI\Pipeline;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class TokenMeter {
@@ -66,7 +68,7 @@ class TokenMeter {
             update_option(LINKED3_OPTION_PREFIX . 'token_usage', $this->usage, false);
         }
 
-        linked3_dispatch('linked3.ai.token.consumed', $entry);
+        EventBus::dispatch('linked3.ai.token.consumed', $entry);
     }
 
     /**

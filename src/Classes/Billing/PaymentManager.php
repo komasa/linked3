@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Billing;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class PaymentManager {
@@ -29,7 +31,7 @@ class PaymentManager {
             throw new RuntimeException("Payment gateway not found: {$gatewayName}");
         }
         $result = $this->gateways[$gatewayName]->refund($chargeId, $amount);
-        linked3_dispatch('linked3.billing.refund', $result);
+        EventBus::dispatch('linked3.billing.refund', $result);
         return $result;
     }
 

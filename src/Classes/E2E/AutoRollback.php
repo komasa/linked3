@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\E2E;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class AutoRollback {
@@ -42,7 +44,7 @@ class AutoRollback {
     private function triggerRollback(array $failed): void {
         update_option('linked3_rollback_required', true);
         update_option('linked3_rollback_failed_systems', $failed);
-        linked3_dispatch('linked3.system.rollback', [
+        EventBus::dispatch('linked3.system.rollback', [
             'failed' => $failed,
             'version' => LINKED3_VERSION,
         ]);

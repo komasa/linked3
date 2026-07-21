@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Billing;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class SubscriptionManagerV2 {
@@ -52,7 +54,7 @@ class SubscriptionManagerV2 {
         update_user_meta($userId, 'linked3_subscription_started', time());
         update_user_meta($userId, 'linked3_subscription_charge', $chargeId);
 
-        linked3_dispatch('linked3.billing.subscribe', [
+        EventBus::dispatch('linked3.billing.subscribe', [
             'user_id' => $userId, 'plan' => $plan, 'charge_id' => $chargeId,
         ]);
 

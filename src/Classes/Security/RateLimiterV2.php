@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Security;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class RateLimiterV2 {
@@ -49,7 +51,7 @@ class RateLimiterV2 {
         );
 
         if (count($this->buckets[$key]) >= $limit['max']) {
-            linked3_dispatch('linked3.rate_limited.exceeded', [
+            EventBus::dispatch('linked3.rate_limited.exceeded', [
                 'key' => $key,
                 'type' => $limitType,
                 'max' => $limit['max'],

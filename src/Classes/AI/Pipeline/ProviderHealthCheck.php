@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\AI\Pipeline;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class ProviderHealthCheck {
@@ -66,7 +68,7 @@ class ProviderHealthCheck {
 
             // 状态变化时派发事件
             if ($oldStatus !== $newStatus && $oldStatus !== 'unknown') {
-                linked3_dispatch('linked3.ai.health.changed', [
+                EventBus::dispatch('linked3.ai.health.changed', [
                     'provider' => $provider,
                     'old' => $oldStatus,
                     'new' => $newStatus,
@@ -82,7 +84,7 @@ class ProviderHealthCheck {
                 'time' => time(),
                 'error' => $e->getMessage(),
             ];
-            linked3_dispatch('linked3.ai.health.failed', [
+            EventBus::dispatch('linked3.ai.health.failed', [
                 'provider' => $provider,
                 'error' => $e->getMessage(),
             ]);

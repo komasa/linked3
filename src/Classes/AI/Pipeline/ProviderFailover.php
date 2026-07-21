@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\AI\Pipeline;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class ProviderFailover {
@@ -58,7 +60,7 @@ class ProviderFailover {
         if ($this->failureCounts[$provider]['count'] >= $this->circuitThreshold && !$this->failureCounts[$provider]['circuit_open']) {
             $this->failureCounts[$provider]['circuit_open'] = true;
             $this->failureCounts[$provider]['opened_at'] = time();
-            linked3_dispatch('linked3.ai.circuit.opened', ['provider' => $provider]);
+            EventBus::dispatch('linked3.ai.circuit.opened', ['provider' => $provider]);
             linked3_container()->get('logger')->warning("Circuit breaker opened for {$provider}");
         }
     }

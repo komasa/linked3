@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Diagram;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class DiagramProductionBootstrap {
@@ -41,7 +43,7 @@ class DiagramProductionBootstrap {
             $container->get('logger')->info('Diagram E2E test result', $testResult);
         }
 
-        linked3_dispatch('linked3.diagram.production.ready', [
+        EventBus::dispatch('linked3.diagram.production.ready', [
             'version' => LINKED3_VERSION,
             'e2e_pass_rate' => $testResult['pass_rate'],
             'spectrum_count' => Diagram30Spectrum::instance()->count(),

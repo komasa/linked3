@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\E2E;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class FinalBootstrap {
@@ -77,9 +79,9 @@ class FinalBootstrap {
         }
 
         // 派发就绪事件
-        // ── FIX v16.0.1: Guard linked3_dispatch() call ──────────────────
+        // ── FIX v16.0.1: Guard EventBus::dispatch() call ──────────────────
         if (function_exists('linked3_dispatch')) {
-            linked3_dispatch('linked3.system.ready', [
+            EventBus::dispatch('linked3.system.ready', [
                 'version' => LINKED3_VERSION,
                 'health' => $health ?? [],
                 'timestamp' => time(),

@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Security;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class AsyncQueue {
@@ -48,7 +50,7 @@ class AsyncQueue {
             $taskId, $handler, wp_json_encode($payload, JSON_UNESCAPED_UNICODE), $priority, 'pending', 0, $this->maxRetries, current_time('mysql')
         ));
 
-        linked3_dispatch('linked3.async.enqueued', ['task_id' => $taskId, 'handler' => $handler]);
+        EventBus::dispatch('linked3.async.enqueued', ['task_id' => $taskId, 'handler' => $handler]);
         return $taskId;
     }
 
@@ -105,7 +107,7 @@ class AsyncQueue {
                 'completed', wp_json_encode($result, JSON_UNESCAPED_UNICODE), current_time('mysql'), $task['id']
             ));
 
-            linked3_dispatch('linked3.async.task.completed', [
+            EventBus::dispatch('linked3.async.task.completed', [
                 'task_id' => $task['task_id'],
                 'handler' => $handler,
             ]);
@@ -119,7 +121,7 @@ class AsyncQueue {
                 $status, $attempts, $e->getMessage(), $task['id']
             ));
 
-            linked3_dispatch('linked3.async.task.failed', [
+            EventBus::dispatch('linked3.async.task.failed', [
                 'task_id' => $task['task_id'],
                 'handler' => $handler,
                 'error' => $e->getMessage(),

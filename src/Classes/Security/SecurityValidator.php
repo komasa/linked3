@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\Security;
 
+use Linked3\Includes\EventBus;
+
 if (!defined('ABSPATH')) exit;
 
 class SecurityValidator {
@@ -174,7 +176,7 @@ class SecurityValidator {
             'user_id' => get_current_user_id(),
             'time' => time(),
         ];
-        linked3_dispatch('linked3.security.violation', $violation);
+        EventBus::dispatch('linked3.security.violation', $violation);
         if (class_exists('\Linked3\Classes\Security\AuditLogger')) {
             AuditLogger::instance()->log('security_violation', $violation);
         }
