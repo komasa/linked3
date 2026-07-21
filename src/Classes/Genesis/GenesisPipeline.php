@@ -135,51 +135,13 @@ class GenesisPipeline {
     }
 
     private function buildBaseAtom(array $panel, string $styleId): array {
-        $shotMap = [
-            '远景' => 'wide', '全景' => 'medium_wide', '中景' => 'medium',
-            '近景' => 'close_up', '特写' => 'extreme_close_up', '鸟瞰' => 'bird_eye',
-        ];
-        $angleMap = [
-            '平视' => 'eye_level', '仰视' => 'low_angle',
-            '俯视' => 'high_angle', '荷兰角' => 'dutch_angle',
-        ];
-        $compMap = [
-            '三分法' => 'rule_of_thirds', '对角线' => 'diagonal',
-            '中心构图' => 'center', '对称式' => 'symmetric', '引导线' => 'leading_lines',
-        ];
-
-        $shot = $shotMap[$panel['shot'] ?? ''] ?? 'medium';
-        $angle = $angleMap[$panel['angle'] ?? ''] ?? 'eye_level';
-        $comp = $compMap[$panel['comp'] ?? ''] ?? 'rule_of_thirds';
-
-        $charRef = 'C1:calm';
-        $charText = $panel['action'] ?? '';
-        if (mb_strpos($charText, '愤怒') !== false || mb_strpos($charText, '怒') !== false) {
-            $charRef = 'C1:angry';
-        } elseif (mb_strpos($charText, '悲伤') !== false || mb_strpos($charText, '哭') !== false) {
-            $charRef = 'C1:sad';
-        } elseif (mb_strpos($charText, '绝望') !== false) {
-            $charRef = 'C1:exhausted';
-        }
-
-        $sceneId = 'S1';
-        $location = $panel['location'] ?? '';
-        if (mb_strpos($location, '古宅') !== false) $sceneId = 'S2';
-        elseif (mb_strpos($location, '荒野') !== false || mb_strpos($location, '战场') !== false) $sceneId = 'S3';
-        elseif (mb_strpos($location, '山') !== false) $sceneId = 'S4';
-        elseif (mb_strpos($location, '地府') !== false || mb_strpos($location, '阴间') !== false) $sceneId = 'S5';
-
-        $moodMap = [
-            '阴森神秘' => 'mysterious', '肃杀紧张' => 'tense', '恐怖压迫' => 'horror',
-            '宿命沉重' => 'melancholy', '凄美哀婉' => 'melancholy',
-        ];
-        $mood = $moodMap[$panel['mood'] ?? ''] ?? 'tense';
-
-        $lightMap = [
-            'mysterious' => 'rim_light_blue', 'tense' => 'hard_shadow',
-            'horror' => 'hard_shadow', 'melancholy' => 'soft_diffused',
-        ];
-        $light = $lightMap[$mood] ?? 'side_light';
+        $shot = $this->mapShot($panel['shot'] ?? '');
+        $angle = $this->mapAngle($panel['angle'] ?? '');
+        $comp = $this->mapComposition($panel['comp'] ?? '');
+        $charRef = $this->mapCharacterEmotion($panel['action'] ?? '');
+        $sceneId = $this->mapSceneId($panel['location'] ?? '');
+        $mood = $this->mapMood($panel['mood'] ?? '');
+        $light = $this->mapLighting($mood);
 
         return [
             'id' => $panel['panel_id'] ?? 'P0001',
@@ -201,5 +163,60 @@ class GenesisPipeline {
                 'mood' => $panel['mood'] ?? '',
             ],
         ];
+    }
+
+    private function mapShot(string $shot): string {
+        $map = [
+            '远景' => 'wide', '全景' => 'medium_wide', '中景' => 'medium',
+            '近景' => 'close_up', '特写' => 'extreme_close_up', '鸟瞰' => 'bird_eye',
+        ];
+        return $map[$shot] ?? 'medium';
+    }
+
+    private function mapAngle(string $angle): string {
+        $map = [
+            '平视' => 'eye_level', '仰视' => 'low_angle',
+            '俯视' => 'high_angle', '荷兰角' => 'dutch_angle',
+        ];
+        return $map[$angle] ?? 'eye_level';
+    }
+
+    private function mapComposition(string $comp): string {
+        $map = [
+            '三分法' => 'rule_of_thirds', '对角线' => 'diagonal',
+            '中心构图' => 'center', '对称式' => 'symmetric', '引导线' => 'leading_lines',
+        ];
+        return $map[$comp] ?? 'rule_of_thirds';
+    }
+
+    private function mapCharacterEmotion(string $action): string {
+        if (mb_strpos($action, '愤怒') !== false || mb_strpos($action, '怒') !== false) return 'C1:angry';
+        if (mb_strpos($action, '悲伤') !== false || mb_strpos($action, '哭') !== false) return 'C1:sad';
+        if (mb_strpos($action, '绝望') !== false) return 'C1:exhausted';
+        return 'C1:calm';
+    }
+
+    private function mapSceneId(string $location): string {
+        if (mb_strpos($location, '古宅') !== false) return 'S2';
+        if (mb_strpos($location, '荒野') !== false || mb_strpos($location, '战场') !== false) return 'S3';
+        if (mb_strpos($location, '山') !== false) return 'S4';
+        if (mb_strpos($location, '地府') !== false || mb_strpos($location, '阴间') !== false) return 'S5';
+        return 'S1';
+    }
+
+    private function mapMood(string $moodCn): string {
+        $map = [
+            '阴森神秘' => 'mysterious', '肃杀紧张' => 'tense', '恐怖压迫' => 'horror',
+            '宿命沉重' => 'melancholy', '凄美哀婉' => 'melancholy',
+        ];
+        return $map[$moodCn] ?? 'tense';
+    }
+
+    private function mapLighting(string $mood): string {
+        $map = [
+            'mysterious' => 'rim_light_blue', 'tense' => 'hard_shadow',
+            'horror' => 'hard_shadow', 'melancholy' => 'soft_diffused',
+        ];
+        return $map[$mood] ?? 'side_light';
     }
 }
