@@ -81,7 +81,6 @@ jobs:
           coverage: none
 
       - name: Run PHP CS Fixer (dry-run)
-        continue-on-error: true
         run: php-cs-fixer fix --dry-run --diff --using-cache=no
 
   # ─── 静态分析 (PHPStan Level 8) ───
@@ -102,7 +101,6 @@ jobs:
         run: composer global require phpstan/phpstan:^1.11
 
       - name: Run PHPStan
-        continue-on-error: true
         run: |
           if [ -f phpstan.neon ]; then
             phpstan analyse --level=8 --error-format=github
@@ -128,7 +126,6 @@ jobs:
         run: composer global require phpmd/phpmd:^2.15
 
       - name: Run PHPMD
-        continue-on-error: true
         run: phpmd src/,lib/ text phpmd-ruleset.xml
 
   # ─── 测试 (PHPUnit) ───
@@ -153,12 +150,12 @@ jobs:
         run: composer install --no-interaction --prefer-dist
 
       - name: Run PHPUnit
-        continue-on-error: true
         run: |
           if [ -f phpunit.xml.dist ]; then
             vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
           else
-            echo "No PHPUnit configuration found. Skipping."
+            echo "No PHPUnit configuration found." >&2
+            exit 1
           fi
 
       - name: Upload coverage
