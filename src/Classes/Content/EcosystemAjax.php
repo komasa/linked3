@@ -255,19 +255,7 @@ class EcosystemAjax {
         // v11.3.3: 接收 fork_id (派生模版的源模版ID, 可选)
         $fork_id = sanitize_text_field($_POST['fork_id'] ?? ($template['fork_id'] ?? ''));
 
-        // 安全清洗10字段
-        $config = [
-            'profile'   => sanitize_textarea_field($template['config']['profile'] ?? ''),
-            'role'      => sanitize_textarea_field($template['config']['role'] ?? ''),
-            'scene'     => sanitize_textarea_field($template['config']['scene'] ?? ''),
-            'background'=> sanitize_textarea_field($template['config']['background'] ?? ''),
-            'goals'     => array_filter(array_map('sanitize_text_field', explode(',', $template['config']['goals'] ?? ''))),
-            'skills'    => array_filter(array_map('sanitize_text_field', explode(',', $template['config']['skills'] ?? ''))),
-            'style'     => sanitize_text_field($template['config']['style'] ?? ''),
-            'limit'     => array_filter(array_map('sanitize_text_field', explode(',', $template['config']['limit'] ?? ''))),
-            'step'      => array_filter(array_map('sanitize_text_field', explode(',', $template['config']['step'] ?? ''))),
-            'output'    => sanitize_textarea_field($template['config']['output'] ?? ''),
-        ];
+        $config = self::sanitize_template_config($template['config'] ?? []);
 
         // 保存到 wp_options (跨生态共享池)
         $option_key = LINKED3_OPTION_PREFIX . 'cloud_templates';
@@ -290,6 +278,31 @@ class EcosystemAjax {
             'shared'      => true,
             'message'     => __('模版已保存并加入跨生态共享池', 'linked3-ai'),
         ]);
+    }
+
+    /**
+     * Sanitize the 10-field template config from user input.
+     *
+     * @param array $raw
+     * @return array
+     */
+    private static function sanitize_template_config(array $raw): array
+    {
+        $csv_fields = ['goals', 'skills', 'limit', 'step'];
+
+        $config = [];
+        foreach ($csv_fields as $field) {
+            $config[$field] = array_filter(array_map('sanitize_text_field', explode(',', $raw[$field] ?? '')));
+        }
+
+        $config['profile']    = sanitize_textarea_field($raw['profile'] ?? '');
+        $config['role']       = sanitize_textarea_field($raw['role'] ?? '');
+        $config['scene']      = sanitize_textarea_field($raw['scene'] ?? '');
+        $config['background'] = sanitize_textarea_field($raw['background'] ?? '');
+        $config['style']      = sanitize_text_field($raw['style'] ?? '');
+        $config['output']     = sanitize_textarea_field($raw['output'] ?? '');
+
+        return $config;
     }
 
     /**
