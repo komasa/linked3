@@ -130,6 +130,25 @@ final class AjaxNonceGuard
         // ─── Metabox ───
         'linked3_metabox_ai'                 => 'linked3_metabox',
         'linked3_metabox_process_text'       => 'linked3_metabox',
+
+        // ─── BookFactory / BookMeta (nonce action: linked3_book_factory) ───
+        'linked3_book_factory_cancel_async'  => 'linked3_book_factory',
+        'linked3_book_factory_download'      => 'linked3_book_factory',
+        'linked3_book_factory_get_prompts'   => 'linked3_book_factory',
+        'linked3_book_factory_preview_prompt'=> 'linked3_book_factory',
+        'linked3_book_factory_regenerate_section' => 'linked3_book_factory',
+        'linked3_book_factory_resume'        => 'linked3_book_factory',
+        'linked3_book_factory_rollback_outline' => 'linked3_book_factory',
+        'linked3_book_factory_run_step'      => 'linked3_book_factory',
+        'linked3_book_factory_save_prompt'   => 'linked3_book_factory',
+        'linked3_book_factory_start'         => 'linked3_book_factory',
+        'linked3_book_factory_start_async'   => 'linked3_book_factory',
+        'linked3_book_meta_classify'         => 'linked3_book_factory',
+        'linked3_book_meta_create'           => 'linked3_book_factory',
+        'linked3_book_meta_extract'          => 'linked3_book_factory',
+        'linked3_book_meta_info'             => 'linked3_book_factory',
+        'linked3_book_meta_prototype'        => 'linked3_book_factory',
+        'linked3_book_meta_prototypes'       => 'linked3_book_factory',
     ];
 
     /**

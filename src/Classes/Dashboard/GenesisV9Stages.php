@@ -11,259 +11,239 @@ class GenesisV9Stages
 {
     public static function ajax_genesis_v9_stage1()
     : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
-        $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        // Phase 1: Security & input validation
+        $input = self::validate_stage1_request();
 
-        $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
-        $styleId = sanitize_text_field($_POST['style'] ?? 'documentary_photo');
-        $l1_type = sanitize_text_field($_POST['l1_type'] ?? 'auto');
-        $l2_column = sanitize_text_field($_POST['l2_column'] ?? 'auto');
-        $l3_soul = sanitize_text_field($_POST['l3_soul'] ?? 'auto');
-        $genMode = sanitize_text_field($_POST['gen_mode'] ?? 'local');
+        // Phase 2: Auto-detect scene axes if needed
+        $axes = self::auto_detect_scene_axes($input['script'], $input['l1_type'], $input['l2_column'], $input['l3_soul']);
 
-        if (empty($script)) {
-            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
-        }
-
-        @set_time_limit(120);
-        @ini_set('memory_limit', '512M');
-        $prev_er = error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_WARNING);
-        $prev_de = @ini_set('display_errors', '0');
-        if (function_exists('ob_start')) {
-            ob_start();
-        }
-        if (($l1_type === 'auto' || $l2_column === 'auto' || $l3_soul === 'auto')
-            && class_exists('\SceneAxis')
-            && method_exists('\Linked3\Classes\Dashboard\SceneAxis', 'auto_detect_from_script')) {
-            try {
-                $detected = \SceneAxis::auto_detect_from_script($script);
-                if ($l1_type === 'auto') $l1_type = $detected['l1'];
-                if ($l2_column === 'auto') $l2_column = $detected['l2'];
-                if ($l3_soul === 'auto') $l3_soul = $detected['l3'];
-            } catch (\Throwable $e) {
-                if ($l1_type === 'auto') $l1_type = 'city_life';
-                if ($l2_column === 'auto') $l2_column = 'documentary';
-                if ($l3_soul === 'auto') $l3_soul = 'none';
-            }
-        }
-
-        $scriptTrimmed = mb_substr($script, 0, 4000);
+        // Phase 3: Setup environment
+        $env = self::setup_stage2_environment();
 
         try {
-            $useAi = ($genMode === 'ai' || $genMode === 'hybrid');
-            $storyData = null;
-            $storySource = 'none';
-            if (class_exists('\StoryPipeline')) {
-                try {
-                    $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => $useAi]);
-                    $storySource = $useAi ? 'ai' : 'local';
-                } catch (\Throwable $eL) {
-                    try {
-                        $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => false]);
-                        $storySource = $useAi ? 'local_fallback' : 'local';
-                    } catch (\Throwable $eL2) {
-                        $storyData = null;
-                        $storySource = 'failed';
-                    }
-                }
-            }
-            $beats = $storyData['beats'] ?? [];
-            $characters = $storyData['characters'] ?? [];
-            $theme = $storyData['theme'] ?? '';
+            // Phase 4: Parse story
+            $story = self::parse_story($input['script'], $input['gen_mode']);
+            $beats = $story['beats'];
+            $characters = $story['characters'];
+            $theme = $story['theme'];
+            $storySource = $story['source'];
 
+            // Phase 5: Fallback to sentence split if beats too few
             if (count($beats) < 2) {
-                $sentences = preg_split('/(?<=[。！？\n.!?])\s*/u', $scriptTrimmed);
-                $sentences = array_filter($sentences, fn($s) => mb_strlen(trim($s)) >= 15);
-                $sentences = array_values($sentences);
-
-                $seen = [];
-                $unique = [];
-                foreach ($sentences as $s) {
-                    $key = mb_substr(trim($s), 0, 30);
-                    if (!isset($seen[$key])) {
-                        $seen[$key] = true;
-                        $unique[] = trim($s);
-                    }
-                }
-
-                $beats = [];
-                foreach (array_slice($unique, 0, 15) as $i => $s) {
-                    $beats[] = [
-                        'id' => $i + 1,
-                        'text' => mb_substr($s, 0, 200),
-                        'emotion' => 'neutral',
-                        'arc_position' => $i < 3 ? '开场' : ($i >= count($unique) - 2 ? '收尾' : '发展'),
-                    ];
-                }
+                $split = self::split_script_to_beats($input['script']);
+                $beats = $split['beats'];
                 $storySource = 'sentence_split';
             }
 
-            $maxBeats = 15;
-            if (count($beats) > $maxBeats) {
-                $beats = array_slice($beats, 0, $maxBeats);
-            }
+            // Phase 6: Cap beats at 15
+            $beats = array_slice($beats, 0, 15);
 
-            $skeletonId = 'documentary_photo';
-            if (class_exists('\SceneAxis')) {
-                try {
-                    $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
-                } catch (\Throwable $e) {}
-            }
+            // Phase 7: Route skeleton
+            $skeletonId = self::route_skeleton($axes['l1_type'], $axes['l2_column'], $axes['l3_soul']);
 
-            $autoSeeds = [];
-            $autoSeedRefs = [];
-            if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT', 'create')) {
-                if (!empty($characters) && is_array($characters)) {
-                    foreach ($characters as $idx => $char) {
-                        $charName = is_array($char) ? ($char['name'] ?? $char['id'] ?? '') : (string)$char;
-                        if (empty($charName)) continue;
+            // Phase 8: Auto-create seeds from characters
+            $seedData = self::auto_create_seeds($characters);
 
-                        if (mb_strlen($charName) < 2) continue;
-                        if (preg_match('/[的了是在和与把被将让给向到从为对按据依由这那之其每各又且]/u', $charName)) continue;
-                        if (preg_match('/^\d+$/', $charName)) continue;
-
-                        $seedId = 'C' . ($idx + 1) . '_' . mb_substr($charName, 0, 4, 'UTF-8') . '_v1';
-                        $existing = null;
-                        try {
-                            $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
-                        } catch (\Throwable $e) {}
-
-                        if (!$existing) {
-                            try {
-                                $visualDna = [
-                                    'face'       => $char['face'] ?? $char['appearance'] ?? '',
-                                    'body'       => $char['body'] ?? '',
-                                    'costume'    => $char['costume'] ?? $char['clothing'] ?? '',
-                                    'accessory'  => $char['accessory'] ?? '',
-                                    'proportion' => $char['proportion'] ?? '',
-                                ];
-                                $personalityDna = [
-                                    'personality'     => $char['personality'] ?? '',
-                                    'speech_pattern'  => $char['speech_pattern'] ?? '',
-                                    'emotion_range'   => $char['emotion_range'] ?? '',
-                                ];
-
-                                $postData = [
-                                    'title'          => $charName . ' (自动生成)',
-                                    'seed_id'        => $seedId,
-                                    'seed_type'      => 'fixed',
-                                    'seed_category'  => 'char',
-                                    'visual_dna'     => $visualDna,
-                                    'personality_dna'=> $personalityDna,
-                                    'priority'       => ['critical' => [], 'important' => [], 'flexible' => []],
-                                    'lock'           => [],
-                                    'ai_adapter'     => ['mj' => '', 'sd' => '', 'flux' => '', 'dalle' => ''],
-                                    'parent_seed'    => '',
-                                    'project_ref'    => '',
-                                ];
-
-                                $postId = \GenesisSeedCPT::create($postData);
-                                if (!is_wp_error($postId)) {
-                                    $autoSeeds[] = [
-                                        'seed_id'   => $seedId,
-                                        'name'      => $charName,
-                                        'category'  => 'char',
-                                        'post_id'   => $postId,
-                                        'source'    => 'auto_from_story_parser',
-                                    ];
-                                    $autoSeedRefs[] = $seedId;
-                                }
-                            } catch (\Throwable $e) {
-                                if (function_exists('error_log')) {
-                                    error_log('[linked3 v9 stage1] Auto Seed creation failed for ' . $charName . ': ' . $e->getMessage());
-                                }
-                            }
-                        } else {
-                            $autoSeeds[] = [
-                                'seed_id'   => $seedId,
-                                'name'      => $charName,
-                                'category'  => 'char',
-                                'post_id'   => $existing['post_id'] ?? 0,
-                                'source'    => 'existing',
-                            ];
-                            $autoSeedRefs[] = $seedId;
-                        }
-                    }
-                }
-
-                if (!empty($theme)) {
-                    $sceneSeedId = 'S1_' . mb_substr($theme, 0, 4, 'UTF-8') . '_v1';
-                    $existingScene = null;
-                    try {
-                        $existingScene = \GenesisSeedCPT::get_by_seed_id($sceneSeedId);
-                    } catch (\Throwable $e) {}
-
-                    if (!$existingScene) {
-                        try {
-                            $postData = [
-                                'title'          => $theme . ' (场景自动生成)',
-                                'seed_id'        => $sceneSeedId,
-                                'seed_type'      => 'variable',
-                                'seed_category'  => 'scene',
-                                'visual_dna'     => ['atmosphere' => $theme, 'location' => '', 'time' => ''],
-                                'personality_dna'=> [],
-                                'priority'       => ['critical' => [], 'important' => [], 'flexible' => []],
-                                'lock'           => [],
-                                'ai_adapter'     => ['mj' => '', 'sd' => '', 'flux' => '', 'dalle' => ''],
-                                'parent_seed'    => '',
-                                'project_ref'    => '',
-                            ];
-                            $postId = \GenesisSeedCPT::create($postData);
-                            if (!is_wp_error($postId)) {
-                                $autoSeeds[] = [
-                                    'seed_id'   => $sceneSeedId,
-                                    'name'      => $theme,
-                                    'category'  => 'scene',
-                                    'post_id'   => $postId,
-                                    'source'    => 'auto_from_story_parser',
-                                ];
-                                $autoSeedRefs[] = $sceneSeedId;
-                            }
-                        } catch (\Throwable $e) {}
-                    } else {
-                        $autoSeeds[] = [
-                            'seed_id'   => $sceneSeedId,
-                            'name'      => $theme,
-                            'category'  => 'scene',
-                            'post_id'   => $existingScene['post_id'] ?? 0,
-                            'source'    => 'existing',
-                        ];
-                        $autoSeedRefs[] = $sceneSeedId;
-                    }
-                }
-            }
-
-            if (function_exists('ob_end_clean')) {
-                @ob_end_clean();
-            }
-
+            // Phase 9: Send response
+            if (function_exists('ob_end_clean')) @ob_end_clean();
             wp_send_json_success([
-                'beats'        => $beats,
-                'characters'   => $characters,
-                'theme'        => $theme,
-                'skeleton_id'  => $skeletonId,
-                'l1_type'      => $l1_type,
-                'l2_column'    => $l2_column,
-                'l3_soul'      => $l3_soul,
-                'story_source' => $storySource,
-                'beat_count'   => count($beats),
-                'auto_seeds'   => $autoSeeds,
-                'auto_seed_refs' => $autoSeedRefs,
+                'beats'          => $beats,
+                'characters'     => $characters,
+                'theme'          => $theme,
+                'skeleton_id'    => $skeletonId,
+                'l1_type'        => $axes['l1_type'],
+                'l2_column'      => $axes['l2_column'],
+                'l3_soul'        => $axes['l3_soul'],
+                'story_source'   => $storySource,
+                'beat_count'     => count($beats),
+                'auto_seeds'     => $seedData['seeds'],
+                'auto_seed_refs' => $seedData['refs'],
             ]);
         } catch (\Throwable $e) {
-            if (function_exists('ob_end_clean')) {
-                @ob_end_clean();
-            }
+            if (function_exists('ob_end_clean')) @ob_end_clean();
             wp_send_json_error([
                 'message' => __('Stage 1 失败: ', 'linked3-ai') . $e->getMessage(),
                 'file'    => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '',
             ]);
         } finally {
-            error_reporting($prev_er);
-            if ($prev_de !== false) @ini_set('display_errors', $prev_de);
+            error_reporting($env['prev_er']);
+            if ($env['prev_de'] !== false) @ini_set('display_errors', $env['prev_de']);
         }
     }
+
+    /**
+     * Validate Stage 1 request: security + input sanitization.
+     */
+    private static function validate_stage1_request() : array {
+        if (!current_user_can('edit_posts')) {
+            wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        }
+        $nonce = sanitize_text_field($_POST['nonce'] ?? '');
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) {
+            wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        }
+        $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
+        if (empty($script)) {
+            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
+        }
+        return [
+            'script'    => $script,
+            'style'     => sanitize_text_field($_POST['style'] ?? 'documentary_photo'),
+            'l1_type'   => sanitize_text_field($_POST['l1_type'] ?? 'auto'),
+            'l2_column' => sanitize_text_field($_POST['l2_column'] ?? 'auto'),
+            'l3_soul'   => sanitize_text_field($_POST['l3_soul'] ?? 'auto'),
+            'gen_mode'  => sanitize_text_field($_POST['gen_mode'] ?? 'local'),
+        ];
+    }
+
+    /**
+     * Auto-detect scene axes (L1/L2/L3) from script if set to 'auto'.
+     */
+    private static function auto_detect_scene_axes(string $script, string $l1_type, string $l2_column, string $l3_soul) : array {
+        if (($l1_type !== 'auto' && $l2_column !== 'auto' && $l3_soul !== 'auto') || !class_exists('\\SceneAxis')) {
+            return ['l1_type' => $l1_type, 'l2_column' => $l2_column, 'l3_soul' => $l3_soul];
+        }
+        try {
+            $detected = \SceneAxis::auto_detect_from_script($script);
+            if ($l1_type === 'auto') $l1_type = $detected['l1'] ?? 'city_life';
+            if ($l2_column === 'auto') $l2_column = $detected['l2'] ?? 'documentary';
+            if ($l3_soul === 'auto') $l3_soul = $detected['l3'] ?? 'none';
+        } catch (\Throwable $e) {
+            if ($l1_type === 'auto') $l1_type = 'city_life';
+            if ($l2_column === 'auto') $l2_column = 'documentary';
+            if ($l3_soul === 'auto') $l3_soul = 'none';
+        }
+        return ['l1_type' => $l1_type, 'l2_column' => $l2_column, 'l3_soul' => $l3_soul];
+    }
+
+    /**
+     * Parse story via StoryPipeline (with AI/local fallback).
+     */
+    private static function parse_story(string $script, string $genMode) : array {
+        $useAi = ($genMode === 'ai' || $genMode === 'hybrid');
+        $scriptTrimmed = mb_substr($script, 0, 4000);
+        $storyData = null;
+        $storySource = 'none';
+
+        if (class_exists('\\StoryPipeline')) {
+            try {
+                $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => $useAi]);
+                $storySource = $useAi ? 'ai' : 'local';
+            } catch (\Throwable $eL) {
+                try {
+                    $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => false]);
+                    $storySource = $useAi ? 'local_fallback' : 'local';
+                } catch (\Throwable $eL2) {
+                    $storySource = 'failed';
+                }
+            }
+        }
+
+        return [
+            'beats'      => $storyData['beats'] ?? [],
+            'characters' => $storyData['characters'] ?? [],
+            'theme'      => $storyData['theme'] ?? '',
+            'source'     => $storySource,
+        ];
+    }
+
+    /**
+     * Fallback: split script to beats by sentence boundaries.
+     */
+    private static function split_script_to_beats(string $script) : array {
+        $scriptTrimmed = mb_substr($script, 0, 4000);
+        $sentences = preg_split('/(?<=[。！？\n.!?])\s*/u', $scriptTrimmed);
+        $sentences = array_filter($sentences, fn($s) => mb_strlen(trim($s)) >= 15);
+        $sentences = array_values($sentences);
+
+        $seen = [];
+        $unique = [];
+        foreach ($sentences as $s) {
+            $key = mb_substr(trim($s), 0, 30);
+            if (!isset($seen[$key])) {
+                $seen[$key] = true;
+                $unique[] = trim($s);
+            }
+        }
+
+        $beats = [];
+        foreach (array_slice($unique, 0, 15) as $i => $s) {
+            $beats[] = [
+                'id'           => $i + 1,
+                'text'         => mb_substr($s, 0, 200),
+                'emotion'      => 'neutral',
+                'arc_position' => $i < 3 ? '开场' : ($i >= count($unique) - 2 ? '收尾' : '发展'),
+            ];
+        }
+        return ['beats' => $beats];
+    }
+
+    /**
+     * Route skeleton ID from scene axes.
+     */
+    private static function route_skeleton(string $l1_type, string $l2_column, string $l3_soul) : string {
+        if (class_exists('\\SceneAxis')) {
+            try {
+                return \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
+            } catch (\Throwable $e) {}
+        }
+        return 'documentary_photo';
+    }
+
+    /**
+     * Auto-create seed CPTs from extracted characters.
+     */
+    private static function auto_create_seeds(array $characters) : array {
+        $autoSeeds = [];
+        $autoSeedRefs = [];
+
+        if (!class_exists('\\Linked3\\Classes\\Dashboard\\GenesisSeedCPT') || !method_exists('\\Linked3\\Classes\\Dashboard\\GenesisSeedCPT', 'create')) {
+            return ['seeds' => [], 'refs' => []];
+        }
+        if (empty($characters) || !is_array($characters)) {
+            return ['seeds' => [], 'refs' => []];
+        }
+
+        foreach ($characters as $idx => $char) {
+            $charName = is_array($char) ? ($char['name'] ?? $char['id'] ?? '') : (string)$char;
+            if (empty($charName) || mb_strlen($charName) < 2) continue;
+            if (preg_match('/[的了是在和与把被将让给向到从为对按据依由这那之其每各又且]/u', $charName)) continue;
+            if (preg_match('/^\d+$/', $charName)) continue;
+
+            $seedId = 'C' . ($idx + 1) . '_' . mb_substr($charName, 0, 4, 'UTF-8') . '_v1';
+            $existing = null;
+            try { $existing = \GenesisSeedCPT::get_by_seed_id($seedId); } catch (\Throwable $e) {}
+
+            if (!$existing) {
+                try {
+                    $visualDna = [
+                        'face'       => $char['face'] ?? $char['appearance'] ?? '',
+                        'body'       => $char['body'] ?? '',
+                        'costume'    => $char['costume'] ?? $char['clothing'] ?? '',
+                        'accessory'  => $char['accessory'] ?? '',
+                        'proportion' => $char['proportion'] ?? '',
+                    ];
+                    $personalityDna = [
+                        'personality'  => $char['personality'] ?? '',
+                        'role'         => $char['role'] ?? '',
+                        'speech_style' => $char['speech_style'] ?? '',
+                    ];
+                    \GenesisSeedCPT::create([
+                        'seed_id'     => $seedId,
+                        'name'        => $charName,
+                        'visual_dna'  => $visualDna,
+                        'personality' => $personalityDna,
+                        'source'      => 'auto_extract_v9',
+                    ]);
+                    $autoSeeds[] = ['seed_id' => $seedId, 'name' => $charName];
+                } catch (\Throwable $e) {}
+            }
+            $autoSeedRefs[] = $seedId;
+        }
+
+        return ['seeds' => $autoSeeds, 'refs' => $autoSeedRefs];
+    }
+
 
     public static function ajax_genesis_v9_stage2()
     : void {
