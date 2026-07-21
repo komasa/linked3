@@ -51,7 +51,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
             wp_send_json_error(['message' => __('表名校验失败', 'linked3')], 500);
         }
         $where = $status ? $wpdb->prepare("WHERE status = %s", $status) : '';
-        $items = $wpdb->get_results($wpdb->prepare("SELECT * FROM %s %s ORDER BY added_at DESC LIMIT 50", $table, $where), ARRAY_A)
+        $items = $wpdb->get_results($wpdb->prepare("SELECT * FROM %s %s ORDER BY added_at DESC LIMIT 50", $table, $where), ARRAY_A);
         // v3.1.0: 解析 payload
         if (is_array($items)) {
             foreach ($items as &$item) {
