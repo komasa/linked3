@@ -138,23 +138,119 @@ PROMPT;
      * @return array|\WP_Error
      */
     public function generate_script(array $params) : mixed {
-        $input = $this->parseXhsInput($params);
-        if (is_wp_error($input)) {
-            return $input;
+        $topic       = sanitize_text_field($params['topic'] ?? '');
+        $keyword     = sanitize_text_field($params['keyword'] ?? '');
+        $style_id    = sanitize_text_field($params['style'] ?? 'lifestyle');
+        $custom_style = sanitize_textarea_field($params['custom_style'] ?? '');
+        $page_count  = $this->resolvePageCount((int) ($params['page_count'] ?? 0));
+        $model       = sanitize_text_field($params['model'] ?? '');
+        $v15         = $params['v15_context'] ?? [];
+
+        if (empty($topic) && empty($keyword)) {
+            return new \WP_Error('missing_input', __('需要主题或关键词。', 'linked3'), ['status' => 400]);
         }
 
-        $prompt = $this->buildXhsPrompt($input);
-        $result = $this->callXhsAI($prompt, $input['model'], $params);
-        if (is_wp_error($result)) {
-            return $result;
+        $style_prompt = $this->resolveStylePrompt($style_id, $custom_style);
+        $v15Ctx = $this->resolveV15Context($v15);
+        $tone = $this->resolveTone($style_id);
+        $prompt = $this->buildPrompt($topic, $keyword, $page_count, $style_prompt, $custom_style, $tone, $v15Ctx);
+
+        if (empty($model)) {
+            $model = get_option(LINKED3_OPTION_PREFIX . 'default_chat_model', 'gpt-4o-mini');
         }
+
+        $result = $this->callAI($prompt, $model, $params);
+        if (is_wp_error($result)) return $result;
 
         $parsed = $this->parse_json_response($result['content'] ?? '');
         if ($parsed === null) {
             return new \WP_Error('parse_failed', __('AI 返回内容无法解析为 JSON。', 'linked3'), ['status' => 500]);
         }
 
-        return $this->normalize_output($parsed, $input['page_count']);
+        return $this->normalize_output($parsed, $page_count);
+    }
+
+    private function resolvePageCount(int $raw): int {
+        if ($raw <= 0) $raw = 5;
+        return max(3, min(8, $raw));
+    }
+
+    private function resolveStylePrompt(string $style_id, string $custom_style): string {
+        $style_prompt = '';
+        foreach (self::STYLES as $s) {
+            if ($s['id'] === $style_id) {
+                $style_prompt = $s['prompt_suffix'];
+                break;
+            }
+        }
+        if (!empty($custom_style)) {
+            $style_prompt .= "
+自定义风格要求: " . $custom_style;
+        }
+        return $style_prompt;
+    }
+
+    private function resolveV15Context(array $v15): array {
+        return [
+            'brand'   => $v15['brand'] ?? '通用',
+            'color'   => $v15['color'] ?? '温暖明亮',
+            'mood'    => $v15['mood'] ?? '亲切自然',
+            'culture' => $v15['culture'] ?? '中文互联网',
+            'density' => $v15['density'] ?? '中等',
+        ];
+    }
+
+    private function resolveTone(string $style_id): string {
+        $tone_map = [
+            'lifestyle'   => '亲切自然，像闺蜜分享',
+            'tutorial'    => '专业但易懂，像老师教学',
+            'aesthetic'   => '文艺优雅，有画面感',
+            'trending'    => '活泼网感，有梗有料',
+            'professional'=> '权威专业，有理有据',
+            'story'       => '叙事感强，有情感共鸣',
+            'compare'     => '客观中立，有数据感',
+            'checkin'     => '现场体验感，真实生动',
+        ];
+        return $tone_map[$style_id] ?? '亲切自然';
+    }
+
+    private function buildPrompt(string $topic, string $keyword, int $page_count, string $style_prompt, string $custom_style, string $tone, array $v15Ctx): string {
+        return strtr(self::PROMPT_TEMPLATE, [
+            '{topic}'        => $topic ?: $keyword,
+            '{keyword}'      => $keyword,
+            '{page_count}'   => $page_count,
+            '{style}'        => $style_prompt ?: '自由发挥',
+            '{custom_style}' => $custom_style ?: '无',
+            '{tone}'         => $tone,
+            '{brand}'        => $v15Ctx['brand'],
+            '{color}'        => $v15Ctx['color'],
+            '{mood}'         => $v15Ctx['mood'],
+            '{culture}'      => $v15Ctx['culture'],
+            '{density}'      => $v15Ctx['density'],
+        ]);
+    }
+
+    private function callAI(string $prompt, string $model, array $params): mixed {
+        $dispatcher = AIDispatcher::instance();
+        $base_system_prompt = '你是专业的小红书内容创作者，精通爆款图文笔记创作。必须严格输出JSON格式。';
+        $system_prompt = apply_filters('linked3_xhs_system_prompt', $base_system_prompt, $params);
+        $messages = [
+            ['role' => 'system', 'content' => $system_prompt],
+            ['role' => 'user',   'content' => $prompt],
+        ];
+        $options = [
+            'model'       => $model,
+            'temperature' => 0.8,
+            'max_tokens'  => 3000,
+            'module'      => 'xhs',
+            'user_id'     => get_current_user_id(),
+        ];
+        $config = ['fallback_providers' => ['deepseek', 'zhipu']];
+        try {
+            return $dispatcher->chat($messages, $options, $config);
+        } catch (\RuntimeException $e) {
+            return new \WP_Error('ai_failed', $e->getMessage(), ['status' => 502]);
+        }
     }
 
     /**
