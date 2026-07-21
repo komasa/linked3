@@ -89,47 +89,54 @@ class OSAliasRegistry
 }
 
 // ─── Alias registrations ────────────────────────────────────────────────────
-// Core concept classes
-linked3_os_register_alias('Linked3_Hong_Liu_Flywheel',          'OSMomentumFlywheel');
-linked3_os_register_alias('Linked3_Ru_Liu_Tracker',             'OSOnboardingTracker');
-linked3_os_register_alias('Linked3_Neng_Suo_Structure',         'OSCapabilityLock');
-linked3_os_register_alias('Linked3_Neng_Zhi_Three_Stages',      'OSCapabilityStages');
-linked3_os_register_alias('Linked3_Reverse_Dimensions',         'OSReverseDimensions');
-linked3_os_register_alias('Linked3_Reverse_Engine',             'OSReverseEngine');
-linked3_os_register_alias('Linked3_Reverse_Engineer_Registry',  'OSEngineerRegistry');
-linked3_os_register_alias('Linked3_Reverse_Quality_Gate',       'OSQualityGate');
-linked3_os_register_alias('Linked3_Reverse_Text_Creation',      'OSTextCreation');
-linked3_os_register_alias('Linked3_Svg_Meta_Stats',             'OSVisualAnalytics');
-linked3_os_register_alias('Linked3_Three_Layer_Consciousness',  'OSConsciousnessLayer');
+// Bug fix: linked3_os_register_alias() was called but never defined, causing
+// fatal error on load. Replaced with direct OSAliasRegistry::add() calls.
+// Bug fix: target class names now use full FQCN (was bare names that could
+// not resolve via PSR-4 autoloader).
+//
+// Core concept classes (namespace: Linked3\Classes\OS\Core)
+OSAliasRegistry::add('Linked3_Hong_Liu_Flywheel',          'Linked3\Classes\OS\Core\OSMomentumFlywheel',         '27.0.0');
+OSAliasRegistry::add('Linked3_Ru_Liu_Tracker',             'Linked3\Classes\OS\Core\OSOnboardingTracker',        '27.0.0');
+OSAliasRegistry::add('Linked3_Neng_Suo_Structure',         'Linked3\Classes\OS\Core\OSCapabilityLock',           '27.0.0');
+OSAliasRegistry::add('Linked3_Neng_Zhi_Three_Stages',      'Linked3\Classes\OS\Core\OSCapabilityStages',         '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Dimensions',         'Linked3\Classes\OS\Core\OSReverseDimensions',        '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Engine',             'Linked3\Classes\OS\Core\OSReverseEngine',            '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Engineer_Registry',  'Linked3\Classes\OS\Core\OSEngineerRegistry',         '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Quality_Gate',       'Linked3\Classes\OS\Core\OSQualityGate',              '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Text_Creation',      'Linked3\Classes\OS\Core\OSTextCreation',             '27.0.0');
+OSAliasRegistry::add('Linked3_Svg_Meta_Stats',             'Linked3\Classes\OS\Core\OSVisualAnalytics',          '27.0.0');
+OSAliasRegistry::add('Linked3_Three_Layer_Consciousness',  'Linked3\Classes\OS\Core\OSConsciousnessLayer',       '27.0.0');
 
-// Ajax classes
-linked3_os_register_alias('Linked3_Consciousness_Ajax',         'OSConsciousnessAjax');
-linked3_os_register_alias('Linked3_Engineer_Registry_Ajax',     'OSEngineerRegistryAjax');
-linked3_os_register_alias('Linked3_Hong_Liu_Ajax',              'OSMomentumAjax');
-linked3_os_register_alias('Linked3_Neng_Suo_Ajax',              'OSCapabilityLockAjax');
-linked3_os_register_alias('Linked3_Neng_Zhi_Ajax',              'OSCapabilityStagesAjax');
-linked3_os_register_alias('Linked3_Quality_Gate_Ajax',          'OSQualityGateAjax');
-linked3_os_register_alias('Linked3_Reverse_Ajax',               'OSReverseAjax');
-linked3_os_register_alias('Linked3_Reverse_Text_Ajax',          'OSTextCreationAjax');
-linked3_os_register_alias('Linked3_Ru_Liu_Ajax',                'OSOnboardingAjax');
-linked3_os_register_alias('Linked3_Svg_Stats_Ajax',             'OSVisualAnalyticsAjax');
+// Ajax classes (namespace: Linked3\Classes\OS\Ajax)
+OSAliasRegistry::add('Linked3_Consciousness_Ajax',         'Linked3\Classes\OS\Ajax\OSConsciousnessAjax',        '27.0.0');
+OSAliasRegistry::add('Linked3_Engineer_Registry_Ajax',     'Linked3\Classes\OS\Ajax\OSEngineerRegistryAjax',     '27.0.0');
+OSAliasRegistry::add('Linked3_Hong_Liu_Ajax',              'Linked3\Classes\OS\Ajax\OSMomentumAjax',             '27.0.0');
+OSAliasRegistry::add('Linked3_Neng_Suo_Ajax',              'Linked3\Classes\OS\Ajax\OSCapabilityLockAjax',       '27.0.0');
+OSAliasRegistry::add('Linked3_Neng_Zhi_Ajax',              'Linked3\Classes\OS\Ajax\OSCapabilityStagesAjax',     '27.0.0');
+OSAliasRegistry::add('Linked3_Quality_Gate_Ajax',          'Linked3\Classes\OS\Ajax\OSQualityGateAjax',          '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Ajax',               'Linked3\Classes\OS\Ajax\OSReverseAjax',              '27.0.0');
+OSAliasRegistry::add('Linked3_Reverse_Text_Ajax',          'Linked3\Classes\OS\Ajax\OSTextCreationAjax',         '27.0.0');
+OSAliasRegistry::add('Linked3_Ru_Liu_Ajax',                'Linked3\Classes\OS\Ajax\OSOnboardingAjax',           '27.0.0');
+OSAliasRegistry::add('Linked3_Svg_Stats_Ajax',             'Linked3\Classes\OS\Ajax\OSVisualAnalyticsAjax',      '27.0.0');
 
-// Admin classes
-linked3_os_register_alias('V18_Dashboard',              'OSDashboard');
-linked3_os_register_alias('V18_Reverse_Panel',          'OSReversePanel');
-linked3_os_register_alias('V18_Ruliu_Panel',            'OSOnboardingPanel');
-linked3_os_register_alias('V18_Svg_Stats_Panel',        'OSVisualAnalyticsPanel');
+// Admin classes (namespace: Linked3\Classes\OS\Admin)
+OSAliasRegistry::add('V18_Dashboard',              'Linked3\Classes\OS\Admin\OSDashboard',              '27.0.0');
+OSAliasRegistry::add('V18_Reverse_Panel',          'Linked3\Classes\OS\Admin\OSReversePanel',           '27.0.0');
+OSAliasRegistry::add('V18_Ruliu_Panel',            'Linked3\Classes\OS\Admin\OSOnboardingPanel',        '27.0.0');
+OSAliasRegistry::add('V18_Svg_Stats_Panel',        'Linked3\Classes\OS\Admin\OSVisualAnalyticsPanel',   '27.0.0');
 
-// API classes
-linked3_os_register_alias('V18_Cli',                    'OSCli');
-linked3_os_register_alias('V18_Db_Schema',              'OSDbSchema');
-linked3_os_register_alias('V18_Integration_Hub',        'OSIntegrationHub');
-linked3_os_register_alias('V18_Integration_Hub_V2',     'OSIntegrationHubV2');
-linked3_os_register_alias('V18_Rest_Api',               'OSRestApi');
-linked3_os_register_alias('V18_Shortcodes',             'OSShortcodes');
-linked3_os_register_alias('V18_Widget',                 'OSWidget');
+// API classes (namespace: Linked3\Classes\OS\Api)
+OSAliasRegistry::add('V18_Cli',                    'Linked3\Classes\OS\Api\OSCli',                       '27.0.0');
+OSAliasRegistry::add('V18_Db_Schema',              'Linked3\Classes\OS\Api\OSDbSchema',                 '27.0.0');
+OSAliasRegistry::add('V18_Integration_Hub',        'Linked3\Classes\OS\Api\OSIntegrationHub',           '27.0.0');
+OSAliasRegistry::add('V18_Integration_Hub_V2',     'Linked3\Classes\OS\Api\OSIntegrationHubV2',         '27.0.0');
+OSAliasRegistry::add('V18_Rest_Api',               'Linked3\Classes\OS\Api\OSRestApi',                  '27.0.0');
+OSAliasRegistry::add('V18_Shortcodes',             'Linked3\Classes\OS\Api\OSShortcodes',               '27.0.0');
+OSAliasRegistry::add('V18_Widget',                 'Linked3\Classes\OS\Api\OSWidget',                   '27.0.0');
 
-// Facade & bridge
-linked3_os_register_alias('V18_Facade',                 'Linked3_OS_Facade');
-linked3_os_register_alias('V18_Genesis_Bridge',         'OSGenesisBridge');
-linked3_os_register_alias('V18_Dependencies_Loader',    'OSDependenciesLoader');
+// Facade & bridge (namespace: Linked3\Classes\OS)
+// Note: V18_Facade previously mapped to Linked3_OS_Facade which never existed
+// as a class. The actual facade class is V18 (in Linked3\Classes\OS\V18).
+OSAliasRegistry::add('V18_Facade',                 'Linked3\Classes\OS\V18',                            '27.0.0');
+OSAliasRegistry::add('V18_Genesis_Bridge',         'Linked3\Classes\OS\OSGenesisBridge',                '27.0.0');
+OSAliasRegistry::add('V18_Dependencies_Loader',    'Linked3\Classes\OS\OSDependenciesLoader',           '27.0.0');
