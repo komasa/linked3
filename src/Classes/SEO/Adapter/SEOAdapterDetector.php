@@ -9,7 +9,7 @@ declare(strict_types=1);
  * wins. The result is cached per-request via a static.
  *
  * When no 3rd-party plugin is active, the detector returns a null
- * adapter (SEOAdapter_None) so callers can do uniform
+ * adapter (SEOAdapterNone) so callers can do uniform
  * `$adapter->handles_schema()` checks without null-guarding everywhere.
  *
  * @package Linked3
@@ -50,7 +50,7 @@ final class SEOAdapterDetector
                 return $adapter;
             }
         }
-        self::$resolved = new SEOAdapter_None();
+        self::$resolved = new SEOAdapterNone();
         return self::$resolved;
     }
 

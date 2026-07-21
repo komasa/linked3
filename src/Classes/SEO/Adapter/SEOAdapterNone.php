@@ -22,7 +22,7 @@ final class SEOAdapterNone implements SEOAdapter
         return 'none';
     }
 
-    public function label() : mixed {
+    public function label(): string {
         return __('Linked3 原生 SEO(无第三方适配器)', 'linked3');
     }
 

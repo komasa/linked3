@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 final class DiscordDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'discord'; }
-    public function label() : mixed { return __('Discord', 'linked3'); }
+    public function label() : string { return __('Discord', 'linked3'); }
 
     public function publish(array $post_data, array $config)
     : array {

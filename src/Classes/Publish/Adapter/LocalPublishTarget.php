@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 final class LocalPublishTarget implements PublishTargetInterface
 {
     public function type() : string { return 'local'; }
-    public function label() : mixed { return __('本地站点', 'linked3'); }
+    public function label() : string { return __('本地站点', 'linked3'); }
 
     public function publish(array $post, array $config)
     : array {

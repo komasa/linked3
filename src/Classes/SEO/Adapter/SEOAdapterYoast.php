@@ -25,21 +25,21 @@ final class SEOAdapterYoast implements SEOAdapter
         return 'yoast';
     }
 
-    public function label() : mixed {
+    public function label(): string {
         return __('Yoast SEO', 'linked3');
     }
 
-    public function is_active() : mixed     {
+    public function is_active(): bool {
         return defined('WPSEO_VERSION')
             || class_exists('WPSEO_Meta')
             || class_exists('Yoast\WP\SEO\Main');
     }
 
-    public function handles_schema() : mixed {
+    public function handles_schema(): bool {
         return $this->is_active();
     }
 
-    public function handles_meta_description() : mixed     {
+    public function handles_meta_description(): bool {
         return $this->is_active();
     }
 

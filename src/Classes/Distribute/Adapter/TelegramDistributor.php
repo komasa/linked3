@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 final class TelegramDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'telegram'; }
-    public function label() : mixed { return __('Telegram', 'linked3'); }
+    public function label() : string { return __('Telegram', 'linked3'); }
 
     public function publish(array $post_data, array $config)
     : array {

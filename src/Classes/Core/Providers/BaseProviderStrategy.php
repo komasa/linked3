@@ -66,7 +66,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array<string,string>
      */
-    public function get_api_headers(array $config) : mixed {
+    public function get_api_headers(array $config) : array {
         $headers = [
             'Content-Type'  => 'application/json',
             'Accept'        => 'application/json',
@@ -86,7 +86,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array
      */
-    public function format_chat_payload(array $messages, array $options, array $config) : mixed     {
+    public function format_chat_payload(array $messages, array $options, array $config) : array {
         $payload = [
             'model'       => isset($options['model']) ? $options['model'] : ($config['model'] ?? ''),
             'messages'    => $messages,

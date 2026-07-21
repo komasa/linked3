@@ -17,9 +17,9 @@ if (!defined('ABSPATH')) exit;
 final class UrlInputSource implements InputSourceInterface
 {
     public function slug() : string { return 'url'; }
-    public function label() : mixed { return __('URL 采集', 'linked3'); }
+    public function label() : string { return __('URL 采集', 'linked3'); }
 
-    public function fetch(array $config, $limit = 10) : mixed {
+    public function fetch(array $config, $limit = 10) : array {
         $urls = $config['urls'] ?? [];
         if (!is_array($urls) || empty($urls)) return [];
         $items = [];

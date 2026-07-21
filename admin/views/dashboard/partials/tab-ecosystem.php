@@ -152,4 +152,3 @@ if (file_exists($eco_partial)) {
         include $fallback;
     }
 }
-?>

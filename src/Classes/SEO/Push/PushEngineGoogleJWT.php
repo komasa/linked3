@@ -32,11 +32,11 @@ final class PushEngineGoogleJWT implements PushEngine
         return 'google';
     }
 
-    public function label() : mixed {
+    public function label() : string {
         return __('Google 索引 API', 'linked3');
     }
 
-    public function is_configured() : mixed     {
+    public function is_configured() : bool {
         $cfg = $this->config();
         return !empty($cfg['client_email']) && !empty($cfg['private_key']);
     }

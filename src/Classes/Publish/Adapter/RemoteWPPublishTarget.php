@@ -28,7 +28,7 @@ if (!defined('ABSPATH')) {
 final class RemoteWPPublishTarget implements PublishTargetInterface
 {
     public function type() : string { return 'remote_wp'; }
-    public function label() : mixed { return __('远程 WordPress(REST)', 'linked3'); }
+    public function label() : string { return __('远程 WordPress(REST)', 'linked3'); }
 
     public function publish(array $post, array $config)
     : array {

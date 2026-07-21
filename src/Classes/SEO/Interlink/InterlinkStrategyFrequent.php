@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 
 final class InterlinkStrategyFrequent implements InterlinkStrategy
 {
-    public function candidates($source_post_id, array $keywords, $limit, $max_per_target) : mixed {
+    public function candidates($source_post_id, array $keywords, $limit, $max_per_target) : array {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_interlink_map';
 

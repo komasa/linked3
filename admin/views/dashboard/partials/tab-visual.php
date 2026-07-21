@@ -57,4 +57,3 @@ if (file_exists($vs_partial)) {
 } else {
     echo '<div class="notice notice-error inline"><p>未知子面板: ' . esc_html($vs_sub) . '</p></div>';
 }
-?>

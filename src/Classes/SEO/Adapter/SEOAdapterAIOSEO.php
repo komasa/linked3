@@ -24,21 +24,21 @@ final class SEOAdapterAIOSEO implements SEOAdapter
         return 'aioseo';
     }
 
-    public function label() : mixed {
+    public function label(): string {
         return __('All in One SEO', 'linked3');
     }
 
-    public function is_active() : mixed     {
+    public function is_active(): bool {
         return defined('AIOSEO_VERSION')
             || class_exists('AIOSEO\Plugin\AIOSEO')
             || class_exists('All_in_One_SEO_Pack');
     }
 
-    public function handles_schema() : mixed {
+    public function handles_schema(): bool {
         return $this->is_active();
     }
 
-    public function handles_meta_description() : mixed     {
+    public function handles_meta_description(): bool {
         return $this->is_active();
     }
 
