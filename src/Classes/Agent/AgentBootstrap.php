@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) exit;
 class AgentBootstrap {
     private static bool $booted = false;
 
-    public static function boot() : mixed {
+    public static function boot() : void {
         if (self::$booted) return;
         self::$booted = true;
 
