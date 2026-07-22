@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class XHSHooksRegistrar
 {
-    public static function register(): void {
+    static function register(): void {
         // AJAX 处理器
         XHSAjaxActions::register();
 
@@ -30,7 +30,7 @@ final class XHSHooksRegistrar
     /**
      * 向视觉脚本注册表注册小红书生成器。
      */
-    public static function register_visual_generator($version): void {
+    static function register_visual_generator($version): void {
         if (class_exists('Linked3\\Classes\\Visual\\VisualScriptRegistry')) {
             \Linked3\Classes\Visual\VisualScriptRegistry::register_generator(
                 new XHSGenerator()

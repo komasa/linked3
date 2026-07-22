@@ -23,7 +23,7 @@ final class HookManager
      * @param string $version
      * @return void
      */
-    public static function register_hooks(string $version): void {
+    static function register_hooks(string $version): void {
         // i18n — always on.
         $i18n = new I18n();
         add_action('init', [$i18n, 'load_textdomain'], 0);
@@ -202,7 +202,7 @@ final class HookManager
     /**
      * @return void
      */
-    public static function show_registrar_errors(): void {
+    static function show_registrar_errors(): void {
         echo '<div class="notice notice-error"><p><strong>Linked3:</strong> '
             . esc_html__('部分模块加载失败,其他菜单仍可用。', 'linked3')
             . '</p><ul>';
@@ -223,14 +223,14 @@ final class HookManager
      *
      * @return void
      */
-    public static function register_admin_menu(): void {
+    static function register_admin_menu(): void {
                 add_submenu_page('linked3-dashboard', '安全审计', '安全审计', 'manage_options', 'linked3-security-audit', [__CLASS__, 'render_security_audit']);
     }
 
     /**
      * @return void
      */
-    public static function render_security_audit(): void {
+    static function render_security_audit(): void {
         if (!current_user_can('manage_options')) {
             return;
         }
@@ -249,7 +249,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function send_security_headers(): void {
+    static function send_security_headers(): void {
         if (headers_sent()) {
             return;
         }
@@ -303,7 +303,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function daily_health_check(): void {
+    static function daily_health_check(): void {
         if (class_exists('Linked3\\Includes\\Activator')) {
             Activator::check_for_updates();
         }
@@ -314,7 +314,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function cleanup_sse_cache(): void {
+    static function cleanup_sse_cache(): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_sse_message_cache';
         // ── FIX v16.0.1: Use PHP-computed timestamp for SQLite compatibility ──
@@ -327,7 +327,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function prune_logs(): void {
+    static function prune_logs(): void {
         if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
             \Linked3\Includes\Log\Logger::instance()->prune(30);
         }
@@ -340,7 +340,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function prune_push_logs(): void {
+    static function prune_push_logs(): void {
         if (class_exists('\\Linked3\\Classes\\SEO\\Push\\PushLogRepository')) {
             \Linked3\Classes\SEO\Push\PushLogRepository::prune_older_than(30);
         }
@@ -351,7 +351,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function prune_billing_events(): void {
+    static function prune_billing_events(): void {
         if (class_exists('\\Linked3\\Classes\\Billing\\BillingEventRepository')) {
             $repo = new \Linked3\Classes\Billing\BillingEventRepository();
             $repo->prune_older_than(90);
@@ -365,7 +365,7 @@ final class HookManager
      *
      * @return void
      */
-    public static function kw_cron_run(): void {
+    static function kw_cron_run(): void {
         // 1. 采集热词
         $hot_words = [];
         if (class_exists('\\Linked3\\Classes\\SEO\\Keyword\\KeywordManager')) {

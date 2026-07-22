@@ -23,7 +23,7 @@ final class WeiboDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'weibo'; }
     public function label() : string { return '微博'; }
 
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) {
             return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3-ai')];
@@ -53,7 +53,7 @@ final class WeiboDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($json['id'] ?? ''), 'message' => __('已发布到微博', 'linked3-ai')];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
         // v3.0.0: 真实 ping 微博 API 验证 token

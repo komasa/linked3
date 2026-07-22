@@ -35,7 +35,7 @@ final class LocalVectorProvider implements VectorProviderInterface
 
     public function slug() : string { return 'local'; }
 
-    public function connect(array $config)
+    public function connect(array $config): array
     {
         if (!class_exists('SQLite3')) {
             return ['ok' => false, 'message' => __('SQLite3 扩展不可用。', 'linked3')];
@@ -43,7 +43,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => __('本地向量存储就绪。', 'linked3')];
     }
 
-    public function create_index($name, $dimensions, array $config)
+    public function create_index(string $name, int $dimensions, array $config): array
     {
         $db = $this->db();
         if (!$db) return ['ok' => false, 'message' => __('无法打开 SQLite。', 'linked3')];
@@ -68,7 +68,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => "Index {$name} ready (dim={$dimensions})"];
     }
 
-    public function upsert($index, array $vectors, array $config)
+    public function upsert(string $index, array $vectors, array $config): array
     {
         $db = $this->db();
         if (!$db) return ['ok' => false, 'message' => __('无法打开 SQLite。', 'linked3')];
@@ -84,7 +84,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => sprintf(__('已写入 %d 个向量。', 'linked3'), count($vectors))];
     }
 
-    public function query($index, array $query_vector, $top_k = 5, array $filters = [], array $config = []): array
+    public function query(string $index, array $query_vector, int $top_k = 5, array $filters = [], array $config = []): array
     {
         $db = $this->db();
         if (!$db) {
@@ -157,7 +157,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return array_slice($candidates, 0, (int) $top_k);
     }
 
-    public function delete($index, array $ids, array $config)
+    public function delete(string $index, array $ids, array $config): array
     {
         $db = $this->db();
         if (!$db) return ['ok' => false, 'message' => __('无法打开 SQLite。', 'linked3')];
@@ -170,7 +170,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => sprintf(__('已删除 %d 个向量。', 'linked3'), count($ids))];
     }
 
-    public function embed($text, array $config): array|WP_Error
+    public function embed(string $text, array $config): array|WP_Error
     {
         try {
             // Call the provider's embeddings endpoint directly via Safe_Remote.

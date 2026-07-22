@@ -39,7 +39,7 @@ final class IndexnowSavePostHook
     /**
      * @return void
      */
-    public static function register(): void {
+    static function register(): void {
         add_action('save_post', [__CLASS__, 'on_save_post'], self::HOOK_PRIORITY, 3);
     }
 
@@ -49,7 +49,7 @@ final class IndexnowSavePostHook
      * @param bool     $update
      * @return void
      */
-    public static function on_save_post(int $post_id, WP_Post $post, bool $update): void {
+    static function on_save_post(int $post_id, WP_Post $post, bool $update): void {
         // Skip autosaves + revisions + non-public types.
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;

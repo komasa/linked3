@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 class DashboardAIConfigActions extends DashboardBaseAjaxAction
 {
-    public static function register(): void {
+    static function register(): void {
         add_action('wp_ajax_linked3_sync_models', [__CLASS__, 'sync_models']);
         add_action('wp_ajax_linked3_save_ai_suffix', [__CLASS__, 'save_ai_suffix']);
         add_action('wp_ajax_linked3_save_advanced', [__CLASS__, 'save_advanced']);

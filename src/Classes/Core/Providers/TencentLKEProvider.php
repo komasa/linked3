@@ -25,7 +25,7 @@ final class TencentLKEProvider extends BaseProviderStrategy
         return 'https://lke.cloud.tencent.com/v1';
     }
 
-    public function build_api_url(string $operation, array $config): string {
+    public function build_api_url(string $operation, array $config) : string {
         $base = $this->api_base($config);
         // LKE 用 /bot/chat/completions, BotAppKey 在 header 里。
         return $base . '/bot/chat/completions';
@@ -76,13 +76,12 @@ final class TencentLKEProvider extends BaseProviderStrategy
         ];
     }
 
-    public function parse_error_response($body, int $status_code)
-    {
+    public function parse_error_response($body, int $status_code, array $config = []): array {
         $body = is_array($body) ? $body : [];
         return [
             'code' => (string) ($body['code'] ?? 'lke_error'),
             'message' => (string) ($body['message'] ?? $body['msg'] ?? 'Unknown'),
-            'status' => $status_code,
+            'status' => (int) $status_code,
         ];
     }
 

@@ -45,7 +45,7 @@ use Linked3\Includes\EventBus;
          * @param mixed  ...$args Variable arguments passed to subscribers.
          * @return void
          */
-        public static function dispatch(string $event, ...$args): void {
+        static function dispatch(string $event, ...$args): void {
             $hook = 'linked3/' . $event;
             do_action_ref_array($hook, $args);
         }
@@ -62,7 +62,7 @@ use Linked3\Includes\EventBus;
          * @param int      $args     Accepted args count (default 1).
          * @return void
          */
-        public static function subscribe(string $event, callable $callback, int $priority = 10, int $args = 1): void {
+        static function subscribe(string $event, callable $callback, int $priority = 10, int $args = 1): void {
             $hook = 'linked3/' . $event;
             add_action($hook, $callback, $priority, $args);
         }

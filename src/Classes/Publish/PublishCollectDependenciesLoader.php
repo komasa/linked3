@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class PublishCollectDependenciesLoader
 {
-    public static function load(): void {
+    static function load(): void {
         $files = [
             // Publish module
             'Classes/Publish/PublishTargetInterface.php',

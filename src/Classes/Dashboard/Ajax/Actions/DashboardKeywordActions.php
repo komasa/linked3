@@ -27,7 +27,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
     const NONCE_ACTION = 'linked3_content_writer';
     const REQUIRED_CAP = 'manage_options';
 
-    public static function register(): void {
+    static function register(): void {
         add_action('wp_ajax_linked3_keyword_fetch_hot', [__CLASS__, 'keyword_fetch_hot']);
         add_action('wp_ajax_linked3_keyword_generate_tail', [__CLASS__, 'keyword_generate_tail']);
         add_action('wp_ajax_linked3_keyword_batch_generate', [__CLASS__, 'keyword_batch_generate']);
@@ -140,7 +140,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
     /**
      * AJAX: AI 生成长尾关键词。
      */
-    public static function keyword_generate_tail(): void {
+    static function keyword_generate_tail(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -158,7 +158,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
     /**
      * AJAX: 批量生成文章。
      */
-    public static function keyword_batch_generate(): void {
+    static function keyword_batch_generate(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }

@@ -23,7 +23,7 @@ final class JuejinDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'juejin'; }
     public function label() : string { return '掘金'; }
 
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         $category = $config['category_id'] ?? '6809637767543259144'; // 默认"前端"
         if (!$token) {
@@ -55,7 +55,7 @@ final class JuejinDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => $json['data']['article_id'], 'message' => __('已发布到掘金', 'linked3-ai')];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
         // v3.0.0: 真实 ping 掘金用户接口验证 token (注意: 掘金实际用 cookie 鉴权,Bearer 可能不通)

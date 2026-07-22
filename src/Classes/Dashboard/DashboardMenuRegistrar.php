@@ -31,7 +31,7 @@ final class DashboardMenuRegistrar
      *
      * @return void
      */
-    public static function register(): void {
+    static function register(): void {
         add_action('admin_init', [__CLASS__, 'register_settings']);
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
     }
@@ -45,7 +45,7 @@ final class DashboardMenuRegistrar
      * license-key option hook (which is a settings lifecycle concern, not
      * an AJAX endpoint).
      */
-    public static function register_settings(): void {
+    static function register_settings(): void {
         register_setting('linked3_api_settings', LINKED3_OPTION_PREFIX . 'provider_keys', [
             'type' => 'array',
             'sanitize_callback' => [__CLASS__, 'sanitize_provider_keys'],
@@ -130,13 +130,13 @@ final class DashboardMenuRegistrar
     /**
      * License key 保存后,同步到 License_Service (加密存储 + 触发验证)。
      */
-    public static function on_license_saved(mixed $old, mixed $new, string $option): void {
+    static function on_license_saved(mixed $old, mixed $new, string $option): void {
         if (class_exists('Linked3\\Classes\\License\\LicenseService')) {
             \Linked3\Classes\License\LicenseService::instance()->store_license_key((string) $new);
         }
     }
 
-    public static function register_admin_menu(): void {
+    static function register_admin_menu(): void {
         // 顶级菜单已在 linked3.php 早期注册 (slug=linked3-dashboard, 回调=空)。
         // 这里注册一个同 slug 子菜单,WP 会自动让点击顶级时执行此回调。
         // 同时用 remove_submenu_page 移除 WP 自动生成的第一个子菜单项(避免重复)。
@@ -150,7 +150,7 @@ final class DashboardMenuRegistrar
         );
     }
 
-    public static function render_dashboard(): void {
+    static function render_dashboard(): void {
         if (!current_user_can('manage_options')) {
             wp_die(__('无权限', 'linked3'));
         }

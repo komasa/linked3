@@ -223,7 +223,7 @@ final class TokenManager
      *
      * @return void
      */
-    public static function daily_reset(): void {
+    static function daily_reset(): void {
         global $wpdb;
 
         // 1) Bulk-reset all users via direct SQL (faster than iterating meta).

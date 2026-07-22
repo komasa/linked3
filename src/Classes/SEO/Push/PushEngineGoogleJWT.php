@@ -36,7 +36,7 @@ final class PushEngineGoogleJWT implements PushEngine
         return __('Google 索引 API', 'linked3');
     }
 
-    public function is_configured(): bool     {
+    public function is_configured() : bool     {
         $cfg = $this->config();
         return !empty($cfg['client_email']) && !empty($cfg['private_key']);
     }
@@ -60,7 +60,7 @@ final class PushEngineGoogleJWT implements PushEngine
         return $defaults;
     }
 
-    public function push(array $urls) {
+    public function push(array $urls): array {
         $cfg = $this->config();
         if (!$this->is_configured()) {
             return [

@@ -37,15 +37,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// 显式加载 COS 核心类 (自动加载器无法解析无命名空间路径)
-require_once __DIR__ . '/Core/CosAxioms.php';
-require_once __DIR__ . '/Core/CosDepartments.php';
-require_once __DIR__ . '/Core/CosSla.php';
-require_once __DIR__ . '/Core/CosEvolution.php';
-require_once __DIR__ . '/Storage/CosSkillLibrary.php';
-require_once __DIR__ . '/Storage/CosEvolutionArchive.php';
-// v20.4-fix17: 加载复合杠杆注册表
-require_once __DIR__ . '/../MetaLever/Composite/CompositeLever.php';
+// 显式加载 COS 核心类 (v27.6.4-fix: PSR-4 case-sensitive filenames)
+require_once __DIR__ . '/Core/COSAxioms.php';
+require_once __DIR__ . '/Core/COSDepartments.php';
+require_once __DIR__ . '/Core/COSSLA.php';
+require_once __DIR__ . '/Core/COSEvolution.php';
+require_once __DIR__ . '/Storage/COSSkillLibrary.php';
+require_once __DIR__ . '/Storage/COSEvolutionArchive.php';
+// v20.4-fix17: 加载复合杠杆注册表 (v27.6.4-fix: CompositeLever.php → CompositeLeverInterface.php)
+require_once __DIR__ . '/../MetaLever/Composite/CompositeLeverInterface.php';
 require_once __DIR__ . '/../MetaLever/Composite/CompositeLeverRegistry.php';
 // v27.17.10: 加载 COSReporter (统计/仪表盘查询, 从 COSEngine 拆分)
 require_once __DIR__ . '/COSReporter.php';

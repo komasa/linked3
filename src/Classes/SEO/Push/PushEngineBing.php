@@ -35,7 +35,7 @@ final class PushEngineBing implements PushEngine
         return __('Bing Indexnow', 'linked3');
     }
 
-    public function is_configured(): bool     {
+    public function is_configured() : bool     {
         return $this->key() !== '';
     }
 
@@ -53,7 +53,7 @@ final class PushEngineBing implements PushEngine
         return $key;
     }
 
-    public function push(array $urls)     {
+    public function push(array $urls) : mixed     {
         $key = $this->key();
         $host = (string) wp_parse_url(site_url(), PHP_URL_HOST);
         $key_location = trailingslashit(site_url()) . $key . '.txt';

@@ -3,7 +3,7 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           27.6.5
+ * Version:           27.6.8
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Linked3 Group
@@ -20,22 +20,6 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-
-// -----------------------------------------------------------------------------
-// ── EARLY ERROR HANDLER (v27.6.3) ───────────────────────────────────────────
-// Batch syntax scan + runtime fatal handler + require path validation.
-// Must load BEFORE any other plugin code to catch all errors.
-// -----------------------------------------------------------------------------
-require_once __DIR__ . '/lib/wp-early-error-handler.php';
-wp_early_error_handler_init([
-    'plugin_name' => 'Linked3 AI',
-    'plugin_dir'  => __DIR__,
-    'main_file'   => __FILE__,
-    'scan_on_load' => true,
-    'skip_dirs'   => ['node_modules', '.git', 'vendor', 'tests/bin', 'assets'],
-    'persist_errors' => true,
-    'option_name' => 'linked3_early_errors',
-]);
 
 
 // -----------------------------------------------------------------------------
@@ -164,7 +148,36 @@ if (!function_exists('_linked3_orig_add_action')) {
 // defined until later in this file. __DIR__ is always available and points
 // to this file's directory.
 // -----------------------------------------------------------------------------
-require_once __DIR__ . '/lib/linked3-early-error-handler.php';
+// v27.6.8: Normalized 172+2 files — converted all multi-line return type declarations
+// to single-line (function foo()\n: string { → function foo(): string {). Multi-line
+// format caused ParseError on WordPress Playground PHP. Also added : string to
+// abstract default_api_base() declaration for LSP consistency.
+// v27.6.7: Fixed scanner blind spot — use-statement alias resolution. Previous scan
+// missed interfaces imported via `use` (DistributeAdapterInterface, PublishTargetInterface,
+// VectorProviderInterface, VisualScriptGeneratorInterface). Found + fixed 34 more errors
+// across 12 files. Total cumulative: 100 interface compatibility errors fixed (37 files).
+// v27.6.6: Fixed 66 interface compatibility errors across 25 files (return type
+// mismatches: mixed→array/string/bool, missing parameter type hints). Used static
+// analysis scanner (iface-check.js) to find ALL errors at once instead of fixing
+// them one-at-a-time via runtime trial-and-error.
+// v27.6.5: Switched to enhanced wp-early-error-handler (user-uploaded module
+// base + 3 enhancements: require-path check, error_log persist, option persist).
+// The old linked3-early-error-handler.php is kept as fallback if the new file
+// is missing (shouldn't happen, but defensive).
+if (file_exists(__DIR__ . '/lib/wp-early-error-handler.php')) {
+    require_once __DIR__ . '/lib/wp-early-error-handler.php';
+    wp_early_error_handler_init([
+        'plugin_name'       => 'Linked3 AI',
+        'plugin_dir'        => __DIR__,
+        'main_file'         => __FILE__,
+        'scan_on_load'      => true,
+        'force_display'     => true,
+        'check_requires'    => true,
+        'check_interfaces'  => true,
+    ]);
+} elseif (file_exists(__DIR__ . '/lib/linked3-early-error-handler.php')) {
+    require_once __DIR__ . '/lib/linked3-early-error-handler.php';
+}
 
 // -----------------------------------------------------------------------------
 // Diagnostic mode — force error display so activation fatals are visible.
@@ -203,7 +216,7 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '27.6.5');
+define('LINKED3_VERSION', '27.6.8');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
@@ -250,10 +263,11 @@ if (version_compare(PHP_VERSION, '7.4.0', '<')) {
 require_once LINKED3_DIR . 'src/autoload.php';
 
 // v19.2-fix: Load BookFactory Traits BEFORE any class that uses them.
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-outline-merger.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-cost-tracker.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-review-linker.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-section-expander.php';
+// v27.6.4-fix: PSR-4 rename — snake_case filenames → PascalCase
+require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/OutlineMerger.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/CostTracker.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/ReviewLinker.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/SectionExpander.php';
 
 // -----------------------------------------------------------------------------
 // v18.5: 写书工厂模块显式加载
@@ -264,10 +278,13 @@ require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/trait-linked3-section
 // -----------------------------------------------------------------------------
 // v18.11: 安全工具
 require_once LINKED3_DIR . 'src/Classes/BookFactory/BookSecurity.php';
-// v19.0: 接口契约
-require_once LINKED3_DIR . 'src/Classes/BookFactory/interfaces-linked3-book-contracts.php';
+// v19.0: 接口契约 (v27.6.4-fix: PSR-4 — combined file split into individual interfaces)
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAICallerInterface.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookCostTrackerInterface.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookPromptProviderInterface.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStateRepositoryInterface.php';
 // v18.11: 步骤接口化
-require_once LINKED3_DIR . 'src/Classes/BookFactory/interface-linked3-book-step.php';
+require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepInterface.php';
 require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepAdapter.php';
 require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepRegistry.php';
 // 核心类
@@ -365,7 +382,7 @@ add_action('admin_head', static function () {
 require_once LINKED3_DIR . 'lib/premium_only.php';
 
 // v19.40: 元提示词杠杆体系 — 注册表 + 接口 + 内置杠杆
-require_once LINKED3_DIR . 'src/Classes/MetaLever/interface-linked3-meta-lever.php';
+require_once LINKED3_DIR . 'src/Classes/MetaLever/MetaLeverInterface.php';
 require_once LINKED3_DIR . 'src/Classes/MetaLever/MetaLeverRegistry.php';
 require_once LINKED3_DIR . 'src/Classes/MetaLever/MetaLeverHooksRegistrar.php';
 // 内置杠杆文件由 Registry::init() 自动 glob 加载
@@ -380,7 +397,7 @@ require_once LINKED3_DIR . 'src/Classes/Diagram/DiagramStructureRegistry.php';
 add_action('plugins_loaded', ['\\Linked3\\Classes\\Diagram\\DiagramStructureRegistry', 'init'], 7);
 
 // G3.2: Unified Content Pipeline
-require_once LINKED3_DIR . "src/Classes/Content/Pipeline/interface-linked3-content-pipeline.php";
+require_once LINKED3_DIR . "src/Classes/Content/Pipeline/ContentPipelineInterface.php";
 require_once LINKED3_DIR . "src/Classes/Content/Pipeline/ContentPipelineRegistry.php";
 add_action("init", ["\\Linked3\\Classes\\Content\\Pipeline\\ContentPipelineRegistry", "register_ajax"], 20);
 

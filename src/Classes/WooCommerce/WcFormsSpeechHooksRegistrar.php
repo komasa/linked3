@@ -22,7 +22,7 @@ use Linked3\Includes\Traits\{TraitCheckAdminPermissions, TraitCheckPlanAccess, T
 
 final class WcFormsSpeechHooksRegistrar
 {
-    public static function register(): void {
+    static function register(): void {
         // AI Forms.
         AiFormManager::register();
         // v1.0.0 FINAL-AUDIT: wire up admin CRUD AJAX (create/update/delete).
@@ -50,7 +50,7 @@ final class WcFormsSpeechHooksRegistrar
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
     }
 
-    public static function wc_generate_desc(): void {
+    static function wc_generate_desc(): void {
         self::verify_admin('linked3_wc');
         self::require_pro();
         $ids = array_filter(array_map('intval', (array) (wp_unslash($_POST['product_ids'] ?? []))));
@@ -65,7 +65,7 @@ final class WcFormsSpeechHooksRegistrar
         $result['ok'] ? wp_send_json_success($result) : wp_send_json_error($result, 502);
     }
 
-    public static function wc_generate_reviews(): void {
+    static function wc_generate_reviews(): void {
         self::verify_admin('linked3_wc');
         self::require_pro();
         $pid = (int) ($_POST['product_id'] ?? 0);
@@ -80,7 +80,7 @@ final class WcFormsSpeechHooksRegistrar
      * AJAX: generate AI product image (DALL-E 3). Pro+ feature.
      * v1.0.0 FINAL-AUDIT: wire up the previously-orphaned generator method.
      */
-    public static function wc_generate_image(): void {
+    static function wc_generate_image(): void {
         self::verify_admin('linked3_wc');
         self::require_pro();
         $pid = (int) ($_POST['product_id'] ?? 0);
@@ -95,7 +95,7 @@ final class WcFormsSpeechHooksRegistrar
         $result['ok'] ? wp_send_json_success($result) : wp_send_json_error($result, 502);
     }
 
-    public static function tts_synthesize(): void {
+    static function tts_synthesize(): void {
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_tts')) {
             wp_send_json_error(['message' => __('安全校验失败。', 'linked3')], 403);
@@ -123,33 +123,33 @@ final class WcFormsSpeechHooksRegistrar
         $result['ok'] ? wp_send_json_success($result) : wp_send_json_error($result, 502);
     }
 
-    private static function verify_admin($nonce_action): void {
+    static function verify_admin($nonce_action): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限。', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, $nonce_action)) wp_send_json_error(['message' => __('安全校验失败。', 'linked3')], 403);
     }
 
-    private static function require_pro(): void {
+    static function require_pro(): void {
         // v2.9.0: 移除 plan gate,本地模式所有用户可用
         // 保留方法签名以兼容现有调用点
     }
 
-    public static function register_admin_menu(): void {
+    static function register_admin_menu(): void {
         // 商品AI 不再依赖 WooCommerce — 即使没装 WC 也能显示页面
         add_submenu_page('linked3-dashboard', '商品AI', '商品AI', 'manage_options', 'linked3-wc', [__CLASS__, 'render_wc_page']);
         add_submenu_page('linked3-dashboard', 'AI表单', 'AI表单', 'manage_options', 'linked3-forms', [__CLASS__, 'render_forms_page']);
         add_submenu_page('linked3-dashboard', '语音TTS/STT', '语音TTS/STT', 'manage_options', 'linked3-speech', [__CLASS__, 'render_speech_page']);
     }
 
-    public static function render_wc_page(): void {
+    static function render_wc_page(): void {
         if (!current_user_can('manage_options')) return;
         include LINKED3_DIR . 'admin/views/wc/dashboard.php';
     }
-    public static function render_forms_page(): void {
+    static function render_forms_page(): void {
         if (!current_user_can('manage_options')) return;
         include LINKED3_DIR . 'admin/views/forms/dashboard.php';
     }
-    public static function render_speech_page(): void {
+    static function render_speech_page(): void {
         if (!current_user_can('manage_options')) return;
         include LINKED3_DIR . 'admin/views/speech/dashboard.php';
     }

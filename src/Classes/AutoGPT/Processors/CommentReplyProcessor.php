@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class CommentReplyProcessor implements AutoGPTProcessorInterface
 {
-    public function process(array $task) {
+    public function process(array $task): array {
         $cfg = $task['config'];
         // v3.1.0: sentiment_filter 是死代码 (读取了但永不使用),保留兼容但不处理
         $processed = 0;

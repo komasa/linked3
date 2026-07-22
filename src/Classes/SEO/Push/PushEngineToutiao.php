@@ -34,7 +34,7 @@ final class PushEngineToutiao implements PushEngine
         return __('神马/头条推送', 'linked3');
     }
 
-    public function is_configured(): bool     {
+    public function is_configured() : bool     {
         $cfg = $this->config();
         return !empty($cfg['site']) && !empty($cfg['user_name']) && !empty($cfg['resource_name']);
     }
@@ -57,7 +57,7 @@ final class PushEngineToutiao implements PushEngine
         return $defaults;
     }
 
-    public function push(array $urls)     {
+    public function push(array $urls) : mixed     {
         $cfg = $this->config();
         if (!$this->is_configured()) {
             return [

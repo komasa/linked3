@@ -37,7 +37,7 @@ final class Alibaba1688Distributor implements DistributeAdapterInterface
 
     const API_BASE = 'https://gw.open.1688.com/openapi';
 
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $app_key = $config['app_key'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';
@@ -94,7 +94,7 @@ final class Alibaba1688Distributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => $product_id, 'message' => sprintf('已推送到 1688 (产品 ID: %s)', $product_id)];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $app_key = $config['app_key'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';

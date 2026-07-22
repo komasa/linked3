@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class AutoGPTHooksRegistrar
 {
-    public static function register(): void {
+    static function register(): void {
         // Cron init.
         AutoGPTCron::init();
 
@@ -35,11 +35,11 @@ final class AutoGPTHooksRegistrar
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
     }
 
-    public static function register_admin_menu(): void {
+    static function register_admin_menu(): void {
         add_submenu_page('linked3-dashboard', '自动 Agent', '自动 Agent', 'manage_options', 'linked3-autogpt', [__CLASS__, 'render_admin_page']);
     }
 
-    public static function render_admin_page(): void {
+    static function render_admin_page(): void {
         if (!current_user_can('manage_options')) return;
         $repo = new AutoGPTTaskRepository();
         $tasks = $repo->all(get_current_user_id());

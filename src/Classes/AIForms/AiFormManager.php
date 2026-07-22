@@ -26,7 +26,7 @@ final class AiFormManager
      *
      * @return void
      */
-    public static function register(): void {
+    static function register(): void {
         add_shortcode('linked3_form', [__CLASS__, 'render']);
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue']);
     }
@@ -42,7 +42,7 @@ final class AiFormManager
      *
      * @return void
      */
-    public static function register_admin_ajax(): void {
+    static function register_admin_ajax(): void {
         add_action('wp_ajax_linked3_form_create', [__CLASS__, 'handle_create']);
         add_action('wp_ajax_linked3_form_update', [__CLASS__, 'handle_update']);
         add_action('wp_ajax_linked3_form_delete', [__CLASS__, 'handle_delete']);
@@ -54,7 +54,7 @@ final class AiFormManager
      *
      * @return void
      */
-    public static function handle_create(): void {
+    static function handle_create(): void {
         self::verify_admin('linked3_forms_admin');
         $form = self::validate_form_input();
         if (is_wp_error($form)) {
@@ -75,7 +75,7 @@ final class AiFormManager
      *
      * @return void
      */
-    public static function handle_update(): void {
+    static function handle_update(): void {
         self::verify_admin('linked3_forms_admin');
         $id = (int) ($_POST['id'] ?? 0);
         if (!$id) {
@@ -99,7 +99,7 @@ final class AiFormManager
      *
      * @return void
      */
-    public static function handle_delete(): void {
+    static function handle_delete(): void {
         self::verify_admin('linked3_forms_admin');
         $id = (int) ($_POST['id'] ?? 0);
         if (!$id) {
@@ -120,7 +120,7 @@ final class AiFormManager
      * @param string $nonce_action
      * @return void
      */
-    private static function verify_admin(string $nonce_action): void {
+    static function verify_admin(string $nonce_action): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限。', 'linked3')], 403);
         }
@@ -230,7 +230,7 @@ final class AiFormManager
         return ob_get_clean();
     }
 
-    public static function enqueue(): void {
+    static function enqueue(): void {
         add_action('wp_head', static function () {
             echo '<style>.linked3-ai-form{max-width:600px;margin:1em 0;}.linked3-ai-form label{display:block;margin-bottom:8px;font-weight:600;}.linked3-ai-form input,.linked3-ai-form textarea,.linked3-ai-form select{width:100%;padding:8px;border:1px solid #d1d5db;border-radius:4px;font-weight:400;}.linked3-ai-form button{padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer;}.linked3-form-ok{background:#dcfce7;padding:12px;border-radius:4px;margin-top:12px;}.linked3-form-err{background:#fee2e2;padding:12px;border-radius:4px;margin-top:12px;}</style>';
         });
@@ -241,7 +241,7 @@ final class AiFormManager
      *
      * @return void
      */
-    public static function handle_submission(): void {
+    static function handle_submission(): void {
         $form_id = (int) ($_POST['form_id'] ?? 0);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_form_' . $form_id)) {

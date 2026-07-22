@@ -146,7 +146,7 @@ final class BusinessOptimizer
      *
      * @return void
      */
-    public static function daily_analyze(): void {
+    static function daily_analyze(): void {
         $self = self::instance();
         $started_at = (int) get_option(LINKED3_OPTION_PREFIX . 'experiment_started_at', 0);
         // Need at least 7 days of data.

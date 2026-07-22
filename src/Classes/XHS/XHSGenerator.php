@@ -137,7 +137,7 @@ PROMPT;
      * @param array $params
      * @return array|\WP_Error
      */
-    public function generate_script(array $params): array|WP_Error {
+    public function generate_script(array $params) : array|WP_Error {
         $topic       = sanitize_text_field($params['topic'] ?? '');
         $keyword     = sanitize_text_field($params['keyword'] ?? '');
         $style_id    = sanitize_text_field($params['style'] ?? 'lifestyle');
@@ -339,7 +339,7 @@ PROMPT;
         return 'xhs';
     }
 
-    public function platform_label(): string {
+    public function platform_label() : string {
         return __('小红书图文', 'linked3');
     }
 

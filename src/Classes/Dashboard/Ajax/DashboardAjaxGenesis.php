@@ -51,7 +51,7 @@ final class DashboardAjaxGenesis
      *
      * @return void
      */
-    public static function register(): void {
+    static function register(): void {
         // Genesis generation endpoints
         add_action('wp_ajax_linked3_genesis_generate',        [GenesisProcessor::class, 'ajax_genesis_generate']);
         add_action('wp_ajax_linked3_genesis_styles',          [GenesisProcessor::class, 'ajax_genesis_styles']);

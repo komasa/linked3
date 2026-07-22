@@ -19,7 +19,7 @@ final class RssInputSource implements InputSourceInterface
     public function slug() : string { return 'rss'; }
     public function label() : string { return __('RSS 订阅源', 'linked3'); }
 
-    public function fetch(array $config, int $limit = 10): array {
+    public function fetch(array $config, int $limit = 10) : array {
         $feed_url = $config['feed_url'] ?? '';
         if (empty($feed_url)) {
             return [];

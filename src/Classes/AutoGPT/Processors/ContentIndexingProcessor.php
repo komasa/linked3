@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) exit;
 
 final class ContentIndexingProcessor implements AutoGPTProcessorInterface
 {
-    public function process(array $task) {
+    public function process(array $task): array {
         $cfg = $task['config'];
         $batch = (int) ($cfg['batch_size'] ?? 100);
         $processed = 0;

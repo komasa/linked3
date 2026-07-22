@@ -42,7 +42,7 @@ namespace Linked3\Classes\OS\Core;
 if (!defined('ABSPATH')) exit;
 
 if (!class_exists('\Linked3\Classes\OS\Core\OSReverseDimensions')) {
-    require_once __DIR__ . '/OsReverseDimensions.php';
+    require_once __DIR__ . '/OSReverseDimensions.php';
 }
 
 class OSReverseEngine {

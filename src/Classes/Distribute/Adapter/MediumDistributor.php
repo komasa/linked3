@@ -23,7 +23,7 @@ final class MediumDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'medium'; }
     public function label() : string { return 'Medium'; }
 
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3-ai')];
         $body = [
@@ -45,7 +45,7 @@ final class MediumDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($json['data']['id'] ?? ''), 'message' => __('已发布到 Medium', 'linked3-ai')];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Integration Token', 'linked3-ai')];
         // v3.0.0: 真实 ping Medium API 验证 token

@@ -35,7 +35,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
      *   - access_token:        用户的 Access Token
      *   - access_token_secret: 用户的 Access Token Secret
      */
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $ck = $config['consumer_key'] ?? '';
         $cs = $config['consumer_secret'] ?? '';
         $at = $config['access_token'] ?? '';
@@ -82,7 +82,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($body['data']['id'] ?? ''), 'message' => 'ok'];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $ck = $config['consumer_key'] ?? '';
         $cs = $config['consumer_secret'] ?? '';
         $at = $config['access_token'] ?? '';

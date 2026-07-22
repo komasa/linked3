@@ -29,7 +29,7 @@ final class RemoteDBPublishTarget implements PublishTargetInterface
     public function type() : string { return 'remote_db'; }
     public function label() : string { return __('远程数据库(直连)', 'linked3'); }
 
-    public function publish(array $post, array $config) {
+    public function publish(array $post, array $config): array {
         $remote = $this->connect($config);
         if (is_wp_error($remote)) {
             return ['ok' => false, 'remote_id' => '', 'message' => $remote->get_error_message(), 'response_code' => 500];
@@ -62,7 +62,7 @@ final class RemoteDBPublishTarget implements PublishTargetInterface
         return ['ok' => true, 'remote_id' => $remote_id, 'message' => 'ok', 'response_code' => 200];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $remote = $this->connect($config);
         if (is_wp_error($remote)) {
             return ['ok' => false, 'message' => $remote->get_error_message()];

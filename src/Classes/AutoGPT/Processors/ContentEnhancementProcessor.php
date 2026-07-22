@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 final class ContentEnhancementProcessor implements AutoGPTProcessorInterface
 {
-    public function process(array $task) {
+    public function process(array $task): array {
         $cfg = $task['config'];
         $min_score = (int) ($cfg['min_score'] ?? 60);
         $max = (int) ($cfg['max_per_run'] ?? 5);

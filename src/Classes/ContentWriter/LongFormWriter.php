@@ -246,7 +246,7 @@ final class LongFormWriter
     /**
      * 默认大纲 (JSON 解析失败时的兜底)
      */
-    private static function build_default_outline($topic, $target_words): array {
+    static function build_default_outline($topic, $target_words): array {
         $section_words = (int) ($target_words / 4);
         return [
             ['h2' => '引言: ' . $topic, 'target_words' => $section_words, 'key_points' => ['背景介绍', '问题阐述'], 'keywords' => []],

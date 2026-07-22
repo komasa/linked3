@@ -33,7 +33,7 @@ final class PushEngineIndexnow implements PushEngine
         return __('Indexnow(多引擎)', 'linked3');
     }
 
-    public function is_configured(): bool     {
+    public function is_configured() : bool     {
         return $this->key() !== '';
     }
 
@@ -50,7 +50,7 @@ final class PushEngineIndexnow implements PushEngine
         return $key;
     }
 
-    public function push(array $urls) {
+    public function push(array $urls): array {
         $key = $this->key();
         $host = (string) wp_parse_url(site_url(), PHP_URL_HOST);
         $payload = [

@@ -37,7 +37,7 @@ final class PushEngineBaidu implements PushEngine
         return __('百度站点推送', 'linked3');
     }
 
-    public function is_configured(): bool     {
+    public function is_configured() : bool     {
         $cfg = $this->config();
         return !empty($cfg['site']) && !empty($cfg['token']);
     }
@@ -57,7 +57,7 @@ final class PushEngineBaidu implements PushEngine
         return $defaults;
     }
 
-    public function push(array $urls)     {
+    public function push(array $urls) : mixed     {
         $cfg = $this->config();
         if (!$this->is_configured()) {
             return [

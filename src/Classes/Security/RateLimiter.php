@@ -45,7 +45,7 @@ final class RateLimiter
      * @param string $context 'ajax'|'rest'|'frontend' — for filter differentiation.
      * @return true Always true on success; never returns on rate-limit hit.
      */
-    public static function gate(string $context = 'ajax'): bool {
+    static function gate(string $context = 'ajax'): bool {
         $ip  = self::client_ip();
         $max = (int) apply_filters('linked3/rate_limit_per_minute', self::DEFAULT_MAX_PER_MINUTE, $context, $ip);
         if ($max <= 0) {
@@ -87,7 +87,7 @@ final class RateLimiter
      * @param string $context  e.g. 'ai_chat', 'ai_embed'.
      * @return true
      */
-    public static function per_user_hourly(int $user_id, string $context = 'ai'): bool {
+    static function per_user_hourly(int $user_id, string $context = 'ai'): bool {
         $user_id = (int) $user_id;
         if ($user_id <= 0) {
             return true; // guests bounded by IP gate + guest quota.
@@ -122,7 +122,7 @@ final class RateLimiter
      *
      * @return void
      */
-    public static function maybe_gate_linked3_ajax(): void {
+    static function maybe_gate_linked3_ajax(): void {
         if (!defined('DOING_AJAX') || !DOING_AJAX) {
             return;
         }
@@ -138,7 +138,7 @@ final class RateLimiter
      *
      * @return never
      */
-    private static function send_429(): void {
+    static function send_429(): void {
         if (!headers_sent()) {
             status_header(429);
             header('Retry-After: 60');

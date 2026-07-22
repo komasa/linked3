@@ -24,7 +24,7 @@ class DashboardGenesisActions extends DashboardBaseAjaxAction
     const NONCE_ACTION = 'linked3_content_writer';
     const REQUIRED_CAP = 'edit_posts';
 
-    public static function register(): void {
+    static function register(): void {
         // Genesis generation endpoints
         add_action('wp_ajax_linked3_genesis_generate', [__CLASS__, 'genesis_generate']);
         add_action('wp_ajax_linked3_genesis_styles', [__CLASS__, 'genesis_styles']);

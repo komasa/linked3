@@ -46,7 +46,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return string
      */
-    protected function api_base(array $config) : string {
+    protected function api_base(array $config) : string     {
         $base = isset($config['api_base']) ? rtrim((string) $config['api_base'], '/') : '';
         if ($base === '') {
             $base = $this->default_api_base();
@@ -57,7 +57,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
     /**
      * @return string
      */
-    abstract protected function default_api_base();
+    abstract protected function default_api_base(): string;
 
     /**
      * Default OpenAI-compatible headers. Override for Anthropic (x-api-key)
@@ -86,7 +86,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array
      */
-    public function format_chat_payload(array $messages, array $options, array $config) : array {
+    public function format_chat_payload(array $messages, array $options, array $config) : array     {
         $payload = [
             'model'       => isset($options['model']) ? $options['model'] : ($config['model'] ?? ''),
             'messages'    => $messages,
@@ -114,7 +114,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array{content:string, usage:array, raw:array}
      */
-    public function parse_chat_response($body, array $config) {
+    public function parse_chat_response($body, array $config): array {
         $body = is_array($body) ? $body : [];
         $content = '';
         if (isset($body['choices'][0]['message']['content'])) {
@@ -168,7 +168,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param int   $status_code
      * @return array{code:string, message:string, status:int}
      */
-    public function parse_error_response($body, int $status_code) {
+    public function parse_error_response($body, int $status_code): array {
         $body = is_array($body) ? $body : [];
         $status_code = (int) $status_code;
         $code = 'linked3_provider_error';

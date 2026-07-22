@@ -286,7 +286,7 @@ final class SEOScorecard
      * @param int $score
      * @return string
      */
-    public static function grade(int $score): string {
+    static function grade(int $score): string {
         if ($score >= 90) return 'A';
         if ($score >= 80) return 'B';
         if ($score >= 70) return 'C';

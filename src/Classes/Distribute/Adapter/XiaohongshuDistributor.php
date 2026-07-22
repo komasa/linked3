@@ -26,7 +26,7 @@ final class XiaohongshuDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'xiaohongshu'; }
     public function label() : string { return '小红书'; }
 
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {
@@ -66,7 +66,7 @@ final class XiaohongshuDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($json['note_id'] ?? ''), 'message' => __('已发布到小红书', 'linked3-ai')];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {

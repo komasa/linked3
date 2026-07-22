@@ -24,7 +24,7 @@ final class SchemaArticle implements SchemaBuilder
         return 'Article';
     }
 
-    public function build($post): ?array
+    public function build(WP_Post $post): ?array
     {
         if (!$post) {
             return null;

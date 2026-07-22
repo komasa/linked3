@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 
 final class InterlinkStrategyPopular implements InterlinkStrategy
 {
-    public function candidates($source_post_id, array $keywords, $limit, $max_per_target): array {
+    public function candidates(int $source_post_id, array $keywords, int $limit, int $max_per_target) : array {
         $q = new \WP_Query([
             'post_type'        => 'any',
             'post_status'      => 'publish',

@@ -48,7 +48,7 @@ final class OpenAICompatProvider extends BaseProviderStrategy
         return $this->slug;
     }
 
-    protected function default_api_base() : string {
+    protected function default_api_base() : string     {
         return $this->default_base;
     }
 
@@ -67,7 +67,7 @@ final class OpenAICompatProvider extends BaseProviderStrategy
         }
     }
 
-    public function get_models(array $config) : array {
+    public function get_models(array $config) : array     {
         // Static fallback model lists per provider; real list fetched live
         // via the 'models' operation when admin tests connection (v0.1.10).
         $fallbacks = [

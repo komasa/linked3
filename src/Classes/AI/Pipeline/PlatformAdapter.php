@@ -168,7 +168,7 @@ class PlatformAdapter
      * AJAX: 切换平台预览
      * POST: nonce, prompt, platform, opts (JSON)
      */
-    public static function ajax_switch_platform(): void {
+    static function ajax_switch_platform(): void {
         if (!current_user_can('edit_posts')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }

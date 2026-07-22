@@ -28,7 +28,7 @@ final class MigrationRunner
      *
      * @return array<string, callable>
      */
-    public static function migrations(): array {
+    static function migrations(): array {
         return [
             '0.1.1' => [__CLASS__, 'migrate_to_0_1_1'],
             '0.4.1' => [__CLASS__, 'migrate_to_0_4_1'],
@@ -39,7 +39,7 @@ final class MigrationRunner
     /**
      * @return void
      */
-    public static function run_pending(): void {
+    static function run_pending(): void {
         $stored = get_option(LINKED3_DB_VERSION_OPTION, '0');
 
         // 1) If stored version is 0 (fresh install) or older than code,
@@ -100,7 +100,7 @@ final class MigrationRunner
      *
      * @return void
      */
-    public static function migrate_to_0_1_1(): void {
+    static function migrate_to_0_1_1(): void {
         // Seed default interlink strategy option if absent.
         if (get_option(LINKED3_OPTION_PREFIX . 'interlink_config') === false) {
             update_option(LINKED3_OPTION_PREFIX . 'interlink_config', [
@@ -122,7 +122,7 @@ final class MigrationRunner
      *
      * @return void
      */
-    public static function migrate_to_0_4_1(): void {
+    static function migrate_to_0_4_1(): void {
         // Seed push-engine default options (empty creds = engine disabled
         // until admin configures them).
         if (get_option(LINKED3_OPTION_PREFIX . 'push_baidu') === false) {
@@ -152,7 +152,7 @@ final class MigrationRunner
      *
      * @return void
      */
-    public static function migrate_to_0_5_1(): void {
+    static function migrate_to_0_5_1(): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_publish_targets';
 

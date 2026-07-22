@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) exit;
 
 final class DistributeDependenciesLoader
 {
-    public static function load(): void {
+    static function load(): void {
         $files = [
             'Classes/Distribute/DistributeAdapterInterface.php',
             'Classes/Distribute/Adapter/TwitterDistributor.php',

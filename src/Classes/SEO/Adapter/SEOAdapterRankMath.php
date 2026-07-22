@@ -28,17 +28,17 @@ final class SEOAdapterRankMath implements SEOAdapter
         return __('Rank Math SEO', 'linked3');
     }
 
-    public function is_active(): bool {
+    public function is_active() : bool     {
         return defined('RANK_MATH_VERSION')
             || class_exists('RankMath')
             || class_exists('RankMath\Helper');
     }
 
-    public function handles_schema(): bool {
+    public function handles_schema() : bool {
         return $this->is_active();
     }
 
-    public function handles_meta_description(): bool {
+    public function handles_meta_description() : bool     {
         return $this->is_active();
     }
 

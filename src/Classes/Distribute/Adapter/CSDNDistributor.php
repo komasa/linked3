@@ -23,7 +23,7 @@ final class CSDNDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'csdn'; }
     public function label() : string { return 'CSDN'; }
 
-    public function publish(array $post_data, array $config) {
+    public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) {
             return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token (Cookie)', 'linked3-ai')];
@@ -53,7 +53,7 @@ final class CSDNDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => $json['data']['blogId'], 'message' => __('已发布到 CSDN', 'linked3-ai')];
     }
 
-    public function test(array $config) {
+    public function test(array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) return ['ok' => false, 'message' => __('缺少 Cookie', 'linked3-ai')];
         // v3.0.0: 真实 ping CSDN 用户接口验证 Cookie

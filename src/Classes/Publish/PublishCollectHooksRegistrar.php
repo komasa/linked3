@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class PublishCollectHooksRegistrar
 {
-    public static function register(): void {
+    static function register(): void {
         // Publish AJAX actions.
         $pub_actions = [
             'linked3_publish_save_target'   => Ajax\Actions\PublishSaveTargetAction::class,
@@ -42,19 +42,19 @@ final class PublishCollectHooksRegistrar
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
     }
 
-    public static function register_admin_menu(): void {
+    static function register_admin_menu(): void {
         add_submenu_page('linked3-dashboard', '发布目标', '发布目标', 'edit_posts', 'linked3-publish', [__CLASS__, 'render_publish_page']);
         add_submenu_page('linked3-dashboard', '采集与改写', '采集与改写', 'edit_posts', 'linked3-collect', [__CLASS__, 'render_collect_page']);
     }
 
-    public static function render_publish_page(): void {
+    static function render_publish_page(): void {
         if (!current_user_can('edit_posts')) return;
         $repo = new PublishTargetRepository();
         $targets = $repo->all_for_user(get_current_user_id());
         include LINKED3_DIR . 'admin/views/publish/targets.php';
     }
 
-    public static function render_collect_page(): void {
+    static function render_collect_page(): void {
         if (!current_user_can('edit_posts')) return;
         include LINKED3_DIR . 'admin/views/collect/rewriter.php';
     }

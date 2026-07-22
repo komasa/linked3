@@ -47,7 +47,7 @@ final class RestController
         });
     }
 
-    public static function register_routes(): void {
+    static function register_routes(): void {
         register_rest_route(self::REST_NAMESPACE, '/chat', [
             'methods' => 'POST',
             'callback' => [__CLASS__, 'chat'],

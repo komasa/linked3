@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 class DashboardVideoActions extends DashboardBaseAjaxAction
 {
-    public static function register(): void {
+    static function register(): void {
         add_action('wp_ajax_linked3_video_generate_script', [__CLASS__, 'video_generate_script']);
         add_action('wp_ajax_linked3_video_outline', [__CLASS__, 'video_outline']);
         add_action('wp_ajax_linked3_video_segment', [__CLASS__, 'video_segment']);

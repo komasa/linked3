@@ -23,14 +23,14 @@ if (!defined('ABSPATH')) {
 
 final class PostMetabox
 {
-    public static function register(): void {
+    static function register(): void {
         add_action('add_meta_boxes', [__CLASS__, 'add_metabox']);
         add_action('save_post', [__CLASS__, 'save_metabox'], 10, 2);
         add_action('wp_ajax_linked3_metabox_ai', [__CLASS__, 'ajax_ai']);
         add_action('wp_ajax_linked3_metabox_process_text', [__CLASS__, 'ajax_process_text']);
     }
 
-    public static function add_metabox(): void {
+    static function add_metabox(): void {
         $types = ['post', 'page', 'product'];
         foreach ($types as $type) {
             add_meta_box(
@@ -237,7 +237,7 @@ final class PostMetabox
         <?php
     }
 
-    public static function save_metabox($post_id, $post): void {
+    static function save_metabox($post_id, $post): void {
         if (!isset($_POST['linked3_metabox_nonce'])) return;
         if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['linked3_metabox_nonce'])), 'linked3_metabox')) return;
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
@@ -246,7 +246,7 @@ final class PostMetabox
     /**
      * AJAX: 文章级 AI 操作 (标题/摘要/标签/Meta/图片)
      */
-    public static function ajax_ai(): void {
+    static function ajax_ai(): void {
         if (!current_user_can('edit_posts')) {
             wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         }
@@ -361,7 +361,7 @@ final class PostMetabox
      * 11 个操作: rewrite/expand/fix_grammar/summarize/outline/faqs/simplify/
      *            translate_en/translate_zh/make_longer/make_shorter
      */
-    public static function ajax_process_text(): void {
+    static function ajax_process_text(): void {
         if (!current_user_can('edit_posts')) {
             wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         }

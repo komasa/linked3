@@ -37,7 +37,7 @@ final class PublishConfig
     /**
      * @return array<string,mixed>
      */
-    public static function defaults(): array {
+    static function defaults(): array {
         return [
             'targets' => [
                 'max_per_plan' => [
@@ -101,7 +101,7 @@ final class PublishConfig
      *
      * @return string[]
      */
-    public static function default_ua_pool(): array {
+    static function default_ua_pool(): array {
         return [
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36',
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',

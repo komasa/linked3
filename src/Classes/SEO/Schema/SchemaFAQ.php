@@ -29,7 +29,7 @@ final class SchemaFAQ implements SchemaBuilder
         return 'FAQPage';
     }
 
-    public function build($post): ?array
+    public function build(WP_Post $post): ?array
     {
         if (!$post) {
             return null;

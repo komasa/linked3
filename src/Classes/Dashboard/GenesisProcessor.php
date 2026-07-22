@@ -100,7 +100,7 @@ final class GenesisProcessor
     /**
      * v7.1.5: 轮询任务状态
      */
-    public static function ajax_genesis_poll_job(): void {
+    static function ajax_genesis_poll_job(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? $_GET['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -115,7 +115,7 @@ final class GenesisProcessor
     /**
      * v7.1.5: 取消任务
      */
-    public static function ajax_genesis_cancel_job(): void {
+    static function ajax_genesis_cancel_job(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -126,7 +126,7 @@ final class GenesisProcessor
     /**
      * v7.1.5: WP-Cron 回调 — 执行任务
      */
-    public static function cron_genesis_run_job(int $jobId): void {
+    static function cron_genesis_run_job(int $jobId): void {
         \GenesisJobRunner::runJob($jobId);
     }
     // ============================================================
@@ -135,7 +135,7 @@ final class GenesisProcessor
     /**
      * v8.0.0: 生成 Seed DNA
      */
-    public static function ajax_genesis_seed_generate(): void {
+    static function ajax_genesis_seed_generate(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -162,7 +162,7 @@ final class GenesisProcessor
     /**
      * v8.0.0: 获取 Seed 列表 (v9.1.2 修复: 改用 CPT listAll, 旧 listAll 不存在导致 Fatal)
      */
-    public static function ajax_genesis_seed_list(): void {
+    static function ajax_genesis_seed_list(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -202,7 +202,7 @@ final class GenesisProcessor
     /**
      * v8.0.0: 删除 Seed (v9.1.2: 优先 CPT, 兜底旧 option)
      */
-    public static function ajax_genesis_seed_delete(): void {
+    static function ajax_genesis_seed_delete(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -229,7 +229,7 @@ final class GenesisProcessor
     /**
      * v8.0.0: 导出 Seed JSON (v9.1.2: 优先 CPT, 兜底旧 option)
      */
-    public static function ajax_genesis_seed_export(): void {
+    static function ajax_genesis_seed_export(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -255,7 +255,7 @@ final class GenesisProcessor
      * v7.1.5: 服务器诊断 — 返回 PHP/curl/timeout 配置信息
      * 用于排查 "Failed to fetch" 的服务器侧原因
      */
-    public static function ajax_genesis_server_diagnostic(): void {
+    static function ajax_genesis_server_diagnostic(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);

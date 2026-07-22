@@ -38,7 +38,7 @@ final class OSDependenciesLoader
      *
      * @return void
      */
-    public static function load(): void {
+    static function load(): void {
         $base = LINKED3_DIR . 'src/Classes/OS/';
 
         // Phase 1: Facade + Bridge (must load first)

@@ -24,7 +24,7 @@ namespace Linked3\Classes\Content;
 if (!defined('ABSPATH')) exit;
 
 if (!trait_exists('ContentEcosystemTrait')) {
-    require_once __DIR__ . '/ContentEcosystem.php';
+    require_once __DIR__ . '/ContentEcosystemTrait.php';
 }
 
 class ImageSettingsFactory {

@@ -31,7 +31,7 @@ final class CustomAPIPublishTarget implements PublishTargetInterface
     public function type() : string { return 'custom_api'; }
     public function label() : string { return __('自定义 API / Webhook', 'linked3'); }
 
-    public function publish(array $post, array $config) {
+    public function publish(array $post, array $config): array {
         $url = $config['webhook_url'] ?? '';
         $secret = $config['webhook_secret'] ?? '';
         if (!$url) {
@@ -101,7 +101,7 @@ final class CustomAPIPublishTarget implements PublishTargetInterface
         return ['ok' => false, 'remote_id' => '', 'message' => __('重试次数已用完。', 'linked3'), 'response_code' => 0];
     }
 
-    public function test(array $config) {
+    public function test(array $config) : mixed {
         $url = $config['webhook_url'] ?? '';
         if (!$url) {
             return ['ok' => false, 'message' => __('缺少 Webhook URL。', 'linked3')];
