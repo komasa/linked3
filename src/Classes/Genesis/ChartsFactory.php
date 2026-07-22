@@ -7,7 +7,7 @@ namespace Linked3\Classes\Genesis;
 
 if (!defined('ABSPATH')) exit;
 
-if (!trait_exists('ScriptFactoryTrait')) {
+if (!trait_exists(__NAMESPACE__ . '\\ScriptFactoryTrait')) {
     require_once __DIR__ . '/ScriptFactoryTrait.php';
 }
 

@@ -3,6 +3,12 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Genesis;
 if (!defined('ABSPATH')) exit;
+
+// Ensure the trait is loaded before the class declaration.
+if (!trait_exists(__NAMESPACE__ . '\\ScriptFactoryTrait')) {
+    require_once __DIR__ . '/ScriptFactoryTrait.php';
+}
+
 class ChartsRenderer
 {
     use ScriptFactoryTrait;
