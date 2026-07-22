@@ -69,7 +69,7 @@ final class HunyuanProvider extends BaseProviderStrategy
     }
 
     public function parse_error_response($body, int $status_code)
-    : array {
+    {
         $body = is_array($body) ? $body : [];
         $code = 'hunyuan_error';
         $message = 'Unknown';

@@ -22,7 +22,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
 {
     public function slug() : string { return 'qdrant'; }
 
-    public function connect(array $config) : mixed {
+    public function connect(array $config) {
         $url = rtrim($config['host_url'] ?? '', '/');
         $key = $config['api_key'] ?? '';
         if (!$url) return ['ok' => false, 'message' => __('缺少 host_url。', 'linked3')];
@@ -40,7 +40,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Qdrant HTTP %d', $code)];
     }
 
-    public function create_index($name, $dimensions, array $config) : mixed     {
+    public function create_index($name, $dimensions, array $config)     {
         $url = rtrim($config['host_url'] ?? '', '/');
         $key = $config['api_key'] ?? '';
         $headers = ['Content-Type' => 'application/json'];
@@ -61,7 +61,7 @@ final class QdrantVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Qdrant HTTP %d', $code)];
     }
 
-    public function upsert($index, array $vectors, array $config) : mixed {
+    public function upsert($index, array $vectors, array $config) {
         $url = rtrim($config['host_url'] ?? '', '/');
         $key = $config['api_key'] ?? '';
         $headers = ['Content-Type' => 'application/json'];

@@ -81,7 +81,7 @@ final class TencentLKEProvider extends BaseProviderStrategy
     }
 
     public function parse_error_response($body, int $status_code)
-    : array {
+    {
         $body = is_array($body) ? $body : [];
         return [
             'code' => (string) ($body['code'] ?? 'lke_error'),

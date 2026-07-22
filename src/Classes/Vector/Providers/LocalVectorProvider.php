@@ -35,7 +35,7 @@ final class LocalVectorProvider implements VectorProviderInterface
 
     public function slug() : string { return 'local'; }
 
-    public function connect(array $config): array
+    public function connect(array $config)
     {
         if (!class_exists('SQLite3')) {
             return ['ok' => false, 'message' => __('SQLite3 扩展不可用。', 'linked3')];
@@ -43,7 +43,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => __('本地向量存储就绪。', 'linked3')];
     }
 
-    public function create_index($name, $dimensions, array $config): array
+    public function create_index($name, $dimensions, array $config)
     {
         $db = $this->db();
         if (!$db) return ['ok' => false, 'message' => __('无法打开 SQLite。', 'linked3')];
@@ -68,7 +68,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => "Index {$name} ready (dim={$dimensions})"];
     }
 
-    public function upsert($index, array $vectors, array $config): array
+    public function upsert($index, array $vectors, array $config)
     {
         $db = $this->db();
         if (!$db) return ['ok' => false, 'message' => __('无法打开 SQLite。', 'linked3')];
@@ -157,7 +157,7 @@ final class LocalVectorProvider implements VectorProviderInterface
         return array_slice($candidates, 0, (int) $top_k);
     }
 
-    public function delete($index, array $ids, array $config): array
+    public function delete($index, array $ids, array $config)
     {
         $db = $this->db();
         if (!$db) return ['ok' => false, 'message' => __('无法打开 SQLite。', 'linked3')];

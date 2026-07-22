@@ -37,7 +37,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
         return ['ok' => true, 'message' => "Index assumed to exist ({$name})"];
     }
 
-    public function upsert($index, array $vectors, array $config) : mixed {
+    public function upsert($index, array $vectors, array $config) {
         $key = $config['api_key'] ?? '';
         $host = rtrim($config['index_host'] ?? '', '/');
         if (!$key || !$host) return ['ok' => false, 'message' => __('缺少 api_key / index_host。', 'linked3')];
@@ -104,7 +104,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
         return $out;
     }
 
-    public function delete($index, array $ids, array $config) : mixed {
+    public function delete($index, array $ids, array $config) {
         $key = $config['api_key'] ?? '';
         $host = rtrim($config['index_host'] ?? '', '/');
         if (!$key || !$host) return ['ok' => false, 'message' => __('缺少 api_key / index_host。', 'linked3')];
@@ -121,7 +121,7 @@ final class PineconeVectorProvider implements VectorProviderInterface
             : ['ok' => false, 'message' => sprintf('Pinecone HTTP %d', $code)];
     }
 
-    public function embed($text, array $config) : mixed     {
+    public function embed($text, array $config): array|WP_Error     {
         // Pinecone does not host embedding models; defer to AI Dispatcher's
         // embed via OpenAI-compatible provider (same as Local provider).
         $provider = \Linked3\Classes\Core\Providers\ProviderFactory::instance()->make($config['embed_provider'] ?? 'openai');

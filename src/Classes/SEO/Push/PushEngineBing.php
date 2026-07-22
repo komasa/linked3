@@ -53,7 +53,7 @@ final class PushEngineBing implements PushEngine
         return $key;
     }
 
-    public function push(array $urls) : mixed     {
+    public function push(array $urls)     {
         $key = $this->key();
         $host = (string) wp_parse_url(site_url(), PHP_URL_HOST);
         $key_location = trailingslashit(site_url()) . $key . '.txt';

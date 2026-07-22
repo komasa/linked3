@@ -57,7 +57,7 @@ final class PushEngineToutiao implements PushEngine
         return $defaults;
     }
 
-    public function push(array $urls) : mixed     {
+    public function push(array $urls)     {
         $cfg = $this->config();
         if (!$this->is_configured()) {
             return [

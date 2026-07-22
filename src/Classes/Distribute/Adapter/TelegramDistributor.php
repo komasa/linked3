@@ -54,7 +54,7 @@ final class TelegramDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($body['result']['message_id'] ?? ''), 'message' => 'ok'];
     }
 
-    public function test(array $config): array {
+    public function test(array $config) {
         $token = $config['bot_token'] ?? '';
         $chat_id = $config['chat_id'] ?? '';
         if (!$token || !$chat_id) return ['ok' => false, 'message' => __('缺少 Bot Token 或 Chat ID。', 'linked3')];
