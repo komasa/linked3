@@ -3,7 +3,7 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           27.6.8
+ * Version:           27.6.9
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Linked3 Group
@@ -19,6 +19,24 @@
 // ABSPATH guard — prevents direct file access from outside WordPress.
 if (!defined('ABSPATH')) {
     exit;
+}
+
+// -----------------------------------------------------------------------------
+// ── ULTRA-EARLY BATCH ERROR SCANNER (v27.6.9) ────────────────────────────────
+// This runs BEFORE anything else — before the early error handler, before any
+// require_once, before the __CLASS__ interceptor. It statically scans every
+// .php file in the plugin and collects ALL structural issues in one batch:
+//   1. Namespace-internal duplicate function declarations
+//   2. function_exists() guard name mismatch (bare-name vs FQN)
+//   3. PHP syntax structure (braces/parens/brackets/strings)
+//   4. add_action/add_filter callback class existence
+//   5. Cross-file duplicate function/class definitions
+// Results go to $GLOBALS['linked3_early_errors'] for the early error handler
+// to render in a batch error page (all errors at once, not first-only).
+// -----------------------------------------------------------------------------
+if (file_exists(__DIR__ . '/lib/linked3-ultra-early-scanner.php')) {
+    require_once __DIR__ . '/lib/linked3-ultra-early-scanner.php';
+    linked3_ues_init(__DIR__);
 }
 
 
@@ -148,6 +166,16 @@ if (!function_exists('_linked3_orig_add_action')) {
 // defined until later in this file. __DIR__ is always available and points
 // to this file's directory.
 // -----------------------------------------------------------------------------
+// v27.6.9: Fixed 3 duplicate function declarations in Genesis namespace (GenesisBootstrap.php
+// had copies of linked3_genesis_detect_content_type/detect_characters/get_character_keywords
+// also in GenesisAtomIndex.php — both inside `namespace Linked3\Classes\Genesis;` so the
+// `function_exists('bare_name')` guard checked global scope while the function was registered
+// as namespaced → guard never matched → "Cannot redeclare" fatal). Also fixed Container.php
+// guard to use __NAMESPACE__.'\\linked3_container' FQN. Added lib/linked3-ultra-early-scanner.php
+// — a static scanner loaded before any business code that detects ALL structural issues in
+// one batch: duplicate function declarations, function_exists guard name mismatches, syntax
+// structure errors, add_action/add_filter callback class existence, cross-file duplicate
+// definitions. Results stored in $GLOBALS['linked3_early_errors'] for batch rendering.
 // v27.6.8: Normalized 172+2 files — converted all multi-line return type declarations
 // to single-line (function foo()\n: string { → function foo(): string {). Multi-line
 // format caused ParseError on WordPress Playground PHP. Also added : string to
@@ -216,7 +244,7 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '27.6.8');
+define('LINKED3_VERSION', '27.6.9');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
