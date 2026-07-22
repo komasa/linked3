@@ -1332,7 +1332,12 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
         });
         container.innerHTML = html;
     }
+
+    // v27.6.18-fix: Auto-load dashboard data on page load so the evolution
+    // archive and skill list are visible without requiring user interaction.
+    refreshDashboard();
 })();
+
 </script>
 
 <style>

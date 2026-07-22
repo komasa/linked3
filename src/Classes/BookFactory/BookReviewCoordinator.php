@@ -23,6 +23,12 @@ namespace Linked3\Classes\BookFactory;
 if ( ! defined( 'ABSPATH' ) ) {
         exit;
 }
+
+// v27.6.18-fix: Ensure trait is loaded before class declaration
+if ( ! trait_exists( __NAMESPACE__ . '\\Traits\\ReviewLinker' ) ) {
+    require_once __DIR__ . '/Traits/ReviewLinker.php';
+}
+
 /**
  * Class BookReviewCoordinator
  */

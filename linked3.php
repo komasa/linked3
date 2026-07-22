@@ -3,9 +3,9 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           27.6.10
+ * Version:           27.6.15
  * Requires at least: 6.2
- * Requires PHP:      7.4
+ * Requires PHP:      8.0
  * Author:            Linked3 Group
  * Author URI:        https://linked3.com
  * License:           GPL-2.0-or-later
@@ -21,19 +21,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// -----------------------------------------------------------------------------
-// ── ULTRA-EARLY BATCH ERROR SCANNER (v27.6.9) ────────────────────────────────
-// This runs BEFORE anything else — before the early error handler, before any
-// require_once, before the __CLASS__ interceptor. It statically scans every
-// .php file in the plugin and collects ALL structural issues in one batch:
-//   1. Namespace-internal duplicate function declarations
-//   2. function_exists() guard name mismatch (bare-name vs FQN)
-//   3. PHP syntax structure (braces/parens/brackets/strings)
-//   4. add_action/add_filter callback class existence
-//   5. Cross-file duplicate function/class definitions
-// Results go to $GLOBALS['linked3_early_errors'] for the early error handler
-// to render in a batch error page (all errors at once, not first-only).
-// -----------------------------------------------------------------------------
 if (file_exists(__DIR__ . '/lib/linked3-ultra-early-scanner.php')) {
     require_once __DIR__ . '/lib/linked3-ultra-early-scanner.php';
     linked3_ues_init(__DIR__);
@@ -146,52 +133,6 @@ if (!function_exists('_linked3_orig_add_action')) {
     }, 0);
 }
 
-// -----------------------------------------------------------------------------
-// ── ULTRA-EARLY ERROR HANDLER ────────────────────────────────────────────────
-// This MUST be the first thing loaded — before any require_once that could
-// fail. It registers a register_shutdown_function that captures and displays
-// the REAL fatal error (message + file + line + type + stack trace) instead
-// of the generic WordPress "There has been a critical error on this website"
-// page.
-//
-// Previous versions of this plugin put the shutdown handler on line ~247,
-// AFTER dozens of require_once calls. If any of those require_once calls hit
-// a fatal (missing file, parse error, class not found), the shutdown handler
-// was never registered and the user saw only the generic WP error page.
-//
-// Loading this dedicated file here guarantees the handler is always
-// registered before anything can fail.
-//
-// NOTE: We use __DIR__ here (not LINKED3_DIR) because LINKED3_DIR is not
-// defined until later in this file. __DIR__ is always available and points
-// to this file's directory.
-// -----------------------------------------------------------------------------
-// v27.6.9: Fixed 3 duplicate function declarations in Genesis namespace (GenesisBootstrap.php
-// had copies of linked3_genesis_detect_content_type/detect_characters/get_character_keywords
-// also in GenesisAtomIndex.php — both inside `namespace Linked3\Classes\Genesis;` so the
-// `function_exists('bare_name')` guard checked global scope while the function was registered
-// as namespaced → guard never matched → "Cannot redeclare" fatal). Also fixed Container.php
-// guard to use __NAMESPACE__.'\\linked3_container' FQN. Added lib/linked3-ultra-early-scanner.php
-// — a static scanner loaded before any business code that detects ALL structural issues in
-// one batch: duplicate function declarations, function_exists guard name mismatches, syntax
-// structure errors, add_action/add_filter callback class existence, cross-file duplicate
-// definitions. Results stored in $GLOBALS['linked3_early_errors'] for batch rendering.
-// v27.6.8: Normalized 172+2 files — converted all multi-line return type declarations
-// to single-line (function foo()\n: string { → function foo(): string {). Multi-line
-// format caused ParseError on WordPress Playground PHP. Also added : string to
-// abstract default_api_base() declaration for LSP consistency.
-// v27.6.7: Fixed scanner blind spot — use-statement alias resolution. Previous scan
-// missed interfaces imported via `use` (DistributeAdapterInterface, PublishTargetInterface,
-// VectorProviderInterface, VisualScriptGeneratorInterface). Found + fixed 34 more errors
-// across 12 files. Total cumulative: 100 interface compatibility errors fixed (37 files).
-// v27.6.6: Fixed 66 interface compatibility errors across 25 files (return type
-// mismatches: mixed→array/string/bool, missing parameter type hints). Used static
-// analysis scanner (iface-check.js) to find ALL errors at once instead of fixing
-// them one-at-a-time via runtime trial-and-error.
-// v27.6.5: Switched to enhanced wp-early-error-handler (user-uploaded module
-// base + 3 enhancements: require-path check, error_log persist, option persist).
-// The old linked3-early-error-handler.php is kept as fallback if the new file
-// is missing (shouldn't happen, but defensive).
 if (file_exists(__DIR__ . '/lib/wp-early-error-handler.php')) {
     require_once __DIR__ . '/lib/wp-early-error-handler.php';
     wp_early_error_handler_init([
@@ -244,15 +185,19 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '27.6.10');
+define('LINKED3_VERSION', '27.6.15');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
 define('LINKED3_URL', plugin_dir_url(__FILE__));
 define('LINKED3_BASENAME', plugin_basename(__FILE__));
 define('LINKED3_TEXT_DOMAIN', 'linked3');
-define('LINKED3_DB_VERSION_OPTION', 'linked3_db_version');
-define('LINKED3_OPTION_PREFIX', 'linked3_');
+if (!defined('LINKED3_DB_VERSION_OPTION')) {
+    define('LINKED3_DB_VERSION_OPTION', 'linked3_db_version');
+}
+if (!defined('LINKED3_OPTION_PREFIX')) {
+    define('LINKED3_OPTION_PREFIX', 'linked3_');
+}
 
 // v4.7.2: External service endpoints. Empty string = local mode (skip remote
 // calls entirely). Override in wp-config.php to enable remote license/billing
@@ -290,65 +235,13 @@ if (version_compare(PHP_VERSION, '7.4.0', '<')) {
 // -----------------------------------------------------------------------------
 require_once LINKED3_DIR . 'src/autoload.php';
 
-// v19.2-fix: Load BookFactory Traits BEFORE any class that uses them.
-// v27.6.4-fix: PSR-4 rename — snake_case filenames → PascalCase
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/OutlineMerger.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/CostTracker.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/ReviewLinker.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/Traits/SectionExpander.php';
+// v27.6.12-fix: H-03 Phase 1 — BookFactory require_once → autoload
+// These files are now loaded via PSR-4 autoload (composer.json: "Linked3\\": "src/")
+// The old 24 require_once lines have been removed to reduce single-point-of-failure.
+// If composer autoload is not available, the internal src/autoload.php handles it.
 
 // -----------------------------------------------------------------------------
-// v18.5: 写书工厂模块显式加载
-// 自动加载器无法解析 BookFactory (无命名空间) 的路径, 需显式 require
-// v18.11: 新增 Book_Security 安全工具类
-// v19.0: 新增接口契约体系 + 拆分类 (Pipeline_Orchestrator/Draft_Builder/Outline_Processor 等)
-// v19.1: 嵌入 meta的meta 元母体 (MetaMother) — 9大探索原型 + 5大元规律 + 4阶元流程
-// -----------------------------------------------------------------------------
-// v18.11: 安全工具
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookSecurity.php';
-// v19.0: 接口契约 (v27.6.4-fix: PSR-4 — combined file split into individual interfaces)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAICallerInterface.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookCostTrackerInterface.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookPromptProviderInterface.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStateRepositoryInterface.php';
-// v18.11: 步骤接口化
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepInterface.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepAdapter.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookStepRegistry.php';
-// 核心类
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookProjectState.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/TypeModeRouter.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/SectionStitcher.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookPromptManager.php';
-// v19.0: 默认实现 (AI 调用器、成本追踪器)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookDefaultAICaller.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookDefaultCostTracker.php';
-// v19.0: 拆分后的职责单一类
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookDraftBuilder.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookOutlineProcessor.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookSectionExpanderService.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookReviewCoordinator.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookPipelineOrchestrator.php';
-// v19.1: MetaMother 元母体子系统 (嵌入自 genesis_meta2_M2_G3 母版)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookExplorationPrototypes.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookMetaMother.php';
-// 主类 (v19.0: 保留为向后兼容的外观类, 委托给拆分后的类)
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookFactory.php';
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAjaxActions.php';
-// v18.11: 异步任务调度器
-require_once LINKED3_DIR . 'src/Classes/BookFactory/BookAsyncRunner.php';
 
-// -----------------------------------------------------------------------------
-// ── FIX v16.0.1: Pre-load critical function files before bootstraps ──────────
-// The bootstrap classes (Final_Bootstrap, Genesis_Bootstrap) call
-// linked3_dispatch() and linked3_container() during plugins_loaded priority 5,
-// but those functions are defined in files that the Dependency_Loader
-// (which runs LATER, inside Plugin::run()) would load. Without this pre-load,
-// the bootstraps throw "Call to undefined function" Errors.
-// The try/catch in plugins_loaded catches them, but the bootstraps fail
-// silently — meaning the event bus and DI container never initialise.
-// Pre-loading here ensures the functions exist before any bootstrap calls them.
-// -----------------------------------------------------------------------------
 $_linked3_preload_files = [
     LINKED3_DIR . 'src/Includes/functions-events.php',
     LINKED3_DIR . 'src/Includes/Container.php',
@@ -400,8 +293,7 @@ add_action('admin_head', static function () {
     if (file_exists($eco_layout_css)) {
         echo '<style>' . file_get_contents($eco_layout_css) . '</style>';
     }
-    // v12.0: Global UI Design System Enhancement — applies Linear/Vercel aesthetic
-    // to ALL Linked3 admin pages (extends scoped .linked3-admin-wrap to global .wrap)
+    // v12.0: Global UI Design System — Linear/Vercel aesthetic
     $ui_css = LINKED3_DIR . 'assets/css/linked3-admin-ui.css';
     if (file_exists($ui_css)) {
         echo '<style>' . file_get_contents($ui_css) . '</style>';
@@ -462,20 +354,6 @@ if (file_exists($g7_ajax_file)) {
 // We surface every error via admin_notice so the site owner can diagnose.
 $linked3_bootstrap_error = null;
 
-// ── FIX v26.0.1: The old register_shutdown_function that lived here (line
-// ~273) has been REMOVED. It was registered AFTER dozens of require_once
-// calls, so if any of those require_once calls hit a fatal, this shutdown
-// function was never registered and the user saw only the generic WP error
-// page.
-//
-// The ultra-early error handler loaded at the top of this file
-// (lib/linked3-early-error-handler.php) now owns this responsibility. It is
-// registered BEFORE any require_once, so it always runs. It also:
-//   - Catches more error types (E_RECOVERABLE_ERROR added).
-//   - Shows a stack trace.
-//   - Works even if headers were already sent (appends to output).
-//   - Returns JSON for AJAX requests instead of HTML.
-// ───────────────────────────────────────────────────────────────────────────
 
 // Wrap the class_exists + activation hook registration in try/catch — if
 // autoload triggers a ParseError (e.g. a required file has a syntax error),
@@ -563,10 +441,6 @@ if (!$linked3_core_available) {
                 GenesisBootstrap::boot();
             }
         } catch (\Throwable $e) {
-            // ── FIX v26.0.1: Previously this catch block only wrote to
-            // error_log and did NOT set $linked3_bootstrap_error, so the
-            // admin_notice below never fired and the error was silently
-            // swallowed. We now surface it to the admin too.
             $linked3_bootstrap_error = sprintf(
                 __('Linked3 bootstrap 错误:%s (位于 %s:%d)', 'linked3'),
                 $e->getMessage(),
