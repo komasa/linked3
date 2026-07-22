@@ -239,12 +239,30 @@ final class DashboardAjaxRegistrarLegacy
     /**
      * AJAX: 同步图片模型列表
      */
-    public static function ajax_sync_image_models() : mixed {
+    public static function ajax_sync_image_models() : void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
-        $dispatcher = AIDispatcher::instance();
-        $all_models = $dispatcher->get_models();
+
+        // Get models via ProviderFactory (AIDispatcher doesn't have get_models())
+        $provider_slug = get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'openai');
+        $api_key = get_option(LINKED3_OPTION_PREFIX . 'api_key_' . $provider_slug, '');
+        $api_base = get_option(LINKED3_OPTION_PREFIX . 'api_base_' . $provider_slug, '');
+
+        if (empty($api_key)) {
+            wp_send_json_error(['message' => 'No API key configured for provider: ' . $provider_slug]);
+        }
+
+        $factory = \Linked3\Classes\Core\Providers\ProviderFactory::instance();
+        $provider = $factory->make($provider_slug);
+        if (!$provider) {
+            wp_send_json_error(['message' => 'Provider not registered: ' . $provider_slug]);
+        }
+
+        $all_models = $provider->get_models([
+            'api_key' => $api_key,
+            'api_base' => $api_base,
+        ]);
         if (is_wp_error($all_models) || empty($all_models)) {
             wp_send_json_error(['message' => 'Failed to get models']);
         }

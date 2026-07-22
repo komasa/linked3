@@ -105,4 +105,50 @@ class ChartsRenderer
         return $paragraphs;
     }
 
+    private function split_by_length(string $article, int $target_count): array {
+        $total_len = mb_strlen($article);
+        $chunk_size = (int)ceil($total_len / $target_count);
+
+        $sections = [];
+        for ($i = 0; $i < $total_len; $i += $chunk_size) {
+            $chunk = mb_substr($article, $i, $chunk_size);
+            if (mb_strlen(trim($chunk)) > 0) {
+                $sections[] = trim($chunk);
+            }
+        }
+
+        return $sections;
+    }
+
+    private function merge_sections(array $sections, int $target_count): array {
+        if (count($sections) <= $target_count) {
+            return $sections;
+        }
+
+        $result = [];
+        $per_group = (int)ceil(count($sections) / $target_count);
+        for ($i = 0; $i < count($sections); $i += $per_group) {
+            $group = array_slice($sections, $i, $per_group);
+            $result[] = implode("\n\n", $group);
+        }
+
+        return $result;
+    }
+
+    private function extract_section_title(string $section, int $idx): string {
+        $first_line = trim(explode("\n", $section)[0]);
+        $first_line = preg_replace('/^(?:[一二三四五六七八九十]+[、．\.]|（[一二三四五六七八九十]+）|[0-9]+[、．\.]|第[一二三四五六七八九十]+[部分章节])\s*/', '', $first_line);
+        $title = mb_substr($first_line, 0, 30);
+        return $title ?: ('第' . ($idx + 1) . '部分');
+    }
+
+    private function extract_section_summary(string $section): string {
+        $clean = trim(preg_replace('/\s+/', ' ', $section));
+        $snippet = mb_substr($clean, 0, 120);
+        if (preg_match('/^(.+?[。！？\.\!\?])/u', $snippet, $m)) {
+            return $m[1];
+        }
+        return $snippet;
+    }
+
 }
