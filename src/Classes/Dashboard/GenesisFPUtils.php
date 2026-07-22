@@ -16,7 +16,7 @@ class GenesisFPUtils
         }
 
         $exampleCount   = min($maxPanels, 4);
-        $styleExamples = self::getStyleAdaptiveExamples($styleId, $styleName);
+        $styleExamples = GenesisPromptUtils::getStyleAdaptiveExamples($styleId, $styleName);
         $exampleNodes   = [];
         for ($i = 0; $i < $exampleCount; $i++) {
             $ex = $styleExamples[$i % count($styleExamples)];

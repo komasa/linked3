@@ -35,6 +35,10 @@ if (!defined('ABSPATH')) {
 use Linked3\Classes\License\PlanDefinitions; // phpcs:ignore -- reserved for future plan-based limits
 abstract class SEOBaseAjaxAction
 {
+    use TraitCheckAdminPermissions;
+    use TraitSendWPError;
+    use TraitCheckPlanAccess;
+
     const NONCE_ACTION = 'linked3_seo';
     const CAPABILITY   = 'edit_posts';
 

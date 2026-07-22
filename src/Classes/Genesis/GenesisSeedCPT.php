@@ -85,7 +85,7 @@ class GenesisSeedCPT
     /**
      * M1.1.2: 注册 meta 字段 (register_post_meta)
      */
-    private static function register_meta_fields() : mixed {
+    private static function register_meta_fields() : void {
         foreach (self::META_FIELDS as $key => $type) {
             // v19.55-fix: match() is PHP 8.0+, plugin requires PHP 7.4 — convert to switch.
             switch ($type) {

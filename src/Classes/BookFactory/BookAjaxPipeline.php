@@ -49,9 +49,9 @@ class BookAjaxPipeline {
 	/**
 	 * Start a new book generation project.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function start(): mixed {
+	public static function start(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
@@ -78,9 +78,9 @@ class BookAjaxPipeline {
 	/**
 	 * Start async book generation (non-blocking).
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function start_async(): mixed {
+	public static function start_async(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
@@ -113,9 +113,9 @@ class BookAjaxPipeline {
 	/**
 	 * Cancel an async generation.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function cancel_async(): mixed {
+	public static function cancel_async(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
@@ -138,9 +138,9 @@ class BookAjaxPipeline {
 	/**
 	 * Query project progress.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function progress(): mixed {
+	public static function progress(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id = isset( $_REQUEST['project_id'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['project_id'] ) ) : '';
@@ -161,9 +161,9 @@ class BookAjaxPipeline {
 	/**
 	 * Regenerate a specific section.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function regenerate_section(): mixed {
+	public static function regenerate_section(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id     = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
@@ -219,9 +219,9 @@ class BookAjaxPipeline {
 	/**
 	 * Resume a paused/interrupted project.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function resume(): mixed {
+	public static function resume(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
@@ -247,9 +247,9 @@ class BookAjaxPipeline {
 	/**
 	 * Rollback to a previous outline version.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function rollback_outline(): mixed {
+	public static function rollback_outline(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id     = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
@@ -267,9 +267,9 @@ class BookAjaxPipeline {
 	/**
 	 * Execute a single pipeline step (polled by frontend).
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function run_step(): mixed {
+	public static function run_step(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';

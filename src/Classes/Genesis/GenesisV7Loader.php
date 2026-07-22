@@ -3,45 +3,19 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Genesis;
 if (!defined('ABSPATH')) exit;
+
 /**
- * GenesisV7Loader — G8 extraction.
- * @since 27.13.0
+ * GenesisV7Loader — seed library loader.
+ *
+ * v27.6.16-fix: loadAll() now static, loads from atom_index.json.
  */
 class GenesisV7Loader
 {
-    public function loadAll(): void {
-        $this->load_seed_dir('characters');
-        $this->load_seed_dir('scenes');
-        $this->load_seed_dir('styles');
-        $this->load_operator_dir();
+    public static function loadAll(): array {
+        $path = __DIR__ . '/atom_index.json';
+        if (!file_exists($path)) return [];
+        $json = file_get_contents($path);
+        if ($json === false) return [];
+        return json_decode($json, true) ?: [];
     }
-
-    /**
-     * 从 seeds/{type} 目录加载 JSON 文件到对应属性
-     */
-    private function load_seed_dir(string $type): void {
-        $dir = $this->libDir . '/seeds/' . $type;
-        if (!is_dir($dir)) return;
-        foreach (glob($dir . '/*.json') as $file) {
-            $data = json_decode(file_get_contents($file), true);
-            if ($data && isset($data['id'])) {
-                $this->{$type}[$data['id']] = $data;
-            }
-        }
-    }
-
-    /**
-     * 从 operators 目录加载算子
-     */
-    private function load_operator_dir(): void {
-        $dir = $this->libDir . '/operators';
-        if (!is_dir($dir)) return;
-        foreach (glob($dir . '/*.json') as $file) {
-            $data = json_decode(file_get_contents($file), true);
-            if ($data && isset($data['id'])) {
-                $this->operators[$data['id']] = $data;
-            }
-        }
-    }
-
 }

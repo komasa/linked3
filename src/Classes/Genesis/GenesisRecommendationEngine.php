@@ -119,6 +119,16 @@ class GenesisRecommendationEngine
     }
 
     /**
+     * 获取所有推荐模式定义
+     *
+     * @return array 模式列表
+     */
+    public function getModes(): array
+    {
+        return $this->modes;
+    }
+
+    /**
      * 主推荐入口
      *
      * @param string $content 内容描述

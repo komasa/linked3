@@ -115,7 +115,7 @@ class EcosystemAjax {
     /**
      * 关键词生成
      */
-    public static function ajax_keywords() : mixed {
+    public static function ajax_keywords() : void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -433,7 +433,7 @@ class EcosystemAjax {
     /**
      * v10.7.4 实际生成图片 — SOP闭环下一步
      */
-    public static function ajax_generate_images() { return EcosystemAjaxAdvanced::ajax_generate_images(); }
+    public static function ajax_generate_images()  : void { EcosystemAjaxAdvanced::ajax_generate_images(); }
 
     // ================================================================
     // v10.7.1 全功能链新增方法
@@ -442,7 +442,7 @@ class EcosystemAjax {
     /**
      * v10.7.1 热词采集 — 多源采集 (百度/搜狗/360/知乎/微博/抖音)
      */
-    public static function ajax_hot_collect() { return EcosystemAjaxAdvanced::ajax_hot_collect(); }
+    public static function ajax_hot_collect()  : void { EcosystemAjaxAdvanced::ajax_hot_collect(); }
 
     /**
      * v10.7.1 关键词库保存 (热词库/长尾词库)
@@ -506,17 +506,17 @@ class EcosystemAjax {
     /**
      * v10.7.1 长文写作 — 生成大纲
      */
-    public static function ajax_longform_outline() { return EcosystemAjaxAdvanced::ajax_longform_outline(); }
+    public static function ajax_longform_outline()  : void { EcosystemAjaxAdvanced::ajax_longform_outline(); }
 
     /**
      * v10.7.1 长文写作 — 生成单段
      */
-    public static function ajax_longform_section() { return EcosystemAjaxAdvanced::ajax_longform_section(); }
+    public static function ajax_longform_section()  : void { EcosystemAjaxAdvanced::ajax_longform_section(); }
 
     /**
      * v10.7.1 CSV批量写作
      */
-    public static function ajax_csv_batch() { return EcosystemAjaxAdvanced::ajax_csv_batch(); }
+    public static function ajax_csv_batch()  : void { EcosystemAjaxAdvanced::ajax_csv_batch(); }
 
     /**
      * v10.7.1 定时任务启用

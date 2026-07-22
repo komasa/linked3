@@ -3,32 +3,32 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Genesis;
 if (!defined('ABSPATH')) exit;
+
+/**
+ * GenesisEngineCore — delegate wrapper for GenesisAtomIndex.
+ *
+ * v27.6.16-fix: All methods now properly delegate to GenesisAtomIndex::instance()
+ * via static calls, fixing "Static call to instance method" errors.
+ */
 class GenesisEngineCore
 {
-    public function searchKeyword(string $keyword): array {
-        return $this->data['keyword_index'][mb_strtolower($keyword)] ?? [];
+    public static function searchKeyword(string $keyword): array {
+        return GenesisAtomIndex::instance()->searchKeyword($keyword);
     }
 
-    public function getByType(string $type): array {
-        return $this->data['by_type'][$type] ?? [];
+    public static function getByType(string $type): array {
+        return GenesisAtomIndex::instance()->getByType($type);
     }
 
-    public function getCharacters(): array {
-        $result = [];
-        foreach ($this->getByType('character') as $id) {
-            $atom = $this->getAtom($id);
-            if ($atom) $result[$id] = $atom['fields'];
-        }
-        return $result;
+    public static function getCharacters(): array {
+        return GenesisAtomIndex::instance()->getCharacters();
     }
 
-    public function getScenes(): array {
-        $result = [];
-        foreach ($this->getByType('scene') as $id) {
-            $atom = $this->getAtom($id);
-            if ($atom) $result[$id] = $atom['fields'];
-        }
-        return $result;
+    public static function getScenes(): array {
+        return GenesisAtomIndex::instance()->getScenes();
     }
 
+    public static function getAtom(string $atomId): ?array {
+        return GenesisAtomIndex::instance()->getAtom($atomId);
+    }
 }

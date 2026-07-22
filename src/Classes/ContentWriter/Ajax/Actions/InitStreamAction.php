@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 final class InitStreamAction extends ContentWriterBaseAjaxAction
 {
-    public function handle() : mixed {
+    public function handle() : void {
         $keyword = sanitize_text_field($_POST['keyword'] ?? '');
         $title = sanitize_text_field($_POST['title'] ?? '');
         if (!$keyword && !$title) {

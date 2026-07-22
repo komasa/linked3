@@ -24,6 +24,10 @@ if (!defined('ABSPATH')) {
 }
 abstract class ContentWriterBaseAjaxAction
 {
+    use TraitCheckAdminPermissions;
+    use TraitSendWPError;
+    use TraitCheckPlanAccess;
+
     const NONCE_ACTION = 'linked3_content_writer';
     const CAPABILITY = 'edit_posts';
 

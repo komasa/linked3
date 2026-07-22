@@ -29,6 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * 章节展开服务, 通过依赖注入接收 AI 调用器与提示词提供者。
  */
 class BookSectionExpanderService {
+        use SectionExpander;
+
         /**
          * AI 调用器。
          *

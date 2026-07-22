@@ -110,6 +110,16 @@ final class TtsManager
     }
 
     /**
+     * Register the [linked3_tts] shortcode with WordPress.
+     *
+     * @return void
+     */
+    public static function register_shortcode(): void
+    {
+        add_shortcode('linked3_tts', [self::class, 'renderShortcode']);
+    }
+
+    /**
      * Render the TTS shortcode.
      *
      * @param array       $atts    Shortcode attributes.

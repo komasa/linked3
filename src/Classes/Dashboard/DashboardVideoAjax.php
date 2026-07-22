@@ -127,6 +127,23 @@ class DashboardVideoAjax
     }
 
     /**
+     * Build V15 context from the current request's POST inputs.
+     *
+     * v27.6.16-fix: Added wrapper method — callers referenced
+     * self::build_v15_context_from_request() which didn't exist.
+     * Delegates to loadV15Context() with $_POST as inputs.
+     *
+     * @param int $brand_profile_id Brand profile ID.
+     * @param int $user_id          User ID (unused, kept for compat).
+     * @return array V15 context placeholders.
+     */
+    private static function build_v15_context_from_request(int $brand_profile_id, int $user_id = 0): array
+    {
+        $inputs = isset($_POST) ? wp_unslash($_POST) : [];
+        return self::loadV15Context($brand_profile_id, is_array($inputs) ? $inputs : []);
+    }
+
+    /**
      * 记录请求开始日志.
      */
     private static function logVideoRequestStart(string $title, int $duration, string $tpl_idx, int $brand_id, int $timeout): void

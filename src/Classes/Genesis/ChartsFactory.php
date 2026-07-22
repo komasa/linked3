@@ -12,6 +12,8 @@ if (!trait_exists('ScriptFactoryTrait')) {
 }
 
 class ChartsFactory {
+    use ScriptFactoryTrait;
+
     private $bands = [
         'hook'  => ['name' => '开头钩子', 'min_words' => 20, 'max_words' => 80],
         'body'  => ['name' => '正文展开', 'min_words' => 100, 'max_words' => 400],
@@ -19,7 +21,7 @@ class ChartsFactory {
         'cta'   => ['name' => '行动号召', 'min_words' => 15, 'max_words' => 60],
     ];
 
-        public function __construct() { return ChartsFactoryHelpers::__construct(); }
+        
 
         public function compile(array $context) : mixed { return ChartsFactoryHelpers::compile($context); }
 

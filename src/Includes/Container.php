@@ -149,7 +149,7 @@ final class Container
      *
      * @return void
      */
-    private function register_defaults() : mixed
+    private function register_defaults() : void
     {
         // v4.4.2 — the 3 core singletons.
         $this->set(
@@ -246,10 +246,6 @@ final class Container
  * @since 10.7.7
  * @return \Linked3\Includes\Container
  */
-// FIX v27.6.9: The function_exists() guard must check the FQN (namespaced name),
-// not the bare name. A bare-name check always returns false for a function declared
-// inside `namespace Linked3\Includes;`, because PHP registers it as
-// `Linked3\Includes\linked3_container`, not `linked3_container`.
 if ( ! function_exists( __NAMESPACE__ . '\\linked3_container' ) ) {
     function linked3_container() {
         return \Linked3\Includes\Container::instance();

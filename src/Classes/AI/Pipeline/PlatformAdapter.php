@@ -378,7 +378,7 @@ class PlatformAdapter
         // 移除 "Negative: ..." 段
         $core = preg_replace('#\s*Negative:.*$#i', '', $core);
         // 移除 SD 权重括号: (kw:1.5) -> kw
-        $core = preg_replace_callback('#\(([^():]+):[\d.]+)\)#', fn($m) => $m[1], $core);
+        $core = preg_replace_callback('#\(([^():]+):[\d.]+\)#', fn($m) => $m[1], $core);
         return trim($core);
     }
 }

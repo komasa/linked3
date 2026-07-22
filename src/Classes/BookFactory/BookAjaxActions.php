@@ -59,7 +59,7 @@ class BookAjaxActions {
     /**
      * 启动写书工厂
      */
-        public static function start() : mixed { return BookAjaxPipeline::start(); }
+        public static function start() : void { BookAjaxPipeline::start(); }
 
     /**
      * v18.11: 异步启动写书工厂
@@ -67,58 +67,58 @@ class BookAjaxActions {
      * 创建项目后自动调度后台链式执行, 前端只需轮询 progress 端点。
      * 解决 v18.10.3 中前端需反复调用 run_step 的问题。
      */
-        public static function start_async() : mixed { return BookAjaxPipeline::start_async(); }
+        public static function start_async() : void { BookAjaxPipeline::start_async(); }
 
     /**
      * v18.11: 取消异步执行
      */
-        public static function cancel_async() { return BookAjaxPipeline::cancel_async(); }
+        public static function cancel_async() : void { BookAjaxPipeline::cancel_async(); }
 
     /**
      * 查询进度
      */
-        public static function progress() { return BookAjaxPipeline::progress(); }
+        public static function progress() : void { BookAjaxPipeline::progress(); }
 
     /**
      * 章节级重生成 (Q4盲区)
      */
-        public static function regenerate_section() { return BookAjaxPipeline::regenerate_section(); }
+        public static function regenerate_section() : void { BookAjaxPipeline::regenerate_section(); }
 
     /**
      * 下载书稿 (Q6盲区)
      */
-        public static function download() { return BookAjaxPipeline::download(); }
+        public static function download() : mixed { return BookAjaxPipeline::download(); }
 
     /**
      * 断线重连恢复 (Q2盲区)
      */
-        public static function resume() { return BookAjaxPipeline::resume(); }
+        public static function resume() : void { BookAjaxPipeline::resume(); }
 
     /**
      * 大纲回退 (Q5盲区)
      */
-        public static function rollback_outline() { return BookAjaxPipeline::rollback_outline(); }
+        public static function rollback_outline() : void { BookAjaxPipeline::rollback_outline(); }
 
     /**
      * R2修复: 分步执行单节扩写
      * 前端轮询触发, 每次执行一节, 避免PHP超时
      */
-        public static function run_step() { return BookAjaxPipeline::run_step(); }
+        public static function run_step() : void { BookAjaxPipeline::run_step(); }
 
     /**
      * N1+N3: 获取所有提示词 (供前端显示/编辑)
      */
-        public static function get_prompts() { return BookAjaxPrompts::get_prompts(); }
+        public static function get_prompts() : void { BookAjaxPrompts::get_prompts(); }
 
     /**
      * N1+N3: 保存用户修改的提示词
      */
-        public static function save_prompt() { return BookAjaxPrompts::save_prompt(); }
+        public static function save_prompt() : void { BookAjaxPrompts::save_prompt(); }
 
     /**
      * N3+N5: 预览提示词 (根据书名/类型/模式填充变量)
      */
-        public static function preview_prompt() { return BookAjaxPrompts::preview_prompt(); }
+        public static function preview_prompt() : void { BookAjaxPrompts::preview_prompt(); }
 
     /**
      * 生成进度查询nonce (7天有效, H3约束)

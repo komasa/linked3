@@ -480,4 +480,89 @@ class DashboardMediaAjax
         }
     }
 
+    // ================================================================
+    // v27.6.16-fix: Stub implementations for methods referenced but
+    // never defined. These provide safe fallbacks so the diagram/chart
+    // generation pipeline doesn't fatal-error.
+    // ================================================================
+
+    /**
+     * Auto-adapt diagram configuration based on content analysis.
+     */
+    private static function autoAdapt(string $topic, string $content, string $diagramType, string $endpointType, string $density): array
+    {
+        return [
+            'topic'         => $topic ?: self::extractShortTitle($content),
+            'diagram_type'  => $diagramType ?: 'flowchart',
+            'endpoint_type' => $endpointType ?: 'question',
+            'density'       => $density ?: 'medium',
+            'bands'         => self::buildDefaultRelationships(),
+        ];
+    }
+
+    /**
+     * AI-expand content into structured bands for diagram generation.
+     */
+    private static function aiExpandToBands(string $topic, string $content, string $diagramType): array
+    {
+        // Fallback: split content into 3-5 bands by paragraphs
+        $paragraphs = array_filter(array_map('trim', explode("\n\n", $content)));
+        $bands = [];
+        $count = min(count($paragraphs), 5);
+        for ($i = 0; $i < $count; $i++) {
+            $bands[] = [
+                'title'   => $topic . ' - Part ' . ($i + 1),
+                'content' => $paragraphs[$i] ?? '',
+            ];
+        }
+        if (empty($bands)) {
+            $bands[] = ['title' => $topic, 'content' => $content];
+        }
+        return $bands;
+    }
+
+    /**
+     * Extract a short title from content (first sentence or first 50 chars).
+     */
+    private static function extractShortTitle(string $content): string
+    {
+        $content = trim(wp_strip_all_tags($content));
+        if (empty($content)) return '';
+        // Try first sentence
+        if (preg_match('/^[^。！？\.\!\?]+/', $content, $m)) {
+            $title = trim($m[0]);
+            if (mb_strlen($title) > 50) {
+                $title = mb_substr($title, 0, 50) . '...';
+            }
+            return $title;
+        }
+        return mb_substr($content, 0, 50);
+    }
+
+    /**
+     * Get the endpoint question text for a given endpoint type.
+     */
+    private static function getEndpointQuestion(string $endpointType, string $topic): string
+    {
+        $questions = [
+            'question'  => sprintf(__('如何解决「%s」？', 'linked3'), $topic),
+            'compare'   => sprintf(__('「%s」的对比分析', 'linked3'), $topic),
+            'process'   => sprintf(__('「%s」的流程是什么？', 'linked3'), $topic),
+            'structure' => sprintf(__('「%s」的结构是什么？', 'linked3'), $topic),
+            'default'   => $topic,
+        ];
+        return $questions[$endpointType] ?? $questions['default'];
+    }
+
+    /**
+     * Build default relationship structure for diagrams.
+     */
+    private static function buildDefaultRelationships(): array
+    {
+        return [
+            ['from' => 'start', 'to' => 'process', 'label' => ''],
+            ['from' => 'process', 'to' => 'end', 'label' => ''],
+        ];
+    }
+
 }

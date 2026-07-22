@@ -44,7 +44,7 @@ final class PostMetabox
         }
     }
 
-    public static function render_metabox($post) : mixed {
+    public static function render_metabox($post) : void {
         wp_nonce_field('linked3_metabox', 'linked3_metabox_nonce');
         $score = get_post_meta($post->ID, '_linked3_seo_score', true);
         ?>

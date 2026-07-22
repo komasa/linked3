@@ -43,7 +43,7 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
      * v5.1.4: AI fallback 提示词改为从管线模板 'hotword' 读取,
      * 不再硬编码。source 标签改为中文友好名称。
      */
-    public static function keyword_fetch_hot() : mixed {
+    public static function keyword_fetch_hot() : void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }

@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Linked3\Classes\CognitiveOS;
 
 use Linked3\Classes\CognitiveOS\Core\COSEvolution;
+use Linked3\Classes\CognitiveOS\Core\COSDepartments;
 use Linked3\Classes\CognitiveOS\Storage\COSEvolutionArchive;
+use Linked3\Classes\CognitiveOS\Storage\COSSkillLibrary;
 
 if (!defined('ABSPATH')) exit;
 
@@ -105,6 +107,49 @@ class COSEngineUtils
             'final_mvp'    => $final_mvp,
             'generations_summary' => $generations_summary,
         ];
+    }
+
+    /**
+     * 结晶 Skill — 将演化 MVP 固化为可复用的 Skill。
+     *
+     * v27.17.9-fix2: 从 COSEngine 提取到 COSEngineUtils, 修复
+     * "Call to undefined method crystallize_skill" 错误。
+     *
+     * @param string $problem            原始问题。
+     * @param array  $context            上下文。
+     * @param array  $mvp                最优变体。
+     * @param array  $generations_summary 各代摘要。
+     * @return void
+     */
+    private function crystallize_skill(string $problem, array $context, array $mvp, array $generations_summary): void
+    {
+        $domain_slug = preg_replace('/[^a-z0-9\-]/', '', strtolower($context['domain'] ?? 'general')) ?: 'general';
+        $short_hash = substr(md5($problem . microtime(true)), 0, 6);
+        $skill_name = $domain_slug . '_skill_' . $short_hash;
+
+        $rules = COSDepartments::extract_rules($mvp);
+
+        COSSkillLibrary::save($skill_name, [
+            'domain'       => !empty($context['domain']) ? $context['domain'] : 'general',
+            'rules'        => $rules,
+            'fitness'      => (float) ($mvp['fitness'] ?? 5.0),
+            'problem'      => $problem,
+            'mvp_id'       => $mvp['id'] ?? '',
+            'mvp_approach' => $mvp['approach'] ?? '',
+            'mvp_steps'    => $mvp['steps'] ?? '',
+            'mvp_scores'   => [
+                'risk'        => $mvp['score']['risk'] ?? 0,
+                'feasibility' => $mvp['score']['feasibility'] ?? 0,
+                'novelty'     => $mvp['score']['novelty'] ?? 0,
+            ],
+            'generations_summary' => $generations_summary,
+            'created_at'   => current_time('mysql'),
+        ]);
+
+        // G4.4: Trigger fitness recalculation after new SKILL generation
+        if (class_exists("\\Linked3\\Classes\\MetaLever\\MetaLeverFitnessTracker")) {
+            \Linked3\Classes\MetaLever\MetaLeverFitnessTracker::recalculate();
+        }
     }
 
 }

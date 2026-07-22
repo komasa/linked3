@@ -59,7 +59,7 @@ final class CollectRewriteProcessor implements AutoGPTProcessorInterface
             try {
                 // 1. 采集
                 $scraper = new \Linked3\Classes\Collect\Scraper();
-                $scraped = $scraper->scrape($url);
+                $scraped = $scraper->fetch($url);
                 if (is_wp_error($scraped) || empty($scraped['content'])) {
                     $errors[] = "URL {$url} 采集失败: " . (is_wp_error($scraped) ? $scraped->get_error_message() : '无内容');
                     // 采集失败入队重试

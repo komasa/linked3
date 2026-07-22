@@ -19,6 +19,10 @@ if (!defined('ABSPATH')) exit;
 
 abstract class CollectBaseAjaxAction
 {
+    use TraitCheckAdminPermissions;
+    use TraitCheckPlanAccess;
+    use TraitSendWPError;
+
     const NONCE_ACTION = 'linked3_collect';
     const CAPABILITY = 'edit_posts';
 

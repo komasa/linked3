@@ -35,10 +35,49 @@ final class InterlinkBuilder
     private $strategy;
 
     /**
+     * @var int|null Max links override (set via set_max_links()).
+     */
+    private $max_links_override = null;
+
+    /**
      * @param InterlinkStrategy|null $strategy Inject for testing; auto-built by default.
      */
     public function __construct(InterlinkStrategy $strategy = null) {
         $this->strategy = $strategy;
+    }
+
+    /**
+     * Set the interlink strategy by name.
+     *
+     * Accepts: 'recent', 'popular', 'frequent'. Any other value
+     * defaults to 'frequent'.
+     *
+     * @param string $strategy Strategy name.
+     * @return void
+     */
+    public function set_strategy(string $strategy): void {
+        switch ($strategy) {
+            case 'recent':
+                $this->strategy = new InterlinkStrategyRecent();
+                break;
+            case 'popular':
+                $this->strategy = new InterlinkStrategyPopular();
+                break;
+            case 'frequent':
+            default:
+                $this->strategy = new InterlinkStrategyFrequent();
+                break;
+        }
+    }
+
+    /**
+     * Override the maximum number of links to inject per post.
+     *
+     * @param int $max Maximum links (0 or negative disables the override).
+     * @return void
+     */
+    public function set_max_links(int $max): void {
+        $this->max_links_override = $max > 0 ? $max : null;
     }
 
     /**
@@ -93,7 +132,7 @@ final class InterlinkBuilder
         $len = function_exists('mb_strlen') ? mb_strlen($content, 'UTF-8') : strlen($content);
         if ($len < $min_length) return 0;
 
-        $max_links = (int) SEOConfig::get('interlink.max_links', 5);
+        $max_links = $this->max_links_override ?? (int) SEOConfig::get('interlink.max_links', 5);
         $density   = (int) SEOConfig::get('interlink.density_guard', 150);
         $word_count = function_exists('mb_str_word_count') ? mb_str_word_count($content) : str_word_count($content);
         $hard_cap = $max_links;

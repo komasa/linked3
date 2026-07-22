@@ -18,6 +18,9 @@ if (!defined('ABSPATH')) exit;
 
 abstract class ChatBaseAjaxAction
 {
+    use TraitCheckFrontendPermissions;
+    use TraitSendWPError;
+
     const NONCE_ACTION = 'linked3_chat';
 
     abstract public function handle();

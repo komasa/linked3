@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\ContentWriter;
 
+use \WP_Error;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -21,7 +22,6 @@ final class ContentTemplateManager
     // TemplateManager so both managers stay in sync.
     use \Linked3\Classes\Templates\TemplateSeedTrait;
 
-use WP_Error;
     /**
      * @return array  v4.8.0: delegates to the shared seed trait.
      */

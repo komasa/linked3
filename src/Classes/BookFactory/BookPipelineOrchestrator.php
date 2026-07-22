@@ -36,6 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * 流水线编排器, 通过依赖注入接收协作对象。
  */
 class BookPipelineOrchestrator {
+        use OutlineMerger;
+        use SectionExpander;
+        use ReviewLinker;
+        use CostTracker;
+
         /**
          * AI 调用器 (通过依赖注入)。
          *

@@ -9,12 +9,12 @@ if (!defined('ABSPATH')) exit;
  */
 class GenesisRecommendationScorer
 {
-    public function scoreByFeatures(array $styles, array $features, string $mode = 'auto'): array
+    public static function scoreByFeatures(array $styles, array $features, string $mode = 'auto'): array
     {
         foreach ($styles as &$style) {
-            $score = $this->scoreBaseFeatures($style, $features);
-            $score += $this->scoreModeSpecific($style, $features, $mode);
-            $score += $this->scoreDifferentiation($style);
+            $score = self::scoreBaseFeatures($style, $features);
+            $score += self::scoreModeSpecific($style, $features, $mode);
+            $score += self::scoreDifferentiation($style);
 
             $style['match_score'] = $score;
         }
@@ -24,7 +24,7 @@ class GenesisRecommendationScorer
     /**
      * 基础评分(所有模式共享): 行业/万兴/复杂度/无障碍/商业级.
      */
-    private function scoreBaseFeatures(array $style, array $features): int
+    private static function scoreBaseFeatures(array $style, array $features): int
     {
         $score = 0;
         $cat = $style['category'] ?? '';
@@ -59,7 +59,7 @@ class GenesisRecommendationScorer
     /**
      * v1.1: 模式专属差异化评分.
      */
-    private function scoreModeSpecific(array $style, array $features, string $mode): int
+    private static function scoreModeSpecific(array $style, array $features, string $mode): int
     {
         $score = 0;
         $cat = $style['category'] ?? '';
@@ -95,27 +95,27 @@ class GenesisRecommendationScorer
 
             case 'industry':
                 // 行业专家: 行业匹配权重翻倍
-                $score += $this->scoreIndustryMode($style, $features);
+                $score += self::scoreIndustryMode($style, $features);
                 break;
 
             case 'accessible':
                 // 无障碍优先: 高对比+信息图类 权重翻倍
-                $score += $this->scoreAccessibleMode($cat, $nameCn);
+                $score += self::scoreAccessibleMode($cat, $nameCn);
                 break;
 
             case 'conversion':
                 // 高转化: 真人摄影+商业级 权重翻倍(CTA导向)
-                $score += $this->scoreConversionMode($cat, $commercial, $genres);
+                $score += self::scoreConversionMode($cat, $commercial, $genres);
                 break;
 
             case 'complex':
                 // 复杂内容: 融合技法+多模块 权重放大
-                $score += $this->scoreComplexMode($cat, $genres);
+                $score += self::scoreComplexMode($cat, $genres);
                 break;
 
             case 'cross-platform':
                 // 跨平台: G5/G6生产级+多场景 权重放大
-                $score += $this->scoreCrossPlatformMode($g7, $wondershare, $genres);
+                $score += self::scoreCrossPlatformMode($g7, $wondershare, $genres);
                 break;
 
             case 'auto':
@@ -130,7 +130,7 @@ class GenesisRecommendationScorer
     /**
      * industry 模式: 行业匹配权重翻倍.
      */
-    private function scoreIndustryMode(array $style, array $features): int
+    private static function scoreIndustryMode(array $style, array $features): int
     {
         $score = 0;
         if ($features['industry'] !== 'general') {
@@ -145,7 +145,7 @@ class GenesisRecommendationScorer
     /**
      * accessible 模式: 高对比+信息图类 权重翻倍.
      */
-    private function scoreAccessibleMode(string $cat, string $nameCn): int
+    private static function scoreAccessibleMode(string $cat, string $nameCn): int
     {
         $score = 0;
         if (stripos($nameCn, '高对比') !== false || stripos($nameCn, '大字号') !== false) $score += 30; // 翻倍
@@ -157,7 +157,7 @@ class GenesisRecommendationScorer
     /**
      * conversion 模式: 真人摄影+商业级 权重翻倍(CTA导向).
      */
-    private function scoreConversionMode(string $cat, bool $commercial, array $genres): int
+    private static function scoreConversionMode(string $cat, bool $commercial, array $genres): int
     {
         $score = 0;
         if (stripos($cat, '真人') !== false || stripos($cat, '摄影') !== false) $score += 35;
@@ -172,7 +172,7 @@ class GenesisRecommendationScorer
     /**
      * complex 模式: 融合技法+多模块 权重放大.
      */
-    private function scoreComplexMode(string $cat, array $genres): int
+    private static function scoreComplexMode(string $cat, array $genres): int
     {
         $score = 0;
         if (stripos($cat, '融合') !== false) $score += 35;
@@ -185,7 +185,7 @@ class GenesisRecommendationScorer
     /**
      * cross-platform 模式: G5/G6生产级+多场景 权重放大.
      */
-    private function scoreCrossPlatformMode(string $g7, bool $wondershare, array $genres): int
+    private static function scoreCrossPlatformMode(string $g7, bool $wondershare, array $genres): int
     {
         $score = 0;
         if (stripos($g7, 'G5') === 0 || stripos($g7, 'G6') === 0) $score += 30;
@@ -197,7 +197,7 @@ class GenesisRecommendationScorer
     /**
      * v1.5: 区分度评分 — 避免大量同分, 确保Top排序有区分.
      */
-    private function scoreDifferentiation(array $style): int
+    private static function scoreDifferentiation(array $style): int
     {
         $score = 0;
         $nameCn = $style['name_cn'] ?? '';
@@ -226,19 +226,19 @@ class GenesisRecommendationScorer
         return $score;
     }
 
-    public function applyModeFilters(array $styles, array $modeConfig, array $features, string $industry): array
+    public static function applyModeFilters(array $styles, array $modeConfig, array $features, string $industry): array
     {
         $filtered = $styles;
         $filters = $modeConfig['filters'];
 
         // 排除分类 (v1.1: 用stripos模糊匹配)
         if (!empty($filters['exclude_categories'])) {
-            $filtered = $this->filterExcludeCategories($filtered, $filters['exclude_categories']);
+            $filtered = self::filterExcludeCategories($filtered, $filters['exclude_categories']);
         }
 
         // 包含分类 (v1.1: BUG修复 — in_array→stripos, 解决category含后缀不命中)
         if (!empty($filters['include_categories'])) {
-            $filtered = $this->filterIncludeCategories($filtered, $filters['include_categories']);
+            $filtered = self::filterIncludeCategories($filtered, $filters['include_categories']);
         }
 
         // 万兴就绪过滤 (v1.1: BUG修复 — production_ready→wondershare_ready)
@@ -250,22 +250,22 @@ class GenesisRecommendationScorer
 
         // 无障碍优先过滤 (v1.1: 新增实现 — 之前完全缺失)
         if (!empty($filters['require_accessible'])) {
-            $filtered = $this->filterAccessible($filtered);
+            $filtered = self::filterAccessible($filtered);
         }
 
         // 功能匹配过滤 (v1.1: 新增实现 — 之前完全缺失)
         if (!empty($filters['match_function'])) {
-            $filtered = $this->filterMatchFunction($filtered, $filters['match_function']);
+            $filtered = self::filterMatchFunction($filtered, $filters['match_function']);
         }
 
         // 多平台过滤 (v1.1: 新增实现 — 之前完全缺失)
         if (!empty($filters['multi_platform'])) {
-            $filtered = $this->filterMultiPlatform($filtered);
+            $filtered = self::filterMultiPlatform($filtered);
         }
 
         // 行业匹配 (v1.1: BUG修复 — 即使industry=general也用features['industry']匹配)
         if (!empty($filters['match_industry'])) {
-            $filtered = $this->filterMatchIndustry($filtered, $features, $industry);
+            $filtered = self::filterMatchIndustry($filtered, $features, $industry);
         }
 
         return $filtered;
@@ -274,7 +274,7 @@ class GenesisRecommendationScorer
     /**
      * 排除分类过滤 (v1.1: 用stripos模糊匹配).
      */
-    private function filterExcludeCategories(array $filtered, array $excludeCategories): array
+    private static function filterExcludeCategories(array $filtered, array $excludeCategories): array
     {
         $result = [];
         foreach ($filtered as $s) {
@@ -296,7 +296,7 @@ class GenesisRecommendationScorer
     /**
      * 包含分类过滤 (v1.1: BUG修复 — in_array→stripos).
      */
-    private function filterIncludeCategories(array $filtered, array $includeCategories): array
+    private static function filterIncludeCategories(array $filtered, array $includeCategories): array
     {
         $result = [];
         foreach ($filtered as $s) {
@@ -319,7 +319,7 @@ class GenesisRecommendationScorer
      * 无障碍优先过滤 (v1.1: 新增实现).
      * 策略: 优先信息图/企业扁平类(高对比+标准字号), 排除艺术插画类(低对比风险)
      */
-    private function filterAccessible(array $filtered): array
+    private static function filterAccessible(array $filtered): array
     {
         return array_filter($filtered, function ($s) {
             $cat = $s['category'] ?? '';
@@ -342,7 +342,7 @@ class GenesisRecommendationScorer
      * 功能匹配过滤 (v1.1: 新增实现).
      * 策略: CTA导向 → 优先真人摄影/海报卡片类(强视觉冲击+行动召唤)
      */
-    private function filterMatchFunction(array $filtered, string $targetFunc): array
+    private static function filterMatchFunction(array $filtered, string $targetFunc): array
     {
         if ($targetFunc !== 'CTA') {
             return $filtered;
@@ -377,7 +377,7 @@ class GenesisRecommendationScorer
      * 多平台过滤 (v1.1: 新增实现).
      * 策略: g7_track以G5/G6开头(生产级, 多平台适配) 或 suitable_genres数量>=2
      */
-    private function filterMultiPlatform(array $filtered): array
+    private static function filterMultiPlatform(array $filtered): array
     {
         return array_filter($filtered, function ($s) {
             $g7 = $s['g7_track'] ?? '';
@@ -397,7 +397,7 @@ class GenesisRecommendationScorer
     /**
      * 行业匹配过滤 (v1.1: BUG修复 — 即使industry=general也用features['industry']匹配).
      */
-    private function filterMatchIndustry(array $filtered, array $features, string $industry): array
+    private static function filterMatchIndustry(array $filtered, array $features, string $industry): array
     {
         // v1.1: 优先用features提取的行业, 兜底用参数industry
         $effectiveIndustry = $features['industry'] ?? $industry;

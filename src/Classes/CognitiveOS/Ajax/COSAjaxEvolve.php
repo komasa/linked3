@@ -190,7 +190,7 @@ class COSAjaxEvolve
         }
 
         // 基于问题领域和方案特征推荐杠杆
-        $recommendations = self::recommend_levers_for_problem($problem, $approach, $domain);
+        $recommendations = COSAjaxManage::recommend_levers_for_problem($problem, $approach, $domain);
 
         wp_send_json_success([
             'recommended' => $recommendations,

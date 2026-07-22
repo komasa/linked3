@@ -55,19 +55,19 @@ class COSAjax
      * AJAX: 异步演化 — 运行单代 (v20.4-fix8)。
      * 前端串行调用 G1 → G2 → G3, 每次一个 AJAX 请求, 避免超时。
      */
-        public static function ajax_evolve_gen() : mixed { return COSAjaxEvolve::ajax_evolve_gen(); }
+        public static function ajax_evolve_gen()  : void { COSAjaxEvolve::ajax_evolve_gen(); }
 
     /**
      * AJAX: 异步演化 — 最终结晶 (v20.4-fix8)。
      * G3 完成后调用, 保存 Skill。
      */
-        public static function ajax_evolve_finalize() : mixed { return COSAjaxEvolve::ajax_evolve_finalize(); }
+        public static function ajax_evolve_finalize()  : void { COSAjaxEvolve::ajax_evolve_finalize(); }
 
     /**
      * AJAX: AI 诊断 — 测试 AI 调用是否正常, 返回详细错误信息。
      * 用于排查 "Failed to fetch" 的根因。
      */
-        public static function ajax_diagnose() { return COSAjaxEvolve::ajax_diagnose(); }
+        public static function ajax_diagnose()  : void { COSAjaxEvolve::ajax_diagnose(); }
 
     /**
      * AJAX: 重置 AI 熔断器 — v20.4-fix12 新增。
@@ -75,12 +75,12 @@ class COSAjax
      * 让被熔断的 provider 立即恢复可用。
      * 适用场景: AI 曾因超时失败触发熔断, 但 API 已恢复, 用户想立即重试。
      */
-        public static function ajax_reset_circuit() { return COSAjaxEvolve::ajax_reset_circuit(); }
+        public static function ajax_reset_circuit()  : void { COSAjaxEvolve::ajax_reset_circuit(); }
 
     /**
      * AJAX: 杠杆自适配推荐 — 根据演化结果自动推荐适合的杠杆。
      */
-        public static function ajax_recommend_levers() { return COSAjaxEvolve::ajax_recommend_levers(); }
+        public static function ajax_recommend_levers()  : void { COSAjaxEvolve::ajax_recommend_levers(); }
 
     /**
      * 基于问题特征推荐杠杆组合。
@@ -98,22 +98,22 @@ class COSAjax
      * 前端调用此端点, 如果返回的 patch_version 不是最新值,
      * 说明旧代码仍在运行 (需要清 OPcache 或重新上传)。
      */
-        public static function ajax_version() { return COSAjaxEvolve::ajax_version(); }
+        public static function ajax_version()  : void { COSAjaxEvolve::ajax_version(); }
 
     /**
      * AJAX: 启动一次三代演化。
      */
-        public static function ajax_evolve() { return COSAjaxManage::ajax_evolve(); }
+        public static function ajax_evolve()  : void { COSAjaxManage::ajax_evolve(); }
 
     /**
      * AJAX: 获取仪表盘数据。
      */
-        public static function ajax_dashboard() { return COSAjaxManage::ajax_dashboard(); }
+        public static function ajax_dashboard()  : void { COSAjaxManage::ajax_dashboard(); }
 
     /**
      * AJAX: 获取 Skill 列表。
      */
-        public static function ajax_skills() { return COSAjaxManage::ajax_skills(); }
+        public static function ajax_skills()  : void { COSAjaxManage::ajax_skills(); }
 
     /**
      * AJAX: 获取演化归档。

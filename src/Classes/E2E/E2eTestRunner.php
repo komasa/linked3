@@ -91,7 +91,7 @@ class E2eTestRunner {
     /**
      * 注册默认 E2E 测试。
      */
-    public function registerDefaultTests() : mixed {
+    public function registerDefaultTests() : void {
         $this->registerTest('container_loaded', function() {
             return linked3_container()->has('logger');
         }, 'infrastructure');

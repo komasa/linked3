@@ -26,7 +26,7 @@ class GenesisAjaxCore
         @ini_set('memory_limit', '512M');
         try {
             // v7.0.3: 始终调用 AI 拆分 (不再降级到 PlotParser)
-            $aiPanels = self::genesisAIGeneratePanels($script, $targetPanels, $styleId, $isAuto);
+            $aiPanels = GenesisPanelUtils::genesisAIGeneratePanels($script, $targetPanels, $styleId, $isAuto);
             if (empty($aiPanels)) {
                 // AI 拆分失败 — 极端降级: 把整段文本作为1个分镜
                 $aiPanels = [[
@@ -160,7 +160,7 @@ class GenesisAjaxCore
         // 在进入长流程前, 先验证 API Key / Provider 可用性
         // 避免用户等 60s 才发现配置错误
         // ============================================================
-        $preflight = self::genesisPreflightCheck();
+        $preflight = GenesisProcessorDelegates::genesisPreflightCheck();
         if (!$preflight['ok']) {
             wp_send_json_error([
                 'message'      => $preflight['message'],
@@ -170,7 +170,7 @@ class GenesisAjaxCore
             ]);
         }
         try {
-            $result = self::genesisGenerateMultiInternal($script, $styleId, $platform, $panelCountRaw, null);
+            $result = GenesisProcessorDelegates::genesisGenerateMultiInternal($script, $styleId, $platform, $panelCountRaw, null);
             wp_send_json_success($result);
         } catch (\Throwable $e) {
             wp_send_json_error([
@@ -188,7 +188,7 @@ class GenesisAjaxCore
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
         $t0 = microtime(true);
         // 预检
-        $preflight = self::genesisPreflightCheck();
+        $preflight = GenesisProcessorDelegates::genesisPreflightCheck();
         if (!$preflight['ok']) {
             wp_send_json_error([
                 'message' => $preflight['message'],
@@ -263,7 +263,7 @@ class GenesisAjaxCore
         $seedId = sanitize_text_field($_POST['seed_id'] ?? '');
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
         // 预检 (50ms 内快速失败)
-        $preflight = self::genesisPreflightCheck();
+        $preflight = GenesisProcessorDelegates::genesisPreflightCheck();
         if (!$preflight['ok']) {
             wp_send_json_error([
                 'message'      => $preflight['message'],

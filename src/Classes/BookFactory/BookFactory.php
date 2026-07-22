@@ -24,6 +24,8 @@ namespace Linked3\Classes\BookFactory;
     use \Linked3\Classes\BookFactory\Traits\SectionExpander;
     use \Linked3\Classes\BookFactory\Traits\ReviewLinker;
     use \Linked3\Classes\BookFactory\Traits\CostTracker;
+    use \Linked3\Classes\Core\AIDispatcher;
+    use \Linked3\Classes\Core\TokenManager;
 
 
 
@@ -37,6 +39,11 @@ require_once $trait_dir . 'ReviewLinker.php';
 require_once $trait_dir . 'CostTracker.php';
 
 class BookFactory {
+
+    use OutlineMerger;
+    use SectionExpander;
+    use ReviewLinker;
+    use CostTracker;
 
     /** @var array 管线配置 (从 book.yaml 加载) */
     private $pipeline_config = null;
@@ -166,7 +173,7 @@ class BookFactory {
             $dispatcher = AIDispatcher::instance();
             $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
             $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
-            $config = TokenManager::get_active_config();
+            $config = [];
             $response = $dispatcher->chat( $messages, $options, $config );
         } catch ( \Throwable $e ) {
             throw new \RuntimeException( 'AI call failed: ' . $e->getMessage(), 0, $e );

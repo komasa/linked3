@@ -24,11 +24,11 @@ if (!defined('ABSPATH')) {
 $cos_overview = [];
 $top_skills   = [];
 $recent_evolutions = [];
-if (class_exists('\\Linked3\\Classes\\CognitiveOS\\COSEngine')) {
-    $engine = \Linked3\Classes\CognitiveOS\COSEngine::instance();
-    $cos_overview      = $engine->dashboard_overview();
-    $top_skills       = $engine->top_skills(10);
-    $recent_evolutions = $engine->recent_evolutions(10);
+if (class_exists('\\Linked3\\Classes\\CognitiveOS\\COSReporter')) {
+    $reporter = new \Linked3\Classes\CognitiveOS\COSReporter();
+    $cos_overview      = $reporter->dashboard_overview();
+    $top_skills       = $reporter->top_skills(10);
+    $recent_evolutions = $reporter->recent_evolutions(10);
 }
 
 $cos_nonce = wp_create_nonce('linked3_cos');

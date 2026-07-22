@@ -22,6 +22,10 @@ if (!defined('ABSPATH')) {
 }
 abstract class PublishBaseAjaxAction
 {
+    use TraitCheckAdminPermissions;
+    use TraitCheckPlanAccess;
+    use TraitSendWPError;
+
     const NONCE_ACTION = 'linked3_publish';
     const CAPABILITY = 'edit_posts';
 

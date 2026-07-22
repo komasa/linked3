@@ -28,9 +28,9 @@ class BookAjaxPrompts {
 	/**
 	 * Get all prompts for the frontend editor.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function get_prompts(): mixed {
+	public static function get_prompts(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
@@ -49,9 +49,9 @@ class BookAjaxPrompts {
 	/**
 	 * Save a prompt for a given step.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function save_prompt(): mixed {
+	public static function save_prompt(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
@@ -77,9 +77,9 @@ class BookAjaxPrompts {
 	/**
 	 * Preview a prompt with variables filled in.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public static function preview_prompt(): mixed {
+	public static function preview_prompt(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {

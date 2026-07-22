@@ -27,6 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class BookReviewCoordinator
  */
 class BookReviewCoordinator {
+        use ReviewLinker;
+
         /**
          * AI 调用器。
          *

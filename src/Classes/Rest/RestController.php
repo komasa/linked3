@@ -35,7 +35,7 @@ final class RestController
     // error in PHP 7.4+. Renamed to REST_NAMESPACE (v1.0.0 FINAL-AUDIT fix).
     const REST_NAMESPACE = 'linked3/v1';
 
-    public static function register() : mixed {
+    public static function register() : void {
         add_action('rest_api_init', [__CLASS__, 'register_routes']);
         add_action('rest_api_init', static function () {
             // Surface a discovery ping endpoint so mobile/integration clients

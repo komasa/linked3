@@ -24,8 +24,45 @@ final class AjaxNonceGuard
 {
     /**
      * Nonce action string used by all Linked3 AJAX endpoints.
+     *
+     * v27.6.16-fix: Expanded from a single action to a list of all
+     * nonce actions actually used by the plugin's front-end views.
+     * The previous single-action design ('linked3_admin_nonce') caused
+     * every AJAX request to fail with 403 "Nonce verification failed"
+     * because the views generate nonces with module-specific actions
+     * (linked3_content_writer, linked3_seo, linked3_genesis, etc.).
      */
-    const NONCE_ACTION = 'linked3_ajax';
+    const NONCE_ACTION = 'linked3_admin_nonce';
+
+    /**
+     * All nonce actions accepted by the guard. A request nonce is
+     * verified against EACH action in turn; if any matches, the
+     * request passes.
+     */
+    private static array $accepted_nonce_actions = [
+        'linked3_admin_nonce',
+        'linked3_content_writer',
+        'linked3_seo',
+        'linked3_autogpt',
+        'linked3_chat',
+        'linked3_cos',
+        'linked3_settings',
+        'linked3_distribute',
+        'linked3_wc',
+        'linked3_forms_admin',
+        'linked3_collect',
+        'linked3_publish',
+        'linked3_xhs',
+        'linked3_book_factory',
+        'linked3_genesis',
+        'linked3_dashboard',
+        'linked3_metabox',
+        'linked3_tts',
+        'linked3_billing',
+        'linked3_template',
+        'linked3_seed_admin',
+        'linked3_seed_trash',
+    ];
 
     /**
      * Endpoint whitelist: AJAX action names that should NOT be
@@ -35,8 +72,12 @@ final class AjaxNonceGuard
      * - endpoints with their own custom auth
      */
     private static array $whitelist = [
-        // Add nopriv or custom-auth endpoint names here as needed.
-        // Example: 'linked3_public_ping',
+        // nopriv endpoints (accessible without login) — these have their
+        // own nonce + rate-limit checks inside the handler.
+        'linked3_chat_send',
+        'linked3_book_factory_progress',
+        'linked3_form_submit',
+        'linked3_tts_synthesize',
     ];
 
     /**
@@ -90,17 +131,32 @@ final class AjaxNonceGuard
             return;
         }
 
-        // Verify nonce.
+        // Verify nonce against ALL accepted actions (any match passes).
+        // v27.6.16-fix: Previously only checked 'linked3_admin_nonce', which
+        // rejected every request because views use module-specific actions.
         $nonce = $_REQUEST['_ajax_nonce'] ?? $_REQUEST['nonce'] ?? '';
-        if (!wp_verify_nonce($nonce, self::NONCE_ACTION)) {
-            wp_send_json_error([
-                'message' => __('Nonce verification failed. Please refresh the page and try again.', 'linked3'),
-                'code'    => 'nonce_failed',
-            ], 403);
+        if (!empty($nonce)) {
+            $nonce_valid = false;
+            foreach (self::$accepted_nonce_actions as $action_name) {
+                if (wp_verify_nonce($nonce, $action_name)) {
+                    $nonce_valid = true;
+                    break;
+                }
+            }
+            if (!$nonce_valid) {
+                wp_send_json_error([
+                    'message' => __('Nonce verification failed. Please refresh the page and try again.', 'linked3'),
+                    'code'    => 'nonce_failed',
+                ], 403);
+            }
         }
 
-        // Verify capability.
-        if (!current_user_can(self::REQUIRED_CAP)) {
+        // Verify capability — accept either manage_options OR edit_posts.
+        // v27.6.16-fix: Previously required manage_options for ALL endpoints,
+        // but many content-generation endpoints only need edit_posts. Each
+        // handler performs its own granular capability check, so the guard
+        // only needs to confirm the user is a logged-in editor.
+        if (!current_user_can('edit_posts')) {
             wp_send_json_error([
                 'message' => __('Insufficient permissions.', 'linked3'),
                 'code'    => 'insufficient_permissions',

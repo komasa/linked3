@@ -28,6 +28,9 @@ use \Linked3\Classes\BookFactory\Traits\OutlineMerger;
 use \Linked3\Classes\BookFactory\Traits\SectionExpander;
 use \Linked3\Classes\BookFactory\Traits\ReviewLinker;
 use \Linked3\Classes\BookFactory\Traits\CostTracker;
+use \Linked3\Classes\Core\AIDispatcher;
+use \Linked3\Classes\Core\TokenManager;
+use \WP_Error;
 
 class BookFactorySteps
 {
@@ -36,7 +39,6 @@ class BookFactorySteps
     use ReviewLinker;
     use CostTracker;
 
-use WP_Error;
     /** @var float 上次AI调用时间戳 (速率控制) */
     private $last_api_call = 0;
 
@@ -470,7 +472,7 @@ use WP_Error;
             $dispatcher = AIDispatcher::instance();
             $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
             $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
-            $config = TokenManager::get_active_config();
+            $config = [];
             $response = $dispatcher->chat( $messages, $options, $config );
         } catch ( \Throwable $e ) {
             throw new \RuntimeException( 'AI call failed: ' . $e->getMessage(), 0, $e );

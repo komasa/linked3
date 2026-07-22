@@ -26,15 +26,11 @@ class DashboardChartActions extends DashboardBaseAjaxAction
      * Action: wp_ajax_linked3_chart_outline
      * Implementation: DashboardMediaAjax::ajax_chart_outline()
      */
-    public static function chart_outline() : mixed {
-        return DashboardMediaAjax::ajax_chart_outline();
-    }
+    public static function chart_outline()  : void { DashboardMediaAjax::ajax_chart_outline(); }
 
     /**
      * Action: wp_ajax_linked3_chart_segment
      * Implementation: DashboardMediaAjax::ajax_chart_segment()
      */
-    public static function chart_segment() : mixed     {
-        return DashboardMediaAjax::ajax_chart_segment();
-    }
+    public static function chart_segment()  : void { DashboardMediaAjax::ajax_chart_segment(); }
 }

@@ -28,7 +28,7 @@ class DashboardContentActions extends DashboardBaseAjaxAction
      * Ghost method: generate_outline is handled by LongFormWriter.
      * Not registered in register(). Returns 501 if called directly.
      */
-    public static function generate_outline() : mixed {
+    public static function generate_outline() : void {
         wp_send_json_error([
             'message' => __('AJAX endpoint "ajax_generate_outline" is handled by LongFormWriter. This ghost method should not be called.', 'linked3'),
             'code' => 'ghost_method',
@@ -39,7 +39,7 @@ class DashboardContentActions extends DashboardBaseAjaxAction
      * Ghost method: generate_section is handled by LongFormWriter.
      * Not registered in register(). Returns 501 if called directly.
      */
-    public static function generate_section() : mixed     {
+    public static function generate_section() : void     {
         wp_send_json_error([
             'message' => __('AJAX endpoint "ajax_generate_section" is handled by LongFormWriter. This ghost method should not be called.', 'linked3'),
             'code' => 'ghost_method',
@@ -52,6 +52,15 @@ class DashboardContentActions extends DashboardBaseAjaxAction
      */
     public static function generate_chart_prompts()
     {
+        // ── Security: Nonce verification ──
+        if (!check_ajax_referer('linked3_admin_nonce', 'nonce', false)) {
+            wp_send_json_error(['message' => __('Security check failed.', 'linked3')], 403);
+        }
+        // ── Security: Capability check ──
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('Insufficient permissions.', 'linked3')], 403);
+        }
+
         return DashboardMediaAjax::ajax_generate_chart_prompts();
     }
 }

@@ -22,6 +22,8 @@ if (!defined('ABSPATH')) {
 
 final class TemplateManager
 {
+    use TemplateSeedTrait;
+
     /**
      * 预置模板(本地)。v4.8.0: delegates to the shared seed trait.
      */

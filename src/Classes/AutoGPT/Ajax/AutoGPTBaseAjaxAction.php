@@ -19,6 +19,10 @@ if (!defined('ABSPATH')) exit;
 
 abstract class AutoGPTBaseAjaxAction
 {
+    use TraitCheckAdminPermissions;
+    use TraitCheckPlanAccess;
+    use TraitSendWPError;
+
     const NONCE_ACTION = 'linked3_autogpt';
     const CAPABILITY = 'manage_options';
 
