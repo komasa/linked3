@@ -24,6 +24,10 @@
  *      (static method callbacks referencing classes that don't exist)
  *   4. Cross-file duplicate function / class definitions
  *      (same FQN declared in two different files)
+ *   5. Compile-time type compatibility check (v1.1.0)
+ *      (bare class names in return types, param types, implements,
+ *       extends that are not imported via `use`, not PHP built-in,
+ *       not same-namespace, and not FQN-prefixed with `\`)
  *
  * INTEGRATION
  * -----------
@@ -45,7 +49,7 @@ if (defined('LINKED3_UES_LOADED')) {
     return;
 }
 define('LINKED3_UES_LOADED', true);
-define('LINKED3_UES_VERSION', '1.0.0');
+define('LINKED3_UES_VERSION', '1.1.0');
 
 /**
  * Run the ultra-early scanner.
@@ -231,6 +235,16 @@ if (!function_exists('linked3_ues_scan')) {
                     'line'    => $cb['line'],
                 ];
             }
+        }
+
+        // ── Check 5: Compile-time type compatibility (v1.1.0) ──
+        // Detects bare class names in return types, param types, implements,
+        // and extends that can't be resolved (not in use map, not same-ns,
+        // not PHP built-in, not FQN-prefixed with \).
+        // These cause E_COMPILE_ERROR when PHP tries to resolve the type.
+        $type_errors = linked3_ues_check_type_compatibility($file_infos, $class_fqn_map);
+        foreach ($type_errors as $te) {
+            $errors[] = $te;
         }
 
         return $errors;
@@ -671,6 +685,281 @@ if (!function_exists('linked3_ues_check_syntax_structure')) {
         }
 
         return $errors;
+    }
+}
+
+/**
+ * Check 5: Compile-time type compatibility.
+ *
+ * Scans all files for bare class names in:
+ *   - Return type declarations: function foo(): Type
+ *   - Parameter type declarations: function foo(Type $param)
+ *   - implements clauses: class Foo implements Bar
+ *   - extends clauses: class Foo extends Bar
+ *
+ * A bare class name is problematic if:
+ *   - It's not a PHP built-in type (int, string, array, etc.)
+ *   - It's not imported via `use`
+ *   - It's not defined in the same namespace
+ *   - It's not prefixed with `\` (FQN)
+ *   - It's not a known WP/PHP global class
+ *
+ * @param array $file_infos    path => parsed info
+ * @param array $class_fqn_map FQN => [file, line]
+ * @return array               Error arrays
+ */
+if (!function_exists('linked3_ues_check_type_compatibility')) {
+    function linked3_ues_check_type_compatibility($file_infos, $class_fqn_map)
+    {
+        $errors = [];
+
+        // PHP built-in / reserved type names that never need importing.
+        $php_builtins = [
+            'int', 'float', 'string', 'bool', 'array', 'void', 'null', 'mixed',
+            'object', 'callable', 'iterable', 'self', 'static', 'parent', 'true',
+            'false', 'never', 'resource',
+        ];
+
+        // Known WP global classes (exist in global namespace at runtime).
+        $wp_global_classes = [
+            'WP_Error', 'WP_Post', 'WP_Query', 'WP_Term', 'WP_User', 'WP_Comment',
+            'WP_Rewrite', 'WP_Widget', 'WP_REST_Request', 'WP_REST_Response',
+            'WP_REST_Controller', 'WP_HTTP_Response', 'WP_Image_Editor',
+            'WP_Image_Editor_GD', 'WP_Image_Editor_Imagick', 'WP_Tax_Query',
+            'WP_Meta_Query', 'WP_Date_Query', 'WP_Http', 'WP_Filesystem',
+            'WP_Scripts', 'WP_Styles', 'WP_Dependencies', 'WP_Theme',
+            'wpdb', 'WP_Object_Cache', 'WP_Roles', 'WP_Role', 'WP_Capabilities',
+        ];
+
+        // Known PHP extension classes available in global namespace.
+        $php_global_classes = [
+            'SQLite3', 'SQLiteStmt', 'PDO', 'PDOStatement', 'PDOException',
+            'ReflectionClass', 'ReflectionMethod', 'ReflectionProperty',
+            'ReflectionFunction', 'ReflectionException', 'Exception', 'Error',
+            'TypeError', 'ValueError', 'RuntimeException', 'LogicException',
+            'InvalidArgumentException', 'OutOfRangeException', 'OutOfBoundsException',
+            'RangeException', 'UnderflowException', 'OverflowException',
+            'DomainException', 'LengthException', 'UnexpectedValueException',
+            'BadFunctionCallException', 'BadMethodCallException',
+            'ArgumentCountError', 'ArithmeticError', 'DivisionByZeroError',
+            'AssertionError', 'ParseError', 'ArrayObject', 'ArrayIterator',
+            'SplObjectStorage', 'SplStack', 'SplQueue', 'SplDoublyLinkedList',
+            'DirectoryIterator', 'RecursiveDirectoryIterator', 'FilesystemIterator',
+            'RecursiveIteratorIterator', 'IteratorIterator', 'FilterIterator',
+            'CallbackFilterIterator', 'LimitIterator', 'EmptyIterator',
+            'AppendIterator', 'NoRewindIterator', 'InfiniteIterator',
+            'RegexIterator', 'RecursiveRegexIterator',
+            'DOMDocument', 'DOMNode', 'DOMNodeList', 'DOMElement', 'DOMXPath',
+            'SimpleXMLElement', 'XMLReader', 'XMLWriter',
+            'GdImage', 'Imagick', 'ImagickPixel',
+            ' finfo', 'Directory', 'stdClass', 'Closure', 'Generator',
+            'DateInterval', 'DateTime', 'DateTimeImmutable', 'DatePeriod',
+            'IntlDateFormatter', 'NumberFormatter',
+        ];
+
+        $all_global_classes = array_flip(array_merge($wp_global_classes, $php_global_classes));
+
+        foreach ($file_infos as $path => $info) {
+            $ns = $info['namespace'];
+            $use_map = $info['use_map'];
+            $source = $info['source'];
+            $clean = $info['clean'];
+            $rel_path = $info['rel_path'];
+
+            // Skip global namespace files — bare names resolve correctly there.
+            if (!$ns) {
+                continue;
+            }
+
+            // Remove string contents from clean source for type scanning.
+            $type_source = preg_replace("/'(?:\\\\.|[^'\\\\])*'/s", "''", $clean);
+            $type_source = preg_replace('/"(?:\\\\.|[^"\\\\])*"/s', '""', $type_source);
+
+            // ── 5a: Return type declarations ──
+            // Pattern: ): Type {  or  ): Type;  or  ): ?Type {  or  ): Type1|Type2 {
+            if (preg_match_all('/\)\s*:\s*(\??[\w\\\\|&\s]+?)\s*[{\;]/', $type_source, $rt_matches, PREG_OFFSET_CAPTURE)) {
+                foreach ($rt_matches[1] as $m) {
+                    $type_str = trim($m[0]);
+                    $pos = $m[1];
+                    $line = substr_count(substr($source, 0, $pos), "\n") + 1;
+
+                    $class_refs = linked3_ues_extract_class_refs_from_type($type_str, $php_builtins);
+                    foreach ($class_refs as $ref) {
+                        $check = linked3_ues_resolve_class_ref($ref, $ns, $use_map, $class_fqn_map, $all_global_classes);
+                        if (!$check['found']) {
+                            $errors[] = [
+                                'type'    => 'UnresolvedReturnTypeClass',
+                                'message' => "Return type '{$ref}' in namespace '{$ns}' resolves to '{$check['resolved']}' "
+                                    . "which does not exist. Add `use {$check['suggested_use']};` or prefix with `\\{$ref}`.",
+                                'file'    => $rel_path,
+                                'line'    => $line,
+                            ];
+                        }
+                    }
+                }
+            }
+
+            // ── 5b: Parameter type declarations ──
+            // Pattern: function name( Type $param  or  function name( ?Type $param  or  function name( Type|Other $param
+            // We match type before a variable: (\??[\w\\\\|&\s]+)\s+\$param
+            if (preg_match_all('/(?:^|\()\s*(\??[\w\\\\|&\s]+?)\s+\$/', $type_source, $param_matches, PREG_OFFSET_CAPTURE)) {
+                foreach ($param_matches[1] as $m) {
+                    $type_str = trim($m[0]);
+                    // Skip if it's just a visibility modifier (public/private/protected/readonly)
+                    if (in_array(strtolower($type_str), ['public', 'private', 'protected', 'readonly', 'static'], true)) {
+                        continue;
+                    }
+                    $pos = $m[1];
+                    $line = substr_count(substr($source, 0, $pos), "\n") + 1;
+
+                    $class_refs = linked3_ues_extract_class_refs_from_type($type_str, $php_builtins);
+                    foreach ($class_refs as $ref) {
+                        $check = linked3_ues_resolve_class_ref($ref, $ns, $use_map, $class_fqn_map, $all_global_classes);
+                        if (!$check['found']) {
+                            $errors[] = [
+                                'type'    => 'UnresolvedParamTypeClass',
+                                'message' => "Parameter type '{$ref}' in namespace '{$ns}' resolves to '{$check['resolved']}' "
+                                    . "which does not exist. Add `use {$check['suggested_use']};` or prefix with `\\{$ref}`.",
+                                'file'    => $rel_path,
+                                'line'    => $line,
+                            ];
+                        }
+                    }
+                }
+            }
+
+            // ── 5c: implements / extends clauses ──
+            // Pattern: class Foo extends Bar  or  class Foo implements Bar, Baz
+            if (preg_match_all('/\bextends\s+([\w\\\\]+)/', $type_source, $ext_matches, PREG_OFFSET_CAPTURE)) {
+                foreach ($ext_matches[1] as $m) {
+                    $ref = $m[0];
+                    $pos = $m[1];
+                    $line = substr_count(substr($source, 0, $pos), "\n") + 1;
+
+                    if (in_array(strtolower($ref), $php_builtins, true)) {
+                        continue;
+                    }
+                    $check = linked3_ues_resolve_class_ref($ref, $ns, $use_map, $class_fqn_map, $all_global_classes);
+                    if (!$check['found']) {
+                        $errors[] = [
+                            'type'    => 'UnresolvedExtendsClass',
+                            'message' => "Class '{$ref}' in extends clause (namespace '{$ns}') resolves to '{$check['resolved']}' "
+                                . "which does not exist. Add `use {$check['suggested_use']};` or prefix with `\\{$ref}`.",
+                            'file'    => $rel_path,
+                            'line'    => $line,
+                        ];
+                    }
+                }
+            }
+
+            if (preg_match_all('/\bimplements\s+([\w\\\\,\s]+?){/', $type_source, $impl_matches, PREG_OFFSET_CAPTURE)) {
+                foreach ($impl_matches[1] as $m) {
+                    $impl_str = trim($m[0]);
+                    $pos = $m[1];
+                    $line = substr_count(substr($source, 0, $pos), "\n") + 1;
+
+                    $interfaces = array_map('trim', explode(',', $impl_str));
+                    foreach ($interfaces as $iface) {
+                        $iface = trim($iface);
+        if ($iface === '' || in_array(strtolower($iface), $php_builtins, true)) {
+                            continue;
+                        }
+                        $check = linked3_ues_resolve_class_ref($iface, $ns, $use_map, $class_fqn_map, $all_global_classes);
+                        if (!$check['found']) {
+                            $errors[] = [
+                                'type'    => 'UnresolvedImplementsClass',
+                                'message' => "Interface '{$iface}' in implements clause (namespace '{$ns}') resolves to '{$check['resolved']}' "
+                                    . "which does not exist. Add `use {$check['suggested_use']};` or prefix with `\\{$iface}`.",
+                                'file'    => $rel_path,
+                                'line'    => $line,
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $errors;
+    }
+}
+
+/**
+ * Extract class references from a type string, filtering out PHP builtins.
+ *
+ * @param string $type_str     e.g. "array|WP_Error" or "?SQLite3"
+ * @param array  $php_builtins Lowercase built-in type names
+ * @return array               List of class name references
+ */
+if (!function_exists('linked3_ues_extract_class_refs_from_type')) {
+    function linked3_ues_extract_class_refs_from_type($type_str, $php_builtins)
+    {
+        $refs = [];
+        $type_str = ltrim($type_str, '?');
+        $parts = preg_split('/[|&]/', $type_str);
+        foreach ($parts as $p) {
+            $p = trim($p);
+            if ($p === '') {
+                continue;
+            }
+            // Skip FQN (starts with \)
+            if ($p[0] === '\\') {
+                continue;
+            }
+            // Skip PHP builtins
+            if (in_array(strtolower($p), $php_builtins, true)) {
+                continue;
+            }
+            // Skip if not a valid class name
+            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $p)) {
+                continue;
+            }
+            $refs[] = $p;
+        }
+        return $refs;
+    }
+}
+
+/**
+ * Resolve a class reference and determine if it exists.
+ *
+ * @param string $ref               Class name as written in source
+ * @param string $namespace         Current namespace
+ * @param array  $use_map           alias => FQN
+ * @param array  $class_fqn_map     FQN => [file, line]
+ * @param array  $all_global_classes Known global classes (name => true)
+ * @return array ['found' => bool, 'resolved' => string, 'suggested_use' => string]
+ */
+if (!function_exists('linked3_ues_resolve_class_ref')) {
+    function linked3_ues_resolve_class_ref($ref, $namespace, $use_map, $class_fqn_map, $all_global_classes)
+    {
+        // 1. If in use_map, resolve to FQN and check existence.
+        if (isset($use_map[$ref])) {
+            $fqn = ltrim($use_map[$ref], '\\');
+            if (isset($class_fqn_map[$fqn]) || isset($all_global_classes[$ref])) {
+                return ['found' => true, 'resolved' => $fqn, 'suggested_use' => $fqn];
+            }
+            // The use statement points to a class not in our source tree.
+            // It might be an external dependency — assume it exists.
+            return ['found' => true, 'resolved' => $fqn, 'suggested_use' => $fqn];
+        }
+
+        // 2. If it's a known global class (WP_Error, WP_Post, etc.)
+        if (isset($all_global_classes[$ref])) {
+            return ['found' => true, 'resolved' => $ref, 'suggested_use' => $ref];
+        }
+
+        // 3. Check if it exists in the current namespace (namespace\ref).
+        $ns_relative = $namespace . '\\' . $ref;
+        if (isset($class_fqn_map[$ns_relative])) {
+            return ['found' => true, 'resolved' => $ns_relative, 'suggested_use' => $ns_relative];
+        }
+
+        // 4. Not found — bare name resolves to namespace\ref which doesn't exist.
+        return [
+            'found'         => false,
+            'resolved'      => $ns_relative,
+            'suggested_use' => $ref, // Suggest importing the global class
+        ];
     }
 }
 

@@ -19,6 +19,7 @@ namespace Linked3\Classes\Publish;
 
 use Linked3\Includes\DB\BaseRepository;
 
+use WP_Error;
 if (!defined('ABSPATH')) {
     exit;
 }

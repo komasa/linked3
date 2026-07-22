@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\SEO\Interlink;
 
+use WP_Post;
 if (!defined('ABSPATH')) {
     exit;
 }

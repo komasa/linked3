@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\BookFactory;
 
+use WP_Error;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class BookPromptManager {

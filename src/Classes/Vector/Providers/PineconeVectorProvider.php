@@ -15,6 +15,7 @@ use Linked3\Includes\Http\SafeRemote;
 
 
 
+use WP_Error;
 if (!defined('ABSPATH')) {
     exit;
 }

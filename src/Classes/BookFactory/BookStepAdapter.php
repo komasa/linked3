@@ -17,6 +17,7 @@ declare(strict_types=1);
 // Exit if accessed directly.
 namespace Linked3\Classes\BookFactory;
 
+use WP_Error;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

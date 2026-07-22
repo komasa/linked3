@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Genesis;
 
+use WP_Error;
 if (!defined('ABSPATH')) exit;
 
 class GenesisSeedCPT

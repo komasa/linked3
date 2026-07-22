@@ -55,6 +55,14 @@ final class Activator
      * @return void
      */
     static function do_activate(): void {
+        // ── F-03 FIX: Register custom cron schedules BEFORE scheduling events.
+        // Activation runs BEFORE plugins_loaded, so HookManager (which normally
+        // registers 'linked3_every_10min') has not loaded yet. Without this,
+        // wp_schedule_event('...', 'linked3_every_10min', ...) silently fails.
+        if (!has_filter('cron_schedules', [__CLASS__, 'register_cron_schedules'])) {
+            add_filter('cron_schedules', [__CLASS__, 'register_cron_schedules']);
+        }
+
         // Activation runs BEFORE plugins_loaded, so the Dependency_Loader has
         // not run yet. We must manually require the DB classes we need.
         if (!class_exists('Linked3\\Includes\\DB\\Schema')) {
@@ -237,6 +245,31 @@ final class Activator
         if (function_exists('wp_cache_flush')) {
             @wp_cache_flush(); // phpcs:ignore
         }
+    }
+
+    /**
+     * Register custom cron schedules during activation.
+     * Mirrors HookManager::register_cron_schedules() — needed because
+     * activation runs before HookManager is loaded.
+     *
+     * @param array $schedules
+     * @return array
+     */
+    public static function register_cron_schedules(array $schedules): array
+    {
+        if (!isset($schedules['linked3_every_10min'])) {
+            $schedules['linked3_every_10min'] = [
+                'interval' => 600,
+                'display'  => __('每 10 分钟 (Linked3)', 'linked3'),
+            ];
+        }
+        if (!isset($schedules['linked3_every_30min'])) {
+            $schedules['linked3_every_30min'] = [
+                'interval' => 1800,
+                'display'  => __('每 30 分钟 (Linked3)', 'linked3'),
+            ];
+        }
+        return $schedules;
     }
 
     /**

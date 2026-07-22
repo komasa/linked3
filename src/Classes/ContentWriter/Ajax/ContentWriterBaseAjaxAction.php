@@ -71,7 +71,7 @@ abstract class ContentWriterBaseAjaxAction
     /**
      * @return ContentTemplateManager
      */
-    protected function templates(): Linked3 {
+    protected function templates() {
         return new \Linked3\Classes\ContentWriter\ContentTemplateManager();
     }
 }

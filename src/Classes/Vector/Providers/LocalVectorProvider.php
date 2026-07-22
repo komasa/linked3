@@ -15,9 +15,11 @@ declare(strict_types=1);
 namespace Linked3\Classes\Vector\Providers;
 
 use Linked3\Classes\Vector\VectorProviderInterface;
+use WP_Error;
 
 
 
+use SQLite3;
 if (!defined('ABSPATH')) {
     exit;
 }

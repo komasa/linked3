@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\BookFactory\Traits;
 
+use Linked3\Classes\BookFactory\BookProjectState;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 trait CostTracker {

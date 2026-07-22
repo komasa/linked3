@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Visual;
 
+use WP_Error;
 if (!defined('ABSPATH')) {
     exit;
 }

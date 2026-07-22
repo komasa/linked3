@@ -27,6 +27,7 @@ namespace Linked3\Classes\BookFactory;
 
 
 
+use WP_Error;
 if ( ! defined( 'ABSPATH' ) ) exit;
 // 显式加载 Trait (自动加载器无法解析 trait 的 Old_Style_Prefixed 命名)
 $trait_dir = __DIR__ . '/Traits/';

@@ -30,11 +30,11 @@ abstract class CollectBaseAjaxAction
         $this->handle();
     }
 
-    protected function scraper(): Linked3 {
+    protected function scraper() {
         return new \Linked3\Classes\Collect\Scraper();
     }
 
-    protected function rewriter(): Linked3 {
+    protected function rewriter() {
         return new \Linked3\Classes\Collect\Rewriter\ArticleRewriter();
     }
 }

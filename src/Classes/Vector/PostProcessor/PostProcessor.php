@@ -14,6 +14,7 @@ use Linked3\Classes\Vector\VectorFactory;
 
 
 
+use WP_Post;
 if (!defined('ABSPATH')) {
     exit;
 }

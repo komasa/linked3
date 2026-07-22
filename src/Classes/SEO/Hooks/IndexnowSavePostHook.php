@@ -29,6 +29,7 @@ use Linked3\Classes\SEO\SEOConfig;
 
 
 
+use WP_Post;
 if (!defined('ABSPATH')) {
     exit;
 }

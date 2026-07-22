@@ -36,6 +36,7 @@ class BookFactorySteps
     use ReviewLinker;
     use CostTracker;
 
+use WP_Error;
     /** @var float 上次AI调用时间戳 (速率控制) */
     private $last_api_call = 0;
 

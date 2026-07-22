@@ -4,7 +4,7 @@ Tags: ai, content-generation, book-writing, openai, content-writer
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 27.13.0
+Stable tag: 27.6.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

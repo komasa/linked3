@@ -31,6 +31,7 @@ use Linked3\Classes\SEO\Schema\SchemaMarkup;
 
 
 
+use WP_Post;
 if (!defined('ABSPATH')) {
     exit;
 }

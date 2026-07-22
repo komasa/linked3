@@ -23,6 +23,7 @@ use Linked3\Classes\Core\AIDispatcher;
 
 
 
+use WP_Error;
 if (!defined('ABSPATH')) {
     exit;
 }

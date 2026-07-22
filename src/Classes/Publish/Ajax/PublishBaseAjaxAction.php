@@ -37,7 +37,7 @@ abstract class PublishBaseAjaxAction
         return \Linked3\Classes\Publish\PublishManager::instance();
     }
 
-    protected function repo(): Linked3 {
+    protected function repo() {
         return new \Linked3\Classes\Publish\PublishTargetRepository();
     }
 }

@@ -30,7 +30,7 @@ abstract class AutoGPTBaseAjaxAction
         $this->handle();
     }
 
-    protected function repo(): Linked3 {
+    protected function repo() {
         return new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
     }
 }
