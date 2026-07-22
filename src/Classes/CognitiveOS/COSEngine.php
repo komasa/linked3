@@ -63,7 +63,7 @@ class COSEngine
      * v20.4-fix2: 版本探针 — 用于验证部署的代码版本。
      * 如果此方法不存在或返回值不匹配, 说明旧代码仍在运行。
      */
-    const COS_PATCH_VERSION = 'v27.17.9';
+    const COS_PATCH_VERSION = 'v27.6.18';
 
         public static function patch_version() : mixed { return COSEngineUtils::patch_version(); }
 

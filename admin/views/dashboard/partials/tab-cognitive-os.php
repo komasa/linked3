@@ -44,7 +44,7 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
             <div>
                 <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">
-                    🧠 认知操作系统 <span style="opacity: 0.7; font-size: 14px; font-weight: 400;">Cognitive OS v20.4</span>
+                    🧠 认知操作系统 <span style="opacity: 0.7; font-size: 14px; font-weight: 400;">Cognitive OS v27.6</span>
                     <span id="cos-patch-badge" style="font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; margin-left: 8px; cursor: help;" title="点击查看版本诊断">检测中...</span>
                 </h1>
                 <p style="margin: 6px 0 0; opacity: 0.85; font-size: 13px;">
@@ -657,8 +657,9 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
             }
             var d = res.data;
             var allOk = d.checks && d.checks.extract_rules_is_public && d.checks.chat_has_3_args && d.checks.registry_auto_init && d.checks.chain_chunked_fix10;
-            if (d.patch_version === 'v20.4-fix26' && allOk) {
-                badge.textContent = '✓ v20.4-fix26 已生效';
+            // v27.6.18-fix: 更新版本检查 — 不再硬编码 v20.4-fix26，而是检查 patch_version 非空且 allOk
+            if (d.patch_version && d.patch_version !== 'unknown' && allOk) {
+                badge.textContent = '✓ ' + d.patch_version + ' 已生效';
                 badge.style.background = 'rgba(209,250,229,0.9)';
                 badge.style.color = '#065f46';
             } else {

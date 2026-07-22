@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace Linked3\Classes\Agent\Workflow;
 
 use Linked3\Classes\Agent\AgentWorkflowInterface;
-use Throwable;
 
 
 
 if (!defined('ABSPATH')) exit;
 // 确保接口在实现类之前加载 (glob_scan 按字母排序, interface- 排在 class- 之后)
 if (!interface_exists('Linked3\Classes\Agent\AgentWorkflowInterface')) {
-    require_once dirname(__DIR__) . '/AgentWorkflow.php';
+    require_once dirname(__DIR__) . '/AgentWorkflowInterface.php';
 }
 
 class AgentContentPipeline implements AgentWorkflowInterface {
