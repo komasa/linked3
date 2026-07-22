@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Agent;
 
 use Linked3\Includes\EventBus;
+use Linked3\Classes\Agent\Scheduler\AgentScheduler;
 
 if (!defined('ABSPATH')) exit;
 

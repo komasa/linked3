@@ -16,6 +16,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\Security;
 
 use Linked3\Includes\EventBus;
+use Throwable;
+use RuntimeException;
 
 if (!defined('ABSPATH')) exit;
 

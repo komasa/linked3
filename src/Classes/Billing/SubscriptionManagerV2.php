@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Billing;
 
 use Linked3\Includes\EventBus;
+use RuntimeException;
 
 if (!defined('ABSPATH')) exit;
 

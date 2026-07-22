@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 namespace Linked3\Classes\AI\Pipeline;
 
+use RuntimeException;
+
 if (!defined('ABSPATH')) exit;
 
 class PromptEngine {

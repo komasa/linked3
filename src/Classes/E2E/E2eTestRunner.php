@@ -19,6 +19,8 @@ declare(strict_types=1);
 namespace Linked3\Classes\E2E;
 
 use Linked3\Includes\EventBus;
+use Linked3\Classes\Billing\SubscriptionManagerV2;
+use Throwable;
 
 if (!defined('ABSPATH')) exit;
 
@@ -124,7 +126,7 @@ class E2eTestRunner {
         }, 'security');
 
         $this->registerTest('billing_subscription_plans', function() {
-            $plans = SubscriptionManager_V2::instance()->getPlans();
+            $plans = SubscriptionManagerV2::instance()->getPlans();
             return count($plans) >= 4;
         }, 'billing');
 

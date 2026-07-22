@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Linked3\Classes\Billing;
 
 use Linked3\Includes\EventBus;
+use RuntimeException;
 
 if (!defined('ABSPATH')) exit;
 
@@ -25,7 +26,7 @@ class QuotaInterceptor {
      * 检查用户是否可以消耗 token (AI 调用前)。
      */
     public function check(int $userId, int $tokensNeeded = 1): array {
-        $subMgr = SubscriptionManager_V2::instance();
+        $subMgr = SubscriptionManagerV2::instance();
         $plan = $subMgr->getPlan($userId);
         $planInfo = $subMgr->getPlanInfo($plan);
         $quota = $planInfo['quota'];

@@ -22,7 +22,7 @@ class BillingBootstrap {
 
         $container = linked3_container();
         $container->set('billing.payment', fn() => PaymentManager::instance());
-        $container->set('billing.subscription', fn() => SubscriptionManager_V2::instance());
+        $container->set('billing.subscription', fn() => SubscriptionManagerV2::instance());
         $container->set('billing.quota', fn() => QuotaInterceptor::instance());
         $container->set('billing.invoice', fn() => InvoiceManager::instance());
         $container->set('billing.referral', fn() => ReferralManager::instance());
