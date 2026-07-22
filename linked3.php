@@ -400,6 +400,21 @@ add_action('admin_head', static function () {
     if (file_exists($eco_layout_css)) {
         echo '<style>' . file_get_contents($eco_layout_css) . '</style>';
     }
+    // v12.0: Global UI Design System Enhancement — applies Linear/Vercel aesthetic
+    // to ALL Linked3 admin pages (extends scoped .linked3-admin-wrap to global .wrap)
+    $ui_css = LINKED3_DIR . 'assets/css/linked3-admin-ui.css';
+    if (file_exists($ui_css)) {
+        echo '<style>' . file_get_contents($ui_css) . '</style>';
+    }
+});
+
+// v12.0: Add body class to all Linked3 admin pages for global CSS targeting
+add_filter('admin_body_class', static function ($classes) {
+    $screen = get_current_screen();
+    if ($screen && (strpos($screen->id, 'linked3') !== false || $screen->id === 'toplevel_page_linked3-dashboard')) {
+        $classes .= ' linked3-admin-page';
+    }
+    return $classes;
 });
 
 // -----------------------------------------------------------------------------
