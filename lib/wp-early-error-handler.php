@@ -187,6 +187,14 @@ if (!function_exists('wp_early_error_handler_init')) {
                 $errors = array_merge($errors, $path_errors);
             }
 
+            // 3c. Interface signature compatibility check.
+            // Scans all interface definitions and their implementations for
+            // LSP violations (return type mismatches). These cause
+            // E_COMPILE_ERROR at class loading time, but token_get_all
+            // cannot detect them — only a regex-based static check can.
+            $sig_errors = wp_eeh_check_interface_signatures($opts['plugin_dir'], $opts['skip_dirs']);
+            $errors = array_merge($errors, $sig_errors);
+
             if (!empty($errors)) {
                 $GLOBALS['wp_eeh_errors'] = $errors;
 
@@ -367,6 +375,181 @@ if (!function_exists('wp_eeh_find_statement_before_namespace')) {
 }
 
 // -----------------------------------------------------------------------------
+// Interface signature compatibility checker.
+//
+// PHP 8.1+ strictly enforces return type compatibility (LSP):
+//   - If interface declares ': array', implementation MUST be ': array'
+//   - If interface declares NO return type, implementation MUST NOT have one
+//   - ': mixed' is NOT compatible with ': string' or ': array'
+//
+// These errors are E_COMPILE_ERROR at class-load time, but token_get_all
+// cannot detect them. This regex-based scanner finds ALL mismatches before
+// any class is loaded, so the user sees every violation at once.
+// -----------------------------------------------------------------------------
+if (!function_exists('wp_eeh_check_interface_signatures')) {
+    function wp_eeh_check_interface_signatures($plugin_dir, $skip_dirs = [])
+    {
+        $errors = [];
+        if (!is_dir($plugin_dir)) return $errors;
+
+        $interfaces = [];     // ifaceName => [method => returnType|null]
+        $implementations = []; // [file, className, ifaceName, source]
+
+        $skip_paths = [];
+        foreach ($skip_dirs as $d) {
+            $skip_paths[] = $plugin_dir . '/' . $d;
+        }
+
+        try {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($plugin_dir, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+        } catch (Throwable $e) {
+            return $errors;
+        }
+
+        foreach ($iterator as $file) {
+            if (!$file->isFile() || $file->getExtension() !== 'php') continue;
+            $path = $file->getPathname();
+
+            $skip = false;
+            foreach ($skip_paths as $sp) {
+                if (strpos($path, $sp) === 0) { $skip = true; break; }
+            }
+            if ($skip) continue;
+
+            $source = @file_get_contents($path);
+            if ($source === false) continue;
+            $rel = wp_eeh_relpath($path, $plugin_dir);
+
+            // Collect interface definitions.
+            if (preg_match_all('/^\s*(?:final\s+|abstract\s+)?interface\s+(\w+)/m', $source, $im, PREG_SET_ORDER)) {
+                foreach ($im as $m) {
+                    $methods = wp_eeh_extract_interface_methods($source, $m[1]);
+                    if (!empty($methods)) $interfaces[$m[1]] = $methods;
+                }
+            }
+
+            // Collect class implements (with extends).
+            if (preg_match_all('/^\s*(?:final\s+|abstract\s+)?class\s+(\w+)\s+extends\s+\w+\s+implements\s+([\w\\\\,\s]+?)[\s\{]/m', $source, $im, PREG_SET_ORDER)) {
+                foreach ($im as $m) {
+                    foreach (array_map('trim', explode(',', $m[2])) as $ifn) {
+                        $ifn = trim($ifn, '\\ ');
+                        $implementations[] = [$rel, $m[1], $ifn, $source];
+                    }
+                }
+            }
+            // Also match: class Foo implements Bar (without extends).
+            if (preg_match_all('/^\s*(?:final\s+|abstract\s+)?class\s+(\w+)\s+implements\s+([\w\\\\,\s]+?)[\s\{]/m', $source, $im2, PREG_SET_ORDER)) {
+                foreach ($im2 as $m) {
+                    foreach (array_map('trim', explode(',', $m[2])) as $ifn) {
+                        $ifn = trim($ifn, '\\ ');
+                        $implementations[] = [$rel, $m[1], $ifn, $source];
+                    }
+                }
+            }
+        }
+
+        // Check each implementation.
+        foreach ($implementations as $impl) {
+            [$file, $className, $ifaceName, $source] = $impl;
+            if (!isset($interfaces[$ifaceName])) continue;
+
+            foreach ($interfaces[$ifaceName] as $methodName => $expectedReturn) {
+                $actualReturn = wp_eeh_extract_method_return_type($source, $methodName, $className);
+                if ($actualReturn === false) continue;
+
+                $mismatch = null;
+                if ($expectedReturn === null && $actualReturn !== null) {
+                    $mismatch = "has ':{$actualReturn}' but interface declares no return type";
+                } elseif ($expectedReturn !== null && $actualReturn === null) {
+                    $mismatch = "has no return type but interface declares ':{$expectedReturn}'";
+                } elseif ($expectedReturn !== null && $actualReturn !== null) {
+                    $exp = strtolower(str_replace(' ', '', $expectedReturn));
+                    $act = strtolower(str_replace(' ', '', $actualReturn));
+                    if ($exp !== $act) {
+                        // 'mixed' is NOT compatible with specific types.
+                        if ($act === 'mixed' || $exp === 'mixed') {
+                            $mismatch = "has ':{$actualReturn}' but interface declares ':{$expectedReturn}'";
+                        } else {
+                            // Check union types.
+                            $ep = explode('|', $exp); $ap = explode('|', $act);
+                            sort($ep); sort($ap);
+                            if ($ep !== $ap) {
+                                $mismatch = "has ':{$actualReturn}' but interface declares ':{$expectedReturn}'";
+                            }
+                        }
+                    }
+                }
+
+                if ($mismatch !== null) {
+                    $line = wp_eeh_find_method_line($source, $methodName);
+                    $errors[] = [
+                        'type'    => 'SignatureMismatch',
+                        'message' => "{$className}::{$methodName}() {$mismatch}",
+                        'file'    => $file,
+                        'line'    => $line,
+                    ];
+                }
+            }
+        }
+
+        return $errors;
+    }
+}
+
+if (!function_exists('wp_eeh_extract_interface_methods')) {
+    function wp_eeh_extract_interface_methods($source, $ifaceName)
+    {
+        $methods = [];
+        $pattern = '/interface\s+' . preg_quote($ifaceName, '/') . '\s*(?:extends\s+[\w\\\\,\s]+)?\s*\{/';
+        if (!preg_match($pattern, $source, $m, PREG_OFFSET_CAPTURE)) return $methods;
+
+        $bodyStart = $m[0][1] + strlen($m[0][0]);
+        $body = substr($source, $bodyStart);
+
+        // Find matching closing brace.
+        $depth = 1;
+        $bodyLen = strlen($body);
+        $bodyEnd = 0;
+        for ($i = 0; $i < $bodyLen; $i++) {
+            if ($body[$i] === '{') $depth++;
+            if ($body[$i] === '}') { $depth--; if ($depth === 0) { $bodyEnd = $i; break; } }
+        }
+        $body = substr($body, 0, $bodyEnd);
+
+        if (preg_match_all('/public\s+(?:static\s+)?function\s+(\w+)\s*\([^)]*\)\s*(?::\s*([\w\\\\|<>,\s]+?))?\s*;/s', $body, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $methods[$match[1]] = isset($match[2]) ? trim($match[2]) : null;
+            }
+        }
+        return $methods;
+    }
+}
+
+if (!function_exists('wp_eeh_extract_method_return_type')) {
+    function wp_eeh_extract_method_return_type($source, $methodName, $className = '')
+    {
+        $pattern = '/(?:public|protected|private)\s+(?:static\s+)?function\s+' . preg_quote($methodName, '/') . '\s*\([^)]*\)\s*(?::\s*([\w\\\\|<>,\s&?]+?))?\s*[\{;]/s';
+        if (!preg_match($pattern, $source, $m)) return false;
+        if (!isset($m[1]) || trim($m[1]) === '') return null;
+        return trim($m[1]);
+    }
+}
+
+if (!function_exists('wp_eeh_find_method_line')) {
+    function wp_eeh_find_method_line($source, $methodName)
+    {
+        $pattern = '/(?:public|protected|private)\s+(?:static\s+)?function\s+' . preg_quote($methodName, '/') . '\s*\(/';
+        if (preg_match($pattern, $source, $m, PREG_OFFSET_CAPTURE)) {
+            return substr_count(substr($source, 0, $m[0][1]), "\n") + 1;
+        }
+        return 0;
+    }
+}
+
+// -----------------------------------------------------------------------------
 // Shutdown handler for runtime fatals.
 // -----------------------------------------------------------------------------
 if (!function_exists('wp_eeh_shutdown_handler')) {
@@ -411,6 +594,48 @@ if (!function_exists('wp_eeh_shutdown_handler')) {
         }
 
         $plugin_name = $GLOBALS['wp_eeh_config']['plugin_name'] ?? 'WordPress Plugin';
+
+        // For E_COMPILE_ERROR (e.g. interface signature mismatch), also run
+        // the signature checker to find ALL similar errors — not just the
+        // first one PHP reported.
+        if ($e['type'] === E_COMPILE_ERROR && isset($GLOBALS['wp_eeh_config']['plugin_dir'])) {
+            $sig_errors = wp_eeh_check_interface_signatures(
+                $GLOBALS['wp_eeh_config']['plugin_dir'],
+                $GLOBALS['wp_eeh_config']['skip_dirs'] ?? []
+            );
+
+            if (!empty($sig_errors)) {
+                // Add the runtime error as the first entry.
+                $runtime_error = [
+                    'type'    => $type_name,
+                    'message' => $message,
+                    'file'    => wp_eeh_relpath($file, $GLOBALS['wp_eeh_config']['plugin_dir']),
+                    'line'    => $line,
+                ];
+
+                // Check if the runtime error is already covered by a signature check.
+                $already_covered = false;
+                foreach ($sig_errors as $se) {
+                    if (strpos($message, $se['message']) !== false || strpos($se['message'], $message) !== false) {
+                        $already_covered = true;
+                        break;
+                    }
+                }
+
+                if (!$already_covered) {
+                    array_unshift($sig_errors, $runtime_error);
+                }
+
+                // Persist errors.
+                if (function_exists('update_option') && !empty($GLOBALS['wp_eeh_config']['option_name'])) {
+                    update_option($GLOBALS['wp_eeh_config']['option_name'], $sig_errors, false);
+                }
+
+                // Render batch errors instead of single.
+                wp_eeh_render_batch_errors($sig_errors, $plugin_name);
+                return;
+            }
+        }
 
         wp_eeh_render_single_error($type_name, $message, $file, $line, $trace, $plugin_name);
     }
