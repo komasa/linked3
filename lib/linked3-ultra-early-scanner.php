@@ -289,7 +289,7 @@ if (!function_exists('linked3_ues_collect_php_files')) {
  *   <script> function post() {} </script>  ← JavaScript (NOT counted)
  *
  * Approach:
- *   1. Strip non-PHP content (outside <?php ?> tags) — preserves line numbers.
+ *   1. Strip non-PHP content (outside PHP open/close tags) — preserves line numbers.
  *   2. Find all class/interface/trait body ranges (opening brace to matching close).
  *   3. Find all `function name(` matches.
  *   4. Only keep those NOT inside any class body range.
@@ -303,7 +303,7 @@ if (!function_exists('linked3_ues_extract_file_scope_functions')) {
     {
         $functions = [];
 
-        // ── Step 0: Strip non-PHP content (HTML/JS outside <?php ?> tags) ──
+        // ── Step 0: Strip non-PHP content (HTML/JS outside PHP tags) ──
         // Template files interleave PHP and HTML/JS. We must only look at PHP code.
         $php_only = linked3_ues_strip_non_php($clean);
 
@@ -370,8 +370,8 @@ if (!function_exists('linked3_ues_extract_file_scope_functions')) {
 /**
  * Strip non-PHP content from source, replacing it with whitespace.
  *
- * PHP template files interleave PHP code (<?php ... ?>) with HTML/JS.
- * This function replaces everything outside <?php ?> tags with spaces,
+ * PHP template files interleave PHP code (open/close tags) with HTML/JS.
+ * This function replaces everything outside PHP tags with spaces,
  * preserving newlines so line numbers remain accurate.
  *
  * This prevents the scanner from mistaking JavaScript functions in
@@ -390,7 +390,7 @@ if (!function_exists('linked3_ues_strip_non_php')) {
 
         while ($i < $len) {
             if (!$in_php) {
-                // Look for <?php or <?= or <? (short tag)
+                // Look for PHP open tags: long, short-echo, short
                 if (substr($source, $i, 5) === '<?php') {
                     $in_php = true;
                     $result .= '<?php';
@@ -410,7 +410,7 @@ if (!function_exists('linked3_ues_strip_non_php')) {
                     $i++;
                 }
             } else {
-                // In PHP mode — look for ?>
+                // In PHP mode — look for closing tag
                 if (substr($source, $i, 2) === '?>') {
                     $in_php = false;
                     $result .= '?>';
