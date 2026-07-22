@@ -33,8 +33,7 @@ final class WcAiGenerator
      * @param array $opts {tone, language, template}
      * @return array{ok:bool, generated:int, message:string}
      */
-    public function generate_descriptions(array $product_ids, array $opts = [])
-    : array {
+    public function generate_descriptions(array $product_ids, array $opts = []): array {
         if (!class_exists('WooCommerce')) {
             return ['ok' => false, 'generated' => 0, 'message' => __('WooCommerce 未启用。', 'linked3')];
         }
@@ -72,8 +71,7 @@ final class WcAiGenerator
      * @param array $opts
      * @return array{ok:bool, generated:int, message:string}
      */
-    public function generate_reviews(int $product_id, int $count = 3, array $opts = [])
-    : array {
+    public function generate_reviews(int $product_id, int $count = 3, array $opts = []): array {
         if (!get_option(LINKED3_OPTION_PREFIX . 'wc_ai_reviews_enabled', 0)) {
             return ['ok' => false, 'generated' => 0, 'message' => __('AI 评论已禁用。请在设置中启用(根据消费者保护法,将明确标注为 AI 生成)。', 'linked3')];
         }

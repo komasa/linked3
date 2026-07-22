@@ -29,8 +29,7 @@ final class VisualScriptRegistry
      * @param VisualScriptGeneratorInterface $generator
      * @return void
      */
-    public static function register_generator(VisualScriptGeneratorInterface $generator)
-    : void {
+    public static function register_generator(VisualScriptGeneratorInterface $generator): void {
         $platform = $generator->platform();
         self::$generators[$platform] = $generator;
     }

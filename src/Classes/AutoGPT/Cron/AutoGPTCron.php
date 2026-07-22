@@ -29,8 +29,7 @@ final class AutoGPTCron
     /** Consecutive failures before a task is auto-paused (circuit breaker). */
     const FAILURE_THRESHOLD = 3;
 
-    public static function init()
-    : void {
+    public static function init(): void {
         add_action('linked3_autogpt_run', [__CLASS__, 'run']);
     }
 
@@ -39,8 +38,7 @@ final class AutoGPTCron
      *
      * @return void
      */
-    public static function run()
-    : void {
+    public static function run(): void {
         set_time_limit(300);
 
         // 时间段限制 (原版隐藏功能)
@@ -176,8 +174,7 @@ final class AutoGPTCron
      * v3.0.0: 处理独立的重试队列项 (task_id=0)。
      * 支持 distribute_retry / publish_retry 两种类型。
      */
-    private static function process_standalone_retry(array $item)
-    : void {
+    private static function process_standalone_retry(array $item): void {
         $repo = new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
         $log = Logger::instance();
         $payload = $item['payload'] ?? [];
@@ -228,8 +225,7 @@ final class AutoGPTCron
      * @param array $cfg task config
      * @return bool 是否在允许的执行窗口内
      */
-    private static function is_within_smart_schedule(array $cfg)
-    : bool {
+    private static function is_within_smart_schedule(array $cfg): bool {
         $now = current_time('H:i');
 
         // 精确到分钟: 如 "09:30" 只在 09:30-09:39 之间执行 (cron 是 10min 粒度)
@@ -270,8 +266,7 @@ final class AutoGPTCron
      * @param string                          $message
      * @return void
      */
-    private static function trip_breaker(AutoGPTTaskRepository $repo, array $task, string $message)
-    : void {
+    private static function trip_breaker(AutoGPTTaskRepository $repo, array $task, string $message): void {
         $log = Logger::instance();
         // Persist the consecutive-failure count in an option (not transient)
         // so it survives cache eviction / object-cache flush. The counter is

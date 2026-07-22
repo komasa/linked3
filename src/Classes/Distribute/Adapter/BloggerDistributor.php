@@ -23,8 +23,7 @@ final class BloggerDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'blogger'; }
     public function label() : string { return 'Blogger (Google)'; }
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $token = $config['access_token'] ?? '';
         $blog_id = $config['blog_id'] ?? '';
         if (!$token || !$blog_id) {
@@ -49,8 +48,7 @@ final class BloggerDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($json['id'] ?? ''), 'message' => __('已发布到 Blogger', 'linked3-ai')];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $token = $config['access_token'] ?? '';
         $blog_id = $config['blog_id'] ?? '';
         if (!$token || !$blog_id) return ['ok' => false, 'message' => __('缺少 Access Token 或 Blog ID', 'linked3-ai')];

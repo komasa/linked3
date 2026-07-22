@@ -9,8 +9,7 @@ if (!defined('ABSPATH')) exit;
  */
 class SeedAdminPages
 {
-    public static function render_list_page()
-    : void {
+    public static function render_list_page(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_die(__('无权限', 'linked3'));
         }
@@ -200,8 +199,7 @@ class SeedAdminPages
         echo '</tr>';
     }
 
-    public static function render_edit_page()
-    : void {
+    public static function render_edit_page(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_die(__('无权限', 'linked3'));
         }
@@ -265,8 +263,7 @@ class SeedAdminPages
         echo '</div>';
     }
 
-    public static function render_new_page()
-    : void {
+    public static function render_new_page(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_die(__('无权限', 'linked3'));
         }

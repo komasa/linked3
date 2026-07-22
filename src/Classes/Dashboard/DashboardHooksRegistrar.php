@@ -51,8 +51,7 @@ final class DashboardHooksRegistrar
      *
      * @return void
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         // 1) REST API.
         try {
             if (class_exists(RestController::class)) {
@@ -107,8 +106,7 @@ final class DashboardHooksRegistrar
      * @param \Throwable $e     The caught exception.
      * @return void
      */
-    private static function log_failure(string $label, \Throwable $e)
-    : void {
+    private static function log_failure(string $label, \Throwable $e): void {
         if (function_exists('error_log')) {
             error_log(sprintf(
                 '[linked3] Dashboard %s register() failed: %s (in %s:%d)',

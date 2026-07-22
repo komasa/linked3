@@ -31,8 +31,7 @@ if (!defined('ABSPATH')) exit;
  */
 final class GenerateContentAction extends ContentWriterBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $inputs = $this->parseContentInputs();
         if (is_array($inputs) && isset($inputs['error'])) {
             $this->send_error($inputs['error'], 400);

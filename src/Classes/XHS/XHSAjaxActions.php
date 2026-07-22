@@ -22,8 +22,7 @@ final class XHSAjaxActions
     /**
      * 注册 AJAX 钩子。
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         add_action('wp_ajax_linked3_xhs_generate', [__CLASS__, 'ajax_generate']);
         add_action('wp_ajax_linked3_xhs_optimize_prompt', [__CLASS__, 'ajax_optimize_prompt']);
     }
@@ -31,8 +30,7 @@ final class XHSAjaxActions
     /**
      * AJAX: 生成小红书脚本。
      */
-    public static function ajax_generate()
-    : void {
+    public static function ajax_generate(): void {
         // v19.3.0: 使用统一 AJAX 防御层（fatal→JSON + nonce + capability）
         \Linked3\Classes\Core\AJAXGuard::protect('linked3_xhs', 'edit_posts');
 
@@ -70,8 +68,7 @@ final class XHSAjaxActions
     /**
      * AJAX: 优化配图提示词。
      */
-    public static function ajax_optimize_prompt()
-    : void {
+    public static function ajax_optimize_prompt(): void {
         // v19.3.0: 使用统一 AJAX 防御层
         \Linked3\Classes\Core\AJAXGuard::protect('linked3_xhs', 'edit_posts');
 

@@ -66,8 +66,7 @@ if (!function_exists('linked3_early_error_type_name')) {
 }
 
 if (!function_exists('linked3_early_handler_is_ajax')) {
-    function linked3_early_handler_is_ajax()
-    : bool {
+    function linked3_early_handler_is_ajax(): bool {
         if (defined('DOING_AJAX') && DOING_AJAX) {
             return true;
         }
@@ -88,8 +87,7 @@ if (!function_exists('linked3_early_handler_is_activation')) {
      * During activation, output is captured by ob_start()/ob_end_clean(),
      * so we must store errors in a transient instead of printing them.
      */
-    function linked3_early_handler_is_activation()
-    : bool {
+    function linked3_early_handler_is_activation(): bool {
         // Check $_GET['action'] == 'activate' on plugins.php
         if (is_admin() && function_exists('get_current_screen')) {
             $screen = get_current_screen();
@@ -321,8 +319,7 @@ if (!function_exists('linked3_early_handler_store_errors')) {
      * Store errors in a transient so they survive redirects (e.g. during
      * plugin activation, where output is captured by ob_start/ob_end_clean).
      */
-    function linked3_early_handler_store_errors($errors, $source = 'batch_scan')
-    : void {
+    function linked3_early_handler_store_errors($errors, $source = 'batch_scan'): void {
         if (empty($errors)) {
             return;
         }
@@ -353,8 +350,7 @@ if (!function_exists('linked3_early_handler_store_errors')) {
 // linked3_early_handler_render_single_error moved to extracted file
 
 if (!function_exists('linked3_early_handler_shutdown')) {
-    function linked3_early_handler_shutdown()
-    : void {
+    function linked3_early_handler_shutdown(): void {
         $e = error_get_last();
         if (!$e) {
             return;
@@ -418,8 +414,7 @@ if (!function_exists('linked3_early_handler_admin_notice')) {
      * load after activation fails (because activation output is captured by
      * ob_start/ob_end_clean and discarded).
      */
-    function linked3_early_handler_admin_notice()
-    : void {
+    function linked3_early_handler_admin_notice(): void {
         $data = null;
 
         // Check transient first.

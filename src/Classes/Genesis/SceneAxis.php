@@ -94,8 +94,7 @@ class SceneAxis
      * POST: l1, l2, l3, nonce
      * Return: {skeleton_id, l1, l2, l3}
      */
-    public static function ajax_route_skeleton()
-    : void {
+    public static function ajax_route_skeleton(): void {
         check_ajax_referer('linked3_scene_axis', 'nonce');
         if (!current_user_can('edit_posts')) {
             wp_send_json_error(['message' => __('权限不足, 需要 edit_posts 能力。', 'linked3')], 403);

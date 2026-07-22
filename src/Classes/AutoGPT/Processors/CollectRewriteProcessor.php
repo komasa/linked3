@@ -34,8 +34,7 @@ if (!defined('ABSPATH')) {
 }
 final class CollectRewriteProcessor implements AutoGPTProcessorInterface
 {
-    public function process(array $task)
-    : array {
+    public function process(array $task) {
         $cfg = $task['config'];
         $urls_raw = $cfg['urls'] ?? '';
         $urls = array_filter(array_map('trim', explode("\n", $urls_raw)));

@@ -31,8 +31,7 @@ final class SMZDMDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'smzdm'; }
     public function label() : string { return '什么值得买 (MCP 中转)'; }
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
 
@@ -70,8 +69,7 @@ final class SMZDMDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => $remote_id, 'message' => __('已通过 MCP 推送到什么值得买', 'linked3-ai')];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {

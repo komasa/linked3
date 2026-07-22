@@ -146,8 +146,7 @@ final class AutoGPTTaskRepository extends BaseRepository
         return $this->update_status($id, $user_id, 'deleted');
     }
 
-    public function mark_run($id, $status)
-    : void {
+    public function mark_run($id, $status): void {
         global $wpdb;
         $table = $this->get_table();
         $next = $this->compute_next_run($this->get_schedule($id));
@@ -207,8 +206,7 @@ final class AutoGPTTaskRepository extends BaseRepository
         return $items;
     }
 
-    public function mark_queue_done($queue_id, $status, $message = '')
-    : void {
+    public function mark_queue_done($queue_id, $status, $message = ''): void {
         global $wpdb;
         $table = $this->queue_table();
         $wpdb->query($wpdb->prepare(

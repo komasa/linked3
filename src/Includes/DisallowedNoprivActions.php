@@ -71,16 +71,14 @@ final class DisallowedNoprivActions
      *
      * @return void
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         add_action('admin_notices', [__CLASS__, 'warn_if_registered']);
     }
 
     /**
      * @return void
      */
-    public static function warn_if_registered()
-    : void {
+    public static function warn_if_registered(): void {
         global $wp_filter;
         if (empty($wp_filter)) {
             return;

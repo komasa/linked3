@@ -21,8 +21,7 @@ if (!defined('ABSPATH')) {
 
 final class DashboardDependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/Dashboard/Dashboard.php',
             'Classes/Rest/RestController.php',

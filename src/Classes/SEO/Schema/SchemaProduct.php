@@ -25,7 +25,7 @@ final class SchemaProduct implements SchemaBuilder
         return 'Product';
     }
 
-    public function build($post) : mixed {
+    public function build($post): ?array {
         if (!$post) {
             return null;
         }

@@ -5,8 +5,7 @@ namespace Linked3\Classes\Dashboard;
 if (!defined('ABSPATH')) exit;
 class DashboardVideoAjax
 {
-    public static function ajax_video_generate_script()
-    : void {
+    public static function ajax_video_generate_script(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -238,8 +237,7 @@ class DashboardVideoAjax
         ]);
     }
 
-    public static function ajax_video_outline()
-    : void {
+    public static function ajax_video_outline(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -273,8 +271,7 @@ class DashboardVideoAjax
         }
     }
 
-    public static function ajax_video_segment()
-    : void {
+    public static function ajax_video_segment(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);

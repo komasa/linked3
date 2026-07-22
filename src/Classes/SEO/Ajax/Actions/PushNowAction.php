@@ -31,8 +31,7 @@ final class PushNowAction extends SEOBaseAjaxAction
     const NONCE_ACTION = 'linked3_seo';
     const CAPABILITY = 'edit_posts';
 
-    public function handle()
-    : void {
+    public function handle(): void {
         $url = esc_url_raw(sanitize_text_field($_POST['url'] ?? ''));
         $post_id = (int) ($_POST['post_id'] ?? 0);
         $engine = sanitize_key((string) ($_POST['engine'] ?? ''));

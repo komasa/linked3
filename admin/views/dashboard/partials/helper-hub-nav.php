@@ -25,8 +25,7 @@ if (!defined('ABSPATH')) {
  * @param string $sub_label   子面板显示名
  * @return void
  */
-function linked3_render_breadcrumb($hub_slug = '', $sub_slug = '', $sub_label = '')
-: void {
+function linked3_render_breadcrumb($hub_slug = '', $sub_slug = '', $sub_label = ''): void {
     $hub_labels = [
         'creation'     => '✍️ 创作中心',
         'distribution' => '📤 分发中心',
@@ -55,8 +54,7 @@ function linked3_render_breadcrumb($hub_slug = '', $sub_slug = '', $sub_label = 
  * @param string $current_hub 当前Hub slug (高亮当前)
  * @return void
  */
-function linked3_render_hub_jumper($current_hub = '')
-: void {
+function linked3_render_hub_jumper($current_hub = ''): void {
     $hubs = [
         'creation'     => ['✍️ 创作中心', '生成内容、图示、视频'],
         'distribution' => ['📤 分发中心', '发布到多平台'],

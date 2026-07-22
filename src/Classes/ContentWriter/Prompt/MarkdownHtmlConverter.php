@@ -69,8 +69,7 @@ final class MarkdownHtmlConverter
     /**
      * 检测内容是否已经是 HTML 格式。
      */
-    private static function is_already_html($content)
-    : bool {
+    private static function is_already_html($content): bool {
         // 检测常见 HTML 块级标签
         $html_tags = ['<p>', '<p ', '<h1', '<h2', '<h3', '<h4', '<h5', '<h6',
                       '<ul', '<ol', '<li', '<blockquote', '<div', '<table',

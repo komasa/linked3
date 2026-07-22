@@ -23,8 +23,7 @@ final class DiscordDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'discord'; }
     public function label() : string { return __('Discord', 'linked3'); }
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $webhook = $config['webhook_url'] ?? '';
         if (!$webhook) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Webhook URL。', 'linked3')];
 

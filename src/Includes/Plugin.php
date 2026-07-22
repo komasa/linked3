@@ -56,8 +56,7 @@ final class Plugin
      *
      * @return void
      */
-    public function run()
-    : void {
+    public function run(): void {
         // 1) Load all required files (pure require_once, no hooks).
         DependencyLoader::load();
 

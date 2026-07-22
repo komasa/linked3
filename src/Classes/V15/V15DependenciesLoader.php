@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class V15DependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/V15/V15SeedTrait.php',
             'Classes/V15/V15BrandProfileManager.php',

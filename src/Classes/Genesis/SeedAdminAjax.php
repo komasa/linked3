@@ -15,8 +15,7 @@ if (!defined('ABSPATH')) exit;
 
 class SeedAdminAjax
 {
-    public static function ajax_save_seed()
-    : void {
+    public static function ajax_save_seed(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -66,8 +65,7 @@ class SeedAdminAjax
         ]);
     }
 
-    public static function ajax_trash_all()
-    : void {
+    public static function ajax_trash_all(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -83,8 +81,7 @@ class SeedAdminAjax
         wp_send_json_success(['count' => $count, 'message' => sprintf(__('已软删除 %d 个 Seed', 'linked3'), $count)]);
     }
 
-    public static function ajax_download_seed()
-    : void {
+    public static function ajax_download_seed(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -118,8 +115,7 @@ class SeedAdminAjax
         ]);
     }
 
-    public static function ajax_export_batch()
-    : void {
+    public static function ajax_export_batch(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }

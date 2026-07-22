@@ -23,8 +23,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
     const NONCE_ACTION = 'linked3_autogpt';
     const REQUIRED_CAP = 'manage_options';
 
-    public static function register()
-    : void {
+    public static function register(): void {
         add_action('wp_ajax_linked3_queue_list', [__CLASS__, 'queue_list']);
         add_action('wp_ajax_linked3_queue_retry', [__CLASS__, 'queue_retry']);
         add_action('wp_ajax_linked3_queue_delete', [__CLASS__, 'queue_delete']);
@@ -34,8 +33,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
     /**
      * AJAX: List task queue items (latest 50).
      */
-    public static function queue_list()
-    : void {
+    public static function queue_list(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -71,8 +69,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
     /**
      * AJAX: Retry a failed task.
      */
-    public static function queue_retry()
-    : void {
+    public static function queue_retry(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -93,8 +90,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
     /**
      * AJAX: Delete a single task.
      */
-    public static function queue_delete()
-    : void {
+    public static function queue_delete(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -115,8 +111,7 @@ class DashboardQueueActions extends DashboardBaseAjaxAction
     /**
      * AJAX: Bulk delete tasks by status (done/error/skipped).
      */
-    public static function queue_bulk_delete()
-    : void {
+    public static function queue_bulk_delete(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }

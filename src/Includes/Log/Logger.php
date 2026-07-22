@@ -97,8 +97,7 @@ final class Logger
      * @param array  $context
      * @return void
      */
-    public function log(string $channel, string $level, string $message, array $context = [])
-    : void {
+    public function log(string $channel, string $level, string $message, array $context = []): void {
         $level = strtolower($level);
         $level_value = self::LEVELS[$level] ?? 200;
         if ($level_value < $this->min_level) {

@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 class DashboardChartActions extends DashboardBaseAjaxAction
 {
-    public static function register()
-    : void {
+    public static function register(): void {
         add_action('wp_ajax_linked3_chart_outline', [__CLASS__, 'chart_outline']);
         add_action('wp_ajax_linked3_chart_segment', [__CLASS__, 'chart_segment']);
     }

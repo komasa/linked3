@@ -24,8 +24,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         // Register AJAX actions (all admin-only, nonce+cap gated via base class).
         $actions = [
             'linked3_push_retry' => Ajax\Actions\PushRetryAction::class,
@@ -71,8 +70,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
-    public static function register_admin_menu()
-    : void {
+    public static function register_admin_menu(): void {
         add_submenu_page('linked3-dashboard', 'SEO 概览', 'SEO 优化', 'edit_posts', 'linked3-seo', [__CLASS__, 'render_dashboard']);
         add_submenu_page('linked3-dashboard', '推送日志', 'SEO › 推送日志', 'edit_posts', 'linked3-seo-push-logs', [__CLASS__, 'render_push_logs']);
         add_submenu_page('linked3-dashboard', 'SEO 设置', 'SEO › 设置', 'manage_options', 'linked3-seo-settings', [__CLASS__, 'render_settings']);
@@ -81,8 +79,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
-    public static function register_metaboxes()
-    : void {
+    public static function register_metaboxes(): void {
         $excluded = (array) SEOConfig::get('interlink.excluded_post_types', []);
         $screen = get_current_screen();
         if ($screen && in_array($screen->post_type, $excluded, true)) {
@@ -107,8 +104,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
-    public static function render_dashboard()
-    : void {
+    public static function render_dashboard(): void {
         if (!current_user_can('edit_posts')) {
             return;
         }
@@ -118,8 +114,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
-    public static function render_push_logs()
-    : void {
+    public static function render_push_logs(): void {
         if (!current_user_can('edit_posts')) {
             return;
         }
@@ -129,8 +124,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
-    public static function render_settings()
-    : void {
+    public static function render_settings(): void {
         if (!current_user_can('manage_options')) {
             return;
         }
@@ -141,8 +135,7 @@ final class SEOHooksRegistrar
      * @param \WP_Post $post
      * @return void
      */
-    public static function render_scorecard_metabox(WP_Post $post)
-    : void {
+    public static function render_scorecard_metabox(WP_Post $post): void {
         $nonce = wp_create_nonce('linked3_seo');
         $post_id = (int) $post->ID;
         include LINKED3_DIR . 'admin/views/seo/scorecard-metabox.php';
@@ -153,8 +146,7 @@ final class SEOHooksRegistrar
      *
      * @return void
      */
-    public static function output_schema_markup()
-    : void {
+    public static function output_schema_markup(): void {
         if (is_admin()) {
             return;
         }
@@ -231,8 +223,7 @@ final class SEOHooksRegistrar
      * @param string $hook
      * @return void
      */
-    public static function enqueue_metabox_assets(string $hook)
-    : void {
+    public static function enqueue_metabox_assets(string $hook): void {
         if (!in_array($hook, ['post.php', 'post-new.php'], true)) {
             return;
         }

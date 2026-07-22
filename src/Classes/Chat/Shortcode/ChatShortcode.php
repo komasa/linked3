@@ -18,8 +18,7 @@ if (!defined('ABSPATH')) {
 
 final class ChatShortcode
 {
-    public static function register()
-    : void {
+    public static function register(): void {
         add_shortcode('linked3_chat', [__CLASS__, 'render']);
         add_action('wp_footer', [__CLASS__, 'render_floating_widget']);
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_assets']);
@@ -37,8 +36,7 @@ final class ChatShortcode
      *
      * @return void
      */
-    public static function render_floating_widget()
-    : void {
+    public static function render_floating_widget(): void {
         if (!get_option(LINKED3_OPTION_PREFIX . 'chat_floating_enabled', 0)) return;
         if (is_admin()) return;
         echo self::widget_html(0, false);
@@ -155,8 +153,7 @@ final class ChatShortcode
         <?php
     }
 
-    public static function enqueue_assets()
-    : void {
+    public static function enqueue_assets(): void {
         // Inline minimal CSS via wp_head to avoid extra HTTP requests.
         add_action('wp_head', static function () {
             echo '<style>

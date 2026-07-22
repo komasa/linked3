@@ -156,8 +156,7 @@ final class InterlinkBuilder
      * @param string $anchor
      * @return void
      */
-    public function record_edge(int $source, int $target, string $anchor)
-    : void {
+    public function record_edge(int $source, int $target, string $anchor): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_interlink_map';
         $wpdb->query($wpdb->prepare(

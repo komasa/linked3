@@ -31,8 +31,7 @@ trait TraitCheckAdminPermissions
      * @param string      $nonce_key  $_POST/$_GET key holding the nonce. Default 'nonce'.
      * @return true Always true on success; wp_send_json_error on failure.
      */
-    protected function verify(string $action, ?string $capability = null, string $nonce_key = 'nonce')
-    : bool {
+    protected function verify(string $action, ?string $capability = null, string $nonce_key = 'nonce'): bool {
         // Constitution §2: global 60 req/min/IP ceiling on every Linked3 AJAX.
         \Linked3\Classes\Security\RateLimiter::gate('ajax');
 
@@ -54,8 +53,7 @@ trait TraitCheckAdminPermissions
      * @param string $message
      * @return never
      */
-    protected function forbidden(string $message)
-    : void {
+    protected function forbidden(string $message): void {
         wp_send_json_error(
             ['code' => 'linked3_forbidden', 'message' => $message],
             403

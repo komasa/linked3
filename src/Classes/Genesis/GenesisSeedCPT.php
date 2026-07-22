@@ -39,8 +39,7 @@ class GenesisSeedCPT
     /**
      * 注册 CPT + meta + hooks (在 init hook 调用)
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         self::register_post_type();
         self::register_meta_fields();
         self::register_admin_columns();
@@ -49,8 +48,7 @@ class GenesisSeedCPT
     /**
      * M1.1.1: 注册 Custom Post Type
      */
-    private static function register_post_type()
-    : void {
+    private static function register_post_type(): void {
         $labels = [
             'name'               => __('Seed DNA', 'linked3'),
             'singular_name'      => __('Seed', 'linked3'),
@@ -144,8 +142,7 @@ class GenesisSeedCPT
     /**
      * M1.1.3: 注册管理列 (列表页显示分类/类型/ID)
      */
-    private static function register_admin_columns()
-    : void {
+    private static function register_admin_columns(): void {
         add_filter('manage_' . self::POST_TYPE . '_posts_columns', [__CLASS__, 'add_columns']);
         add_action('manage_' . self::POST_TYPE . '_posts_custom_column', [__CLASS__, 'render_column'], 10, 2);
         add_filter('manage_edit-' . self::POST_TYPE . '_sortable_columns', [__CLASS__, 'sortable_columns']);
@@ -166,8 +163,7 @@ class GenesisSeedCPT
         return $new;
     }
 
-    public static function render_column($column, $post_id)
-    : void {
+    public static function render_column($column, $post_id): void {
         $val = get_post_meta($post_id, $column, true);
         if ($column === 'seed_category') {
             $labels = [
@@ -220,8 +216,7 @@ class GenesisSeedCPT
     /**
      * 更新 Seed meta
      */
-    public static function update_meta($post_id, $data)
-    : void {
+    public static function update_meta($post_id, $data): void {
         foreach (self::META_FIELDS as $key => $type) {
             if (!isset($data[$key])) continue;
             $val = $data[$key];

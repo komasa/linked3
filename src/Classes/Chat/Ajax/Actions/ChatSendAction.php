@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class ChatSendAction extends ChatBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $session_id = sanitize_text_field($_POST['session_id'] ?? wp_generate_password(24, false));
         $message = sanitize_textarea_field($_POST['message'] ?? '');
         $bot_id = (int) ($_POST['bot_id'] ?? 0);

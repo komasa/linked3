@@ -91,8 +91,7 @@ final class PushEngineBaidu implements PushEngine
      * @param int             $sent
      * @return array
      */
-    private function parse(array|WP_Error $response, int $sent)
-    : array {
+    private function parse(array|WP_Error $response, int $sent): array {
         if (is_wp_error($response)) {
             return [
                 'ok'      => false,

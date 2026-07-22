@@ -89,8 +89,7 @@ final class BusinessOptimizer
     /**
      * @return array<string,array> Available experiments.
      */
-    public function experiments()
-    : array {
+    public function experiments(): array {
         return [
             'baseline' => [
                 'name' => 'Baseline pricing (¥99/¥299)',
@@ -130,8 +129,7 @@ final class BusinessOptimizer
      * @param string $experiment_id
      * @return bool
      */
-    public function activate(string $experiment_id)
-    : bool {
+    public function activate(string $experiment_id): bool {
         $experiments = $this->experiments();
         if (!isset($experiments[$experiment_id])) {
             return false;
@@ -148,8 +146,7 @@ final class BusinessOptimizer
      *
      * @return void
      */
-    public static function daily_analyze()
-    : void {
+    public static function daily_analyze(): void {
         $self = self::instance();
         $started_at = (int) get_option(LINKED3_OPTION_PREFIX . 'experiment_started_at', 0);
         // Need at least 7 days of data.
@@ -182,8 +179,7 @@ final class BusinessOptimizer
      *
      * @return array{conversions:int, revenue:int, churn:int, ai_calls:int, tokens:int}
      */
-    private function collect_metrics()
-    : array {
+    private function collect_metrics(): array {
         global $wpdb;
         $usage_table = $wpdb->prefix . 'linked3_usage_logs';
         $since = gmdate('Y-m-d H:i:s', time() - 7 * DAY_IN_SECONDS);
@@ -235,8 +231,7 @@ final class BusinessOptimizer
      * @param array $baseline
      * @return string 'promote' | 'revert' | 'continue'
      */
-    private function decide(array $exp, array $baseline)
-    : string {
+    private function decide(array $exp, array $baseline): string {
         if (empty($baseline)) {
             return 'continue'; // no baseline to compare yet
         }

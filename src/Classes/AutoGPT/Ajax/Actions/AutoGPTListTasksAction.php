@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class AutoGPTListTasksAction extends AutoGPTBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $tasks = $this->repo()->all(get_current_user_id());
         foreach ($tasks as &$t) {
             $t['config'] = json_decode($t['config'], true) ?: [];

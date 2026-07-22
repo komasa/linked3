@@ -51,8 +51,7 @@ abstract class SEOBaseAjaxAction
      *
      * @return void
      */
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         $this->verify(static::NONCE_ACTION, static::CAPABILITY);
         $this->handle();
     }
@@ -77,8 +76,7 @@ abstract class SEOBaseAjaxAction
      * @param string $engine Push engine slug (baidu|bing|google|toutiao|indexnow).
      * @return true True on allow; never returns on denial (sends 402).
      */
-    protected function require_push_quota(string $engine)
-    : bool {
+    protected function require_push_quota(string $engine): bool {
         $service = LicenseService::instance();
         $plan    = $service->plan();
         $cap_map = SEOConfig::get('push.daily_cap', []);

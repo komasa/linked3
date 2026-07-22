@@ -160,8 +160,7 @@ final class PublishManager
      * @param array  $result
      * @return void
      */
-    private function log_attempt(int $target_id, int $user_id, int $post_id, array $result)
-    : void {
+    private function log_attempt(int $target_id, int $user_id, int $post_id, array $result): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_publish_logs';
         $wpdb->query($wpdb->prepare(
@@ -198,8 +197,7 @@ final class PublishManager
         return (bool) get_transient('linked3_pcb_open_' . $target_id);
     }
 
-    private function record_failure($target_id)
-    : bool {
+    private function record_failure($target_id): bool {
         $ck = 'linked3_pcb_fail_' . $target_id;
         $n = (int) get_transient($ck) + 1;
         set_transient($ck, $n, self::CB_FAIL_WINDOW_SECONDS);
@@ -213,14 +211,12 @@ final class PublishManager
         return false;
     }
 
-    private function reset_circuit($target_id)
-    : void {
+    private function reset_circuit($target_id): void {
         delete_transient('linked3_pcb_fail_' . $target_id);
         delete_transient('linked3_pcb_open_' . $target_id);
     }
 
-    private function alert_admin(array $target)
-    : void {
+    private function alert_admin(array $target): void {
         $email = PublishConfig::get('alert.admin_email', get_option('admin_email'));
         if (!$email) return;
         $subject = sprintf(__('[Linked3] 发布目标「%s」熔断器已触发', 'linked3'), $target['name']);

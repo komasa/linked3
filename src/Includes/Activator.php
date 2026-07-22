@@ -21,8 +21,7 @@ final class Activator
      *
      * @return void
      */
-    public static function activate()
-    : void {
+    public static function activate(): void {
         // ── FIX v16.0.1: Wrap entire activation in try/catch ──────────────
         // On WordPress Playground (SQLite + PHP 8.x + restricted env), any
         // uncaught Throwable during activation produces the generic
@@ -55,8 +54,7 @@ final class Activator
      *
      * @return void
      */
-    private static function do_activate()
-    : void {
+    private static function do_activate(): void {
         // Activation runs BEFORE plugins_loaded, so the Dependency_Loader has
         // not run yet. We must manually require the DB classes we need.
         if (!class_exists('Linked3\\Includes\\DB\\Schema')) {
@@ -151,8 +149,7 @@ final class Activator
      * 如果用户尚未配置任何 provider key,自动填入硅基流动测试 key
      * 用户可随时在 API 设置页修改或删除
      */
-    public static function set_default_provider_config()
-    : void {
+    public static function set_default_provider_config(): void {
         $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         if (!is_array($keys)) $keys = [];
 
@@ -195,8 +192,7 @@ final class Activator
      * @param int $blog_id
      * @return void
      */
-    public static function setup_for_blog(int $blog_id)
-    : void {
+    public static function setup_for_blog(int $blog_id): void {
         if (!function_exists('switch_to_blog')) {
             return;
         }
@@ -215,8 +211,7 @@ final class Activator
      *
      * @return void
      */
-    public static function check_for_updates()
-    : void {
+    public static function check_for_updates(): void {
         // ── FIX v16.0.1: Wrap in try/catch — this runs on every admin_init ──
         // If the DB layer throws (e.g. INFORMATION_SCHEMA unsupported in
         // SQLite/Playground), we must NOT take down the entire admin.

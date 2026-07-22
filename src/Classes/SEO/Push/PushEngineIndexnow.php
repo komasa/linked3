@@ -50,8 +50,7 @@ final class PushEngineIndexnow implements PushEngine
         return $key;
     }
 
-    public function push(array $urls)
-    : array {
+    public function push(array $urls) {
         $key = $this->key();
         $host = (string) wp_parse_url(site_url(), PHP_URL_HOST);
         $payload = [

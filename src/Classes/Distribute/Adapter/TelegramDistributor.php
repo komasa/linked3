@@ -23,8 +23,7 @@ final class TelegramDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'telegram'; }
     public function label() : string { return __('Telegram', 'linked3'); }
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $token = $config['bot_token'] ?? '';
         $chat_id = $config['chat_id'] ?? '';
         if (!$token || !$chat_id) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Bot Token 或 Chat ID。', 'linked3')];

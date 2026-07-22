@@ -24,20 +24,17 @@ abstract class CollectBaseAjaxAction
 
     abstract public function handle();
 
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         $this->verify(static::NONCE_ACTION, static::CAPABILITY);
         // Free 用户也可使用 (配额限制)
         $this->handle();
     }
 
-    protected function scraper()
-    : Linked3 {
+    protected function scraper(): Linked3 {
         return new \Linked3\Classes\Collect\Scraper();
     }
 
-    protected function rewriter()
-    : Linked3 {
+    protected function rewriter(): Linked3 {
         return new \Linked3\Classes\Collect\Rewriter\ArticleRewriter();
     }
 }

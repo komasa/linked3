@@ -37,8 +37,7 @@ if (!defined('ABSPATH')) {
 final class Schema
 {
     /** @return string[] Table names (unqualified; caller adds $wpdb->prefix). */
-    public static function tables()
-    : array {
+    public static function tables(): array {
         return [
             'linked3_usage_logs',
             'linked3_tasks',
@@ -68,8 +67,7 @@ final class Schema
     /**
      * @return string[] Fully-qualified CREATE TABLE statements.
      */
-    public static function definitions()
-    : array {
+    public static function definitions(): array {
         global $wpdb;
         $p = $wpdb->prefix;
         $charset = $wpdb->get_charset_collate();
@@ -477,8 +475,7 @@ final class Schema
      *
      * @return void
      */
-    public static function create_all()
-    : void {
+    public static function create_all(): void {
         global $wpdb;
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 

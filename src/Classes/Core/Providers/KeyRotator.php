@@ -80,8 +80,7 @@ final class KeyRotator
      * @param int    $index
      * @return void
      */
-    public function mark_failed(string $provider_slug, int $index)
-    : void {
+    public function mark_failed(string $provider_slug, int $index): void {
         set_transient(
             $this->health_key($provider_slug, $index),
             ['failed_at' => time()],
@@ -111,8 +110,7 @@ final class KeyRotator
      * @param int    $val
      * @return void
      */
-    private function set_cursor(string $provider_slug, int $val)
-    : void {
+    private function set_cursor(string $provider_slug, int $val): void {
         set_transient('linked3_kc_' . $provider_slug, $val, DAY_IN_SECONDS);
     }
 
@@ -121,8 +119,7 @@ final class KeyRotator
      * @param int    $index
      * @return string
      */
-    private function health_key(string $provider_slug, int $index)
-    : string {
+    private function health_key(string $provider_slug, int $index): string {
         return 'linked3_kh_' . $provider_slug . '_' . $index;
     }
 

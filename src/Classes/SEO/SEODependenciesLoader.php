@@ -24,8 +24,7 @@ final class SEODependenciesLoader
     /**
      * @return void
      */
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             // v0.4.1 — config registry
             'Classes/SEO/SEOConfig.php',

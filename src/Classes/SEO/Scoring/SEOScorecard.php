@@ -45,8 +45,7 @@ final class SEOScorecard
      *     tips:string[]
      * }
      */
-    public function evaluate(WP_Post $post)
-    : array {
+    public function evaluate(WP_Post $post): array {
         $text = wp_strip_all_tags((string) $post->post_content);
         $title = (string) $post->post_title;
         $meta = $this->meta_description($post);
@@ -287,8 +286,7 @@ final class SEOScorecard
      * @param int $score
      * @return string
      */
-    public static function grade(int $score)
-    : string {
+    public static function grade(int $score): string {
         if ($score >= 90) return 'A';
         if ($score >= 80) return 'B';
         if ($score >= 70) return 'C';

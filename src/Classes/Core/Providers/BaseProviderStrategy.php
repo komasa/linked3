@@ -114,8 +114,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $config
      * @return array{content:string, usage:array, raw:array}
      */
-    public function parse_chat_response($body, array $config)
-    : array {
+    public function parse_chat_response($body, array $config) {
         $body = is_array($body) ? $body : [];
         $content = '';
         if (isset($body['choices'][0]['message']['content'])) {
@@ -169,8 +168,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param int   $status_code
      * @return array{code:string, message:string, status:int}
      */
-    public function parse_error_response($body, int $status_code)
-    : array {
+    public function parse_error_response($body, int $status_code) {
         $body = is_array($body) ? $body : [];
         $status_code = (int) $status_code;
         $code = 'linked3_provider_error';
@@ -202,8 +200,7 @@ abstract class BaseProviderStrategy implements ProviderStrategyInterface
      * @param array $body
      * @return array{prompt_tokens:int, completion_tokens:int, total_tokens:int}
      */
-    protected function extract_usage(array $body)
-    : array {
+    protected function extract_usage(array $body): array {
         $u = $body['usage'] ?? ($body['token_usage'] ?? []);
         return [
             'prompt_tokens'     => isset($u['prompt_tokens']) ? (int) $u['prompt_tokens'] : 0,

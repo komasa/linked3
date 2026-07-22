@@ -137,7 +137,7 @@ PROMPT;
      * @param array $params
      * @return array|\WP_Error
      */
-    public function generate_script(array $params) : mixed {
+    public function generate_script(array $params): array|WP_Error {
         $topic       = sanitize_text_field($params['topic'] ?? '');
         $keyword     = sanitize_text_field($params['keyword'] ?? '');
         $style_id    = sanitize_text_field($params['style'] ?? 'lifestyle');
@@ -297,8 +297,7 @@ PROMPT;
      * @param int $expected_pages
      * @return array
      */
-    private function normalize_output(array $data, int $expected_pages)
-    : array {
+    private function normalize_output(array $data, int $expected_pages): array {
         $title = (string) ($data['title'] ?? '');
         $main_content = (string) ($data['main_content'] ?? '');
         $tags = (array) ($data['tags'] ?? []);
@@ -340,7 +339,7 @@ PROMPT;
         return 'xhs';
     }
 
-    public function platform_label() : mixed {
+    public function platform_label(): string {
         return __('小红书图文', 'linked3');
     }
 

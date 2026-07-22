@@ -39,8 +39,7 @@ final class SEOConfig
     /**
      * @return array<string,mixed>
      */
-    public static function defaults()
-    : array {
+    public static function defaults(): array {
         return [
             'interlink' => [
                 'max_links'     => 5,
@@ -137,8 +136,7 @@ final class SEOConfig
     /**
      * @return string[]
      */
-    public static function default_zh_stopwords()
-    : array {
+    public static function default_zh_stopwords(): array {
         return [
             '的', '了', '和', '是', '在', '我', '有', '这', '个', '不', '也', '都',
             '就', '要', '与', '及', '或', '为', '以', '于', '可', '能', '会', '对',
@@ -152,8 +150,7 @@ final class SEOConfig
     /**
      * @return string[]
      */
-    public static function default_en_stopwords()
-    : array {
+    public static function default_en_stopwords(): array {
         return [
             'the', 'a', 'an', 'and', 'or', 'but', 'if', 'then', 'else', 'for',
             'of', 'to', 'in', 'on', 'at', 'by', 'with', 'from', 'as', 'is',

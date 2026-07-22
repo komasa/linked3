@@ -38,8 +38,7 @@ final class SecretVault
      * Initialize demo keys from secure sources (constants/env).
      * Called once on first access.
      */
-    private static function init_demo_keys()
-    : void {
+    private static function init_demo_keys(): void {
         if (!empty(self::$runtime_demo_keys)) {
             return;
         }
@@ -54,8 +53,7 @@ final class SecretVault
         }
     }
 
-    private static function flag_demo_key_in_use($provider_slug)
-    : void {
+    private static function flag_demo_key_in_use($provider_slug): void {
         if (get_option(LINKED3_OPTION_PREFIX . 'using_demo_key_' . $provider_slug, null) === null) {
             update_option(LINKED3_OPTION_PREFIX . 'using_demo_key_' . $provider_slug, true);
         }

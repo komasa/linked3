@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class AutoGPTDeleteTaskAction extends AutoGPTBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $id = (int) ($_POST['id'] ?? 0);
         if (!$id) $this->send_error(__('需要任务 ID。', 'linked3'), 400);
         $ok = $this->repo()->delete($id, get_current_user_id());

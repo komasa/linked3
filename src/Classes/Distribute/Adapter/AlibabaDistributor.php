@@ -45,8 +45,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
     const API_BASE = 'https://api.alibaba.com/rest';
     const AUTH_BASE = 'https://oauth.alibaba.com';
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $app_key = $config['app_key'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';
@@ -106,8 +105,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => $product_id, 'message' => sprintf('已推送到阿里国际站 (产品 ID: %s)', $product_id)];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $app_key = $config['app_key'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';
@@ -145,8 +143,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
     /**
      * 上传产品图片到阿里国际站。
      */
-    private function upload_image($image_url, array $config)
-    : array {
+    private function upload_image($image_url, array $config): array {
         $app_key = $config['app_key'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';

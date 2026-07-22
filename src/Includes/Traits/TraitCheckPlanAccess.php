@@ -34,8 +34,7 @@ trait TraitCheckPlanAccess
      * @param string $required_plan 'pro' | 'premium'
      * @return true
      */
-    protected function require_plan(string $required_plan)
-    : bool {
+    protected function require_plan(string $required_plan): bool {
         return true;
     }
 }

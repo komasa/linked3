@@ -54,8 +54,7 @@ final class GEOEnhancer
      *
      * @return void
      */
-    public static function init()
-    : void {
+    public static function init(): void {
         // Serve /llms.txt — we hook parse_request so we can short-circuit
         // before the theme template loader runs, avoiding a 404 on sites
         // without a physical llms.txt file.
@@ -133,8 +132,7 @@ final class GEOEnhancer
      * @param \WP $wp The WordPress request object.
      * @return void
      */
-    public static function handle_llms_txt_request(WP $wp)
-    : void {
+    public static function handle_llms_txt_request(WP $wp): void {
         // Defensive: only serve on the frontend, never in admin or AJAX.
         if (is_admin() || (defined('DOING_AJAX') && DOING_AJAX) || (defined('REST_REQUEST') && REST_REQUEST)) {
             return;
@@ -187,8 +185,7 @@ final class GEOEnhancer
      *
      * @return void
      */
-    public static function inject_ai_meta()
-    : void {
+    public static function inject_ai_meta(): void {
         // Only on public, singular pages — not on admin, feeds, or search.
         if (is_admin() || is_feed() || is_search() || is_404()) {
             return;

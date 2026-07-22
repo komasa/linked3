@@ -72,8 +72,7 @@ final class VectorFactory
         do_action_ref_array('linked3/register_vector_providers', [&$this]);
     }
 
-    public function register($slug, callable $builder)
-    : void {
+    public function register($slug, callable $builder): void {
         $this->instances[$slug . '_builder'] = $builder;
     }
 

@@ -208,8 +208,7 @@ final class AIDispatcher
      * @return array{content:string, usage:array, provider:string, model:string, raw:array}
      * @throws \RuntimeException
      */
-    private function call_single(string $slug, array $messages, array $options, array $config)
-    : array {
+    private function call_single(string $slug, array $messages, array $options, array $config): array {
         // 自定义 API 站点支持: slug 格式 custom_xxx
         if (strpos($slug, 'custom_') === 0) {
             $custom_id = substr($slug, 7);
@@ -446,8 +445,7 @@ final class AIDispatcher
      * @param array $row
      * @return void
      */
-    private function log_usage(array $row)
-    : void {
+    private function log_usage(array $row): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_usage_logs';
 
@@ -513,8 +511,7 @@ final class AIDispatcher
      * @param string $slug
      * @return void
      */
-    private function reset_circuit(string $slug)
-    : void {
+    private function reset_circuit(string $slug): void {
         delete_transient('linked3_pcb_' . $slug);
     }
 
@@ -523,8 +520,7 @@ final class AIDispatcher
      * @param string $message
      * @return void
      */
-    private function record_failure(string $slug, string $message)
-    : void {
+    private function record_failure(string $slug, string $message): void {
         $key = 'linked3_pcb_' . $slug;
         // Read-modify-write race is acceptable here: transient TTL is short,
         // and a stale read at worst delays the circuit opening by one cycle.

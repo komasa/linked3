@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class CollectRewriteAction extends CollectBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $content = wp_unslash($_POST['content'] ?? '');
         if (empty($content)) $this->send_error('需要内容', 400);
         // v3.3.0: 改读 default_provider + saved_models

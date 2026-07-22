@@ -199,16 +199,14 @@ final class DistributeManager
 
     // ----- v3.0.0 熔断器 (双 transient 模型,对齐 Publish_Manager) -----
 
-    private function is_circuit_open($platform)
-    : bool {
+    private function is_circuit_open($platform): bool {
         $open = get_transient('linked3_dist_cb_open_' . $platform);
         if ($open) return true;
         // 半开试探: 冷却到期后允许 1 次试探,不立即恢复全量
         return false;
     }
 
-    private function record_failure($platform)
-    : void {
+    private function record_failure($platform): void {
         $fail_key = 'linked3_dist_cb_fail_' . $platform;
         $count = (int) get_transient($fail_key) + 1;
         // 失败计数窗口 5 分钟
@@ -221,8 +219,7 @@ final class DistributeManager
         }
     }
 
-    private function reset_circuit($platform)
-    : void {
+    private function reset_circuit($platform): void {
         delete_transient('linked3_dist_cb_fail_' . $platform);
         delete_transient('linked3_dist_cb_open_' . $platform);
     }

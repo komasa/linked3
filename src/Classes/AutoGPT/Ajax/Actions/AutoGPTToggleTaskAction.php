@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class AutoGPTToggleTaskAction extends AutoGPTBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $id = (int) ($_POST['id'] ?? 0);
         $status = sanitize_text_field($_POST['status'] ?? 'active');
         if (!$id) $this->send_error(__('需要任务 ID。', 'linked3'), 400);

@@ -35,8 +35,7 @@ final class ZhihuDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'zhihu'; }
     public function label() : string { return '知乎 (MCP 中转)'; }
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         $column_id = $config['column_id'] ?? '';
@@ -76,8 +75,7 @@ final class ZhihuDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => $remote_id, 'message' => __('已通过 MCP 推送到知乎', 'linked3-ai')];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {

@@ -19,8 +19,7 @@ final class I18n
     /**
      * @return void
      */
-    public function load_textdomain()
-    : void {
+    public function load_textdomain(): void {
         load_plugin_textdomain(
             LINKED3_TEXT_DOMAIN,
             false,

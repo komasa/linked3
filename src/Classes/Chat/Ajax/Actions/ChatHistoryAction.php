@@ -17,8 +17,7 @@ if (!defined('ABSPATH')) exit;
 
 final class ChatHistoryAction extends ChatBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $session_id = sanitize_text_field($_POST['session_id'] ?? '');
         $bot_id = (int) ($_POST['bot_id'] ?? 0);
         if (!$session_id) $this->send_error(__('需要会话。', 'linked3'), 400);

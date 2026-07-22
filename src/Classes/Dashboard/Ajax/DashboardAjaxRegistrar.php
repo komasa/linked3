@@ -39,8 +39,7 @@ final class DashboardAjaxRegistrar
         DashboardGenesisV9Actions::class,
     ];
 
-    public static function register()
-    : void {
+    public static function register(): void {
         foreach (self::$action_classes as $action_class) {
             if (class_exists($action_class) && method_exists($action_class, 'register')) {
                 $action_class::register();

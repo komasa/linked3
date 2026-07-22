@@ -76,8 +76,7 @@ final class PayloadSanitizer
      * @param string $key
      * @return bool
      */
-    private static function is_secret_key(string $key)
-    : bool {
+    private static function is_secret_key(string $key): bool {
         $k = strtolower((string) $key);
         if (in_array($k, self::SECRET_KEYS, true)) {
             return true;

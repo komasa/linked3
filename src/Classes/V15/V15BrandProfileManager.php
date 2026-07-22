@@ -58,8 +58,7 @@ final class V15BrandProfileManager
      *
      * @return array
      */
-    public function get_default_profile()
-    : array {
+    public function get_default_profile(): array {
         return [
             'profile_name'       => '默认品牌',
             'brand_name'         => '我的品牌',
@@ -92,8 +91,7 @@ final class V15BrandProfileManager
      * @param array $row
      * @return array
      */
-    private function format_profile(array $row)
-    : array {
+    private function format_profile(array $row): array {
         return [
             'id'                 => (int) $row['id'],
             'profile_name'       => $row['profile_name'],
@@ -131,8 +129,7 @@ final class V15BrandProfileManager
      * @param array $profile
      * @return array
      */
-    public function profile_to_placeholders(array $profile)
-    : array {
+    public function profile_to_placeholders(array $profile): array {
         return [
             'brand'        => $profile['brand_name'] ?? '',
             'signature'    => trim(($profile['signature_name'] ?? '') . ' ' . ($profile['signature_title'] ?? '')),

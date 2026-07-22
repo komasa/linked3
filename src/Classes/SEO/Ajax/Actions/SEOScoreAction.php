@@ -26,16 +26,14 @@ final class SEOScoreAction extends SEOBaseAjaxAction
     const NONCE_ACTION = 'linked3_seo';
     const CAPABILITY = 'edit_posts';
 
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         $this->verify(static::NONCE_ACTION, static::CAPABILITY);
         // v0.4.x architecture requirement: SEO scorecard is Pro+.
         $this->require_seo_plan('free'); // Free 用户也可使用
         $this->handle();
     }
 
-    public function handle()
-    : void {
+    public function handle(): void {
         $post_id = (int) ($_POST['post_id'] ?? 0);
         if ($post_id <= 0) {
             $this->send_error(__('需要有效的文章 ID。', 'linked3'), 400);

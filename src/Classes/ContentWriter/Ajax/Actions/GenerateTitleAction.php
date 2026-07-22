@@ -18,8 +18,7 @@ if (!defined('ABSPATH')) exit;
 
 final class GenerateTitleAction extends ContentWriterBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $keyword = sanitize_text_field($_POST['keyword'] ?? '');
         $requested = max(1, (int) ($_POST['count'] ?? 5));
         if (!$keyword) $this->send_error(__('需要关键词。', 'linked3'), 400);

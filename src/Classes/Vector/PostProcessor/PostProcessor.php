@@ -27,8 +27,7 @@ final class PostProcessor
      * @param bool    $update
      * @return void
      */
-    public static function on_save_post(int $post_id, WP_Post $post, bool $update)
-    : void {
+    public static function on_save_post(int $post_id, WP_Post $post, bool $update): void {
         // Skip revisions + autosaves.
         if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) return;
         // Skip non-public post types.
@@ -75,8 +74,7 @@ final class PostProcessor
      * @param int $post_id
      * @return void
      */
-    public static function on_delete_post(int $post_id)
-    : void {
+    public static function on_delete_post(int $post_id): void {
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return;
         $provider = VectorFactory::instance()->make($config['provider'] ?? 'local');

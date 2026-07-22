@@ -26,8 +26,7 @@ final class WeChatDistributor implements DistributeAdapterInterface
     public function slug() : string { return 'wechat'; }
     public function label() : string { return __('微信公众号', 'linked3'); }
 
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $app_id = $config['app_id'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         if (!$app_id || !$app_secret) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 app_id/app_secret。', 'linked3')];
@@ -59,8 +58,7 @@ final class WeChatDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($body['media_id'] ?? ''), 'message' => __('已在微信创建草稿(需手动审核发布)。', 'linked3')];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $app_id = $config['app_id'] ?? '';
         $app_secret = $config['app_secret'] ?? '';
         if (!$app_id || !$app_secret) return ['ok' => false, 'message' => __('缺少 app_id/app_secret。', 'linked3')];

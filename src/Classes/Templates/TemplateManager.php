@@ -106,8 +106,7 @@ final class TemplateManager
     /**
      * 更新用户模板 (按索引)。
      */
-    public function update($index, $name, $type, array $config)
-    : bool {
+    public function update($index, $name, $type, array $config): bool {
         $custom = get_option(LINKED3_OPTION_PREFIX . 'templates', []);
         if (!is_array($custom)) return false;
         $index = (int) $index;
@@ -124,8 +123,7 @@ final class TemplateManager
     /**
      * 删除用户模板(按索引)。
      */
-    public function delete($index)
-    : bool {
+    public function delete($index): bool {
         $custom = get_option(LINKED3_OPTION_PREFIX . 'templates', []);
         if (!is_array($custom)) return false;
         $index = (int) $index;
@@ -143,8 +141,7 @@ final class TemplateManager
         return $this->add($name, $type, $config);
     }
 
-    private function sanitize_config(array $cfg)
-    : array {
+    private function sanitize_config(array $cfg): array {
         return [
             'tone' => sanitize_text_field($cfg['tone'] ?? 'professional'),
             'complexity' => sanitize_text_field($cfg['complexity'] ?? 'intermediate'),

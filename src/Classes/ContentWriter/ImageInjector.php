@@ -216,8 +216,7 @@ final class ImageInjector
      * @param array $img
      * @return string
      */
-    private function render_image(array $img)
-    : string {
+    private function render_image(array $img): string {
         $url = esc_url($img['url'] ?? '');
         $alt = esc_attr($img['alt'] ?? '');
         $credit = esc_html($img['credit'] ?? '');

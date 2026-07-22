@@ -61,8 +61,7 @@ final class ChatStorage
      * @param int    $tokens_used
      * @return void
      */
-    public function append_message(string $session_id, int $bot_id, int $user_id, array $message, int $tokens_used = 0)
-    : void {
+    public function append_message(string $session_id, int $bot_id, int $user_id, array $message, int $tokens_used = 0): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_chat_logs';
         $session = $this->get_session($session_id, $bot_id, $user_id);

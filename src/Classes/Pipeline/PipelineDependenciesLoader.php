@@ -20,8 +20,7 @@ if (!defined('ABSPATH')) {
 
 final class PipelineDependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/Pipeline/PipelineStage.php',
             'Classes/Pipeline/PipelineStage.php',

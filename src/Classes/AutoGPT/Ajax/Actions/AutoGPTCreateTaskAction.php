@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class AutoGPTCreateTaskAction extends AutoGPTBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $data = [
             'name' => sanitize_text_field($_POST['name'] ?? ''),
             'task_type' => sanitize_text_field($_POST['task_type'] ?? 'content-writing'),

@@ -38,8 +38,7 @@ final class DashboardAjaxRegistrarLegacy
      *
      * @return void
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         // 自定义 API 保存 AJAX
         add_action('wp_ajax_linked3_save_custom_apis', [__CLASS__, 'ajax_save_custom_apis']);
         // 模板 CRUD AJAX
@@ -118,8 +117,7 @@ final class DashboardAjaxRegistrarLegacy
     /**
      * AJAX: 保存高级设置 (原版隐藏功能)。
      */
-    public static function ajax_save_advanced()
-    : void {
+    public static function ajax_save_advanced(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -151,8 +149,7 @@ final class DashboardAjaxRegistrarLegacy
     /**
      * AJAX: 保存自定义 API 配置
      */
-    public static function ajax_save_custom_apis()
-    : void {
+    public static function ajax_save_custom_apis(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -185,8 +182,7 @@ final class DashboardAjaxRegistrarLegacy
      *   - linked3_provider_models[slug] = model
      *   - linked3_provider_keys[slug] = keys (textarea, 换行分隔)
      */
-    public static function ajax_save_provider_config()
-    : void {
+    public static function ajax_save_provider_config(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => 'Forbidden'], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -227,8 +223,7 @@ final class DashboardAjaxRegistrarLegacy
     /**
      * v3.1.0: AJAX 保存 SEO 增强 (内链/Schema/外链)
      */
-    public static function ajax_save_seo_enhance()
-    : void {
+    public static function ajax_save_seo_enhance(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);

@@ -40,8 +40,7 @@ final class UpdateChecker
         return (string) apply_filters('linked3/update_api_url', $default);
     }
 
-    public static function register()
-    : void {
+    public static function register(): void {
         // v4.7.4: only register update hooks if a real update API URL is
         // configured. In local mode (empty URL), skip entirely so no
         // HTTP requests are made and no transients are polled.
@@ -56,8 +55,7 @@ final class UpdateChecker
     /**
      * 定期检查更新(每 12 小时)。
      */
-    public static function check_for_updates()
-    : void {
+    public static function check_for_updates(): void {
         // v4.7.4: double-check the URL is non-empty (defensive).
         $api_url = self::update_api_url();
         if ($api_url === '') {

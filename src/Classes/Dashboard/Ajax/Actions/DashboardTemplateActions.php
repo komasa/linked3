@@ -24,8 +24,7 @@ class DashboardTemplateActions extends DashboardBaseAjaxAction
     const NONCE_ACTION = 'linked3_template';
     const REQUIRED_CAP = 'manage_options';
 
-    public static function register()
-    : void {
+    public static function register(): void {
         add_action('wp_ajax_linked3_template_add', [__CLASS__, 'template_add']);
         add_action('wp_ajax_linked3_template_update', [__CLASS__, 'template_update']);
         add_action('wp_ajax_linked3_template_delete', [__CLASS__, 'template_delete']);
@@ -36,8 +35,7 @@ class DashboardTemplateActions extends DashboardBaseAjaxAction
      * AJAX: 添加模板
      * Action: wp_ajax_linked3_template_add
      */
-    public static function template_add()
-    : void {
+    public static function template_add(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -65,8 +63,7 @@ class DashboardTemplateActions extends DashboardBaseAjaxAction
      * AJAX: 更新模板
      * Action: wp_ajax_linked3_template_update
      */
-    public static function template_update()
-    : void {
+    public static function template_update(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -95,8 +92,7 @@ class DashboardTemplateActions extends DashboardBaseAjaxAction
      * AJAX: 删除模板
      * Action: wp_ajax_linked3_template_delete
      */
-    public static function template_delete()
-    : void {
+    public static function template_delete(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -114,8 +110,7 @@ class DashboardTemplateActions extends DashboardBaseAjaxAction
      * AJAX: 获取单个模板
      * Action: wp_ajax_linked3_template_get
      */
-    public static function template_get()
-    : void {
+    public static function template_get(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }

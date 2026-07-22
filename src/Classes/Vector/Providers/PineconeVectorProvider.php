@@ -22,16 +22,14 @@ final class PineconeVectorProvider implements VectorProviderInterface
 {
     public function slug() : string { return 'pinecone'; }
 
-    public function connect(array $config)
-    : array {
+    public function connect(array $config) {
         $key = $config['api_key'] ?? '';
         $host = $config['index_host'] ?? '';
         if (!$key || !$host) return ['ok' => false, 'message' => __('缺少 api_key / index_host。', 'linked3')];
         return ['ok' => true, 'message' => __('Pinecone 已配置。', 'linked3')];
     }
 
-    public function create_index($name, $dimensions, array $config)
-    : array {
+    public function create_index($name, $dimensions, array $config) {
         // Pinecone indexes are created via the control plane API; for MVP
         // we assume the index already exists. Return ok so callers proceed.
         return ['ok' => true, 'message' => "Index assumed to exist ({$name})"];

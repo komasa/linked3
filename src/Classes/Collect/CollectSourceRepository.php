@@ -97,8 +97,7 @@ final class CollectSourceRepository extends BaseRepository
         return $id;
     }
 
-    public function update($id, $user_id, array $data)
-    : bool {
+    public function update($id, $user_id, array $data): bool {
         $clean = [];
         if (isset($data['name'])) {
             $clean['name'] = sanitize_text_field($data['name']);

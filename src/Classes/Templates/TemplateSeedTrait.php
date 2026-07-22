@@ -34,8 +34,7 @@ trait TemplateSeedTrait
      *
      * @return array
      */
-    private function seed_templates_canonical()
-    : array {
+    private function seed_templates_canonical(): array {
         // v5.1.7: V15 占位符统一注入到全部 5 个模板 × 6 个 prompt 字段。
         // 每个 prompt 根据其用途注入不同的 V15 要素:
         //   title  → {mood} {culture}        (标题要契合品牌调性和目标读者)
@@ -185,8 +184,7 @@ trait TemplateSeedTrait
      *
      * @return array
      */
-    public function seed_pipeline_templates()
-    : array {
+    public function seed_pipeline_templates(): array {
         return [
             [
                 'template_name' => __('默认改写提示词', 'linked3'),

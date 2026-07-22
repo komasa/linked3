@@ -148,8 +148,7 @@ final class ImageManager
     /**
      * OpenAI DALL-E 3 生成图片。
      */
-    private function generate_openai($prompt, $key, $settings)
-    : array {
+    private function generate_openai($prompt, $key, $settings): array {
         $size = $settings['img_width'] . 'x' . $settings['img_height'];
         // DALL-E 3 只支持 1024x1024, 1792x1024, 1024x1792
         $valid_sizes = ['1024x1024', '1792x1024', '1024x1792'];
@@ -179,8 +178,7 @@ final class ImageManager
     /**
      * 硅基流动生成图片。
      */
-    private function generate_siliconflow($prompt, $key, $settings)
-    : array {
+    private function generate_siliconflow($prompt, $key, $settings): array {
         $body = [
             'model' => $settings['model'] ?: 'black-forest-labs/FLUX.1-schnell',
             'prompt' => $prompt,
@@ -209,8 +207,7 @@ final class ImageManager
     /**
      * 阿里云通义万相生成图片。
      */
-    private function generate_aliyun($prompt, $key, $settings)
-    : array {
+    private function generate_aliyun($prompt, $key, $settings): array {
         $body = [
             'model' => $settings['model'] ?: 'flux-schnell',
             'input' => ['prompt' => $prompt],
@@ -423,8 +420,7 @@ final class ImageManager
      * @param array $data {provider, model, prompt, url, status, cost}
      * @return void
      */
-    public function log_generation(array $data)
-    : void {
+    public function log_generation(array $data): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_image_logs';
         // 检查表是否存在

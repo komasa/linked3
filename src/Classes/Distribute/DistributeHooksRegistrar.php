@@ -17,8 +17,7 @@ final class DistributeHooksRegistrar
     /** @var int[] 待分发的文章 ID 队列 (避免闭包 use) */
     private static array $pending_distribute_ids = [];
 
-    public static function register()
-    : void {
+    public static function register(): void {
         // Auto-distribute on publish (Pro+, configurable).
         add_action('transition_post_status', [__CLASS__, 'on_publish'], 20, 3);
         // AJAX: test platform + save config + manual distribute.
@@ -29,8 +28,7 @@ final class DistributeHooksRegistrar
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
     }
 
-    public static function on_publish($new_status, $old_status, $post)
-    : void {
+    public static function on_publish($new_status, $old_status, $post): void {
         if ($new_status !== 'publish' || $old_status === 'publish') return;
         $auto = get_option(LINKED3_OPTION_PREFIX . 'distribute_auto', []);
         if (!is_array($auto) || empty($auto[$post->post_type] ?? false)) return;
@@ -42,8 +40,7 @@ final class DistributeHooksRegistrar
     /**
      * shutdown 回调: 批量执行延迟分发 (替代闭包 use)。
      */
-    public static function on_shutdown_distribute()
-    : void {
+    public static function on_shutdown_distribute(): void {
         $ids = self::$pending_distribute_ids;
         self::$pending_distribute_ids = [];
         foreach ($ids as $post_id) {
@@ -56,8 +53,7 @@ final class DistributeHooksRegistrar
      *
      * @return void
      */
-    private static function guard()
-    : void {
+    private static function guard(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限。', 'linked3')], 403);
         }
@@ -71,8 +67,7 @@ final class DistributeHooksRegistrar
         }
     }
 
-    public static function ajax_test()
-    : void {
+    public static function ajax_test(): void {
         self::guard();
         $platform = sanitize_text_field($_POST['platform'] ?? '');
         $cfg = self::parse_config($platform);
@@ -84,8 +79,7 @@ final class DistributeHooksRegistrar
         $r['ok'] ? wp_send_json_success($r) : wp_send_json_error($r, 400);
     }
 
-    public static function ajax_save()
-    : void {
+    public static function ajax_save(): void {
         self::guard();
         $platform = sanitize_text_field($_POST['platform'] ?? '');
         $cfg = self::parse_config($platform);
@@ -103,8 +97,7 @@ final class DistributeHooksRegistrar
         wp_send_json_success(['saved' => true]);
     }
 
-    public static function ajax_now()
-    : void {
+    public static function ajax_now(): void {
         self::guard();
         $post_id = (int) ($_POST['post_id'] ?? 0);
         if (!$post_id) wp_send_json_error(['message' => __('需要文章 ID。', 'linked3')], 400);
@@ -209,13 +202,11 @@ final class DistributeHooksRegistrar
         return ['access_token' => sanitize_text_field($_POST['access_token'] ?? '')];
     }
 
-    public static function register_admin_menu()
-    : void {
+    public static function register_admin_menu(): void {
         add_submenu_page('linked3-dashboard', '社交分发', '社交分发', 'manage_options', 'linked3-distribute', [__CLASS__, 'render_admin_page']);
     }
 
-    public static function render_admin_page()
-    : void {
+    public static function render_admin_page(): void {
         if (!current_user_can('manage_options')) return;
         $configs = get_option(LINKED3_OPTION_PREFIX . 'distribute_configs', []);
         $auto = get_option(LINKED3_OPTION_PREFIX . 'distribute_auto', []);

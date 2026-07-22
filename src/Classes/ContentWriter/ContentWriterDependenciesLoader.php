@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class ContentWriterDependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/ContentWriter/Prompt/SystemInstructionBuilder.php',
             'Classes/ContentWriter/Prompt/UserPromptBuilder.php',

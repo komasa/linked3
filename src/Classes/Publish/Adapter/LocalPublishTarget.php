@@ -22,8 +22,7 @@ final class LocalPublishTarget implements PublishTargetInterface
     public function type() : string { return 'local'; }
     public function label() : string { return __('本地站点', 'linked3'); }
 
-    public function publish(array $post, array $config)
-    : array {
+    public function publish(array $post, array $config) {
         $postarr = [
             'post_title'   => $post['post_title'] ?? '',
             'post_content' => $post['post_content'] ?? '',
@@ -57,8 +56,7 @@ final class LocalPublishTarget implements PublishTargetInterface
         return ['ok' => true, 'remote_id' => (string) $id, 'message' => 'ok', 'response_code' => 200];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         return ['ok' => true, 'message' => __('本地站点始终可访问。', 'linked3')];
     }
 }

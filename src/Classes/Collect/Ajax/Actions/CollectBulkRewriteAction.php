@@ -112,8 +112,7 @@ final class CollectBulkRewriteAction extends CollectBaseAjaxAction
         return is_wp_error($saved_id) ? 0 : (int) $saved_id;
     }
 
-    private function sse_event($event, $data)
-    : void {
+    private function sse_event($event, $data): void {
         echo "event: {$event}\n";
         echo 'data: ' . wp_json_encode($data) . "\n\n";
     }

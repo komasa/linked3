@@ -14,8 +14,7 @@ if (!defined('ABSPATH')) exit;
 
 final class ChatDependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/Chat/Storage/ChatStorage.php',
             'Classes/Chat/Triggers/ChatTriggerEngine.php',

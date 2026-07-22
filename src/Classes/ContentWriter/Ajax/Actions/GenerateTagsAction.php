@@ -17,8 +17,7 @@ if (!defined('ABSPATH')) exit;
 
 final class GenerateTagsAction extends ContentWriterBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $title = sanitize_text_field($_POST['title'] ?? '');
         $keyword = sanitize_text_field($_POST['keyword'] ?? '');
         if (!$title) $this->send_error(__('需要标题。', 'linked3'), 400);

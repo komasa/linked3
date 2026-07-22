@@ -21,18 +21,16 @@ final class HunyuanProvider extends BaseProviderStrategy
 {
     public function slug() : string { return 'hunyuan'; }
 
-    protected function default_api_base()
-    : string {
+    protected function default_api_base(): string {
         return 'https://hunyuan.tencentcloudapi.com';
     }
 
-    public function build_api_url(string $operation, array $config) : string {
+    public function build_api_url(string $operation, array $config): string {
         // 腾讯云 API 用 POST 到固定 endpoint,操作由 Action 参数区分。
         return $this->api_base($config);
     }
 
-    public function get_api_headers(array $config)
-    : array {
+    public function get_api_headers(array $config): array {
         // 腾讯云需要 TC3-HMAC-SHA256 签名,在 body 里带 Action 参数。
         // 这里返回基本 header,签名在 format_chat_payload 里通过腾讯 SDK 风格计算。
         return [
@@ -42,8 +40,7 @@ final class HunyuanProvider extends BaseProviderStrategy
         ];
     }
 
-    public function format_chat_payload(array $messages, array $options, array $config)
-    : array {
+    public function format_chat_payload(array $messages, array $options, array $config): array {
         return [
             'Model'    => $options['model'] ?? ($config['model'] ?? 'hunyuan-pro'),
             'Messages' => array_map(static function ($m) {
@@ -53,8 +50,7 @@ final class HunyuanProvider extends BaseProviderStrategy
         ];
     }
 
-    public function parse_chat_response($body, array $config)
-    : array {
+    public function parse_chat_response($body, array $config): array {
         $body = is_array($body) ? $body : [];
         $content = '';
         if (isset($body['Response']['Choices'][0]['Message']['Content'])) {
@@ -82,8 +78,7 @@ final class HunyuanProvider extends BaseProviderStrategy
         return ['code' => $code, 'message' => $message, 'status' => $status_code];
     }
 
-    public function get_models(array $config)
-    : array {
+    public function get_models(array $config): array {
         return ['hunyuan-pro', 'hunyuan-standard', 'hunyuan-lite', 'hunyuan-vision'];
     }
 }

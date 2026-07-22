@@ -15,8 +15,7 @@ if (!defined('ABSPATH')) exit;
 
 class SeedAdminRender
 {
-    public static function register_menu()
-    : void {
+    public static function register_menu(): void {
         add_submenu_page(
             'linked3-dashboard',
             __('Seed DNA 库', 'linked3'),
@@ -48,16 +47,14 @@ class SeedAdminRender
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_assets']);
     }
 
-    public static function hide_seed_submenus()
-    : void {
+    public static function hide_seed_submenus(): void {
         echo '<style>
         #toplevel_page_linked3-dashboard .wp-submenu li a[href*="' . esc_attr(self::PAGE_SLUG_EDIT) . '"] { display:none; }
         #toplevel_page_linked3-dashboard .wp-submenu li a[href*="' . esc_attr(self::PAGE_SLUG_NEW) . '"] { display:none; }
         </style>';
     }
 
-    public static function enqueue_assets($hook)
-    : void {
+    public static function enqueue_assets($hook): void {
         if (strpos($hook, self::PAGE_SLUG_LIST) === false
             && strpos($hook, self::PAGE_SLUG_EDIT) === false
             && strpos($hook, self::PAGE_SLUG_NEW) === false) {
@@ -273,8 +270,7 @@ JS;
 
         public static function render_new_page() : mixed { return SeedAdminPages::render_new_page(); }
 
-    public static function handle_bulk_post()
-    : void {
+    public static function handle_bulk_post(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_die(__('无权限', 'linked3'));
         }

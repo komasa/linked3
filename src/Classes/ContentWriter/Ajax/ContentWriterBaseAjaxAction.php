@@ -39,8 +39,7 @@ abstract class ContentWriterBaseAjaxAction
      *
      * @return void
      */
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         $this->verify(static::NONCE_ACTION, static::CAPABILITY);
         // Free 用户也可使用 (配额限制即可,不阻止)
         $this->check_quota();
@@ -50,8 +49,7 @@ abstract class ContentWriterBaseAjaxAction
     /**
      * @return void
      */
-    protected function check_quota()
-    : void {
+    protected function check_quota(): void {
         $user_id = get_current_user_id();
         $check = TokenManager::instance()->check($user_id, '', 1);
         if (!$check['ok']) {
@@ -73,8 +71,7 @@ abstract class ContentWriterBaseAjaxAction
     /**
      * @return ContentTemplateManager
      */
-    protected function templates()
-    : Linked3 {
+    protected function templates(): Linked3 {
         return new \Linked3\Classes\ContentWriter\ContentTemplateManager();
     }
 }

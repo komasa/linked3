@@ -88,8 +88,7 @@ final class AIEnhancer
     /**
      * 默认高级设置。
      */
-    public function default_settings()
-    : array {
+    public function default_settings(): array {
         return [
             'require_html' => false,
             'require_tag' => false,

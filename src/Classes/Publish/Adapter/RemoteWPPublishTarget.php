@@ -30,8 +30,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
     public function type() : string { return 'remote_wp'; }
     public function label() : string { return __('远程 WordPress(REST)', 'linked3'); }
 
-    public function publish(array $post, array $config)
-    : array {
+    public function publish(array $post, array $config) {
         $url = rtrim($config['site_url'] ?? '', '/');
         $user = $config['username'] ?? '';
         $app_pass = $config['app_password'] ?? '';
@@ -127,8 +126,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
         return ['ok' => true, 'remote_id' => $new_remote_id, 'message' => 'ok', 'response_code' => $code];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $url = rtrim($config['site_url'] ?? '', '/');
         $user = $config['username'] ?? '';
         $app_pass = $config['app_password'] ?? '';
@@ -243,8 +241,7 @@ final class RemoteWPPublishTarget implements PublishTargetInterface
         return $row ? (string) $row : '';
     }
 
-    private function store_remote_id($local_post_id, $target_id, $remote_id)
-    : void {
+    private function store_remote_id($local_post_id, $target_id, $remote_id): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_publish_remote_id_map';
         // UPSERT

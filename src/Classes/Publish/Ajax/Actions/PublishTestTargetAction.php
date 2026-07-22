@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class PublishTestTargetAction extends PublishBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $id = (int) ($_POST['id'] ?? 0);
         if (!$id) $this->send_error(__('需要目标 ID。', 'linked3'), 400);
         $res = $this->manager()->test_target($id, get_current_user_id());

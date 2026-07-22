@@ -31,8 +31,7 @@ final class CustomAPIPublishTarget implements PublishTargetInterface
     public function type() : string { return 'custom_api'; }
     public function label() : string { return __('自定义 API / Webhook', 'linked3'); }
 
-    public function publish(array $post, array $config)
-    : array {
+    public function publish(array $post, array $config) {
         $url = $config['webhook_url'] ?? '';
         $secret = $config['webhook_secret'] ?? '';
         if (!$url) {

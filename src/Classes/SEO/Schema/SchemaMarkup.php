@@ -75,8 +75,7 @@ final class SchemaMarkup
     /**
      * @return void
      */
-    private function register_default_builders()
-    : void {
+    private function register_default_builders(): void {
         $this->register(new SchemaArticle());
         $this->register(new SchemaBlogPosting());
         $this->register(new SchemaFAQ());
@@ -92,8 +91,7 @@ final class SchemaMarkup
      * @param SchemaBuilder $builder
      * @return void
      */
-    public function register(SchemaBuilder $builder)
-    : void {
+    public function register(SchemaBuilder $builder): void {
         $this->builders[$builder->type()] = $builder;
     }
 
@@ -104,8 +102,7 @@ final class SchemaMarkup
      * @param bool   $enabled
      * @return void
      */
-    public function set_enabled(string $type, bool $enabled)
-    : void {
+    public function set_enabled(string $type, bool $enabled): void {
         $this->enabled[$type] = (bool) $enabled;
     }
 

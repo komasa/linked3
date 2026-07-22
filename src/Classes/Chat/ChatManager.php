@@ -63,8 +63,7 @@ final class ChatManager
      * @param array  $bot_config {provider, model, system_prompt, use_rag, temperature}
      * @return array{ok:bool, reply:string, sources:array, usage:array, message:string}
      */
-    public function chat(string $session_id, string $message, int $bot_id, array $bot_config)
-    : array {
+    public function chat(string $session_id, string $message, int $bot_id, array $bot_config): array {
         // v0.8.0 hardening: allow callers (e.g. AutoGPT comment-reply
         // processor) to override the operating user via $bot_config['user_id']
         // so background tasks bill against the task OWNER's quota instead of
@@ -176,8 +175,7 @@ final class ChatManager
      * @param int    $bot_id
      * @return array{ok:bool, message:string}
      */
-    private function check_quota(int $user_id, string $session_id, int $bot_id)
-    : array {
+    private function check_quota(int $user_id, string $session_id, int $bot_id): array {
         if ($user_id > 0) {
             $plan = LicenseService::instance()->plan();
             $module_access = PlanDefinitions::module_access($plan, 'chat');
@@ -250,8 +248,7 @@ final class ChatManager
      * @param string $message
      * @return void
      */
-    private function log(string $level, string $message)
-    : void {
+    private function log(string $level, string $message): void {
         if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
             Logger::instance()->log('chat', $level, $message);
         }

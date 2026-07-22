@@ -21,7 +21,7 @@ final class SchemaBlogPosting implements SchemaBuilder
         return 'BlogPosting';
     }
 
-    public function build($post) : mixed {
+    public function build($post): ?array {
         $base = (new SchemaArticle())->build($post);
         if (!is_array($base)) {
             return null;

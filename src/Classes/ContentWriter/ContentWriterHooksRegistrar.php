@@ -19,8 +19,7 @@ final class ContentWriterHooksRegistrar
     /**
      * @return void
      */
-    public static function register()
-    : void {
+    public static function register(): void {
         // Ensure default templates exist for the current user.
         add_action('admin_init', static function () {
             (new ContentTemplateManager())->ensure_defaults(get_current_user_id());
@@ -48,16 +47,14 @@ final class ContentWriterHooksRegistrar
     /**
      * @return void
      */
-    public static function register_admin_menu()
-    : void {
+    public static function register_admin_menu(): void {
         add_submenu_page('linked3-dashboard', '内容写作', '内容写作', 'edit_posts', 'linked3-content-writer', [__CLASS__, 'render_admin_page']);
     }
 
     /**
      * @return void
      */
-    public static function render_admin_page()
-    : void {
+    public static function render_admin_page(): void {
         if (!current_user_can('edit_posts')) {
             return;
         }

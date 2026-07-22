@@ -280,8 +280,7 @@ final class SafeRemote
      * @param string $ip
      * @return bool
      */
-    public static function is_private_ip(string $ip)
-    : bool {
+    public static function is_private_ip(string $ip): bool {
         $ip = trim($ip);
         if (!filter_var($ip, FILTER_VALIDATE_IP)) {
             return true; // be conservative
@@ -312,8 +311,7 @@ final class SafeRemote
      * @param string $location redirect URL (passed by reference; cleared to abort)
      * @return void
      */
-    public static function redirect_guard(&$location)
-    : void {
+    public static function redirect_guard(&$location): void {
         $new_host = strtolower((string) wp_parse_url($location, PHP_URL_HOST));
         if ($new_host && $new_host !== self::$ctx_host_lower) {
             $location = ''; // abort redirect

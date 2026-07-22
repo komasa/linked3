@@ -102,8 +102,7 @@ final class ProviderFactory
      * @param callable $builder Returns a ProviderStrategyInterface.
      * @return void
      */
-    public function register(string $slug, callable $builder)
-    : void {
+    public function register(string $slug, callable $builder): void {
         $this->builders[$slug] = $builder;
     }
 

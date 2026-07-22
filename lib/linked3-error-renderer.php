@@ -9,8 +9,7 @@
  */
 
 if (!function_exists('linked3_early_handler_render_batch_errors')) {
-    function linked3_early_handler_render_batch_errors($errors)
-    : void {
+    function linked3_early_handler_render_batch_errors($errors): void {
         $count = count($errors);
         $is_ajax = linked3_early_handler_is_ajax();
 
@@ -102,8 +101,7 @@ if (!function_exists('linked3_early_handler_render_batch_errors')) {
 }
 
 if (!function_exists('linked3_early_handler_render_single_error')) {
-    function linked3_early_handler_render_single_error($type_name, $message, $file, $line, $trace)
-    : void {
+    function linked3_early_handler_render_single_error($type_name, $message, $file, $line, $trace): void {
         $is_ajax = linked3_early_handler_is_ajax();
 
         if ($is_ajax) {

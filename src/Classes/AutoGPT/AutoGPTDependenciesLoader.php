@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class AutoGPTDependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/AutoGPT/AutoGPTTaskRepository.php',
             'Classes/AutoGPT/Processors/AutoGPTProcessorInterface.php',

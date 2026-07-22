@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 class DashboardContentActions extends DashboardBaseAjaxAction
 {
-    public static function register()
-    : void {
+    public static function register(): void {
         // generate_outline / generate_section delegates removed:
         // LongFormWriter already registers and implements these hooks.
         // The ghost delegates here would intercept and return 501.

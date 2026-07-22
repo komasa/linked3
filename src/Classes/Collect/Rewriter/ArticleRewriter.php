@@ -33,8 +33,7 @@ final class ArticleRewriter
      * @param array  $opts {tone, complexity, seo_focus, simplify, keep_headings}
      * @return array{system:string, user:string}
      */
-    public function build_prompt(string $original, array $opts)
-    : array {
+    public function build_prompt(string $original, array $opts): array {
         $tone = $opts['tone'] ?? 'professional';
         $complexity = $opts['complexity'] ?? 'intermediate';
         $seo = !empty($opts['seo_focus']);
@@ -60,8 +59,7 @@ final class ArticleRewriter
      * @param array  $opts
      * @return array{ok:bool, content:string, usage:array, message:string}
      */
-    public function rewrite(string $original, array $opts = [])
-    : array {
+    public function rewrite(string $original, array $opts = []): array {
         // v0.8.0 fix: accept an optional user_id override from $opts so
         // background callers (AutoGPT enhancement processor) bill the task
         // owner rather than the shared guest bucket (user_id=0 during cron).

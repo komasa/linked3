@@ -22,8 +22,7 @@ abstract class ChatBaseAjaxAction
 
     abstract public function handle();
 
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         // Chat supports both logged-in (verify) and guest (verify_public).
         $pub = !empty($_REQUEST['guest']);
         if ($pub) {

@@ -32,8 +32,7 @@ final class ContentTemplateManager
      * @param int $user_id
      * @return void
      */
-    public function ensure_defaults(int $user_id = 0)
-    : void {
+    public function ensure_defaults(int $user_id = 0): void {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
         foreach ($this->starter_templates() as $tpl) {
@@ -165,8 +164,7 @@ final class ContentTemplateManager
      * @param array $config
      * @return array
      */
-    public function sanitize_config(array $config)
-    : array {
+    public function sanitize_config(array $config): array {
         $tone_whitelist = ['professional', 'casual', 'instructional', 'balanced', 'persuasive', 'informative', 'friendly'];
         $complexity_whitelist = ['beginner', 'intermediate', 'expert'];
         $language_whitelist = ['zh-CN', 'zh-TW', 'en', 'ja', 'ko', 'fr', 'de', 'es', 'ru'];

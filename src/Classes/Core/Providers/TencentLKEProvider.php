@@ -21,19 +21,17 @@ final class TencentLKEProvider extends BaseProviderStrategy
 {
     public function slug() : string { return 'tencent_lke'; }
 
-    protected function default_api_base()
-    : string {
+    protected function default_api_base(): string {
         return 'https://lke.cloud.tencent.com/v1';
     }
 
-    public function build_api_url(string $operation, array $config) : string {
+    public function build_api_url(string $operation, array $config): string {
         $base = $this->api_base($config);
         // LKE 用 /bot/chat/completions, BotAppKey 在 header 里。
         return $base . '/bot/chat/completions';
     }
 
-    public function get_api_headers(array $config)
-    : array {
+    public function get_api_headers(array $config): array {
         return [
             'Content-Type' => 'application/json',
             'Accept'       => 'application/json',
@@ -41,8 +39,7 @@ final class TencentLKEProvider extends BaseProviderStrategy
         ];
     }
 
-    public function format_chat_payload(array $messages, array $options, array $config)
-    : array {
+    public function format_chat_payload(array $messages, array $options, array $config): array {
         // LKE 用 content 字段,history 通过 messages 传递。
         $last_user = '';
         $history = [];
@@ -64,8 +61,7 @@ final class TencentLKEProvider extends BaseProviderStrategy
         ];
     }
 
-    public function parse_chat_response($body, array $config)
-    : array {
+    public function parse_chat_response($body, array $config): array {
         $body = is_array($body) ? $body : [];
         $content = '';
         if (isset($body['choices'][0]['message']['content'])) {
@@ -90,8 +86,7 @@ final class TencentLKEProvider extends BaseProviderStrategy
         ];
     }
 
-    public function get_models(array $config)
-    : array {
+    public function get_models(array $config): array {
         return ['lke-bot'];
     }
 }

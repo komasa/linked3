@@ -434,8 +434,7 @@ class GenesisJobRunner
     /**
      * shutdown 回调: Fatal Error 兜底 (替代闭包 use)。
      */
-    public static function handle_fatal_shutdown()
-    : void {
+    public static function handle_fatal_shutdown(): void {
         $err = error_get_last();
         if (!($err && in_array($err['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true))) {
             return;
@@ -457,8 +456,7 @@ class GenesisJobRunner
     /**
      * 生成进度回调 (替代闭包 use)。
      */
-    public static function on_generation_progress($progress, $stage, $message)
-    : void {
+    public static function on_generation_progress($progress, $stage, $message): void {
         $jobId = self::$current_job_id;
         if ($jobId === '') return;
         self::updateProgress($jobId, $progress, $stage, $message);

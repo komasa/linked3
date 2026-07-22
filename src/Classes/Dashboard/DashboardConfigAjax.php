@@ -5,8 +5,7 @@ namespace Linked3\Classes\Dashboard;
 if (!defined('ABSPATH')) exit;
 class DashboardConfigAjax
 {
-    public static function ajax_sync_models()
-    : void {
+    public static function ajax_sync_models(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -75,8 +74,7 @@ class DashboardConfigAjax
         wp_send_json_success(['models' => $models, 'count' => count($models)]);
     }
 
-    public static function ajax_save_image_settings()
-    : void {
+    public static function ajax_save_image_settings(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -107,8 +105,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => true]);
     }
 
-    public static function ajax_test_image_station()
-    : void {
+    public static function ajax_test_image_station(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -201,8 +198,7 @@ class DashboardConfigAjax
         ]);
     }
 
-    public static function ajax_save_provider_config()
-    : void {
+    public static function ajax_save_provider_config(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -260,8 +256,7 @@ class DashboardConfigAjax
         ]);
     }
 
-    public static function ajax_save_custom_apis()
-    : void {
+    public static function ajax_save_custom_apis(): void {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
@@ -288,8 +283,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => count($clean)]);
     }
 
-    public static function ajax_save_advanced()
-    : void {
+    public static function ajax_save_advanced(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -308,8 +302,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => true]);
     }
 
-    public static function ajax_save_seo_enhance()
-    : void {
+    public static function ajax_save_seo_enhance(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -330,8 +323,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => true, 'message' => __('SEO 增强配置已保存', 'linked3')]);
     }
 
-    public static function ajax_regen_llms_txt()
-    : void {
+    public static function ajax_regen_llms_txt(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -347,8 +339,7 @@ class DashboardConfigAjax
         wp_send_json_success(['message' => __('llms.txt 已重新生成', 'linked3'), 'url' => home_url('/llms.txt')]);
     }
 
-    public static function ajax_save_ai_search_keys()
-    : void {
+    public static function ajax_save_ai_search_keys(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -357,8 +348,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => true, 'message' => __('AI 搜索引擎 API 已保存', 'linked3')]);
     }
 
-    public static function ajax_save_ai_suffix()
-    : void {
+    public static function ajax_save_ai_suffix(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_settings')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -370,8 +360,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => true]);
     }
 
-    public static function ajax_kw_save_library()
-    : void {
+    public static function ajax_kw_save_library(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -386,8 +375,7 @@ class DashboardConfigAjax
         wp_send_json_success(['saved' => true, 'hot_count' => count($hot_arr), 'tail_count' => count($tail_arr)]);
     }
 
-    public static function ajax_kw_cron_enable()
-    : void {
+    public static function ajax_kw_cron_enable(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -405,8 +393,7 @@ class DashboardConfigAjax
         wp_send_json_success(['enabled' => true]);
     }
 
-    public static function ajax_kw_cron_disable()
-    : void {
+    public static function ajax_kw_cron_disable(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
@@ -416,8 +403,7 @@ class DashboardConfigAjax
         wp_send_json_success(['enabled' => false]);
     }
 
-    public static function ajax_kw_cron_status()
-    : void {
+    public static function ajax_kw_cron_status(): void {
         if (!current_user_can('manage_options')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);

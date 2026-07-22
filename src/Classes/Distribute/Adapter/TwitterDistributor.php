@@ -35,8 +35,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
      *   - access_token:        用户的 Access Token
      *   - access_token_secret: 用户的 Access Token Secret
      */
-    public function publish(array $post_data, array $config)
-    : array {
+    public function publish(array $post_data, array $config) {
         $ck = $config['consumer_key'] ?? '';
         $cs = $config['consumer_secret'] ?? '';
         $at = $config['access_token'] ?? '';
@@ -83,8 +82,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => (string) ($body['data']['id'] ?? ''), 'message' => 'ok'];
     }
 
-    public function test(array $config)
-    : array {
+    public function test(array $config) {
         $ck = $config['consumer_key'] ?? '';
         $cs = $config['consumer_secret'] ?? '';
         $at = $config['access_token'] ?? '';
@@ -130,8 +128,7 @@ final class TwitterDistributor implements DistributeAdapterInterface
      * @param string $access_token_secret
      * @return string "OAuth oauth_..." 头
      */
-    private function build_oauth1_header(string $http_method, string $url, array $body_or_query, $ck, $cs, $at, $ats)
-    : string {
+    private function build_oauth1_header(string $http_method, string $url, array $body_or_query, $ck, $cs, $at, $ats): string {
         // 收集所有参数 (body/query 参数 + oauth_* 参数) 用于签名
         $oauth_params = [
             'oauth_consumer_key'     => $ck,

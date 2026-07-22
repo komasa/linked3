@@ -22,8 +22,7 @@ final class PublishSaveTargetAction extends PublishBaseAjaxAction
      */
     const ALLOWED_TYPES = ['local', 'remote_wp', 'remote_db', 'custom_api'];
 
-    public function handle()
-    : void {
+    public function handle(): void {
         $id = (int) ($_POST['id'] ?? 0);
         $type = sanitize_text_field($_POST['type'] ?? 'local');
         // v0.6.0 hardening: reject unknown types up-front so a malformed

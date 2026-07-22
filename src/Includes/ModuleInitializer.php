@@ -21,8 +21,7 @@ final class ModuleInitializer
      * @param string $version
      * @return void
      */
-    public static function init(string $version)
-    : void {
+    public static function init(string $version): void {
         /**
          * Modules (chat, content-writer, seo, autogpt, etc.) hook here
          * to perform their own eager initialisation (register post types,

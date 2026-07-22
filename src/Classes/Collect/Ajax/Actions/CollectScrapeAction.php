@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class CollectScrapeAction extends CollectBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $url = esc_url_raw($_POST['url'] ?? '');
         if (!$url) $this->send_error(__('需要 URL。', 'linked3'), 400);
         $scraper = $this->scraper();

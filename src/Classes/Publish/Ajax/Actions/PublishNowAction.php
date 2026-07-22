@@ -16,8 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class PublishNowAction extends PublishBaseAjaxAction
 {
-    public function handle()
-    : void {
+    public function handle(): void {
         $post_id = (int) ($_POST['post_id'] ?? 0);
         $target_id = (int) ($_POST['target_id'] ?? 0);
         $all = !empty($_POST['all_targets']);

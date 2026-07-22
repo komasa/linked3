@@ -40,8 +40,7 @@ final class Scraper
      * @param string $url
      * @return array{ok:bool, html:string, title:string, text:string, message:string}
      */
-    public function fetch(string $url)
-    : array {
+    public function fetch(string $url): array {
         $url = esc_url_raw($url);
         if (!$url) return ['ok' => false, 'html' => '', 'title' => '', 'text' => '', 'message' => __('无效 URL。', 'linked3')];
 
@@ -98,8 +97,7 @@ final class Scraper
      * @param string $content
      * @return bool True if duplicate.
      */
-    public function is_duplicate(string $url, string $content)
-    : bool {
+    public function is_duplicate(string $url, string $content): bool {
         $url_hash = md5($url);
         $content_hash = $this->simhash($content);
         $key = 'linked3_dedup_' . $url_hash;
@@ -171,8 +169,7 @@ final class Scraper
      * @param string $url
      * @return void
      */
-    private function throttle(string $url)
-    : void {
+    private function throttle(string $url): void {
         $host = wp_parse_url($url, PHP_URL_HOST);
         if (!$host) return;
         $min_gap = (int) PublishConfig::get('collect.rate_limit_seconds', 2);

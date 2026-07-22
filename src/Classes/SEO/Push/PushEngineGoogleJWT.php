@@ -60,8 +60,7 @@ final class PushEngineGoogleJWT implements PushEngine
         return $defaults;
     }
 
-    public function push(array $urls)
-    : array {
+    public function push(array $urls) {
         $cfg = $this->config();
         if (!$this->is_configured()) {
             return [

@@ -27,8 +27,7 @@ abstract class PublishBaseAjaxAction
 
     abstract public function handle();
 
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         $this->verify(static::NONCE_ACTION, static::CAPABILITY);
         // Free 用户也可使用 (目标数量限制)
         $this->handle();
@@ -38,8 +37,7 @@ abstract class PublishBaseAjaxAction
         return \Linked3\Classes\Publish\PublishManager::instance();
     }
 
-    protected function repo()
-    : Linked3 {
+    protected function repo(): Linked3 {
         return new \Linked3\Classes\Publish\PublishTargetRepository();
     }
 }

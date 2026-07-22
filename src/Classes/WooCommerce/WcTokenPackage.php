@@ -30,8 +30,7 @@ final class WcTokenPackage
     const META_PLAN = '_linked3_plan_to_grant';
     const META_USER_BALANCE = '_linked3_token_balance'; // 用户 Token 余额 (额外购买)
 
-    public static function init()
-    : void {
+    public static function init(): void {
         // 注册产品类型 (WC init 后)
         add_filter('product_type_selector', [__CLASS__, 'add_product_type']);
         add_filter('woocommerce_product_class', [__CLASS__, 'product_class'], 10, 4);
@@ -68,8 +67,7 @@ final class WcTokenPackage
     /**
      * 产品编辑页 Meta Box。
      */
-    public static function add_meta_box()
-    : void {
+    public static function add_meta_box(): void {
         add_meta_box(
             'linked3_token_package',
             __('Linked3 Token Package', 'linked3'),
@@ -80,8 +78,7 @@ final class WcTokenPackage
         );
     }
 
-    public static function render_meta_box($post)
-    : void {
+    public static function render_meta_box($post): void {
         wp_nonce_field('linked3_token_package', 'linked3_token_package_nonce');
         $tokens = get_post_meta($post->ID, self::META_TOKENS, true);
         $plan = get_post_meta($post->ID, self::META_PLAN, true);
@@ -112,8 +109,7 @@ final class WcTokenPackage
     /**
      * 保存 Meta Box。
      */
-    public static function save_meta_box($post_id)
-    : void {
+    public static function save_meta_box($post_id): void {
         if (!isset($_POST['linked3_token_package_nonce'])) return;
         if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['linked3_token_package_nonce'])), 'linked3_token_package')) return;
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
@@ -128,8 +124,7 @@ final class WcTokenPackage
     /**
      * 订单完成时给用户加 Token / 升级套餐。
      */
-    public static function grant_on_order_complete($order_id)
-    : void {
+    public static function grant_on_order_complete($order_id): void {
         $order = wc_get_order($order_id);
         if (!$order) return;
 

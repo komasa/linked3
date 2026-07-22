@@ -5,8 +5,7 @@ namespace Linked3\Classes\Dashboard;
 if (!defined('ABSPATH')) exit;
 class GenesisAjaxCore
 {
-    public static function ajax_genesis_generate()
-    : void {
+    public static function ajax_genesis_generate(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -95,8 +94,7 @@ class GenesisAjaxCore
         }
     }
 
-    public static function ajax_genesis_styles()
-    : void {
+    public static function ajax_genesis_styles(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -115,8 +113,7 @@ class GenesisAjaxCore
         ]);
     }
 
-    public static function ajax_genesis_generate_multi()
-    : void {
+    public static function ajax_genesis_generate_multi(): void {
         // v7.1.3: 注册 fatal error 兜底 — PHP OOM/类未加载时也能返回 JSON 而非 HTML
         register_shutdown_function(function () {
             $err = error_get_last();
@@ -185,8 +182,7 @@ class GenesisAjaxCore
         }
     }
 
-    public static function ajax_genesis_test_connection()
-    : void {
+    public static function ajax_genesis_test_connection(): void {
         if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
@@ -237,8 +233,7 @@ class GenesisAjaxCore
         }
     }
 
-    public static function ajax_genesis_start_job()
-    : void {
+    public static function ajax_genesis_start_job(): void {
         // Fatal error 兜底
         register_shutdown_function(function () {
             $err = error_get_last();

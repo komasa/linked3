@@ -158,8 +158,7 @@ final class SeoMetaGenerator
     /**
      * 把生成的元数据保存到 post meta (兼容 Yoast/RankMath/AIOSEO)。
      */
-    public static function save_to_post($post_id, array $meta)
-    : void {
+    public static function save_to_post($post_id, array $meta): void {
         if (!$post_id) return;
 
         if (!empty($meta['seo_meta'])) {

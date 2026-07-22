@@ -24,15 +24,13 @@ abstract class AutoGPTBaseAjaxAction
 
     abstract public function handle();
 
-    public function dispatch()
-    : void {
+    public function dispatch(): void {
         $this->verify(static::NONCE_ACTION, static::CAPABILITY);
         // Free 用户也可使用 (Agent 数量限制)
         $this->handle();
     }
 
-    protected function repo()
-    : Linked3 {
+    protected function repo(): Linked3 {
         return new \Linked3\Classes\AutoGPT\AutoGPTTaskRepository();
     }
 }

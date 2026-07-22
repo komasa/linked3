@@ -19,8 +19,7 @@ final class Dashboard
     /**
      * @return array{plan:string, tokens_today:int, tokens_quota:int, ai_calls_30d:int, tasks_active:int, providers_configured:int}
      */
-    public function overview()
-    : array {
+    public function overview(): array {
         global $wpdb;
         $license = \Linked3\Classes\License\LicenseService::instance();
         $plan = $license->plan();

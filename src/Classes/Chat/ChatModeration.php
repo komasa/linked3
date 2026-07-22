@@ -77,8 +77,7 @@ final class ChatModeration
      * @param string $message
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function check_banned_words(string $message)
-    : array {
+    private function check_banned_words(string $message): array {
         $raw = get_option(LINKED3_OPTION_PREFIX . 'moderation_banned_words', '');
         $patterns = $this->parse_lines($raw);
         if (empty($patterns)) {
@@ -119,8 +118,7 @@ final class ChatModeration
      * @param string $ip
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function check_banned_ip(string $ip)
-    : array {
+    private function check_banned_ip(string $ip): array {
         if ($ip === '') {
             return ['ok' => true, 'reason' => '', 'layer' => ''];
         }
@@ -228,8 +226,7 @@ final class ChatModeration
      * @param string $detail
      * @return array{ok:bool, reason:string, layer:string}
      */
-    private function fail_open(string $detail)
-    : array {
+    private function fail_open(string $detail): array {
         $fail_closed = (bool) apply_filters('linked3/moderation_fail_closed', false);
         if ($fail_closed) {
             $this->log_block('openai_moderation', 'fail-closed: ' . $detail);
@@ -313,8 +310,7 @@ final class ChatModeration
      * @param string $detail
      * @return void
      */
-    private function log_block(string $layer, string $detail)
-    : void {
+    private function log_block(string $layer, string $detail): void {
         if (class_exists('\\Linked3\\Includes\\Log\\Logger')) {
             Logger::instance()->warning('chat', 'Moderation block: ' . $layer . ' — ' . $detail);
         }

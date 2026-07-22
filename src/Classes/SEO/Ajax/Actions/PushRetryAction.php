@@ -28,8 +28,7 @@ final class PushRetryAction extends SEOBaseAjaxAction
     const NONCE_ACTION = 'linked3_seo';
     const CAPABILITY = 'edit_posts';
 
-    public function handle()
-    : void {
+    public function handle(): void {
         $log_ids = isset($_POST['log_ids']) ? (array) wp_unslash($_POST['log_ids']) : [];
         $log_ids = array_map('absint', $log_ids);
         $log_ids = array_filter($log_ids);

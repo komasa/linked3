@@ -222,8 +222,7 @@ final class V15ChartPromptGenerator
     /**
      * 取 ChartDNA 索引 (30 种图示)。
      */
-    public function get_chart_dna_index()
-    : array {
+    public function get_chart_dna_index(): array {
         // 内联 30 种图示 (避免依赖 DB 表, v5.3.3 简化)
         return [
             ['dna_code' => 'D01', 'chart_name_zh' => '架构图', 'chart_name_en' => 'Architecture', 'category' => '结构关系', 'use_case' => '系统架构展示', 'prompt_template' => 'Draw a system architecture diagram showing component hierarchy'],

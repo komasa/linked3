@@ -14,8 +14,7 @@ if (!defined('ABSPATH')) exit;
 
 final class WcFormsSpeechDependenciesLoader
 {
-    public static function load()
-    : void {
+    public static function load(): void {
         $files = [
             'Classes/WooCommerce/WcAiGenerator.php',
             'Classes/AIForms/AiFormManager.php',

@@ -175,8 +175,7 @@ final class PushManager
      * @param string $engine
      * @return void
      */
-    private function record_failure(string $engine)
-    : void {
+    private function record_failure(string $engine): void {
         $threshold = (int) SEOConfig::get('push.circuit_threshold', 5);
         $cooldown  = (int) SEOConfig::get('push.engine_cooldown', HOUR_IN_SECONDS);
         $key = LINKED3_OPTION_PREFIX . 'push_fail_' . sanitize_key($engine);
@@ -192,8 +191,7 @@ final class PushManager
      * @param string $engine
      * @return void
      */
-    private function reset_circuit(string $engine)
-    : void {
+    private function reset_circuit(string $engine): void {
         delete_transient(LINKED3_OPTION_PREFIX . 'push_fail_' . sanitize_key($engine));
         delete_transient(LINKED3_OPTION_PREFIX . 'push_cooldown_' . sanitize_key($engine));
     }
