@@ -33,7 +33,7 @@ class COSEngineUtils
         if (class_exists('\Linked3\Classes\CognitiveOS\COSEngine')) {
             return (string) \Linked3\Classes\CognitiveOS\COSEngine::COS_PATCH_VERSION;
         }
-        return 'v27.17.9';
+        return 'v27.6.19';
     }
 
     public static function instance(): self

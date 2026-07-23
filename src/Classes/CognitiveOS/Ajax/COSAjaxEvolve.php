@@ -224,10 +224,12 @@ class COSAjaxEvolve
         } catch (\Throwable $e) {}
 
         try {
-            $engine_file = __DIR__ . '/../CosEngine.php';
+            // v27.6.19-fix: 修正文件名大小写 — CosEngine.php → COSEngine.php
+            $engine_file = __DIR__ . '/../COSEngine.php';
             $content = file_get_contents($engine_file);
-            $checks['chat_has_3_args'] = (strpos($content, "fallback_providers") !== false)
-                && (strpos($content, "cos_lever") !== false);
+            $checks['chat_has_3_args'] = ($content !== false)
+                && (strpos($content, 'fallback_providers') !== false)
+                && (strpos($content, 'cos_lever') !== false);
         } catch (\Throwable $e) {}
 
         try {
