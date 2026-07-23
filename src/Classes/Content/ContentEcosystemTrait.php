@@ -51,7 +51,7 @@ trait ContentEcosystemTrait {
                         return $mgr->generate_tail_keywords($seed, $context['keyword_count'] ?? 10);
                     }
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         return [];
     }
@@ -68,7 +68,7 @@ trait ContentEcosystemTrait {
                     $templates = $mgr->get_by_category($category);
                     if (!empty($templates)) return $templates[0];
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         return [];
     }

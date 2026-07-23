@@ -103,7 +103,8 @@ final class GenesisV9Processor
             if (class_exists('\SceneAxis')) {
                 try {
                     $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
-                } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+                } catch (\Throwable $e) {
+                }
             }
 
             $fpExtractor = class_exists('\FPExtractor') ? new \FPExtractor() : null;
@@ -136,7 +137,7 @@ final class GenesisV9Processor
 
                     $color = '';
                     if (class_exists('\StoryPipeline')) {
-                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
                     }
 
                     $shotData = [
@@ -167,7 +168,7 @@ final class GenesisV9Processor
 
                     $pqs = ['passed_count' => 0, 'total' => 13];
                     if (class_exists('\QualityLoop')) {
-                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) {}
                     }
 
                     $pqsScores[] = $pqs['passed_count'] ?? 0;
@@ -215,7 +216,7 @@ final class GenesisV9Processor
 
             $batchReport = null;
             if (class_exists('\QualityLoop') && count($results) > 1) {
-                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) {}
             }
 
             wp_send_json_success([

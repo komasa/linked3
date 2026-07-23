@@ -38,6 +38,43 @@ class ChartsRenderer
         ];
     }
 
+    /**
+     * Stage 2: 投影为目标脚本格式 — 信息图/图表脚本
+     * 实现 ScriptFactoryTrait::project() 抽象方法。
+     */
+    protected function project(array $ir): array {
+        $topic = $ir['topic'] ?? '';
+        $style = $ir['style'] ?? 'default';
+        $platform = $ir['platform'] ?? 'xiaohongshu';
+        $module_count = $ir['module_count'] ?? 1;
+        $segments = $ir['segments'] ?? [['title' => $topic, 'summary' => '', 'content' => $topic]];
+
+        $scenes = [];
+        for ($i = 0; $i < $module_count; $i++) {
+            $seg = $segments[$i] ?? ['title' => $topic, 'summary' => '', 'content' => $topic];
+            $scenes[] = [
+                'index'     => $i + 1,
+                'title'     => $seg['title'],
+                'summary'   => $seg['summary'],
+                'content'   => $seg['content'],
+                'style'     => $style,
+                'platform'  => $platform,
+                'layout'    => 'chart_panel',
+                'text_overlay' => $seg['summary'] ?: mb_substr($seg['content'], 0, 50),
+            ];
+        }
+
+        return [
+            'topic'       => $topic,
+            'style'       => $style,
+            'platform'    => $platform,
+            'scene_count' => $module_count,
+            'scenes'      => $scenes,
+            'bands'       => [], // 向后兼容
+            'script_type' => $this->script_type,
+        ];
+    }
+
     public function split_long_article(string $article, int $target_count): array {
         $article = trim($article);
         if (empty($article)) {
@@ -153,43 +190,6 @@ class ChartsRenderer
             return $m[1];
         }
         return $snippet;
-    }
-
-    /**
-     * v27.6.21-fix: Implement abstract project() from ScriptFactoryTrait.
-     *
-     * Projects the compiled IR into the final charts script format.
-     * The IR contains segments from compile(); this method formats them
-     * into the output structure expected by the charts pipeline.
-     *
-     * @param array $ir Intermediate representation from compile().
-     * @return array Final projected script.
-     */
-    protected function project(array $ir): array {
-        $segments = $ir['segments'] ?? [];
-        $panels = [];
-
-        foreach ($segments as $idx => $seg) {
-            $panels[] = [
-                'panel_id'   => 'P' . str_pad((string)($idx + 1), 3, '0', STR_PAD_LEFT),
-                'title'      => $seg['title'] ?? ('Panel ' . ($idx + 1)),
-                'summary'    => $seg['summary'] ?? '',
-                'content'    => $seg['content'] ?? '',
-                'style_hint' => $ir['style'] ?? 'default',
-                'platform'   => $ir['platform'] ?? 'xiaohongshu',
-            ];
-        }
-
-        return [
-            'topic'        => $ir['topic'] ?? '',
-            'style'        => $ir['style'] ?? 'default',
-            'platform'     => $ir['platform'] ?? 'xiaohongshu',
-            'module_count' => $ir['module_count'] ?? count($panels),
-            'panels'       => $panels,
-            'bands'        => $ir['bands'] ?? [],
-            'style_keywords' => $ir['style_keywords'] ?? [],
-            'seed_refs'    => $ir['seed_refs'] ?? [],
-        ];
     }
 
 }

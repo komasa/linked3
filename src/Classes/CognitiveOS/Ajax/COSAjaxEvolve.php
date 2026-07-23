@@ -221,7 +221,7 @@ class COSAjaxEvolve
             $rc = new \ReflectionClass('\\Linked3\\Classes\\CognitiveOS\\Core\\COSDepartments');
             $m = $rc->getMethod('extract_rules');
             $checks['extract_rules_is_public'] = $m->isPublic();
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) {}
 
         try {
             // v27.6.19-fix: 修正文件名大小写 — CosEngine.php → COSEngine.php
@@ -230,13 +230,13 @@ class COSAjaxEvolve
             $checks['chat_has_3_args'] = ($content !== false)
                 && (strpos($content, 'fallback_providers') !== false)
                 && (strpos($content, 'cos_lever') !== false);
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) {}
 
         try {
             $reg_file = __DIR__ . '/../../MetaLever/MetaLeverRegistry.php';
             $content = file_get_contents($reg_file);
             $checks['registry_auto_init'] = (strpos($content, 'if (!self::$initialized)') !== false);
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) {}
 
         // v20.4-fix10: 验证杠杆链已改为分块串行 (前端 runOneLever 函数)
         // v20.4-fix11: 修正路径 — dirname(__DIR__, 3) 解析到 src/ 而非插件根目录
@@ -254,7 +254,7 @@ class COSAjaxEvolve
                 && (strpos($content, 'runOneLever') !== false)
                 && (strpos($content, 'linked3_cos_run_lever') !== false)
                 && (strpos($content, 'AbortController') !== false);
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) {}
 
         wp_send_json_success([
             'patch_version' => $patch,

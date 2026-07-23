@@ -197,9 +197,7 @@ class GenesisProcessorDelegates
                             $aiDegraded = false;  // 重试成功, 清除劣化标记
                         }
                     } catch (\Throwable $e) {
-                        // v27.6.21-fix: Log retry failure
-                        if (function_exists('linked3_log')) linked3_log('genesis', 'warning', 'AI retry failed: ' . $e->getMessage());
-                        else error_log('[linked3] AI retry failed: ' . $e->getMessage());
+                        // 重试也失败 → 走本地兜底
                     }
                 }
                 // AI 失败 + 重试也失败 → 降级本地 PromptAssembler 组装

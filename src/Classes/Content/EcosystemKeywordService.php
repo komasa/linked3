@@ -37,7 +37,7 @@ class EcosystemKeywordService
                     $result = $mgr->generate_tail_keywords($seed, $count);
                     if (is_array($result) && !empty($result)) return $result;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
 
         // Fallback: local generation

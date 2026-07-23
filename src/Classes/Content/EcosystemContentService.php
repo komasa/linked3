@@ -43,7 +43,7 @@ class EcosystemContentService
                 $mgr = new \Linked3\Classes\Templates\TemplateManager();
                 $templates = $mgr->get_by_category($category);
                 if (!empty($templates)) return $templates[0];
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
 
         // v10.7.0: delegate to CloudTemplateFactory (if exists)
@@ -54,7 +54,7 @@ class EcosystemContentService
                     $tpl = $factory->load_template_by_category($category);
                     if (!empty($tpl)) return $tpl;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
 
         return ['name' => $category . '_default', 'type' => $category];
@@ -88,7 +88,7 @@ class EcosystemContentService
                     $result = $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count, 'tone' => $tone]);
                     if (is_string($result) && !empty($result)) return $result;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
 
         $prompt = self::buildTemplateEnhancedPrompt($topic, $keywords, $template, $tone, $word_count);
@@ -147,7 +147,7 @@ class EcosystemContentService
             try {
                 $enhancer = new \AIEnhancer();
                 $prompt = $enhancer->apply_format_requirements($prompt, $adv_settings);
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         } elseif (!empty($adv_settings['require_html'])) {
             $prompt .= "\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。";
         }
@@ -169,13 +169,13 @@ class EcosystemContentService
             && strpos($ai_content, '<') === false) {
             try {
                 $ai_content = \MarkdownHtmlConverter::convert($ai_content);
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         // v11.8.0: append AI identifier suffix
         if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
             try {
                 $ai_content = (new \AIEnhancer())->append_identifier_suffix($ai_content);
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         return self::self_check_content($ai_content);
     }
