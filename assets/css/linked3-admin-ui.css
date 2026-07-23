@@ -1,0 +1,743 @@
+/**
+ * Linked3 AI Admin UI — v12.0 Global Design System Enhancement
+ *
+ * This file extends the existing linked3-admin.css to apply the design
+ * system globally to ALL Linked3 admin pages, including those that use
+ * the default WordPress `.wrap` class instead of `.linked3-admin-wrap`.
+ *
+ * Design references: Linear / Vercel / Stripe Dashboard
+ * Key principle: "Invisible Precision" — clean, functional, professional
+ *
+ * @version 12.0.0
+ */
+
+/* ============================================================
+   1. Global Scope Extension
+   Apply design tokens to all Linked3 admin pages
+   ============================================================ */
+
+/* When body has the linked3 admin page class, apply global styles */
+body.toplevel_page_linked3-dashboard,
+body.linked3-admin-page,
+body.admin_page_linked3-dashboard {
+
+    --lk3-gray-50:  #FAFAFA;
+    --lk3-gray-100: #F4F4F5;
+    --lk3-gray-200: #E4E4E7;
+    --lk3-gray-300: #D4D4D8;
+    --lk3-gray-400: #A1A1AA;
+    --lk3-gray-500: #71717A;
+    --lk3-gray-600: #52525B;
+    --lk3-gray-700: #3F3F46;
+    --lk3-gray-800: #27272A;
+    --lk3-gray-900: #18181B;
+
+    --lk3-primary:    #0F172A;
+    --lk3-primary-hover: #1E293B;
+    --lk3-accent:       #3B82F6;
+    --lk3-accent-hover: #2563EB;
+    --lk3-accent-light: #EFF6FF;
+
+    --lk3-success: #10B981;
+    --lk3-success-light: #ECFDF5;
+    --lk3-warning: #F59E0B;
+    --lk3-warning-light: #FFFBEB;
+    --lk3-danger:  #EF4444;
+    --lk3-danger-light: #FEF2F2;
+
+    --lk3-radius-sm: 4px;
+    --lk3-radius:    6px;
+    --lk3-radius-lg: 8px;
+    --lk3-radius-xl: 12px;
+
+    --lk3-space-1: 4px;
+    --lk3-space-2: 8px;
+    --lk3-space-3: 12px;
+    --lk3-space-4: 16px;
+    --lk3-space-5: 20px;
+    --lk3-space-6: 24px;
+    --lk3-space-8: 32px;
+
+    --lk3-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    --lk3-font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+
+    --lk3-shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+    --lk3-shadow:    0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+    --lk3-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --lk3-shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+
+    --lk3-transition: 150ms ease;
+
+    background: var(--lk3-gray-50);
+    font-family: var(--lk3-font);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--lk3-gray-800);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   2. Wrap Container — Modern dashboard shell
+   ============================================================ */
+body.toplevel_page_linked3-dashboard .wrap,
+body.admin_page_linked3-dashboard .wrap,
+body.linked3-admin-page .wrap {
+
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--lk3-space-6) var(--lk3-space-6) var(--lk3-space-8);
+    font-family: var(--lk3-font);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--lk3-gray-800);
+}
+
+body.toplevel_page_linked3-dashboard .wrap > h1,
+body.admin_page_linked3-dashboard .wrap > h1,
+body.linked3-admin-page .wrap > h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--lk3-gray-900);
+    margin: 0 0 var(--lk3-space-4) 0;
+    padding: 0;
+    line-height: 1.3;
+}
+
+body.toplevel_page_linked3-dashboard .wrap > h2,
+body.admin_page_linked3-dashboard .wrap > h2,
+body.linked3-admin-page .wrap > h2 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--lk3-gray-900);
+    margin: var(--lk3-space-6) 0 var(--lk3-space-3) 0;
+    padding: 0;
+}
+
+body.toplevel_page_linked3-dashboard .wrap h3,
+body.admin_page_linked3-dashboard .wrap h3,
+body.linked3-admin-page .wrap h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--lk3-gray-900);
+    margin: 0 0 var(--lk3-space-2) 0;
+    letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   3. Card System — Clean, layered surfaces
+   ============================================================ */
+body.toplevel_page_linked3-dashboard .card,
+body.admin_page_linked3-dashboard .card,
+body.linked3-admin-page .card,
+.lk3-card {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-lg);
+    padding: var(--lk3-space-5);
+    box-shadow: var(--lk3-shadow-sm);
+    transition: box-shadow var(--lk3-transition), border-color var(--lk3-transition);
+}
+
+.lk3-card:hover {
+    box-shadow: var(--lk3-shadow);
+    border-color: var(--lk3-gray-300);
+}
+
+.lk3-card-flat {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-lg);
+    padding: var(--lk3-space-5);
+}
+
+.lk3-card-accent {
+    background: linear-gradient(135deg, var(--lk3-accent-light) 0%, #FFFFFF 100%);
+    border: 1px solid #BFDBFE;
+    border-radius: var(--lk3-radius-lg);
+    padding: var(--lk3-space-5);
+}
+
+/* Stat cards */
+.lk3-stat-card {
+    background: #FFFFFF;
+    border: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-lg);
+    padding: var(--lk3-space-4) var(--lk3-space-5);
+    box-shadow: var(--lk3-shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--lk3-space-1);
+}
+
+.lk3-stat-card .lk3-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--lk3-gray-500);
+}
+
+.lk3-stat-card .lk3-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--lk3-gray-900);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.lk3-stat-card .lk3-stat-sub {
+    font-size: 12px;
+    color: var(--lk3-gray-500);
+}
+
+/* ============================================================
+   4. Button System — Modern, tactile buttons
+   ============================================================ */
+body.toplevel_page_linked3-dashboard .wrap .button,
+body.admin_page_linked3-dashboard .wrap .button,
+body.linked3-admin-page .wrap .button,
+.lk3-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--lk3-font);
+    line-height: 1.4;
+    border-radius: var(--lk3-radius-sm);
+    border: 1px solid var(--lk3-gray-300);
+    background: #FFFFFF;
+    color: var(--lk3-gray-700);
+    cursor: pointer;
+    transition: all var(--lk3-transition);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+body.toplevel_page_linked3-dashboard .wrap .button:hover,
+body.admin_page_linked3-dashboard .wrap .button:hover,
+body.linked3-admin-page .wrap .button:hover,
+.lk3-btn:hover {
+    background: var(--lk3-gray-50);
+    border-color: var(--lk3-gray-400);
+    color: var(--lk3-gray-900);
+}
+
+/* Primary button */
+.lk3-btn-primary,
+body.toplevel_page_linked3-dashboard .wrap .button.button-primary,
+body.admin_page_linked3-dashboard .wrap .button.button-primary {
+    background: var(--lk3-primary);
+    border-color: var(--lk3-primary);
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.lk3-btn-primary:hover,
+body.toplevel_page_linked3-dashboard .wrap .button.button-primary:hover,
+body.admin_page_linked3-dashboard .wrap .button.button-primary:hover {
+    background: var(--lk3-primary-hover);
+    border-color: var(--lk3-primary-hover);
+    color: #FFFFFF;
+}
+
+/* Accent button */
+.lk3-btn-accent {
+    background: var(--lk3-accent);
+    border-color: var(--lk3-accent);
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.lk3-btn-accent:hover {
+    background: var(--lk3-accent-hover);
+    border-color: var(--lk3-accent-hover);
+    color: #FFFFFF;
+}
+
+/* Ghost button */
+.lk3-btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--lk3-gray-600);
+}
+
+.lk3-btn-ghost:hover {
+    background: var(--lk3-gray-100);
+    border-color: transparent;
+    color: var(--lk3-gray-900);
+}
+
+/* Danger button */
+.lk3-btn-danger {
+    background: var(--lk3-danger);
+    border-color: var(--lk3-danger);
+    color: #FFFFFF;
+}
+
+.lk3-btn-danger:hover {
+    background: #DC2626;
+    border-color: #DC2626;
+    color: #FFFFFF;
+}
+
+/* ============================================================
+   5. Form Controls — Clean, consistent inputs
+   ============================================================ */
+body.toplevel_page_linked3-dashboard .wrap input[type="text"],
+body.toplevel_page_linked3-dashboard .wrap input[type="email"],
+body.toplevel_page_linked3-dashboard .wrap input[type="password"],
+body.toplevel_page_linked3-dashboard .wrap input[type="number"],
+body.toplevel_page_linked3-dashboard .wrap input[type="url"],
+body.toplevel_page_linked3-dashboard .wrap select,
+body.toplevel_page_linked3-dashboard .wrap textarea,
+body.admin_page_linked3-dashboard .wrap input[type="text"],
+body.admin_page_linked3-dashboard .wrap input[type="email"],
+body.admin_page_linked3-dashboard .wrap input[type="password"],
+body.admin_page_linked3-dashboard .wrap input[type="number"],
+body.admin_page_linked3-dashboard .wrap input[type="url"],
+body.admin_page_linked3-dashboard .wrap select,
+body.admin_page_linked3-dashboard .wrap textarea,
+body.linked3-admin-page .wrap input[type="text"],
+body.linked3-admin-page .wrap input[type="email"],
+body.linked3-admin-page .wrap input[type="password"],
+body.linked3-admin-page .wrap input[type="number"],
+body.linked3-admin-page .wrap input[type="url"],
+body.linked3-admin-page .wrap select,
+body.linked3-admin-page .wrap textarea,
+.lk3-input,
+.lk3-select,
+.lk3-textarea {
+    font-family: var(--lk3-font);
+    font-size: 13px;
+    padding: 8px 12px;
+    border: 1px solid var(--lk3-gray-300);
+    border-radius: var(--lk3-radius-sm);
+    background: #FFFFFF;
+    color: var(--lk3-gray-900);
+    transition: border-color var(--lk3-transition), box-shadow var(--lk3-transition);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+body.toplevel_page_linked3-dashboard .wrap input[type="text"]:focus,
+body.toplevel_page_linked3-dashboard .wrap input[type="email"]:focus,
+body.toplevel_page_linked3-dashboard .wrap input[type="password"]:focus,
+body.toplevel_page_linked3-dashboard .wrap input[type="number"]:focus,
+body.toplevel_page_linked3-dashboard .wrap input[type="url"]:focus,
+body.toplevel_page_linked3-dashboard .wrap select:focus,
+body.toplevel_page_linked3-dashboard .wrap textarea:focus,
+body.admin_page_linked3-dashboard .wrap input[type="text"]:focus,
+body.admin_page_linked3-dashboard .wrap input[type="email"]:focus,
+body.admin_page_linked3-dashboard .wrap input[type="password"]:focus,
+body.admin_page_linked3-dashboard .wrap input[type="number"]:focus,
+body.admin_page_linked3-dashboard .wrap input[type="url"]:focus,
+body.admin_page_linked3-dashboard .wrap select:focus,
+body.admin_page_linked3-dashboard .wrap textarea:focus,
+body.linked3-admin-page .wrap input[type="text"]:focus,
+body.linked3-admin-page .wrap input[type="email"]:focus,
+body.linked3-admin-page .wrap input[type="password"]:focus,
+body.linked3-admin-page .wrap input[type="number"]:focus,
+body.linked3-admin-page .wrap input[type="url"]:focus,
+body.linked3-admin-page .wrap select:focus,
+body.linked3-admin-page .wrap textarea:focus,
+.lk3-input:focus,
+.lk3-select:focus,
+.lk3-textarea:focus {
+    border-color: var(--lk3-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* ============================================================
+   6. Grid System — Responsive auto-grid
+   ============================================================ */
+.lk3-grid {
+    display: grid;
+    gap: var(--lk3-space-4);
+}
+
+.lk3-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.lk3-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.lk3-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.lk3-grid-auto { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.lk3-grid-auto-sm { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.lk3-grid-auto-lg { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+@media (max-width: 782px) {
+    .lk3-grid-2, .lk3-grid-3, .lk3-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================
+   7. Badge & Tag System
+   ============================================================ */
+.lk3-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 99px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+.lk3-badge-success { background: var(--lk3-success-light); color: var(--lk3-success); }
+.lk3-badge-warning { background: var(--lk3-warning-light); color: var(--lk3-warning); }
+.lk3-badge-danger  { background: var(--lk3-danger-light); color: var(--lk3-danger); }
+.lk3-badge-info    { background: var(--lk3-accent-light); color: var(--lk3-accent); }
+.lk3-badge-gray    { background: var(--lk3-gray-100); color: var(--lk3-gray-600); }
+
+/* ============================================================
+   8. Progress Bar
+   ============================================================ */
+.lk3-progress {
+    width: 100%;
+    height: 6px;
+    background: var(--lk3-gray-200);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.lk3-progress-bar {
+    height: 100%;
+    background: var(--lk3-accent);
+    border-radius: 99px;
+    transition: width 300ms ease;
+}
+
+.lk3-progress-bar-success { background: var(--lk3-success); }
+.lk3-progress-bar-warning { background: var(--lk3-warning); }
+.lk3-progress-bar-danger  { background: var(--lk3-danger); }
+
+/* ============================================================
+   9. Alert / Notice Boxes
+   ============================================================ */
+.lk3-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--lk3-space-3);
+    padding: var(--lk3-space-3) var(--lk3-space-4);
+    border-radius: var(--lk3-radius);
+    font-size: 13px;
+    line-height: 1.5;
+    border: 1px solid;
+}
+
+.lk3-alert-info {
+    background: var(--lk3-accent-light);
+    border-color: #BFDBFE;
+    color: #1E40AF;
+}
+
+.lk3-alert-success {
+    background: var(--lk3-success-light);
+    border-color: #A7F3D0;
+    color: #065F46;
+}
+
+.lk3-alert-warning {
+    background: var(--lk3-warning-light);
+    border-color: #FDE68A;
+    color: #92400E;
+}
+
+.lk3-alert-danger {
+    background: var(--lk3-danger-light);
+    border-color: #FECACA;
+    color: #991B1B;
+}
+
+/* ============================================================
+   10. Table System
+   ============================================================ */
+.lk3-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.lk3-table th {
+    text-align: left;
+    padding: var(--lk3-space-3) var(--lk3-space-4);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--lk3-gray-500);
+    background: var(--lk3-gray-50);
+    border-bottom: 1px solid var(--lk3-gray-200);
+}
+
+.lk3-table td {
+    padding: var(--lk3-space-3) var(--lk3-space-4);
+    border-bottom: 1px solid var(--lk3-gray-100);
+    color: var(--lk3-gray-800);
+}
+
+.lk3-table tr:hover td {
+    background: var(--lk3-gray-50);
+}
+
+.lk3-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ============================================================
+   11. Tab Navigation Enhancement
+   ============================================================ */
+body.toplevel_page_linked3-dashboard .nav-tab-wrapper,
+body.admin_page_linked3-dashboard .nav-tab-wrapper,
+body.linked3-admin-page .nav-tab-wrapper {
+    border-bottom: 1px solid var(--lk3-gray-200);
+    padding: 0;
+    margin: 0 0 var(--lk3-space-5) 0;
+    background: #FFFFFF;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 2px;
+    border-top: 1px solid var(--lk3-gray-200);
+    border-left: 1px solid var(--lk3-gray-200);
+    border-right: 1px solid var(--lk3-gray-200);
+    border-radius: var(--lk3-radius-lg) var(--lk3-radius-lg) 0 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.toplevel_page_linked3-dashboard .nav-tab-wrapper::-webkit-scrollbar,
+body.admin_page_linked3-dashboard .nav-tab-wrapper::-webkit-scrollbar {
+    height: 3px;
+}
+
+body.toplevel_page_linked3-dashboard .nav-tab-wrapper::-webkit-scrollbar-thumb,
+body.admin_page_linked3-dashboard .nav-tab-wrapper::-webkit-scrollbar-thumb {
+    background: var(--lk3-gray-300);
+    border-radius: 2px;
+}
+
+body.toplevel_page_linked3-dashboard .nav-tab,
+body.admin_page_linked3-dashboard .nav-tab,
+body.linked3-admin-page .nav-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: var(--lk3-space-3) var(--lk3-space-4);
+    margin: 0;
+    color: var(--lk3-gray-500);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color var(--lk3-transition), border-color var(--lk3-transition), background var(--lk3-transition);
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.4;
+    white-space: nowrap;
+    font-family: var(--lk3-font);
+}
+
+body.toplevel_page_linked3-dashboard .nav-tab:hover,
+body.admin_page_linked3-dashboard .nav-tab:hover,
+body.linked3-admin-page .nav-tab:hover {
+    color: var(--lk3-gray-900);
+    background: var(--lk3-gray-50);
+    border-bottom-color: var(--lk3-gray-300);
+}
+
+body.toplevel_page_linked3-dashboard .nav-tab-active,
+body.toplevel_page_linked3-dashboard .nav-tab.nav-tab-active,
+body.admin_page_linked3-dashboard .nav-tab-active,
+body.admin_page_linked3-dashboard .nav-tab.nav-tab-active,
+body.linked3-admin-page .nav-tab-active,
+body.linked3-admin-page .nav-tab.nav-tab-active {
+    color: var(--lk3-gray-900);
+    border-bottom: 2px solid var(--lk3-accent);
+    background: transparent;
+    font-weight: 600;
+}
+
+/* ============================================================
+   12. Spacing Utilities
+   ============================================================ */
+.lk3-mt-1 { margin-top: var(--lk3-space-1); }
+.lk3-mt-2 { margin-top: var(--lk3-space-2); }
+.lk3-mt-3 { margin-top: var(--lk3-space-3); }
+.lk3-mt-4 { margin-top: var(--lk3-space-4); }
+.lk3-mt-5 { margin-top: var(--lk3-space-5); }
+.lk3-mt-6 { margin-top: var(--lk3-space-6); }
+
+.lk3-mb-1 { margin-bottom: var(--lk3-space-1); }
+.lk3-mb-2 { margin-bottom: var(--lk3-space-2); }
+.lk3-mb-3 { margin-bottom: var(--lk3-space-3); }
+.lk3-mb-4 { margin-bottom: var(--lk3-space-4); }
+.lk3-mb-5 { margin-bottom: var(--lk3-space-5); }
+.lk3-mb-6 { margin-bottom: var(--lk3-space-6); }
+
+.lk3-p-3 { padding: var(--lk3-space-3); }
+.lk3-p-4 { padding: var(--lk3-space-4); }
+.lk3-p-5 { padding: var(--lk3-space-5); }
+
+.lk3-gap-2 { gap: var(--lk3-space-2); }
+.lk3-gap-3 { gap: var(--lk3-space-3); }
+.lk3-gap-4 { gap: var(--lk3-space-4); }
+
+/* ============================================================
+   13. Flexbox Utilities
+   ============================================================ */
+.lk3-flex { display: flex; }
+.lk3-flex-col { display: flex; flex-direction: column; }
+.lk3-flex-center { display: flex; align-items: center; justify-content: center; }
+.lk3-flex-between { display: flex; align-items: center; justify-content: space-between; }
+.lk3-flex-wrap { flex-wrap: wrap; }
+.lk3-flex-1 { flex: 1; }
+
+/* ============================================================
+   14. Text Utilities
+   ============================================================ */
+.lk3-text-sm { font-size: 12px; }
+.lk3-text-xs { font-size: 11px; }
+.lk3-text-lg { font-size: 15px; }
+.lk3-text-xl { font-size: 18px; }
+.lk3-text-2xl { font-size: 22px; }
+
+.lk3-text-gray { color: var(--lk3-gray-500); }
+.lk3-text-bold { font-weight: 600; }
+.lk3-text-semibold { font-weight: 500; }
+.lk3-text-center { text-align: center; }
+.lk3-text-right { text-align: right; }
+
+.lk3-tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+/* ============================================================
+   15. Section Divider
+   ============================================================ */
+.lk3-divider {
+    height: 1px;
+    background: var(--lk3-gray-200);
+    border: none;
+    margin: var(--lk3-space-5) 0;
+}
+
+.lk3-divider-label {
+    display: flex;
+    align-items: center;
+    gap: var(--lk3-space-3);
+    margin: var(--lk3-space-5) 0 var(--lk3-space-3);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--lk3-gray-500);
+}
+
+.lk3-divider-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--lk3-gray-200);
+}
+
+/* ============================================================
+   16. Empty State
+   ============================================================ */
+.lk3-empty-state {
+    text-align: center;
+    padding: var(--lk3-space-8) var(--lk3-space-4);
+    color: var(--lk3-gray-500);
+}
+
+.lk3-empty-state .lk3-empty-icon {
+    font-size: 48px;
+    margin-bottom: var(--lk3-space-3);
+    opacity: 0.5;
+}
+
+.lk3-empty-state .lk3-empty-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--lk3-gray-700);
+    margin-bottom: var(--lk3-space-1);
+}
+
+.lk3-empty-state .lk3-empty-desc {
+    font-size: 13px;
+    color: var(--lk3-gray-500);
+}
+
+/* ============================================================
+   17. Loading Spinner
+   ============================================================ */
+.lk3-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--lk3-gray-200);
+    border-top-color: var(--lk3-accent);
+    border-radius: 50%;
+    animation: lk3-spin 0.6s linear infinite;
+}
+
+@keyframes lk3-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   18. Tooltip
+   ============================================================ */
+.lk3-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: help;
+}
+
+.lk3-tooltip::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--lk3-gray-900);
+    color: #FFFFFF;
+    padding: 4px 8px;
+    border-radius: var(--lk3-radius-sm);
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--lk3-transition);
+    margin-bottom: 4px;
+    z-index: 1000;
+}
+
+.lk3-tooltip:hover::after {
+    opacity: 1;
+}
+
+/* ============================================================
+   19. Responsive
+   ============================================================ */
+@media (max-width: 782px) {
+    body.toplevel_page_linked3-dashboard .wrap,
+    body.admin_page_linked3-dashboard .wrap,
+    body.linked3-admin-page .wrap {
+        padding: var(--lk3-space-4);
+    }
+
+    .lk3-grid-auto,
+    .lk3-grid-auto-sm,
+    .lk3-grid-auto-lg {
+        grid-template-columns: 1fr;
+    }
+}

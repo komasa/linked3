@@ -30,6 +30,22 @@ use WP_Error;
 if ( ! defined( 'ABSPATH' ) ) {
         exit;
 }
+
+// v27.6.18-fix: Ensure traits are loaded before class declaration
+$trait_dir = __DIR__ . '/Traits/';
+if ( ! trait_exists( __NAMESPACE__ . '\\Traits\\SectionExpander' ) ) {
+    require_once $trait_dir . 'SectionExpander.php';
+}
+if ( ! trait_exists( __NAMESPACE__ . '\\Traits\\ReviewLinker' ) ) {
+    require_once $trait_dir . 'ReviewLinker.php';
+}
+if ( ! trait_exists( __NAMESPACE__ . '\\Traits\\CostTracker' ) ) {
+    require_once $trait_dir . 'CostTracker.php';
+}
+if ( ! trait_exists( __NAMESPACE__ . '\\Traits\\OutlineMerger' ) ) {
+    require_once $trait_dir . 'OutlineMerger.php';
+}
+
 /**
  * Class BookPipelineOrchestrator
  *

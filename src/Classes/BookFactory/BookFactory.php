@@ -24,8 +24,6 @@ namespace Linked3\Classes\BookFactory;
     use \Linked3\Classes\BookFactory\Traits\SectionExpander;
     use \Linked3\Classes\BookFactory\Traits\ReviewLinker;
     use \Linked3\Classes\BookFactory\Traits\CostTracker;
-    use \Linked3\Classes\Core\AIDispatcher;
-    use \Linked3\Classes\Core\TokenManager;
 
 
 
@@ -173,7 +171,7 @@ class BookFactory {
             $dispatcher = AIDispatcher::instance();
             $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
             $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
-            $config = [];
+            $config = TokenManager::get_active_config();
             $response = $dispatcher->chat( $messages, $options, $config );
         } catch ( \Throwable $e ) {
             throw new \RuntimeException( 'AI call failed: ' . $e->getMessage(), 0, $e );

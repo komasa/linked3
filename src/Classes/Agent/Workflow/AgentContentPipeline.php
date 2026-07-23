@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Linked3\Classes\Agent\Workflow;
 
 use Linked3\Classes\Agent\AgentWorkflowInterface;
-use Throwable;
 
 
 

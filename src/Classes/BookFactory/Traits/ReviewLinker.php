@@ -20,10 +20,11 @@ trait ReviewLinker {
     /**
      * 执行审校 — 调用 AI 审阅草稿, 生成审校报告与修改建议。
      *
-     * v19.0.2: 从 BookReviewCoordinator 提取到 Trait, 修复
-     * "Call to undefined method do_review" 错误。
+     * v27.6.18-fix: Added to fix "Call to undefined method do_review"
+     * — BookReviewCoordinator calls $this->do_review() but the method
+     * was never defined (ReviewLinker trait was empty).
      *
-     * @param BookProjectState $state 项目状态。
+     * @param mixed $state BookProjectState instance.
      * @return array|WP_Error
      */
     protected function do_review( $state ) {
@@ -48,10 +49,7 @@ trait ReviewLinker {
                 $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
                 $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
                 $options = array( 'temperature' => 0.3, 'max_tokens' => 2048 );
-                $config = class_exists( '\\Linked3\\Classes\\Core\\TokenManager' )
-                    ? []
-                    : array();
-                $response = $dispatcher->chat( $messages, $options, $config );
+                $response = $dispatcher->chat( $messages, $options, array() );
             } else {
                 return new \WP_Error( 'ai_unavailable', __( 'AI 引擎未加载', 'linked3-ai' ) );
             }

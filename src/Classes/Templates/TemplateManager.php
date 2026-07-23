@@ -20,6 +20,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Ensure the trait is loaded before the class declaration.
+if (!trait_exists(__NAMESPACE__ . '\\TemplateSeedTrait')) {
+    require_once __DIR__ . '/TemplateSeedTrait.php';
+}
+
 final class TemplateManager
 {
     use TemplateSeedTrait;

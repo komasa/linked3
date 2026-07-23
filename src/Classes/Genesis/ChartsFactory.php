@@ -12,8 +12,6 @@ if (!trait_exists('ScriptFactoryTrait')) {
 }
 
 class ChartsFactory {
-    use ScriptFactoryTrait;
-
     private $bands = [
         'hook'  => ['name' => '开头钩子', 'min_words' => 20, 'max_words' => 80],
         'body'  => ['name' => '正文展开', 'min_words' => 100, 'max_words' => 400],
@@ -21,7 +19,7 @@ class ChartsFactory {
         'cta'   => ['name' => '行动号召', 'min_words' => 15, 'max_words' => 60],
     ];
 
-        
+        public function __construct() { return ChartsFactoryHelpers::__construct(); }
 
         public function compile(array $context) : mixed { return ChartsFactoryHelpers::compile($context); }
 
@@ -313,5 +311,52 @@ class ChartsFactory {
             }
         }
         return $result;
+    }
+
+    /**
+     * v27.6.18-fix: Standalone get_seed() — loads seed data from GenesisAtomIndex.
+     *
+     * The original code called $this->get_seed() which was inherited from
+     * ScriptFactoryTrait, but ChartsFactory doesn't use that trait (its
+     * compile() signature conflicts with the trait's abstract compile()).
+     * This standalone method provides the same functionality without
+     * requiring the trait.
+     */
+    private function get_seed(string $type): array {
+        // Normalize type
+        $type = strtolower(trim($type));
+        $type_map = [
+            'char' => 'character', 'character' => 'character',
+            'scene' => 'scene',
+            'palette' => 'palette',
+            'brand' => 'brand',
+        ];
+        $type = $type_map[$type] ?? $type;
+
+        // Try GenesisAtomIndex first
+        if (class_exists(__NAMESPACE__ . '\\GenesisAtomIndex')) {
+            $index = GenesisAtomIndex::instance();
+            $atoms = $index->getByType($type);
+            if (!empty($atoms)) {
+                // Return first atom's fields as seed
+                $first_id = is_array($atoms) ? reset($atoms) : null;
+                if ($first_id) {
+                    $atom = $index->getAtom($first_id);
+                    if ($atom && isset($atom['fields'])) {
+                        return [$atom['fields']];
+                    }
+                }
+            }
+        }
+
+        // Fallback: try GenesisSeedLibrary
+        if (class_exists(__NAMESPACE__ . '\\GenesisSeedLibrary')) {
+            $all = GenesisSeedLibrary::loadAll();
+            if (is_array($all) && isset($all[$type])) {
+                return is_array($all[$type]) ? $all[$type] : [$all[$type]];
+            }
+        }
+
+        return [];
     }
 }

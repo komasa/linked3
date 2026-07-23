@@ -60,13 +60,13 @@ trait SectionExpander {
     /**
      * 重新生成指定章节内容。
      *
-     * v19.0.2: 从 BookPipelineOrchestrator / BookSectionExpanderService
-     * 提取到 Trait, 消除重复代码 + 修复 "Call to undefined method
-     * do_regenerate_section" 错误。
+     * v27.6.18-fix: Added to fix "Call to undefined method do_regenerate_section"
+     * — BookPipelineOrchestrator and BookSectionExpanderService call this
+     * via $this->do_regenerate_section() but the method was never defined.
      *
-     * @param BookProjectState $state          项目状态。
-     * @param int              $chapter_index  章索引。
-     * @param int              $section_index  节索引。
+     * @param mixed $state          BookProjectState instance.
+     * @param int   $chapter_index  章索引。
+     * @param int   $section_index  节索引。
      * @return array|WP_Error
      */
     protected function do_regenerate_section( $state, int $chapter_index, int $section_index ) {
@@ -101,16 +101,12 @@ trait SectionExpander {
             $context_summary
         );
 
-        // 委托给 AI 调用 (通过容器获取 dispatcher)
         try {
             if ( class_exists( '\\Linked3\\Classes\\Core\\AIDispatcher' ) ) {
                 $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
                 $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
                 $options = array( 'temperature' => 0.7, 'max_tokens' => 2048 );
-                $config = class_exists( '\\Linked3\\Classes\\Core\\TokenManager' )
-                    ? []
-                    : array();
-                $response = $dispatcher->chat( $messages, $options, $config );
+                $response = $dispatcher->chat( $messages, $options, array() );
             } else {
                 return new \WP_Error( 'ai_unavailable', __( 'AI 引擎未加载', 'linked3-ai' ) );
             }
