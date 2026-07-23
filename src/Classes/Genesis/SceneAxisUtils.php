@@ -315,7 +315,7 @@ class SceneAxisUtils
                 $sk = \SkeletonLibrary::route($l1, $l2, $l3);
                 if (is_string($sk) && $sk !== '') return $sk;
             } catch (\Throwable $e) {
-                // 落入本地兜底
+                if (function_exists("linked3_log")) linked3_log("genesis", "warning", "Scene axis AI failed: " . $e->getMessage());
             }
         }
 

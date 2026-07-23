@@ -122,7 +122,9 @@ class DashboardKeywordActions extends DashboardBaseAjaxAction
                 $keywords = array_slice($ai_keywords, 0, 30);
                 $actual_source = 'ai_fallback';
             } catch (\Throwable $e) {
-                // AI 也失败了
+                // v27.6.21-fix: Log AI failure
+                if (function_exists('linked3_log')) linked3_log('keyword', 'warning', 'AI keyword generation failed: ' . $e->getMessage());
+                else error_log('[linked3] AI keyword generation failed: ' . $e->getMessage());
             }
         }
 

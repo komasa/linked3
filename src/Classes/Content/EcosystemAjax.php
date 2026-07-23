@@ -221,7 +221,7 @@ class EcosystemAjax {
                     if (!empty($tpl['config']['role'])) {
                         $topic = $topic . "\n[行业调性: " . $tpl['config']['role'] . " | 风格: " . ($tpl['config']['style'] ?? '') . "]";
                     }
-                } catch (\Throwable $e) {}
+                } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
             }
             $content = EcosystemContentService::generate_content($topic, $keywords, [], $tone, $word_count);
             $checked = EcosystemContentService::self_check_content($content);

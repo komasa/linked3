@@ -194,7 +194,9 @@ final class GenesisProcessor
                     ];
                 }
             } catch (\Throwable $e) {
-                // 全部失败 → 返回空列表 (前端会提示 "Seed 库为空")
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (function_exists('linked3_log')) linked3_log('genesis', 'warning', 'Seed list query failed: ' . $e->getMessage());
+                else error_log('[linked3] Seed list query failed: ' . $e->getMessage());
             }
         }
         wp_send_json_success(['seeds' => $seeds]);
@@ -217,12 +219,19 @@ final class GenesisProcessor
                     $ok = \GenesisSeedCPT::trash($seed['post_id']);
                 }
             } catch (\Throwable $e) {
-                // 落入兜底
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (function_exists('linked3_log')) linked3_log('genesis', 'warning', 'Seed CPT delete failed: ' . $e->getMessage());
+                else error_log('[linked3] Seed CPT delete failed: ' . $e->getMessage());
             }
         }
         // 2) 旧 option 删除
         if (!$ok && class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA', 'delete')) {
-            try { $ok = (bool) \GenesisSeedDNA::delete($seedId); } catch (\Throwable $e) {}
+            try { $ok = (bool) \GenesisSeedDNA::delete($seedId); } catch (\Throwable $e) {
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (class_exists('\Linked3\Includes\Log\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->warning('genesis', 'Seed delete failed: ' . $e->getMessage(), ['seed_id' => $seedId]);
+                }
+            }
         }
         wp_send_json_success(['deleted' => $ok]);
     }
@@ -243,11 +252,21 @@ final class GenesisProcessor
                 if (!empty($seed)) {
                     $json = wp_json_encode($seed, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (class_exists('\Linked3\Includes\Log\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->warning('genesis', 'Seed CPT export failed: ' . $e->getMessage(), ['seed_id' => $seedId]);
+                }
+            }
         }
         // 2) 旧 option 导出
         if (empty($json) && class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA', 'exportJSON')) {
-            try { $json = \GenesisSeedDNA::exportJSON($seedId); } catch (\Throwable $e) {}
+            try { $json = \GenesisSeedDNA::exportJSON($seedId); } catch (\Throwable $e) {
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (class_exists('\Linked3\Includes\Log\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->warning('genesis', 'Seed DNA export failed: ' . $e->getMessage(), ['seed_id' => $seedId]);
+                }
+            }
         }
         wp_send_json_success(['json' => $json, 'seed_id' => $seedId]);
     }

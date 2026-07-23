@@ -110,7 +110,7 @@ class ScriptPatchHandlers
         // FP提取语义核
         $fpCore = ['action_en' => 'a scene depicting daily life', 'who' => 'a figure', 'where' => '', 'emotion' => $emotion];
         if ($fpExtractor) {
-            try { $fpCore = $fpExtractor->extract($beatText, ['use_ai' => false]); } catch (\Throwable $e) {}
+            try { $fpCore = $fpExtractor->extract($beatText, ['use_ai' => false]); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         $firstFrame = self::build_frame_prompt($fpCore, $styleKeywords, $styleNegative, $seedDna, 'first');

@@ -83,7 +83,9 @@ final class UpdateChecker
                 update_option(LINKED3_OPTION_PREFIX . 'update_changelog', $body['changelog'] ?? '');
             }
         } catch (\Throwable $e) {
-            // 静默失败,不影响站点
+            // v27.6.21-fix: Log error instead of silently swallowing
+            if (function_exists('linked3_log')) linked3_log('update', 'warning', 'Update check failed: ' . $e->getMessage());
+            else error_log('[linked3] Update check failed: ' . $e->getMessage());
         }
     }
 

@@ -107,7 +107,7 @@ class GenesisV9Stages
             if (class_exists('\SceneAxis')) {
                 try {
                     $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
-                } catch (\Throwable $e) {}
+                } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
             }
 
             $autoSeeds = [];
@@ -126,7 +126,7 @@ class GenesisV9Stages
                         $existing = null;
                         try {
                             $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
-                        } catch (\Throwable $e) {}
+                        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
 
                         if (!$existing) {
                             try {
@@ -191,7 +191,7 @@ class GenesisV9Stages
                     $existingScene = null;
                     try {
                         $existingScene = \GenesisSeedCPT::get_by_seed_id($sceneSeedId);
-                    } catch (\Throwable $e) {}
+                    } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
 
                     if (!$existingScene) {
                         try {
@@ -219,7 +219,7 @@ class GenesisV9Stages
                                 ];
                                 $autoSeedRefs[] = $sceneSeedId;
                             }
-                        } catch (\Throwable $e) {}
+                        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
                     } else {
                         $autoSeeds[] = [
                             'seed_id'   => $sceneSeedId,
@@ -325,7 +325,7 @@ class GenesisV9Stages
 
                     $color = '';
                     if (class_exists('\StoryPipeline')) {
-                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
+                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
                     }
 
                     $shotData = [
@@ -399,7 +399,7 @@ class GenesisV9Stages
 
                     $pqs = ['passed_count' => 0, 'total' => 13];
                     if (class_exists('\QualityLoop')) {
-                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) {}
+                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
                     }
 
                     $pqsScores[] = $pqs['passed_count'] ?? 0;
@@ -444,7 +444,7 @@ class GenesisV9Stages
 
             $batchReport = null;
             if (class_exists('\QualityLoop') && count($results) > 1) {
-                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) {}
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) {

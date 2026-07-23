@@ -87,7 +87,7 @@ class ComicFactory {
                     }
                 }
             } catch (\Throwable $e) {
-                // 降级到本地生成
+                if (function_exists("linked3_log")) linked3_log("genesis", "warning", "Comic AI failed, degrading: " . $e->getMessage());
             }
         }
 
@@ -187,11 +187,11 @@ class ComicFactory {
                     return $parser->parse($plot);
                 }
             } catch (\Throwable $e) {
-                // 降级
+                if (function_exists("linked3_log")) linked3_log("genesis", "warning", "Comic AI failed, degrading: " . $e->getMessage());
             }
         }
 
-        // 降级: 简单按段落拆分
+        if (function_exists("linked3_log")) linked3_log("genesis", "warning", "Comic AI failed, degrading: " . $e->getMessage());: 简单按段落拆分
         $paragraphs = preg_split('/\n\s*\n/', $plot);
         $scenes = [];
         foreach ($paragraphs as $i => $p) {

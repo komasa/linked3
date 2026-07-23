@@ -221,7 +221,7 @@ final class WcAiGenerator
             try {
                 $user_id = isset($opts['user_id']) ? (int) $opts['user_id'] : get_current_user_id();
                 \Linked3\Classes\Core\TokenManager::instance()->record($user_id, 'woocommerce', 0);
-            } catch (\Throwable $e) { /* billing is best-effort */ }
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("wc", "warning", "Billing record failed: " . $e->getMessage()); }
         }
 
         return [

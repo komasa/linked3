@@ -146,7 +146,7 @@ final class Activator
                 update_option('linked3_provider_models', $models);
             }
         } catch (\Throwable $e) {
-            // 静默
+            if (function_exists("linked3_log")) linked3_log("activation", "warning", "Activation step failed: " . $e->getMessage()); else error_log("[Linked3] Activation step failed: " . $e->getMessage());
         }
 
         flush_rewrite_rules();

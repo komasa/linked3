@@ -157,4 +157,41 @@ class ChartsRenderer
         return $snippet;
     }
 
+    /**
+     * v27.6.21-fix: Implement abstract project() from ScriptFactoryTrait.
+     *
+     * Projects the compiled IR into the final charts script format.
+     * The IR contains segments from compile(); this method formats them
+     * into the output structure expected by the charts pipeline.
+     *
+     * @param array $ir Intermediate representation from compile().
+     * @return array Final projected script.
+     */
+    protected function project(array $ir): array {
+        $segments = $ir['segments'] ?? [];
+        $panels = [];
+
+        foreach ($segments as $idx => $seg) {
+            $panels[] = [
+                'panel_id'   => 'P' . str_pad((string)($idx + 1), 3, '0', STR_PAD_LEFT),
+                'title'      => $seg['title'] ?? ('Panel ' . ($idx + 1)),
+                'summary'    => $seg['summary'] ?? '',
+                'content'    => $seg['content'] ?? '',
+                'style_hint' => $ir['style'] ?? 'default',
+                'platform'   => $ir['platform'] ?? 'xiaohongshu',
+            ];
+        }
+
+        return [
+            'topic'        => $ir['topic'] ?? '',
+            'style'        => $ir['style'] ?? 'default',
+            'platform'     => $ir['platform'] ?? 'xiaohongshu',
+            'module_count' => $ir['module_count'] ?? count($panels),
+            'panels'       => $panels,
+            'bands'        => $ir['bands'] ?? [],
+            'style_keywords' => $ir['style_keywords'] ?? [],
+            'seed_refs'    => $ir['seed_refs'] ?? [],
+        ];
+    }
+
 }

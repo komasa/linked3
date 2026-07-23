@@ -307,7 +307,7 @@ class GenesisPatchStage3
 
             $skeletonId = 'documentary_photo';
             if (class_exists('\Linked3\Classes\Genesis\SceneAxis')) {
-                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) {}
+                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) @ob_end_clean();
@@ -401,7 +401,7 @@ class GenesisPatchStage3
             $beats = $storyData['beats'] ?? [];
             $characters = $storyData['characters'] ?? [];
             $theme = $storyData['theme'] ?? '';
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         return [$beats, $characters, $theme, $storySource];
     }
 
