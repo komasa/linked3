@@ -3,7 +3,7 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           27.7.1
+ * Version:           27.8.0
  * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            Linked3 Group
@@ -185,7 +185,7 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '27.7.1');
+define('LINKED3_VERSION', '27.8.0');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
@@ -278,25 +278,34 @@ add_action('admin_head', static function () {
     #toplevel_page_linked3-dashboard .wp-submenu li a[href*="edit.php?post_type=linked3_seed"] { display:none; }
     #toplevel_page_linked3-dashboard .wp-submenu li a[href*="post-new.php?post_type=linked3_seed"] { display:none; }
     </style>';
-    // 加载 AIpower 风格 CSS
-    $css_file = LINKED3_DIR . 'assets/css/linked3-admin.css';
-    if (file_exists($css_file)) {
-        echo '<style>' . file_get_contents($css_file) . '</style>';
+});
+
+// v27.8.0: Register CSS files via wp_enqueue_style (best practice)
+// Replaces inline <style> echo with proper enqueue for caching + dependency management
+add_action('admin_enqueue_scripts', static function ($hook) {
+    // Only load on Linked3 admin pages
+    if (strpos($hook, 'linked3') === false && $hook !== 'toplevel_page_linked3-dashboard') {
+        return;
     }
-    // v16.0.18 [公理α/β]: 万兴2风格设计 token — 单一配置源替代N处inline style
-    $ws2_css = LINKED3_DIR . 'assets/css/linked3-wansheng2.css';
-    if (file_exists($ws2_css)) {
-        echo '<style>' . file_get_contents($ws2_css) . '</style>';
+
+    $css_url = plugins_url('assets/css/', LINKED3_FILE);
+    $css_dir = LINKED3_DIR . 'assets/css/';
+
+    // Core admin styles
+    if (file_exists($css_dir . 'linked3-admin.css')) {
+        wp_enqueue_style('linked3-admin', $css_url . 'linked3-admin.css', [], LINKED3_VERSION);
     }
-    // v16.0.17 [公理α/β]: 生态面板CSS Grid自适应布局 — 0维Grid替代N维media query
-    $eco_layout_css = LINKED3_DIR . 'assets/css/linked3-eco-layout.css';
-    if (file_exists($eco_layout_css)) {
-        echo '<style>' . file_get_contents($eco_layout_css) . '</style>';
+    // v16.0.18: 万兴2风格设计 token
+    if (file_exists($css_dir . 'linked3-wansheng2.css')) {
+        wp_enqueue_style('linked3-wansheng2', $css_url . 'linked3-wansheng2.css', ['linked3-admin'], LINKED3_VERSION);
     }
-    // v12.0: Global UI Design System — Linear/Vercel aesthetic
-    $ui_css = LINKED3_DIR . 'assets/css/linked3-admin-ui.css';
-    if (file_exists($ui_css)) {
-        echo '<style>' . file_get_contents($ui_css) . '</style>';
+    // v16.0.17: 生态面板CSS Grid自适应布局
+    if (file_exists($css_dir . 'linked3-eco-layout.css')) {
+        wp_enqueue_style('linked3-eco-layout', $css_url . 'linked3-eco-layout.css', ['linked3-admin'], LINKED3_VERSION);
+    }
+    // v12.0: Global UI Design System
+    if (file_exists($css_dir . 'linked3-admin-ui.css')) {
+        wp_enqueue_style('linked3-admin-ui', $css_url . 'linked3-admin-ui.css', ['linked3-admin'], LINKED3_VERSION);
     }
 });
 
