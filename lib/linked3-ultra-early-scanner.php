@@ -66,6 +66,17 @@ if (!function_exists('linked3_ues_scan')) {
             return $errors;
         }
 
+        // ── H-02: Cache layer (restored from v27619) ──────────────────
+        // Cache key includes plugin version + file count for auto-invalidation.
+        $cache_key = 'linked3_ues_scan_' . md5($plugin_dir . (defined('LINKED3_VERSION') ? LINKED3_VERSION : '0.0.0'));
+        $cached = function_exists('get_transient') ? get_transient($cache_key) : false;
+        if (is_array($cached) && isset($cached['errors']) && isset($cached['ts'])) {
+            // Cache valid for 1 hour
+            if (time() - $cached['ts'] < 3600) {
+                return $cached['errors'];
+            }
+        }
+
         // ── Collect all PHP files ──────────────────────────────────────
         $php_files = linked3_ues_collect_php_files($plugin_dir);
         if (empty($php_files)) {
@@ -245,6 +256,11 @@ if (!function_exists('linked3_ues_scan')) {
         $type_errors = linked3_ues_check_type_compatibility($file_infos, $class_fqn_map);
         foreach ($type_errors as $te) {
             $errors[] = $te;
+        }
+
+        // ── H-02: Cache the scan results (1 hour TTL) ──────────────────
+        if (function_exists('set_transient')) {
+            set_transient($cache_key, ['errors' => $errors, 'ts' => time()], 3600);
         }
 
         return $errors;

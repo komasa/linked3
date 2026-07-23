@@ -22,6 +22,43 @@ class SubscriptionManagerV2 {
         return self::$instance;
     }
 
+    /**
+     * 每日订阅过期检查（cron 回调）。
+     *
+     * 由 wp_schedule_event('daily', 'linked3_subscription_check') 触发。
+     * 遍历所有 active 订阅，检测过期并置为 expired，触发 hook 供下游处理。
+     *
+     * @return void
+     */
+    public static function daily_check(): void {
+        global $wpdb;
+        $table = $wpdb->prefix . 'linked3_subscriptions';
+        // 检查表是否存在
+        $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
+        if (!$exists) return;
+
+        $now = current_time('mysql');
+        // 查找已过期但仍为 active 的订阅
+        $expired = $wpdb->get_results($wpdb->prepare(
+            "SELECT user_id, plan FROM {$table} WHERE status = 'active' AND expires_at < %s",
+            $now
+        ), ARRAY_A);
+
+        if (empty($expired)) return;
+
+        foreach ($expired as $sub) {
+            $wpdb->update(
+                $table,
+                ['status' => 'expired', 'updated_at' => $now],
+                ['user_id' => (int) $sub['user_id']],
+                ['%s', '%s'],
+                ['%d']
+            );
+            // 触发 hook 供下游处理（邮件通知、降级等）
+            do_action('linked3_subscription_expired', (int) $sub['user_id'], $sub['plan']);
+        }
+    }
+
     public function getPlans(): array {
         return [
             'free' => [

@@ -81,7 +81,7 @@ final class HookManager
         add_action('linked3_kw_cron_run', [__CLASS__, 'kw_cron_run']);
         // License + billing crons (v0.2.1-v0.2.10).
         add_action('linked3_license_heartbeat', ['\\Linked3\\Classes\\License\\LicenseService', 'daily_heartbeat']);
-        add_action('linked3_subscription_check', ['\\Linked3\\Classes\\Billing\\SubscriptionManagerV2', 'instance']);
+        add_action('linked3_subscription_check', ['\\Linked3\\Classes\\Billing\\SubscriptionManagerV2', 'daily_check']);
         add_action('linked3_business_optimize', ['\\Linked3\\Classes\\Billing\\BusinessOptimizer', 'daily_analyze']);
         // AutoGPT cron (every 10 min).
         add_action('linked3_autogpt_run', ['\\Linked3\\Classes\\AutoGPT\\Cron\\AutoGPTCron', 'run']);
