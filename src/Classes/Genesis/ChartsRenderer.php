@@ -13,10 +13,8 @@ class ChartsRenderer
 {
     use ScriptFactoryTrait;
 
-    /** @var string 脚本类型 */
-    protected $script_type = 'charts';
-
     public function __construct() {
+        $this->script_type = 'charts';
     }
 
     protected function compile(array $context): array {

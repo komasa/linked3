@@ -273,7 +273,9 @@ class GenesisPatchStage3
         $renderingTech = $inputs['renderingTech'];
 
         if ($styleId === 'auto') {
-            $styleId = self::auto_detect_style($script);
+            // v27.6.22-fix F-03: auto_detect_style is in GenesisPatchV1006, not self.
+            // Was: self::auto_detect_style($script) → Call to undefined method.
+            $styleId = GenesisPatchV1006::auto_detect_style($script);
         }
 
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
