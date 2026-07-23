@@ -21,7 +21,7 @@ class ChartsFactory {
 
         public function __construct() { return ChartsFactoryHelpers::__construct(); }
 
-        public function compile(array $context) : mixed { return ChartsFactoryHelpers::compile($context); }
+        public function compile(array $context) : array { return ChartsFactoryHelpers::compile($context); }
 
         public function split_long_article(string $article, int $target_count) : mixed { return ChartsFactoryHelpers::split_long_article($article, $target_count); }
 

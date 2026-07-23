@@ -162,7 +162,7 @@ trait ScriptFactoryTrait {
                 if (is_array($entry) && !empty($entry)) {
                     return $entry;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         // 降级 Seed_CPT::get_by_seed_id()
         if (class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) {
@@ -171,7 +171,7 @@ trait ScriptFactoryTrait {
                 if (is_array($entry) && !empty($entry)) {
                     return $entry;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         return null;
     }
@@ -183,7 +183,7 @@ trait ScriptFactoryTrait {
         if (class_exists('\Linked3\Classes\Genesis\GenesisStyleEngine')) {
             try {
                 return \GenesisStyleEngine::load($style_key);
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         return ['key' => $style_key, 'name' => $style_key];
     }

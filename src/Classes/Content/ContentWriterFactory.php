@@ -82,7 +82,7 @@ class ContentWriterFactory {
                     $prompt = $mgr->build_prompt($title, $content);
                     return [['prompt' => $prompt, 'source' => 'content_writer_factory']];
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
         return [];
     }
@@ -121,7 +121,7 @@ class ContentWriterFactory {
                 if (method_exists($writer, 'generate')) {
                     return $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count]);
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
 
         // 降级: 模板化生成

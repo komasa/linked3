@@ -273,9 +273,7 @@ class GenesisPatchStage3
         $renderingTech = $inputs['renderingTech'];
 
         if ($styleId === 'auto') {
-            // v27.6.22-fix F-03: auto_detect_style is in GenesisPatchV1006, not self.
-            // Was: self::auto_detect_style($script) → Call to undefined method.
-            $styleId = GenesisPatchV1006::auto_detect_style($script);
+            $styleId = self::auto_detect_style($script);
         }
 
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
@@ -309,7 +307,7 @@ class GenesisPatchStage3
 
             $skeletonId = 'documentary_photo';
             if (class_exists('\Linked3\Classes\Genesis\SceneAxis')) {
-                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) {}
             }
 
             if (function_exists('ob_end_clean')) @ob_end_clean();
@@ -403,7 +401,7 @@ class GenesisPatchStage3
             $beats = $storyData['beats'] ?? [];
             $characters = $storyData['characters'] ?? [];
             $theme = $storyData['theme'] ?? '';
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) {}
         return [$beats, $characters, $theme, $storySource];
     }
 

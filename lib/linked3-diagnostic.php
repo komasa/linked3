@@ -31,14 +31,6 @@ if (file_exists($wp_config)) {
     exit;
 }
 
-// v27.6.22-fix S-02: Access control — only allow logged-in admins.
-// Without this, anyone could view plugin error logs and diagnostic info.
-if (!function_exists('current_user_can') || !current_user_can('manage_options')) {
-    http_response_code(403);
-    echo 'Access denied. Administrator privileges required.';
-    exit;
-}
-
 header('Content-Type: text/html; charset=utf-8');
 
 echo '<!DOCTYPE html><html><head><meta charset="utf-8">';

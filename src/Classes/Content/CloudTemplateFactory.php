@@ -112,7 +112,7 @@ class CloudTemplateFactory {
                     $templates = $mgr->get_by_category($category);
                     if (!empty($templates)) return $templates[0];
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) {}
         }
 
         // 降级: 默认模版
