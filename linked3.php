@@ -3,7 +3,7 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           27.8.0
+ * Version:           29.0.0
  * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            Linked3 Group
@@ -185,7 +185,7 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '27.8.0');
+define('LINKED3_VERSION', '29.0.0');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
@@ -215,13 +215,14 @@ if (!defined('LINKED3_UPDATE_API_URL')) {
 
 // -----------------------------------------------------------------------------
 // Minimum PHP version guard (defensive — fails fast on legacy hosts).
+// v28 PR-01: 7.4 → 8.0 (源码已使用 match 表达式, 7.4 会 fatal)
 // -----------------------------------------------------------------------------
-if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+if (version_compare(PHP_VERSION, '8.0.0', '<')) {
     add_action('admin_notices', static function () {
         echo '<div class="notice notice-error"><p>'
             . esc_html(sprintf(
                 /* translators: %s: PHP version. */
-                __('Linked3 AI 需要 PHP 7.4 或更高版本。当前运行 %s,请升级 PHP。', 'linked3'),
+                __('Linked3 AI 需要 PHP 8.0 或更高版本。当前运行 %s,请升级 PHP。', 'linked3'),
                 PHP_VERSION
             ))
             . '</p></div>';
@@ -425,29 +426,40 @@ if (!$linked3_core_available) {
 
     add_action('plugins_loaded', static function () use (&$linked3_bootstrap_error) {
         // v6.0.0: 最终启动序列 (统一调用所有 Phase)
+        // v27.9.2: 先确保 DependencyLoader 加载 (提供 linked3_container 等全局函数)
         try {
-            if (class_exists('FinalBootstrap')) {
-                FinalBootstrap::boot();
+            // Step 1: 确保 DependencyLoader 已加载
+            if (class_exists('\\Linked3\\Includes\\DependencyLoader')) {
+                \Linked3\Includes\DependencyLoader::load();
+            }
+            // Step 2: 确保全局函数 linked3_container() 可用
+            if (!function_exists('linked3_container') && class_exists('\\Linked3\\Includes\\Container')) {
+                function linked3_container() { return \Linked3\Includes\Container::instance(); }
+            }
+            // Step 3: 启动 Bootstrap 序列
+            if (class_exists('\\Linked3\\Classes\\E2E\\FinalBootstrap')) {
+                \Linked3\Classes\E2E\FinalBootstrap::boot();
             } else {
                 // 降级: 逐步启动
-                if (class_exists('V54Bootstrap')) V54Bootstrap::boot();
-                if (class_exists('AgentBootstrap')) AgentBootstrap::boot();
-                if (class_exists('AIPipelineBootstrap')) AIPipelineBootstrap::boot();
-                if (class_exists('SecurityBootstrap')) SecurityBootstrap::boot();
-                if (class_exists('BillingBootstrap')) BillingBootstrap::boot();
-                if (class_exists('ScaleBootstrap')) ScaleBootstrap::boot();
+                if (class_exists('\\Linked3\\Classes\\E2E\\V54Bootstrap')) \Linked3\Classes\E2E\V54Bootstrap::boot();
+                if (class_exists('\\Linked3\\Classes\\Agent\\AgentBootstrap')) \Linked3\Classes\Agent\AgentBootstrap::boot();
+                if (class_exists('\\Linked3\\Classes\\AI\\Pipeline\\AIPipelineBootstrap')) \Linked3\Classes\AI\Pipeline\AIPipelineBootstrap::boot();
+                if (class_exists('\\Linked3\\Classes\\Security\\SecurityBootstrap')) \Linked3\Classes\Security\SecurityBootstrap::boot();
+                if (class_exists('\\Linked3\\Classes\\Billing\\BillingBootstrap')) \Linked3\Classes\Billing\BillingBootstrap::boot();
+                if (class_exists('\\Linked3\\Classes\\Scale\\ScaleBootstrap')) \Linked3\Classes\Scale\ScaleBootstrap::boot();
             }
             // v6.5.0: 图示引擎核心
-            if (class_exists('DiagramBootstrap')) {
-                DiagramBootstrap::boot();
+            // v27.9.0 (P0-A): 裸名 → FQCN, 修复 Bootstrap 永不执行
+            if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramBootstrap')) {
+                \Linked3\Classes\Diagram\DiagramBootstrap::boot();
             }
             // v6.5.0: 图示生产级启动
-            if (class_exists('DiagramProductionBootstrap')) {
-                DiagramProductionBootstrap::boot();
+            if (class_exists('\\Linked3\\Classes\\Diagram\\DiagramProductionBootstrap')) {
+                \Linked3\Classes\Diagram\DiagramProductionBootstrap::boot();
             }
             // v6.6.0: Genesis 漫画脚本引擎
-            if (class_exists('GenesisBootstrap')) {
-                GenesisBootstrap::boot();
+            if (class_exists('\\Linked3\\Classes\\Genesis\\GenesisBootstrap')) {
+                \Linked3\Classes\Genesis\GenesisBootstrap::boot();
             }
         } catch (\Throwable $e) {
             $linked3_bootstrap_error = sprintf(

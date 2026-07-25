@@ -391,7 +391,9 @@ class QualityLoop
         return false;
     }
 
-    private static function color_family(string $color): string
+    // v27.8.2: 改为 public 供 QualityChecker 跨类调用 (color_family/emotion_polarity
+    // 原本只在 QualityLoop 内部使用,拆分后 QualityChecker 需要复用同一实现)
+    public static function color_family(string $color): string
     {
         $color = strtolower($color);
         if (strpos($color, 'warm') !== false || strpos($color, 'amber') !== false || strpos($color, 'orange') !== false || strpos($color, 'red') !== false) return 'warm';
@@ -401,7 +403,7 @@ class QualityLoop
         return 'unknown';
     }
 
-    private static function emotion_polarity(string $emotion): int
+    public static function emotion_polarity(string $emotion): int
     {
         $emotion = strtolower(trim($emotion));
         $map = [

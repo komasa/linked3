@@ -117,7 +117,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_keyword_density($text, $keyword) : mixed {
+    private function score_keyword_density($text, $keyword) : float {
         if ($keyword === '' || $text === '') {
             return 0.0;
         }
@@ -144,7 +144,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_title_length($title) : mixed     {
+    private function score_title_length($title) : float     {
         $len = function_exists('mb_strlen') ? mb_strlen($title, 'UTF-8') : strlen($title);
         if ($len === 0) {
             return 0.0;
@@ -161,7 +161,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_meta_description($meta) : mixed {
+    private function score_meta_description($meta) : float {
         if ($meta === '') {
             return 0.0;
         }
@@ -178,7 +178,7 @@ final class SEOScorecard
     /**
      * @return float
      */
-    private function score_internal_links($content) : mixed     {
+    private function score_internal_links($content) : float     {
         $site_host = (string) wp_parse_url(site_url(), PHP_URL_HOST);
         $count = preg_match_all('#<a\b[^>]*href=["\']([^"\']+)["\']#i', (string) $content, $m) ? count($m[1]) : 0;
         $internal = 0;

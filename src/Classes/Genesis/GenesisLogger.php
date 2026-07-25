@@ -64,7 +64,7 @@ class GenesisLogger {
     /**
      * 创建日志表 (首次写入时延迟创建)
      */
-    private static function ensure_table() : mixed {
+    private static function ensure_table() : bool {
         if (self::$table_ready) return true;
         global $wpdb;
         $table = self::$table;
@@ -185,7 +185,7 @@ class GenesisLogger {
     /**
      * 获取统计 (按级别)
      */
-    public static function get_stats($hours = 24) : mixed {
+    public static function get_stats($hours = 24) : array {
         if (!self::ensure_table()) return [];
         global $wpdb;
         // ── FIX v16.0.1: Use PHP-computed timestamp for SQLite compatibility ──

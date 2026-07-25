@@ -136,13 +136,17 @@ class COSExDepartment
 
         // v20.4-fix15: 降级模型 72B→32B, max_tokens 1200→800, timeout 40→35
         // 72B 太慢 (40-60s), 32B 平衡质量与速度 (15-25s)
+        // v27.8.4-fix: 不再硬编码 Qwen 模型, 让 AIDispatcher 自动读取用户配置的模型
+        // v27.8.8-fix: timeout 从35s提升到60s — GLM等模型响应可能较慢
         $options = [
             'temperature' => 0.9,
             'max_tokens'  => 800,
             'module'      => 'cos_ex',
             'user_id'     => get_current_user_id(),
-            'timeout'     => 35,
-            'model'       => 'Qwen/Qwen2.5-32B-Instruct',
+            // v27.8.13 (审计Phase2): timeout 60→90 — GLM等模型响应可能较慢
+            // v28 PR-10: timeout 90→45 — playground max_execution_time=60s, 留15s给catch+fallback
+            'timeout'     => 45,
+            // 不传 model, AIDispatcher 会从 provider_models option 读取用户配置
         ];
         // v20.4-fix14: 只把已配置 API Key 的 provider 作为 fallback (与 run_lever 一致)
         $default_provider = function_exists('get_option')
@@ -151,7 +155,23 @@ class COSExDepartment
         $saved_keys = function_exists('get_option')
             ? (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', [])
             : [];
-        $candidate_pool = ['siliconflow', 'deepseek', 'qwen', 'openai', 'kimi'];
+
+        // v27.8.7-fix: 如果 default_provider 没有 API key, 自动切换到第一个有 key 的 provider
+        $has_default_key = !empty($saved_keys[$default_provider]);
+        if (!$has_default_key) {
+            $preferred_order = ['zhipu', 'zai', 'deepseek', 'qwen', 'openai', 'kimi', 'siliconflow'];
+            foreach ($preferred_order as $p) {
+                if (!empty($saved_keys[$p])) {
+                    $default_provider = $p;
+                    break;
+                }
+            }
+        }
+        // v27.8.7-fix: 显式传入 provider, 确保用有 key 的 provider
+        $options['provider'] = $default_provider;
+
+        // v27.8.4-fix: 候选池加入 zhipu/zai (GLM), 让配置了智谱的用户也能 fallback
+        $candidate_pool = ['siliconflow', 'deepseek', 'qwen', 'openai', 'kimi', 'zhipu', 'zai'];
         $diverse_fallbacks = [];
         foreach ($candidate_pool as $p) {
             if ($p !== $default_provider && (!empty($saved_keys[$p]) || $p === 'siliconflow')) {
@@ -168,13 +188,21 @@ class COSExDepartment
             $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
             $result = $dispatcher->chat($messages, $options, $config);
             $content = $result['content'] ?? '';
-        } catch (\Exception $e) {
-            // AI 调用失败, 返回空让 fallback 接管
-            return [];
+        } catch (\Throwable $e) {
+            // v27.8.14: catch \Throwable 而非 \Exception — 捕获 TypeError/Error 等
+            // v27.8.10 (审计Phase1): AI 调用失败时返回 fallback 方案 (带标记), 而非空数组
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] EX 部门 AI 调用失败, 使用 fallback: ' . $e->getMessage());
+            }
+            return self::build_fallback_variants($problem, $generation, $count, $baseline);
         }
 
         if (empty($content)) {
-            return [];
+            // v27.8.10: AI 返回空内容时也用 fallback
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] EX 部门 AI 返回空内容, 使用 fallback');
+            }
+            return self::build_fallback_variants($problem, $generation, $count, $baseline);
         }
 
         // 解析 JSON (容错: 去除 markdown 代码块包裹)
@@ -192,7 +220,11 @@ class COSExDepartment
         }
 
         if (!is_array($parsed) || empty($parsed)) {
-            return [];
+            // v27.8.10: JSON 解析失败也用 fallback
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] EX 部门 AI 返回 JSON 解析失败, 使用 fallback');
+            }
+            return self::build_fallback_variants($problem, $generation, $count, $baseline);
         }
 
         // 构建 variants
@@ -395,5 +427,72 @@ class COSExDepartment
         }
 
         return $strategies;
+    }
+
+    /**
+     * v27.8.10 (审计Phase1): AI 不可用时的 fallback 方案生成
+     *
+     * 当 AI 调用失败/返回空/JSON解析失败时, 生成基于模板的 fallback 方案,
+     * 让演化流程能继续 (而非中断). 方案带 ai_failed=true 标记, 方便后续识别.
+     *
+     * @param string $problem    问题描述
+     * @param string $generation  代际 (G1/G2/G3)
+     * @param int    $count       需要的方案数
+     * @param array  $baseline    上一代 MVP (G2/G3 用)
+     * @return array 方案数组
+     */
+    private static function build_fallback_variants(string $problem, string $generation, int $count, array $baseline): array
+    {
+        $strategies = [
+            [
+                'approach' => sprintf('【系统建议·趋势跟随】针对「%s」, 监控热点话题和上升期品类, 借势流量红利, 在趋势早期快速入场获取自然流量。', $problem),
+                'steps'    => '监控热点榜单;识别上升品类;分析竞争密度;快速选品上架;借势内容投放',
+                'risk'     => 6,
+                'feas'     => 7,
+                'nov'      => 5,
+            ],
+            [
+                'approach' => sprintf('【系统建议·差异化定位】针对「%s」, 分析竞品空白点, 找到未被满足的细分需求, 用差异化内容建立壁垒。', $problem),
+                'steps'    => '竞品分析;空白点识别;细分定位;差异化内容;壁垒构建',
+                'risk'     => 5,
+                'feas'     => 6,
+                'nov'      => 7,
+            ],
+        ];
+
+        // G2/G3: 在 baseline 基础上变异
+        if (!empty($baseline['approach']) && $generation !== 'G1') {
+            $strategies[] = [
+                'approach' => sprintf('【系统建议·变异优化】基于上代方案「%s」, 优化执行细节, 降低风险, 提升可行性。', mb_substr($baseline['approach'], 0, 60)),
+                'steps'    => $baseline['steps'] ?? '分析上代方案;识别改进点;优化执行;降低风险;提升可行性',
+                'risk'     => 4,
+                'feas'     => 8,
+                'nov'      => 4,
+            ];
+        }
+
+        // 限制数量
+        $strategies = array_slice($strategies, 0, max(2, $count));
+
+        $variants = [];
+        $i = 1;
+        foreach ($strategies as $s) {
+            $variants[] = [
+                'id'         => $generation . '_V' . str_pad((string)$i, 2, '0', STR_PAD_LEFT),
+                'generation' => $generation,
+                'approach'   => $s['approach'],
+                'steps'      => $s['steps'],
+                'score'      => [
+                    'risk'        => $s['risk'] ?? 5,
+                    'feasibility' => $s['feas'] ?? 6,
+                    'novelty'     => $s['nov'] ?? 5,
+                ],
+                'source'     => 'fallback',
+                'ai_failed'  => true, // v27.8.10: 标记为 AI 失败时的 fallback
+            ];
+            $i++;
+        }
+
+        return $variants;
     }
 }

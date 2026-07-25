@@ -80,7 +80,7 @@ class AJAXGuard
                 http_response_code(500);
             }
 
-            $message = '服务器内部错误: ' . $err['message'];
+            $message = __('服务器内部错误: ', 'linked3') . $err['message'];
             $detail  = [];
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 $detail['file'] = basename($err['file']);

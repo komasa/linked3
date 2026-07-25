@@ -106,7 +106,7 @@ class ImageSettingsFactory {
                 if (method_exists($mgr, 'save_settings')) {
                     return $mgr->save_settings($settings);
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
         return false;
     }

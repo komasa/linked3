@@ -471,7 +471,8 @@ class BookFactorySteps
         try {
             $dispatcher = AIDispatcher::instance();
             $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
-            $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
+            // v28 PR-10: 添加 timeout=45s (原无 timeout, 4096 token 可能 >60s)
+            $options = array( 'temperature' => 0.7, 'max_tokens' => 4096, 'timeout' => 45 );
             $config = [];
             $response = $dispatcher->chat( $messages, $options, $config );
         } catch ( \Throwable $e ) {

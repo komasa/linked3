@@ -82,16 +82,16 @@ final class XHSAjaxActions
         }
 
         // 构建优化提示词
-        $optimize_prompt = "请优化以下小红书配图提示词，使其更加详细和具体。\n\n";
+        $optimize_prompt = __('请优化以下小红书配图提示词，使其更加详细和具体。\n\n', 'linked3');
         $optimize_prompt .= "原始提示词: {$raw_prompt}\n";
         $optimize_prompt .= "页面标题: {$page_title}\n";
-        $optimize_prompt .= "是否封面: " . ($is_cover ? '是（需要最具视觉冲击力）' : '否') . "\n";
+        $optimize_prompt .= __('是否封面: ', 'linked3') . ($is_cover ? __('是（需要最具视觉冲击力）', 'linked3') : __('否', 'linked3')) . "\n";
         $optimize_prompt .= "风格: {$style}\n\n";
-        $optimize_prompt .= "要求：\n";
-        $optimize_prompt .= "1. 用英文输出\n";
-        $optimize_prompt .= "2. 包含：主体 + 场景 + 光线 + 色调 + 构图 + 风格\n";
-        $optimize_prompt .= "3. 比例：3:4 竖版\n";
-        $optimize_prompt .= "4. 只输出优化后的提示词，不要其他文字";
+        $optimize_prompt .= __('要求：\n', 'linked3');
+        $optimize_prompt .= __('1. 用英文输出\n', 'linked3');
+        $optimize_prompt .= __('2. 包含：主体 + 场景 + 光线 + 色调 + 构图 + 风格\n', 'linked3');
+        $optimize_prompt .= __('3. 比例：3:4 竖版\n', 'linked3');
+        $optimize_prompt .= __('4. 只输出优化后的提示词，不要其他文字', 'linked3');
 
         $model = get_option(LINKED3_OPTION_PREFIX . 'default_chat_model', 'gpt-4o-mini');
         // v19.2.1 修复：chat() 三参签名 + 单例 + try/catch（同 generate 路径）

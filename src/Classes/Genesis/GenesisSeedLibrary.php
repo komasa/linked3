@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) exit;
  * v27.6.16-fix: All methods now static.
  */
 class GenesisSeedLibrary {
-    public static function instance() : mixed { return new self(); }
+    public static function instance() : self { return new self(); }
 
     public static function loadAll() : mixed { return GenesisV7Extras::loadAll(); }
 }

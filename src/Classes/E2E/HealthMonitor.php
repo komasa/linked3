@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) exit;
 
 class HealthMonitor {
     public function check(): array {
+        if (!function_exists('linked3_container')) { return []; }
         $container = linked3_container();
         return [
             // 基础设施
@@ -65,7 +66,7 @@ class HealthMonitor {
         }
 
         if ($passed === $total) {
-            $lines[] = "\n✅ 所有系统就绪 — v6.0.0 商业生产级";
+            $lines[] = __('\n✅ 所有系统就绪 — v6.0.0 商业生产级', 'linked3');
         } else {
             $lines[] = "\n⚠️  " . ($total - $passed) . " 个系统需要关注";
         }

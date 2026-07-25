@@ -5,7 +5,7 @@ namespace Linked3\Classes\BookFactory;
 if (!defined('ABSPATH')) exit;
 class BookFactoryUtils
 {
-    public static function smart_split_outline( $content ) : mixed {
+    public static function smart_split_outline( $content ) : array {
         // 先尝试标准解析
         $outline = self::parse_outline( $content );
         if ( count( $outline['chapters'] ) >= 3 ) {
@@ -80,7 +80,7 @@ class BookFactoryUtils
         $title = preg_replace( '/^[#*\-\s]+/', '', $title );
         $title = trim( $title );
         if ( empty( $title ) ) {
-            $title = '章节' . $fallback_num;
+            $title = __('章节', 'linked3') . $fallback_num;
         }
         return $title;
     }
@@ -117,7 +117,7 @@ class BookFactoryUtils
             $title = self::clean_chapter_title( $first_line, $i + 1 );
             $title = trim( mb_substr( $title, 0, 30 ) );
             if ( empty( $title ) ) {
-                $title = '内容' . ( $i + 1 );
+                $title = __('内容', 'linked3') . ( $i + 1 );
             }
             $chapters[] = array(
                 'title' => '第' . ( $i + 1 ) . '章 ' . $title,

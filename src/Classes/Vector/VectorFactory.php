@@ -76,7 +76,7 @@ final class VectorFactory
         $this->instances[$slug . '_builder'] = $builder;
     }
 
-    public function make($slug) : mixed {
+    public function make($slug) : null {
         if (isset($this->instances[$slug])) return $this->instances[$slug];
         if (!isset($this->instances[$slug . '_builder'])) return null;
         $obj = call_user_func($this->instances[$slug . '_builder']);

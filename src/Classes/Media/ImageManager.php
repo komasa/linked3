@@ -116,7 +116,7 @@ final class ImageManager
      * @param string $prompt 图片提示词
      * @return array{ok:bool, url:string, message:string}
      */
-    public function generate_image(string $prompt) : mixed {
+    public function generate_image(string $prompt) : array {
         $settings = $this->get_settings();
         if (!$settings['auto_generate']) {
             return ['ok' => false, 'url' => '', 'message' => __('图片生成未启用', 'linked3-ai')];
@@ -250,7 +250,7 @@ final class ImageManager
      * @param int $count 采集数量
      * @return string[] 图片 URL 列表
      */
-    public function fetch_from_station(string $station_url, int $count = 5) : mixed     {
+    public function fetch_from_station(string $station_url, int $count = 5) : array     {
         if (empty($station_url)) return [];
         $resp = SafeRemote::get($station_url, [
             'timeout' => 15,

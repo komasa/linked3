@@ -37,8 +37,9 @@ class ScriptPatchV1010 {
     /**
      * 构建帧Prompt (首帧/尾帧) — v11.2.0: 基于feicai4.0 motion-prompt-methodology
      * 首帧=动作起始状态, 尾帧=动作完成状态, 明确差异
+     * v27.8.2: 改为 public 供 ScriptPatchHandlers 跨类调用
      */
-    private static function build_frame_prompt(array $fpCore, string $styleKeywords, string $styleNegative, array $seedDna, string $frameType): string {
+    public static function build_frame_prompt(array $fpCore, string $styleKeywords, string $styleNegative, array $seedDna, string $frameType): string {
         $who = $fpCore['who'] ?? 'a figure';
         $where = $fpCore['where'] ?? '';
         $action = $fpCore['action_en'] ?? 'standing still';
@@ -53,7 +54,7 @@ class ScriptPatchV1010 {
 
         $prompt = '';
         // 景别+环境
-        $prompt .= '中景，';
+        $prompt .= __('中景，', 'linked3');
         $prompt .= $where ? ($where . '。') : '一个室内场景。';
 
         // 主体描述+动作 (首尾帧差异明确)
@@ -61,7 +62,7 @@ class ScriptPatchV1010 {
 
         // v11.2.0 #2: 基于beat_text补充场景叙事
         if (!empty($beatText)) {
-            $prompt .= ' 场景叙事：' . mb_substr($beatText, 0, 60) . '。';
+            $prompt .= __(' 场景叙事：', 'linked3') . mb_substr($beatText, 0, 60) . '。';
         }
 
         // 情绪氛围 (叙事式, 首尾帧情绪可有变化)
@@ -69,17 +70,17 @@ class ScriptPatchV1010 {
 
         // SEED visual_dna注入 (叙事式融入)
         if (!empty($seedDna['character'])) {
-            $prompt .= ' 角色特征：' . $seedDna['character'] . '。';
+            $prompt .= __(' 角色特征：', 'linked3') . $seedDna['character'] . '。';
         }
         if (!empty($seedDna['scene'])) {
-            $prompt .= ' 场景细节：' . $seedDna['scene'] . '。';
+            $prompt .= __(' 场景细节：', 'linked3') . $seedDna['scene'] . '。';
         }
 
         // v11.2.0 #2: 明确帧类型标记 (帮助生图工具理解)
         $prompt .= ' 【' . $phaseLabel . '，与另一帧构成首尾帧对，用于视频生成】';
 
         // 明确无文字 (视频帧不应有文字)
-        $prompt .= ' 画面中不包含任何文字、字母、数字或水印。';
+        $prompt .= __(' 画面中不包含任何文字、字母、数字或水印。', 'linked3');
 
         // 画风关键词
         if ($styleKeywords) {
@@ -136,7 +137,7 @@ class ScriptPatchV1010 {
         return $moodMap[$emotion] ?? $moodMap['neutral'];
     }
 
-    private static function suggest_transition(string $arcPosition): string {
+    public static function suggest_transition(string $arcPosition): string {
         $map = [
             '开场' => 'fade in from black',
             '发展' => 'cut to next scene',
@@ -152,7 +153,7 @@ class ScriptPatchV1010 {
 
         public static function ajax_charts_generate() : mixed { return ScriptPatchHandlers::ajax_charts_generate(); }
 
-    private static function suggest_text_overlay(string $band, string $topic): string {
+    public static function suggest_text_overlay(string $band, string $topic): string {
         $map = [
             'Hook' => mb_substr($topic, 0, 12) . '!',
             'Body' => '3个核心要点',
@@ -166,7 +167,7 @@ class ScriptPatchV1010 {
     // 共享工具方法
     // ================================================================
 
-    private static function split_script_to_beats(string $script, int $count, string $mode): array {
+    public static function split_script_to_beats(string $script, int $count, string $mode): array {
         $beats = [];
 
         if ($mode === 'sentence') {
@@ -206,14 +207,14 @@ class ScriptPatchV1010 {
     }
 
     private static function arc_position(int $i, int $total): string {
-        if ($total <= 1) return '开场';
-        if ($i === 0) return '开场';
-        if ($i === $total - 1) return '收尾';
-        if ($i >= $total * 0.6) return '高潮';
-        return '发展';
+        if ($total <= 1) return __('开场', 'linked3');
+        if ($i === 0) return __('开场', 'linked3');
+        if ($i === $total - 1) return __('收尾', 'linked3');
+        if ($i >= $total * 0.6) return __('高潮', 'linked3');
+        return __('发展', 'linked3');
     }
 
-    private static function load_seed_dna(array $seedRefs): array {
+    public static function load_seed_dna(array $seedRefs): array {
         $dna = ['character' => '', 'scene' => '', 'style' => ''];
         if (empty($seedRefs) || !class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) return $dna;
 
@@ -231,7 +232,7 @@ class ScriptPatchV1010 {
                 } elseif ($category === 'style' && empty($dna['style'])) {
                     $dna['style'] = trim($desc);
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         return $dna;
@@ -261,7 +262,7 @@ class ScriptPatchV1010 {
      * v16.0.23 [公理α: H↓ 消除"选什么布局"不确定性]
      * 自动选择布局 — 根据内容关键词和模块数量推断最佳布局
      */
-    private static function auto_select_layout(string $topic, int $moduleCount): string {
+    public static function auto_select_layout(string $topic, int $moduleCount): string {
         $topic_lower = mb_strtolower($topic);
 
         // 关键词→布局映射规则
@@ -311,7 +312,7 @@ class ScriptPatchV1010 {
      * @param string $aspectRatio 画幅比例 (1:1/3:4/4:3/16:9/9:16)
      * @return string 平台特定的Prompt后缀
      */
-    private static function build_platform_suffix(string $platform, string $aspectRatio): string
+    public static function build_platform_suffix(string $platform, string $aspectRatio): string
     {
         switch ($platform) {
             case 'midjourney':
@@ -363,7 +364,7 @@ class ScriptPatchV1010 {
      *   - 含"体系/全景/多模块"关键词: 强制8个
      *   - 含"精简/简明/核心"关键词: 强制4个
      */
-    private static function auto_select_module_count(string $topic): int
+    public static function auto_select_module_count(string $topic): int
     {
         $len = mb_strlen($topic);
         $topic_lower = mb_strtolower($topic);
@@ -391,7 +392,7 @@ class ScriptPatchV1010 {
      *   - 产品/展示/陈列类 → knolling (整齐排列)
      *   - 兜底 → xuehui-infographic (学会写作2.0信息图, 商业生产级默认)
      */
-    private static function auto_select_visual_style(string $topic): string
+    public static function auto_select_visual_style(string $topic): string
     {
         $topic_lower = mb_strtolower($topic);
 

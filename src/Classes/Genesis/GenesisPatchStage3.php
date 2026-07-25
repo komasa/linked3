@@ -31,10 +31,10 @@ class GenesisPatchStage3
 
             self::createCharacterSeeds($dna['characters'] ?? [], $seedName, $created);
             self::createSceneSeeds($dna['scenes'] ?? [], $seedName, $created);
-            self::createPropSeeds(self::extract_props_from_script($script), $seedName, $created);
+            self::createPropSeeds(GenesisPatchV1006::extract_props_from_script($script), $seedName, $created);
             self::createStyleSeed($styleId, $seedName, $created);
             self::createPaletteSeed($dna['color_palette'] ?? [], $seedName, $created);
-            self::createBrandSeed(self::extract_brand_from_script($script), $seedName, $created);
+            self::createBrandSeed(GenesisPatchV1006::extract_brand_from_script($script), $seedName, $created);
 
             wp_send_json_success([
                 'seed_id' => $seedName,
@@ -67,10 +67,10 @@ class GenesisPatchStage3
         }
 
         if (empty($dna['characters'])) {
-            $dna['characters'] = self::local_extract_characters($script);
+            $dna['characters'] = GenesisPatchV1006::local_extract_characters($script);
         }
         if (empty($dna['scenes'])) {
-            $dna['scenes'] = self::local_extract_scenes($script);
+            $dna['scenes'] = GenesisPatchV1006::local_extract_scenes($script);
         }
         if (empty($dna['color_palette'])) {
             $styleConfig = class_exists('\Linked3\Classes\Genesis\GenesisStyleEngine')
@@ -273,7 +273,9 @@ class GenesisPatchStage3
         $renderingTech = $inputs['renderingTech'];
 
         if ($styleId === 'auto') {
-            $styleId = self::auto_detect_style($script);
+            // v27.6.22-fix F-03: auto_detect_style is in GenesisPatchV1006, not self.
+            // Was: self::auto_detect_style($script) → Call to undefined method.
+            $styleId = GenesisPatchV1006::auto_detect_style($script);
         }
 
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
@@ -285,7 +287,7 @@ class GenesisPatchStage3
         if (function_exists('ob_start')) ob_start();
 
         try {
-            $script = self::filter_web_noise($script);
+            $script = GenesisPatchV1006::filter_web_noise($script);
 
             // Auto-detect scene axis with fallback
             [$l1_type, $l2_column, $l3_soul] = self::autoDetectSceneAxis($script, $l1_type, $l2_column, $l3_soul);
@@ -307,7 +309,7 @@ class GenesisPatchStage3
 
             $skeletonId = 'documentary_photo';
             if (class_exists('\Linked3\Classes\Genesis\SceneAxis')) {
-                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) {}
+                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) @ob_end_clean();
@@ -401,7 +403,7 @@ class GenesisPatchStage3
             $beats = $storyData['beats'] ?? [];
             $characters = $storyData['characters'] ?? [];
             $theme = $storyData['theme'] ?? '';
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         return [$beats, $characters, $theme, $storySource];
     }
 

@@ -170,7 +170,7 @@ final class V15ChartPromptGenerator
     /**
      * 解析 AI 输出的图示提示词 JSON。
      */
-    private function parse_chart_prompts($raw, array $targets) : mixed {
+    private function parse_chart_prompts($raw, array $targets) : array {
         if (empty($raw)) return [];
 
         $text = trim($raw);

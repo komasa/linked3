@@ -1,0 +1,128 @@
+{
+    "_meta": {
+        "version": "1.0",
+        "description": "杠杆关键词映射表 — 根据问题关键词动态评分杠杆适配度",
+        "usage": "COSAjax::ajax_score_levers() 读取此文件, 根据用户问题匹配关键词, 计算每个杠杆的动态适应度分数"
+    },
+
+    "meta_essence": {
+        "label": "元本质追问",
+        "keywords": ["本质", "根本", "核心", "为什么", "原理", "底层", "本质问题", "第一性", "溯源", "追本"],
+        "base_fitness": 15,
+        "keyword_boost": 3
+    },
+    "meta_creativity": {
+        "label": "元创造能力",
+        "keywords": ["创新", "创造", "创意", "突破", "新颖", "独特", "发明", "设计", "原创", "差异化"],
+        "base_fitness": 15,
+        "keyword_boost": 3
+    },
+    "meta_evaluation": {
+        "label": "元评估能力",
+        "keywords": ["评估", "评价", "评分", "衡量", "指标", "KPI", "效果", "ROI", "转化率", "分析"],
+        "base_fitness": 15,
+        "keyword_boost": 3
+    },
+    "meta_strategy": {
+        "label": "元深度谋划",
+        "keywords": ["策略", "战略", "规划", "谋划", "布局", "竞争", "市场", "商业模式", "增长", "规模"],
+        "base_fitness": 15,
+        "keyword_boost": 3
+    },
+    "content_engine": {
+        "label": "内容引擎",
+        "keywords": ["内容", "写作", "文案", "文章", "小红书", "公众号", "抖音", "视频", "脚本", "标题"],
+        "base_fitness": 15,
+        "keyword_boost": 3
+    },
+    "risk_defense": {
+        "label": "风险防御",
+        "keywords": ["风险", "防御", "安全", "合规", "法律", "规避", "陷阱", "坑", "问题", "危机"],
+        "base_fitness": 15,
+        "keyword_boost": 3
+    },
+    "meta_metaphor": {
+        "label": "元隐喻工程",
+        "keywords": ["比喻", "隐喻", "类比", "故事", "叙事", "表达", "传播", "共鸣", "情感"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_communication": {
+        "label": "元沟通能力",
+        "keywords": ["沟通", "协作", "团队", "管理", "领导", "说服", "谈判", "表达", "演讲", "汇报"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_critique": {
+        "label": "元批判能力",
+        "keywords": ["批判", "质疑", "反思", "审查", "检验", "验证", "证伪", "挑战", "反驳", "辩证"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_system": {
+        "label": "元系统思维",
+        "keywords": ["系统", "架构", "整体", "全局", "生态", "闭环", "链路", "模块", "组件", "流程"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_logic": {
+        "label": "通用逻辑学能力",
+        "keywords": ["逻辑", "推理", "因果", "推导", "证明", "论证", "演绎", "归纳", "前提", "结论"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_stress_test": {
+        "label": "元压力测试",
+        "keywords": ["测试", "压力", "极限", "边界", "异常", "容错", "健壮", "稳定", "性能", "负载"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_crossover": {
+        "label": "元跨界颠覆",
+        "keywords": ["跨界", "颠覆", "革命", "重构", "范式", "转移", "融合", "交叉", "多元", "异构"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    },
+    "meta_reverse": {
+        "label": "元反向思考",
+        "keywords": ["反向", "逆向", "相反", "对立", "矛盾", "反面", "倒推", "回溯", "反转", "镜像"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    },
+    "meta_folding": {
+        "label": "元认知折叠",
+        "keywords": ["折叠", "压缩", "抽象", "提炼", "浓缩", "精华", "密度", "层次", "维度", "升维"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    },
+    "meta_causal": {
+        "label": "元因果推断",
+        "keywords": ["因果", "原因", "结果", "影响", "导致", "引起", "关联", "相关", "因果链", "归因"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    },
+    "meta_game": {
+        "label": "元博弈对抗",
+        "keywords": ["博弈", "对抗", "竞争", "策略", "纳什", "均衡", "零和", "双赢", "囚徒", "占优"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    },
+    "meta_ethics": {
+        "label": "元伦理审查",
+        "keywords": ["伦理", "道德", "责任", "公平", "正义", "隐私", "偏见", "歧视", "透明", "可信"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    },
+    "meta_execution": {
+        "label": "元行动落地",
+        "keywords": ["执行", "落地", "实施", "行动", "实操", "步骤", "流程", "SOP", "清单", "可操作"],
+        "base_fitness": 14,
+        "keyword_boost": 3
+    },
+    "meta_self_calibration": {
+        "label": "元自我校准",
+        "keywords": ["校准", "修正", "调整", "优化", "迭代", "反馈", "自省", "纠偏", "改进", "进化"],
+        "base_fitness": 13,
+        "keyword_boost": 3
+    }
+}

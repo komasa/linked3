@@ -171,7 +171,10 @@ class BookFactory {
             $dispatcher = AIDispatcher::instance();
             $messages = array( array( 'role' => 'user', 'content' => $prompt ) );
             $options = array( 'temperature' => 0.7, 'max_tokens' => 4096 );
-            $config = TokenManager::get_active_config();
+            // v27.8.3: TokenManager::get_active_config() never existed —
+            // BookFactorySteps (the non-deprecated replacement) passes [].
+            // Mirror that behavior here for the deprecated facade.
+            $config = [];
             $response = $dispatcher->chat( $messages, $options, $config );
         } catch ( \Throwable $e ) {
             throw new \RuntimeException( 'AI call failed: ' . $e->getMessage(), 0, $e );

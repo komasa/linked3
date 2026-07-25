@@ -52,28 +52,12 @@ final class DashboardAjaxGenesis
      * @return void
      */
     static function register(): void {
-        // Genesis generation endpoints
-        add_action('wp_ajax_linked3_genesis_generate',        [GenesisProcessor::class, 'ajax_genesis_generate']);
-        add_action('wp_ajax_linked3_genesis_styles',          [GenesisProcessor::class, 'ajax_genesis_styles']);
-        add_action('wp_ajax_linked3_genesis_generate_multi',  [GenesisProcessor::class, 'ajax_genesis_generate_multi']);
-        add_action('wp_ajax_linked3_genesis_test_connection', [GenesisProcessor::class, 'ajax_genesis_test_connection']);
+        // v28.0.0: Permanently disabled — all Genesis AJAX registered by DashboardGenesisActions.
+        if (defined('WP_DEBUG') && WP_DEBUG && function_exists('error_log')) {
+            error_log('[linked3] DashboardAjaxGenesis::register() — dead code (v28.0.0)');
+        }
+        return;
 
-        // Genesis job lifecycle
-        add_action('wp_ajax_linked3_genesis_start_job',  [GenesisProcessor::class, 'ajax_genesis_start_job']);
-        add_action('wp_ajax_linked3_genesis_poll_job',   [GenesisProcessor::class, 'ajax_genesis_poll_job']);
-        add_action('wp_ajax_linked3_genesis_cancel_job', [GenesisProcessor::class, 'ajax_genesis_cancel_job']);
-
-        // Genesis SEED management
-        add_action('wp_ajax_linked3_genesis_seed_generate', [GenesisProcessor::class, 'ajax_genesis_seed_generate']);
-        add_action('wp_ajax_linked3_genesis_seed_list',     [GenesisProcessor::class, 'ajax_genesis_seed_list']);
-        add_action('wp_ajax_linked3_genesis_seed_delete',   [GenesisProcessor::class, 'ajax_genesis_seed_delete']);
-        add_action('wp_ajax_linked3_genesis_seed_export',   [GenesisProcessor::class, 'ajax_genesis_seed_export']);
-
-        // Genesis v9 pipeline + diagnostics
-        add_action('wp_ajax_linked3_genesis_generate_v9',     [GenesisV9Processor::class, 'ajax_genesis_generate_v9']);
-        add_action('wp_ajax_linked3_genesis_v9_stage1',       [GenesisV9Processor::class, 'ajax_genesis_v9_stage1']);
-        add_action('wp_ajax_linked3_genesis_v9_stage2',       [GenesisV9Processor::class, 'ajax_genesis_v9_stage2']);
-        add_action('wp_ajax_linked3_genesis_server_diagnostic', [GenesisProcessor::class, 'ajax_genesis_server_diagnostic']);
     }
 
 }

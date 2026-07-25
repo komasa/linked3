@@ -65,7 +65,7 @@ final class ImageInjector
      * @param array  $config
      * @return array<int,array{url:string, alt:string, credit:string}>
      */
-    private function fetch_images(string $provider, string $keyword, int $count, array $config) : mixed     {
+    private function fetch_images(string $provider, string $keyword, int $count, array $config) : array     {
         switch ($provider) {
             case 'pexels':
                 return $this->fetch_pexels($keyword, $count, $config);
@@ -80,7 +80,7 @@ final class ImageInjector
         return [];
     }
 
-    private function fetch_pexels(string $keyword, int $count, array $config) : mixed {
+    private function fetch_pexels(string $keyword, int $count, array $config) : array {
         $key = $config['api_key'] ?? '';
         if (!$key) return [];
         $url = 'https://api.pexels.com/v1/search?query=' . urlencode($keyword) . '&per_page=' . (int) $count;
@@ -104,7 +104,7 @@ final class ImageInjector
         return $out;
     }
 
-    private function fetch_pixabay($keyword, $count, $config) : mixed     {
+    private function fetch_pixabay($keyword, $count, $config) : array     {
         $key = $config['api_key'] ?? '';
         if (!$key) return [];
         $url = 'https://pixabay.com/api/?key=' . $key . '&q=' . urlencode($keyword) . '&per_page=' . (int) $count . '&image_type=photo';

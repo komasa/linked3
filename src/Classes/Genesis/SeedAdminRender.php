@@ -15,6 +15,13 @@ if (!defined('ABSPATH')) exit;
 
 class SeedAdminRender
 {
+    use SeedAdminConstants;
+
+    // v27.8.3: The 6 shared constants (PAGE_SLUG_LIST/EDIT/NEW, CAPABILITY,
+    // NONCE_ACTION, NONCE_ACTION_TRASH) now live in the SeedAdminConstants
+    // trait. This eliminates the duplication that caused the v27.8.0 Fatal
+    // Error (constants were missing from some split classes).
+
     static function register_menu(): void {
         add_submenu_page(
             'linked3-dashboard',
@@ -67,7 +74,7 @@ class SeedAdminRender
         add_action('admin_footer', [__CLASS__, 'print_inline_assets']);
     }
 
-    public static function print_inline_assets() : mixed {
+    public static function print_inline_assets() : null {
         self::print_seed_css();
         self::print_seed_admin_js();
         return null;
@@ -294,7 +301,7 @@ JS;
         } elseif ($action === 'export_md' || $action === 'export_json') {
             $fmt = $action === 'export_md' ? 'md' : 'json';
             $filter = ['post_ids' => $ids, 'format' => $fmt];
-            $files = self::export_batch($filter);
+            $files = SeedAdminExport::export_batch($filter);
             if ($fmt === 'json') {
                 $merged = [];
                 foreach ($files as $f) {
@@ -322,5 +329,6 @@ JS;
         wp_safe_redirect(admin_url('admin.php?page=' . self::PAGE_SLUG_LIST));
         exit;
     }
+
 
 }

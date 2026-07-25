@@ -4,7 +4,7 @@ Tags: ai, content-generation, book-writing, openai, content-writer
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 8.0
-Stable tag: 27.8.0
+Stable tag: 29.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,188 @@ Linked3 AI 是一个功能强大的AI内容生成插件，集成了写书式写�
 使用 `linked3_book_register_step` 钩子注册实现 `Linked3_Book_Step_Interface` 的步骤类。
 
 == Changelog ==
+
+= 29.0.0 =
+* 安全: 启用 AjaxNonceGuard 中间件拦截所有 wp_ajax_* 请求, 51个AJAX端点获得nonce保护
+* 类型: 139处 : mixed → 具体类型 (bool/array/string/null/int) 基于 return 语句推断
+* 国际化: 295处硬编码中文字符串 → __($str, 'linked3') 包裹
+* 扫描器: linked3-ultra-early-scanner v1.1.0 → v1.3.0, 新增 Check 6 (trait兼容性检查)
+* 架构: Plugin::run() 注册 AjaxNonceGuard::guard_all_ajax() 于 admin_init priority=0
+
+= 28.0.0 =
+* 严重修复: HealthMonitor::check() 返回类型 array 但 return; 无值 → E_COMPILE_ERROR
+* 根因: v27.9.2 添加 function_exists 守卫时用 return; (void), 但方法签名是 : array
+* 修复: return; → return []; (返回空数组)
+* 修复: 清理 7 个 Bootstrap 文件中重复的 function_exists 守卫行
+
+= 27.9.2 =
+* 严重修复: Bootstrap 调用 linked3_container() 时函数未定义 → Fatal Error
+* 根因: linked3.php 的 plugins_loaded 回调中, FinalBootstrap::boot() 在 DependencyLoader::load() 之前执行, linked3_container() 全局函数尚未定义
+* 修复1: linked3.php 在调用 Bootstrap 前先执行 DependencyLoader::load() + 定义 linked3_container() 兜底
+* 修复2: 所有 8 个 Bootstrap 文件增加 function_exists('linked3_container') 守卫, 函数不存在时安全 return
+
+= 27.9.1 =
+* 严重修复: FinalBootstrap 中 9 个 Bootstrap 类调用用裸名 → 解析为当前命名空间 → Fatal Error
+* 根因: class_exists 用 FQCN 检查通过, 但调用用裸名 (如 AIPipelineBootstrap::boot()), 在 E2E 命名空间下解析为 Linked3\Classes\E2E\AIPipelineBootstrap (不存在)
+* 修复: V54Bootstrap/AgentBootstrap/AIPipelineBootstrap/SecurityBootstrap/BillingBootstrap/ScaleBootstrap/HealthMonitor/AutoRollback/E2eTestRunner 全部改为 FQCN 调用
+
+= 27.9.0 =
+* 重大架构修复: PSR-4 命名空间迁移全量同步 — 5大根因 62处错位引用
+* P0-A: linked3.php Bootstrap 裸名启动 → FQCN (DiagramBootstrap/GenesisBootstrap/FinalBootstrap等10处)
+* P0-B: HookManager 错命名空间守卫 → 正确FQCN (GenesisSeedCPT/StoryPipeline/SceneAxis/V18/QualityLoop/PlatformAdapter 6处)
+* P0-C: Genesis 类全局命名空间调用 → FQCN (GenesisStyleEngine/GenesisSeedDNA/GenesisSeedCPT/GenesisJobRunner 跨8文件)
+* P0-D: V18.php module_map 裸类名 → FQCN (15个模块映射 + register() 10个AJAX类 + 4个API类)
+* P0-E: DashboardMediaAjax 双重错位 → FQCN (DiagramMasterTemplate/Validation13Dim/TypeRegistry/30Spectrum/EndpointRegistry 5类)
+* P1-B: UI overlay 误关修复 — 向导浮层增加 mousedown 追踪, 防止拖选文本时误关
+
+= 27.8.14 =
+* 严重修复: 演化一直卡在"运行 G1 演化中" — AI 调用异常未被捕获
+* 根因1: COSExDepartment catch(\Exception) 无法捕获 TypeError/Error 等 \Throwable 子类
+* 根因2: AIDispatcher::chat() catch(\Exception) 同样无法捕获 \Error
+* 根因3: 输出缓冲清理不彻底 — ob_get_level()==0 时 warning/notice 破坏 JSON 响应
+* 修复: COSExDepartment + AIDispatcher catch(\Exception) → catch(\Throwable)
+* 修复: ajax_evolve_gen 输出缓冲清理从 if(ob_get_level()>0) 改为 while(ob_get_level()>0) ob_end_clean()
+* 提示: 用户配置智谱 API 地址应为 https://open.bigmodel.cn/api/paas/v4 (非 /api/coding/paas/v4)
+
+= 27.8.13 =
+* 审计Phase1: tab-v18 AJAX 端点补齐 — 6个功能完全不可用的端点
+* Phase1.1: 新建 OSV18AjaxActions.php — 实现 ruliu_plan/status/update, nengzhi_detect/stages, frequency_assign
+* Phase1.2: 在 OSDashboard::register() 中注册 OSV18AjaxActions::register()
+* Phase1.3: 验证前端 nonce action 名称匹配 — tab-v18 用 'linked3_content_writer', 后端 verify() 一致
+* 审计Phase2: COS 演化收尾
+* Phase2.1: COSExDepartment AI 调用 timeout 60→90 — GLM等模型响应可能较慢
+* Phase2.2: COSAjaxEvolve 轻量 AI 预检 — 只检查 key 是否存在(不做AI调用), 未配置时提前返回引导信息
+* 审计Phase3: 安全加固 (确认已完成)
+* Phase3.1: DistributeHooksRegistrar — 已有 guard() 含 nonce (无需修改)
+* Phase3.2: WcFormsSpeechHooksRegistrar — 已有 verify_admin() 含 nonce (无需修改)
+* Phase3.3: DashboardAjaxRegistrarLegacy L95-96 死代码注释 (v27.8.10已完成)
+
+= 27.8.12 =
+* 严重修复: 演化卡在"🔍 正在检查 AI 配置..." — v27.8.11 的预检逻辑阻塞了演化
+* 根因1: 预检调用 ajax_diagnose 会做真实 AI 调用 (timeout 60s), 导致预检本身就很慢
+* 根因2: runGen 函数定义在 post().then() 回调内部, runGenDirect 在外部定义, 作用域不匹配
+* 修复: 移除阻塞式预检 — 直接开始演化, AI 未配置时用 fallback 方案 (v27.8.10已实现)
+* 修复: runGen 和 runEvolutionChain 函数定义在外部, 作用域正确
+* 保留: 演化失败时 catch 块仍显示诊断信息 (AI配置状态/失败部门/耗时)
+
+= 27.8.11 =
+* 审计Phase1: API设置UX优化 — 测试连接+同步免保存+保存后自动测试+演化前预检
+* Phase1.1: 新增 wp_ajax_linked3_test_provider 端点 — 发送"请回复连接成功"验证API Key有效性
+* Phase1.2: 每个 Provider Key旁增加"🔌 测试连接"按钮 — 从表单读key(未保存也能测)
+* Phase1.3: 修复同步模型必须先保存 — JS从表单读key + PHP优先读POST key
+* Phase1.4: 保存后自动测试 default provider — 500ms延迟触发测试按钮
+* Phase1.5: COS演化前AI预检 — 先诊断AI配置, 未配置时引导到API设置页
+* 审计Phase2: 杠杆动态评分 — 移除硬编码, 基于问题关键词动态计算
+* Phase2.1: 新建 lever-keywords.json — 17个杠杆的关键词映射表 (base_fitness + keyword_boost)
+* Phase2.2: 新增 wp_ajax_linked3_cos_score_levers 端点 — 匹配关键词计算动态分数
+* Phase2.3: 前端问题描述失焦时AJAX评分 — 更新17个复合杠杆的适应度显示, 匹配关键词的加粗
+
+= 27.8.10 =
+* 审计Phase1: COS 演化容错性增强 — SLA 失败不中断, AI 失败用 fallback
+* Phase1.1: ajax_evolve_gen() catch 块增加详细诊断信息 (AI配置状态/失败部门/耗时)
+* Phase1.2: run_generation() 5个SLA检查从"失败即中断"改为"降级继续", 记录到 sla_warnings[]
+* Phase1.3: COSExDepartment AI 失败时返回 fallback 方案 (带 ai_failed=true 标记), 而非空数组导致演化中断
+* Phase1.4: 前端错误提示增加诊断信息展开按钮, 显示 AI 配置状态和失败原因
+* 审计Phase2: AJAX 安全加固
+* Phase2.1: 注释 DashboardAjaxRegistrarLegacy 死代码 (ajax_generate_outline/section 方法不存在)
+* Phase2.2: 确认所有实际 handler 均有 nonce 保护 (delegate 方法委托到有 nonce 的实现)
+* 审计Phase3: CI/CD 配置
+* Phase3.1: 创建 phpstan-baseline.php (空 baseline, 防止新错误引入)
+* Phase3.2: PHPMD 规则集已完善 (排除 controversial/design/cleancode)
+
+= 27.8.9 =
+* 严重修复: 演化卡在 G1 后失败 — G1 归档成功但前端不进入 G2
+* 根因: G1 后端执行成功 (归档有记录), 但 wp_send_json_success 前可能因超时/内存/输出缓冲导致响应未到达前端
+* 修复: PHP 超时从 120s 提升到 180s + 内存限制提升到 512M
+* 修复: 前端 fetch 超时从 120s 提升到 180s (匹配 PHP 超时)
+* 修复: wp_send_json_success 前清理输出缓冲 (ob_clean), 防止意外输出破坏 JSON
+* 修复: 前端增加 status !== 'pass' 检查, 演化状态非 pass 时显示具体错误
+* 修复: 前端错误信息增加耗时显示 (如 "耗时 45.2s"), 帮助诊断
+* 修复: 后端增加 error_log 记录演化耗时和异常, 便于服务器端诊断
+
+= 27.8.8 =
+* 严重修复: 演化 "Failed to fetch" — 即使 AI 配置正确 (zhipu 已配置, AI 测试成功) 演化仍失败
+* 根因: ajax_evolve_gen() PHP 超时仅 50 秒 (set_time_limit(50)), 但 GLM 等模型响应可能需要 30-60 秒, 加上 5 部门处理, 总耗时超过 50 秒导致 PHP 进程被杀, 前端收到非 JSON 响应报 "Failed to fetch"
+* 修复: PHP 超时从 50 秒提升到 120 秒
+* 修复: EX 部门 AI 调用 timeout 从 35 秒提升到 60 秒
+* 修复: 前端 fetch 超时从 65 秒提升到 120 秒 (匹配 PHP 超时)
+* 修复: 超时错误提示从 "65秒" 更新为 "120秒"
+
+= 27.8.7 =
+* 严重修复: 杠杆链仍报 "No API key configured for siliconflow" — 即使配置了 GLM5.0
+* 根因: dispatchLeverAI() 不传 provider 参数, AIDispatcher 用 default_provider (默认siliconflow), 用户配置了GLM但没改default_provider时总是用siliconflow
+* 修复: dispatchLeverAI() + COSExDepartment 增加"自动切换到有key的provider"逻辑 — default_provider没key时自动找第一个有key的provider (优先zhipu/zai)
+* 修复: 显式传入 provider 参数, 不再依赖 default_provider 默认值
+* 严重修复: 杠杆链"自动适配"按钮不灵光 — 点击后无反应
+* 根因: ajax_recommend_levers() 检查 empty($approach) 直接返回400, 但自动适配时前端传 approach='' (只有problem)
+* 修复: approach为空时用problem作为推荐依据, 不再报错
+* UX优化: API设置页"保存"按钮改为醒目大按钮 "💾 保存默认 AI 服务 + 多 Key 轮询"
+* UX优化: 保存成功后自动更新select显示值, 防止刷新前回退到旧值
+* UX优化: 保存状态提示从3秒延长到5秒, 用✅/❌图标替代✓/✗
+
+= 27.8.6 =
+* 严重修复: 激活时 Fatal Error — GEOEnhancer::handle_llms_txt_request() 类型提示 WP 被解析为 Linked3\Classes\SEO\WP
+* 根因: 文件在 Linked3\Classes\SEO 命名空间下, WP 类型提示未加 \ 前缀, PHP 解析为不存在的 Linked3\Classes\SEO\WP
+* 修复: WP $wp 改为 \WP $wp (全局命名空间)
+* 修复: MissingAjaxEndpoints 参数名对齐前端 — reverse_parse 读 json_raw/engineer_type (非 json/type)
+* 优化: MissingAjaxEndpoints 移除已由各模块 Registrar 动态注册的14个端点, 仅保留 reverse_parse + svg_stats
+* 审计确认: 16个"缺失"AJAX端点中, 14个实际已由 ContentWriterHooksRegistrar/SEOHooksRegistrar/OS*Ajax/PublishCollectHooksRegistrar 动态注册, 仅2个真正缺失
+
+= 27.8.5 =
+* 严重修复: 采集热词点击无反应 — source=all 串行6次AI调用 (60-180s) 导致超时
+* 根因: ajax_hot_collect 默认 source=all 时, foreach 6个源各调用一次AI, 总耗时远超 PHP max_execution_time (60s) 和浏览器 fetch 超时
+* 修复: source=all 改为单次AI调用生成全部热词 (6x→1x), 超时从60s提升到120s
+* 严重修复: 三维度分类 "Failed to fetch" — ajax_keywords 超时
+* 根因: multi模式为每个热词调用一次AI, 热词多时总耗时超限
+* 修复: 超时从默认提升到120s
+* 严重修复: 16个AJAX端点前端调用但后端未注册, 导致 "Failed to fetch" / 400 Bad Request
+* 涉及: linked3_generate_content/title/meta/tags, linked3_push_now/retry, linked3_seo_score, linked3_reverse_parse, linked3_svg_stats, linked3_nengzhi_detect/stages, linked3_ruliu_plan/status/update, linked3_frequency_assign, linked3_collect_bulk_rewrite
+* 修复: 新增 MissingAjaxEndpoints 类, 注册所有缺失端点; reverse_parse/svg_stats 委托到 V18 类, 其余返回 501 Not Implemented + 明确提示
+* 新增: AJAX 闭环审计脚本 (scripts/ajax_audit.py) — 扫描前端调用 vs 后端注册, 发现16个未闭环端点
+
+= 27.8.4 =
+* 严重修复: 杠杆链审查始终降级模式 — 即使配置了 GLM5.0 也报 "No API key configured for siliconflow"
+* 根因1: COSEngine::dispatchLeverAI() 候选 provider 池缺少 zhipu/zai (GLM), 配置智谱的用户无法 fallback
+* 根因2: COSEngine::dispatchLeverAI() 硬编码 Qwen 模型 ('Qwen/Qwen2.5-32B-Instruct'), 覆盖了用户配置的 GLM5.0 模型
+* 修复: 候选池加入 zhipu/zai; 移除硬编码模型, 让 AIDispatcher 自动读取 provider_models option
+* 同步修复: COSExDepartment (演化EX部门) 相同的硬编码模型 + 候选池缺失问题
+* 严重修复: 演化归档始终为空 — 演化成功但"演化归档"页显示"暂无演化记录"
+* 根因: COSEngine::evolve_single_gen() 直接调用 COSEvolution::run_generation(), 绕过了 COSEngineUtils::evolve_single_gen() 中的归档保存逻辑
+* 修复: 在 COSEngine::evolve_single_gen() 中添加 COSEvolutionArchive::save_generation() 调用
+
+= 27.8.3 =
+* 架构优化: 提取 SeedAdminConstants Trait — 4 个 SeedAdmin* 类共享常量单一来源,防止未来回归
+* 系统审计修复: SeedAdminExport/SeedAdminPages 引用 6 个未定义静态属性 ($CATEGORIES/$TYPES/$VISUAL_FIELDS/$PERSONALITY_FIELDS/$PRIORITY_GROUPS/$AI_PLATFORMS) 导致 "Access to undeclared static property" Fatal Error
+* 修复: 在 SeedAdminConstants Trait 中定义 6 个 const 数组, self::$PROP 改为 self::CONST
+* 系统审计修复: SeedAdminPages 缺失 render_priority_lock_fields() 和 render_ai_adapter_fields() 方法导致 Fatal Error
+* 修复: 添加两个方法实现 (优先级锁定字段 + AI适配器字段渲染)
+* 系统审计修复: SeedAdminPages 调用 SeedAdminExport::export_single() 但该方法不存在
+* 修复: 在 SeedAdminExport 中添加 export_single() 包装方法 (委托 export_md/export_json)
+* 系统审计修复: BookFactory::call_ai_with_rate_limit() 调用 TokenManager::get_active_config() 但该方法不存在
+* 修复: 改为 $config = [] (与 BookFactorySteps 一致)
+* CI/CD: 新增 phpstan.neon (Level 5 + WordPress Stubs + baseline)
+* CI/CD: 新增 phpmd.xml (WP 兼容规则集,排除 controversial/design/cleancode)
+* CI/CD: 新增 composer.json (phpstan/phpmd/wordpress-stubs dev 依赖)
+* CI/CD: 新增 .github/workflows/ci.yml (lint + self::检查 + phpstan + phpmd)
+* CI/CD: 新增 ci_check_self_refs.py (Python+Node 跨类 self:: 引用检查脚本)
+* 验证: 全量 AST 审计 624 PHP 文件, 513 类 — 0 个真实跨类引用问题 (5 个动态调用误报已确认)
+
+= 27.8.2 =
+* 严重修复: 26处跨类 self::METHOD() 调用导致 "Call to undefined method" Fatal Error
+* 根因: 类拆分后, 调用方仍用 self:: 引用已迁移到其他类的方法
+* 修复: QualityChecker 3处 → QualityLoop:: (pqs_check/color_family/emotion_polarity)
+* 修复: GenesisPatchStage2 2处 + GenesisPatchStage3 5处 → GenesisPatchV1006:: (filter_web_noise/enhanced_local_extract/extract_props_from_script/extract_brand_from_script/local_extract_characters/local_extract_scenes)
+* 修复: ScriptPatchHandlers 9处 → ScriptPatchV1010:: (split_script_to_beats/load_seed_dna/build_frame_prompt/suggest_transition/auto_select_module_count/auto_select_layout/auto_select_visual_style/build_platform_suffix/suggest_text_overlay)
+* 修复: SceneDetector 1处 → SceneAxis::get_all_axes
+* 修复: DashboardMediaAjax 1处 → DashboardVideoAjax::build_v15_context_from_request
+* 修复: GenesisFPUtils 1处 → GenesisPromptUtils::getStyleHint
+* 修复: GenesisPanelRenderer 3处 → GenesisPromptUtils::(getStyleAdaptiveExamples/getStyleHint) + GenesisFPUtils::parseFPNodesJson
+* 配套: 16个被引用方法从 private 改为 public (QualityLoop 2 + GenesisPatchV1006 6 + ScriptPatchV1010 9 + DashboardVideoAjax 1)
+* 审计误报修正: WcFormsSpeechHooksRegistrar 的 verify_admin/require_pro 实为同类方法, self:: 调用正确, 无需修改
+* 审计误报修正: LicenseService::instance() 单例已正确实现, 无需修改
+
+= 27.8.1 =
+* 紧急修复: Phase 1 P0 致命错误修复 (详见审计报告 Phase 1)
 
 = 27.3.3 =
 * 严重修复: 17处文件作用域 __CLASS__ (OS模块16处 + Seed_Unified 1处) 导致 "class __CLASS__ not found" Fatal Error

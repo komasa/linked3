@@ -81,7 +81,7 @@ if (!function_exists('linked3_genesis_detect_content_type')) {
                 if (mb_strpos($text, $kw) !== false) return $type;
             }
         }
-        return 'T2_对话叙事';
+        return __('T2_对话叙事', 'linked3');
     }
 }
 

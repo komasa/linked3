@@ -62,10 +62,10 @@ class Diagram3LayerDepth {
     public function validate(array $module): array {
         $issues = [];
         if (!isset($module['layer2']) || count($module['layer2']) < 2) {
-            $issues[] = '子主题不足2个';
+            $issues[] = __('子主题不足2个', 'linked3');
         }
         if (count($module['layer2'] ?? []) > 4) {
-            $issues[] = '子主题超过4个';
+            $issues[] = __('子主题超过4个', 'linked3');
         }
         foreach ($module['layer3'] ?? [] as $st => $details) {
             if (count($details) < 2) $issues[] = "子主题{$st}细节不足2个";

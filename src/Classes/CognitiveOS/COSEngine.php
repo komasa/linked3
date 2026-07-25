@@ -94,10 +94,39 @@ class COSEngine
 
     /**
      * v20.4-fix8: 运行单代演化 (异步模式 — 每代一个 AJAX 请求)。
+     * v27.8.4-fix: 添加归档保存逻辑 — 之前直接调用 COSEvolution::run_generation()
+     * 绕过了 COSEngineUtils::evolve_single_gen() 中的归档代码, 导致演化归档为空。
      */
         public function evolve_single_gen(string $problem, array $context, string $gen, ?array $baseline): array
     {
-        return \Linked3\Classes\CognitiveOS\Core\COSEvolution::run_generation($gen, $problem, $context, $baseline);
+        $gen_result = \Linked3\Classes\CognitiveOS\Core\COSEvolution::run_generation($gen, $problem, $context, $baseline);
+
+        // v27.8.4-fix: 保存本代快照到演化归档 (之前缺失, 导致归档页为空)
+        if (class_exists('\\Linked3\\Classes\\CognitiveOS\\Storage\\COSEvolutionArchive')) {
+            try {
+                \Linked3\Classes\CognitiveOS\Storage\COSEvolutionArchive::save_generation([
+                    'generation'     => $gen_result['generation'] ?? $gen,
+                    'timestamp'      => current_time('mysql'),
+                    'problem'         => $problem,
+                    'variants_count'  => $gen_result['variants_count'] ?? 0,
+                    'survivors_count' => $gen_result['survivors_count'] ?? 0,
+                    'killed_count'    => $gen_result['killed_count'] ?? 0,
+                    'mvp'             => $gen_result['mvp'] ?? null,
+                    'blind_spots'     => $gen_result['blind_spots'] ?? [],
+                    'hallucinations'  => $gen_result['hallucinations'] ?? [],
+                    'axiom_results'   => $gen_result['axiom_check'] ?? [],
+                    'sla_results'     => $gen_result['sla_check'] ?? [],
+                    'status'          => $gen_result['status'] ?? 'unknown',
+                ]);
+            } catch (\Throwable $e) {
+                // 归档失败不影响演化主流程
+                if (function_exists('error_log')) {
+                    error_log('[linked3 COS] 归档保存失败: ' . $e->getMessage());
+                }
+            }
+        }
+
+        return $gen_result;
     }
 
     /**
@@ -279,7 +308,22 @@ class COSEngine
             $saved_keys = function_exists('get_option')
                 ? (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', [])
                 : [];
-            $candidate_pool = ['siliconflow', 'deepseek', 'qwen', 'openai', 'kimi'];
+
+            // v27.8.7-fix: 如果 default_provider 没有 API key, 自动切换到第一个有 key 的 provider
+            // 这解决了"用户配置了 GLM5.0 但 default_provider 仍是 siliconflow"的问题
+            $has_default_key = !empty($saved_keys[$default_provider]);
+            if (!$has_default_key) {
+                $preferred_order = ['zhipu', 'zai', 'deepseek', 'qwen', 'openai', 'kimi', 'siliconflow'];
+                foreach ($preferred_order as $p) {
+                    if (!empty($saved_keys[$p])) {
+                        $default_provider = $p;
+                        break;
+                    }
+                }
+            }
+
+            // v27.8.4-fix: 候选池加入 zhipu/zai (GLM), 让配置了智谱的用户也能 fallback
+            $candidate_pool = ['siliconflow', 'deepseek', 'qwen', 'openai', 'kimi', 'zhipu', 'zai'];
             $diverse_fallbacks = [];
             foreach ($candidate_pool as $p) {
                 if ($p !== $default_provider && (!empty($saved_keys[$p]) || $p === 'siliconflow')) {
@@ -296,46 +340,42 @@ class COSEngine
                 elseif ($prev_len > 600) $lever_timeout = 40;
             }
 
-            $models_to_try = ['Qwen/Qwen2.5-32B-Instruct', 'Qwen/Qwen2.5-7B-Instruct'];
+            // v27.8.4-fix: 不再硬编码 Qwen 模型, 让 AIDispatcher 自动读取用户配置的模型
+            // 这样 zhipu 用户会用 GLM5.0, siliconflow 用户会用 Qwen, deepseek 用户会用 deepseek-chat
             $ai_result = null;
             $last_error = '';
-            foreach ($models_to_try as $model) {
-                try {
-                    $ai_result = $dispatcher->chat(
-                        [
-                            ['role' => 'system', 'content' => $system_prompt],
-                            ['role' => 'user',   'content' => $user_msg],
-                        ],
-                        [
-                            'temperature' => 0.7,
-                            'max_tokens'  => 800,
-                            'module'      => 'cos_lever',
-                            'user_id'     => get_current_user_id(),
-                            'timeout'     => $lever_timeout,
-                            'model'       => $model,
-                        ],
-                        [
-                            'fallback_providers' => $diverse_fallbacks,
-                            'force_bypass_circuit' => true,
+            try {
+                $ai_result = $dispatcher->chat(
+                    [
+                        ['role' => 'system', 'content' => $system_prompt],
+                        ['role' => 'user',   'content' => $user_msg],
+                    ],
+                    [
+                        'temperature' => 0.7,
+                        'max_tokens'  => 800,
+                        'module'      => 'cos_lever',
+                        'user_id'     => get_current_user_id(),
+                        'timeout'     => $lever_timeout,
+                        // v27.8.7-fix: 显式传入 provider, 确保用我们选定的 (有key的) provider
+                        'provider'    => $default_provider,
+                        // 不传 model, AIDispatcher 会从 provider_models option 读取用户配置
+                    ],
+                    [
+                        'fallback_providers' => $diverse_fallbacks,
+                        'force_bypass_circuit' => true,
                         ]
                     );
                     if (!empty($ai_result['content'])) {
                         $analysis = $ai_result['content'];
                         $ai_status = 'success';
-                        break;
                     } elseif (!empty($ai_result['error'])) {
                         $last_error = $ai_result['error'];
-                        if (strpos($last_error, 'Quota exhausted') !== false) continue;
                         $ai_status = 'error: ' . substr($last_error, 0, 200);
-                        break;
                     }
                 } catch (\Throwable $e) {
                     $last_error = $e->getMessage();
-                    if (strpos($last_error, 'Quota exhausted') !== false) continue;
                     $ai_status = 'error: ' . substr($last_error, 0, 200);
-                    break;
                 }
-            }
             if (empty($analysis) && !empty($last_error)) {
                 $ai_status = 'error: ' . substr($last_error, 0, 200);
             }

@@ -29,18 +29,18 @@ final class HookManager
         add_action('init', [$i18n, 'load_textdomain'], 0);
 
         // v8.1.0: Seed DNA CPT 注册
-        if (class_exists('\Linked3\Includes\GenesisSeedCPT')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) {
             add_action('init', ['\Linked3\Classes\Genesis\GenesisSeedCPT', 'register'], 5);
         }
 
         // v8.2.0: Story Pipeline + Scene Axis AJAX hooks (M3 + M4)
         // 所有 handler 内部自带 check_ajax_referer + current_user_can('edit_posts').
-        if (class_exists('\Linked3\Includes\StoryPipeline')) {
+        if (class_exists('\Linked3\Classes\Genesis\StoryPipeline')) {
             add_action('wp_ajax_linked3_import_script',   ['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_import_script']);
             add_action('wp_ajax_linked3_parse_story',     ['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_parse_story']);
             add_action('wp_ajax_linked3_detect_characters',['\Linked3\Classes\Genesis\StoryPipeline', 'ajax_detect_characters']);
         }
-        if (class_exists('\Linked3\Includes\SceneAxis')) {
+        if (class_exists('\Linked3\Classes\Genesis\SceneAxis')) {
             add_action('wp_ajax_linked3_get_scene_axes',  ['\Linked3\Classes\Genesis\SceneAxis', 'ajax_get_axes']);
             add_action('wp_ajax_linked3_route_skeleton',  ['\Linked3\Classes\Genesis\SceneAxis', 'ajax_route_skeleton']);
         }
@@ -119,7 +119,7 @@ final class HookManager
         // v16.0.0: V18子系统统一注册 (Facade模式)
         // 来源: v16.0.0全量重铸方案J — V18模块与原linked3深度整合
         // ============================================================
-        if (class_exists('\Linked3\Includes\V18')) {
+        if (class_exists('\Linked3\Classes\OS\V18')) {
             // 注册V18 AJAX/REST/短代码/Widget/Admin/DB
             // ── FIX v16.0.1: Guard method_exists — register_all() was missing
             // from the Facade, causing "method does not exist" fatal on init.
@@ -128,14 +128,14 @@ final class HookManager
         }
 
         // v8.3.0 M5: 质量闭环 AJAX (PQS / 批量一致性 / 劣化诊断)
-        if (class_exists('\Linked3\Includes\QualityLoop')) {
+        if (class_exists('\Linked3\Classes\Genesis\QualityLoop')) {
             add_action('wp_ajax_linked3_pqs_check', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_pqs_check']);
             add_action('wp_ajax_linked3_batch_check', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_batch_check']);
             add_action('wp_ajax_linked3_diagnose', ['\Linked3\Classes\Genesis\QualityLoop', 'ajax_diagnose']);
         }
 
         // v8.3.0 M6: 多平台适配 AJAX (切换平台预览)
-        if (class_exists('\Linked3\Includes\PlatformAdapter')) {
+        if (class_exists('\Linked3\Classes\AI\Pipeline\PlatformAdapter')) {
             add_action('wp_ajax_linked3_switch_platform', ['\Linked3\Classes\AI\Pipeline\PlatformAdapter', 'ajax_switch_platform']);
         }
 

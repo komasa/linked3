@@ -354,72 +354,72 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
             <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fef3c7; border: 1px solid #fde68a; border-radius: 6px; font-size: 11px; cursor: pointer;" title="去AI味五部门 (适应度:20) | 编排: 本质追问→反向→批判→质疑→落地 | 场景: 去AI味/人类化/反检测">
                     <input type="checkbox" value="deai_5d" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🛡️ 去AI味五部门 <span style="font-size: 9px; color: #92400e;">适应度20</span>
+                    🛡️ 去AI味五部门 <span class="lever-fitness" data-default="20" style="font-size: 9px; color: #92400e;">适应度20</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #dbeafe; border: 1px solid #93c5fd; border-radius: 6px; font-size: 11px; cursor: pointer;" title="创世演化 (适应度:21) | 编排: 本质→创造→批判→质疑→评估 | 场景: 方案生成/MVP锁定">
                     <input type="checkbox" value="genesis" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🌟 创世演化 <span style="font-size: 9px; color: #1e40af;">适应度21</span>
+                    🌟 创世演化 <span class="lever-fitness" data-default="21" style="font-size: 9px; color: #1e40af;">适应度21</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #dcfce7; border: 1px solid #86efac; border-radius: 6px; font-size: 11px; cursor: pointer;" title="深度谋划 (适应度:19) | 编排: 谋划→系统→反向→动态→压力测试 | 场景: 商业策略/博弈推演">
                     <input type="checkbox" value="deep_strategy" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🎯 深度谋划 <span style="font-size: 9px; color: #166534;">适应度19</span>
+                    🎯 深度谋划 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #166534;">适应度19</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fce7f3; border: 1px solid #f9a8d4; border-radius: 6px; font-size: 11px; cursor: pointer;" title="跨界创新 (适应度:18) | 编排: 跨界→隐喻→压力测试→折叠→反向 | 场景: 产品创新/跨界颠覆">
                     <input type="checkbox" value="cross_innovation" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🎨 跨界创新 <span style="font-size: 9px; color: #9f1239;">适应度18</span>
+                    🎨 跨界创新 <span class="lever-fitness" data-default="18" style="font-size: 9px; color: #9f1239;">适应度18</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #e0e7ff; border: 1px solid #a5b4fc; border-radius: 6px; font-size: 11px; cursor: pointer;" title="苏格拉底审查 (适应度:19) | 编排: 苏格拉底→质疑→本质→反向→评估 | 场景: 深度审查/批判分析">
                     <input type="checkbox" value="socratic_review" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🔍 苏格拉底审查 <span style="font-size: 9px; color: #3730a3;">适应度19</span>
+                    🔍 苏格拉底审查 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #3730a3;">适应度19</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fef9c3; border: 1px solid #fde047; border-radius: 6px; font-size: 11px; cursor: pointer;" title="超级Prompt转换器 (适应度:20) | 编排: 本质→信息→设计→折叠→落地 | 场景: Prompt升级/结构化转换">
                     <input type="checkbox" value="super_prompt" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    ⚡ 超级Prompt转换器 <span style="font-size: 9px; color: #854d0e;">适应度20</span>
+                    ⚡ 超级Prompt转换器 <span class="lever-fitness" data-default="20" style="font-size: 9px; color: #854d0e;">适应度20</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #f3e8ff; border: 1px solid #c084fc; border-radius: 6px; font-size: 11px; cursor: pointer;" title="认知审计 (适应度:19) | 编排: 自我校准→逻辑→评估→认知→质疑 | 场景: 偏差检测/谬误审查">
                     <input type="checkbox" value="cognitive_audit" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    📋 认知审计 <span style="font-size: 9px; color: #6b21a8;">适应度19</span>
+                    📋 认知审计 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #6b21a8;">适应度19</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 6px; font-size: 11px; cursor: pointer;" title="知识综合 (适应度:18) | 编排: 知识图谱→模式→类比→折叠→抽象 | 场景: 知识管理/图谱构建">
                     <input type="checkbox" value="knowledge_synthesis" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    📚 知识综合 <span style="font-size: 9px; color: #166534;">适应度18</span>
+                    📚 知识综合 <span class="lever-fitness" data-default="18" style="font-size: 9px; color: #166534;">适应度18</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 6px; font-size: 11px; cursor: pointer;" title="内容引擎 (适应度:20) | 编排: 叙事→情绪→说服力→语境→折叠 | 场景: 内容创作/小红书/视频">
                     <input type="checkbox" value="content_engine" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    ✍️ 内容引擎 <span style="font-size: 9px; color: #9a3412;">适应度20</span>
+                    ✍️ 内容引擎 <span class="lever-fitness" data-default="20" style="font-size: 9px; color: #9a3412;">适应度20</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 6px; font-size: 11px; cursor: pointer;" title="风险防御 (适应度:19) | 编排: 压力测试→因果→博弈→伦理→自我校准 | 场景: 风险防御/压力测试">
                     <input type="checkbox" value="risk_defense" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🛡️ 风险防御 <span style="font-size: 9px; color: #991b1b;">适应度19</span>
+                    🛡️ 风险防御 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #991b1b;">适应度19</span>
                 </label>
                 <!-- v27.17.9-fix1: 补全7个缺失的复合杠杆 (10→17) -->
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; font-size: 11px; cursor: pointer;" title="代码优化器 | 编排: 分析→重构→测试→验证→部署 | 场景: 代码审查/技术债务">
                     <input type="checkbox" value="code_optimizer" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🔧 代码优化器 <span style="font-size: 9px; color: #166534;">适应度18</span>
+                    🔧 代码优化器 <span class="lever-fitness" data-default="18" style="font-size: 9px; color: #166534;">适应度18</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fdf4ff; border: 1px solid #e9d5ff; border-radius: 6px; font-size: 11px; cursor: pointer;" title="创意引擎 | 编排: 联想→变异→组合→评估→迭代 | 场景: 创意生成/brainstorm">
                     <input type="checkbox" value="creative_engine" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    💡 创意引擎 <span style="font-size: 9px; color: #86198f;">适应度19</span>
+                    💡 创意引擎 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #86198f;">适应度19</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #ecfeff; border: 1px solid #a5f3fc; border-radius: 6px; font-size: 11px; cursor: pointer;" title="意图解码器 | 编排: 语义→上下文→情感→意图→响应 | 场景: 用户意图分析/NLU">
                     <input type="checkbox" value="intent_decoder" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🎯 意图解码器 <span style="font-size: 9px; color: #155e75;">适应度18</span>
+                    🎯 意图解码器 <span class="lever-fitness" data-default="18" style="font-size: 9px; color: #155e75;">适应度18</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; font-size: 11px; cursor: pointer;" title="质量关卡 | 编排: 规范→安全→性能→可维护→交付 | 场景: 质量保证/发布前审查">
                     <input type="checkbox" value="quality_gauntlet" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    ✅ 质量关卡 <span style="font-size: 9px; color: #92400e;">适应度20</span>
+                    ✅ 质量关卡 <span class="lever-fitness" data-default="20" style="font-size: 9px; color: #92400e;">适应度20</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; font-size: 11px; cursor: pointer;" title="种子重组器 | 编排: 拆解→变异→交叉→筛选→固化 | 场景: 方案重组/进化计算">
                     <input type="checkbox" value="seed_recombinator" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    🧬 种子重组器 <span style="font-size: 9px; color: #0369a1;">适应度19</span>
+                    🧬 种子重组器 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #0369a1;">适应度19</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fefce8; border: 1px solid #fde047; border-radius: 6px; font-size: 11px; cursor: pointer;" title="通用三件套 | 编排: 分析→生成→验证 | 场景: 通用任务处理">
                     <input type="checkbox" value="universal_trio" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    📐 通用三件套 <span style="font-size: 9px; color: #854d0e;">适应度17</span>
+                    📐 通用三件套 <span class="lever-fitness" data-default="17" style="font-size: 9px; color: #854d0e;">适应度17</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 6px; font-size: 11px; cursor: pointer;" title="写作深度 | 编排: 结构→逻辑→情感→风格→深度 | 场景: 深度写作/长文创作">
                     <input type="checkbox" value="writing_depth" class="cos-lever-checkbox cos-composite-checkbox" style="margin: 0;">
-                    ✍️ 写作深度 <span style="font-size: 9px; color: #9d174d;">适应度19</span>
+                    ✍️ 写作深度 <span class="lever-fitness" data-default="19" style="font-size: 9px; color: #9d174d;">适应度19</span>
                 </label>
             </div>
         </div>
@@ -613,8 +613,10 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
         for (var k in data) { if (data.hasOwnProperty(k)) fd.append(k, data[k]); }
         // v20.4-fix14: 客户端超时从 75s → 65s
         // v20.4-fix25: 客户端超时60s→65s, 配合动态timeout(后期杠杆45s)
+        // v27.8.8-fix: 客户端超时65s→120s, 配合后端set_time_limit(120) — 演化需要更多时间
+        // v27.8.9-fix: 客户端超时120s→180s, 配合后端set_time_limit(180) — G1可能需要更长时间
         var controller = new AbortController();
-        var timeoutId = setTimeout(function(){ controller.abort(); }, 65000);
+        var timeoutId = setTimeout(function(){ controller.abort(); }, 180000);
         return fetch(ajaxUrl, {method: 'POST', body: fd, credentials: 'same-origin', signal: controller.signal})
             .then(function(r){
                 clearTimeout(timeoutId);
@@ -638,7 +640,7 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                 clearTimeout(timeoutId);
                 // v20.4-fix14: 超时 abort 抛 AbortError, 转成更友好的中文提示
                 if (err.name === 'AbortError') {
-                    throw new Error('请求超时 (65秒), 服务器未响应。建议: 1)点击"重置 AI 熔断器" 2)减少勾选的杠杆数量 3)重试。');
+                    throw new Error('请求超时 (180秒), 服务器未响应。建议: 1)点击"重置 AI 熔断器" 2)减少勾选的杠杆数量 3)重试。');
                 }
                 throw err;
             });
@@ -692,50 +694,99 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
         return domainSelect.value;
     }
 
+    // v27.8.11 (审计Phase2): 问题描述失焦时动态评分杠杆
+    var problemInput = document.getElementById('cos-problem-input');
+    if (problemInput) {
+        var scoreTimer = null;
+        problemInput.addEventListener('blur', function(){
+            var problem = this.value.trim();
+            if (!problem || problem.length < 4) return; // 太短不评分
+            clearTimeout(scoreTimer);
+            scoreTimer = setTimeout(function(){
+                post('linked3_cos_score_levers', { problem: problem }).then(function(res){
+                    if (!res.success || !res.data || !res.data.scores) return;
+                    // 更新所有 lever-fitness 元素
+                    document.querySelectorAll('.lever-fitness').forEach(function(el){
+                        var defaultVal = el.getAttribute('data-default');
+                        // 复合杠杆的 id 映射 (简化: 用文本匹配)
+                        var labelText = el.parentElement.textContent.trim();
+                        var updated = false;
+                        for (var leverId in res.data.scores) {
+                            var score = res.data.scores[leverId];
+                            if (labelText.indexOf(score.label) !== -1) {
+                                el.textContent = '适应度' + score.fitness;
+                                el.style.fontWeight = score.match_count > 0 ? '700' : '400';
+                                updated = true;
+                                break;
+                            }
+                        }
+                        if (!updated) {
+                            // 没匹配到的保持默认
+                            el.textContent = '适应度' + defaultVal;
+                            el.style.fontWeight = '400';
+                        }
+                    });
+                }).catch(function(){});
+            }, 500);
+        });
+        // 页面加载时也触发一次
+        setTimeout(function(){ problemInput.blur(); }, 1000);
+    }
+
     // ── STEP 1+2: 启动演化 (v20.4-fix8: 异步逐代调用) ──
     var evolveBtn = document.getElementById('cos-evolve-btn');
     var resultDiv = document.getElementById('cos-evolve-result');
-    evolveBtn.addEventListener('click', function(){
-        var problem = document.getElementById('cos-problem-input').value.trim();
-        var domain  = getDomain();
-        if (!problem) { alert('请输入问题描述'); return; }
-        evolveBtn.disabled = true;
-        evolveBtn.textContent = '演化中...';
-        resultDiv.style.display = 'block';
 
-        // v20.4-fix8: 异步逐代演化 — G1 → G2 → G3 → finalize
-        var generations = [];
-        var finalMvp = null;
+    // v27.8.12: runGen 函数定义在外部, 供 runGenDirect 和预检成功后共用
+    function runGen(gen, baseline) {
+        resultDiv.innerHTML = '<div style="padding: 16px; text-align: center; color: #6b7280;"><div style="display: inline-block; width: 24px; height: 24px; border: 3px solid #e5e7eb; border-top-color: #667eea; border-radius: 50%; animation: cos-spin 0.8s linear infinite;"></div><div style="margin-top: 8px; font-size: 13px;">运行 ' + gen + ' 演化中 (AI 生成方案)...</div></div>';
 
-        function runGen(gen, baseline) {
-            resultDiv.innerHTML = '<div style="padding: 16px; text-align: center; color: #6b7280;"><div style="display: inline-block; width: 24px; height: 24px; border: 3px solid #e5e7eb; border-top-color: #667eea; border-radius: 50%; animation: cos-spin 0.8s linear infinite;"></div><div style="margin-top: 8px; font-size: 13px;">运行 ' + gen + ' 演化中 (AI 生成方案)...</div></div>';
+        var postData = {
+            problem: problem,
+            generation: gen,
+            domain: domain,
+        };
+        if (baseline) postData.baseline = JSON.stringify(baseline);
 
-            var postData = {
-                problem: problem,
-                generation: gen,
-                domain: domain,
-            };
-            if (baseline) postData.baseline = JSON.stringify(baseline);
-
-            return post('linked3_cos_evolve_gen', postData).then(function(res){
-                if (!res.success) {
-                    throw new Error(res.data?.message || gen + ' 演化失败');
+        return post('linked3_cos_evolve_gen', postData).then(function(res){
+            if (!res.success) {
+                var errMsg = (res.data && res.data.message) ? res.data.message : (gen + ' 演化失败');
+                var elapsed = (res.data && res.data.elapsed) ? ' (耗时 ' + res.data.elapsed + 's)' : '';
+                var diagInfo = '';
+                if (res.data && res.data.diagnosis) {
+                    var d = res.data.diagnosis;
+                    if (d.ai_config) {
+                        if (!d.ai_config.any_provider_has_key) {
+                            diagInfo = '\n⚠️ 诊断: 未配置任何 AI Provider 的 API Key, 请到「系统设置→API设置」配置。';
+                        } else if (!d.ai_config.default_has_key) {
+                            diagInfo = '\n⚠️ 诊断: 默认 Provider "' + d.ai_config.default_provider + '" 未配置 Key, 但其他 Provider 有 Key。请切换默认 Provider 或配置对应 Key。';
+                        }
+                    }
                 }
-                var genResult = res.data;
-                generations.push(genResult);
-                if (genResult.mvp) {
-                    finalMvp = genResult.mvp;
-                }
-                return genResult;
-            });
-        }
+                var err = new Error(errMsg + elapsed + diagInfo);
+                err.diagnosis = res.data && res.data.diagnosis;
+                throw err;
+            }
+            var genResult = res.data;
+            if (genResult.status && genResult.status !== 'pass') {
+                var failMsg = genResult.message || (gen + ' 演化状态: ' + genResult.status);
+                if (genResult.failed_at) failMsg += ' (失败部门: ' + genResult.failed_at + ')';
+                throw new Error(failMsg);
+            }
+            generations.push(genResult);
+            if (genResult.mvp) {
+                finalMvp = genResult.mvp;
+            }
+            return genResult;
+        });
+    }
 
-        // 串行执行 G1 → G2 → G3 → finalize
+    // v27.8.12: 演化链执行函数 (G1→G2→G3→finalize)
+    function runEvolutionChain() {
         runGen('G1', null)
             .then(function(g1){ return runGen('G2', g1.mvp); })
             .then(function(g2){ return runGen('G3', g2.mvp); })
             .then(function(){
-                // G3 完成, 调用 finalize 结晶 Skill
                 if (!finalMvp) throw new Error('未获得最终 MVP');
                 return post('linked3_cos_evolve_finalize', {
                     problem: problem,
@@ -748,7 +799,6 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                 evolveBtn.disabled = false;
                 evolveBtn.textContent = '▶ 启动演化';
                 if (res.success) {
-                    // 构造与旧格式兼容的结果
                     var compatResult = {
                         final_status: 'success',
                         final_mvp: finalMvp,
@@ -756,7 +806,6 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
                     };
                     renderEvolveResult(compatResult);
                     refreshDashboard();
-                    // 自动推荐杠杆
                     if (finalMvp && finalMvp.approach) {
                         autoRecommendLevers(problem, domain, finalMvp.approach);
                     }
@@ -767,10 +816,47 @@ $ajax_url  = esc_url(admin_url('admin-ajax.php'));
             .catch(function(err){
                 evolveBtn.disabled = false;
                 evolveBtn.textContent = '▶ 启动演化';
-                resultDiv.innerHTML = '<div style="padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #991b1b; font-size: 13px;">❌ 演化失败: ' + escapeHtml(String(err.message || err)) + '<br><br><button id="cos-diag-btn" style="background: #1f2937; color: #fff; border: none; padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer;">🔍 运行 AI 诊断</button><div id="cos-diag-result" style="margin-top: 8px;"></div></div>';
+                var errHtml = '<div style="padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #991b1b; font-size: 13px;">';
+                errHtml += '❌ 演化失败: ' + escapeHtml(String(err.message || err));
+                errHtml += '<br><br><button id="cos-diag-btn" style="background: #1f2937; color: #fff; border: none; padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer;">🔍 运行 AI 诊断</button>';
+                if (err.diagnosis) {
+                    errHtml += ' <button id="cos-show-diag" style="background: #6b7280; color: #fff; border: none; padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-left: 8px;">📋 查看诊断详情</button>';
+                }
+                errHtml += '<div id="cos-diag-result" style="margin-top: 8px;"></div>';
+                errHtml += '</div>';
+                resultDiv.innerHTML = errHtml;
                 var diagBtn = document.getElementById('cos-diag-btn');
                 if (diagBtn) diagBtn.addEventListener('click', runDiagnose);
+                var showDiagBtn = document.getElementById('cos-show-diag');
+                if (showDiagBtn) {
+                    showDiagBtn.addEventListener('click', function(){
+                        var diagHtml = '<div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 10px; margin-top: 8px; font-size: 12px; color: #856404; white-space: pre-wrap;">';
+                        diagHtml += '<strong>诊断详情:</strong>\n' + escapeHtml(JSON.stringify(err.diagnosis, null, 2));
+                        diagHtml += '</div>';
+                        document.getElementById('cos-diag-result').innerHTML = diagHtml;
+                    });
+                }
             });
+    }
+
+    evolveBtn.addEventListener('click', function(){
+        var problem = document.getElementById('cos-problem-input').value.trim();
+        var domain  = getDomain();
+        if (!problem) { alert('请输入问题描述'); return; }
+
+        evolveBtn.disabled = true;
+        evolveBtn.textContent = '演化中...';
+        resultDiv.style.display = 'block';
+
+        // v27.8.12: 移除阻塞式预检 (ajax_diagnose 会做AI调用, 60s超时)
+        // 改为直接开始演化 — 如果 AI 未配置, 演化会返回 fallback 方案 (v27.8.10 已实现)
+        // 或在 catch 中显示诊断信息引导用户配置
+        var generations = [];
+        var finalMvp = null;
+
+        resultDiv.innerHTML = '<div style="padding: 16px; text-align: center; color: #6b7280;"><div style="display: inline-block; width: 24px; height: 24px; border: 3px solid #e5e7eb; border-top-color: #667eea; border-radius: 50%; animation: cos-spin 0.8s linear infinite;"></div><div style="margin-top: 8px; font-size: 13px;">运行 G1 演化中 (AI 生成方案)...</div></div>';
+
+        runEvolutionChain();
     });
 
     // v20.4-fix6: AI 诊断功能

@@ -338,7 +338,18 @@ if (!defined('ABSPATH')) {
                             renderStep();
                         }
                     });
-                    overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.style.display = 'none'; });
+                    // v27.9.0 (P1-B): 修复鼠标拖选文本时浮层误关 — 追踪 mousedown 起点
+                    var wizardMouseDownTarget = null;
+                    overlay.addEventListener('mousedown', function(e){
+                        wizardMouseDownTarget = e.target;
+                    });
+                    overlay.addEventListener('click', function(e){
+                        // 只有 mousedown 和 mouseup 都在 overlay 背景上才关闭
+                        if (e.target === overlay && wizardMouseDownTarget === overlay) {
+                            overlay.style.display = 'none';
+                        }
+                        wizardMouseDownTarget = null;
+                    });
                 })();
                 </script>
                 <?php

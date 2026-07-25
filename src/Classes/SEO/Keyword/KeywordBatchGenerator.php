@@ -222,7 +222,7 @@ final class KeywordBatchGenerator
         }
         $suffix = get_option(LINKED3_OPTION_PREFIX . 'ai_suffix_text', '');
         if (empty($suffix)) {
-            $suffix = '本文基于公开技术资料和厂商官方信息整合撰写,以确保信息的时效性与客观性。我们建议您将所有信息作为决策参考,并最终以各云厂商官方页面的最新公告为准。';
+            $suffix = __('本文基于公开技术资料和厂商官方信息整合撰写,以确保信息的时效性与客观性。我们建议您将所有信息作为决策参考,并最终以各云厂商官方页面的最新公告为准。', 'linked3');
         }
         return $content . "\n\n---\n" . $suffix;
     }

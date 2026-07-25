@@ -5,11 +5,11 @@ namespace Linked3\Classes\Dashboard;
 if (!defined('ABSPATH')) exit;
 class GenesisProcessorDelegates
 {
-    public static function ajax_genesis_generate() : mixed { return GenesisAjaxCore::ajax_genesis_generate(); }
+    public static function ajax_genesis_generate() : bool { return GenesisAjaxCore::ajax_genesis_generate(); }
 
-    public static function ajax_genesis_styles() : mixed { return GenesisAjaxCore::ajax_genesis_styles(); }
+    public static function ajax_genesis_styles() : bool { return GenesisAjaxCore::ajax_genesis_styles(); }
 
-    public static function ajax_genesis_generate_multi() : mixed { return GenesisAjaxCore::ajax_genesis_generate_multi(); }
+    public static function ajax_genesis_generate_multi() : bool { return GenesisAjaxCore::ajax_genesis_generate_multi(); }
 
     public static function genesisGenerateMultiInternal(string $script, string $styleId, string $platform, string $panelCountRaw, ?callable $progressCb = null, array $extraOptions = []): array
     {
@@ -17,7 +17,7 @@ class GenesisProcessorDelegates
         $seedId = $extraOptions['seed_id'] ?? '';
         $seedDNA = null;
         if (!empty($seedId) && class_exists('\GenesisSeedDNA')) {
-            $seedDNA = \GenesisSeedDNA::get($seedId);
+            $seedDNA = \Linked3\Classes\Genesis\GenesisSeedDNA::get($seedId);
             if ($seedDNA && $progressCb) {
                 $progressCb(3, 'seed_loaded', '已加载 Seed DNA: ' . ($seedDNA['name'] ?? $seedId));
             }
@@ -197,7 +197,9 @@ class GenesisProcessorDelegates
                             $aiDegraded = false;  // 重试成功, 清除劣化标记
                         }
                     } catch (\Throwable $e) {
-                        // 重试也失败 → 走本地兜底
+                        // v27.6.21-fix: Log retry failure
+                        if (function_exists('linked3_log')) linked3_log('genesis', 'warning', 'AI retry failed: ' . $e->getMessage());
+                        else error_log('[linked3] AI retry failed: ' . $e->getMessage());
                     }
                 }
                 // AI 失败 + 重试也失败 → 降级本地 PromptAssembler 组装
@@ -297,7 +299,7 @@ class GenesisProcessorDelegates
             // v7.7.0: 风格污染审计
             $styleAudit = ['contaminated_count' => 0, 'clean_count' => count($results), 'issues' => []];
             if (class_exists('\GenesisStyleEngine') && !empty($results)) {
-                $styleAudit = \GenesisStyleEngine::auditNodes($styleId, $results);
+                $styleAudit = \Linked3\Classes\Genesis\GenesisStyleEngine::auditNodes($styleId, $results);
             }
             return [
                 'panels'      => $results,
@@ -408,6 +410,6 @@ class GenesisProcessorDelegates
         return ['ok' => true, 'provider' => $providerSlug];
     }
 
-    public static function ajax_genesis_test_connection() : mixed { return GenesisAjaxCore::ajax_genesis_test_connection(); }
+    public static function ajax_genesis_test_connection() : bool { return GenesisAjaxCore::ajax_genesis_test_connection(); }
 
 }

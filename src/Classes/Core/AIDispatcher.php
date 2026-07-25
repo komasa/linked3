@@ -183,7 +183,8 @@ final class AIDispatcher
                     $this->tokens->record($user_id, $session_id, (int) $result['usage']['total_tokens'], $bot_id);
                 }
                 return $result;
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
+                // v27.8.14: catch \Throwable 而非 \Exception — 捕获 TypeError/Error 等
                 $last_error = $e;
                 $this->record_failure($slug, $e->getMessage());
                 $this->log->error('ai', "Provider {$slug} failed: " . $e->getMessage(), [

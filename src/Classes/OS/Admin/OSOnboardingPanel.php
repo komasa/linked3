@@ -38,8 +38,8 @@ class OSOnboardingPanel {
      */
     public static function render_panel(): string {
         $html = '<div class="wrap linked3-v18-panel">';
-        $html .= '<h1>入流追踪进度面板 <span class="version">v15.0.0</span></h1>';
-        $html .= '<p>100天进度可视化</p>';
+        $html .= __('<h1>入流追踪进度面板 <span class="version">v15.0.0</span></h1>', 'linked3');
+        $html .= __('<p>100天进度可视化</p>', 'linked3');
         $html .= '<div class="panel-content">' . self::render_content() . '</div>';
         $html .= '</div>';
         return $html;

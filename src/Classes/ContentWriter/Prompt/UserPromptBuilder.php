@@ -20,7 +20,7 @@ final class UserPromptBuilder
      * @param array $params {keyword, title, outline, word_count, references, extra_instructions}
      * @return string
      */
-    public function build(array $params) : mixed {
+    public function build(array $params) : string {
         $keyword = $params['keyword'] ?? '';
         $title = $params['title'] ?? '';
         $outline = $params['outline'] ?? [];

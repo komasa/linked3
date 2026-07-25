@@ -166,7 +166,7 @@ PROMPT;
             }
         }
         if (!empty($custom_style)) {
-            $style_prompt .= "\n自定义风格要求: " . $custom_style;
+            $style_prompt .= __('\n自定义风格要求: ', 'linked3') . $custom_style;
         }
 
         // V15 上下文
@@ -215,7 +215,7 @@ PROMPT;
         // 同时改用 ::instance() 单例（构造器为 private，new 会再触发 fatal）。
         $dispatcher = AIDispatcher::instance();
         // v19.40: 绞杀模式 — system_prompt 通过 apply_filters 可被元提示词杠杆增强
-        $base_system_prompt = '你是专业的小红书内容创作者，精通爆款图文笔记创作。必须严格输出JSON格式。';
+        $base_system_prompt = __('你是专业的小红书内容创作者，精通爆款图文笔记创作。必须严格输出JSON格式。', 'linked3');
         $system_prompt = apply_filters('linked3_xhs_system_prompt', $base_system_prompt, $params);
         $messages = [
             ['role' => 'system', 'content' => $system_prompt],
@@ -258,7 +258,7 @@ PROMPT;
      * @param string $content
      * @return array|null
      */
-    private function parse_json_response(string $content) : mixed     {
+    private function parse_json_response(string $content) : null     {
         // 尝试 1: 直接 json_decode
         $decoded = json_decode($content, true);
         if (is_array($decoded)) {

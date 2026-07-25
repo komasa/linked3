@@ -34,7 +34,7 @@ final class ChatSendAction extends ChatBaseAjaxAction
         ]);
     }
 
-    private function get_bot_config($bot_id) : mixed {
+    private function get_bot_config($bot_id) : array {
         // Bots stored as options (MVP). v0.7.10 admin page will add CRUD.
         $bots = get_option(LINKED3_OPTION_PREFIX . 'chat_bots', []);
         if (is_array($bots) && isset($bots[$bot_id])) {

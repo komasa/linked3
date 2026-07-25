@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
 final class ZhihuDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'zhihu'; }
-    public function label() : string { return '知乎 (MCP 中转)'; }
+    public function label() : string { return __('知乎 (MCP 中转)', 'linked3'); }
 
     public function publish(array $post_data, array $config): array {
         $api_url = $config['api_url'] ?? '';

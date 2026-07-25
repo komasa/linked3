@@ -58,7 +58,7 @@ final class DiscordDistributor implements DistributeAdapterInterface
         return ['ok' => true, 'remote_id' => '', 'message' => 'ok'];
     }
 
-    public function test(array $config) : mixed {
+    public function test(array $config) : array {
         $webhook = $config['webhook_url'] ?? '';
         if (!$webhook) return ['ok' => false, 'message' => __('缺少 Webhook URL。', 'linked3')];
         $resp = SafeRemote::post($webhook, [

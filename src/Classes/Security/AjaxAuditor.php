@@ -33,7 +33,7 @@ final class AjaxAuditor
      *   accepted_args: int
      * }[]
      */
-    public function scan() : mixed {
+    public function scan() : bool {
         global $wp_filter;
         $rows = [];
 

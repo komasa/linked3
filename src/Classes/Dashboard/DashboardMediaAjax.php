@@ -24,7 +24,7 @@ class DashboardMediaAjax
             = self::parseDiagramInputs();
         $topic = self::resolveDiagramTopic($topic, $content);
 
-        if (!class_exists('\Linked3\Classes\Dashboard\DiagramMasterTemplate')) {
+        if (!class_exists('\Linked3\Classes\Diagram\DiagramMasterTemplate')) {
             wp_send_json_error(['message' => __('图示引擎未加载 (需要 v6.1.0+)', 'linked3-ai')]);
         }
 
@@ -42,7 +42,7 @@ class DashboardMediaAjax
         try {
             $bands = self::aiExpandToBands($topic, $content, $diagramType);
             $config = self::buildDiagramConfig($topic, $brand, $mood, $culture, $color, $density, $endpointType, $footerText, $bands);
-            $result = (new \DiagramMasterTemplate())->generate($config);
+            $result = (new \Linked3\Classes\Diagram\DiagramMasterTemplate())->generate($config);
             $extras = self::collectDiagramExtras($result, $diagramType, $endpointType);
 
             wp_send_json_success(array_merge([
@@ -83,7 +83,7 @@ class DashboardMediaAjax
             wp_send_json_error(['message' => __('校验引擎未加载', 'linked3-ai')]);
         }
 
-        $validator = new \DiagramValidation13Dim();
+        $validator = new \Linked3\Classes\Diagram\DiagramValidation13Dim();
         $result = $validator->validate($diagram);
 
         wp_send_json_success($result);
@@ -97,11 +97,11 @@ class DashboardMediaAjax
         $types16 = [];
         $spectrum30 = [];
 
-        if (class_exists('\Linked3\Classes\Dashboard\DiagramTypeRegistry')) {
-            $types16 = \DiagramTypeRegistry::instance()->all();
+        if (class_exists('\Linked3\Classes\Diagram\DiagramTypeRegistry')) {
+            $types16 = \Linked3\Classes\Diagram\DiagramTypeRegistry::instance()->all();
         }
-        if (class_exists('\Linked3\Classes\Dashboard\Diagram30Spectrum')) {
-            $spectrum30 = \Diagram30Spectrum::instance()->all();
+        if (class_exists('\Linked3\Classes\Diagram\Diagram30Spectrum')) {
+            $spectrum30 = \Linked3\Classes\Diagram\Diagram30Spectrum::instance()->all();
         }
 
         wp_send_json_success([
@@ -119,7 +119,7 @@ class DashboardMediaAjax
             = self::parseDiagramInputs();
         $topic = self::resolveDiagramTopic($topic, $content);
 
-        if (!class_exists('\Linked3\Classes\Dashboard\DiagramMasterTemplate')) {
+        if (!class_exists('\Linked3\Classes\Diagram\DiagramMasterTemplate')) {
             wp_send_json_error(['message' => __('图示引擎未加载 (需要 v6.1.0+)', 'linked3-ai')]);
         }
 
@@ -183,9 +183,9 @@ class DashboardMediaAjax
         $color = sanitize_text_field($_POST['color'] ?? '');
 
         // v6.5.5: 空值填默认
-        if (empty($brand)) $brand = '知识图谱';
-        if (empty($mood)) $mood = '宏大严密·克制高级';
-        if (empty($culture)) $culture = '结构化知识图谱';
+        if (empty($brand)) $brand = __('知识图谱', 'linked3');
+        if (empty($mood)) $mood = __('宏大严密·克制高级', 'linked3');
+        if (empty($culture)) $culture = __('结构化知识图谱', 'linked3');
         if (empty($color)) $color = '#2F4F4F';
 
         return [$topic, $content, $brand, $diagramType, $density, $endpointType, $footerText, $mood, $culture, $color];
@@ -240,13 +240,13 @@ class DashboardMediaAjax
     {
         $extras = ['validation_13dim' => [], 'type_info' => [], 'endpoint_info' => []];
         if (class_exists('\Linked3\Classes\Diagram\DiagramValidation13Dim')) {
-            $extras['validation_13dim'] = (new \DiagramValidation13Dim())->validate($result);
+            $extras['validation_13dim'] = (new \Linked3\Classes\Diagram\DiagramValidation13Dim())->validate($result);
         }
-        if (class_exists('\Linked3\Classes\Dashboard\DiagramTypeRegistry')) {
-            $extras['type_info'] = \DiagramTypeRegistry::instance()->get($diagramType);
+        if (class_exists('\Linked3\Classes\Diagram\DiagramTypeRegistry')) {
+            $extras['type_info'] = \Linked3\Classes\Diagram\DiagramTypeRegistry::instance()->get($diagramType);
         }
-        if (class_exists('\Linked3\Classes\Dashboard\DiagramEndpointRegistry')) {
-            $extras['endpoint_info'] = \DiagramEndpointRegistry::instance()->get($endpointType);
+        if (class_exists('\Linked3\Classes\Diagram\DiagramEndpointRegistry')) {
+            $extras['endpoint_info'] = \Linked3\Classes\Diagram\DiagramEndpointRegistry::instance()->get($endpointType);
         }
         return $extras;
     }
@@ -264,7 +264,7 @@ class DashboardMediaAjax
             foreach ($band['modules'] ?? [] as $moduleIdx => $module) {
                 $totalModules++;
                 $moduleConfig = self::buildModuleConfig($band, $bandIdx, $module, $brand, $mood, $culture, $color, $density, $endpointType);
-                $result = (new \DiagramMasterTemplate())->generate($moduleConfig);
+                $result = (new \Linked3\Classes\Diagram\DiagramMasterTemplate())->generate($moduleConfig);
                 $prompts[] = [
                     'badge'        => $module['badge'] ?? str_pad((string)$totalModules, 2, '0', STR_PAD_LEFT),
                     'title'        => $module['title'] ?? '模块' . $totalModules,
@@ -462,7 +462,7 @@ class DashboardMediaAjax
             wp_send_json_error(['message' => __('图示项无效', 'linked3')]);
         }
         $brand_profile_id = (int) ($_POST['brand_profile_id'] ?? 0);
-        $v15_context = self::build_v15_context_from_request($brand_profile_id, get_current_user_id());
+        $v15_context = DashboardVideoAjax::build_v15_context_from_request($brand_profile_id, get_current_user_id());
 
         if (!class_exists('\\Linked3\\Classes\\V15\\V15ChartPromptGenerator')) {
             wp_send_json_error(['message' => __('图示脚本生成器未加载', 'linked3')]);

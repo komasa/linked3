@@ -33,11 +33,11 @@ final class GenesisProcessor
      * v6.6.0: Genesis 漫画脚本生成。
      * 5层管线: 剧本解析→原子选择→Prompt组装→PQS质检→平台适配
      */
-        public static function ajax_genesis_generate() : mixed { return GenesisProcessorDelegates::ajax_genesis_generate(); }
+        public static function ajax_genesis_generate() : bool { return GenesisProcessorDelegates::ajax_genesis_generate(); }
     /**
      * v6.6.0: 获取 Genesis 风格列表。
      */
-        public static function ajax_genesis_styles() : mixed { return GenesisProcessorDelegates::ajax_genesis_styles(); }
+        public static function ajax_genesis_styles() : bool { return GenesisProcessorDelegates::ajax_genesis_styles(); }
     /**
      * v7.1.0: AI 自动拆分剧本/故事 → N 个分镜, 每个分镜独立 Prompt。
      *
@@ -51,7 +51,7 @@ final class GenesisProcessor
      *   - v7.0.5 旧流程让 AI 一次返回 N 个完整 prompt_en, 小模型输出长就偷懒只给 1 个
      *   - v7.1.0 把"拆分"和"组装 Prompt"解耦, 拆分阶段输出极短, 组装阶段每节点独立 AI 调用
      */
-        public static function ajax_genesis_generate_multi() : mixed { return GenesisProcessorDelegates::ajax_genesis_generate_multi(); }
+        public static function ajax_genesis_generate_multi() : bool { return GenesisProcessorDelegates::ajax_genesis_generate_multi(); }
     /**
      * v7.1.5: 核心生成逻辑 (从 ajax_genesis_generate_multi 提取)
      *
@@ -86,7 +86,7 @@ final class GenesisProcessor
      * 用户点击「测试连接」按钮, 发起一次最小 AI 调用 (1 token),
      * 3s 内返回结果。用于排查 "Failed to fetch" 是否为网络/API 问题。
      */
-        public static function ajax_genesis_test_connection() : mixed { return GenesisProcessorDelegates::ajax_genesis_test_connection(); }
+        public static function ajax_genesis_test_connection() : bool { return GenesisProcessorDelegates::ajax_genesis_test_connection(); }
     // ============================================================
     // v7.1.5: 异步任务模式 (彻底解决 Failed to fetch)
     // ============================================================
@@ -96,7 +96,7 @@ final class GenesisProcessor
      * 浏览器调用此接口, 50ms 内拿到 job_id, 然后轮询 ajax_genesis_poll_job
      * 这样彻底绕过 nginx/Apache/PHP-FPM 的 60s 超时限制
      */
-        public static function ajax_genesis_start_job() : mixed { return GenesisAjaxCore::ajax_genesis_start_job(); }
+        public static function ajax_genesis_start_job() : bool { return GenesisAjaxCore::ajax_genesis_start_job(); }
     /**
      * v7.1.5: 轮询任务状态
      */
@@ -106,7 +106,7 @@ final class GenesisProcessor
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
         $jobId = sanitize_text_field($_POST['job_id'] ?? $_GET['job_id'] ?? '');
         if (empty($jobId)) wp_send_json_error(['message' => __('缺少 job_id', 'linked3-ai')]);
-        $status = \GenesisJobRunner::pollJob($jobId);
+        $status = \Linked3\Classes\Genesis\GenesisJobRunner::pollJob($jobId);
         if ($status['status'] === 'not_found') {
             wp_send_json_error(['message' => $status['message'], 'error_type' => 'job_not_found']);
         }
@@ -120,14 +120,14 @@ final class GenesisProcessor
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
         $jobId = sanitize_text_field($_POST['job_id'] ?? '');
-        $ok = \GenesisJobRunner::cancelJob($jobId);
+        $ok = \Linked3\Classes\Genesis\GenesisJobRunner::cancelJob($jobId);
         wp_send_json_success(['cancelled' => $ok]);
     }
     /**
      * v7.1.5: WP-Cron 回调 — 执行任务
      */
     static function cron_genesis_run_job(int $jobId): void {
-        \GenesisJobRunner::runJob($jobId);
+        \Linked3\Classes\Genesis\GenesisJobRunner::runJob($jobId);
     }
     // ============================================================
     // v8.0.0: Seed DNA AJAX 端点
@@ -143,12 +143,12 @@ final class GenesisProcessor
         $styleId = sanitize_text_field($_POST['style'] ?? 'exorcism_dark_ink');
         $seedName = sanitize_text_field($_POST['seed_name'] ?? '未命名 Seed');
         if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
-        $styleConfig = \GenesisStyleEngine::load($styleId);
+        $styleConfig = \Linked3\Classes\Genesis\GenesisStyleEngine::load($styleId);
         $styleName = $styleConfig['name_cn'] ?? $styleId;
         try {
-            $dna = \GenesisSeedDNA::generate($script, $styleId, $styleName);
+            $dna = \Linked3\Classes\Genesis\GenesisSeedDNA::generate($script, $styleId, $styleName);
             $dna['name'] = $seedName;
-            $seedId = \GenesisSeedDNA::save($dna);
+            $seedId = \Linked3\Classes\Genesis\GenesisSeedDNA::save($dna);
             wp_send_json_success([
                 'seed_id'   => $seedId,
                 'seed_name' => $seedName,
@@ -167,9 +167,9 @@ final class GenesisProcessor
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
         // v9.1.2: 优先用 CPT (GenesisSeedCPT::listAll), 内部已合并旧 option 存储
-        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT', 'listAll')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT') && method_exists('\Linked3\Classes\Genesis\GenesisSeedCPT', 'listAll')) {
             try {
-                $seeds = \GenesisSeedCPT::listAll();
+                $seeds = \Linked3\Classes\Genesis\GenesisSeedCPT::listAll();
                 wp_send_json_success(['seeds' => $seeds]);
                 return;
             } catch (\Throwable $e) {
@@ -181,9 +181,9 @@ final class GenesisProcessor
         }
         // 兜底: 旧 option 存储 (GenesisSeedDNA::getAll)
         $seeds = [];
-        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisSeedDNA')) {
             try {
-                $legacy = (array) \GenesisSeedDNA::getAll();
+                $legacy = (array) \Linked3\Classes\Genesis\GenesisSeedDNA::getAll();
                 foreach ($legacy as $dna) {
                     $sid = $dna['seed_id'] ?? '';
                     if (empty($sid)) continue;
@@ -194,7 +194,9 @@ final class GenesisProcessor
                     ];
                 }
             } catch (\Throwable $e) {
-                // 全部失败 → 返回空列表 (前端会提示 "Seed 库为空")
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (function_exists('linked3_log')) linked3_log('genesis', 'warning', 'Seed list query failed: ' . $e->getMessage());
+                else error_log('[linked3] Seed list query failed: ' . $e->getMessage());
             }
         }
         wp_send_json_success(['seeds' => $seeds]);
@@ -210,19 +212,26 @@ final class GenesisProcessor
         if (empty($seedId)) wp_send_json_error(['message' => __('seed_id 不能为空', 'linked3-ai')], 400);
         $ok = false;
         // 1) CPT 删除
-        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) {
             try {
-                $seed = \GenesisSeedCPT::get($seedId);
+                $seed = \Linked3\Classes\Genesis\GenesisSeedCPT::get($seedId);
                 if (!empty($seed['post_id'])) {
-                    $ok = \GenesisSeedCPT::trash($seed['post_id']);
+                    $ok = \Linked3\Classes\Genesis\GenesisSeedCPT::trash($seed['post_id']);
                 }
             } catch (\Throwable $e) {
-                // 落入兜底
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (function_exists('linked3_log')) linked3_log('genesis', 'warning', 'Seed CPT delete failed: ' . $e->getMessage());
+                else error_log('[linked3] Seed CPT delete failed: ' . $e->getMessage());
             }
         }
         // 2) 旧 option 删除
-        if (!$ok && class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA', 'delete')) {
-            try { $ok = (bool) \GenesisSeedDNA::delete($seedId); } catch (\Throwable $e) {}
+        if (!$ok && class_exists('\Linked3\Classes\Genesis\GenesisSeedDNA') && method_exists('\Linked3\Classes\Genesis\GenesisSeedDNA', 'delete')) {
+            try { $ok = (bool) \Linked3\Classes\Genesis\GenesisSeedDNA::delete($seedId); } catch (\Throwable $e) {
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (class_exists('\Linked3\Includes\Log\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->warning('genesis', 'Seed delete failed: ' . $e->getMessage(), ['seed_id' => $seedId]);
+                }
+            }
         }
         wp_send_json_success(['deleted' => $ok]);
     }
@@ -237,17 +246,27 @@ final class GenesisProcessor
         if (empty($seedId)) wp_send_json_error(['message' => __('seed_id 不能为空', 'linked3-ai')], 400);
         $json = null;
         // 1) CPT 导出
-        if (class_exists('\Linked3\Classes\Dashboard\GenesisSeedCPT')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) {
             try {
-                $seed = \GenesisSeedCPT::get($seedId);
+                $seed = \Linked3\Classes\Genesis\GenesisSeedCPT::get($seedId);
                 if (!empty($seed)) {
                     $json = wp_json_encode($seed, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (class_exists('\Linked3\Includes\Log\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->warning('genesis', 'Seed CPT export failed: ' . $e->getMessage(), ['seed_id' => $seedId]);
+                }
+            }
         }
         // 2) 旧 option 导出
-        if (empty($json) && class_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA') && method_exists('\Linked3\Classes\Dashboard\GenesisSeedDNA', 'exportJSON')) {
-            try { $json = \GenesisSeedDNA::exportJSON($seedId); } catch (\Throwable $e) {}
+        if (empty($json) && class_exists('\Linked3\Classes\Genesis\GenesisSeedDNA') && method_exists('\Linked3\Classes\Genesis\GenesisSeedDNA', 'exportJSON')) {
+            try { $json = \Linked3\Classes\Genesis\GenesisSeedDNA::exportJSON($seedId); } catch (\Throwable $e) {
+                // v27.6.21-fix: Log error instead of silently swallowing
+                if (class_exists('\Linked3\Includes\Log\Logger')) {
+                    \Linked3\Includes\Log\Logger::instance()->warning('genesis', 'Seed DNA export failed: ' . $e->getMessage(), ['seed_id' => $seedId]);
+                }
+            }
         }
         wp_send_json_success(['json' => $json, 'seed_id' => $seedId]);
     }
@@ -294,7 +313,7 @@ final class GenesisProcessor
                     'GenesisAtomIndex'       => class_exists('\Linked3\Classes\Dashboard\GenesisAtomIndex'),
                     'GenesisPromptAssembler' => class_exists('\Linked3\Classes\Genesis\GenesisPromptAssembler'),
                     'GenesisPQSChecker'      => class_exists('\Linked3\Classes\Genesis\GenesisPQSChecker'),
-                    'GenesisJobRunner'       => class_exists('\Linked3\Classes\Dashboard\GenesisJobRunner'),
+                    'GenesisJobRunner'       => class_exists('\Linked3\Classes\Genesis\GenesisJobRunner'),
                 ],
                 'preflight'      => self::genesisPreflightCheck(),
             ],
@@ -311,16 +330,16 @@ final class GenesisProcessor
             if ($mem < 256) $rec[] = '⚠️ memory_limit=' . ini_get('memory_limit') . ' 过小, 建议 ≥512M';
         }
         if (!function_exists('curl_multi_init')) {
-            $rec[] = '⚠️ curl_multi 不可用, 将降级串行模式 (慢)';
+            $rec[] = __('⚠️ curl_multi 不可用, 将降级串行模式 (慢)', 'linked3');
         }
         if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON) {
-            $rec[] = '⚠️ WP-Cron 被禁用, 异步任务模式将退化为 fastcgi_finish_request 或同步模式';
+            $rec[] = __('⚠️ WP-Cron 被禁用, 异步任务模式将退化为 fastcgi_finish_request 或同步模式', 'linked3');
         }
         if (!$info['server']['fastcgi_finish']) {
-            $rec[] = '⚠️ fastcgi_finish_request 不可用, 无法在响应后后台执行';
+            $rec[] = __('⚠️ fastcgi_finish_request 不可用, 无法在响应后后台执行', 'linked3');
         }
         if (empty($rec)) {
-            $rec[] = '✅ 服务器配置良好, 异步任务模式可正常工作';
+            $rec[] = __('✅ 服务器配置良好, 异步任务模式可正常工作', 'linked3');
         }
         wp_send_json_success($info);
     }

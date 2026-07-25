@@ -20,6 +20,7 @@ class ScaleBootstrap {
         if (self::$booted) return;
         self::$booted = true;
 
+        if (!function_exists('linked3_container')) { return; }
         $container = linked3_container();
         $container->set('vector.incremental', fn() => VectorIncremental::instance());
         $container->set('i18n.manager', fn() => I18nManager::instance());

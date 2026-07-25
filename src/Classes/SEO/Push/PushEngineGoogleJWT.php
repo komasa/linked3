@@ -126,7 +126,7 @@ final class PushEngineGoogleJWT implements PushEngine
      * @param array $cfg
      * @return string
      */
-    private function fetch_access_token(array $cfg) : mixed     {
+    private function fetch_access_token(array $cfg) : string     {
         $cache_key = LINKED3_OPTION_PREFIX . 'google_jwt_token';
         $cached = get_transient($cache_key);
         if (is_string($cached) && $cached !== '') {
@@ -163,7 +163,7 @@ final class PushEngineGoogleJWT implements PushEngine
      * @param array $cfg
      * @return string
      */
-    private function build_jwt(array $cfg) : mixed {
+    private function build_jwt(array $cfg) : string {
         if (empty($cfg['client_email']) || empty($cfg['private_key'])) {
             return '';
         }

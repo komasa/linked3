@@ -35,7 +35,7 @@ class GenesisFPUtils
         }
         $exampleJson = json_encode(['nodes' => $exampleNodes], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-        $styleHint = self::getStyleHint($styleId, $styleName);
+        $styleHint = GenesisPromptUtils::getStyleHint($styleId, $styleName);
 
         $prompt = sprintf(
             "你是 FP 部语义溯源院的解构师。任务: 剥离一切修饰, 提取纯语义核, 按故事时间线拆分为独立节点。\n\n" .

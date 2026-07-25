@@ -15,7 +15,11 @@ if (!defined('ABSPATH')) exit;
 
 class SeedAdminExport
 {
-    public static function export_md($post_id) : mixed {
+    use SeedAdminConstants;
+
+    // v27.8.3: Shared constants now provided by SeedAdminConstants trait.
+
+    public static function export_md($post_id) : string {
         $seed = GenesisSeedCPT::get($post_id);
         if (!$seed) return '';
 
@@ -42,13 +46,13 @@ class SeedAdminExport
         $title = $seed['title'] ?? '';
         $cat   = $seed['seed_category'] ?? '';
         $type  = $seed['seed_type'] ?? '';
-        $cat_label = self::$CATEGORIES[$cat] ?? $cat;
+        $cat_label = self::CATEGORIES[$cat] ?? $cat;
         $parent = $seed['parent_seed'] ?? '';
         $project = $seed['project_ref'] ?? '';
 
         $lines[] = sprintf('# %sSeed: %s', ucfirst($cat), $sid ?: $title);
         $lines[] = '';
-        $lines[] = sprintf('> %s | %s | %s', $title, $cat_label, self::$TYPES[$type] ?? $type);
+        $lines[] = sprintf('> %s | %s | %s', $title, $cat_label, self::TYPES[$type] ?? $type);
         if ($parent) $lines[] = sprintf('> Parent: %s', $parent);
         if ($project) $lines[] = sprintf('> Project: %s', $project);
         $lines[] = '';
@@ -66,14 +70,14 @@ class SeedAdminExport
         }
         $lines[] = '## VisualDNA';
         $lines[] = '';
-        foreach (self::$VISUAL_FIELDS as $key => $label) {
+        foreach (self::VISUAL_FIELDS as $key => $label) {
             if (isset($vdna[$key]) && $vdna[$key] !== '') {
                 $lines[] = sprintf('- **%s**: %s', $label, $vdna[$key]);
             }
         }
         // 额外字段
         $extra = $vdna;
-        foreach (self::$VISUAL_FIELDS as $k => $_) unset($extra[$k]);
+        foreach (self::VISUAL_FIELDS as $k => $_) unset($extra[$k]);
         foreach ($extra as $k => $v) {
             $lines[] = sprintf('- **%s**: %s', $k, is_array($v) ? wp_json_encode($v, JSON_UNESCAPED_UNICODE) : $v);
         }
@@ -90,13 +94,13 @@ class SeedAdminExport
         }
         $lines[] = '## PersonalityDNA';
         $lines[] = '';
-        foreach (self::$PERSONALITY_FIELDS as $key => $label) {
+        foreach (self::PERSONALITY_FIELDS as $key => $label) {
             if (isset($pdna[$key]) && $pdna[$key] !== '') {
                 $lines[] = sprintf('- **%s**: %s', $label, $pdna[$key]);
             }
         }
         $extra = $pdna;
-        foreach (self::$PERSONALITY_FIELDS as $k => $_) unset($extra[$k]);
+        foreach (self::PERSONALITY_FIELDS as $k => $_) unset($extra[$k]);
         foreach ($extra as $k => $v) {
             $lines[] = sprintf('- **%s**: %s', $k, is_array($v) ? wp_json_encode($v, JSON_UNESCAPED_UNICODE) : $v);
         }
@@ -113,7 +117,7 @@ class SeedAdminExport
         }
         $lines[] = '## Priority';
         $lines[] = '';
-        foreach (self::$PRIORITY_GROUPS as $key => $label) {
+        foreach (self::PRIORITY_GROUPS as $key => $label) {
             $items = $priority[$key] ?? [];
             if (!empty($items)) {
                 $lines[] = sprintf('### %s', $label);
@@ -151,7 +155,7 @@ class SeedAdminExport
         }
         $lines[] = '## AI Adapter';
         $lines[] = '';
-        foreach (self::$AI_PLATFORMS as $key => $label) {
+        foreach (self::AI_PLATFORMS as $key => $label) {
             if (isset($adapter[$key]) && $adapter[$key] !== '') {
                 $lines[] = sprintf('### %s', $label);
                 $lines[] = '```';
@@ -162,7 +166,7 @@ class SeedAdminExport
         }
     }
 
-    public static function export_json($post_id) : mixed     {
+    public static function export_json($post_id) : string     {
         $seed = GenesisSeedCPT::get($post_id);
         if (!$seed) return '{}';
 
@@ -236,6 +240,37 @@ class SeedAdminExport
         }
 
         return $files;
+    }
+
+
+    /**
+     * Ensure temp directory exists for export operations.
+     */
+    private static function ensure_tmp_dir(): string {
+        $dir = sys_get_temp_dir() . '/linked3-seed-export';
+        if (!is_dir($dir)) {
+            wp_mkdir_p($dir);
+        }
+        return $dir;
+    }
+
+    /**
+     * Export a single seed in the requested format.
+     * v27.8.3: Added — was referenced by SeedAdminPages::handle_export_download()
+     * but missing, causing "Call to undefined method" Fatal Error.
+     *
+     * @param \WP_Post $post   The seed post object.
+     * @param string   $format 'md' or 'json' (default: 'md').
+     * @return string Exported content.
+     */
+    public static function export_single($post, string $format = 'md'): string {
+        $post_id = is_object($post) ? $post->ID : (int) $post;
+        if ($format === 'json') {
+            $result = self::export_json($post_id);
+            return is_string($result) ? $result : wp_json_encode($result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        }
+        $result = self::export_md($post_id);
+        return is_string($result) ? $result : '';
     }
 
 }

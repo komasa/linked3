@@ -41,7 +41,7 @@ final class VideoResponseParser
      * @param string $raw AI 返回的原始文本
      * @return array 标准化后的 scenes 数组
      */
-    public function parse_scenes_json(string $raw): mixed
+    public function parse_scenes_json(string $raw): array
     {
         if (empty($raw)) return [];
 
@@ -121,7 +121,7 @@ final class VideoResponseParser
      * @param string $raw
      * @return array
      */
-    public function parse_frames_json(string $raw): mixed
+    public function parse_frames_json(string $raw): array
     {
         if (empty($raw)) return [];
         $text = trim($raw);
@@ -300,7 +300,7 @@ final class VideoResponseParser
      * @param array  $ctx  V15 上下文 (用于生成兜底默认值)
      * @return array
      */
-    public function parse_animation_segment_json(string $raw, array $outline_item, array $ctx): mixed
+    public function parse_animation_segment_json(string $raw, array $outline_item, array $ctx): array
     {
         $default_image = sprintf(
             "[META:animation_kf%02d] Brand:%s | Signature:%s | Color:%s | Mood:%s | FrameRate:24fps\nA 9:16 vertical animation keyframe, frame %d for %s. %s (AI 解析失败, 请重试)",

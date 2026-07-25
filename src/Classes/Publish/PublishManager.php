@@ -81,7 +81,7 @@ final class PublishManager
      * @param array $post
      * @return array{ok:bool, remote_id:string, message:string}
      */
-    public function publish_to_target(int $target_id, int $user_id, array $post) : mixed {
+    public function publish_to_target(int $target_id, int $user_id, array $post) : array {
         $repo = new PublishTargetRepository();
         $target = $repo->get($target_id, $user_id);
         if (!$target) {

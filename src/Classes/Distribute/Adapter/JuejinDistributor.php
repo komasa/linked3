@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 final class JuejinDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'juejin'; }
-    public function label() : string { return '掘金'; }
+    public function label() : string { return __('掘金', 'linked3'); }
 
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';

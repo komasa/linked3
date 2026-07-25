@@ -53,7 +53,7 @@ class OSShortcodes {
         ], $atts);
         
         if (!class_exists('\Linked3\Classes\OS\Core\OSReverseDimensions')) {
-            return '<div class="linked3-error">逆向引擎未加载</div>';
+            return __('<div class="linked3-error">逆向引擎未加载</div>', 'linked3');
         }
         
         $prompt = OSReverseDimensions::build_reverse_prompt($atts['type'], $atts['target']);
@@ -69,7 +69,7 @@ class OSShortcodes {
         ], $atts);
         
         if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
-            return '<div class="linked3-error">SVG统计未加载</div>';
+            return __('<div class="linked3-error">SVG统计未加载</div>', 'linked3');
         }
         
         if (!empty($atts['chart_type'])) {
@@ -79,7 +79,7 @@ class OSShortcodes {
         }
         
         $html = '<div class="linked3-svg-stats-shortcode">';
-        $html .= '<h3>SVG统计</h3>';
+        $html .= __('<h3>SVG统计</h3>', 'linked3');
         $html .= '<table class="linked3-stats-table">';
         foreach ($stats as $key => $value) {
             if (!is_array($value)) {
@@ -95,12 +95,12 @@ class OSShortcodes {
      */
     public static function shortcode_health(array $atts): string {
         if (!class_exists('\Linked3\Classes\OS\Api\OSIntegrationHub')) {
-            return '<div class="linked3-error">集成中心未加载</div>';
+            return __('<div class="linked3-error">集成中心未加载</div>', 'linked3');
         }
         
         $health = OSIntegrationHub::health_check();
         $html = '<div class="linked3-health-shortcode">';
-        $html .= '<h3>V18集成健康</h3>';
+        $html .= __('<h3>V18集成健康</h3>', 'linked3');
         $html .= '<pre>' . esc_html(json_encode($health, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)) . '</pre>';
         $html .= '</div>';
         return $html;

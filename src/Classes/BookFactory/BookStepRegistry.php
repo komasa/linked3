@@ -91,7 +91,7 @@ class BookStepRegistry {
          *
          * @return array 步骤配置数组, 加载失败返回空数组。
          */
-        private static function load_steps_config() : mixed {
+        private static function load_steps_config() : array {
                 $config_path = LINKED3_DIR . 'src/Classes/BookFactory/config/steps.yaml';
 
                 if ( ! file_exists( $config_path ) ) {

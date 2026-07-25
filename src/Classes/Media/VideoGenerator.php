@@ -72,7 +72,7 @@ final class VideoGenerator
      * }
      * @return array{script:string, scenes:array, total_duration:int, usage:array, provider:string, model:string}|\WP_Error
      */
-    public function generate_script(string $title, string $content, array $opts = []) : mixed {
+    public function generate_script(string $title, string $content, array $opts = []) : array {
         $p = $this->prompt_builder->build_script_prompt($title, $content, $opts);
 
         // v19.50: 绞杀模式 — system_prompt 可被元提示词杠杆增强
@@ -123,7 +123,7 @@ final class VideoGenerator
      * @param array  $opts 同 generate_script + output_mode="frames"
      * @return array{frames:array, script:string, usage:array, provider:string, model:string}|\WP_Error
      */
-    public function generate_frames_script(string $title, string $content, array $opts = []) : mixed {
+    public function generate_frames_script(string $title, string $content, array $opts = []) : array {
         $p = $this->prompt_builder->build_frames_prompt($title, $content, $opts);
 
         $result = $this->ai_client->chat(
@@ -155,7 +155,7 @@ final class VideoGenerator
      *
      * @return array{outline:array, usage:array, provider:string, model:string, output_mode:string}|\WP_Error
      */
-    public function generate_outline(string $title, string $content, array $opts = []) : mixed {
+    public function generate_outline(string $title, string $content, array $opts = []) : array {
         $p = $this->prompt_builder->build_outline_prompt($title, $content, $opts);
 
         $result = $this->ai_client->chat(
@@ -190,7 +190,7 @@ final class VideoGenerator
      * @param array $opts {title, content, v15_context, user_id, previous_summary}
      * @return array{scene:array, usage:array}|\WP_Error
      */
-    public function generate_scene_segment(array $outline_item, array $opts = []) : mixed {
+    public function generate_scene_segment(array $outline_item, array $opts = []) : array {
         $p = $this->prompt_builder->build_scene_segment_prompt($outline_item, $opts);
 
         $result = $this->ai_client->chat(
@@ -221,7 +221,7 @@ final class VideoGenerator
      * @param array $opts {title, content, v15_context, user_id, previous_summary, next_title, is_last}
      * @return array{frames:array, usage:array}|\WP_Error
      */
-    public function generate_frame_segment(array $outline_item, array $opts = []) : mixed {
+    public function generate_frame_segment(array $outline_item, array $opts = []) : array {
         $p = $this->prompt_builder->build_frame_segment_prompt($outline_item, $opts);
 
         $result = $this->ai_client->chat(

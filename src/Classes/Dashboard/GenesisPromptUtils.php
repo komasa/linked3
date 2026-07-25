@@ -30,10 +30,10 @@ class GenesisPromptUtils
         $angleEn = $angleMap[$node['angle'] ?? ''] ?? 'eye level';
         $compEn = $compMap[$node['comp'] ?? ''] ?? 'rule of thirds';
 
-        $styleExample = \GenesisStyleEngine::getPromptExample($styleId);
-        $styleConstraint = \GenesisStyleEngine::getStyleConstraintEn($styleId);
-        $metaPrompt = \GenesisStyleEngine::getMetaPrompt($styleId);
-        $negativeKeywords = \GenesisStyleEngine::getNegativeKeywords($styleId);
+        $styleExample = \Linked3\Classes\Genesis\GenesisStyleEngine::getPromptExample($styleId);
+        $styleConstraint = \Linked3\Classes\Genesis\GenesisStyleEngine::getStyleConstraintEn($styleId);
+        $metaPrompt = \Linked3\Classes\Genesis\GenesisStyleEngine::getMetaPrompt($styleId);
+        $negativeKeywords = \Linked3\Classes\Genesis\GenesisStyleEngine::getNegativeKeywords($styleId);
 
         $location = $node['location'] ?? 'scene';
         $characters = implode(', ', $node['characters'] ?? []) ?: 'a lone figure';
@@ -78,7 +78,7 @@ class GenesisPromptUtils
             $platformParams,
             $negativeKeywords,
             $styleExample,
-            $seedDNA ? \GenesisSeedDNA::embedInPrompt($seedDNA, '') : ''
+            $seedDNA ? \Linked3\Classes\Genesis\GenesisSeedDNA::embedInPrompt($seedDNA, '') : ''
         );
     }
 
@@ -234,12 +234,12 @@ class GenesisPromptUtils
 
     public static function getStyleAdaptiveExamples(string $styleId, string $styleName): array
     {
-        return \GenesisStyleEngine::getFpExamples($styleId);
+        return \Linked3\Classes\Genesis\GenesisStyleEngine::getFpExamples($styleId);
     }
 
     public static function getStyleHint(string $styleId, string $styleName): string
     {
-        return \GenesisStyleEngine::getStyleConstraintCn($styleId);
+        return \Linked3\Classes\Genesis\GenesisStyleEngine::getStyleConstraintCn($styleId);
     }
 
 }

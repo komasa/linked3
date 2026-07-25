@@ -20,6 +20,7 @@ class BillingBootstrap {
         if (self::$booted) return;
         self::$booted = true;
 
+        if (!function_exists('linked3_container')) { return; }
         $container = linked3_container();
         $container->set('billing.payment', fn() => PaymentManager::instance());
         $container->set('billing.subscription', fn() => SubscriptionManagerV2::instance());

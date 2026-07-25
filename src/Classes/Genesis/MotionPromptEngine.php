@@ -134,7 +134,7 @@ class MotionPromptEngine {
      * @param string $arc_position 开场|发展|高潮|收尾
      * @return array Motion Prompt参数
      */
-    public static function derive_from_emotion(string $emotion, string $arc_position = '发展'): array {
+    public static function derive_from_emotion(string $emotion, string $arc_position = __('发展', 'linked3')): array {
         $emotionMap = [
             '振奋' => ['camera' => 'push_in', 'speed' => 'fast', 'atmosphere' => 'epic', 'action' => 'hand_raise'],
             '期待' => ['camera' => 'push_in', 'speed' => 'slow', 'atmosphere' => 'dreamy', 'action' => 'eye_contact'],
@@ -152,12 +152,12 @@ class MotionPromptEngine {
         $params = $emotionMap[$emotion] ?? ['camera' => 'push_in', 'speed' => 'medium', 'atmosphere' => 'cinematic', 'action' => 'head_turn'];
 
         // arc_position微调
-        if ($arc_position === '开场') {
+        if ($arc_position === __('开场', 'linked3')) {
             $params['camera'] = 'pull_out'; // 开场揭示
-        } elseif ($arc_position === '高潮') {
+        } elseif ($arc_position === __('高潮', 'linked3')) {
             $params['speed'] = 'fast';
             $params['atmosphere'] = 'dramatic';
-        } elseif ($arc_position === '收尾') {
+        } elseif ($arc_position === __('收尾', 'linked3')) {
             $params['camera'] = 'pull_out'; // 收尾拉远
             $params['speed'] = 'slow';
         }
@@ -180,7 +180,7 @@ class MotionPromptEngine {
      * @param string $arcPosition 开场|发展|高潮|收尾
      * @return array Motion Prompt参数
      */
-    public static function derive_from_beat_text(string $beatText, string $emotion = 'neutral', string $arcPosition = '发展'): array {
+    public static function derive_from_beat_text(string $beatText, string $emotion = 'neutral', string $arcPosition = __('发展', 'linked3')): array {
         // 先用emotion作为基础
         $params = self::derive_from_emotion($emotion, $arcPosition);
 

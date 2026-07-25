@@ -38,8 +38,8 @@ class OSVisualAnalyticsPanel {
      */
     public static function render_panel(): string {
         $html = '<div class="wrap linked3-v18-panel">';
-        $html .= '<h1>SVG统计可视化面板 <span class="version">v15.0.0</span></h1>';
-        $html .= '<p>SVG统计图表展示</p>';
+        $html .= __('<h1>SVG统计可视化面板 <span class="version">v15.0.0</span></h1>', 'linked3');
+        $html .= __('<p>SVG统计图表展示</p>', 'linked3');
         $html .= '<div class="panel-content">' . self::render_content() . '</div>';
         $html .= '</div>';
         return $html;

@@ -9,10 +9,18 @@ if (!defined('ABSPATH')) exit;
  */
 class QualityChecker
 {
+
+    // ── Constants (mirrored from QualityLoop for backward compatibility) ──
+    public const MAX_RETRY = 2;
+    public const WARN_DIMS = [
+        'visual_ratio', 'image_text_fit', 'system_color', 'vertical_16',
+        'three_layer_depth', 'four_anchor', 'relation_encoding', 'density_4',
+    ];
+
     public static function pqs_check_tiered(array $shot_data, int $retry_count = 0): array
     {
-        // 先跑完整13维
-        $full = self::pqs_check($shot_data);
+        // 先跑完整13维 (pqs_check 定义在 QualityLoop,此处跨类调用)
+        $full = QualityLoop::pqs_check($shot_data);
         $dims = $full['dimensions'];
 
         $core_dims = self::buildCoreDims($shot_data, $dims);
@@ -285,8 +293,8 @@ class QualityChecker
         }
         $color_issues = [];
         for ($i = 1; $i < $n; $i++) {
-            $prev = self::color_family($colors[$i - 1]);
-            $curr = self::color_family($colors[$i]);
+            $prev = QualityLoop::color_family($colors[$i - 1]);
+            $curr = QualityLoop::color_family($colors[$i]);
             if ($prev !== $curr && $prev !== 'unknown' && $curr !== 'unknown') {
                 $color_issues[] = sprintf('镜 %d→%d 色调弧线突变: %s → %s', $i, $i+1, $prev, $curr);
             }
@@ -308,8 +316,8 @@ class QualityChecker
         }
         $emotion_issues = [];
         for ($i = 1; $i < $n; $i++) {
-            $prev = self::emotion_polarity($emotions[$i - 1]);
-            $curr = self::emotion_polarity($emotions[$i]);
+            $prev = QualityLoop::emotion_polarity($emotions[$i - 1]);
+            $curr = QualityLoop::emotion_polarity($emotions[$i]);
             if ($prev !== 'unknown' && $curr !== 'unknown' && abs($prev - $curr) >= 2) {
                 $emotion_issues[] = sprintf('镜 %d→%d 情绪弧线跳跃: %s(%d) → %s(%d)', $i, $i+1, $emotions[$i-1], $prev, $emotions[$i], $curr);
             }

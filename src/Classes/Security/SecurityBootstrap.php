@@ -20,6 +20,7 @@ class SecurityBootstrap {
         if (self::$booted) return;
         self::$booted = true;
 
+        if (!function_exists('linked3_container')) { return; }
         $container = linked3_container();
         $container->set('security.validator', fn() => SecurityValidator::instance());
         $container->set('security.rate_limiter', fn() => RateLimiterV2::instance());

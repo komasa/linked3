@@ -25,6 +25,7 @@ class DiagramProductionBootstrap {
             DiagramBootstrap::boot();
         }
 
+        if (!function_exists('linked3_container')) { return; }
         $container = linked3_container();
 
         // v6.5.0: 30种全谱 + 商业加固

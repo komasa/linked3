@@ -137,7 +137,7 @@ class GenesisJobRunner
         if ($job['status'] === 'pending') {
             $job['status'] = 'running';
             $job['stage'] = 'lazy_start';
-            $job['message'] = '懒执行模式: 在轮询时执行 (无异步机制可用)...';
+            $job['message'] = __('懒执行模式: 在轮询时执行 (无异步机制可用)...', 'linked3');
             $job['logs'][] = '[' . date('H:i:s') . '] 懒执行启动';
         }
 
@@ -232,7 +232,7 @@ class GenesisJobRunner
         // 标记为 running
         $job['status'] = 'running';
         $job['stage'] = 'preflight';
-        $job['message'] = '预检中...';
+        $job['message'] = __('预检中...', 'linked3');
         $job['heartbeat'] = time();
         $job['updated_at'] = time();
         set_transient(self::JOB_PREFIX . $jobId, $job, self::JOB_TTL);
@@ -284,7 +284,7 @@ class GenesisJobRunner
                 $job['status'] = 'done';
                 $job['progress'] = 100;
                 $job['stage'] = 'done';
-                $job['message'] = '生成完成!';
+                $job['message'] = __('生成完成!', 'linked3');
                 $job['result'] = $result;
                 $job['heartbeat'] = time();
                 $job['updated_at'] = time();
@@ -388,11 +388,11 @@ class GenesisJobRunner
         // v7.1.6: 卡死检测
         $staleWarning = '';
         if ($stale && in_array($job['status'], ['pending', 'running'], true)) {
-            $staleWarning = '任务可能卡死 (心跳 ' . (time() - $job['heartbeat']) . 's 无更新)。';
+            $staleWarning = __('任务可能卡死 (心跳 ', 'linked3') . (time() - $job['heartbeat']) . __('s 无更新)。', 'linked3');
             if ($job['exec_mode'] === 'cron') {
-                $staleWarning .= ' WP-Cron 可能未触发, 请访问 /wp-cron.php 或配置系统 cron。';
+                $staleWarning .= __(' WP-Cron 可能未触发, 请访问 /wp-cron.php 或配置系统 cron。', 'linked3');
             } elseif ($job['exec_mode'] === 'cli') {
-                $staleWarning .= ' CLI spawn 可能失败 (proc_open 被禁用)。';
+                $staleWarning .= __(' CLI spawn 可能失败 (proc_open 被禁用)。', 'linked3');
             }
         }
 
@@ -423,7 +423,7 @@ class GenesisJobRunner
         if (!$job) return false;
         if ($job['status'] === 'done' || $job['status'] === 'error') return false;
         $job['status'] = 'cancelled';
-        $job['message'] = '用户取消';
+        $job['message'] = __('用户取消', 'linked3');
         $job['heartbeat'] = time();
         $job['updated_at'] = time();
         set_transient(self::JOB_PREFIX . $jobId, $job, self::JOB_TTL);

@@ -121,7 +121,9 @@ class EcosystemAjaxAdvanced
         $source = sanitize_key($_POST['source'] ?? 'all'); // v16.0.15: 默认 all
         $count = max(5, min(100, intval($_POST['count'] ?? 20)));
 
-        @set_time_limit(60);
+        // v27.8.5-fix: 增加超时到120s (原60s不够AI调用)
+        @set_time_limit(120);
+        @ini_set('max_execution_time', '120');
 
         // v10.9.0: 真实AI热词生成 (绞杀假大空硬编码seeds)
         $source_names = [
@@ -135,45 +137,37 @@ class EcosystemAjaxAdvanced
         $source_label = $source_names[$source] ?? '百度热搜';
 
         // v16.0.15 [公理α: H↓ 消除选源不确定性] [公理β: dim↓ 0维默认全部源]
-        // source=all → 串行采集6源 → 去重合并 → Top N (串行降级防限流, O部隐性约束)
+        // v27.8.5-fix: source=all 原串行6次AI调用 (60-180s) 导致超时/Failed to fetch
+        // 改为单次AI调用生成全部热词, 按源标签分组提示但不串行调用
         $hot_words = [];
         $extra_meta = [];
         if ($source === 'all') {
-            $all_sources = array_keys($source_names);
-            $per_source = max(3, intval($count / count($all_sources)) + 2);
-            $aggregated = [];
-            $failed_sources = [];
-            foreach ($all_sources as $src) {
-                $src_label = $source_names[$src];
-                $prompt_all = sprintf(
-                    "你是%s的趋势分析专家。请生成%d个当前真实热门的关键词。\n\n严格要求:\n1. 每行一个关键词, 不要编号, 不要标点符号\n2. 关键词长度2-8个字 (短词优先)\n3. 必须是真实存在的热门话题/技术/产品名, 不要编造\n4. 覆盖科技/AI/生活/娱乐/社会等多个领域\n5. 不要输出任何说明文字, 只输出关键词列表\n\n现在请输出%d个%s热门关键词:",
-                    $src_label, $per_source, $per_source, $src_label
-                );
-                $ai_result = self::call_ai($prompt_all, 800);
-                if (!empty($ai_result)) {
-                    foreach (explode("\n", $ai_result) as $line) {
-                        $line = trim($line);
-                        if (empty($line)) continue;
-                        $line = preg_replace('/^[\d]+[.、\)\）]\s*/', '', $line);
-                        $line = preg_replace('/^[\x{201C}\x{201D}\x{2018}\x{2019}\x{300C}\x{300D}\x{3010}\x{3011}"\'\(\)\[\]\x{FF08}\x{FF09}]+/u', '', $line);
-                        $line = preg_replace('/[\x{201C}\x{201D}\x{2018}\x{2019}\x{300C}\x{300D}\x{3010}\x{3011}"\'\(\)\[\]\x{FF08}\x{FF09}]+$/u', '', $line);
-                        $line = trim($line);
-                        $line = preg_replace('/^(关键词|热词|话题)[:：]\s*/', '', $line);
-                        $len = mb_strlen($line);
-                        if ($len < 2 || $len > 15) continue;
-                        if (preg_match('/(请|要求|输出|格式|示例|严格|注意)/', $line)) continue;
-                        $aggregated[$line] = 1;
-                    }
-                } else {
-                    $failed_sources[] = $src_label;
+            $source_label = __('全部源 (聚合6源)', 'linked3');
+            $prompt_all = sprintf(
+                "你是综合趋势分析专家。请生成%d个当前真实热门的关键词。\n\n严格要求:\n1. 每行一个关键词, 不要编号, 不要标点符号\n2. 关键词长度2-8个字 (短词优先)\n3. 必须是真实存在的热门话题/技术/产品名, 不要编造\n4. 覆盖科技/AI/生活/娱乐/社会等多个领域\n5. 不要输出任何说明文字, 只输出关键词列表\n\n现在请输出%d个热门关键词:",
+                $count, $count
+            );
+            $ai_result = self::call_ai($prompt_all, 1000);
+            if (!empty($ai_result)) {
+                foreach (explode("\n", $ai_result) as $line) {
+                    $line = trim($line);
+                    if (empty($line)) continue;
+                    $line = preg_replace('/^[\d]+[.、\)\）]\s*/', '', $line);
+                    $line = preg_replace('/^[\x{201C}\x{201D}\x{2018}\x{2019}\x{300C}\x{300D}\x{3010}\x{3011}"\'\(\)\[\]\x{FF08}\x{FF09}]+/u', '', $line);
+                    $line = preg_replace('/[\x{201C}\x{201D}\x{2018}\x{2019}\x{300C}\x{300D}\x{3010}\x{3011}"\'\(\)\[\]\x{FF08}\x{FF09}]+$/u', '', $line);
+                    $line = trim($line);
+                    $line = preg_replace('/^(关键词|热词|话题)[:：]\s*/', '', $line);
+                    $len = mb_strlen($line);
+                    if ($len < 2 || $len > 15) continue;
+                    if (preg_match('/(请|要求|输出|格式|示例|严格|注意)/', $line)) continue;
+                    $hot_words[] = $line;
                 }
+                $hot_words = array_slice(array_unique($hot_words), 0, $count);
             }
-            $hot_words = array_slice(array_keys($aggregated), 0, $count);
             if (empty($hot_words)) {
-                wp_send_json_error(['message' => __('全部源采集失败, 请检查AI API Key配置 (设置→API设置)', 'linked3-ai')]);
+                wp_send_json_error(['message' => __('采集失败, 请检查AI API Key配置 (设置→API设置)', 'linked3-ai')]);
             }
-            $source_label = '全部源 (聚合' . count($all_sources) . '源)';
-            $extra_meta = ['failed_sources' => $failed_sources];
+            $extra_meta = ['aggregated' => true];
         } else {
         $prompt = sprintf(
             "你是%s的趋势分析专家。请生成%d个当前真实热门的关键词。\n\n严格要求:\n1. 每行一个关键词, 不要编号, 不要标点符号\n2. 关键词长度2-8个字 (短词优先)\n3. 必须是真实存在的热门话题/技术/产品名, 不要编造\n4. 覆盖科技/AI/生活/娱乐/社会等多个领域\n5. 不要输出任何说明文字, 只输出关键词列表\n\n示例格式:\n人工智能\n量子计算\nChatGPT\n大模型\n\n现在请输出%d个%s热门关键词:",

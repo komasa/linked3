@@ -102,12 +102,12 @@ class SectionStitcher {
             $md .= "> 作者: {$meta['author']}\n";
         }
         $md .= "> 生成日期: {$meta['date']}\n";
-        $md .= "> 由 Linked3 AI 写书工厂生成\n\n";
+        $md .= __('> 由 Linked3 AI 写书工厂生成\n\n', 'linked3');
         $md .= "---\n\n";
 
         // 目录
         if ( ! empty( $template['include_toc'] ) ) {
-            $md .= "## 目录\n\n";
+            $md .= __('## 目录\n\n', 'linked3');
             $prefix = isset( $template['chapter_prefix'] ) ? $template['chapter_prefix'] : '第';
             $suffix = isset( $template['chapter_suffix'] ) ? $template['chapter_suffix'] : '章';
             $number_format = isset( $template['number_format'] ) ? $template['number_format'] : 'chinese';
@@ -162,7 +162,7 @@ class SectionStitcher {
         $html = preg_replace( '/\*(.+?)\*/', '<em>$1</em>', $html );
         $html = nl2br( $html );
 
-        return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>书稿</title></head><body>' . $html . '</body></html>';
+        return __('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>书稿</title></head><body>', 'linked3') . $html . '</body></html>';
     }
 
     /**

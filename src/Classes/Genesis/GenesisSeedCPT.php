@@ -118,7 +118,7 @@ class GenesisSeedCPT
     /**
      * M1.1.2: JSON meta 清洗
      */
-    public static function sanitize_json_meta($value) : mixed     {
+    public static function sanitize_json_meta($value) : string     {
         if (is_array($value)) {
             return wp_json_encode($value);
         }
@@ -174,9 +174,9 @@ class GenesisSeedCPT
             echo esc_html($labels[$val] ?? $val);
         } elseif ($column === 'seed_type') {
             if ($val === 'fixed') {
-                echo '<span style="color:#16a34a;">固定</span>';
+                echo __('<span style="color:#16a34a;">固定</span>', 'linked3');
             } else {
-                echo '<span style="color:#d97706;">可变</span>';
+                echo __('<span style="color:#d97706;">可变</span>', 'linked3');
             }
         } else {
             echo esc_html($val ?: '—');

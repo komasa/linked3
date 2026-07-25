@@ -35,7 +35,7 @@ class GenesisException extends \Exception {
     /**
      * 从普通异常/错误转换
      */
-    public static function from($e, $context = []) : mixed {
+    public static function from($e, $context = []) : self {
         if ($e instanceof self) {
             if (!empty($context)) {
                 $e->context = array_merge($e->context, $context);

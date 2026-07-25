@@ -20,6 +20,7 @@ class AIPipelineBootstrap {
         if (self::$booted) return;
         self::$booted = true;
 
+        if (!function_exists('linked3_container')) { return; }
         $container = linked3_container();
 
         // 注册 AI 管线服务

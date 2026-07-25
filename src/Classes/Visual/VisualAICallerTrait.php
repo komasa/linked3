@@ -48,7 +48,7 @@ trait VisualAICallerTrait
      * @param array  $config     {fallback_providers, ...}
      * @return array|false  ['content'=>string,'usage'=>array,'provider'=>string,'model'=>string] 或 false
      */
-    protected function call_ai(array $messages, array $options, array $config = []) : mixed {
+    protected function call_ai(array $messages, array $options, array $config = []) : bool {
         $options = wp_parse_args($options, [
             'model'       => get_option(LINKED3_OPTION_PREFIX . 'default_chat_model', 'gpt-4o-mini'),
             'temperature' => 0.7,
@@ -83,7 +83,7 @@ trait VisualAICallerTrait
      * @param string $content
      * @return array|null
      */
-    protected function extract_json(string $content) : mixed {
+    protected function extract_json(string $content) : null {
         if (empty($content)) {
             return null;
         }

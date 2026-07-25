@@ -57,7 +57,7 @@ final class WcTokenPackage
     /**
      * WC 产品类映射 (用简单产品类即可,无需自定义类)。
      */
-    public static function product_class($classname, $product_type, $post_type, $product_id) : mixed     {
+    public static function product_class($classname, $product_type, $post_type, $product_id) : string     {
         if ($product_type === 'linked3_token_package') {
             return 'WC_Product_Simple';
         }
@@ -90,7 +90,7 @@ final class WcTokenPackage
         ?>
         <p>
             <label><?php esc_html_e('Token 数量', 'linked3'); ?>
-                <input type="number" name="linked3_tokens_to_grant" value="<?php echo esc_attr($tokens); ?>" min="0" step="1000" style="width:100%;" placeholder="如 100000" />
+                <input type="number" name="linked3_tokens_to_grant" value="<?php echo esc_attr($tokens); ?>" min="0" step="1000" style="width:100%;" placeholder=__('如 100000', 'linked3') />
             </label>
         </p>
         <p>

@@ -9,6 +9,10 @@ if (!defined('ABSPATH')) exit;
  */
 class SeedAdminPages
 {
+    use SeedAdminConstants;
+
+    // v27.8.3: Shared constants now provided by SeedAdminConstants trait.
+
     static function render_list_page(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_die(__('无权限', 'linked3'));
@@ -81,7 +85,7 @@ class SeedAdminPages
      */
     private static function groupPostsByCategory(array $posts): array {
         $groups = [];
-        foreach (self::$CATEGORIES as $cat => $_) {
+        foreach (self::CATEGORIES as $cat => $_) {
             $groups[$cat] = [];
         }
         foreach ($posts as $p) {
@@ -100,12 +104,12 @@ class SeedAdminPages
         echo '<input type="hidden" name="page" value="' . esc_attr(self::PAGE_SLUG_LIST) . '" />';
         echo '<input type="search" name="s" value="' . esc_attr($search) . '" placeholder="' . esc_attr__('搜索 Seed 名称...', 'linked3') . '" />';
         echo '<select name="cat"><option value="">' . esc_html__('全部分类', 'linked3') . '</option>';
-        foreach (self::$CATEGORIES as $c => $l) {
+        foreach (self::CATEGORIES as $c => $l) {
             echo '<option value="' . esc_attr($c) . '"' . selected($cat_filt, $c, false) . '>' . esc_html($l) . '</option>';
         }
         echo '</select>';
         echo '<select name="type"><option value="">' . esc_html__('全部类型', 'linked3') . '</option>';
-        foreach (self::$TYPES as $t => $l) {
+        foreach (self::TYPES as $t => $l) {
             echo '<option value="' . esc_attr($t) . '"' . selected($type_filt, $t, false) . '>' . esc_html($l) . '</option>';
         }
         echo '</select>';
@@ -161,7 +165,7 @@ class SeedAdminPages
      * 按分类分组渲染表格.
      */
     private static function renderGroupedSeedTables(array $groups, string $cat_filt): void {
-        foreach (self::$CATEGORIES as $cat => $label) {
+        foreach (self::CATEGORIES as $cat => $label) {
             if (empty($groups[$cat])) continue;
             $count = count($groups[$cat]);
             echo '<details class="linked3-seed-group"' . ($cat_filt === $cat || (!$cat_filt && $cat === 'char') ? ' open' : '') . '>';
@@ -193,7 +197,7 @@ class SeedAdminPages
         echo '<td><strong><a href="' . esc_url($row_edit) . '">' . esc_html($p->post_title) . '</a></strong>';
         echo '<div class="row-actions"><a href="' . esc_url($row_edit) . '">' . esc_html__('编辑', 'linked3') . '</a> | <a href="' . esc_url($dl_md) . '">' . esc_html__('下载 MD', 'linked3') . '</a> | <a href="' . esc_url($dl_json) . '">' . esc_html__('下载 JSON', 'linked3') . '</a></div>';
         echo '</td>';
-        echo '<td><span class="badge badge-' . esc_attr($type ?: 'fixed') . '">' . esc_html(self::$TYPES[$type] ?? $type) . '</span></td>';
+        echo '<td><span class="badge badge-' . esc_attr($type ?: 'fixed') . '">' . esc_html(self::TYPES[$type] ?? $type) . '</span></td>';
         echo '<td>' . esc_html($parent ?: '—') . '</td>';
         echo '<td><a class="button button-small" href="' . esc_url($row_edit) . '">' . esc_html__('编辑', 'linked3') . '</a></td>';
         echo '</tr>';
@@ -300,7 +304,7 @@ class SeedAdminPages
         echo '<h3>' . esc_html__('第 1 步 · 选择 Seed 分类', 'linked3') . '</h3>';
         echo '<p class="description">' . esc_html__('分类决定 Seed 在分镜中的角色定位, 不可后期修改。', 'linked3') . '</p>';
         echo '<div class="linked3-form-row"><label>' . esc_html__('分类', 'linked3') . '</label><select name="seed_category" required>';
-        foreach (self::$CATEGORIES as $c => $l) {
+        foreach (self::CATEGORIES as $c => $l) {
             echo '<option value="' . esc_attr($c) . '">' . esc_html($l) . ' (' . esc_html($c) . ')</option>';
         }
         echo '</select></div>';
@@ -314,7 +318,7 @@ class SeedAdminPages
         echo '<h3>' . esc_html__('第 2 步 · 选择 Seed 类型', 'linked3') . '</h3>';
         echo '<p class="description">' . esc_html__('固定 = 跨分镜不变 (CharacterSeed/BrandSeed); 可变 = 随分镜推进演化 (SceneSeed/PropSeed)。', 'linked3') . '</p>';
         echo '<div class="linked3-form-row"><label>' . esc_html__('类型', 'linked3') . '</label><select name="seed_type" required>';
-        foreach (self::$TYPES as $t => $l) {
+        foreach (self::TYPES as $t => $l) {
             echo '<option value="' . esc_attr($t) . '">' . esc_html($l) . '</option>';
         }
         echo '</select></div>';
@@ -326,7 +330,7 @@ class SeedAdminPages
         echo '<div class="step-pane" data-step="2">';
         echo '<h3>' . esc_html__('第 3 步 · 填写视觉 DNA', 'linked3') . '</h3>';
         echo '<p class="description">' . esc_html__('至少填写一个视觉字段才能进入下一步。', 'linked3') . '</p>';
-        foreach (self::$VISUAL_FIELDS as $key => $label) {
+        foreach (self::VISUAL_FIELDS as $key => $label) {
             echo '<div class="linked3-form-row"><label>' . esc_html($label) . '</label>';
             echo '<textarea name="visual_dna[' . esc_attr($key) . ']" placeholder="' . esc_attr($label) . ' 描述..."></textarea>';
             echo '</div>';
@@ -338,7 +342,7 @@ class SeedAdminPages
         echo '<div class="step-pane" data-step="3">';
         echo '<h3>' . esc_html__('第 4 步 · 设置优先级', 'linked3') . '</h3>';
         echo '<p class="description">' . esc_html__('每行一条规则, 可留空。', 'linked3') . '</p>';
-        foreach (self::$PRIORITY_GROUPS as $key => $label) {
+        foreach (self::PRIORITY_GROUPS as $key => $label) {
             echo '<div class="linked3-form-row"><label>' . esc_html($label) . '</label>';
             echo '<textarea name="priority[' . esc_attr($key) . ']" placeholder="' . esc_attr__('每行一条', 'linked3') . '"></textarea>';
             echo '</div>';
@@ -389,6 +393,162 @@ class SeedAdminPages
         echo '</div>';
 
         echo '</div>';
+    }
+
+
+    /**
+     * Handle single seed download (MD or JSON).
+     */
+    public static function maybe_handle_download(): void {
+        if (!isset($_GET['download']) || !isset($_GET['post_id'])) return;
+        if (!current_user_can(self::CAPABILITY)) wp_die('Forbidden');
+        check_admin_referer(self::NONCE_ACTION, '_wpnonce');
+        
+        $post_id = absint($_GET['post_id']);
+        $format = sanitize_text_field($_GET['download']);
+        $post = get_post($post_id);
+        if (!$post) wp_die('Not found');
+        
+        $data = SeedAdminExport::export_single($post, $format);
+        nocache_headers();
+        header('Content-Type: ' . ($format === 'json' ? 'application/json' : 'text/markdown'));
+        header('Content-Disposition: attachment; filename="seed-' . $post_id . '.' . $format . '"');
+        echo $data;
+        exit;
+    }
+
+
+    /**
+     * Handle bulk export (all seeds as ZIP).
+     */
+    public static function maybe_handle_export_all(): void {
+        if (!isset($_GET['export_all']) || $_GET['export_all'] !== '1') return;
+        if (!current_user_can(self::CAPABILITY)) wp_die('Forbidden');
+        check_admin_referer(self::NONCE_ACTION, '_wpnonce');
+        
+        $dir = SeedAdminExport::ensure_tmp_dir();
+        $zip_file = SeedAdminExport::export_batch($dir);
+        
+        nocache_headers();
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename="linked3-seeds-all.zip"');
+        readfile($zip_file);
+        @unlink($zip_file);
+        exit;
+    }
+
+
+    /**
+     * Render basic seed fields (title, type, priority).
+     */
+    public static function render_basic_fields(int $post_id): void {
+        $seed_type = get_post_meta($post_id, 'seed_type', true) ?: 'style';
+        $priority = get_post_meta($post_id, 'priority', true) ?: 50;
+        $is_locked = get_post_meta($post_id, 'is_locked', true);
+        ?>
+        <table class="form-table">
+            <tr>
+                <th><label for="seed_type">Seed Type</label></th>
+                <td><select name="seed_type" id="seed_type">
+                    <option value="style" <?php selected($seed_type, 'style'); ?>>Style</option>
+                    <option value="brand" <?php selected($seed_type, 'brand'); ?>>Brand</option>
+                    <option value="character" <?php selected($seed_type, 'character'); ?>>Character</option>
+                    <option value="scene" <?php selected($seed_type, 'scene'); ?>>Scene</option>
+                    <option value="palette" <?php selected($seed_type, 'palette'); ?>>Palette</option>
+                    <option value="prop" <?php selected($seed_type, 'prop'); ?>>Prop</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th><label for="priority">Priority (0-100)</label></th>
+                <td><input type="number" name="priority" id="priority" value="<?php echo esc_attr($priority); ?>" min="0" max="100" /></td>
+            </tr>
+            <tr>
+                <th><label for="is_locked">Locked</label></th>
+                <td><input type="checkbox" name="is_locked" id="is_locked" value="1" <?php checked($is_locked, '1'); ?> /></td>
+            </tr>
+        </table>
+        <?php
+    }
+
+
+    /**
+     * Render visual DNA fields.
+     */
+    public static function render_visual_dna_fields(int $post_id): void {
+        $visual_dna = get_post_meta($post_id, 'visual_dna', true) ?: '';
+        ?>
+        <table class="form-table">
+            <tr>
+                <th><label for="visual_dna">Visual DNA</label></th>
+                <td><textarea name="visual_dna" id="visual_dna" rows="8" cols="60" class="large-text"><?php echo esc_textarea($visual_dna); ?></textarea></td>
+            </tr>
+        </table>
+        <?php
+    }
+
+
+    /**
+     * Render personality DNA fields.
+     */
+    public static function render_personality_dna_fields(int $post_id): void {
+        $personality_dna = get_post_meta($post_id, 'personality_dna', true) ?: '';
+        ?>
+        <table class="form-table">
+            <tr>
+                <th><label for="personality_dna">Personality DNA</label></th>
+                <td><textarea name="personality_dna" id="personality_dna" rows="8" cols="60" class="large-text"><?php echo esc_textarea($personality_dna); ?></textarea></td>
+            </tr>
+        </table>
+        <?php
+    }
+
+    /**
+     * Render priority & lock fields (Tab 4 in edit page).
+     * v27.8.3: Added — was referenced but missing, causing Fatal Error.
+     */
+    public static function render_priority_lock_fields(int $post_id): void {
+        $priority = get_post_meta($post_id, 'priority', true) ?: [];
+        $locked   = get_post_meta($post_id, '_seed_locked', true);
+        $seed_type = get_post_meta($post_id, 'seed_type', true) ?: 'fixed';
+        ?>
+        <table class="form-table">
+            <tr>
+                <th><label for="seed_locked"><?php esc_html_e('锁定状态', 'linked3'); ?></label></th>
+                <td>
+                    <label>
+                        <input type="checkbox" name="seed_locked" id="seed_locked" value="1" <?php checked($locked === '1' || $seed_type === 'fixed'); ?> />
+                        <?php esc_html_e('锁定此 Seed (防止自动演化修改)', 'linked3'); ?>
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <h4><?php esc_html_e('优先级规则', 'linked3'); ?></h4>
+        <?php foreach (self::PRIORITY_GROUPS as $key => $label) : ?>
+            <div class="linked3-form-row">
+                <label><?php echo esc_html($label); ?></label>
+                <textarea name="priority[<?php echo esc_attr($key); ?>]" rows="3" cols="60" class="large-text" placeholder="<?php esc_attr_e('每行一条', 'linked3'); ?>"><?php echo esc_textarea($priority[$key] ?? ''); ?></textarea>
+            </div>
+        <?php endforeach;
+    }
+
+    /**
+     * Render AI adapter fields (Tab 5 in edit page).
+     * v27.8.3: Added — was referenced but missing, causing Fatal Error.
+     */
+    public static function render_ai_adapter_fields(int $post_id): void {
+        $adapter = get_post_meta($post_id, 'ai_adapter', true) ?: [];
+        ?>
+        <table class="form-table">
+            <?php foreach (self::AI_PLATFORMS as $key => $label) : ?>
+            <tr>
+                <th><label for="ai_adapter_<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></label></th>
+                <td>
+                    <textarea name="ai_adapter[<?php echo esc_attr($key); ?>]" id="ai_adapter_<?php echo esc_attr($key); ?>" rows="4" cols="60" class="large-text code" placeholder="<?php echo esc_attr($label); ?> prompt..."><?php echo esc_textarea($adapter[$key] ?? ''); ?></textarea>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php
     }
 
 }

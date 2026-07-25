@@ -110,6 +110,11 @@ class COSEvolution
      */
     public static function run_generation(string $gen, string $problem, array $context, ?array $baseline): array
     {
+        // v27.8.10 (审计Phase1): SLA 降级机制 — SLA 失败不中断, 改为记录 warning 继续执行
+        // 原代码: SLA 失败直接 return ['status'=>'fail'], 导致整个演化中断
+        // 新逻辑: SLA 失败记录到 sla_warnings[], 继续执行下一部门
+        $sla_warnings = [];
+
         // ── FP 部: 定义信息核 ──
         $fp = COSDepartments::fp_department([
             'problem' => $problem,
@@ -120,10 +125,13 @@ class COSEvolution
         }
         $info_core = $fp['deliverables']['info_core'];
 
-        // SLA: FP → EX
+        // SLA: FP → EX (v27.8.10: 降级而非中断)
         $sla_fp_ex = COSSLA::validate('FP_to_EX', ['info_core' => $info_core]);
         if (!$sla_fp_ex['passed']) {
-            return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_fp_ex['message'], 'failed_at' => 'FP', 'sla_rollback' => $sla_fp_ex['rollback_to']];
+            $sla_warnings[] = ['sla' => 'FP_to_EX', 'message' => $sla_fp_ex['message'], 'rollback_to' => $sla_fp_ex['rollback_to']];
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] ' . $gen . ' SLA FP_to_EX 降级: ' . $sla_fp_ex['message']);
+            }
         }
 
         // ── EX 部: 生成方案种群 (v20.4: 传入 baseline 供 G2/G3 变异) ──
@@ -137,10 +145,13 @@ class COSEvolution
         }
         $variants = $ex['deliverables']['variants'];
 
-        // SLA: EX → C
+        // SLA: EX → C (v27.8.10: 降级而非中断)
         $sla_ex_c = COSSLA::validate('EX_to_C', ['variants' => $variants]);
         if (!$sla_ex_c['passed']) {
-            return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_ex_c['message'], 'failed_at' => 'EX', 'sla_rollback' => $sla_ex_c['rollback_to']];
+            $sla_warnings[] = ['sla' => 'EX_to_C', 'message' => $sla_ex_c['message'], 'rollback_to' => $sla_ex_c['rollback_to']];
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] ' . $gen . ' SLA EX_to_C 降级: ' . $sla_ex_c['message']);
+            }
         }
 
         // ── C 部: 绞杀弱者 ──
@@ -148,10 +159,13 @@ class COSEvolution
         $survivors = $c['deliverables']['survivors'];
         $killed    = $c['deliverables']['killed'];
 
-        // SLA: C → O
+        // SLA: C → O (v27.8.10: 降级而非中断)
         $sla_c_o = COSSLA::validate('C_to_O', ['survivors' => $survivors]);
         if (!$sla_c_o['passed']) {
-            return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_c_o['message'], 'failed_at' => 'C', 'sla_rollback' => $sla_c_o['rollback_to']];
+            $sla_warnings[] = ['sla' => 'C_to_O', 'message' => $sla_c_o['message'], 'rollback_to' => $sla_c_o['rollback_to']];
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] ' . $gen . ' SLA C_to_O 降级: ' . $sla_c_o['message']);
+            }
         }
 
         // ── O 部: 盲区检测 ──
@@ -159,10 +173,13 @@ class COSEvolution
         $blind_spots    = $o['deliverables']['blind_spots'];
         $hallucinations = $o['deliverables']['hallucinations'];
 
-        // SLA: O → A
+        // SLA: O → A (v27.8.10: 降级而非中断)
         $sla_o_a = COSSLA::validate('O_to_A', ['blind_spots' => $blind_spots]);
         if (!$sla_o_a['passed']) {
-            return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_o_a['message'], 'failed_at' => 'O', 'sla_rollback' => $sla_o_a['rollback_to']];
+            $sla_warnings[] = ['sla' => 'O_to_A', 'message' => $sla_o_a['message'], 'rollback_to' => $sla_o_a['rollback_to']];
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] ' . $gen . ' SLA O_to_A 降级: ' . $sla_o_a['message']);
+            }
         }
 
         // ── A 部: 结晶锁定 MVP ──
@@ -176,10 +193,13 @@ class COSEvolution
         }
         $mvp = $a['deliverables']['mvp'];
 
-        // SLA: A → 归档
+        // SLA: A → 归档 (v27.8.10: 降级而非中断)
         $sla_a_arch = COSSLA::validate('A_to_archive', ['mvp' => $mvp]);
         if (!$sla_a_arch['passed']) {
-            return ['generation' => $gen, 'status' => 'fail', 'message' => $sla_a_arch['message'], 'failed_at' => 'A', 'sla_rollback' => $sla_a_arch['rollback_to']];
+            $sla_warnings[] = ['sla' => 'A_to_archive', 'message' => $sla_a_arch['message'], 'rollback_to' => $sla_a_arch['rollback_to']];
+            if (function_exists('error_log')) {
+                error_log('[linked3 COS] ' . $gen . ' SLA A_to_archive 降级: ' . $sla_a_arch['message']);
+            }
         }
 
         // ── 双公理验证 (v20.4: 用 steps 作为可操作步骤) ──
@@ -212,6 +232,8 @@ class COSEvolution
                 'O_to_A'    => $sla_o_a,
                 'A_to_archive' => $sla_a_arch,
             ],
+            // v27.8.10 (审计Phase1): SLA 降级警告 (非致命, 演化继续)
+            'sla_warnings'  => $sla_warnings,
         ];
     }
 }

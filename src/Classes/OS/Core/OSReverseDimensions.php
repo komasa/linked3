@@ -279,20 +279,20 @@ class OSReverseDimensions {
 
         $prompt = "你是专业{$engineer_type}逆向工程师。请对以下对象进行深度拆解。\n\n";
         $prompt .= "【目标对象】\n{$target_description}\n\n";
-        $prompt .= "【8维度通用框架定义】\n\n";
+        $prompt .= __('【8维度通用框架定义】\n\n', 'linked3');
 
         foreach ($universal as $dim) {
             $prompt .= "{$dim['key']}_{$dim['name']}：{$dim['fields']}\n\n";
         }
 
         if (!empty($proprietary)) {
-            $prompt .= "【专属增量维度】\n\n";
+            $prompt .= __('【专属增量维度】\n\n', 'linked3');
             foreach ($proprietary as $dim) {
                 $prompt .= "{$dim['label']}({$dim['fields']})\n\n";
             }
         }
 
-        $prompt .= "输出纯JSON，所有字段必填。直接输出JSON，不要markdown代码块，不要任何解释。";
+        $prompt .= __('输出纯JSON，所有字段必填。直接输出JSON，不要markdown代码块，不要任何解释。', 'linked3');
 
         return $prompt;
     }

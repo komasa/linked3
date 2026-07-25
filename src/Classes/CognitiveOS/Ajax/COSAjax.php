@@ -45,6 +45,8 @@ class COSAjax
         add_action('wp_ajax_linked3_cos_version',     [__CLASS__, 'ajax_version']);
         add_action('wp_ajax_linked3_cos_diagnose',    [__CLASS__, 'ajax_diagnose']);
         add_action('wp_ajax_linked3_cos_recommend_levers', [__CLASS__, 'ajax_recommend_levers']);
+        // v27.8.11 (审计Phase2): 动态杠杆评分
+        add_action('wp_ajax_linked3_cos_score_levers', [__CLASS__, 'ajax_score_levers']);
         add_action('wp_ajax_linked3_cos_evolve_gen',  [__CLASS__, 'ajax_evolve_gen']);
         add_action('wp_ajax_linked3_cos_evolve_finalize', [__CLASS__, 'ajax_evolve_finalize']);
         // v20.4-fix12: 重置 AI 熔断器 — 清除所有 provider 的失败计数
@@ -81,6 +83,11 @@ class COSAjax
      * AJAX: 杠杆自适配推荐 — 根据演化结果自动推荐适合的杠杆。
      */
         public static function ajax_recommend_levers()  : void { COSAjaxEvolve::ajax_recommend_levers(); }
+
+    /**
+     * v27.8.11 (审计Phase2): 动态杠杆评分 — 根据问题关键词计算每个杠杆的适配度
+     */
+        public static function ajax_score_levers()  : void { COSAjaxEvolve::ajax_score_levers(); }
 
     /**
      * 基于问题特征推荐杠杆组合。
@@ -401,10 +408,10 @@ class COSAjax
     private static function build_apply_skill_prompt(string $domain, string $problem, string $approach, string $steps, array $rules, float $fitness): string {
         $prompt  = "你是一个经过认知操作系统 (COS) 三代演化验证的「{$domain}」领域专家。\n\n";
         $prompt .= "<rules>\n";
-        $prompt .= "输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 规则不可违\n";
-        $prompt .= "公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险>8或可行<4直接抹杀\n";
-        $prompt .= "纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n";
-        $prompt .= "落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n";
+        $prompt .= __('输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 规则不可违\n', 'linked3');
+        $prompt .= __('公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险>8或可行<4直接抹杀\n', 'linked3');
+        $prompt .= __('纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n', 'linked3');
+        $prompt .= __('落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n', 'linked3');
         $prompt .= "</rules>\n\n";
         $prompt .= "你的方案经过 FP→EX→C→O→A 五部门流水线筛选, 从 10 个候选方案中经三代演化锁定为最优解 (MVP, 适应度 {$fitness})。\n\n";
         $prompt .= "## 原始问题\n{$problem}\n\n";
@@ -412,23 +419,23 @@ class COSAjax
         if (!empty($steps)) {
             $prompt .= "## 执行步骤\n{$steps}\n\n";
         }
-        $prompt .= "## 固化规则 (经演化验证, 必须遵守)\n";
+        $prompt .= __('## 固化规则 (经演化验证, 必须遵守)\n', 'linked3');
         if (!empty($rules)) {
             foreach ($rules as $i => $rule) {
                 $prompt .= ($i + 1) . ". " . $rule . "\n";
             }
         } else {
-            $prompt .= "1. 严格遵循上述最优方案的执行步骤\n";
+            $prompt .= __('1. 严格遵循上述最优方案的执行步骤\n', 'linked3');
         }
-        $prompt .= "\n## 工作要求\n";
+        $prompt .= __('\n## 工作要求\n', 'linked3');
         $prompt .= "<answer_operator>\n";
-        $prompt .= "Analyze → Synthesize(纳什均衡) → Recommend(可落地) → Verify(用户价值) → Execute\n";
+        $prompt .= __('Analyze → Synthesize(纳什均衡) → Recommend(可落地) → Verify(用户价值) → Execute\n', 'linked3');
         $prompt .= "</answer_operator>\n";
-        $prompt .= "1. 基于以上经过验证的方案和规则, 完成用户的内容生成任务\n";
-        $prompt .= "2. 不得偏离固化规则, 如遇冲突以规则为准\n";
-        $prompt .= "3. 输出需符合原始问题的领域特征和目标约束\n";
-        $prompt .= "4. 始终以用户目的为锚点, 输出必须可落地执行\n";
-        $prompt .= "5. 在信息密度与系统降维之间找到纳什均衡点\n";
+        $prompt .= __('1. 基于以上经过验证的方案和规则, 完成用户的内容生成任务\n', 'linked3');
+        $prompt .= __('2. 不得偏离固化规则, 如遇冲突以规则为准\n', 'linked3');
+        $prompt .= __('3. 输出需符合原始问题的领域特征和目标约束\n', 'linked3');
+        $prompt .= __('4. 始终以用户目的为锚点, 输出必须可落地执行\n', 'linked3');
+        $prompt .= __('5. 在信息密度与系统降维之间找到纳什均衡点\n', 'linked3');
         return $prompt;
     }
 

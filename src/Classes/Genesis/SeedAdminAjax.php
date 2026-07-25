@@ -15,6 +15,10 @@ if (!defined('ABSPATH')) exit;
 
 class SeedAdminAjax
 {
+    use SeedAdminConstants;
+
+    // v27.8.3: Shared constants now provided by SeedAdminConstants trait.
+
     static function ajax_save_seed(): void {
         if (!current_user_can(self::CAPABILITY)) {
             wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
@@ -101,9 +105,9 @@ class SeedAdminAjax
         }
 
         if ($format === 'json') {
-            $content = self::export_json($post_id);
+            $content = SeedAdminExport::export_json($post_id);
         } else {
-            $content = self::export_md($post_id);
+            $content = SeedAdminExport::export_md($post_id);
         }
 
         // 返回 base64 让前端触发下载 (避免 admin-ajax 直接 stream 的复杂性)
@@ -130,7 +134,7 @@ class SeedAdminAjax
             'format'     => isset($_POST['format']) ? sanitize_key($_POST['format']) : 'md',
         ];
 
-        $files = self::export_batch($filter);
+        $files = SeedAdminExport::export_batch($filter);
         if (empty($files)) {
             wp_send_json_error(['message' => __('没有可导出的 Seed', 'linked3')], 404);
         }
@@ -167,6 +171,38 @@ class SeedAdminAjax
             'b64'      => base64_encode($content),
             'count'    => count($files),
         ]);
+    }
+
+
+    /**
+     * Collect seed data from POST request.
+     * Extracted from original SeedAdmin::collect_seed_data_from_request().
+     */
+    private static function collect_seed_data_from_request(): array {
+        $post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+        $title = isset($_POST['seed_title']) ? sanitize_text_field(wp_unslash($_POST['seed_title'])) : '';
+        $seed_type = isset($_POST['seed_type']) ? sanitize_text_field(wp_unslash($_POST['seed_type'])) : 'style';
+        $priority = isset($_POST['priority']) ? absint($_POST['priority']) : 50;
+        $is_locked = isset($_POST['is_locked']) ? 1 : 0;
+        
+        $visual_dna = isset($_POST['visual_dna']) ? wp_unslash($_POST['visual_dna']) : '';
+        $personality_dna = isset($_POST['personality_dna']) ? wp_unslash($_POST['personality_dna']) : '';
+        $ai_adapter = isset($_POST['ai_adapter']) ? wp_unslash($_POST['ai_adapter']) : '';
+        
+        return [
+            'ID' => $post_id,
+            'post_title' => $title,
+            'post_type' => 'linked3_seed',
+            'post_status' => 'publish',
+            'meta_input' => [
+                'seed_type' => $seed_type,
+                'priority' => $priority,
+                'is_locked' => $is_locked,
+                'visual_dna' => $visual_dna,
+                'personality_dna' => $personality_dna,
+                'ai_adapter' => $ai_adapter,
+            ],
+        ];
     }
 
 }

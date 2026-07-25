@@ -49,7 +49,7 @@ if (empty($custom_apis) && get_option(LINKED3_OPTION_PREFIX . 'custom_apis') ===
 
     <!-- 默认 Provider 选择 -->
     <h2>默认 Provider</h2>
-    <form method="post" action="options.php">
+    <form method="post" action="options.php" id="linked3-provider-form">
         <?php settings_fields('linked3_api_settings'); ?>
         <table class="form-table">
             <tr>
@@ -122,15 +122,19 @@ if (empty($custom_apis) && get_option(LINKED3_OPTION_PREFIX . 'custom_apis') ===
                         <span class="linked3-sync-status" data-provider="<?php echo esc_attr($slug); ?>"></span>
                     </td>
                     <td>
-                        <textarea name="linked3_provider_keys[<?php echo esc_attr($slug); ?>]" rows="2" cols="40"
+                        <textarea name="linked3_provider_keys[<?php echo esc_attr($slug); ?>]" id="key_<?php echo esc_attr($slug); ?>" rows="2" cols="40"
                                   placeholder="<?php echo esc_attr($info['placeholder']); ?>"><?php echo esc_textarea($key); ?></textarea>
+                        <br>
+                        <!-- v27.8.11 (审计Phase1): 测试连接按钮 -->
+                        <button type="button" class="button button-small linked3-test-provider" data-provider="<?php echo esc_attr($slug); ?>" style="margin-top:4px;">🔌 测试连接</button>
+                        <span class="linked3-test-status" data-provider="<?php echo esc_attr($slug); ?>" style="margin-left:6px;font-size:12px;"></span>
                     </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php submit_button('保存 Provider 配置', 'primary', 'linked3-save-provider-config', false); ?>
-        <span id="linked3-provider-save-status" style="margin-left:10px;"></span>
+        <?php submit_button('💾 保存默认 AI 服务 + 多 Key 轮询', 'primary large', 'linked3-save-provider-config', false); ?>
+        <span id="linked3-provider-save-status" style="margin-left:10px;font-weight:600;"></span>
     </form>
 
     <!-- 自定义 API 站点 -->
@@ -213,23 +217,83 @@ if (empty($custom_apis) && get_option(LINKED3_OPTION_PREFIX . 'custom_apis') ===
                 .then(function(r){return r.json();})
                 .then(function(res){
                     saveBtn.disabled = false;
-                    saveBtn.value = '保存 Provider 配置';
+                    saveBtn.value = '💾 保存默认 AI 服务 + 多 Key 轮询';
                     if (res.success) {
-                        status.textContent = '✓ ' + (res.data.message || '已保存');
+                        status.textContent = '✅ ' + (res.data.message || '已保存');
                         status.style.color = '#080';
-                        // 3 秒后清空提示
-                        setTimeout(function(){ status.textContent = ''; }, 3000);
+                        // v27.8.7: 保存成功后更新 select 的 selected 属性, 防止刷新前回退
+                        if (res.data.default_provider) {
+                            var dp = document.getElementById('default_provider');
+                            if (dp) dp.value = res.data.default_provider;
+
+                            // v27.8.11 (审计Phase1): 保存后自动测试 default provider
+                            var testBtn = document.querySelector('.linked3-test-provider[data-provider="' + res.data.default_provider + '"]');
+                            if (testBtn) {
+                                status.textContent += ' | 正在自动测试 ' + res.data.default_provider + '...';
+                                setTimeout(function(){ testBtn.click(); }, 500);
+                            }
+                        }
+                        // 8 秒后清空提示 (给自动测试留时间)
+                        setTimeout(function(){ status.textContent = ''; }, 8000);
                     } else {
-                        status.textContent = '✗ ' + (res.data && res.data.message ? res.data.message : '保存失败');
+                        status.textContent = '❌ ' + (res.data && res.data.message ? res.data.message : '保存失败');
                         status.style.color = '#800';
                     }
                 })
                 .catch(function(e){
                     saveBtn.disabled = false;
-                    saveBtn.value = '保存 Provider 配置';
-                    status.textContent = '✗ 网络错误: ' + e.message;
+                    saveBtn.value = '💾 保存默认 AI 服务 + 多 Key 轮询';
+                    status.textContent = '❌ 网络错误: ' + e.message;
                     status.style.color = '#800';
                 });
+        });
+
+        // v27.8.11 (审计Phase1): 测试连接按钮
+        document.querySelectorAll('.linked3-test-provider').forEach(function(btn){
+            btn.addEventListener('click', function(){
+                var provider = this.getAttribute('data-provider');
+                var statusEl = document.querySelector('.linked3-test-status[data-provider="' + provider + '"]');
+                var keyEl = document.getElementById('key_' + provider);
+                var modelEl = document.getElementById('model_' + provider);
+
+                // 读取表单中的 key (未保存的), 如果为空则用已保存的 (后端处理)
+                var apiKey = keyEl ? keyEl.value.trim().split('\n')[0].trim() : '';
+                var model = modelEl ? modelEl.value : '';
+
+                btn.disabled = true;
+                btn.textContent = '测试中...';
+                statusEl.textContent = '⏳ 正在连接 ' + provider + '...';
+                statusEl.style.color = '#666';
+
+                var fd = new FormData();
+                fd.append('action', 'linked3_test_provider');
+                fd.append('nonce', window.linked3Nonce);
+                fd.append('provider', provider);
+                if (apiKey) fd.append('api_key', apiKey);
+                if (model) fd.append('model', model);
+
+                fetch(window.linked3AjaxUrl, {method:'POST', body:fd, credentials:'same-origin'})
+                    .then(function(r){return r.json();})
+                    .then(function(res){
+                        btn.disabled = false;
+                        btn.textContent = '🔌 测试连接';
+                        if (res.success) {
+                            statusEl.textContent = res.data.message;
+                            statusEl.style.color = '#080';
+                        } else {
+                            statusEl.textContent = (res.data && res.data.message) ? res.data.message : '❌ 连接失败';
+                            statusEl.style.color = '#800';
+                        }
+                        // 8秒后清空状态
+                        setTimeout(function(){ statusEl.textContent = ''; }, 8000);
+                    })
+                    .catch(function(e){
+                        btn.disabled = false;
+                        btn.textContent = '🔌 测试连接';
+                        statusEl.textContent = '❌ 网络错误: ' + e.message;
+                        statusEl.style.color = '#800';
+                    });
+            });
         });
     })();
 
@@ -296,6 +360,11 @@ if (empty($custom_apis) && get_option(LINKED3_OPTION_PREFIX . 'custom_apis') ===
                 fd.append('action', 'linked3_sync_models');
                 fd.append('nonce', nonce);
                 fd.append('provider', provider);
+                // v27.8.11 (审计Phase1): 从表单读取 key (未保存也能同步)
+                var keyEl = document.getElementById('key_' + provider);
+                if (keyEl && keyEl.value.trim()) {
+                    fd.append('api_key', keyEl.value.trim().split('\n')[0].trim());
+                }
                 fetch(ajaxUrl, {method:'POST', body:fd, credentials:'same-origin'})
                     .then(function(r){return r.json();})
                     .then(function(res){

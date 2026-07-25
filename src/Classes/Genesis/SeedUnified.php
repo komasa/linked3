@@ -252,7 +252,7 @@ class SeedUnified {
      * @param array $data SEED数据
      * @return int|WP_Error
      */
-    public static function create(array $data) : mixed {
+    public static function create(array $data) : WP_Error {
         if (!post_type_exists(self::CPT)) {
             return new WP_Error('cpt_missing', 'SEED CPT未注册');
         }
@@ -327,7 +327,7 @@ class SeedUnified {
     /**
      * 删除SEED
      */
-    public static function delete($seed_id) : mixed {
+    public static function delete($seed_id) : bool {
         $post_id = self::extract_post_id($seed_id);
         if (!$post_id) return false;
         return wp_delete_post($post_id, true) !== false;
@@ -336,7 +336,7 @@ class SeedUnified {
     /**
      * 获取单个SEED
      */
-    public static function get($seed_id) : mixed {
+    public static function get($seed_id) : null {
         $post_id = self::extract_post_id($seed_id);
         if (!$post_id) return null;
         $post = get_post($post_id);

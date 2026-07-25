@@ -36,12 +36,12 @@ class GenesisEvaluator {
         $hasConflict = false;
         if (strpos($env, 'rain') !== false && strpos($light, 'bright') !== false) {
             $score += 1;
-            $feedback[] = "雨天与明亮光线冲突";
+            $feedback[] = __('雨天与明亮光线冲突', 'linked3');
             $hasConflict = true;
         }
         if (strpos($env, 'dark') !== false && strpos($light, 'natural') !== false) {
             $score += 2;
-            $feedback[] = "暗场景与自然光冲突";
+            $feedback[] = __('暗场景与自然光冲突', 'linked3');
             $hasConflict = true;
         }
         if (!$hasConflict) $score += 9;
@@ -49,7 +49,7 @@ class GenesisEvaluator {
         if (!empty($ir['negative']) || !empty($ir['style_negative'])) {
             $score += 5;
         } else {
-            $feedback[] = "缺少负向提示词";
+            $feedback[] = __('缺少负向提示词', 'linked3');
         }
 
         $totalLen = strlen($ir['subject'] ?? '') + strlen($ir['environment'] ?? '');
@@ -57,10 +57,10 @@ class GenesisEvaluator {
             $score += 5;
         } elseif ($totalLen < 600) {
             $score += 3;
-            $feedback[] = "提示词较长";
+            $feedback[] = __('提示词较长', 'linked3');
         } else {
             $score += 1;
-            $feedback[] = "提示词过长可能被截断";
+            $feedback[] = __('提示词过长可能被截断', 'linked3');
         }
 
         $styleMod = strtolower($ir['style_mod'] ?? '');
@@ -68,14 +68,14 @@ class GenesisEvaluator {
             $score += 5;
         } else {
             $score += 1;
-            $feedback[] = "缺少风格锚点关键词";
+            $feedback[] = __('缺少风格锚点关键词', 'linked3');
         }
 
         if (!empty($ir['colors'])) {
             $score += 5;
         } else {
             $score += 1;
-            $feedback[] = "缺少色彩方案";
+            $feedback[] = __('缺少色彩方案', 'linked3');
         }
 
         return ['score' => $score, 'feedback' => $feedback, 'max_score' => 40];

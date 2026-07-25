@@ -86,8 +86,9 @@ class GenesisPatchV1006 {
 
     // ================================================================
     // v10.1.0 本地兜底: 从剧本提取角色 (中文人名+职业)
+    // v27.8.2: 改为 public 供 GenesisPatchStage2/3 跨类调用
     // ================================================================
-    private static function local_extract_characters(string $script): array {
+    public static function local_extract_characters(string $script): array {
         $characters = [];
         $seen = [];
 
@@ -101,7 +102,7 @@ class GenesisPatchV1006 {
      * 1. 提取中文人名 (2-4字, 常见姓氏开头, 出现≥2次)
      */
     private static function extract_chinese_names(string $script, array &$characters, array &$seen): void {
-        $commonSurnames = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜郭梅盛林刁钟徐邱骆高夏蔡田樊胡凌霍虞万支柯昝管卢莫经房裘缪干解应宗丁宣贲邓郁单杭洪包诸左石崔吉钮龚程嵇邢滑裴陆荣翁荀羊於惠甄曲家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班仰秋仲伊宫宁仇栾暴甘钭厉戎祖武符刘景詹束龙叶幸司韶郜黎蓟薄印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阴鬱胥能苍双闻莘党翟谭贡劳逄姬申扶堵冉宰郦雍卻璩桑桂濮牛寿通边扈燕冀郏浦尚农温别庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满弘匡国文寇广禄阙东欧殳沃利蔚越夔隆师巩厍聂晁勾敖融冷訾辛阚那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逯盖益桓公';
+        $commonSurnames = __('赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜郭梅盛林刁钟徐邱骆高夏蔡田樊胡凌霍虞万支柯昝管卢莫经房裘缪干解应宗丁宣贲邓郁单杭洪包诸左石崔吉钮龚程嵇邢滑裴陆荣翁荀羊於惠甄曲家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班仰秋仲伊宫宁仇栾暴甘钭厉戎祖武符刘景詹束龙叶幸司韶郜黎蓟薄印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阴鬱胥能苍双闻莘党翟谭贡劳逄姬申扶堵冉宰郦雍卻璩桑桂濮牛寿通边扈燕冀郏浦尚农温别庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满弘匡国文寇广禄阙东欧殳沃利蔚越夔隆师巩厍聂晁勾敖融冷訾辛阚那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逯盖益桓公', 'linked3');
         $excludeWords = ['这个', '一个', '什么', '怎么', '可以', '已经', '现在', '他们', '我们', '自己', '没有', '不是', '这样', '那种', '的话', '因为', '所以', '但是', '如果', '虽然', '然而', '之后', '之前', '之间', '起来', '下去', '过来', '过去', '时候', '地方', '东西', '事情', '问题', '感觉', '觉得', '知道', '认为', '看到', '听到', '想到', '发现', '出现', '发生', '存在', '继续', '开始', '结束', '完成', '进行'];
 
         preg_match_all('/[\x{4e00}-\x{9fa5}]{2,4}/u', $script, $matches);
@@ -159,8 +160,9 @@ class GenesisPatchV1006 {
 
     // ================================================================
     // v10.1.0 本地兜底: 从剧本提取场景
+    // v27.8.2: 改为 public 供 GenesisPatchStage3 跨类调用
     // ================================================================
-    private static function local_extract_scenes(string $script): array {
+    public static function local_extract_scenes(string $script): array {
         $scenes = [];
         $sceneRules = [
             ['name' => '学校', 'keywords' => ['学校', '大学', '中学', '小学', '校园', '教室', '课堂', '学院']],
@@ -184,7 +186,7 @@ class GenesisPatchV1006 {
         return $scenes;
     }
 
-    private static function extract_props_from_script(string $script): array {
+    public static function extract_props_from_script(string $script): array {
         $props = [];
         $propDict = ['手机', '相机', '电脑', '汽车', '自行车', '雨伞', '书包', '吉他', '钢琴', '画笔', '话筒', '麦克风', '奖杯', '证书', '信件', '日记', '照片', '钥匙', '手表', '眼镜', '帽子', '围巾', '背包', '行李箱', '怀表', '刀剑', '书本', '报纸', '杂志', '文件'];
         foreach ($propDict as $p) {
@@ -193,7 +195,7 @@ class GenesisPatchV1006 {
         return array_slice(array_unique($props), 0, 5);
     }
 
-    private static function extract_brand_from_script(string $script): string {
+    public static function extract_brand_from_script(string $script): string {
         if (preg_match('/[""""]([^"""]{2,20})["""]/', $script, $m)) return $m[1];
         if (preg_match('/《([^》]{2,20})》/', $script, $m)) return $m[1];
         return '';
@@ -207,8 +209,9 @@ class GenesisPatchV1006 {
 
     // ================================================================
     // v10.1.0: 过滤网页噪声文本
+    // v27.8.2: 改为 public 供 GenesisPatchStage2/3 跨类调用
     // ================================================================
-    private static function filter_web_noise(string $text): string {
+    public static function filter_web_noise(string $text): string {
         $noisePatterns = [
             '/AI导读[：:]/u',
             '/内容由AI智能生成/u',
@@ -234,8 +237,9 @@ class GenesisPatchV1006 {
 
     // ================================================================
     // v10.1.0: 增强本地FP提取 — 大字典+中文摘要兜底
+    // v27.8.2: 改为 public 供 GenesisPatchStage2 跨类调用
     // ================================================================
-    private static function enhanced_local_extract(string $text, string $emotion = 'neutral'): array {
+    public static function enhanced_local_extract(string $text, string $emotion = 'neutral'): array {
         $text = trim($text);
         if (empty($text)) {
             return ['who' => 'a person', 'what' => '', 'where' => '', 'when' => '', 'emotion' => $emotion, 'theme' => '', 'action_en' => 'a person in a scene, natural lighting', 'raw' => ''];

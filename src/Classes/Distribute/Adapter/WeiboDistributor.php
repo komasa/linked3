@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 final class WeiboDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'weibo'; }
-    public function label() : string { return '微博'; }
+    public function label() : string { return __('微博', 'linked3'); }
 
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';

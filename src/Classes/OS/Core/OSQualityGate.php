@@ -116,10 +116,10 @@ class OSQualityGate {
      * 生成质量报告
      */
     public static function generate_quality_report(array $gate_result): string {
-        $report = "=== 逆向质量报告 ===\n\n";
+        $report = __('=== 逆向质量报告 ===\n\n', 'linked3');
         $report .= sprintf("总分: %s [%s]\n", $gate_result['total_score'], $gate_result['gate_label']);
-        $report .= "门禁: " . ($gate_result['passed'] ? '✓ 通过' : '✗ 不通过') . "\n\n";
-        $report .= "维度得分:\n";
+        $report .= __('门禁: ', 'linked3') . ($gate_result['passed'] ? __('✓ 通过', 'linked3') : __('✗ 不通过', 'linked3')) . "\n\n";
+        $report .= __('维度得分:\n', 'linked3');
         foreach ($gate_result['dimension_scores'] as $key => $score) {
             $dim = self::QUALITY_DIMENSIONS[$key];
             $report .= sprintf("  %s %s: %s/100 (权重%d%%)\n", $key, $dim['name'], $score, $dim['weight']*100);

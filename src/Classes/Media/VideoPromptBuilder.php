@@ -200,7 +200,7 @@ PROMPT;
 
         $content_clean = mb_substr(wp_strip_all_tags($content), 0, 3000);
         if (!empty($content_clean)) {
-            $prompt .= "\n\n【文章参考内容】\n" . $content_clean;
+            $prompt .= __('\n\n【文章参考内容】\n', 'linked3') . $content_clean;
         }
 
         $max_tokens = $duration <= 60 ? 2500 : ($duration <= 120 ? 4000 : 6000);
@@ -241,12 +241,12 @@ PROMPT;
         $prompt = $this->resolve_placeholders(self::FRAMES_PROMPT_TEMPLATE, $ctx);
 
         if (!empty($custom_prompt)) {
-            $prompt .= "\n\n【附加要求】\n" . $custom_prompt;
+            $prompt .= __('\n\n【附加要求】\n', 'linked3') . $custom_prompt;
         }
 
         $content_clean = mb_substr(wp_strip_all_tags($content), 0, 2000);
         if (!empty($content_clean)) {
-            $prompt .= "\n\n【文章参考】\n" . $content_clean;
+            $prompt .= __('\n\n【文章参考】\n', 'linked3') . $content_clean;
         }
 
         $timeout    = $duration <= 60 ? 120 : 180;
@@ -365,10 +365,10 @@ PROMPT;
 
         // 过渡目标描述
         if ($is_last) {
-            $transition_target = "收尾闭环 (从当前画面过渡到品牌Logo + CTA 定格)";
+            $transition_target = __('收尾闭环 (从当前画面过渡到品牌Logo + CTA 定格)', 'linked3');
         } else {
             $next_hint = !empty($next_title) ? "「" . $next_title . "」" : "下一个分镜";
-            $transition_target = "从当前画面过渡到" . $next_hint;
+            $transition_target = __('从当前画面过渡到', 'linked3') . $next_hint;
         }
 
         $prompt = sprintf(

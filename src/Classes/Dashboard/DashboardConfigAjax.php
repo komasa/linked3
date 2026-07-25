@@ -16,9 +16,13 @@ class DashboardConfigAjax
         $keys = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         $api_bases = (array) get_option(LINKED3_OPTION_PREFIX . 'provider_api_bases', []);
 
-        // 多 Key 取第一个
+        // v27.8.11 (审计Phase1): 优先用 POST 传的 key (未保存也能同步)
         $key = '';
-        if (!empty($keys[$provider])) {
+        if (!empty($_POST['api_key'])) {
+            $key = sanitize_text_field(wp_unslash($_POST['api_key']));
+        }
+        // 如果 POST 没传 key, 用已保存的
+        if (!$key && !empty($keys[$provider])) {
             $key_lines = array_filter(array_map('trim', explode("\n", $keys[$provider])));
             $key = $key_lines[0] ?? '';
         }

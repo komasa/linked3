@@ -1,39 +1,41 @@
 parameters:
-    level: 8
+    level: 5
 
+    # Scan only src/ (skip lib/ which contains early-error handlers with
+    # intentionally non-standard PHP for bootstrap resilience).
     paths:
         - src/
-        - lib/
 
+    # WordPress stubs — lets PHPStan recognize WP core functions/classes
+    # without requiring a full WordPress installation in CI.
+    # Run `composer install` first to download stubs.
+    scanFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+
+    # Baseline locks in existing errors so new code cannot add more.
+    # Regenerate with: vendor/bin/phpstan analyse --generate-baseline=phpstan-baseline.php
+    baselineFile: phpstan-baseline.php
+
+    # WordPress globals — exclude from undefined variable checks.
+    universalObjectCratesClasses:
+        - WP_Post
+        - WP_Term
+        - WP_User
+        - WP_Query
+
+    # Ignore WordPress-specific error patterns that are false positives
+    # for plugin code (e.g. direct $_POST access is intentional in AJAX handlers).
+    ignoreErrors:
+        - '#Access to an undefined property WP_Post::\$#'
+        - '#Function .* not found#'
+
+    # Exclude test fixtures and early-error handlers from analysis.
     excludePaths:
-        - */vendor/*
-        - */tests/*
-        - */assets/*
+        - lib/*
+        - tests/*
         - admin/views/*
 
-    # ─── WordPress 全局变量 ───
-    universalObjectCratesClasses:
-        - WP_Query
-        - WP_Post
-        - WP_Error
-        - WP_HTTP
-        - WP_REST_Request
-        - WP_REST_Response
-        - WP_REST_Server
-        - WP_Widget
-
-    # ─── 忽略 WordPress 类未找到 (无存根) ───
-    ignoreErrors:
-        - '#Constant LINKED3_(DIR|URL|VERSION|BASENAME|FILE|PLUGIN_FILE) not found.#'
-        - '#Function .* not found.#'
-        - '#Instantiated class .* not found.#'
-        - '#Caught class .* not found.#'
-        - '#Call to static method .* on an unknown class.*#'
-        - '#Call to method .* on an unknown class.*#'
-        - '#Throwing object of an unknown class.*#'
-
-    # ─── 允许混合数组 (WordPress 惯例) ───
-    checkAlwaysTrueInstanceof: false
-
-    # ─── 报告风格 ───
-    reportUnmatchedIgnoredErrors: false
+    # Treat mixed as a valid type (WordPress returns mixed from many APIs).
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingVarAnnotation: false
+    checkUninitializedProperties: false

@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
 final class Alibaba1688Distributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'alibaba1688'; }
-    public function label() : string { return '1688 开放平台'; }
+    public function label() : string { return __('1688 开放平台', 'linked3'); }
 
     const API_BASE = 'https://gw.open.1688.com/openapi';
 

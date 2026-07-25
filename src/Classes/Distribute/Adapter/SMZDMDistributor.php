@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
 final class SMZDMDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'smzdm'; }
-    public function label() : string { return '什么值得买 (MCP 中转)'; }
+    public function label() : string { return __('什么值得买 (MCP 中转)', 'linked3'); }
 
     public function publish(array $post_data, array $config): array {
         $api_url = $config['api_url'] ?? '';

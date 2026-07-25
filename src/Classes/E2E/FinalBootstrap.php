@@ -22,37 +22,37 @@ class FinalBootstrap {
 
         // Phase 1: 核心 (v5.4.0)
         if (class_exists('\Linked3\Classes\E2E\V54Bootstrap')) {
-            V54Bootstrap::boot();
+            \Linked3\Classes\E2E\V54Bootstrap::boot();
         }
 
         // Phase 2: Agent (v5.5.0)
         if (class_exists('\Linked3\Classes\E2E\AgentBootstrap')) {
-            AgentBootstrap::boot();
+            \Linked3\Classes\Agent\AgentBootstrap::boot();
         }
 
         // Phase 3: AI 增强 (v5.6.0)
         if (class_exists('\Linked3\Classes\AI\Pipeline\AIPipelineBootstrap')) {
-            AIPipelineBootstrap::boot();
+            \Linked3\Classes\AI\Pipeline\AIPipelineBootstrap::boot();
         }
 
         // Phase 4: 安全 (v5.7.0)
         if (class_exists('\Linked3\Classes\Security\SecurityBootstrap')) {
-            SecurityBootstrap::boot();
+            \Linked3\Classes\Security\SecurityBootstrap::boot();
         }
 
         // Phase 5: 商业 (v5.8.0)
         if (class_exists('\Linked3\Classes\Billing\BillingBootstrap')) {
-            BillingBootstrap::boot();
+            \Linked3\Classes\Billing\BillingBootstrap::boot();
         }
 
         // Phase 6: 规模 (v5.9.0)
         if (class_exists('\Linked3\Classes\Scale\ScaleBootstrap')) {
-            ScaleBootstrap::boot();
+            \Linked3\Classes\Scale\ScaleBootstrap::boot();
         }
 
         // Phase 7: 最终验证
         if (class_exists('\Linked3\Classes\E2E\HealthMonitor')) {
-            $monitor = new HealthMonitor();
+            $monitor = new \Linked3\Classes\E2E\HealthMonitor();
             $health = $monitor->check();
             $failedCount = count(array_filter($health, fn($v) => $v === false));
 
@@ -68,13 +68,13 @@ class FinalBootstrap {
 
             // 自动回滚评估
             if (class_exists('\Linked3\Classes\E2E\AutoRollback')) {
-                AutoRollback::instance()->evaluate();
+                \Linked3\Classes\E2E\AutoRollback::instance()->evaluate();
             }
         }
 
         // 注册 E2E 测试
         if (class_exists('\Linked3\Classes\E2E\E2eTestRunner')) {
-            $runner = E2eTestRunner::instance();
+            $runner = \Linked3\Classes\E2E\E2eTestRunner::instance();
             $runner->registerDefaultTests();
         }
 

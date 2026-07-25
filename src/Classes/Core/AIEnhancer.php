@@ -36,11 +36,11 @@ final class AIEnhancer
         $settings = wp_parse_args($settings, $this->default_settings());
 
         if (!empty($settings['require_html'])) {
-            $prompt .= "\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。";
+            $prompt .= __('\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。', 'linked3');
         }
 
         if (!empty($settings['enable_ai_summary'])) {
-            $prompt .= " 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。\n";
+            $prompt .= __(' 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。\n', 'linked3');
         }
 
         if (!empty($settings['require_tag'])) {
@@ -62,7 +62,7 @@ final class AIEnhancer
 
         $suffix = get_option(LINKED3_OPTION_PREFIX . 'ai_suffix_text', '');
         if (empty($suffix)) {
-            $suffix = '，基于公开技术资料和厂商官方信息整合撰写，以确保信息的时效性与客观性。我们建议您将所有信息作为决策参考，并最终以各云厂商官方页面的最新公告为准。';
+            $suffix = __('，基于公开技术资料和厂商官方信息整合撰写，以确保信息的时效性与客观性。我们建议您将所有信息作为决策参考，并最终以各云厂商官方页面的最新公告为准。', 'linked3');
         }
 
         return $content . "\n\n---\n" . $suffix;

@@ -171,7 +171,7 @@ class CloudMasterAjax {
             $masters[$edit_id]['config'] = $config;
             $masters[$edit_id]['updated_at'] = current_time('mysql');
             $master_id = $edit_id;
-            $msg = '母版已更新';
+            $msg = __('母版已更新', 'linked3');
         } else {
             // 新增
             $master_id = 'master_' . sanitize_title($name) . '_' . wp_rand(1000, 9999);
@@ -184,7 +184,7 @@ class CloudMasterAjax {
                 'created_at' => current_time('mysql'),
                 'updated_at' => current_time('mysql'),
             ];
-            $msg = '自定义母版已添加到母版库';
+            $msg = __('自定义母版已添加到母版库', 'linked3');
         }
 
         update_option($option_key, $masters, false);

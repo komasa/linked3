@@ -17,18 +17,18 @@ class Diagram4LayerAnchor {
     }
 
     private function suggestMetric(string $title): string {
-        return '效果提升30%';
+        return __('效果提升30%', 'linked3');
     }
 
     private function suggestAction(string $title): string {
-        return '立即应用' . $title;
+        return __('立即应用', 'linked3') . $title;
     }
 
     public function validate(array $subTopic): array {
         $issues = [];
-        if (empty($subTopic['anchor']['case'])) $issues[] = 'Case缺失';
-        if (empty($subTopic['anchor']['metric'])) $issues[] = 'Metric缺失';
-        if (empty($subTopic['anchor']['action'])) $issues[] = 'Action缺失';
+        if (empty($subTopic['anchor']['case'])) $issues[] = __('Case缺失', 'linked3');
+        if (empty($subTopic['anchor']['metric'])) $issues[] = __('Metric缺失', 'linked3');
+        if (empty($subTopic['anchor']['action'])) $issues[] = __('Action缺失', 'linked3');
         return ['passed' => empty($issues), 'issues' => $issues];
     }
 }

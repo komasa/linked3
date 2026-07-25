@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PHPMD configuration for Linked3 AI
+    WordPress-compatible rule set — excludes rules that conflict with
+    WordPress coding standards (snake_case, direct $_POST access, @ operator).
+
+    See audit report Phase 3.2 for rationale.
+-->
+<ruleset name="linked3"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                             http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>Linked3 AI PHP Mess Detector rules — WordPress-compatible subset.</description>
+
+    <!-- ── Code Size Rules ─────────────────────────────────────────── -->
+    <!-- Detects overly complex classes and methods. -->
+    <rule ref="rulesets/codesize.xml">
+        <!-- WP AJAX handlers are often large by nature; relax thresholds. -->
+        <properties>
+            <property name="cyclomaticComplexity" value="20" />
+            <property name="npathComplexity" value="200" />
+            <property name="tooManyMethods" value="30" />
+            <property name="tooManyPublicMethods" value="25" />
+        </properties>
+    </rule>
+
+    <!-- ── Naming Rules ───────────────────────────────────────────── -->
+    <!-- Excludes CamelCaseMethodName (conflicts with WP snake_case convention). -->
+    <rule ref="rulesets/naming.xml">
+        <exclude name="CamelCaseMethodName" />
+        <exclude name="CamelCaseParameterName" />
+        <exclude name="CamelCasePropertyName" />
+        <exclude name="CamelCaseVariableName" />
+        <exclude name="LongVariableName" />
+        <exclude name="ShortVariableName" />
+    </rule>
+
+    <!-- ── Unused Code Rules ──────────────────────────────────────── -->
+    <!-- Detects dead code — always useful. -->
+    <rule ref="rulesets/unusedcode.xml">
+        <!-- WP hooks register methods that may appear "unused" to static analysis. -->
+        <exclude name="UnusedPrivateMethod" />
+    </rule>
+
+    <!-- ── EXCLUDED rule sets ─────────────────────────────────────── -->
+    <!-- controversial.xml: CamelCase enforcement conflicts with WP snake_case -->
+    <!-- design.xml: flags $_POST/$_GET/$_REQUEST as Superglobals (intentional in AJAX) -->
+    <!-- cleancode.xml: flags @ error-control operator (used for @set_time_limit etc.) -->
+
+</ruleset>

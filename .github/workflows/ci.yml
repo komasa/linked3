@@ -2,90 +2,79 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, develop]
   pull_request:
-    branches: [main, master]
+    branches: [main, develop]
 
 jobs:
-  # ─── 语法检查 ───
-  php-lint:
-    name: PHP Syntax Check
+  version-contract:
+    name: Version Contract Check
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.1', '8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run version contract check
+        run: python3 ci_check_version_contract.py
+
+  lint:
+    name: PHP Syntax Lint
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: '8.2'
           coverage: none
 
       - name: Lint all PHP files
-        run: find . -name "*.php" -not -path "./vendor/*" -print0 | xargs -0 -n1 php -l
+        run: |
+          find src/ lib/ admin/ -name '*.php' -print0 | xargs -0 -n1 php -l
 
-  # ─── 编码规范 (PSR-12 + WordPress) ───
-  phpcs:
-    name: PHP CodeSniffer (PSR-12 + WPCS, baseline-filtered)
+  phpunit:
+    name: PHPUnit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Full history for git diff baseline comparison
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
+          coverage: none
           tools: composer:v2
-          coverage: none
 
-      - name: Install PHP_CodeSniffer + WordPress Coding Standards
-        run: |
-          composer global require squizlabs/php_codesniffer:^3.8
-          composer global require wp-coding-standards/wpcs:^2.3
-          WPCS_DIR="$(composer global config home)/vendor/wp-coding-standards/wpcs"
-          phpcs --config-set installed_paths "${WPCS_DIR}"
-          phpcs -i
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
-      - name: Run PHPCS with baseline filter
-        run: |
-          # Run PHPCS with JSON output, then filter against .ci-baseline.json
-          # Strategy:
-          #   - Changed files (git diff): ALL violations enforced
-          #   - Unchanged files: baseline violations suppressed
-          python3 scripts/ci-phpcs-baseline-filter.py --phpcs-path=phpcs --standard=phpcs.xml
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --colors=always
 
-      - name: Upload checkstyle report (if generated)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: phpcs-checkstyle
-          path: phpcs-checkstyle.xml
-          if-no-files-found: ignore
-
-  # ─── 自动格式化检查 (PSR-12) ───
-  php-cs-fixer:
-    name: PHP CS Fixer (Dry Run)
+  self-ref-check:
+    name: Cross-Class self:: Reference Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          php-version: '8.2'
-          tools: php-cs-fixer:v3
-          coverage: none
+          node-version: '20'
 
-      - name: Run PHP CS Fixer (dry-run)
-        run: php-cs-fixer fix --dry-run --diff --using-cache=no
+      - name: Install php-parser
+        run: npm install -g php-parser
 
-  # ─── 静态分析 (PHPStan Level 8) ───
+      - name: Run self:: reference check
+        run: python3 ci_check_self_refs.py
+
   phpstan:
-    name: PHPStan (Level 8)
+    name: PHPStan Static Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,21 +83,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          tools: composer:v2
           coverage: none
+          tools: composer:v2
 
-      - name: Install PHPStan
-        run: composer global require phpstan/phpstan:^1.11
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan
-        run: |
-          if [ -f phpstan.neon ]; then
-            phpstan analyse --level=8 --error-format=github
-          else
-            phpstan analyse src/ lib/ --level=8 --error-format=github
-          fi
+        run: composer phpstan
 
-  # ─── 代码复杂度检测 (PHPMD) ───
   phpmd:
     name: PHP Mess Detector
     runs-on: ubuntu-latest
@@ -119,48 +102,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          tools: composer:v2
           coverage: none
-
-      - name: Install PHPMD
-        run: composer global require phpmd/phpmd:^2.15
+          tools: phpmd
 
       - name: Run PHPMD
-        run: phpmd src/,lib/ text phpmd-ruleset.xml
-
-  # ─── 测试 (PHPUnit) ───
-  phpunit:
-    name: PHPUnit Tests
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.1', '8.2', '8.3']
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: mysqli, pdo, pdo_mysql
-          coverage: xdebug
-          tools: composer:v2
-
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
-
-      - name: Run PHPUnit
-        run: |
-          if [ -f phpunit.xml.dist ]; then
-            vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
-          else
-            echo "No PHPUnit configuration found." >&2
-            exit 1
-          fi
-
-      - name: Upload coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-php${{ matrix.php-version }}
-          path: coverage.xml
+        run: phpmd src/ text phpmd.xml

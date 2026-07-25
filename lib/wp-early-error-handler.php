@@ -49,7 +49,7 @@
  *   2. At the VERY TOP of your main plugin file (right after ABSPATH guard
  *      and plugin header comment), add:
  *
- *        require_once __DIR__ . '/lib/wp-early-error-handler.php';
+// Self-reference removed (file already loaded)
  *        wp_early_error_handler_init([
  *            'plugin_name' => 'Your Plugin Name',
  *            'plugin_dir'  => __DIR__,

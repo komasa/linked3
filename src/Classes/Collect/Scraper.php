@@ -129,7 +129,7 @@ final class Scraper
      * @param string $text
      * @return string Hex string.
      */
-    private function simhash(string $text) : mixed     {
+    private function simhash(string $text) : string     {
         $text = mb_strtolower($text);
         // Tokenise by CJK char + ASCII word.
         $tokens = [];

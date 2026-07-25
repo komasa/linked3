@@ -53,27 +53,28 @@ class V18 {
 
     /**
      * 子系统映射表
+     * v27.9.0 (P0-D): 裸类名 → FQCN, 修复 class_exists 永远返回 false
      */
     private static $module_map = [
         // Core模块
-        'reverse_engine'        => 'OSReverseEngine',
-        'reverse_dimensions'    => 'OSReverseDimensions',
-        'reverse_registry'      => 'OSEngineerRegistry',
-        'reverse_quality_gate'  => 'OSQualityGate',
-        'reverse_text'          => 'OSTextCreation',
-        'neng_suo'              => 'OSCapabilityLock',
-        'three_layer'           => 'OSConsciousnessLayer',
-        'ru_liu'                => 'OSOnboardingTracker',
-        'hong_liu'              => 'OSMomentumFlywheel',
-        'neng_zhi'              => 'OSCapabilityStages',
-        'svg_stats'             => 'OSVisualAnalytics',
+        'reverse_engine'        => '\\Linked3\\Classes\\OS\\Core\\OSReverseEngine',
+        'reverse_dimensions'    => '\\Linked3\\Classes\\OS\\Core\\OSReverseDimensions',
+        'reverse_registry'      => '\\Linked3\\Classes\\OS\\Core\\OSEngineerRegistry',
+        'reverse_quality_gate'  => '\\Linked3\\Classes\\OS\\Core\\OSQualityGate',
+        'reverse_text'          => '\\Linked3\\Classes\\OS\\Core\\OSTextCreation',
+        'neng_suo'              => '\\Linked3\\Classes\\OS\\Core\\OSCapabilityLock',
+        'three_layer'           => '\\Linked3\\Classes\\OS\\Core\\OSConsciousnessLayer',
+        'ru_liu'                => '\\Linked3\\Classes\\OS\\Core\\OSOnboardingTracker',
+        'hong_liu'              => '\\Linked3\\Classes\\OS\\Core\\OSMomentumFlywheel',
+        'neng_zhi'              => '\\Linked3\\Classes\\OS\\Core\\OSCapabilityStages',
+        'svg_stats'             => '\\Linked3\\Classes\\OS\\Core\\OSVisualAnalytics',
         // 集成中心
-        'hub'                   => 'OSIntegrationHubV2',
+        'hub'                   => '\\Linked3\\Classes\\OS\\Api\\OSIntegrationHubV2',
         // Admin
-        'dashboard'             => 'OSDashboard',
+        'dashboard'             => '\\Linked3\\Classes\\OS\\Admin\\OSDashboard',
         // API
-        'rest_api'              => 'OSRestApi',
-        'db_schema'             => 'OSDbSchema',
+        'rest_api'              => '\\Linked3\\Classes\\OS\\Api\\OSRestApi',
+        'db_schema'             => '\\Linked3\\Classes\\OS\\Api\\OSDbSchema',
     ];
 
     /**
@@ -84,7 +85,7 @@ class V18 {
     /**
      * 获取模块实例（懒加载）
      */
-    public static function module(string $name) : mixed {
+    public static function module(string $name) : null {
         if (!isset(self::$module_map[$name])) {
             return null;
         }
@@ -293,16 +294,16 @@ class V18 {
     public static function register() : void {
         // 注册AJAX (10个)
         $ajax_classes = [
-            'OSReverseAjax',
-            'OSCapabilityLockAjax',
-            'OSVisualAnalyticsAjax',
-            'OSConsciousnessAjax',
-            'OSOnboardingAjax',
-            'OSEngineerRegistryAjax',
-            'OSTextCreationAjax',
-            'OSMomentumAjax',
-            'OSCapabilityStagesAjax',
-            'OSQualityGateAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSReverseAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSCapabilityLockAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSVisualAnalyticsAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSConsciousnessAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSOnboardingAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSEngineerRegistryAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSTextCreationAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSMomentumAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSCapabilityStagesAjax',
+            '\\Linked3\\Classes\\OS\\Ajax\\OSQualityGateAjax',
         ];
 
         foreach ($ajax_classes as $cls) {
@@ -313,22 +314,22 @@ class V18 {
 
         // 注册REST API
         if (class_exists('\Linked3\Classes\OS\OSRestApi') && method_exists('\Linked3\Classes\OS\OSRestApi', 'register')) {
-            call_user_func(['OSRestApi', 'register']);
+            call_user_func(['\\Linked3\\Classes\\OS\\Api\\OSRestApi', 'register']);
         }
 
         // 注册短代码
         if (class_exists('\Linked3\Classes\OS\OSShortcodes') && method_exists('\Linked3\Classes\OS\OSShortcodes', 'register')) {
-            call_user_func(['OSShortcodes', 'register']);
+            call_user_func(['\\Linked3\\Classes\\OS\\Api\\OSShortcodes', 'register']);
         }
 
         // 注册Widget
         if (class_exists('\Linked3\Classes\OS\OSWidget') && method_exists('\Linked3\Classes\OS\OSWidget', 'register')) {
-            call_user_func(['OSWidget', 'register']);
+            call_user_func(['\\Linked3\\Classes\\OS\\Api\\OSWidget', 'register']);
         }
 
         // 注册Admin面板
         if (class_exists('\Linked3\Classes\OS\OSDashboard') && method_exists('\Linked3\Classes\OS\OSDashboard', 'register')) {
-            call_user_func(['OSDashboard', 'register']);
+            call_user_func(['\\Linked3\\Classes\\OS\\Admin\\OSDashboard', 'register']);
         }
 
         // 注册DB Schema (激活时创建表)

@@ -62,7 +62,7 @@ class GenesisPatchStage2
 
             $batchReport = null;
             if (class_exists('\Linked3\Classes\Genesis\QualityLoop') && method_exists('\Linked3\Classes\Genesis\QualityLoop', 'batch_consistency_check') && count($results) > 1) {
-                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) {}
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) @ob_end_clean();
@@ -118,7 +118,7 @@ class GenesisPatchStage2
         $emotion = $beat['emotion'] ?? 'neutral';
         $arcPosition = $beat['arc_position'] ?? 'development';
 
-        $beatText = self::filter_web_noise($beatText);
+        $beatText = GenesisPatchV1006::filter_web_noise($beatText);
 
         // FP 语义核提取 (含 fallback)
         $fpCore = self::extractFpCore($fpExtractor, $beatText, $emotion, $fpUseAi, $styleId);
@@ -126,7 +126,7 @@ class GenesisPatchStage2
         // 情绪色彩
         $color = '';
         if (class_exists('\Linked3\Classes\Genesis\StoryPipeline')) {
-            try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) {}
+            try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         $shotData = self::buildShotData($beat, $skeletonId, $seedRefs, $arcPosition, $emotion, $platform, $fpCore);
@@ -146,7 +146,7 @@ class GenesisPatchStage2
                 $pqs = \QualityLoop::pqs_check($shotData);
                 if (!empty($pqs['overall_score'])) $pqsScore = $pqs['overall_score'];
                 $pqsInfo = ['passed' => $pqs['passed_count'] ?? 0, 'total' => $pqs['total'] ?? 13];
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         return [
@@ -182,7 +182,7 @@ class GenesisPatchStage2
             }
         }
         if (!$fpCore || empty($fpCore['action_en']) || $fpCore['action_en'] === 'a candid scene depicting daily life, natural atmosphere, authentic moment') {
-            $fpCore = self::enhanced_local_extract($beatText, $emotion);
+            $fpCore = GenesisPatchV1006::enhanced_local_extract($beatText, $emotion);
         }
         return $fpCore;
     }

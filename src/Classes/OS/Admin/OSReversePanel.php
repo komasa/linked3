@@ -38,8 +38,8 @@ class OSReversePanel {
      */
     public static function render_panel(): string {
         $html = '<div class="wrap linked3-v18-panel">';
-        $html .= '<h1>逆向拆解操作面板 <span class="version">v15.0.0</span></h1>';
-        $html .= '<p>逆向拆解操作界面+JSON结果展示</p>';
+        $html .= __('<h1>逆向拆解操作面板 <span class="version">v15.0.0</span></h1>', 'linked3');
+        $html .= __('<p>逆向拆解操作界面+JSON结果展示</p>', 'linked3');
         $html .= '<div class="panel-content">' . self::render_content() . '</div>';
         $html .= '</div>';
         return $html;

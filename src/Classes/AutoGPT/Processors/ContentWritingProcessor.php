@@ -75,9 +75,9 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
                 $keywords = $keyword;
 
                 if ($prompt_mode === 'custom' && !empty($tplConfig['custom_content_prompt'])) {
-                    $sys = '你是一位专业内容写作器。请严格按照用户的指令生成内容。';
+                    $sys = __('你是一位专业内容写作器。请严格按照用户的指令生成内容。', 'linked3');
                     if ($require_html) {
-                        $sys = '【强制格式要求】你必须输出 HTML 标签格式(使用 H2/H3/p/ul/li/strong 等标签),严禁输出 Markdown 语法。不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。正文不要包含 H1 标题。 ' . $sys;
+                        $sys = __('【强制格式要求】你必须输出 HTML 标签格式(使用 H2/H3/p/ul/li/strong 等标签),严禁输出 Markdown 语法。不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。正文不要包含 H1 标题。 ', 'linked3') . $sys;
                     }
                     $user = str_replace(
                         ['{topic}', '{keywords}', '{word_count}'],
@@ -181,9 +181,9 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
                             'gen_tags' => true,
                         ]);
                         \Linked3\Classes\ContentWriter\SeoMetaGenerator::save_to_post($post_id, $seo_meta);
-                        $errors[] = "SEO 元数据已生成 (meta/keyword/excerpt/tags)";
+                        $errors[] = __('SEO 元数据已生成 (meta/keyword/excerpt/tags)', 'linked3');
                     } catch (\Throwable $e) {
-                        $errors[] = "SEO 元数据生成失败: " . $e->getMessage();
+                        $errors[] = __('SEO 元数据生成失败: ', 'linked3') . $e->getMessage();
                     }
                 }
 
@@ -200,7 +200,7 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
                             $errors[] = "已注入 {$img_count} 张配图";
                         }
                     } catch (\Throwable $e) {
-                        $errors[] = "图片注入失败: " . $e->getMessage();
+                        $errors[] = __('图片注入失败: ', 'linked3') . $e->getMessage();
                     }
                 }
 
@@ -236,7 +236,7 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
             ? sprintf(__('已写作 %d 篇文章。', 'linked3'), $processed)
             : sprintf(__('%d 次尝试均失败。已入队重试。', 'linked3'), $count);
         if (!empty($errors)) {
-            $message .= ' 错误: ' . implode('; ', array_slice($errors, 0, 3));
+            $message .= __(' 错误: ', 'linked3') . implode('; ', array_slice($errors, 0, 3));
         }
         return ['ok' => $ok, 'message' => $message, 'items_processed' => $processed];
     }

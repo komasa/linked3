@@ -136,8 +136,9 @@ class DashboardVideoAjax
      * @param int $brand_profile_id Brand profile ID.
      * @param int $user_id          User ID (unused, kept for compat).
      * @return array V15 context placeholders.
+     * v27.8.2: 改为 public 供 DashboardMediaAjax 跨类调用
      */
-    private static function build_v15_context_from_request(int $brand_profile_id, int $user_id = 0): array
+    public static function build_v15_context_from_request(int $brand_profile_id, int $user_id = 0): array
     {
         $inputs = isset($_POST) ? wp_unslash($_POST) : [];
         return self::loadV15Context($brand_profile_id, is_array($inputs) ? $inputs : []);

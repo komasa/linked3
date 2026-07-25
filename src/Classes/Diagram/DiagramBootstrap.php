@@ -20,6 +20,7 @@ class DiagramBootstrap {
         if (self::$booted) return;
         self::$booted = true;
 
+        if (!function_exists('linked3_container')) { return; }
         $container = linked3_container();
         $container->set('diagram.master_template', fn() => new DiagramMasterTemplate());
         $container->set('diagram.type_registry', fn() => DiagramTypeRegistry::instance());

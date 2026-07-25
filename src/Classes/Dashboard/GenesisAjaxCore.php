@@ -273,7 +273,7 @@ class GenesisAjaxCore
             ]);
         }
         // 创建任务 (不触发执行, 只创建)
-        $jobInfo = \GenesisJobRunner::startJob([
+        $jobInfo = \Linked3\Classes\Genesis\GenesisJobRunner::startJob([
             'script'          => $script,
             'style'           => $styleId,
             'platform'        => $platform,
@@ -307,10 +307,10 @@ class GenesisAjaxCore
                 fastcgi_finish_request();
             }
             // 此时浏览器已收到响应, 后续代码在后台执行
-            \GenesisJobRunner::runJob($jobId);
+            \Linked3\Classes\Genesis\GenesisJobRunner::runJob($jobId);
         } else {
             // cron / cli / lazy: 只触发, 不阻塞
-            \GenesisJobRunner::triggerExecution($jobId);
+            \Linked3\Classes\Genesis\GenesisJobRunner::triggerExecution($jobId);
             wp_send_json_success([
                 'job_id'           => $jobId,
                 'status'           => 'pending',

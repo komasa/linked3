@@ -65,7 +65,7 @@ class GenesisPanelRenderer
         while (count($nodes) < $targetPanels) {
             $src = $nodes[count($nodes) % max(1, $current)];
             $src['node_id'] = count($nodes) + 1;
-            $src['plot_point'] = '复制补充';
+            $src['plot_point'] = __('复制补充', 'linked3');
             $nodes[] = $src;
         }
 
@@ -187,7 +187,7 @@ class GenesisPanelRenderer
         $maxPanels = max(3, min(50, $targetPanels));
         $minPanels = $maxPanels;
 
-        $styleExamples = self::getStyleAdaptiveExamples($styleId, $styleName);
+        $styleExamples = GenesisPromptUtils::getStyleAdaptiveExamples($styleId, $styleName);
         $exampleCount = min($maxPanels, 4);
         $exampleNodes = [];
         for ($i = 0; $i < $exampleCount; $i++) {
@@ -207,7 +207,7 @@ class GenesisPanelRenderer
         }
         $exampleJson = json_encode(['nodes' => $exampleNodes], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-        $styleHint = self::getStyleHint($styleId, $styleName);
+        $styleHint = GenesisPromptUtils::getStyleHint($styleId, $styleName);
 
         $prompt = sprintf(
             "你是故事精炼师。任务: 将长故事精炼为 %d 个核心分镜节点。\n\n" .
@@ -266,7 +266,7 @@ class GenesisPanelRenderer
             );
 
             $raw   = $result['content'] ?? '';
-            $nodes = self::parseFPNodesJson($raw);
+            $nodes = GenesisFPUtils::parseFPNodesJson($raw);
 
             if (count($nodes) < $minPanels) {
                 $retryPrompt = $prompt . "\n\n【重要提醒】上次只返回了 " . count($nodes) . " 个节点, 不够。这次必须返回正好 " . $maxPanels . " 个节点, node_id 从 1 开始连续。";
@@ -279,7 +279,7 @@ class GenesisPanelRenderer
                 } catch (\Throwable $e) {
                     wp_send_json_error(['message' => __('AI 调用失败: ', 'linked3-ai') . $e->getMessage()], 502);
                 }
-                $retryNodes = self::parseFPNodesJson($retry['content'] ?? '');
+                $retryNodes = GenesisFPUtils::parseFPNodesJson($retry['content'] ?? '');
                 if (count($retryNodes) > count($nodes)) {
                     $nodes = $retryNodes;
                 }

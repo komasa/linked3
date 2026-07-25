@@ -43,7 +43,7 @@ class EcosystemContentService
                 $mgr = new \Linked3\Classes\Templates\TemplateManager();
                 $templates = $mgr->get_by_category($category);
                 if (!empty($templates)) return $templates[0];
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         // v10.7.0: delegate to CloudTemplateFactory (if exists)
@@ -54,7 +54,7 @@ class EcosystemContentService
                     $tpl = $factory->load_template_by_category($category);
                     if (!empty($tpl)) return $tpl;
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         return ['name' => $category . '_default', 'type' => $category];
@@ -88,7 +88,7 @@ class EcosystemContentService
                     $result = $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count, 'tone' => $tone]);
                     if (is_string($result) && !empty($result)) return $result;
                 }
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
         $prompt = self::buildTemplateEnhancedPrompt($topic, $keywords, $template, $tone, $word_count);
@@ -108,29 +108,29 @@ class EcosystemContentService
     {
         $cfg = $template['config'] ?? $template;
         $prompt_parts = [];
-        if (!empty($cfg['role'])) $prompt_parts[] = '你的角色: ' . $cfg['role'];
-        if (!empty($cfg['scene'])) $prompt_parts[] = '适用场景: ' . $cfg['scene'];
-        if (!empty($cfg['background'])) $prompt_parts[] = '背景: ' . $cfg['background'];
+        if (!empty($cfg['role'])) $prompt_parts[] = __('你的角色: ', 'linked3') . $cfg['role'];
+        if (!empty($cfg['scene'])) $prompt_parts[] = __('适用场景: ', 'linked3') . $cfg['scene'];
+        if (!empty($cfg['background'])) $prompt_parts[] = __('背景: ', 'linked3') . $cfg['background'];
         $goals = $cfg['goals'] ?? [];
-        if (is_array($goals) && !empty($goals)) $prompt_parts[] = '目标: ' . implode('、', $goals);
+        if (is_array($goals) && !empty($goals)) $prompt_parts[] = __('目标: ', 'linked3') . implode('、', $goals);
         $skills = $cfg['skills'] ?? [];
-        if (is_array($skills) && !empty($skills)) $prompt_parts[] = '技能要求: ' . implode('、', $skills);
-        if (!empty($cfg['style'])) $prompt_parts[] = '风格: ' . $cfg['style'];
+        if (is_array($skills) && !empty($skills)) $prompt_parts[] = __('技能要求: ', 'linked3') . implode('、', $skills);
+        if (!empty($cfg['style'])) $prompt_parts[] = __('风格: ', 'linked3') . $cfg['style'];
         $limits = $cfg['limit'] ?? [];
-        if (is_array($limits) && !empty($limits)) $prompt_parts[] = '限制: ' . implode('、', $limits);
+        if (is_array($limits) && !empty($limits)) $prompt_parts[] = __('限制: ', 'linked3') . implode('、', $limits);
         $steps = $cfg['step'] ?? [];
-        if (is_array($steps) && !empty($steps)) $prompt_parts[] = '写作步骤: ' . implode(' → ', $steps);
-        if (!empty($cfg['output'])) $prompt_parts[] = '输出格式: ' . $cfg['output'];
+        if (is_array($steps) && !empty($steps)) $prompt_parts[] = __('写作步骤: ', 'linked3') . implode(' → ', $steps);
+        if (!empty($cfg['output'])) $prompt_parts[] = __('输出格式: ', 'linked3') . $cfg['output'];
 
         $kw_str = implode('、', array_slice($keywords, 0, 8));
         $prompt = "请为主题「{$topic}」撰写一篇文章。\n\n";
         if (!empty($prompt_parts)) {
-            $prompt .= "模版要求:\n" . implode("\n", $prompt_parts) . "\n\n";
+            $prompt .= __('模版要求:\n', 'linked3') . implode("\n", $prompt_parts) . "\n\n";
         }
         $prompt .= "关键词: {$kw_str}\n";
         $prompt .= "字数: 约{$word_count}字\n";
         $prompt .= "语气: {$tone}\n\n";
-        $prompt .= "严格要求:\n1. 内容具体、有信息量, 不要空话套话\n2. 不要使用「赋能/闭环/抓手/底层逻辑/范式/矩阵」等AI高频词\n3. 适合博客/公众号发布\n4. 直接输出正文, 不要说明\n";
+        $prompt .= __('严格要求:\n1. 内容具体、有信息量, 不要空话套话\n2. 不要使用「赋能/闭环/抓手/底层逻辑/范式/矩阵」等AI高频词\n3. 适合博客/公众号发布\n4. 直接输出正文, 不要说明\n', 'linked3');
         return $prompt;
     }
 
@@ -147,9 +147,9 @@ class EcosystemContentService
             try {
                 $enhancer = new \AIEnhancer();
                 $prompt = $enhancer->apply_format_requirements($prompt, $adv_settings);
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         } elseif (!empty($adv_settings['require_html'])) {
-            $prompt .= "\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。";
+            $prompt .= __('\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。', 'linked3');
         }
         return $prompt;
     }
@@ -169,13 +169,13 @@ class EcosystemContentService
             && strpos($ai_content, '<') === false) {
             try {
                 $ai_content = \MarkdownHtmlConverter::convert($ai_content);
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
         // v11.8.0: append AI identifier suffix
         if (class_exists('\Linked3\Classes\Content\AIEnhancer')) {
             try {
                 $ai_content = (new \AIEnhancer())->append_identifier_suffix($ai_content);
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
         return self::self_check_content($ai_content);
     }

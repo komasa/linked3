@@ -29,7 +29,7 @@ class DashboardGenesisV9Actions extends DashboardBaseAjaxAction
         add_action('wp_ajax_linked3_genesis_v9_stage2', [__CLASS__, 'genesis_v9_stage2']);
     }
 
-    public static function genesis_generate_v9() : mixed { return GenesisV9Processor::ajax_genesis_generate_v9(); }
-    public static function genesis_v9_stage1() : mixed { return GenesisV9Processor::ajax_genesis_v9_stage1(); }
-    public static function genesis_v9_stage2() : mixed { return GenesisV9Processor::ajax_genesis_v9_stage2(); }
+    public static function genesis_generate_v9() : bool { return GenesisV9Processor::ajax_genesis_generate_v9(); }
+    public static function genesis_v9_stage1() : bool { return GenesisV9Processor::ajax_genesis_v9_stage1(); }
+    public static function genesis_v9_stage2() : bool { return GenesisV9Processor::ajax_genesis_v9_stage2(); }
 }

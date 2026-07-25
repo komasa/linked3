@@ -75,7 +75,7 @@ final class Hotwords
     /**
      * @return string[]
      */
-    private static function fetch_baidu() : mixed {
+    private static function fetch_baidu() : array {
         // Baidu hot-search public endpoint (JSON over HTTPS).
         // v2.9.6 used the JSONP HTML-scrape path; modern Baidu exposes a
         // JSON feed we can consume directly with Safe_Remote.
@@ -100,7 +100,7 @@ final class Hotwords
     /**
      * @return string[]
      */
-    private static function fetch_bing() : mixed     {
+    private static function fetch_bing() : array     {
         $url = 'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
         $response = SafeRemote::get($url, [
             'timeout' => 12,
@@ -120,7 +120,7 @@ final class Hotwords
     /**
      * @return string[]
      */
-    private static function fetch_google() : mixed {
+    private static function fetch_google() : array {
         // Google Trends RSS for CN region (read-only public feed).
         $url = 'https://trends.google.com/trends/trendingsearches/daily/rss?geo=CN';
         $response = SafeRemote::get($url, [

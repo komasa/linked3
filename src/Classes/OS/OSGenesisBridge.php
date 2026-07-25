@@ -107,7 +107,7 @@ class OSGenesisBridge {
         }
 
         // 如果Genesis SeedDNA存在，保存到库
-        if (class_exists('\Linked3\Classes\OS\GenesisSeedDNA')) {
+        if (class_exists('\Linked3\Classes\Genesis\GenesisSeedDNA')) {
             $seed_id = 'reverse_' . wp_generate_password(8, false);
             GenesisSeedDNA::save($seed_id, $seed);
             $seed['seed_id'] = $seed_id;
@@ -158,7 +158,7 @@ class OSGenesisBridge {
             'bridge_version' => '16.0.0',
             'genesis_available' => class_exists('\Linked3\Classes\Genesis\GenesisV7Generator'),
             'reverse_available' => class_exists('\Linked3\Classes\OS\Core\OSReverseEngine'),
-            'seed_dna_available' => class_exists('\Linked3\Classes\OS\GenesisSeedDNA'),
+            'seed_dna_available' => class_exists('\Linked3\Classes\Genesis\GenesisSeedDNA'),
             'closed_loop_ready' => class_exists('\Linked3\Classes\Genesis\GenesisV7Generator') && class_exists('\Linked3\Classes\OS\Core\OSReverseEngine'),
         ];
     }

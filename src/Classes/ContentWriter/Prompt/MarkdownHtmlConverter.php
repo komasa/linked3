@@ -85,7 +85,7 @@ final class MarkdownHtmlConverter
     /**
      * Markdown → HTML 转换。
      */
-    private static function markdown_to_html($content) : mixed     {
+    private static function markdown_to_html($content) : string     {
         // 标准化换行
         $content = str_replace(["\r\n", "\r"], "\n", $content);
 
@@ -177,7 +177,7 @@ final class MarkdownHtmlConverter
     /**
      * 转换列表(无序+有序)。
      */
-    private static function convert_lists($content) : mixed {
+    private static function convert_lists($content) : string {
         $lines = explode("\n", $content);
         $out = [];
         $in_ul = false;
@@ -212,7 +212,7 @@ final class MarkdownHtmlConverter
     /**
      * 将连续非空非块级行包裹为 <p>。
      */
-    private static function wrap_paragraphs($content) : mixed     {
+    private static function wrap_paragraphs($content) : string     {
         $blocks = preg_split('/\n{2,}/', $content);
         $result = [];
         $block_tags = ['<h1', '<h2', '<h3', '<h4', '<h5', '<h6',

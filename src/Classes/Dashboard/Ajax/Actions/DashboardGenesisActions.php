@@ -47,16 +47,16 @@ class DashboardGenesisActions extends DashboardBaseAjaxAction
         add_action('linked3_genesis_run_job', [GenesisProcessor::class, 'cron_genesis_run_job']);
     }
 
-    public static function genesis_generate() : mixed { return GenesisProcessor::ajax_genesis_generate(); }
-    public static function genesis_styles() : mixed { return GenesisProcessor::ajax_genesis_styles(); }
-    public static function genesis_generate_multi() : mixed { return GenesisProcessor::ajax_genesis_generate_multi(); }
-    public static function genesis_test_connection() : mixed { return GenesisProcessor::ajax_genesis_test_connection(); }
-    public static function genesis_start_job() : mixed { return GenesisProcessor::ajax_genesis_start_job(); }
-    public static function genesis_poll_job() : mixed { return GenesisProcessor::ajax_genesis_poll_job(); }
-    public static function genesis_cancel_job() : mixed { return GenesisProcessor::ajax_genesis_cancel_job(); }
-    public static function genesis_seed_generate() : mixed { return GenesisProcessor::ajax_genesis_seed_generate(); }
-    public static function genesis_seed_list() : mixed { return GenesisProcessor::ajax_genesis_seed_list(); }
-    public static function genesis_seed_delete() : mixed { return GenesisProcessor::ajax_genesis_seed_delete(); }
-    public static function genesis_seed_export() : mixed { return GenesisProcessor::ajax_genesis_seed_export(); }
-    public static function genesis_server_diagnostic() : mixed { return GenesisProcessor::ajax_genesis_server_diagnostic(); }
+    public static function genesis_generate() : bool { return GenesisProcessor::ajax_genesis_generate(); }
+    public static function genesis_styles() : bool { return GenesisProcessor::ajax_genesis_styles(); }
+    public static function genesis_generate_multi() : bool { return GenesisProcessor::ajax_genesis_generate_multi(); }
+    public static function genesis_test_connection() : bool { return GenesisProcessor::ajax_genesis_test_connection(); }
+    public static function genesis_start_job() : bool { return GenesisProcessor::ajax_genesis_start_job(); }
+    public static function genesis_poll_job() : bool { return GenesisProcessor::ajax_genesis_poll_job(); }
+    public static function genesis_cancel_job() : bool { return GenesisProcessor::ajax_genesis_cancel_job(); }
+    public static function genesis_seed_generate() : bool { return GenesisProcessor::ajax_genesis_seed_generate(); }
+    public static function genesis_seed_list() : bool { return GenesisProcessor::ajax_genesis_seed_list(); }
+    public static function genesis_seed_delete() : bool { return GenesisProcessor::ajax_genesis_seed_delete(); }
+    public static function genesis_seed_export() : bool { return GenesisProcessor::ajax_genesis_seed_export(); }
+    public static function genesis_server_diagnostic() : bool { return GenesisProcessor::ajax_genesis_server_diagnostic(); }
 }

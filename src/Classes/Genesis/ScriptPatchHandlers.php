@@ -40,9 +40,9 @@ class ScriptPatchHandlers
         @ini_set('memory_limit', '512M');
 
         try {
-            $beats = self::split_script_to_beats($script, $groupCount, $splitMode);
+            $beats = ScriptPatchV1010::split_script_to_beats($script, $groupCount, $splitMode);
             [$styleKeywords, $styleNegative] = self::loadStyleKeywords($styleId);
-            $seedDna = self::load_seed_dna($seedRefs);
+            $seedDna = ScriptPatchV1010::load_seed_dna($seedRefs);
 
             $fpExtractor = class_exists('\Linked3\Classes\Genesis\FPExtractor') ? new \FPExtractor() : null;
             $groups = [];
@@ -110,11 +110,11 @@ class ScriptPatchHandlers
         // FP提取语义核
         $fpCore = ['action_en' => 'a scene depicting daily life', 'who' => 'a figure', 'where' => '', 'emotion' => $emotion];
         if ($fpExtractor) {
-            try { $fpCore = $fpExtractor->extract($beatText, ['use_ai' => false]); } catch (\Throwable $e) {}
+            try { $fpCore = $fpExtractor->extract($beatText, ['use_ai' => false]); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
         }
 
-        $firstFrame = self::build_frame_prompt($fpCore, $styleKeywords, $styleNegative, $seedDna, 'first');
-        $lastFrame = self::build_frame_prompt($fpCore, $styleKeywords, $styleNegative, $seedDna, 'last');
+        $firstFrame = ScriptPatchV1010::build_frame_prompt($fpCore, $styleKeywords, $styleNegative, $seedDna, 'first');
+        $lastFrame = ScriptPatchV1010::build_frame_prompt($fpCore, $styleKeywords, $styleNegative, $seedDna, 'last');
 
         // Motion Prompt Engine
         [$engineGroup, $motionPrompt] = self::generateEngineVideoGroup(
@@ -131,7 +131,7 @@ class ScriptPatchHandlers
                 'first_frame' => $engineGroup['first_frame'] ?: $firstFrame,
                 'last_frame' => $engineGroup['last_frame'] ?: $lastFrame,
                 'motion_prompt' => $engineGroup['motion_prompt'] ?: $motionPrompt,
-                'transition' => $engineGroup['transition'] ?: self::suggest_transition($arcPosition),
+                'transition' => $engineGroup['transition'] ?: ScriptPatchV1010::suggest_transition($arcPosition),
             ];
         }
         return [
@@ -142,7 +142,7 @@ class ScriptPatchHandlers
             'first_frame' => $firstFrame,
             'last_frame' => $lastFrame,
             'motion_prompt' => $motionPrompt,
-            'transition' => self::suggest_transition($arcPosition),
+            'transition' => ScriptPatchV1010::suggest_transition($arcPosition),
         ];
     }
 
@@ -225,7 +225,7 @@ class ScriptPatchHandlers
 
         try {
             [$styleKeywords, $layoutDesc, $styleDesc] = self::resolveStyleLayoutDesc($styleId, $cloudTone, $infographicLayout, $infographicStyle, $topic, $moduleCount);
-            $seedDna = self::load_seed_dna($seedRefs);
+            $seedDna = ScriptPatchV1010::load_seed_dna($seedRefs);
 
             $modules = self::buildSceneModules($moduleCount, $topic, $layoutDesc, $styleDesc, $styleKeywords, $seedDna, $infographicLayout, $infographicStyle, $platform, $aspectRatio);
 
@@ -254,7 +254,7 @@ class ScriptPatchHandlers
         $styleId = sanitize_text_field($_POST['style'] ?? 'documentary_photo');
         $rawModuleCount = $_POST['module_count'] ?? '8';
         if ($rawModuleCount === 'auto') {
-            $moduleCount = self::auto_select_module_count($topic);
+            $moduleCount = ScriptPatchV1010::auto_select_module_count($topic);
         } else {
             $moduleCount = max(1, min(10, intval($rawModuleCount)));
         }
@@ -269,7 +269,7 @@ class ScriptPatchHandlers
         $infographicLayout = sanitize_key($_POST['infographic_layout'] ?? 'auto-adapt');
         $infographicStyle = sanitize_key($_POST['infographic_style'] ?? 'xuehui-infographic');
         if ($infographicStyle === 'auto-adapt' || $infographicStyle === 'auto') {
-            $infographicStyle = self::auto_select_visual_style($topic);
+            $infographicStyle = ScriptPatchV1010::auto_select_visual_style($topic);
         }
         return compact('topic', 'styleId', 'moduleCount', 'seedRefs', 'cloudCategory', 'platform', 'aspectRatio', 'infographicLayout', 'infographicStyle');
     }
@@ -310,7 +310,7 @@ class ScriptPatchHandlers
         }
 
         if ($infographicLayout === 'auto-adapt') {
-            $infographicLayout = self::auto_select_layout($topic, $moduleCount);
+            $infographicLayout = ScriptPatchV1010::auto_select_layout($topic, $moduleCount);
         }
 
         $layoutDescMap = [
@@ -391,7 +391,7 @@ class ScriptPatchHandlers
                 'name' => $bandKey,
                 'zone' => $bandDefs[$bandKey]['zone'],
                 'desc' => $bandDefs[$bandKey]['desc'],
-                'text_overlay' => self::suggest_text_overlay($bandKey, $topic),
+                'text_overlay' => ScriptPatchV1010::suggest_text_overlay($bandKey, $topic),
             ];
             $bandTextOverlays[] = $sceneBands[$bandKey]['text_overlay'];
         }
@@ -418,7 +418,7 @@ class ScriptPatchHandlers
             $parts[] = 'Quality: crisp vector, no 3D, no shadows, no gradients, flat design, text must be embedded inside shapes, professional knowledge map aesthetic';
         }
 
-        $platformSuffix = self::build_platform_suffix($platform, $aspectRatio);
+        $platformSuffix = ScriptPatchV1010::build_platform_suffix($platform, $aspectRatio);
 
         return [
             'module_id' => 'S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT),

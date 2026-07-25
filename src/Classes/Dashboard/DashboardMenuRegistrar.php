@@ -84,7 +84,7 @@ final class DashboardMenuRegistrar
     /**
      * Sanitize provider keys — 支持多 Key (换行分隔)。
      */
-    public static function sanitize_provider_keys(mixed $input) : mixed {
+    public static function sanitize_provider_keys(mixed $input) : array {
         if (!is_array($input)) return [];
         $out = [];
         $allowed = ['openai', 'deepseek', 'kimi', 'qwen', 'doubao', 'zhipu', 'zai', 'siliconflow', 'hunyuan', 'tencent_lke'];
@@ -100,7 +100,7 @@ final class DashboardMenuRegistrar
     /**
      * Sanitize API base URLs.
      */
-    public static function sanitize_api_bases(mixed $input) : mixed     {
+    public static function sanitize_api_bases(mixed $input) : array     {
         if (!is_array($input)) return [];
         $out = [];
         foreach ($input as $slug => $url) {
@@ -115,7 +115,7 @@ final class DashboardMenuRegistrar
     /**
      * Sanitize model names.
      */
-    public static function sanitize_models(mixed $input) : mixed {
+    public static function sanitize_models(mixed $input) : array {
         if (!is_array($input)) return [];
         $out = [];
         foreach ($input as $slug => $model) {
@@ -172,7 +172,7 @@ final class DashboardMenuRegistrar
             $overview = $dash->overview();
             $chart = $dash->usage_chart(30);
         } catch (\Throwable $e) {
-            echo '<div class="notice notice-error"><p><strong>警告:</strong> '
+            echo __('<div class="notice notice-error"><p><strong>警告:</strong> ', 'linked3')
                 . esc_html($e->getMessage())
                 . '</p></div>';
         }

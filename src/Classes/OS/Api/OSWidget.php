@@ -131,7 +131,7 @@ class OSWidget extends \WP_Widget {
             'OSOnboardingTracker',
         ];
         
-        $html = '<div class="widget-modules"><h4>模块状态</h4><ul>';
+        $html = __('<div class="widget-modules"><h4>模块状态</h4><ul>', 'linked3');
         foreach ($modules as $class) {
             $short_name = $class;
             $status = class_exists($class) ? '✓' : '✗';
@@ -146,11 +146,11 @@ class OSWidget extends \WP_Widget {
      */
     private static function render_widget_ruliu(): string {
         if (!class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
-            return '<div class="widget-ruliu">入流追踪器未加载</div>';
+            return __('<div class="widget-ruliu">入流追踪器未加载</div>', 'linked3');
         }
         
         $states = OSOnboardingTracker::get_ru_liu_states();
-        $html = '<div class="widget-ruliu"><h4>入流四状态</h4><ul>';
+        $html = __('<div class="widget-ruliu"><h4>入流四状态</h4><ul>', 'linked3');
         foreach ($states as $key => $state) {
             $html .= '<li>' . esc_html($state['label'] ?? $key) . '</li>';
         }

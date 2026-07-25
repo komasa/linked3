@@ -129,10 +129,12 @@ final class GEOEnhancer
      * Handle the /llms.txt request — serve the generated content with the
      * correct text/plain content type.
      *
-     * @param \WP $wp The WordPress request object.
+     * @param \WP $wp The WordPress request object (global namespace).
      * @return void
      */
-    static function handle_llms_txt_request(WP $wp): void {
+    // v27.8.6-fix: WP 类型提示必须用 \WP (全局命名空间),
+    // 否则在 Linked3\Classes\SEO 命名空间下被解析为 Linked3\Classes\SEO\WP 导致 Fatal Error
+    static function handle_llms_txt_request(\WP $wp): void {
         // Defensive: only serve on the frontend, never in admin or AJAX.
         if (is_admin() || (defined('DOING_AJAX') && DOING_AJAX) || (defined('REST_REQUEST') && REST_REQUEST)) {
             return;
@@ -281,7 +283,7 @@ final class GEOEnhancer
      *
      * @return string Empty string if no summary could be extracted.
      */
-    private static function generate_ai_summary() : mixed {
+    private static function generate_ai_summary() : string {
         $post = get_post();
         if (!$post) {
             return '';

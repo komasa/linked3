@@ -109,7 +109,7 @@ class OSMomentumFlywheel {
         $score = round($geometric_mean, 1);
 
         $level = 'poor';
-        $level_label = '待提升';
+        $level_label = __('待提升', 'linked3');
         $level_color = '#E74C3C';
         foreach (self::SCORE_THRESHOLDS as $key => $threshold) {
             if ($score >= $threshold['min']) {

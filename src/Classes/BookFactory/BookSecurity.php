@@ -33,7 +33,7 @@ class BookSecurity {
 	 * @param string $project_id 待校验的项目 ID。
 	 * @return string|false 校验通过返回清洗后的 project_id，失败返回 false。
 	 */
-	public static function validate_project_id(string $project_id) : mixed {
+	public static function validate_project_id(string $project_id) : bool {
 		if ( ! is_string( $project_id ) || '' === $project_id ) {
 			return false;
 		}

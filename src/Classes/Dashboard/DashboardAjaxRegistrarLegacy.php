@@ -39,71 +39,13 @@ final class DashboardAjaxRegistrarLegacy
      * @return void
      */
     static function register(): void {
-        // 自定义 API 保存 AJAX
-        add_action('wp_ajax_linked3_save_custom_apis', [__CLASS__, 'ajax_save_custom_apis']);
-        // 模板 CRUD AJAX
-        // G2.1: Template actions migrated to DashboardTemplateActions
-        // (self-registered via DashboardAjaxRegistrar::register())
-        // add_action('wp_ajax_linked3_template_add', [__CLASS__, 'ajax_template_add']);
-        // add_action('wp_ajax_linked3_template_update', [__CLASS__, 'ajax_template_update']);
-        // add_action('wp_ajax_linked3_template_delete', [__CLASS__, 'ajax_template_delete']);
-        // add_action('wp_ajax_linked3_template_get', [__CLASS__, 'ajax_template_get']);
-        // 模型同步 AJAX
-        add_action('wp_ajax_linked3_sync_models', [__CLASS__, 'ajax_sync_models']);
-        // AI 标识符后缀
-        add_action('wp_ajax_linked3_save_ai_suffix', [__CLASS__, 'ajax_save_ai_suffix']);
-        // 关键词管理 (热词采集/长尾生成/批量文章)
-        // G2.1: Keyword actions migrated to DashboardKeywordActions (delegate methods removed)
-        // 高级设置 (原版隐藏功能)
-        add_action('wp_ajax_linked3_save_advanced', [__CLASS__, 'ajax_save_advanced']);
-        // 图片设置 (原版 image_settings)
-        add_action('wp_ajax_linked3_save_image_settings', [__CLASS__, 'ajax_save_image_settings']);
-        // v5.3.3: 图片站采集测试 + 图示提示词生成
-        add_action('wp_ajax_linked3_test_image_station', [__CLASS__, 'ajax_test_image_station']);
-        add_action('wp_ajax_linked3_generate_chart_prompts', [__CLASS__, 'ajax_generate_chart_prompts']);
-        // v5.3.4: 视频脚本 + 图示脚本分段生成 (先大纲后分镜)
-        add_action('wp_ajax_linked3_video_outline', [__CLASS__, 'ajax_video_outline']);
-        add_action('wp_ajax_linked3_video_segment', [__CLASS__, 'ajax_video_segment']);
-        add_action('wp_ajax_linked3_chart_outline', [__CLASS__, 'ajax_chart_outline']);
-        add_action('wp_ajax_linked3_chart_segment', [__CLASS__, 'ajax_chart_segment']);
-        // v6.5.0: 图示脚本引擎 — 接入 Diagram Master Template
-        add_action('wp_ajax_linked3_diagram_generate', [__CLASS__, 'ajax_diagram_generate']);
-        add_action('wp_ajax_linked3_diagram_validate', [__CLASS__, 'ajax_diagram_validate']);
-        add_action('wp_ajax_linked3_diagram_types', [__CLASS__, 'ajax_diagram_types']);
-        // v6.5.4: 多图示提示词分开生成 (每模块1个独立Prompt)
-        add_action('wp_ajax_linked3_diagram_generate_multi', [__CLASS__, 'ajax_diagram_generate_multi']);
-        // v6.6.0 ~ v9.1.4: Genesis 漫画脚本引擎 — 15 个 AJAX 端点
-        // 已在 v27.1.0 (P10) 拆分到 DashboardAjaxGenesis 独立类,
-        // 此处仅做转发注册, 保持向后兼容 (handler 实现仍在本类中, 待 step 2 迁移).
-        \Linked3\Classes\Dashboard\Ajax\DashboardAjaxGenesis::register();
-        // v7.1.5: WP-Cron 回调
-        add_action('linked3_genesis_run_job', [__CLASS__, 'cron_genesis_run_job']);
-        // G2.1: Queue actions migrated to DashboardQueueActions
-        // add_action('wp_ajax_linked3_queue_list', [__CLASS__, 'ajax_queue_list']);
-        // add_action('wp_ajax_linked3_queue_retry', [__CLASS__, 'ajax_queue_retry']);
-        // add_action('wp_ajax_linked3_queue_delete', [__CLASS__, 'ajax_queue_delete']);
-        // add_action('wp_ajax_linked3_queue_bulk_delete', [__CLASS__, 'ajax_queue_bulk_delete']);
-        // v3.1.0: Provider 配置 AJAX 保存 (不刷新页面)
-        add_action('wp_ajax_linked3_save_provider_config', [__CLASS__, 'ajax_save_provider_config']);
-        // v3.1.0: SEO 增强 (内链/Schema/外链) 保存
-        add_action('wp_ajax_linked3_save_seo_enhance', [__CLASS__, 'ajax_save_seo_enhance']);
-        // v3.2.0: 图片模型同步
-        add_action('wp_ajax_linked3_sync_image_models', [__CLASS__, 'ajax_sync_image_models']);
-        // v3.2.0: 视频脚本生成 (调用 Video_Generator)
-        add_action('wp_ajax_linked3_video_generate_script', [__CLASS__, 'ajax_video_generate_script']);
-        // v3.3.0: 长文分段写作 (大纲生成 + 逐段生成)
-        add_action('wp_ajax_linked3_generate_outline', [__CLASS__, 'ajax_generate_outline']);
-        add_action('wp_ajax_linked3_generate_section', [__CLASS__, 'ajax_generate_section']);
-        // v3.4.0: GEO 增强 (保存设置 + 重新生成 llms.txt)
-        add_action('wp_ajax_linked3_save_geo', [__CLASS__, 'ajax_save_geo']);
-        add_action('wp_ajax_linked3_regen_llms_txt', [__CLASS__, 'ajax_regen_llms_txt']);
-        // v3.7.0: AI 搜索引擎 API key (放在 API 设置页)
-        add_action('wp_ajax_linked3_save_ai_search_keys', [__CLASS__, 'ajax_save_ai_search_keys']);
-        // v5.2.4: 关键词库保存 + 定时任务管理
-        add_action('wp_ajax_linked3_kw_save_library', [__CLASS__, 'ajax_kw_save_library']);
-        add_action('wp_ajax_linked3_kw_cron_enable', [__CLASS__, 'ajax_kw_cron_enable']);
-        add_action('wp_ajax_linked3_kw_cron_disable', [__CLASS__, 'ajax_kw_cron_disable']);
-        add_action('wp_ajax_linked3_kw_cron_status', [__CLASS__, 'ajax_kw_cron_status']);
+        // v28.0.0: Permanently disabled — all handlers migrated to Actions classes.
+        // Calling register() would create 41 duplicate wp_ajax registrations.
+        if (defined('WP_DEBUG') && WP_DEBUG && function_exists('error_log')) {
+            error_log('[linked3] DashboardAjaxRegistrarLegacy::register() — dead code (v28.0.0)');
+        }
+        return;
+
     }
 
     /**

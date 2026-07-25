@@ -41,7 +41,7 @@ class OSDashboard {
         $health = self::run_health_check();
         
         $html = '<div class="wrap linked3-v18-dashboard">';
-        $html .= '<h1>V18方法论集成仪表盘 <span class="version">v15.0.0</span></h1>';
+        $html .= __('<h1>V18方法论集成仪表盘 <span class="version">v15.0.0</span></h1>', 'linked3');
         $html .= '<div class="health-status">' . self::render_health($health) . '</div>';
         $html .= '<div class="modules-grid">' . self::render_modules($modules) . '</div>';
         $html .= '</div>';
@@ -103,7 +103,7 @@ class OSDashboard {
      */
     private static function render_health(array $health): string {
         $html = '<div class="health-card">';
-        $html .= '<h2>系统健康</h2>';
+        $html .= __('<h2>系统健康</h2>', 'linked3');
         foreach ($health as $key => $value) {
             if (is_array($value)) {
                 $html .= '<div class="health-item"><strong>' . esc_html($key) . ':</strong> ' . count($value) . ' 项</div>';
@@ -154,6 +154,10 @@ class OSDashboard {
      */
     public static function register(): void {
         add_action('admin_menu', [__CLASS__, 'register_admin_menu']);
+        // v27.8.13: 注册 tab-v18 AJAX 端点
+        if (class_exists('\\Linked3\\Classes\\OS\\Ajax\\OSV18AjaxActions')) {
+            \Linked3\Classes\OS\Ajax\OSV18AjaxActions::register();
+        }
     }
 
     /**

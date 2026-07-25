@@ -241,16 +241,16 @@ class COSDepartments
         if (!empty($approach) && mb_strlen($approach) > 10) {
             // 提取【标签】部分作为策略名
             if (preg_match('/【([^】]+)】/u', $approach, $m)) {
-                $rules[] = '策略: ' . $m[1];
+                $rules[] = __('策略: ', 'linked3') . $m[1];
             }
             // 截取 approach 前 120 字作为核心思路
             $summary = mb_substr($approach, 0, 120);
-            $rules[] = '核心思路: ' . $summary;
+            $rules[] = __('核心思路: ', 'linked3') . $summary;
         }
 
         // 如果规则仍为空, 至少返回一条兜底
         if (empty($rules)) {
-            $rules[] = '执行方案: ' . mb_substr($approach, 0, 100);
+            $rules[] = __('执行方案: ', 'linked3') . mb_substr($approach, 0, 100);
         }
 
         return $rules;
@@ -263,14 +263,14 @@ class COSDepartments
     {
         $spots = [];
         if (count($survivors) < 3) {
-            $spots[] = '存活方案过少 (<3), 可能存在未探索的方案空间';
+            $spots[] = __('存活方案过少 (<3), 可能存在未探索的方案空间', 'linked3');
         }
         // 检查是否所有方案都来自同一思路
         $approaches = array_unique(array_map(function($v) { return $v['approach'] ?? ''; }, $survivors));
         if (count($approaches) < count($survivors) * 0.5) {
-            $spots[] = '方案同质化严重, 缺乏多样性';
+            $spots[] = __('方案同质化严重, 缺乏多样性', 'linked3');
         }
-        $spots[] = '未考虑失败案例的反向验证';
+        $spots[] = __('未考虑失败案例的反向验证', 'linked3');
         return $spots;
     }
 

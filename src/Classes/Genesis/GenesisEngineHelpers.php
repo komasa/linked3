@@ -15,5 +15,5 @@ class GenesisEngineHelpers
     public static function getByType(string $type) : mixed { return GenesisEngineCore::getByType($type); }
     public static function getCharacters() : mixed { return GenesisEngineCore::getCharacters(); }
     public static function getScenes() : mixed { return GenesisEngineCore::getScenes(); }
-    public static function getTemplates() : mixed { return []; }
+    public static function getTemplates() : array { return []; }
 }

@@ -168,7 +168,7 @@ final class PostMetabox
                                     if (tg) tg.value = res.data.tags;
                                 }
                                 if (res.data.image_url) {
-                                    html += '<p>已设置特色图片</p><img src="' + res.data.image_url + '" style="max-width:100%;" />';
+                                    html += __('<p>已设置特色图片</p><img src="', 'linked3') + res.data.image_url + '" style="max-width:100%;" />';
                                 }
                                 if (res.data.message) html += '<p>' + res.data.message + '</p>';
                                 setResult(html || '完成');
@@ -205,7 +205,7 @@ final class PostMetabox
                         .then(function(r){return r.json();})
                         .then(function(res){
                             if (res.success) {
-                                var html = '<p style="color:#080;font-weight:600;">✓ 处理完成</p>';
+                                var html = __('<p style="color:#080;font-weight:600;">✓ 处理完成</p>', 'linked3');
                                 html += '<div style="background:#f9fafb;border:1px solid #e5e7eb;padding:8px;margin-top:6px;border-radius:4px;max-height:200px;overflow-y:auto;font-size:11px;">' +
                                     String(res.data.result).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>';
                                 // 一键插入按钮
@@ -270,7 +270,7 @@ final class PostMetabox
 
             switch ($sub) {
                 case 'title':
-                    $prompt = "为以下文章内容生成 5 个吸引人的标题(每行一个,不要编号):\n\n" . mb_substr($content, 0, 2000);
+                    $prompt = __('为以下文章内容生成 5 个吸引人的标题(每行一个,不要编号):\n\n', 'linked3') . mb_substr($content, 0, 2000);
                     $r = $dispatcher->chat(
                         [['role' => 'user', 'content' => $prompt]],
                         ['provider' => $provider, 'model' => $model, 'temperature' => 0.7, 'module' => 'metabox'],

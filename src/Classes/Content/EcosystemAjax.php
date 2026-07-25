@@ -120,6 +120,10 @@ class EcosystemAjax {
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
 
+        // v27.8.5-fix: 增加超时到120s (multi模式多次AI调用需要更多时间)
+        @set_time_limit(120);
+        @ini_set('max_execution_time', '120');
+
         $seed = sanitize_text_field($_POST['seed'] ?? '');
         $count = intval($_POST['count'] ?? 20);
         $multi_seeds_raw = isset($_POST['seeds']) ? wp_unslash($_POST['seeds']) : '';
@@ -221,7 +225,7 @@ class EcosystemAjax {
                     if (!empty($tpl['config']['role'])) {
                         $topic = $topic . "\n[行业调性: " . $tpl['config']['role'] . " | 风格: " . ($tpl['config']['style'] ?? '') . "]";
                     }
-                } catch (\Throwable $e) {}
+                } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
             }
             $content = EcosystemContentService::generate_content($topic, $keywords, [], $tone, $word_count);
             $checked = EcosystemContentService::self_check_content($content);

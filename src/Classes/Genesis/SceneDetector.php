@@ -15,7 +15,7 @@ class SceneDetector
             wp_send_json_error(['message' => __('权限不足, 需要 edit_posts 能力。', 'linked3')], 403);
         }
 
-        wp_send_json_success(self::get_all_axes());
+        wp_send_json_success(SceneAxis::get_all_axes());
     }
 
 }

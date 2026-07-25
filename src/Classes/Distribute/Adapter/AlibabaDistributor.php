@@ -40,7 +40,7 @@ if (!defined('ABSPATH')) {
 final class AlibabaDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'alibaba'; }
-    public function label() : string { return '阿里国际站 (Alibaba.com)'; }
+    public function label() : string { return __('阿里国际站 (Alibaba.com)', 'linked3'); }
 
     const API_BASE = 'https://api.alibaba.com/rest';
     const AUTH_BASE = 'https://oauth.alibaba.com';

@@ -68,7 +68,8 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
         $user = $adv_cfg['user'];
 
         try {
-            $ai_timeout = $content_length === 'long' ? 180 : ($content_length === 'medium' ? 150 : 120);
+            // v28 PR-10: timeout 180/150/120 → 45/40/35 — playground max_execution_time=60s
+            $ai_timeout = $content_length === 'long' ? 45 : ($content_length === 'medium' ? 40 : 35);
             $result = $this->dispatcher()->chat(
                 [['role' => 'system', 'content' => $sys], ['role' => 'user', 'content' => $user]],
                 [
@@ -258,7 +259,7 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
         $keywords = $keyword;
 
         if ($prompt_mode === 'custom' && !empty($config['custom_content_prompt'])) {
-            $sys = '你是一位专业内容写作器。请严格按照用户的指令生成内容。';
+            $sys = __('你是一位专业内容写作器。请严格按照用户的指令生成内容。', 'linked3');
             $raw_prompt = $config['custom_content_prompt'];
             if (class_exists('\\Linked3\\Classes\\Pipeline\\PipelinePlaceholderResolver')) {
                 $user = \Linked3\Classes\Pipeline\PipelinePlaceholderResolver::resolve($raw_prompt, array_merge([
@@ -307,16 +308,16 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
         } else {
             $html_prefix = '';
             if ($require_html) {
-                $html_prefix = '【强制格式要求】你必须输出 HTML 标签格式(使用 H2/H3/p/ul/li/strong 等标签),严禁输出 Markdown 语法(如 #、##、**、- 等)。不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。正文不要包含 H1 标题。 ';
+                $html_prefix = __('【强制格式要求】你必须输出 HTML 标签格式(使用 H2/H3/p/ul/li/strong 等标签),严禁输出 Markdown 语法(如 #、##、**、- 等)。不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。正文不要包含 H1 标题。 ', 'linked3');
             }
             $sys = $html_prefix . $sys;
-            if ($enable_summary) $sys .= ' 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。';
-            if ($require_tag)    $sys .= ' 请在文章尾部加入适当的文章 tag 标签,标签格式必须为:{1、标签1}{2、标签2}。';
+            if ($enable_summary) $sys .= __(' 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。', 'linked3');
+            if ($require_tag)    $sys .= __(' 请在文章尾部加入适当的文章 tag 标签,标签格式必须为:{1、标签1}{2、标签2}。', 'linked3');
         }
 
-        $sys .= ' 重要:不要重复相同的内容或标题,不要输出无意义字符,确保文章结构完整、逻辑通顺。';
+        $sys .= __(' 重要:不要重复相同的内容或标题,不要输出无意义字符,确保文章结构完整、逻辑通顺。', 'linked3');
         if ($require_html) {
-            $user .= "\n\n重要:请必须输出 HTML 标签格式(H2/H3/p/ul/li),不要输出 Markdown 格式。";
+            $user .= __('\n\n重要:请必须输出 HTML 标签格式(H2/H3/p/ul/li),不要输出 Markdown 格式。', 'linked3');
         }
 
         return compact('sys', 'user', 'require_html', 'require_tag', 'enable_summary', 'enhancer');
