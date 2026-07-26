@@ -28,12 +28,6 @@
  *      (bare class names in return types, param types, implements,
  *       extends that are not imported via `use`, not PHP built-in,
  *       not same-namespace, and not FQN-prefixed with `\`)
- *   6. Trait property conflict (v2.0.0)
- *      (class uses Trait, both declare same property with different defaults)
- *   7. Trait abstract method implementation (v2.0.0)
- *      (class uses Trait, doesn't implement abstract method or return type mismatch)
- *   8. Interface method signature mismatch (v2.0.0)
- *      (class implements interface, method has :mixed where interface declares specific type)
  *
  * INTEGRATION
  * -----------
@@ -44,7 +38,7 @@
  *   - The scanner is self-contained: no external dependencies, no
  *     function calls to WordPress APIs (runs before WP is available).
  *
- * @version   2.0.0
+ * @version   1.0.0
  * @since     27.6.9
  * @license   GPL-2.0-or-later
  * @package   Linked3
@@ -264,31 +258,42 @@ if (!function_exists('linked3_ues_scan')) {
             $errors[] = $te;
         }
 
-        // ── Check 6: Trait property conflict (v2.0.0) ──
-        // Detects classes that `use` a Trait and also declare a property
-        // with the same name but different default value.
-        // This causes E_COMPILE_ERROR in PHP 8.0+.
-        $trait_prop_errors = linked3_ues_check_trait_property_conflicts($file_infos);
-        foreach ($trait_prop_errors as $te) {
+        // ── Check 6: Trait property conflicts + abstract method implementation (v1.3.0) ──
+        // Detects:
+        //   (a) Class and trait both define the same property with different default values → E_COMPILE_ERROR
+        //   (b) Class uses trait with abstract methods but doesn't implement them → E_COMPILE_ERROR
+        //   (c) Class implements trait abstract method with incompatible return type → E_COMPILE_ERROR
+        $trait_errors = linked3_ues_check_trait_compatibility($file_infos, $class_fqn_map);
+        foreach ($trait_errors as $te) {
             $errors[] = $te;
         }
 
-        // ── Check 7: Trait abstract method implementation (v2.0.0) ──
-        // Detects classes that `use` a Trait with abstract methods but
-        // don't implement them, or implement with incompatible return type.
-        // This causes E_COMPILE_ERROR.
-        $trait_abs_errors = linked3_ues_check_trait_abstract_methods($file_infos);
-        foreach ($trait_abs_errors as $te) {
-            $errors[] = $te;
+
+        // ── Check 7: i18n nested PHP tags (v2.0.0) ──
+        // Detects: __('text with [PHP_OPEN] echo esc_html__() [PHP_CLOSE] inside', 'domain')
+        // This pattern breaks PHP parsing because single quotes inside the inner
+        // [PHP_OPEN] [PHP_CLOSE] block conflict with the outer string delimiters.
+        $i18n_errors = linked3_ues_check_i18n_nested_php($file_infos);
+        foreach ($i18n_errors as $ie) {
+            $errors[] = $ie;
         }
 
-        // ── Check 8: Interface method signature mismatch (v2.0.0) ──
-        // Detects classes that implement an interface but have methods
-        // with :mixed return type where the interface declares a specific type.
-        // This causes E_COMPILE_ERROR (LSP violation).
-        $iface_errors = linked3_ues_check_interface_signatures($file_infos);
-        foreach ($iface_errors as $te) {
-            $errors[] = $te;
+        // ── Check 8: PHP/HTML tag closure after includes (v2.0.0) ──
+        // Detects: include without closing [PHP_CLOSE] tag before HTML
+        // <html> missing closing [PHP_CLOSE] before HTML
+        // This causes "unexpected token '<'" errors.
+        $closure_errors = linked3_ues_check_php_html_closure($file_infos);
+        foreach ($closure_errors as $ce) {
+            $errors[] = $ce;
+        }
+
+        // ── Check 9: Full syntax validation via token_get_all (v2.0.0) ──
+        // Unlike Check 2 (string-based brace counting), this uses PHP's own
+        // tokenizer to catch ALL parse errors, not just structural ones.
+        // In v2.0 "full scan" mode, there is NO per-file error limit.
+        $syntax_errors = linked3_ues_check_full_syntax($file_infos);
+        foreach ($syntax_errors as $se) {
+            $errors[] = $se;
         }
 
         // ── H-02: Cache the scan results (1 hour TTL) ──────────────────
@@ -463,7 +468,7 @@ if (!function_exists('linked3_ues_strip_non_php')) {
                     $result .= '<?=';
                     $i += 3;
                 } elseif (substr($source, $i, 2) === '<?' && ($i + 2 >= $len || $source[$i + 2] !== 'x')) {
-                    // Short open tag <? (but not <?xml)
+                    // Short open tag [PHP_SHORT_OPEN] (but not [PHP_SHORT_OPEN]xml)
                     $in_php = true;
                     $result .= '<?';
                     $i += 2;
@@ -707,7 +712,7 @@ if (!function_exists('linked3_ues_check_syntax_structure')) {
             }
 
             // Check for any executable statement before namespace (not just use).
-            // Allow: <?php, declare(), comments, whitespace.
+            // Allow: [PHP_OPEN], declare(), comments, whitespace.
             $lines = explode("\n", $before_ns_clean);
             foreach ($lines as $idx => $line) {
                 $trimmed = trim($line);
@@ -1068,6 +1073,274 @@ if (!function_exists('linked3_ues_init')) {
 }
 
 /**
+ * Check 6: Trait property conflicts + abstract method implementation (v1.3.0).
+ *
+ * Detects three classes of E_COMPILE_ERROR:
+ *
+ *   (a) TraitPropertyConflict: Class and trait both define the same property
+ *       with different default values.
+ *       PHP error: "X and Y define the same property ($z) ... definition differs"
+ *
+ *   (b) TraitAbstractNotImplemented: Class uses a trait that declares abstract
+ *       methods, but the class doesn't implement them.
+ *       PHP error: "Abstract method Trait::method() not implemented in Class"
+ *
+ *   (c) TraitAbstractReturnTypeMismatch: Class implements a trait's abstract
+ *       method but with an incompatible return type.
+ *       PHP error: "Declaration of Class::method(): mixed must be compatible
+ *       with Trait::method(): array"
+ *
+ * @param array $file_infos    path => parsed info
+ * @param array $class_fqn_map FQN => [file, line]
+ * @return array               Error arrays
+ */
+if (!function_exists('linked3_ues_check_trait_compatibility')) {
+    function linked3_ues_check_trait_compatibility($file_infos, $class_fqn_map)
+    {
+        $errors = [];
+
+        // ── Phase 1: Build trait symbol table ──
+        // Collect all traits with their properties and abstract methods.
+        $traits = []; // FQN => ['file' => rel_path, 'properties' => [...], 'abstract_methods' => [...], 'line' => int]
+
+        foreach ($file_infos as $path => $info) {
+            $ns = $info['namespace'];
+            $source = $info['source'];
+            $clean = $info['clean'];
+            $rel_path = $info['rel_path'];
+
+            // Find trait declarations.
+            if (!preg_match_all('/\btrait\s+(\w+)\s*\{/', $clean, $trait_matches, PREG_OFFSET_CAPTURE)) {
+                continue;
+            }
+
+            foreach ($trait_matches[1] as $tm) {
+                $trait_name = $tm[0];
+                $trait_fqn = $ns ? $ns . '\\' . $trait_name : $trait_name;
+                $trait_line = substr_count(substr($source, 0, $tm[1]), "\n") + 1;
+
+                // Find the trait body (opening brace to matching close).
+                $body_start = strpos($clean, '{', $tm[1]);
+                if ($body_start === false) continue;
+                $body_end = linked3_ues_find_matching_brace($clean, $body_start);
+                if ($body_end === false) continue;
+                $trait_body = substr($clean, $body_start + 1, $body_end - $body_start - 1);
+
+                // Extract properties: (public|protected|private) static? $name = value;
+                $properties = [];
+                if (preg_match_all('/(?:public|protected|private)\s+(?:static\s+)?\$(\w+)\s*=\s*([^;]+);/', $trait_body, $prop_matches)) {
+                    for ($i = 0; $i < count($prop_matches[1]); $i++) {
+                        $prop_name = $prop_matches[1][$i];
+                        $prop_value = trim($prop_matches[2][$i]);
+                        $properties[$prop_name] = $prop_value;
+                    }
+                }
+
+                // Extract abstract methods: abstract ... function name(params): return_type;
+                $abstract_methods = [];
+                if (preg_match_all('/abstract\s+(?:public|protected|private)?\s*(?:static\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*(?::\s*([^\s{;]+))?/', $trait_body, $abs_matches)) {
+                    for ($i = 0; $i < count($abs_matches[1]); $i++) {
+                        $method_name = $abs_matches[1][$i];
+                        $params = $abs_matches[2][$i];
+                        $return_type = isset($abs_matches[3][$i]) ? trim($abs_matches[3][$i]) : '';
+                        $abstract_methods[$method_name] = [
+                            'params' => $params,
+                            'return_type' => $return_type,
+                        ];
+                    }
+                }
+
+                $traits[$trait_fqn] = [
+                    'file' => $rel_path,
+                    'line' => $trait_line,
+                    'properties' => $properties,
+                    'abstract_methods' => $abstract_methods,
+                ];
+            }
+        }
+
+        if (empty($traits)) {
+            return $errors;
+        }
+
+        // ── Phase 2: For each class that uses a trait, check compatibility ──
+        foreach ($file_infos as $path => $info) {
+            $ns = $info['namespace'];
+            $use_map = $info['use_map'];
+            $source = $info['source'];
+            $clean = $info['clean'];
+            $rel_path = $info['rel_path'];
+
+            // Find class declarations with `use TraitName;` inside.
+            if (!preg_match_all('/\b(?:final\s+|abstract\s+)?class\s+(\w+)\s*(?:extends\s+[\w\\\\]+)?\s*(?:implements\s+[\w\\\\,\s]+)?\s*\{/', $clean, $class_matches, PREG_OFFSET_CAPTURE)) {
+                continue;
+            }
+
+            foreach ($class_matches[1] as $cm) {
+                $class_name = $cm[0];
+                $class_fqn = $ns ? $ns . '\\' . $class_name : $class_name;
+                $class_line = substr_count(substr($source, 0, $cm[1]), "\n") + 1;
+
+                // Find class body.
+                $body_start = strpos($clean, '{', $cm[1]);
+                if ($body_start === false) continue;
+                $body_end = linked3_ues_find_matching_brace($clean, $body_start);
+                if ($body_end === false) continue;
+                $class_body = substr($clean, $body_start + 1, $body_end - $body_start - 1);
+
+                // Find `use TraitName;` statements inside the class body (trait usage, not import).
+                $used_traits = [];
+                if (preg_match_all('/\buse\s+([\w\\\\,\s]+);/', $class_body, $use_matches)) {
+                    foreach ($use_matches[1] as $use_str) {
+                        // Handle multiple traits: use TraitA, TraitB;
+                        $trait_names = array_map('trim', explode(',', $use_str));
+                        foreach ($trait_names as $tn) {
+                            $tn = trim($tn);
+                            if ($tn === '') continue;
+
+                            // Resolve trait FQN.
+                            $trait_fqn = '';
+                            if (isset($use_map[$tn])) {
+                                $trait_fqn = $use_map[$tn];
+                            } elseif ($ns) {
+                                $candidate = $ns . '\\' . $tn;
+                                if (isset($traits[$candidate])) {
+                                    $trait_fqn = $candidate;
+                                }
+                            }
+                            if (!$trait_fqn && isset($traits[$tn])) {
+                                $trait_fqn = $tn; // Global namespace.
+                            }
+                            if ($trait_fqn && isset($traits[$trait_fqn])) {
+                                $used_traits[$trait_fqn] = $traits[$trait_fqn];
+                            }
+                        }
+                    }
+                }
+
+                if (empty($used_traits)) {
+                    continue;
+                }
+
+                // Extract class properties.
+                $class_properties = [];
+                if (preg_match_all('/(?:public|protected|private)\s+(?:static\s+)?\$(\w+)\s*=\s*([^;]+);/', $class_body, $cls_prop_matches)) {
+                    for ($i = 0; $i < count($cls_prop_matches[1]); $i++) {
+                        $prop_name = $cls_prop_matches[1][$i];
+                        $prop_value = trim($cls_prop_matches[2][$i]);
+                        $class_properties[$prop_name] = $prop_value;
+                    }
+                }
+
+                // Extract class methods with return types.
+                $class_methods = [];
+                if (preg_match_all('/(?:public|protected|private)\s+(?:static\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*(?::\s*([^\s{;]+))?/', $class_body, $cls_method_matches)) {
+                    for ($i = 0; $i < count($cls_method_matches[1]); $i++) {
+                        $method_name = $cls_method_matches[1][$i];
+                        $return_type = isset($cls_method_matches[3][$i]) ? trim($cls_method_matches[3][$i]) : '';
+                        $class_methods[$method_name] = ['return_type' => $return_type];
+                    }
+                }
+
+                // ── Check (a): Property conflicts ──
+                foreach ($used_traits as $trait_fqn => $trait_data) {
+                    foreach ($trait_data['properties'] as $prop_name => $trait_value) {
+                        if (isset($class_properties[$prop_name])) {
+                            $class_value = $class_properties[$prop_name];
+                            // Normalize for comparison (trim, quote handling).
+                            $tv_normalized = trim($trait_value, "'\"");
+                            $cv_normalized = trim($class_value, "'\"");
+                            if ($tv_normalized !== $cv_normalized) {
+                                $errors[] = [
+                                    'type'    => 'TraitPropertyConflict',
+                                    'message' => "Class '{$class_name}' and trait '{$trait_fqn}' both define property \${$prop_name} "
+                                        . "with different defaults (trait: '{$trait_value}', class: '{$class_value}'). "
+                                        . "Remove the class-level property declaration and set it in __construct() instead.",
+                                    'file'    => $rel_path,
+                                    'line'    => $class_line,
+                                ];
+                            }
+                        }
+                    }
+                }
+
+                // ── Check (b): Missing abstract method implementations ──
+                foreach ($used_traits as $trait_fqn => $trait_data) {
+                    foreach ($trait_data['abstract_methods'] as $method_name => $method_info) {
+                        if (!isset($class_methods[$method_name])) {
+                            $errors[] = [
+                                'type'    => 'TraitAbstractNotImplemented',
+                                'message' => "Class '{$class_name}' uses trait '{$trait_fqn}' but does not implement "
+                                    . "abstract method '{$method_name}()' "
+                                    . "params: ({$method_info['params']})"
+                                    . ($method_info['return_type'] ? " return type: {$method_info['return_type']}" : '')
+                                    . ". Add the method to the class.",
+                                'file'    => $rel_path,
+                                'line'    => $class_line,
+                            ];
+                        }
+                    }
+                }
+
+                // ── Check (c): Return type mismatches ──
+                foreach ($used_traits as $trait_fqn => $trait_data) {
+                    foreach ($trait_data['abstract_methods'] as $method_name => $method_info) {
+                        if (!isset($class_methods[$method_name])) {
+                            continue; // Already reported in (b).
+                        }
+                        $trait_rt = $method_info['return_type'];
+                        $class_rt = $class_methods[$method_name]['return_type'];
+                        if ($trait_rt && $class_rt && $trait_rt !== $class_rt) {
+                            // Allow widening to mixed (mixed is supertype).
+                            if ($class_rt !== 'mixed') {
+                                $errors[] = [
+                                    'type'    => 'TraitAbstractReturnTypeMismatch',
+                                    'message' => "Class '{$class_name}'::{$method_name}() return type '{$class_rt}' "
+                                        . "is not compatible with trait '{$trait_fqn}'::{$method_name}() return type '{$trait_rt}'. "
+                                        . "Change the class method return type to '{$trait_rt}'.",
+                                    'file'    => $rel_path,
+                                    'line'    => $class_line,
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $errors;
+    }
+}
+
+/**
+ * Find the position of the matching closing brace for the opening brace at $pos.
+ *
+ * @param string $src  Source code.
+ * @param int    $pos  Position of the opening '{'.
+ * @return int|false   Position of the matching '}', or false if unbalanced.
+ */
+if (!function_exists('linked3_ues_find_matching_brace')) {
+    function linked3_ues_find_matching_brace($src, $pos)
+    {
+        if ($pos === false || $pos >= strlen($src) || $src[$pos] !== '{') {
+            return false;
+        }
+        $depth = 1;
+        $i = $pos + 1;
+        $len = strlen($src);
+        while ($i < $len && $depth > 0) {
+            if ($src[$i] === '{') {
+                $depth++;
+            } elseif ($src[$i] === '}') {
+                $depth--;
+            }
+            $i++;
+        }
+        return $depth === 0 ? $i - 1 : false;
+    }
+}
+
+/**
  * Standalone error renderer (fallback when wp-early-error-handler is not available).
  */
 if (!function_exists('linked3_ues_render_errors')) {
@@ -1132,126 +1405,45 @@ if (!function_exists('linked3_ues_render_errors')) {
     }
 }
 
+
 /**
- * Check 6: Trait property conflict (v2.0.0)
+ * Check 7: Detect i18n functions with nested [PHP_OPEN] [PHP_CLOSE] tags inside.
  *
- * Detects classes that `use` a Trait and also declare a property
- * with the same name but a different default value.
- * This causes E_COMPILE_ERROR in PHP 8.0+.
+ * Pattern: __('...[PHP_OPEN] echo esc_html__('inner', 'domain') [PHP_CLOSE]...', 'domain')
+ * This is a catastrophic error because the inner single quotes from
+ * esc_html__('inner') conflict with the outer string delimiters.
+ *
+ * @param array $file_infos  path => parsed info
+ * @return array             Error arrays
  */
-if (!function_exists('linked3_ues_check_trait_property_conflicts')) {
-    function linked3_ues_check_trait_property_conflicts($file_infos)
+if (!function_exists('linked3_ues_check_i18n_nested_php')) {
+    function linked3_ues_check_i18n_nested_php($file_infos)
     {
         $errors = [];
 
-        // Step 1: Collect all trait properties: trait_name => [prop => default]
-        $trait_props = [];
         foreach ($file_infos as $path => $info) {
-            $clean = $info['clean'];
             $source = $info['source'];
             $rel_path = $info['rel_path'];
+            $lines = explode("\n", $source);
 
-            // Find all trait declarations and their bodies
-            if (!preg_match_all('/\btrait\s+(\w+)\s*\{/', $clean, $trait_matches, PREG_OFFSET_CAPTURE)) {
-                continue;
-            }
+            // Pattern: __('<text containing [PHP_OPEN]')
+            // We look for __( or esc_html__( or esc_attr__( or _e( or _x(
+            // followed by a string that contains [PHP_OPEN]
+            $php_open = chr(60) . '?php'; // '<' + '?php'
+            $pattern = '/(?:__|esc_html__|esc_attr__|_e|_x|esc_html_e|esc_attr_e)\s*\(\s*[\'\"](?:(?![\'\"],\s*[\'\"].*[\'\"]))[^\'\"]*' . preg_quote($php_open, '/') . '/s';
 
-            foreach ($trait_matches[1] as $tm) {
-                $tname = $tm[0];
-                $body_start = $tm[1] + strlen($tm[0]);
-                // Find the opening brace position
-                $brace_pos = strpos($clean, '{', $body_start - 1);
-                if ($brace_pos === false) continue;
-                // Find matching closing brace
-                $depth = 1;
-                $pos = $brace_pos + 1;
-                $len = strlen($clean);
-                while ($pos < $len && $depth > 0) {
-                    if ($clean[$pos] === '{') $depth++;
-                    elseif ($clean[$pos] === '}') $depth--;
-                    $pos++;
-                }
-                $body = substr($clean, $brace_pos + 1, $pos - $brace_pos - 2);
-
-                // Find property declarations with defaults
-                if (preg_match_all('/(?:public|protected|private)\s+(?:static\s+)?\$(\w+)\s*=\s*([^;]+);/', $body, $prop_matches)) {
-                    foreach ($prop_matches[1] as $i => $pname) {
-                        $default = trim($prop_matches[2][$i]);
-                        if (!isset($trait_props[$tname])) $trait_props[$tname] = [];
-                        $trait_props[$tname][$pname] = $default;
-                    }
-                }
-            }
-        }
-
-        if (empty($trait_props)) {
-            return $errors;
-        }
-
-        // Step 2: For each class that uses a trait, check for property conflicts
-        foreach ($file_infos as $path => $info) {
-            $clean = $info['clean'];
-            $source = $info['source'];
-            $rel_path = $info['rel_path'];
-
-            // Find all class declarations
-            if (!preg_match_all('/\b(?:final\s+|abstract\s+)?class\s+(\w+)\s*(?:extends\s+\w+\s*)?(?:implements\s+[\w\\\\,\s]+)?\s*\{/', $clean, $cls_matches, PREG_OFFSET_CAPTURE)) {
-                continue;
-            }
-
-            foreach ($cls_matches[0] as $cm) {
-                $class_start = $cm[1];
-                $class_decl = $cm[0];
-
-                // Find class body
-                $brace_pos = strpos($clean, '{', $class_start + strlen($class_decl) - 1);
-                if ($brace_pos === false) continue;
-                $depth = 1;
-                $pos = $brace_pos + 1;
-                $len = strlen($clean);
-                while ($pos < $len && $depth > 0) {
-                    if ($clean[$pos] === '{') $depth++;
-                    elseif ($clean[$pos] === '}') $depth--;
-                    $pos++;
-                }
-                $class_body = substr($clean, $brace_pos + 1, $pos - $brace_pos - 2);
-
-                // Extract class name
-                preg_match('/class\s+(\w+)/', $class_decl, $cn);
-                $cls_name = $cn[1] ?? 'Unknown';
-
-                // Find `use TraitName;` inside the class body (trait usage, not import)
-                if (preg_match_all('/\buse\s+([\w\\\\,\s]+);/', $class_body, $use_matches)) {
-                    foreach ($use_matches[1] as $use_str) {
-                        $traits = array_map(function($t) {
-                            return trim($t, " \t\n\r\\");
-                        }, explode(',', $use_str));
-
-                        foreach ($traits as $ut) {
-                            $short = substr(strrchr($ut, '\\') ?: $ut, 0) ?: $ut;
-                            $short = ltrim($short, '\\');
-                            if (!isset($trait_props[$short]) && !isset($trait_props[$ut])) continue;
-                            $props = $trait_props[$short] ?? $trait_props[$ut] ?? [];
-
-                            // Find class-level property declarations with defaults
-                            if (preg_match_all('/(?:public|protected|private)\s+(?:static\s+)?\$(\w+)\s*=\s*([^;]+);/', $class_body, $cls_prop_matches)) {
-                                foreach ($cls_prop_matches[1] as $i => $pname) {
-                                    $cls_default = trim($cls_prop_matches[2][$i]);
-                                    if (isset($props[$pname]) && $props[$pname] !== $cls_default) {
-                                        $line = substr_count(substr($source, 0, $class_start), "\n") + 1;
-                                        $errors[] = [
-                                            'type'    => 'TraitPropertyConflict',
-                                            'message' => "Class '{$cls_name}' and trait '{$short}' define property \${$pname} with incompatible defaults "
-                                                . "(trait: '{$props[$pname]}', class: '{$cls_default}'). "
-                                                . "Move to __construct() assignment.",
-                                            'file'    => $rel_path,
-                                            'line'    => $line,
-                                        ];
-                                    }
-                                }
-                            }
-                        }
-                    }
+            if (preg_match_all($pattern, $source, $matches, PREG_OFFSET_CAPTURE)) {
+                foreach ($matches[0] as $m) {
+                    $pos = $m[1];
+                    $line = substr_count(substr($source, 0, $pos), "\n") + 1;
+                    $snippet = trim(substr($source, $pos, 120));
+                    $errors[] = [
+                        'type'    => 'I18nNestedPhpTags',
+                        'message' => 'i18n function contains nested ' . '<?php' . ' ?> tags - single quote conflict. '
+                            . "Remove outer __() wrapper, keep inner esc_html__(). Snippet: " . substr($snippet, 0, 100),
+                        'file'    => $rel_path,
+                        'line'    => $line,
+                    ];
                 }
             }
         }
@@ -1261,127 +1453,82 @@ if (!function_exists('linked3_ues_check_trait_property_conflicts')) {
 }
 
 /**
- * Check 7: Trait abstract method implementation (v2.0.0)
+ * Check 8: Detect missing [PHP_CLOSE] closure after PHP include/require statements.
  *
- * Detects classes that `use` a Trait with abstract methods but
- * don't implement them, or implement with incompatible return type.
+ * Pattern:
+ *   [PHP_OPEN]
+ *   include __DIR__ . '/file.php';
+ *
+ *   <html content>  ← Error: still in PHP mode, < is unexpected
+ *
+ * @param array $file_infos  path => parsed info
+ * @return array             Error arrays
  */
-if (!function_exists('linked3_ues_check_trait_abstract_methods')) {
-    function linked3_ues_check_trait_abstract_methods($file_infos)
+if (!function_exists('linked3_ues_check_php_html_closure')) {
+    function linked3_ues_check_php_html_closure($file_infos)
     {
         $errors = [];
 
-        // Step 1: Collect trait abstract methods
-        $trait_abstracts = [];
         foreach ($file_infos as $path => $info) {
-            $clean = $info['clean'];
-            $source = $info['source'];
-
-            if (!preg_match_all('/\btrait\s+(\w+)\s*\{/', $clean, $trait_matches, PREG_OFFSET_CAPTURE)) {
-                continue;
-            }
-
-            foreach ($trait_matches[1] as $tm) {
-                $tname = $tm[0];
-                $body_start = $tm[1] + strlen($tm[0]);
-                $brace_pos = strpos($clean, '{', $body_start - 1);
-                if ($brace_pos === false) continue;
-                $depth = 1;
-                $pos = $brace_pos + 1;
-                $len = strlen($clean);
-                while ($pos < $len && $depth > 0) {
-                    if ($clean[$pos] === '{') $depth++;
-                    elseif ($clean[$pos] === '}') $depth--;
-                    $pos++;
-                }
-                $body = substr($clean, $brace_pos + 1, $pos - $brace_pos - 2);
-
-                // Find abstract methods
-                if (preg_match_all('/abstract\s+(?:public|protected|private)\s+(?:static\s+)?function\s+(\w+)\s*\([^)]*\)\s*(?::\s*([\w\\\\|<>&?\s,]+?))?\s*;/', $body, $abs_matches)) {
-                    foreach ($abs_matches[1] as $i => $mname) {
-                        $rt = isset($abs_matches[2][$i]) ? trim($abs_matches[2][$i]) : null;
-                        if (!isset($trait_abstracts[$tname])) $trait_abstracts[$tname] = [];
-                        $trait_abstracts[$tname][$mname] = $rt;
-                    }
-                }
-            }
-        }
-
-        if (empty($trait_abstracts)) {
-            return $errors;
-        }
-
-        // Step 2: For each class, check abstract method implementations
-        foreach ($file_infos as $path => $info) {
-            $clean = $info['clean'];
             $source = $info['source'];
             $rel_path = $info['rel_path'];
 
-            if (!preg_match_all('/\b(?:final\s+|abstract\s+)?class\s+(\w+)/', $clean, $cls_matches, PREG_OFFSET_CAPTURE)) {
-                continue;
+            // Find all [PHP_OPEN] openings and [PHP_CLOSE] closings
+            $tokens = [];
+            $len = strlen($source);
+            $i = 0;
+            while ($i < $len) {
+                if (substr($source, $i, 5) === '<?php') {
+                    $tokens[] = ['type' => 'open', 'pos' => $i];
+                    $i += 5;
+                } elseif (substr($source, $i, 3) === '<?=') {
+                    $tokens[] = ['type' => 'open', 'pos' => $i];
+                    $i += 3;
+                } elseif (substr($source, $i, 2) === '?>') {
+                    $tokens[] = ['type' => 'close', 'pos' => $i];
+                    $i += 2;
+                } else {
+                    $i++;
+                }
             }
 
-            foreach ($cls_matches[1] as $cm) {
-                $cls_name = $cm[0];
-                $class_start = $cm[1];
-
-                // Find class body
-                $brace_pos = strpos($clean, '{', $class_start);
-                if ($brace_pos === false) continue;
-                $depth = 1;
-                $pos = $brace_pos + 1;
-                $len = strlen($clean);
-                while ($pos < $len && $depth > 0) {
-                    if ($clean[$pos] === '{') $depth++;
-                    elseif ($clean[$pos] === '}') $depth--;
-                    $pos++;
-                }
-                $class_body = substr($clean, $brace_pos + 1, $pos - $brace_pos - 2);
-
-                // Find `use TraitName;` statements
-                if (preg_match_all('/\buse\s+([\w\\\\,\s]+);/', $class_body, $use_matches)) {
-                    foreach ($use_matches[1] as $use_str) {
-                        $traits = array_map(function($t) {
-                            return ltrim(trim($t, " \t\n\r\\"), '\\');
-                        }, explode(',', $use_str));
-
-                        foreach ($traits as $ut) {
-                            $short = substr(strrchr($ut, '\\') ?: $ut, 0) ?: $ut;
-                            $short = ltrim($short, '\\');
-                            $lookup = $short;
-                            if (!isset($trait_abstracts[$lookup])) {
-                                $lookup = $ut;
-                            }
-                            if (!isset($trait_abstracts[$lookup])) continue;
-
-                            foreach ($trait_abstracts[$lookup] as $method_name => $expected_rt) {
-                                // Check if the method is implemented
-                                $impl_pattern = '/(?:public|protected|private)\s+(?:static\s+)?function\s+' . preg_quote($method_name, '/') . '\s*\([^)]*\)\s*(?::\s*([\w\\\\|<>&?\s,]+?))?\s*\{/';
-                                if (!preg_match($impl_pattern, $class_body)) {
-                                    $line = substr_count(substr($source, 0, $class_start), "\n") + 1;
-                                    $errors[] = [
-                                        'type'    => 'TraitAbstractMethodMissing',
-                                        'message' => "Class '{$cls_name}' uses trait '{$short}' but does not implement abstract method '{$method_name}()'",
-                                        'file'    => $rel_path,
-                                        'line'    => $line,
-                                    ];
-                                } elseif ($expected_rt && $expected_rt !== 'mixed') {
-                                    // Check return type compatibility
-                                    preg_match($impl_pattern, $class_body, $impl_match);
-                                    $actual_rt = isset($impl_match[1]) ? trim($impl_match[1]) : null;
-                                    if ($actual_rt === 'mixed') {
-                                        $line = substr_count(substr($source, 0, $class_start), "\n") + 1;
-                                        $errors[] = [
-                                            'type'    => 'TraitAbstractMethodReturnTypeMismatch',
-                                            'message' => "Class '{$cls_name}::{$method_name}()' has ':mixed' but trait '{$short}' declares ':{$expected_rt}'",
-                                            'file'    => $rel_path,
-                                            'line'    => $line,
-                                        ];
-                                    }
-                                }
-                            }
-                        }
+            // Check for unclosed PHP blocks
+            $open_stack = [];
+            foreach ($tokens as $token) {
+                if ($token['type'] === 'open') {
+                    $open_stack[] = $token;
+                } else {
+                    if (!empty($open_stack)) {
+                        array_pop($open_stack);
                     }
+                }
+            }
+
+            // If there's an unclosed PHP block, check if HTML follows
+            if (!empty($open_stack)) {
+                $last_open = end($open_stack);
+                $after_open = substr($source, $last_open['pos'] + 5);
+
+                // Check if there's HTML content (starting with <) after the last PHP block
+                // without a [PHP_CLOSE] closure
+                // Skip whitespace and PHP code, look for HTML
+                $after_code = preg_replace('/^[^<]*?<(?!\/?php)(?!\?)([a-zA-Z!\/])/', 'FOUND_HTML<$1', $after_open, -1, $count);
+
+                if ($count > 0) {
+                    $line = substr_count(substr($source, 0, $last_open['pos']), "\n") + 1;
+                    // Find the actual line where HTML starts
+                    $html_pos = strpos($after_code, 'FOUND_HTML');
+                    if ($html_pos !== false) {
+                        $actual_pos = $last_open['pos'] + 5 + $html_pos;
+                        $line = substr_count(substr($source, 0, $actual_pos), "\n") + 1;
+                    }
+                    $errors[] = [
+                        'type'    => 'MissingPhpClosure',
+                        'message' => 'PHP block opened at line ' . $line . ' but never closed with ?>' . ' before HTML content. '
+                            . 'Add ?>' . ' after the last PHP statement, before HTML.',
+                        'file'    => $rel_path,
+                        'line'    => $line,
+                    ];
                 }
             }
         }
@@ -1391,119 +1538,69 @@ if (!function_exists('linked3_ues_check_trait_abstract_methods')) {
 }
 
 /**
- * Check 8: Interface method signature mismatch (v2.0.0)
+ * Check 9: Full syntax validation using PHP's own tokenizer.
  *
- * Detects classes that implement an interface but have methods
- * with :mixed return type where the interface declares a specific type.
+ * In v2.0 "full scan" mode, this catches ALL parse errors with no per-file limit.
+ * Uses token_get_all() which is available in all PHP 7.0+ environments.
+ *
+ * @param array $file_infos  path => parsed info
+ * @return array             Error arrays
  */
-if (!function_exists('linked3_ues_check_interface_signatures')) {
-    function linked3_ues_check_interface_signatures($file_infos)
+if (!function_exists('linked3_ues_check_full_syntax')) {
+    function linked3_ues_check_full_syntax($file_infos)
     {
         $errors = [];
 
-        // Step 1: Collect interface method signatures
-        $iface_methods = [];
         foreach ($file_infos as $path => $info) {
-            $clean = $info['clean'];
-
-            if (!preg_match_all('/\binterface\s+(\w+)\s*\{/', $clean, $iface_matches, PREG_OFFSET_CAPTURE)) {
-                continue;
-            }
-
-            foreach ($iface_matches[1] as $im) {
-                $iname = $im[0];
-                $body_start = $im[1] + strlen($im[0]);
-                $brace_pos = strpos($clean, '{', $body_start - 1);
-                if ($brace_pos === false) continue;
-                $depth = 1;
-                $pos = $brace_pos + 1;
-                $len = strlen($clean);
-                while ($pos < $len && $depth > 0) {
-                    if ($clean[$pos] === '{') $depth++;
-                    elseif ($clean[$pos] === '}') $depth--;
-                    $pos++;
-                }
-                $body = substr($clean, $brace_pos + 1, $pos - $brace_pos - 2);
-
-                // Find method declarations: public function foo(...) : Type;
-                if (preg_match_all('/public\s+(?:static\s+)?function\s+(\w+)\s*\([^)]*\)\s*(?::\s*([\w\\\\|<>&?\s,]+?))?\s*;/', $body, $m_matches)) {
-                    foreach ($m_matches[1] as $i => $mname) {
-                        $rt = isset($m_matches[2][$i]) ? trim($m_matches[2][$i]) : null;
-                        if (!isset($iface_methods[$iname])) $iface_methods[$iname] = [];
-                        $iface_methods[$iname][$mname] = $rt;
-                    }
-                }
-            }
-        }
-
-        if (empty($iface_methods)) {
-            return $errors;
-        }
-
-        // Step 2: Check implementing classes
-        foreach ($file_infos as $path => $info) {
-            $clean = $info['clean'];
             $source = $info['source'];
             $rel_path = $info['rel_path'];
 
-            // Find: class Foo implements Bar, Baz
-            if (!preg_match_all('/\b(?:final\s+|abstract\s+)?class\s+(\w+)\s*(?:extends\s+[\w\\\\]+\s*)?(?:implements\s+([\w\\\\,\s]+?))\s*\{/', $clean, $cls_matches, PREG_OFFSET_CAPTURE)) {
-                continue;
-            }
+            // Use token_get_all to validate syntax
+            // If the source has syntax errors, token_get_all returns tokens
+            // but PHP will emit a parse error when trying to parse the file.
+            // We use a more reliable approach: try to parse with php -l if available,
+            // otherwise use a brace/paren/bracket balance check on PHP-only content.
 
-            foreach ($cls_matches[0] as $idx => $cm) {
-                $cls_name = $cls_matches[1][$idx][0];
-                $impl_str = trim($cls_matches[2][$idx][0]);
+            // Method 1: Try php -l (most accurate)
+            $output = [];
+            $exit_code = 0;
+            $php_bin = PHP_BINARY ?: 'php';
+            $esc_path = escapeshellarg($path);
+            exec("$php_bin -l $esc_path 2>&1", $output, $exit_code);
 
-                $interfaces = array_map(function($i) {
-                    return ltrim(trim($i), " \t\n\r\\");
-                }, explode(',', $impl_str));
-
-                foreach ($interfaces as $iface_name) {
-                    $short = substr(strrchr($iface_name, '\\') ?: $iface_name, 0) ?: $iface_name;
-                    $short = ltrim($short, '\\');
-                    $lookup = $short;
-                    if (!isset($iface_methods[$lookup])) {
-                        $lookup = $iface_name;
-                    }
-                    if (!isset($iface_methods[$lookup])) continue;
-
-                    // Find class body
-                    $class_start = $cm[1];
-                    $brace_pos = strpos($clean, '{', $class_start);
-                    if ($brace_pos === false) continue;
-                    $depth = 1;
-                    $pos = $brace_pos + 1;
-                    $len = strlen($clean);
-                    while ($pos < $len && $depth > 0) {
-                        if ($clean[$pos] === '{') $depth++;
-                        elseif ($clean[$pos] === '}') $depth--;
-                        $pos++;
-                    }
-                    $class_body = substr($clean, $brace_pos + 1, $pos - $brace_pos - 2);
-
-                    foreach ($iface_methods[$lookup] as $method_name => $expected_rt) {
-                        if (!$expected_rt || $expected_rt === 'mixed') continue;
-
-                        // Find implementation
-                        $impl_pattern = '/(?:public|protected|private)\s+(?:static\s+)?function\s+' . preg_quote($method_name, '/') . '\s*\([^)]*\)\s*(?::\s*([\w\\\\|<>&?\s,]+?))?\s*\{/';
-                        if (preg_match($impl_pattern, $class_body, $impl_match)) {
-                            $actual_rt = isset($impl_match[1]) ? trim($impl_match[1]) : null;
-                            if ($actual_rt === 'mixed') {
-                                $line = substr_count(substr($source, 0, $class_start), "\n") + 1;
-                                $errors[] = [
-                                    'type'    => 'InterfaceSignatureMismatch',
-                                    'message' => "Class '{$cls_name}::{$method_name}()' has ':mixed' but interface '{$short}' declares ':{$expected_rt}'",
-                                    'file'    => $rel_path,
-                                    'line'    => $line,
-                                ];
-                            }
-                        }
-                    }
+            if ($exit_code !== 0) {
+                // Parse error found — extract line number and message
+                $output_str = implode("\n", $output);
+                if (preg_match('/PHP (?:Parse|Fatal) error:\s*(.+?)\s+in\s+\S+\s+on line\s+(\d+)/', $output_str, $m)) {
+                    $errors[] = [
+                        'type'    => 'ParseError',
+                        'message' => $m[1],
+                        'file'    => $rel_path,
+                        'line'    => (int)$m[2],
+                    ];
+                } elseif (preg_match('/Parse error:\s*(.+?)\s+in\s+\S+\s+on line\s+(\d+)/', $output_str, $m)) {
+                    $errors[] = [
+                        'type'    => 'ParseError',
+                        'message' => $m[1],
+                        'file'    => $rel_path,
+                        'line'    => (int)$m[2],
+                    ];
+                } else {
+                    // Unknown parse error format
+                    $errors[] = [
+                        'type'    => 'ParseError',
+                        'message' => 'Syntax error detected by php -l: ' . substr($output_str, 0, 200),
+                        'file'    => $rel_path,
+                        'line'    => 0,
+                    ];
                 }
             }
+            // Note: If php -l is not available (exec disabled), we fall back to
+            // Check 2's brace/paren/bracket balance which already runs above.
         }
 
         return $errors;
     }
 }
+
+

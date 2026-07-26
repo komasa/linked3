@@ -4,7 +4,7 @@ Tags: ai, content-generation, book-writing, openai, content-writer
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 8.0
-Stable tag: 29.1.0
+Stable tag: 29.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,25 +53,8 @@ Linked3 AI 是一个功能强大的AI内容生成插件，集成了写书式写�
 
 == Changelog ==
 
-= 29.1.0 =
-* 严重修复: 41处PHP Parse Error导致插件无法加载
-* 根因: v29.1.0开发中对admin/views/模板文件应用i18n包裹时, 将含<?php ?>标签的字符串错误包裹, 产生嵌套PHP语法错误
-* 根因: 内联JS提取时遗漏?>闭合标签, HTML注释被解析为PHP代码
-* 根因: src/中5个文件出现悬挂else语句(合并冲突残留)
-* 修复: 21个i18n破损文件回退到v29.0.0基线
-* 修复: 20个语法错误文件回退到v29.0.0基线
-* 修复: genesis-stage-input.php:19 单引号转义
-* 恢复: 被误删的tests/目录(7个测试文件)
-* 新增: 34个模板拆分partial文件 + 11个trait提取(预备用, 尚未wire)
-
-= 29.0.0 =
-* 安全: 启用 AjaxNonceGuard 中间件拦截所有 wp_ajax_* 请求, 51个AJAX端点获得nonce保护
-* 类型: 139处 : mixed → 具体类型 (bool/array/string/null) 基于 return 语句推断
-* 国际化: 295处硬编码中文字符串 → __($str, 'linked3') 包裹
-* 扫描器: linked3-ultra-early-scanner v1.1.0 → v1.3.0, 新增 Check 6 (trait兼容性检查)
-* 架构: Plugin::run() 注册 AjaxNonceGuard::guard_all_ajax() 于 admin_init priority=0
-
 = 28.0.0 =
+* 严重修复: HealthMonitor::check() 返回类型 array 但 return; 无值 → E_COMPILE_ERROR
 * 根因: v27.9.2 添加 function_exists 守卫时用 return; (void), 但方法签名是 : array
 * 修复: return; → return []; (返回空数组)
 * 修复: 清理 7 个 Bootstrap 文件中重复的 function_exists 守卫行

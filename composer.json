@@ -3,7 +3,7 @@
     "description": "Commercial self-evolution AI engine for WordPress",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
-    "version": "29.1.0",
+    "version": "29.1.1",
     "require": {
         "php": ">=8.0"
     },
