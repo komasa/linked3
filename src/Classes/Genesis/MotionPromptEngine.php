@@ -28,58 +28,58 @@ class MotionPromptEngine {
 
     /** @var array 镜头运动词汇库 (吸取feicai4.0) */
     const CAMERA_MOVEMENTS = [
-        'push_in'   => ['label' => '推近', 'en' => 'dolly in / push in', 'mood' => '聚焦/紧张/亲密'],
-        'pull_out'  => ['label' => '拉远', 'en' => 'dolly out / pull back', 'mood' => '揭示/疏离/结束'],
-        'pan'       => ['label' => '横摇', 'en' => 'pan left / pan right', 'mood' => '扫视/展示'],
-        'tilt'      => ['label' => '纵摇', 'en' => 'tilt up / tilt down', 'mood' => '仰视/俯视'],
-        'orbit'     => ['label' => '环绕', 'en' => 'orbit around', 'mood' => '立体/动感'],
-        'tracking'  => ['label' => '跟随', 'en' => 'tracking shot', 'mood' => '跟随/沉浸'],
-        'zoom'      => ['label' => '变焦', 'en' => 'zoom in / zoom out', 'mood' => '心理冲击'],
-        'static'    => ['label' => '静止', 'en' => 'locked camera', 'mood' => '稳定/观察'],
+        'push_in'   => ['label' => __('推近', 'linked3'), 'en' => 'dolly in / push in', 'mood' => __('聚焦/紧张/亲密', 'linked3')],
+        'pull_out'  => ['label' => __('拉远', 'linked3'), 'en' => 'dolly out / pull back', 'mood' => __('揭示/疏离/结束', 'linked3')],
+        'pan'       => ['label' => __('横摇', 'linked3'), 'en' => 'pan left / pan right', 'mood' => __('扫视/展示', 'linked3')],
+        'tilt'      => ['label' => __('纵摇', 'linked3'), 'en' => 'tilt up / tilt down', 'mood' => __('仰视/俯视', 'linked3')],
+        'orbit'     => ['label' => __('环绕', 'linked3'), 'en' => 'orbit around', 'mood' => __('立体/动感', 'linked3')],
+        'tracking'  => ['label' => __('跟随', 'linked3'), 'en' => 'tracking shot', 'mood' => __('跟随/沉浸', 'linked3')],
+        'zoom'      => ['label' => __('变焦', 'linked3'), 'en' => 'zoom in / zoom out', 'mood' => __('心理冲击', 'linked3')],
+        'static'    => ['label' => __('静止', 'linked3'), 'en' => 'locked camera', 'mood' => __('稳定/观察', 'linked3')],
     ];
 
     /** @var array 主体动作词汇库 */
     const SUBJECT_ACTIONS = [
-        'head_turn'     => ['label' => '转头', 'en' => 'turns head toward {target}'],
-        'eye_contact'   => ['label' => '对视', 'en' => 'makes eye contact with camera'],
-        'stand_up'      => ['label' => '站起', 'en' => 'stands up slowly'],
-        'walk_forward'  => ['label' => '走向', 'en' => 'walks forward toward {target}'],
-        'reach_hand'    => ['label' => '伸手', 'en' => 'reaches out hand'],
-        'hand_raise'    => ['label' => '举手', 'en' => 'raises hand'],
-        'lean_forward'  => ['label' => '前倾', 'en' => 'leans forward'],
-        'smile'         => ['label' => '微笑', 'en' => 'smiles gently'],
-        'look_away'     => ['label' => '移开视线', 'en' => 'looks away'],
-        'breathe'       => ['label' => '呼吸', 'en' => 'shoulders rise and fall with breathing'],
+        'head_turn'     => ['label' => __('转头', 'linked3'), 'en' => 'turns head toward {target}'],
+        'eye_contact'   => ['label' => __('对视', 'linked3'), 'en' => 'makes eye contact with camera'],
+        'stand_up'      => ['label' => __('站起', 'linked3'), 'en' => 'stands up slowly'],
+        'walk_forward'  => ['label' => __('走向', 'linked3'), 'en' => 'walks forward toward {target}'],
+        'reach_hand'    => ['label' => __('伸手', 'linked3'), 'en' => 'reaches out hand'],
+        'hand_raise'    => ['label' => __('举手', 'linked3'), 'en' => 'raises hand'],
+        'lean_forward'  => ['label' => __('前倾', 'linked3'), 'en' => 'leans forward'],
+        'smile'         => ['label' => __('微笑', 'linked3'), 'en' => 'smiles gently'],
+        'look_away'     => ['label' => __('移开视线', 'linked3'), 'en' => 'looks away'],
+        'breathe'       => ['label' => __('呼吸', 'linked3'), 'en' => 'shoulders rise and fall with breathing'],
     ];
 
     /** @var array 环境动态词汇库 */
     const ENVIRONMENT_DYNAMICS = [
-        'hair_wind'     => ['label' => '发随风动', 'en' => 'hair flowing in wind'],
-        'clothes_rustle'=> ['label' => '衣飘', 'en' => 'clothes rustling'],
-        'water_splash'  => ['label' => '水花', 'en' => 'water splashing'],
-        'leaves_fall'   => ['label' => '落叶', 'en' => 'leaves falling'],
-        'smoke_rise'    => ['label' => '烟升', 'en' => 'smoke rising'],
-        'dust_float'    => ['label' => '尘埃', 'en' => 'dust particles floating'],
-        'light_flicker' => ['label' => '光闪', 'en' => 'light flickering'],
-        'cloud_drift'   => ['label' => '云飘', 'en' => 'clouds drifting'],
+        'hair_wind'     => ['label' => __('发随风动', 'linked3'), 'en' => 'hair flowing in wind'],
+        'clothes_rustle'=> ['label' => __('衣飘', 'linked3'), 'en' => 'clothes rustling'],
+        'water_splash'  => ['label' => __('水花', 'linked3'), 'en' => 'water splashing'],
+        'leaves_fall'   => ['label' => __('落叶', 'linked3'), 'en' => 'leaves falling'],
+        'smoke_rise'    => ['label' => __('烟升', 'linked3'), 'en' => 'smoke rising'],
+        'dust_float'    => ['label' => __('尘埃', 'linked3'), 'en' => 'dust particles floating'],
+        'light_flicker' => ['label' => __('光闪', 'linked3'), 'en' => 'light flickering'],
+        'cloud_drift'   => ['label' => __('云飘', 'linked3'), 'en' => 'clouds drifting'],
     ];
 
     /** @var array 速度修饰词 */
     const SPEED_MODIFIERS = [
-        'slow'      => ['label' => '缓慢', 'en' => 'slowly, gently, gradually'],
-        'medium'    => ['label' => '中等', 'en' => 'smoothly, steadily, naturally'],
-        'fast'      => ['label' => '快速', 'en' => 'quickly, rapidly, suddenly'],
-        'dramatic'  => ['label' => '戏剧', 'en' => 'dramatically, boldly, powerfully'],
+        'slow'      => ['label' => __('缓慢', 'linked3'), 'en' => 'slowly, gently, gradually'],
+        'medium'    => ['label' => __('中等', 'linked3'), 'en' => 'smoothly, steadily, naturally'],
+        'fast'      => ['label' => __('快速', 'linked3'), 'en' => 'quickly, rapidly, suddenly'],
+        'dramatic'  => ['label' => __('戏剧', 'linked3'), 'en' => 'dramatically, boldly, powerfully'],
     ];
 
     /** @var array 氛围风格词汇 */
     const ATMOSPHERE_STYLES = [
-        'cinematic' => ['label' => '电影感', 'en' => 'cinematic, filmic, 24fps'],
-        'dreamy'    => ['label' => '梦幻', 'en' => 'dreamy, ethereal, soft focus'],
-        'tense'     => ['label' => '紧张', 'en' => 'tense, suspenseful, dramatic'],
-        'warm'      => ['label' => '温暖', 'en' => 'warm, golden hour, nostalgic'],
-        'cold'      => ['label' => '冷峻', 'en' => 'cold, blue tones, stark'],
-        'epic'      => ['label' => '史诗', 'en' => 'epic, grand, sweeping'],
+        'cinematic' => ['label' => __('电影感', 'linked3'), 'en' => 'cinematic, filmic, 24fps'],
+        'dreamy'    => ['label' => __('梦幻', 'linked3'), 'en' => 'dreamy, ethereal, soft focus'],
+        'tense'     => ['label' => __('紧张', 'linked3'), 'en' => 'tense, suspenseful, dramatic'],
+        'warm'      => ['label' => __('温暖', 'linked3'), 'en' => 'warm, golden hour, nostalgic'],
+        'cold'      => ['label' => __('冷峻', 'linked3'), 'en' => 'cold, blue tones, stark'],
+        'epic'      => ['label' => __('史诗', 'linked3'), 'en' => 'epic, grand, sweeping'],
     ];
 
     /**
@@ -152,12 +152,12 @@ class MotionPromptEngine {
         $params = $emotionMap[$emotion] ?? ['camera' => 'push_in', 'speed' => 'medium', 'atmosphere' => 'cinematic', 'action' => 'head_turn'];
 
         // arc_position微调
-        if ($arc_position === __('开场', 'linked3')) {
+        if ($arc_position === '开场') {
             $params['camera'] = 'pull_out'; // 开场揭示
-        } elseif ($arc_position === __('高潮', 'linked3')) {
+        } elseif ($arc_position === '高潮') {
             $params['speed'] = 'fast';
             $params['atmosphere'] = 'dramatic';
-        } elseif ($arc_position === __('收尾', 'linked3')) {
+        } elseif ($arc_position === '收尾') {
             $params['camera'] = 'pull_out'; // 收尾拉远
             $params['speed'] = 'slow';
         }
@@ -247,7 +247,7 @@ class MotionPromptEngine {
      */
     public static function generate_video_group(array $beat, array $opts = []): array {
         $emotion = $beat['emotion'] ?? 'neutral';
-        $arcPosition = $beat['arc_position'] ?? '发展';
+        $arcPosition = $beat['arc_position'] ?? __('发展', 'linked3');
         $beatText = $beat['text'] ?? $beat['action'] ?? '';
         $styleKeywords = $opts['style_keywords'] ?? '';
 

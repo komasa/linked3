@@ -168,7 +168,7 @@ final class VideoResponseParser
      * @param string $output_mode
      * @return array
      */
-    public function parse_outline_json(string $raw, int $expected_count, string $output_mode): mixed
+    public function parse_outline_json(string $raw, int $expected_count, string $output_mode): array
     {
         if (empty($raw)) return $this->default_outline($expected_count, $output_mode);
         $text = trim($raw);
@@ -235,7 +235,7 @@ final class VideoResponseParser
      * @param array  $outline_item
      * @return array
      */
-    public function parse_single_scene_json(string $raw, array $outline_item): mixed
+    public function parse_single_scene_json(string $raw, array $outline_item): array
     {
         if (empty($raw)) return $this->default_scene($outline_item);
         $text = trim($raw);

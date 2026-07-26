@@ -44,25 +44,25 @@ class OSMomentumFlywheel {
     const FLYWHEEL_FACTORS = [
         'momentum' => [
             'key' => 'momentum',
-            'label' => '模板之势',
+            'label' => __('模板之势', 'linked3'),
             'label_en' => 'momentum',
-            'desc' => '时代之势/模板之势 — SEED复用率+风格引擎成熟度',
+            'desc' => __('时代之势/模板之势 — SEED复用率+风格引擎成熟度', 'linked3'),
             'metrics' => ['seed_reuse_rate', 'style_engine_maturity', 'skeleton_coverage'],
             'weight' => 0.34,
         ],
         'cognition' => [
             'key' => 'cognition',
-            'label' => '人的设计',
+            'label' => __('人的设计', 'linked3'),
             'label_en' => 'cognition',
-            'desc' => '人的能知/人的设计 — 设计师认知层级+方法论掌握度',
+            'desc' => __('人的能知/人的设计 — 设计师认知层级+方法论掌握度', 'linked3'),
             'metrics' => ['designer_cognition_level', 'methodology_mastery', 'reverse_thinking_ability'],
             'weight' => 0.33,
         ],
         'action' => [
             'key' => 'action',
-            'label' => 'AI执行',
+            'label' => __('AI执行', 'linked3'),
             'label_en' => 'action',
-            'desc' => '义无反顾的行动/AI执行 — Pipeline完成率+PQS通过率',
+            'desc' => __('义无反顾的行动/AI执行 — Pipeline完成率+PQS通过率', 'linked3'),
             'metrics' => ['pipeline_completion_rate', 'pqs_pass_rate', 'iteration_efficiency'],
             'weight' => 0.33,
         ],
@@ -81,10 +81,10 @@ class OSMomentumFlywheel {
      * 分数阈值
      */
     const SCORE_THRESHOLDS = [
-        'excellent' => ['min' => 85, 'label' => '卓越', 'color' => '#2ECC71'],
-        'good' => ['min' => 70, 'label' => '良好', 'color' => '#3498DB'],
-        'average' => ['min' => 60, 'label' => '一般', 'color' => '#F39C12'],
-        'poor' => ['min' => 0, 'label' => '待提升', 'color' => '#E74C3C'],
+        'excellent' => ['min' => 85, 'label' => __('卓越', 'linked3'), 'color' => '#2ECC71'],
+        'good' => ['min' => 70, 'label' => __('良好', 'linked3'), 'color' => '#3498DB'],
+        'average' => ['min' => 60, 'label' => __('一般', 'linked3'), 'color' => '#F39C12'],
+        'poor' => ['min' => 0, 'label' => __('待提升', 'linked3'), 'color' => '#E74C3C'],
     ];
 
     /**
@@ -163,8 +163,8 @@ class OSMomentumFlywheel {
         return [
             'module_version' => '12.7.0',
             'factors_count' => count(self::FLYWHEEL_FACTORS),
-            'formula' => '洪流 = 势 × 知 × 行 (乘法式)',
-            'source' => 'V18道篇2.6 洪流公式 + 李善友2026大课洪流公式',
+            'formula' => __('洪流 = 势 × 知 × 行 (乘法式)', 'linked3'),
+            'source' => __('V18道篇2.6 洪流公式 + 李善友2026大课洪流公式', 'linked3'),
         ];
     }
 }

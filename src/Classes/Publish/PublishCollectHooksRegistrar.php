@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) {
 
 final class PublishCollectHooksRegistrar
 {
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         // Publish AJAX actions.
         $pub_actions = [

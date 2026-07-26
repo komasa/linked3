@@ -213,19 +213,19 @@ final class DashboardTabRegistry
     public static function commandPaletteCommands(): array
     {
         return [
-            ['label' => '🏠 总览', 'desc' => 'Dashboard首页', 'url' => admin_url('admin.php?page=linked3-dashboard')],
-            ['label' => '✍️ 创作中心 · 写作生态', 'desc' => '关键词/模版/内容写作/图片', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem')],
-            ['label' => '✍️ 创作中心 · 视觉生态', 'desc' => '图示/漫画/视频/小红书脚本', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=visual')],
-            ['label' => '✍️ 创作中心 · 云模版', 'desc' => '50场景母版库', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=cloud')],
-            ['label' => '📤 分发中心 · 发布与采集', 'desc' => '多目标发布+URL采集', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish')],
-            ['label' => '📤 分发中心 · 社交分发', 'desc' => '15+平台同步', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=distribute')],
-            ['label' => '📤 分发中心 · 电商与表单', 'desc' => 'WooCommerce+AI表单', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=commerce')],
-            ['label' => '🤖 自动化 · 自动Agent', 'desc' => '定时任务+队列', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=automation&au_sub=autogpt')],
-            ['label' => '🤖 自动化 · AI对话', 'desc' => '浮动客服+RAG', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=automation&au_sub=chat')],
-            ['label' => '⚙️ 系统设置 · API密钥', 'desc' => 'AI Provider配置', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=api')],
-            ['label' => '⚙️ 系统设置 · SEO优化', 'desc' => '关键词/内链/Schema/推送', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=seo')],
-            ['label' => '⚙️ 系统设置 · 授权套餐', 'desc' => 'License+套餐对比', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=license')],
-            ['label' => '⚙️ 系统设置 · 安全审计', 'desc' => 'AJAX端点扫描', 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=security')],
+            ['label' => __('🏠 总览', 'linked3'), 'desc' => __('Dashboard首页', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard')],
+            ['label' => __('✍️ 创作中心 · 写作生态', 'linked3'), 'desc' => __('关键词/模版/内容写作/图片', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem')],
+            ['label' => __('✍️ 创作中心 · 视觉生态', 'linked3'), 'desc' => __('图示/漫画/视频/小红书脚本', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=visual')],
+            ['label' => __('✍️ 创作中心 · 云模版', 'linked3'), 'desc' => __('50场景母版库', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=cloud')],
+            ['label' => __('📤 分发中心 · 发布与采集', 'linked3'), 'desc' => __('多目标发布+URL采集', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish')],
+            ['label' => __('📤 分发中心 · 社交分发', 'linked3'), 'desc' => __('15+平台同步', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=distribute')],
+            ['label' => __('📤 分发中心 · 电商与表单', 'linked3'), 'desc' => __('WooCommerce+AI表单', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=commerce')],
+            ['label' => __('🤖 自动化 · 自动Agent', 'linked3'), 'desc' => __('定时任务+队列', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=automation&au_sub=autogpt')],
+            ['label' => __('🤖 自动化 · AI对话', 'linked3'), 'desc' => __('浮动客服+RAG', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=automation&au_sub=chat')],
+            ['label' => __('⚙️ 系统设置 · API密钥', 'linked3'), 'desc' => __('AI Provider配置', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=api')],
+            ['label' => __('⚙️ 系统设置 · SEO优化', 'linked3'), 'desc' => __('关键词/内链/Schema/推送', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=seo')],
+            ['label' => __('⚙️ 系统设置 · 授权套餐', 'linked3'), 'desc' => __('License+套餐对比', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=license')],
+            ['label' => __('⚙️ 系统设置 · 安全审计', 'linked3'), 'desc' => __('AJAX端点扫描', 'linked3'), 'url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=security')],
         ];
     }
 }

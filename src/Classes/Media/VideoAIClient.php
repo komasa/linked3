@@ -41,7 +41,7 @@ final class VideoAIClient
      * }
      * @return array{content:string, usage:array, provider:string, model:string}|\WP_Error
      */
-    public function chat(array $messages, array $opts = []): WP_Error
+    public function chat(array $messages, array $opts = []): array
     {
         [$provider, $model] = $this->resolve_provider($opts);
 

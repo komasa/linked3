@@ -81,7 +81,7 @@ class OSDbSchema {
     public static function get_version_info(): array {
         return [
             'module_version' => '15.0.0-rc9',
-            'title' => '数据库表创建',
+            'title' => __('数据库表创建', 'linked3'),
             'tables' => array_values(self::TABLES),
             'db_version' => get_option('linked3_v18_db_version', '0'),
         ];

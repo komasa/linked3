@@ -40,7 +40,7 @@ class OSConsciousnessAjax {
     public static function ajax_assign() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSConsciousnessAjax {
     public static function ajax_validate() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSConsciousnessAjax {
     public static function ajax_options() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -150,7 +150,7 @@ class OSConsciousnessAjax {
      */
     private static function execute_constraint(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         // v18复审修复: 前端传module_type+content, 直接调用assign_frequency(module_type, content)
         $module_type = $params['module_type'] ?? ($params['content_type'] ?? 'method');
@@ -170,7 +170,7 @@ class OSConsciousnessAjax {
      */
     private static function execute_validate(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $json_raw = $params['json_raw'] ?? '';
         $parsed = json_decode($json_raw, true) ?: [];
@@ -199,7 +199,7 @@ class OSConsciousnessAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSConsciousnessLayer', 'get_all_options')) {
             $options = call_user_func(['OSConsciousnessLayer', 'get_all_options']);
@@ -289,7 +289,7 @@ class OSConsciousnessAjax {
             'ajax_version' => '14.3.0',
             'target_class' => 'OSConsciousnessLayer',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '三层能观AJAX接口',
+            'title' => __('三层能观AJAX接口', 'linked3'),
         ];
     }
 
@@ -297,7 +297,7 @@ class OSConsciousnessAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_frequency_assign' => '分配频率', 'linked3_frequency_validate' => '校验分布', 'linked3_frequency_options' => '获取选项'];
+        return ['linked3_frequency_assign' => __('分配频率', 'linked3'), 'linked3_frequency_validate' => __('校验分布', 'linked3'), 'linked3_frequency_options' => __('获取选项', 'linked3')];
     }
 
 }

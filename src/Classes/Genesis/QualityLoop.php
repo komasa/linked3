@@ -37,19 +37,19 @@ class QualityLoop
      *               / 关系编码 / 认知6级 / 密度4档
      */
     public const PQS_DIMENSIONS = [
-        'visual_ratio'       => '视觉(比例/边框/留白)',
-        'image_text_fit'     => '咬合(图文位置)',
-        'system_color'       => '系统(色彩/终点/质感)',
-        'vertical_16'        => '竖屏(16字原则)',
-        'three_layer_depth'  => '3层深度',
-        'four_anchor'        => '4层锚点',
-        'diagram_choice'     => '图示选择',
-        'endpoint_choice'    => 'Endpoint选择',
-        'footer_choice'      => 'Footer选择',
-        'followup_choice'    => '追问选择',
-        'relation_encoding'  => '关系编码',
-        'cognitive_6'        => '认知6级',
-        'density_4'          => '密度4档',
+        'visual_ratio'       => __('视觉(比例/边框/留白)', 'linked3'),
+        'image_text_fit'     => __('咬合(图文位置)', 'linked3'),
+        'system_color'       => __('系统(色彩/终点/质感)', 'linked3'),
+        'vertical_16'        => __('竖屏(16字原则)', 'linked3'),
+        'three_layer_depth'  => __('3层深度', 'linked3'),
+        'four_anchor'        => __('4层锚点', 'linked3'),
+        'diagram_choice'     => __('图示选择', 'linked3'),
+        'endpoint_choice'    => __('Endpoint选择', 'linked3'),
+        'footer_choice'      => __('Footer选择', 'linked3'),
+        'followup_choice'    => __('追问选择', 'linked3'),
+        'relation_encoding'  => __('关系编码', 'linked3'),
+        'cognitive_6'        => __('认知6级', 'linked3'),
+        'density_4'          => __('密度4档', 'linked3'),
     ];
 
     /**
@@ -173,12 +173,12 @@ class QualityLoop
         $has_ratio = (preg_match('#9\s*:\s*16#', $prompt) || preg_match('#--ar\s*2\s*:\s*3#i', $prompt) || preg_match('#--ar\s*9\s*:\s*16#i', $prompt));
         $has_frame = (bool) preg_match('#\b(frame|border|margin|padding|留白|边框)\b#i', $prompt);
         if ($has_ratio && $has_frame) {
-            return ['passed' => true, 'score' => 100, 'msg' => '比例(竖屏)+边框/留白均声明'];
+            return ['passed' => true, 'score' => 100, 'msg' => __('比例(竖屏)+边框/留白均声明', 'linked3')];
         }
         if ($has_ratio) {
-            return ['passed' => true, 'score' => 70, 'msg' => '竖屏比例已声明, 边框/留白未显式表达'];
+            return ['passed' => true, 'score' => 70, 'msg' => __('竖屏比例已声明, 边框/留白未显式表达', 'linked3')];
         }
-        return ['passed' => false, 'score' => 0, 'msg' => '缺少 --ar 2:3 或 9:16 竖屏比例'];
+        return ['passed' => false, 'score' => 0, 'msg' => __('缺少 --ar 2:3 或 9:16 竖屏比例', 'linked3')];
     }
 
     /**
@@ -188,12 +188,12 @@ class QualityLoop
     {
         $action_en = (string)($fp_core['action_en'] ?? '');
         if ($dialogue === '') {
-            return ['passed' => true, 'score' => 60, 'msg' => '无画面文案, 咬合校验降级通过'];
+            return ['passed' => true, 'score' => 60, 'msg' => __('无画面文案, 咬合校验降级通过', 'linked3')];
         }
         if ($action_en !== '' && self::text_overlap($dialogue, $action_en)) {
-            return ['passed' => true, 'score' => 90, 'msg' => 'dialogue 与画面描述语义对齐'];
+            return ['passed' => true, 'score' => 90, 'msg' => __('dialogue 与画面描述语义对齐', 'linked3')];
         }
-        return ['passed' => false, 'score' => 30, 'msg' => 'dialogue 与画面 action_en 未对齐, 咬合断裂'];
+        return ['passed' => false, 'score' => 30, 'msg' => __('dialogue 与画面 action_en 未对齐, 咬合断裂', 'linked3')];
     }
 
     /**
@@ -211,7 +211,7 @@ class QualityLoop
         return [
             'passed' => $sub >= 60,
             'score'  => $sub,
-            'msg'    => $sub >= 60 ? '色彩/终点/质感系统完备' : '色彩系统缺失, 需补 color palette / endpoint / texture',
+            'msg'    => $sub >= 60 ? __('色彩/终点/质感系统完备', 'linked3') : __('色彩系统缺失, 需补 color palette / endpoint / texture', 'linked3'),
         ];
     }
 
@@ -222,12 +222,12 @@ class QualityLoop
     {
         $dialogue_len = mb_strlen(trim($dialogue));
         if ($dialogue === '') {
-            return ['passed' => true, 'score' => 80, 'msg' => '无画面文案, 默认通过'];
+            return ['passed' => true, 'score' => 80, 'msg' => __('无画面文案, 默认通过', 'linked3')];
         }
         if ($dialogue_len <= 16) {
-            return ['passed' => true, 'score' => 100, 'msg' => sprintf('画面文案 %d 字 ≤16, 符合竖屏 16 字原则', $dialogue_len)];
+            return ['passed' => true, 'score' => 100, 'msg' => sprintf(__('画面文案 %d 字 ≤16, 符合竖屏 16 字原则', 'linked3'), $dialogue_len)];
         }
-        return ['passed' => false, 'score' => max(0, 100 - ($dialogue_len - 16) * 5), 'msg' => sprintf('画面文案 %d 字超过 16 字, 需精简', $dialogue_len)];
+        return ['passed' => false, 'score' => max(0, 100 - ($dialogue_len - 16) * 5), 'msg' => sprintf(__('画面文案 %d 字超过 16 字, 需精简', 'linked3'), $dialogue_len)];
     }
 
     /**
@@ -242,7 +242,7 @@ class QualityLoop
         return [
             'passed' => $layer_count === 3,
             'score'  => (int) ($layer_count / 3 * 100),
-            'msg'    => sprintf('三层深度命中 %d/3 (META/Script/Validation)', $layer_count),
+            'msg'    => sprintf(__('三层深度命中 %d/3 (META/Script/Validation)', 'linked3'), $layer_count),
         ];
     }
 
@@ -261,7 +261,7 @@ class QualityLoop
         return [
             'passed' => $anchor_count === 4,
             'score'  => (int) ($anchor_count / 4 * 100),
-            'msg'    => sprintf('4 层锚点命中 %d/4 (subject/location/action/mood), 缺失: %s', $anchor_count, implode(',', array_keys(array_filter($anchors, fn($v) => !$v))) ?: '无'),
+            'msg'    => sprintf(__('4 层锚点命中 %d/4 (subject/location/action/mood), 缺失: %s', 'linked3'), $anchor_count, implode(',', array_keys(array_filter($anchors, fn($v) => !$v))) ?: __('无', 'linked3')),
         ];
     }
 
@@ -274,7 +274,7 @@ class QualityLoop
         return [
             'passed' => !empty($diagram_type),
             'score'  => !empty($diagram_type) ? 100 : 0,
-            'msg'    => !empty($diagram_type) ? sprintf('图示类型: %s', $diagram_type) : '未选择图示类型 (建议从 Diagram Registry 中选定)',
+            'msg'    => !empty($diagram_type) ? sprintf(__('图示类型: %s', 'linked3'), $diagram_type) : __('未选择图示类型 (建议从 Diagram Registry 中选定)', 'linked3'),
         ];
     }
 
@@ -287,7 +287,7 @@ class QualityLoop
         return [
             'passed' => !empty($endpoint),
             'score'  => !empty($endpoint) ? 100 : 0,
-            'msg'    => !empty($endpoint) ? sprintf('Endpoint: %s', $endpoint) : '未选择 Endpoint (终点/silhouette)',
+            'msg'    => !empty($endpoint) ? sprintf('Endpoint: %s', $endpoint) : __('未选择 Endpoint (终点/silhouette)', 'linked3'),
         ];
     }
 
@@ -300,7 +300,7 @@ class QualityLoop
         return [
             'passed' => !empty($footer) || !empty($meta['signature']),
             'score'  => (!empty($footer) ? 70 : 0) + (!empty($meta['signature']) ? 30 : 0),
-            'msg'    => !empty($footer) ? sprintf('Footer: %s', $footer) : (!empty($meta['signature']) ? '已有 signature 兜底' : '未选择 Footer (建议补署名/Logo 文案)'),
+            'msg'    => !empty($footer) ? sprintf('Footer: %s', $footer) : (!empty($meta['signature']) ? __('已有 signature 兜底', 'linked3') : __('未选择 Footer (建议补署名/Logo 文案)', 'linked3')),
         ];
     }
 
@@ -313,7 +313,7 @@ class QualityLoop
         return [
             'passed' => !empty($followup),
             'score'  => !empty($followup) ? 100 : 0,
-            'msg'    => !empty($followup) ? sprintf('追问/CTA: %s', $followup) : '未声明追问/CTA, 互动闭环不完整',
+            'msg'    => !empty($followup) ? sprintf(__('追问/CTA: %s', 'linked3'), $followup) : __('未声明追问/CTA, 互动闭环不完整', 'linked3'),
         ];
     }
 
@@ -326,7 +326,7 @@ class QualityLoop
         return [
             'passed' => $has_relation,
             'score'  => $has_relation ? 100 : 40,
-            'msg'    => $has_relation ? '关系编码已声明 (位置/前后/邻接)' : '缺少关系编码, 视觉元素间位置关系不明确',
+            'msg'    => $has_relation ? __('关系编码已声明 (位置/前后/邻接)', 'linked3') : __('缺少关系编码, 视觉元素间位置关系不明确', 'linked3'),
         ];
     }
 
@@ -340,7 +340,7 @@ class QualityLoop
         return [
             'passed' => in_array($cog, $valid_levels, true),
             'score'  => in_array($cog, $valid_levels, true) ? 100 : 0,
-            'msg'    => in_array($cog, $valid_levels, true) ? sprintf('认知层级: %s', $cog) : '未声明认知层级 (remember/understand/apply/analyze/evaluate/create)',
+            'msg'    => in_array($cog, $valid_levels, true) ? sprintf(__('认知层级: %s', 'linked3'), $cog) : __('未声明认知层级 (remember/understand/apply/analyze/evaluate/create)', 'linked3'),
         ];
     }
 
@@ -361,7 +361,7 @@ class QualityLoop
         return [
             'passed' => true,
             'score'  => in_array($density, ['low', 'mid'], true) ? 100 : 70,
-            'msg'    => sprintf('信息密度: %s', $density),
+            'msg'    => sprintf(__('信息密度: %s', 'linked3'), $density),
         ];
     }
 

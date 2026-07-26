@@ -14,7 +14,7 @@ $mod_openai_enabled = get_option(LINKED3_OPTION_PREFIX . 'moderation_openai_enab
 <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <h1 style="margin:0;">Settings</h1>
-        <a href="admin.php?page=linked3-dashboard" class="button">← 返回总览</a>
+        <a href="admin.php?page=linked3-dashboard" class="button"><?php echo esc_html__('← 返回总览', 'linked3'); ?></a>
     </div>
     <h1><?php echo esc_html__('AI 对话设置', 'linked3'); ?></h1>
     <form method="post" action="options.php">

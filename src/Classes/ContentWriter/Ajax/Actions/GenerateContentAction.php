@@ -311,13 +311,13 @@ final class GenerateContentAction extends ContentWriterBaseAjaxAction
                 $html_prefix = __('【强制格式要求】你必须输出 HTML 标签格式(使用 H2/H3/p/ul/li/strong 等标签),严禁输出 Markdown 语法(如 #、##、**、- 等)。不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。正文不要包含 H1 标题。 ', 'linked3');
             }
             $sys = $html_prefix . $sys;
-            if ($enable_summary) $sys .= __(' 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。', 'linked3');
-            if ($require_tag)    $sys .= __(' 请在文章尾部加入适当的文章 tag 标签,标签格式必须为:{1、标签1}{2、标签2}。', 'linked3');
+            if ($enable_summary) $sys .= ' 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。';
+            if ($require_tag)    $sys .= ' 请在文章尾部加入适当的文章 tag 标签,标签格式必须为:{1、标签1}{2、标签2}。';
         }
 
-        $sys .= __(' 重要:不要重复相同的内容或标题,不要输出无意义字符,确保文章结构完整、逻辑通顺。', 'linked3');
+        $sys .= ' 重要:不要重复相同的内容或标题,不要输出无意义字符,确保文章结构完整、逻辑通顺。';
         if ($require_html) {
-            $user .= __('\n\n重要:请必须输出 HTML 标签格式(H2/H3/p/ul/li),不要输出 Markdown 格式。', 'linked3');
+            $user .= "\n\n重要:请必须输出 HTML 标签格式(H2/H3/p/ul/li),不要输出 Markdown 格式。";
         }
 
         return compact('sys', 'user', 'require_html', 'require_tag', 'enable_summary', 'enhancer');

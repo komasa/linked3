@@ -1,0 +1,12 @@
+/**
+ * Linked3 AI Form CSS (frontend)
+ * Extracted from: src/Classes/AIForms/AiFormManager.php
+ * Loaded via wp_enqueue_style on wp_enqueue_scripts
+ */
+
+.linked3-ai-form{max-width:600px;margin:1em 0;}
+.linked3-ai-form label{display:block;margin-bottom:8px;font-weight:600;}
+.linked3-ai-form input,.linked3-ai-form textarea,.linked3-ai-form select{width:100%;padding:8px;border:1px solid #d1d5db;border-radius:4px;font-weight:400;}
+.linked3-ai-form button{padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer;}
+.linked3-form-ok{background:#dcfce7;padding:12px;border-radius:4px;margin-top:12px;}
+.linked3-form-err{background:#fee2e2;padding:12px;border-radius:4px;margin-top:12px;}

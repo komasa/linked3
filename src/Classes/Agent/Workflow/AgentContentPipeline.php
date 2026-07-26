@@ -21,10 +21,10 @@ if (!interface_exists('Linked3\Classes\Agent\AgentWorkflowInterface')) {
 
 class AgentContentPipeline implements AgentWorkflowInterface {
     private array $steps = [
-        'collect' => '采集源内容',
-        'rewrite' => 'AI改写',
-        'seo' => 'SEO优化',
-        'publish' => '发布',
+        'collect' => __('采集源内容', 'linked3'),
+        'rewrite' => __('AI改写', 'linked3'),
+        'seo' => __('SEO优化', 'linked3'),
+        'publish' => __('发布', 'linked3'),
     ];
 
     public function getName(): string { return 'content_pipeline'; }

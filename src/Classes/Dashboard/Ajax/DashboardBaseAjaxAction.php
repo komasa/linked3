@@ -19,7 +19,7 @@ abstract class DashboardBaseAjaxAction
 
     abstract public static function register();
 
-    protected static function get_param($key, $default = '', $type = 'text') : bool {
+    protected static function get_param($key, $default = '', $type = 'text') : mixed {
         $value = $_POST[$key] ?? $default;
         switch ($type) {
             case 'int': return (int) $value;

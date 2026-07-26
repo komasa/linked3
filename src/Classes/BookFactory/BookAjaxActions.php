@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\BookFactory;
 
+use Linked3\Includes\Log\Logger;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class BookAjaxActions {
@@ -143,13 +145,13 @@ class BookAjaxActions {
         check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
         if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( array( 'message' => __('权限不足', 'linked3-ai') ), 403 );
+            wp_send_json_error( array( 'message' => __('权限不足', 'linked3') ), 403 );
         }
 
         $intent = sanitize_text_field( $_POST['intent'] ?? '' );
 
         if ( empty( $intent ) ) {
-            wp_send_json_error( array( 'message' => __('探索意图不能为空', 'linked3-ai') ), 400 );
+            wp_send_json_error( array( 'message' => __('探索意图不能为空', 'linked3') ), 400 );
         }
 
         try {
@@ -158,11 +160,10 @@ class BookAjaxActions {
 
             wp_send_json_success( $result );
         } catch ( \Throwable $e ) {
-            if ( function_exists( 'error_log' ) ) {
-                error_log( '[linked3 meta_mother] classify异常: ' . $e->getMessage() );
-            }
+            Logger::instance()->error('ai',  '[linked3 meta_mother] classify异常: ' . $e->getMessage() );
+
             wp_send_json_error( array(
-                'message' => __('分类异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
+                'message' => __('分类异常: ', 'linked3') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -175,7 +176,7 @@ class BookAjaxActions {
         check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
         if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( array( 'message' => __('权限不足', 'linked3-ai') ), 403 );
+            wp_send_json_error( array( 'message' => __('权限不足', 'linked3') ), 403 );
         }
 
         $prototype_key = sanitize_text_field( $_POST['prototype_key'] ?? 'book' );
@@ -184,7 +185,7 @@ class BookAjaxActions {
             $prototype = BookExplorationPrototypes::get( $prototype_key );
 
             if ( ! $prototype ) {
-                wp_send_json_error( array( 'message' => __('原型不存在: ', 'linked3-ai') . $prototype_key ), 404 );
+                wp_send_json_error( array( 'message' => __('原型不存在: ', 'linked3') . $prototype_key ), 404 );
             }
 
             wp_send_json_success( array(
@@ -193,7 +194,7 @@ class BookAjaxActions {
             ) );
         } catch ( \Throwable $e ) {
             wp_send_json_error( array(
-                'message' => __('原型生成异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
+                'message' => __('原型生成异常: ', 'linked3') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -206,13 +207,13 @@ class BookAjaxActions {
         check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
         if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( array( 'message' => __('权限不足', 'linked3-ai') ), 403 );
+            wp_send_json_error( array( 'message' => __('权限不足', 'linked3') ), 403 );
         }
 
         $result_text = wp_unslash( $_POST['result_text'] ?? '' );
 
         if ( empty( $result_text ) ) {
-            wp_send_json_error( array( 'message' => __('探索结果不能为空', 'linked3-ai') ), 400 );
+            wp_send_json_error( array( 'message' => __('探索结果不能为空', 'linked3') ), 400 );
         }
 
         try {
@@ -222,7 +223,7 @@ class BookAjaxActions {
             wp_send_json_success( $assessment );
         } catch ( \Throwable $e ) {
             wp_send_json_error( array(
-                'message' => __('元规律提炼异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
+                'message' => __('元规律提炼异常: ', 'linked3') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -235,14 +236,14 @@ class BookAjaxActions {
         check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
         if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( array( 'message' => __('权限不足', 'linked3-ai') ), 403 );
+            wp_send_json_error( array( 'message' => __('权限不足', 'linked3') ), 403 );
         }
 
         $system_name = sanitize_text_field( $_POST['system_name'] ?? '' );
         $description = sanitize_textarea_field( $_POST['description'] ?? '' );
 
         if ( empty( $system_name ) ) {
-            wp_send_json_error( array( 'message' => __('系统名称不能为空', 'linked3-ai') ), 400 );
+            wp_send_json_error( array( 'message' => __('系统名称不能为空', 'linked3') ), 400 );
         }
 
         try {
@@ -252,7 +253,7 @@ class BookAjaxActions {
             wp_send_json_success( $new_system );
         } catch ( \Throwable $e ) {
             wp_send_json_error( array(
-                'message' => __('新系统创造异常: ', 'linked3-ai') . BookSecurity::sanitize_error_message( $e->getMessage() ),
+                'message' => __('新系统创造异常: ', 'linked3') . BookSecurity::sanitize_error_message( $e->getMessage() ),
             ) );
         }
     }
@@ -264,7 +265,7 @@ class BookAjaxActions {
         check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
         if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( array( 'message' => __('权限不足', 'linked3-ai') ), 403 );
+            wp_send_json_error( array( 'message' => __('权限不足', 'linked3') ), 403 );
         }
 
         wp_send_json_success( array(
@@ -272,7 +273,7 @@ class BookAjaxActions {
             'meta_laws'    => BookMetaMother::META_LAWS,
             'meta_stages'  => BookMetaMother::META_STAGES,
             'prototypes'   => BookExplorationPrototypes::get_label_map(),
-            'core_nucleus' => '探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎',
+            'core_nucleus' => __('探索方式分类引擎 × 系统原型生成引擎 × 元规律提炼引擎 × 新系统创造引擎', 'linked3'),
         ) );
     }
 
@@ -283,7 +284,7 @@ class BookAjaxActions {
         check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
         if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( array( 'message' => __('权限不足', 'linked3-ai') ), 403 );
+            wp_send_json_error( array( 'message' => __('权限不足', 'linked3') ), 403 );
         }
 
         wp_send_json_success( array(
@@ -301,34 +302,34 @@ class BookAjaxActions {
     private static function get_prototype_prompt_overrides(string $prototype_key): array {
         $overrides = array(
             'book' => array(
-                'step4_expand' => '请以系统化、结构化、逻辑严密的方式扩写',
+                'step4_expand' => __('请以系统化、结构化、逻辑严密的方式扩写', 'linked3'),
             ),
             'experimental' => array(
-                'step4_expand' => '请以严谨、可复现、数据驱动的方式扩写，提出假设并设计实验验证',
+                'step4_expand' => __('请以严谨、可复现、数据驱动的方式扩写，提出假设并设计实验验证', 'linked3'),
             ),
             'observational' => array(
-                'step4_expand' => '请以客观、细致、模式导向的方式扩写，系统观察并记录现象',
+                'step4_expand' => __('请以客观、细致、模式导向的方式扩写，系统观察并记录现象', 'linked3'),
             ),
             'deductive' => array(
-                'step4_expand' => '请以严密、形式化、无矛盾的方式扩写，从公理出发逻辑推演',
+                'step4_expand' => __('请以严密、形式化、无矛盾的方式扩写，从公理出发逻辑推演', 'linked3'),
             ),
             'meditative' => array(
-                'step4_expand' => '请以内观、觉知、非二元的方式扩写，通过静心内观发现真理',
+                'step4_expand' => __('请以内观、觉知、非二元的方式扩写，通过静心内观发现真理', 'linked3'),
             ),
             'dialogic' => array(
-                'step4_expand' => '请以追问、辩证、启发式的方式扩写，通过对话揭示真理',
+                'step4_expand' => __('请以追问、辩证、启发式的方式扩写，通过对话揭示真理', 'linked3'),
             ),
             'practical' => array(
-                'step4_expand' => '请以实用、迭代、效果导向的方式扩写，在实践中发现真理',
+                'step4_expand' => __('请以实用、迭代、效果导向的方式扩写，在实践中发现真理', 'linked3'),
             ),
             'artistic' => array(
-                'step4_expand' => '请以感性、象征、多义性的方式扩写，通过艺术表达发现真理',
+                'step4_expand' => __('请以感性、象征、多义性的方式扩写，通过艺术表达发现真理', 'linked3'),
             ),
             'computational' => array(
-                'step4_expand' => '请以形式化、可计算、可复现的方式扩写，通过计算模拟发现真理',
+                'step4_expand' => __('请以形式化、可计算、可复现的方式扩写，通过计算模拟发现真理', 'linked3'),
             ),
             'synthetic' => array(
-                'step4_expand' => '请以多维、整合、系统化的方式扩写，多维度并行发现真理',
+                'step4_expand' => __('请以多维、整合、系统化的方式扩写，多维度并行发现真理', 'linked3'),
             ),
         );
 

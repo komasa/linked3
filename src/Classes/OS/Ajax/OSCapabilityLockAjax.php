@@ -40,7 +40,7 @@ class OSCapabilityLockAjax {
     public static function ajax_build_constraint() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSCapabilityLockAjax {
     public static function ajax_validate() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSCapabilityLockAjax {
     public static function ajax_inject() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -150,7 +150,7 @@ class OSCapabilityLockAjax {
      */
     private static function execute_constraint(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $content_type = $params['content_type'] ?? 'T1';
         if (method_exists('\Linked3\Classes\OS\Core\OSCapabilityLock', 'derive_from_content_type')) {
@@ -169,7 +169,7 @@ class OSCapabilityLockAjax {
      */
     private static function execute_validate(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $json_raw = $params['json_raw'] ?? '';
         $parsed = json_decode($json_raw, true) ?: [];
@@ -188,7 +188,7 @@ class OSCapabilityLockAjax {
      */
     private static function execute_inject(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityLock')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $prompt = $params['prompt'] ?? '';
         $content_type = $params['content_type'] ?? 'T1';
@@ -267,7 +267,7 @@ class OSCapabilityLockAjax {
             'ajax_version' => '14.1.0',
             'target_class' => 'OSCapabilityLock',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '能所结构AJAX接口',
+            'title' => __('能所结构AJAX接口', 'linked3'),
         ];
     }
 
@@ -275,7 +275,7 @@ class OSCapabilityLockAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_neng_constraint' => '构建能知约束', 'linked3_neng_validate' => '能所校验', 'linked3_neng_inject' => '注入Prompt'];
+        return ['linked3_neng_constraint' => __('构建能知约束', 'linked3'), 'linked3_neng_validate' => __('能所校验', 'linked3'), 'linked3_neng_inject' => __('注入Prompt', 'linked3')];
     }
 
 }

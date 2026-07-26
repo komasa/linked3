@@ -182,7 +182,7 @@ class OSRestApi {
     public static function get_version_info(): array {
         return [
             'module_version' => '15.0.0-rc5',
-            'title' => 'REST API端点注册',
+            'title' => __('REST API端点注册', 'linked3'),
             'namespace' => self::REST_NAMESPACE,
             'endpoints' => ['/reverse/parse', '/svg-stats', '/neng-suo/constraint', '/flywheel/score', '/quality/check', '/health'],
         ];

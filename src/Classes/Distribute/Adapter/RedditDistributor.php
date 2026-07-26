@@ -26,7 +26,7 @@ final class RedditDistributor implements DistributeAdapterInterface
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         $subreddit = $config['subreddit'] ?? '';
-        if (!$token || !$subreddit) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token 或 Subreddit', 'linked3-ai')];
+        if (!$token || !$subreddit) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token 或 Subreddit', 'linked3')];
         $body = [
             'kind' => 'self',
             'sr' => $subreddit,
@@ -44,12 +44,12 @@ final class RedditDistributor implements DistributeAdapterInterface
         $code = (int) wp_remote_retrieve_response_code($resp);
         $json = json_decode(wp_remote_retrieve_body($resp), true);
         if ($code >= 400 || empty($json['json']['data']['id'])) return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d', $code)];
-        return ['ok' => true, 'remote_id' => $json['json']['data']['id'], 'message' => __('已发布到 Reddit', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => $json['json']['data']['id'], 'message' => __('已发布到 Reddit', 'linked3')];
     }
 
     public function test(array $config): array {
         $token = $config['access_token'] ?? '';
-        if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
+        if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3')];
         // v3.0.0: 真实 ping Reddit API 验证 token
         $resp = SafeRemote::get('https://oauth.reddit.com/api/v1/me', [
             'timeout' => 15,

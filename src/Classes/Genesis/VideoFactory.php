@@ -120,7 +120,7 @@ class VideoFactory {
         // 检查1: 视频组数≥3
         $group_count = count($groups);
         $checks['group_count'] = [
-            'name' => '视频组数≥3',
+            'name' => __('视频组数≥3', 'linked3'),
             'passed' => $group_count >= 3,
             'value' => $group_count,
         ];
@@ -132,7 +132,7 @@ class VideoFactory {
             if (!empty($g['motion_prompt'])) $motion_present++;
         }
         $checks['motion_present'] = [
-            'name' => 'Motion Prompt存在',
+            'name' => __('Motion Prompt存在', 'linked3'),
             'passed' => $motion_present === $group_count,
             'value' => $motion_present . '/' . $group_count,
         ];
@@ -144,7 +144,7 @@ class VideoFactory {
             if ($this->frames_coherent($g['first_frame'] ?? '', $g['last_frame'] ?? '')) $coherent++;
         }
         $checks['frames_coherent'] = [
-            'name' => '首尾帧连贯',
+            'name' => __('首尾帧连贯', 'linked3'),
             'passed' => $coherent >= $group_count * 0.6,
             'value' => $coherent . '/' . $group_count,
         ];
@@ -153,7 +153,7 @@ class VideoFactory {
         // 检查4: 时长合理 (15-300秒)
         $duration = $output['estimated_duration'] ?? 0;
         $checks['duration_reasonable'] = [
-            'name' => '时长合理(15-300秒)',
+            'name' => __('时长合理(15-300秒)', 'linked3'),
             'passed' => $duration >= 15 && $duration <= 300,
             'value' => $duration . 's',
         ];
@@ -163,7 +163,7 @@ class VideoFactory {
         $arc_positions = array_column($groups, 'arc_position');
         $arc_complete = in_array('opening', $arc_positions) && in_array('resolution', $arc_positions);
         $checks['arc_complete'] = [
-            'name' => '情绪弧线完整',
+            'name' => __('情绪弧线完整', 'linked3'),
             'passed' => $arc_complete,
             'value' => $arc_positions,
         ];

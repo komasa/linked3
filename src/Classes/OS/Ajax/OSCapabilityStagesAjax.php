@@ -40,7 +40,7 @@ class OSCapabilityStagesAjax {
     public static function ajax_map() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSCapabilityStagesAjax {
     public static function ajax_detect() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSCapabilityStagesAjax {
     public static function ajax_stages() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -150,7 +150,7 @@ class OSCapabilityStagesAjax {
      */
     private static function execute_constraint(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $content_type = $params['content_type'] ?? 'T1';
         if (method_exists('\Linked3\Classes\OS\Core\OSCapabilityStages', 'derive_from_content_type')) {
@@ -184,14 +184,14 @@ class OSCapabilityStagesAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         // v18复审修复: 直接调用get_three_stages, 返回stages键 (前端期望data.stages)
         if (method_exists('\Linked3\Classes\OS\Core\OSCapabilityStages', 'get_three_stages')) {
             $stages = call_user_func(['OSCapabilityStages', 'get_three_stages']);
             return ['stages' => $stages, 'three_stages' => $stages];
         }
-        return ['stages' => [], 'error' => 'get_three_stages方法不存在'];
+        return ['stages' => [], 'error' => __('get_three_stages方法不存在', 'linked3')];
     }
 
     /**
@@ -224,7 +224,7 @@ class OSCapabilityStagesAjax {
      */
     private static function execute_detect(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSCapabilityStages')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         // v18复审修复: 前端传content, 后端应取content (原reader_type参数名错误)
         $content = $params['content'] ?? ($params['reader_type'] ?? '');
@@ -266,7 +266,7 @@ class OSCapabilityStagesAjax {
             'ajax_version' => '14.8.0',
             'target_class' => 'OSCapabilityStages',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '能知三阶AJAX接口',
+            'title' => __('能知三阶AJAX接口', 'linked3'),
         ];
     }
 
@@ -274,7 +274,7 @@ class OSCapabilityStagesAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_nengzhi_map' => '认知映射', 'linked3_nengzhi_detect' => '自动检测', 'linked3_nengzhi_stages' => '获取三阶'];
+        return ['linked3_nengzhi_map' => __('认知映射', 'linked3'), 'linked3_nengzhi_detect' => __('自动检测', 'linked3'), 'linked3_nengzhi_stages' => __('获取三阶', 'linked3')];
     }
 
 }

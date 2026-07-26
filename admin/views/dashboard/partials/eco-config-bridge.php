@@ -37,27 +37,27 @@ $bridge_ajax_url = admin_url('admin-ajax.php');
 <div class="linked3-eco-card" style="background:#FAFAFA;border:1px solid #E4E4E7;margin-bottom:16px;">
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
         <span style="font-size:14px;">🔗</span>
-        <span style="font-size:13px;font-weight:600;color:#18181B;">写作配置桥接器</span>
-        <span style="font-size:11px;color:#71717A;">— 统一模版 / 图片 / 画风 / 输出格式</span>
+        <span style="font-size:13px;font-weight:600;color:#18181B;"><?php echo esc_html__('写作配置桥接器', 'linked3'); ?></span>
+        <span style="font-size:11px;color:#71717A;"><?php echo esc_html__('— 统一模版 / 图片 / 画风 / 输出格式', 'linked3'); ?></span>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
 
         <!-- ① 模版来源 -->
         <div>
-            <label class="lk3-form-label">📋 模版来源</label>
+            <label class="lk3-form-label"><?php echo esc_html__('📋 模版来源', 'linked3'); ?></label>
             <select class="linked3-eco-select" id="bridge-tpl-source">
-                <option value="none">不使用模版</option>
-                <option value="local">📁 本地模版</option>
-                <option value="cloud">☁ 云模版</option>
+                <option value="none"><?php echo esc_html__('不使用模版', 'linked3'); ?></option>
+                <option value="local"><?php echo esc_html__('📁 本地模版', 'linked3'); ?></option>
+                <option value="cloud"><?php echo esc_html__('☁ 云模版', 'linked3'); ?></option>
             </select>
         </div>
 
         <!-- ② 本地模版选择 (随来源联动) -->
         <div id="bridge-local-tpl-wrap" style="display:none;">
-            <label class="lk3-form-label">📁 选择本地模版</label>
+            <label class="lk3-form-label"><?php echo esc_html__('📁 选择本地模版', 'linked3'); ?></label>
             <select class="linked3-eco-select" id="bridge-local-tpl">
-                <option value="">— 选择 —</option>
+                <option value=""><?php echo esc_html__('— 选择 —', 'linked3'); ?></option>
                 <?php foreach ($bridge_local_templates as $_tid => $_tpl): ?>
                     <option value="<?php echo esc_attr($_tid); ?>"><?php echo esc_html($_tpl['name'] ?? $_tid); ?></option>
                 <?php endforeach; ?>
@@ -66,12 +66,12 @@ $bridge_ajax_url = admin_url('admin-ajax.php');
 
         <!-- ③ 云模版选择 (随来源联动) -->
         <div id="bridge-cloud-tpl-wrap" style="display:none;">
-            <label class="lk3-form-label">☁ 选择云模版</label>
+            <label class="lk3-form-label"><?php echo esc_html__('☁ 选择云模版', 'linked3'); ?></label>
             <select class="linked3-eco-select" id="bridge-cloud-tpl">
-                <option value="">— 选择 —</option>
+                <option value=""><?php echo esc_html__('— 选择 —', 'linked3'); ?></option>
                 <?php
                 if (class_exists('CloudTemplateFactory')):
-                    $_cloud_cats = ['content' => '内容模版', 'seo' => 'SEO模版', 'social' => '社媒模版'];
+                    $_cloud_cats = ['content' => __('内容模版', 'linked3'), 'seo' => __('SEO模版', 'linked3'), 'social' => __('社媒模版', 'linked3')];
                     foreach ($_cloud_cats as $_cat => $_label):
                         echo '<option value="' . esc_attr($_cat) . '">' . esc_html('☁ ' . $_label) . '</option>';
                     endforeach;
@@ -82,9 +82,9 @@ $bridge_ajax_url = admin_url('admin-ajax.php');
 
         <!-- ④ 配图画风 -->
         <div>
-            <label class="lk3-form-label">🎨 配图画风 <span style="color:#A1A1AA;font-weight:normal;">(复用风格库)</span></label>
-            <select class="linked3-eco-select" id="bridge-img-style" title="配图时注入此画风到图片生成prompt">
-                <option value="auto">🤖 自动适配 (按文章调性推断)</option>
+            <label class="lk3-form-label"><?php echo esc_html__('🎨 配图画风', 'linked3'); ?><span style="color:#A1A1AA;font-weight:normal;"><?php echo esc_html__('(复用风格库)', 'linked3'); ?></span></label>
+            <select class="linked3-eco-select" id="bridge-img-style" title="<?php echo esc_attr__('配图时注入此画风到图片生成prompt', 'linked3'); ?>">
+                <option value="auto"><?php echo esc_html__('🤖 自动适配 (按文章调性推断)', 'linked3'); ?></option>
                 <?php foreach ($bridge_styles as $_sid => $_sname): ?>
                     <option value="<?php echo esc_attr($_sid); ?>"><?php echo esc_html($_sname); ?></option>
                 <?php endforeach; ?>
@@ -93,12 +93,12 @@ $bridge_ajax_url = admin_url('admin-ajax.php');
 
         <!-- ⑤ 输出格式 (v17.0新增: MD/HTML/纯文本) -->
         <div>
-            <label class="lk3-form-label">📄 输出格式 <span style="color:#A1A1AA;font-weight:normal;">(发布时转换)</span></label>
-            <select class="linked3-eco-select" id="bridge-output-format" title="选择内容输出的最终格式">
-                <option value="markdown">📝 Markdown (默认, 写作时使用)</option>
-                <option value="html">🌐 HTML (发布时自动转换, 适配WordPress)</option>
-                <option value="plaintext">📄 纯文本 (去除所有格式)</option>
-                <option value="markdown_html">📝+🌐 MD+HTML (同时保存两种格式)</option>
+            <label class="lk3-form-label"><?php echo esc_html__('📄 输出格式', 'linked3'); ?><span style="color:#A1A1AA;font-weight:normal;"><?php echo esc_html__('(发布时转换)', 'linked3'); ?></span></label>
+            <select class="linked3-eco-select" id="bridge-output-format" title="<?php echo esc_attr__('选择内容输出的最终格式', 'linked3'); ?>">
+                <option value="markdown"><?php echo esc_html__('📝 Markdown (默认, 写作时使用)', 'linked3'); ?></option>
+                <option value="html"><?php echo esc_html__('🌐 HTML (发布时自动转换, 适配WordPress)', 'linked3'); ?></option>
+                <option value="plaintext"><?php echo esc_html__('📄 纯文本 (去除所有格式)', 'linked3'); ?></option>
+                <option value="markdown_html"><?php echo esc_html__('📝+🌐 MD+HTML (同时保存两种格式)', 'linked3'); ?></option>
             </select>
         </div>
 
@@ -120,39 +120,9 @@ $bridge_ajax_url = admin_url('admin-ajax.php');
 
     <!-- ⑦ 输出格式说明 (v17.0新增) -->
     <div style="margin-top:8px;padding:8px 12px;background:#FEF3C7;border:1px solid #FDE68A;border-radius:4px;font-size:11px;color:#92400E;">
-        💡 <strong>输出格式说明:</strong> 写作过程始终使用Markdown格式 (便于AI生成与编辑)。
+        💡 <strong><?php echo esc_html__('输出格式说明:', 'linked3'); ?></strong> 写作过程始终使用Markdown格式 (便于AI生成与编辑)。
         发布时根据此处的格式选择自动转换: HTML格式适配WordPress文章编辑器, 纯文本去除所有格式标记, MD+HTML同时保存两种版本供不同平台使用。
     </div>
 </div>
 
-<script>
-(function(){
-    var srcSel = document.getElementById('bridge-tpl-source');
-    var localWrap = document.getElementById('bridge-local-tpl-wrap');
-    var cloudWrap = document.getElementById('bridge-cloud-tpl-wrap');
-    if (!srcSel) return;
-    srcSel.addEventListener('change', function(){
-        localWrap.style.display = (this.value === 'local') ? '' : 'none';
-        cloudWrap.style.display = (this.value === 'cloud') ? '' : 'none';
-    });
-
-    // 暴露桥接器取值函数, 供 eco-content.php 写作提交时读取
-    window.linked3_bridge_get_config = function(){
-        var cfg = { tpl_source: '', tpl_id: '', img_style: 'auto', output_format: 'markdown' };
-        var s = document.getElementById('bridge-tpl-source');
-        if (s) cfg.tpl_source = s.value;
-        if (cfg.tpl_source === 'local') {
-            var lt = document.getElementById('bridge-local-tpl');
-            cfg.tpl_id = lt ? lt.value : '';
-        } else if (cfg.tpl_source === 'cloud') {
-            var ct = document.getElementById('bridge-cloud-tpl');
-            cfg.tpl_id = ct ? ct.value : '';
-        }
-        var is = document.getElementById('bridge-img-style');
-        if (is) cfg.img_style = is.value;
-        var of = document.getElementById('bridge-output-format');
-        if (of) cfg.output_format = of.value;
-        return cfg;
-    };
-})();
-</script>
+<?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-eco-config-bridge.js ?>

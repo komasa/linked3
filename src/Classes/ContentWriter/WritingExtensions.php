@@ -29,7 +29,7 @@ final class WritingExtensions
         check_ajax_referer('linked3_content_writer', 'nonce');
 
         $content = wp_strip_all_tags(wp_unslash($_POST['content'] ?? ''));
-        if (empty($content)) wp_send_json_error(['message' => '内容为空'], 400);
+        if (empty($content)) wp_send_json_error(['message' => __('内容为空', 'linked3')], 400);
 
         $prompt = __('请对以下文章进行质量评分(0-100), 从5个维度各打分:\n', 'linked3')
             . "1. 结构清晰度 (0-20)\n2. 内容深度 (0-20)\n3. SEO友好度 (0-20)\n"
@@ -58,13 +58,13 @@ final class WritingExtensions
 
         $content = wp_unslash($_POST['content'] ?? '');
         $mode = sanitize_key(wp_unslash($_POST['mode'] ?? 'polish'));
-        if (empty($content)) wp_send_json_error(['message' => '内容为空'], 400);
+        if (empty($content)) wp_send_json_error(['message' => __('内容为空', 'linked3')], 400);
 
         $prompts = [
-            'polish'  => '请润色以下文章, 保持原意, 提升表达质量和可读性:',
-            'expand'  => '请扩写以下文章, 增加细节和论据, 保持原结构:',
-            'simplify'=> '请简化以下文章, 用更短的句子和更简单的词汇, 保持核心信息:',
-            'rewrite' => '请重写以下文章, 用完全不同的表达方式, 但保持相同的信息:',
+            'polish'  => __('请润色以下文章, 保持原意, 提升表达质量和可读性:', 'linked3'),
+            'expand'  => __('请扩写以下文章, 增加细节和论据, 保持原结构:', 'linked3'),
+            'simplify'=> __('请简化以下文章, 用更短的句子和更简单的词汇, 保持核心信息:', 'linked3'),
+            'rewrite' => __('请重写以下文章, 用完全不同的表达方式, 但保持相同的信息:', 'linked3'),
         ];
         $prompt = ($prompts[$mode] ?? $prompts['polish']) . "\n\n" . $content;
 

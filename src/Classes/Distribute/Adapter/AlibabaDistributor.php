@@ -40,7 +40,7 @@ if (!defined('ABSPATH')) {
 final class AlibabaDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'alibaba'; }
-    public function label() : string { return __('阿里国际站 (Alibaba.com)', 'linked3'); }
+    public function label() : string { return '阿里国际站 (Alibaba.com)'; }
 
     const API_BASE = 'https://api.alibaba.com/rest';
     const AUTH_BASE = 'https://oauth.alibaba.com';
@@ -52,7 +52,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
         $company_id = $config['company_id'] ?? '';
 
         if (!$app_key || !$app_secret || !$access_token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 app_key/app_secret/access_token', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 app_key/app_secret/access_token', 'linked3')];
         }
 
         // 步骤 1: 上传产品主图 (如果有的话)
@@ -110,7 +110,7 @@ final class AlibabaDistributor implements DistributeAdapterInterface
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';
         if (!$app_key || !$app_secret || !$access_token) {
-            return ['ok' => false, 'message' => __('缺少 app_key/app_secret/access_token', 'linked3-ai')];
+            return ['ok' => false, 'message' => __('缺少 app_key/app_secret/access_token', 'linked3')];
         }
         // v3.0.0: 调用 alibaba.solution.product.list 验证凭证
         $api_params = [

@@ -18,6 +18,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Dashboard;
 
+use Linked3\Includes\Log\Logger;
+
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\SEO\Keyword\KeywordManager;
 use Linked3\Classes\Core\AIDispatcher;
@@ -41,8 +43,8 @@ final class DashboardAjaxRegistrarLegacy
     static function register(): void {
         // v28.0.0: Permanently disabled — all handlers migrated to Actions classes.
         // Calling register() would create 41 duplicate wp_ajax registrations.
-        if (defined('WP_DEBUG') && WP_DEBUG && function_exists('error_log')) {
-            error_log('[linked3] DashboardAjaxRegistrarLegacy::register() — dead code (v28.0.0)');
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            Logger::instance()->warning('general', '[linked3] DashboardAjaxRegistrarLegacy::register() — dead code (v28.0.0)');
         }
         return;
 
@@ -156,7 +158,7 @@ final class DashboardAjaxRegistrarLegacy
         // v3.1.1: 返回保存的 key 数量,方便用户验证
         wp_send_json_success([
             'saved' => true,
-            'message' => sprintf('Provider 配置已保存 (%d 个 provider 有 key)', $saved_keys_count),
+            'message' => sprintf(__('Provider 配置已保存 (%d 个 provider 有 key)', 'linked3'), $saved_keys_count),
             'saved_keys_count' => $saved_keys_count,
             'default_provider' => $default_provider,
         ]);

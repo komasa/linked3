@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Content;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) exit;
 
 class EcosystemImageService
@@ -140,9 +142,8 @@ class EcosystemImageService
             $result = $dispatcher->chat($messages, $options, $config);
             return $result['content'] ?? '';
         } catch (\Throwable $e) {
-            if (function_exists('error_log')) {
-                error_log('[linked3 v10.9.0] AI call failed: ' . $e->getMessage());
-            }
+            Logger::instance()->error('ai', '[linked3 v10.9.0] AI call failed: ' . $e->getMessage());
+
             return '';
         }
     }

@@ -119,7 +119,7 @@ class GenesisPatchV1006 {
         }
 
         foreach (array_slice(array_unique($nameCandidates), 0, 5) as $name) {
-            $characters[] = ['name' => $name, 'appearance' => '人物外观待补充', 'clothing' => '', 'distinctive_features' => ''];
+            $characters[] = ['name' => $name, 'appearance' => __('人物外观待补充', 'linked3'), 'clothing' => '', 'distinctive_features' => ''];
             $seen[] = $name;
         }
     }
@@ -165,19 +165,19 @@ class GenesisPatchV1006 {
     public static function local_extract_scenes(string $script): array {
         $scenes = [];
         $sceneRules = [
-            ['name' => '学校', 'keywords' => ['学校', '大学', '中学', '小学', '校园', '教室', '课堂', '学院']],
-            ['name' => '家庭', 'keywords' => ['家里', '家中', '客厅', '卧室', '厨房', '家庭']],
-            ['name' => '办公室', 'keywords' => ['办公室', '公司', '写字楼', '会议室', '工位']],
-            ['name' => '街道', 'keywords' => ['街道', '马路', '街头', '路边', '街上']],
-            ['name' => '医院', 'keywords' => ['医院', '诊所', '病房', '急诊']],
-            ['name' => '社交媒体', 'keywords' => ['社交媒体', '微博', '微信', '抖音', '视频', '直播', '网络', '网上', '网友']],
-            ['name' => '城市', 'keywords' => ['城市', '都市', '北京', '上海', '广州', '深圳', '波士顿', '纽约', '洛杉矶']],
-            ['name' => '户外', 'keywords' => ['户外', '公园', '广场', '街头', '野外', '山顶', '海边']],
+            ['name' => __('学校', 'linked3'), 'keywords' => ['学校', '大学', '中学', '小学', '校园', '教室', '课堂', '学院']],
+            ['name' => __('家庭', 'linked3'), 'keywords' => ['家里', '家中', '客厅', '卧室', '厨房', '家庭']],
+            ['name' => __('办公室', 'linked3'), 'keywords' => ['办公室', '公司', '写字楼', '会议室', '工位']],
+            ['name' => __('街道', 'linked3'), 'keywords' => ['街道', '马路', '街头', '路边', '街上']],
+            ['name' => __('医院', 'linked3'), 'keywords' => ['医院', '诊所', '病房', '急诊']],
+            ['name' => __('社交媒体', 'linked3'), 'keywords' => ['社交媒体', '微博', '微信', '抖音', '视频', '直播', '网络', '网上', '网友']],
+            ['name' => __('城市', 'linked3'), 'keywords' => ['城市', '都市', '北京', '上海', '广州', '深圳', '波士顿', '纽约', '洛杉矶']],
+            ['name' => __('户外', 'linked3'), 'keywords' => ['户外', '公园', '广场', '街头', '野外', '山顶', '海边']],
         ];
         foreach ($sceneRules as $rule) {
             foreach ($rule['keywords'] as $kw) {
                 if (mb_strpos($script, $kw) !== false) {
-                    $scenes[] = ['name' => $rule['name'], 'description' => '包含' . $kw . '的场景', 'lighting' => 'natural lighting', 'atmosphere' => 'realistic'];
+                    $scenes[] = ['name' => $rule['name'], 'description' => __('包含', 'linked3') . $kw . __('的场景', 'linked3'), 'lighting' => 'natural lighting', 'atmosphere' => 'realistic'];
                     break;
                 }
             }

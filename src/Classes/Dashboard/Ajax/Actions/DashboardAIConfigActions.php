@@ -50,50 +50,43 @@ class DashboardAIConfigActions extends DashboardBaseAjaxAction
      * Action: wp_ajax_linked3_save_advanced
      * Implementation: DashboardConfigAjax::ajax_save_advanced()
      */
-    public static function save_advanced()
-     : void { DashboardConfigAjax::ajax_save_advanced(); }
+    public static function save_advanced(): void { DashboardConfigAjax::ajax_save_advanced(); }
 
     /**
      * Action: wp_ajax_linked3_save_custom_apis
      * Implementation: DashboardConfigAjax::ajax_save_custom_apis()
      */
-    public static function save_custom_apis()
-     : void { DashboardConfigAjax::ajax_save_custom_apis(); }
+    public static function save_custom_apis(): void { DashboardConfigAjax::ajax_save_custom_apis(); }
 
     /**
      * Action: wp_ajax_linked3_save_provider_config
      * Implementation: DashboardConfigAjax::ajax_save_provider_config()
      */
-    public static function save_provider_config()
-     : void { DashboardConfigAjax::ajax_save_provider_config(); }
+    public static function save_provider_config(): void { DashboardConfigAjax::ajax_save_provider_config(); }
 
     /**
      * Action: wp_ajax_linked3_save_seo_enhance
      * Implementation: DashboardConfigAjax::ajax_save_seo_enhance()
      */
-    public static function save_seo_enhance()
-     : void { DashboardConfigAjax::ajax_save_seo_enhance(); }
+    public static function save_seo_enhance(): void { DashboardConfigAjax::ajax_save_seo_enhance(); }
 
     /**
      * Action: wp_ajax_linked3_save_image_settings
      * Implementation: DashboardConfigAjax::ajax_save_image_settings()
      */
-    public static function save_image_settings()
-     : void { DashboardConfigAjax::ajax_save_image_settings(); }
+    public static function save_image_settings(): void { DashboardConfigAjax::ajax_save_image_settings(); }
 
     /**
      * Action: wp_ajax_linked3_test_image_station
      * Implementation: DashboardConfigAjax::ajax_test_image_station()
      */
-    public static function test_image_station()
-     : void { DashboardConfigAjax::ajax_test_image_station(); }
+    public static function test_image_station(): void { DashboardConfigAjax::ajax_test_image_station(); }
 
     /**
      * Action: wp_ajax_linked3_sync_image_models
      * Implementation: DashboardConfigAjax::ajax_sync_image_models()
      */
-    public static function sync_image_models()
-     : void { DashboardConfigAjax::ajax_sync_image_models(); }
+    public static function sync_image_models(): void { DashboardConfigAjax::ajax_sync_image_models(); }
 
     /**
      * Action: wp_ajax_linked3_save_geo
@@ -111,15 +104,13 @@ class DashboardAIConfigActions extends DashboardBaseAjaxAction
      * Action: wp_ajax_linked3_save_ai_search_keys
      * Implementation: DashboardConfigAjax::ajax_save_ai_search_keys()
      */
-    public static function save_ai_search_keys()
-     : void { DashboardConfigAjax::ajax_save_ai_search_keys(); }
+    public static function save_ai_search_keys(): void { DashboardConfigAjax::ajax_save_ai_search_keys(); }
 
     /**
      * Action: wp_ajax_linked3_regen_llms_txt
      * Implementation: DashboardConfigAjax::ajax_regen_llms_txt()
      */
-    public static function regen_llms_txt()
-     : void { DashboardConfigAjax::ajax_regen_llms_txt(); }
+    public static function regen_llms_txt(): void { DashboardConfigAjax::ajax_regen_llms_txt(); }
 
     /**
      * v27.8.11 (审计Phase1): 测试 Provider 连接
@@ -198,7 +189,7 @@ class DashboardAIConfigActions extends DashboardBaseAjaxAction
             $dispatcher = \Linked3\Classes\Core\AIDispatcher::instance();
             $result = $dispatcher->chat(
                 [
-                    ['role' => 'user', 'content' => '请回复"连接成功"四个字'],
+                    ['role' => 'user', 'content' => __('请回复"连接成功"四个字', 'linked3')],
                 ],
                 [
                     'provider' => $provider,

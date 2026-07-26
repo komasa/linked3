@@ -13,13 +13,13 @@ if (!defined('ABSPATH')) exit;
 
 class DiagramLoopCharacterIntegration {
     private array $steps = [
-        1 => '生成初稿 (含角色Seed)',
-        2 => '校验角色Critical项 (100%)',
-        3 => '校验角色Important项 (>95%)',
-        4 => '诊断角色断裂',
-        5 => '修复角色不一致',
-        6 => '再校验系列DNA 4层',
-        7 => '定稿归档',
+        1 => __('生成初稿 (含角色Seed)', 'linked3'),
+        2 => __('校验角色Critical项 (100%)', 'linked3'),
+        3 => __('校验角色Important项 (>95%)', 'linked3'),
+        4 => __('诊断角色断裂', 'linked3'),
+        5 => __('修复角色不一致', 'linked3'),
+        6 => __('再校验系列DNA 4层', 'linked3'),
+        7 => __('定稿归档', 'linked3'),
     ];
 
     private function autoFixCharacter(array $diagram, string $seedId): array {

@@ -1,0 +1,185 @@
+/**
+ * Linked3 Dashboard Design System v1.0
+ * Shared CSS for all admin views (62 templates)
+ * Load once via wp_enqueue_style on admin pages
+ */
+
+/* === Design Tokens === */
+:root {
+  --l3-primary: #6366F1;
+  --l3-primary-dark: #4F46E5;
+  --l3-primary-light: #E0E7FF;
+  --l3-accent: #FA9960;
+  --l3-success: #10B981;
+  --l3-warning: #F59E0B;
+  --l3-danger: #EF4444;
+  --l3-bg: #F0F0F1;
+  --l3-surface: #FFFFFF;
+  --l3-border: #E5E7EB;
+  --l3-text: #1F2937;
+  --l3-text-muted: #6B7280;
+  --l3-radius-sm: 4px;
+  --l3-radius: 8px;
+  --l3-radius-lg: 12px;
+  --l3-shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --l3-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --l3-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* === Layout === */
+.l3-wrap { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.l3-grid { display: grid; gap: 16px; }
+.l3-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.l3-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.l3-grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 782px) { .l3-grid-2, .l3-grid-3, .l3-grid-4 { grid-template-columns: 1fr; } }
+
+/* === Cards === */
+.l3-card {
+  background: var(--l3-surface);
+  border: 1px solid var(--l3-border);
+  border-radius: var(--l3-radius);
+  padding: 20px;
+  box-shadow: var(--l3-shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.l3-card:hover { box-shadow: var(--l3-shadow); }
+.l3-card-title { font-size: 16px; font-weight: 600; margin: 0 0 12px; color: var(--l3-text); }
+.l3-card-body { color: var(--l3-text-muted); font-size: 14px; line-height: 1.6; }
+
+/* === Buttons === */
+.l3-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border: none; border-radius: var(--l3-radius-sm);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: background 0.15s, opacity 0.15s; text-decoration: none;
+}
+.l3-btn-primary { background: var(--l3-primary); color: #fff; }
+.l3-btn-primary:hover { background: var(--l3-primary-dark); }
+.l3-btn-secondary { background: var(--l3-primary-light); color: var(--l3-primary-dark); }
+.l3-btn-danger { background: var(--l3-danger); color: #fff; }
+.l3-btn-ghost { background: transparent; color: var(--l3-text-muted); }
+.l3-btn-ghost:hover { background: var(--l3-bg); }
+.l3-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* === Forms === */
+.l3-input, .l3-select, .l3-textarea {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--l3-border);
+  border-radius: var(--l3-radius-sm); font-size: 14px; color: var(--l3-text);
+  background: var(--l3-surface); transition: border-color 0.15s;
+}
+.l3-input:focus, .l3-select:focus, .l3-textarea:focus {
+  outline: none; border-color: var(--l3-primary); box-shadow: 0 0 0 3px var(--l3-primary-light);
+}
+.l3-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--l3-text); }
+.l3-field { margin-bottom: 16px; }
+.l3-hint { font-size: 12px; color: var(--l3-text-muted); margin-top: 4px; }
+
+/* === Tables === */
+.l3-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.l3-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--l3-border); font-weight: 600; color: var(--l3-text); }
+.l3-table td { padding: 10px 12px; border-bottom: 1px solid var(--l3-border); color: var(--l3-text-muted); }
+.l3-table tr:hover td { background: var(--l3-bg); }
+
+/* === Badges & Pills === */
+.l3-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 12px; font-weight: 500;
+}
+.l3-badge-success { background: #D1FAE5; color: #065F46; }
+.l3-badge-warning { background: #FEEBDD; color: #92400E; }
+.l3-badge-danger { background: #FEE2E2; color: #991B1B; }
+.l3-badge-info { background: var(--l3-primary-light); color: var(--l3-primary-dark); }
+
+/* === Tabs === */
+.l3-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--l3-border); margin-bottom: 20px; }
+.l3-tab {
+  padding: 10px 16px; border: none; background: transparent;
+  font-size: 14px; font-weight: 500; color: var(--l3-text-muted);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.l3-tab:hover { color: var(--l3-text); }
+.l3-tab.active { color: var(--l3-primary); border-bottom-color: var(--l3-primary); }
+
+/* === Progress === */
+.l3-progress { height: 6px; background: var(--l3-border); border-radius: 3px; overflow: hidden; }
+.l3-progress-bar { height: 100%; background: var(--l3-primary); transition: width 0.3s; border-radius: 3px; }
+
+/* === Alert/Notice === */
+.l3-alert { padding: 12px 16px; border-radius: var(--l3-radius-sm); font-size: 14px; margin-bottom: 16px; }
+.l3-alert-info { background: var(--l3-primary-light); color: var(--l3-primary-dark); }
+.l3-alert-success { background: #D1FAE5; color: #065F46; }
+.l3-alert-warning { background: #FEEBDD; color: #92400E; }
+.l3-alert-danger { background: #FEE2E2; color: #991B1B; }
+
+/* === Loading Spinner === */
+.l3-spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid var(--l3-border); border-top-color: var(--l3-primary);
+  border-radius: 50%; animation: l3-spin 0.6s linear infinite;
+}
+@keyframes l3-spin { to { transform: rotate(360deg); } }
+
+/* === Modal === */
+.l3-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: none; align-items: center; justify-content: center; z-index: 100000;
+}
+.l3-modal-overlay.active { display: flex; }
+.l3-modal {
+  background: var(--l3-surface); border-radius: var(--l3-radius-lg);
+  padding: 24px; max-width: 600px; width: 90%; box-shadow: var(--l3-shadow-lg);
+}
+.l3-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.l3-modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--l3-text-muted); }
+
+/* === Stat Cards === */
+.l3-stat { text-align: center; }
+.l3-stat-value { font-size: 28px; font-weight: 700; color: var(--l3-primary); }
+.l3-stat-label { font-size: 13px; color: var(--l3-text-muted); margin-top: 4px; }
+
+/* === Empty State === */
+.l3-empty { text-align: center; padding: 40px 20px; color: var(--l3-text-muted); }
+.l3-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
+
+/* ============================================================
+ * Extracted from: tab-v18.php (inline <style> block)
+ * ============================================================ */
+.linked3-v18-wrap { max-width: 1200px; margin: 20px auto; }
+.linked3-v18-health-card,
+.linked3-v18-reverse-card,
+.linked3-v18-svg-card,
+.linked3-v18-ruliu-card,
+.linked3-v18-facade-card {
+    background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 20px; margin: 20px 0;
+}
+.linked3-v18-wrap h3 { margin-top: 0; color: #1B3A5C; }
+.linked3-v18-wrap pre {
+    background: #f5f5f5; padding: 15px; border-radius: 4px;
+    overflow-x: auto; font-size: 12px;
+}
+
+/* ============================================================
+ * Extracted from: tab-cognitive-os.php (inline <style> block)
+ * ============================================================ */
+@keyframes cos-spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+ * Extracted from: eco-synergy.php (inline <style> block)
+ * v16.0.25: 组装中spinner动画
+ * ============================================================ */
+.eco-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #E4E4E7;
+    border-top-color: #0F172A;
+    border-radius: 50%;
+    animation: eco-spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+@keyframes eco-spin {
+    to { transform: rotate(360deg); }
+}

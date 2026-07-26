@@ -181,9 +181,9 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
                             'gen_tags' => true,
                         ]);
                         \Linked3\Classes\ContentWriter\SeoMetaGenerator::save_to_post($post_id, $seo_meta);
-                        $errors[] = __('SEO 元数据已生成 (meta/keyword/excerpt/tags)', 'linked3');
+                        $errors[] = "SEO 元数据已生成 (meta/keyword/excerpt/tags)";
                     } catch (\Throwable $e) {
-                        $errors[] = __('SEO 元数据生成失败: ', 'linked3') . $e->getMessage();
+                        $errors[] = "SEO 元数据生成失败: " . $e->getMessage();
                     }
                 }
 
@@ -200,7 +200,7 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
                             $errors[] = "已注入 {$img_count} 张配图";
                         }
                     } catch (\Throwable $e) {
-                        $errors[] = __('图片注入失败: ', 'linked3') . $e->getMessage();
+                        $errors[] = "图片注入失败: " . $e->getMessage();
                     }
                 }
 
@@ -236,7 +236,7 @@ final class ContentWritingProcessor implements AutoGPTProcessorInterface
             ? sprintf(__('已写作 %d 篇文章。', 'linked3'), $processed)
             : sprintf(__('%d 次尝试均失败。已入队重试。', 'linked3'), $count);
         if (!empty($errors)) {
-            $message .= __(' 错误: ', 'linked3') . implode('; ', array_slice($errors, 0, 3));
+            $message .= ' 错误: ' . implode('; ', array_slice($errors, 0, 3));
         }
         return ['ok' => $ok, 'message' => $message, 'items_processed' => $processed];
     }

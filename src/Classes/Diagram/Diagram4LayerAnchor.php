@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) exit;
 
 class Diagram4LayerAnchor {
     private function suggestCase(string $title): string {
-        return $title . '典型案例';
+        return $title . __('典型案例', 'linked3');
     }
 
     private function suggestMetric(string $title): string {

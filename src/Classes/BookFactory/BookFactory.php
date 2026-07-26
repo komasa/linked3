@@ -96,7 +96,7 @@ class BookFactory {
 
         // 已完成或失败, 不再执行
         if ( $status === 'done' ) {
-            return array( 'done' => true, 'message' => __('已完成', 'linked3-ai') );
+            return array( 'done' => true, 'message' => __('已完成', 'linked3') );
         }
         if ( $status === 'failed' ) {
             return new WP_Error( 'already_failed', '项目已失败' );
@@ -113,7 +113,7 @@ class BookFactory {
         // 向后兼容: 如果注册表中没有, 回退到 switch-case (处理 done 等特殊状态)。
         switch ( $current_step ) {
             case 'done':
-                return array( 'done' => true, 'message' => __('已完成', 'linked3-ai') );
+                return array( 'done' => true, 'message' => __('已完成', 'linked3') );
             default:
                 return new WP_Error( 'unknown_step', '未知步骤: ' . $current_step );
         }

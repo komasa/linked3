@@ -46,7 +46,7 @@ class OSV18AjaxActions
     {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
     }
 
@@ -67,7 +67,7 @@ class OSV18AjaxActions
         $current_day = absint($_POST['current_day'] ?? 1);
 
         if (empty($profession)) {
-            wp_send_json_error(['message' => __('请输入职业', 'linked3-ai')], 400);
+            wp_send_json_error(['message' => __('请输入职业', 'linked3')], 400);
         }
 
         // 生成 100 天计划
@@ -129,7 +129,7 @@ class OSV18AjaxActions
 
         $day = absint($_POST['day'] ?? 0);
         if ($day < 1 || $day > 100) {
-            wp_send_json_error(['message' => __('天数无效', 'linked3-ai')], 400);
+            wp_send_json_error(['message' => __('天数无效', 'linked3')], 400);
         }
 
         $user_id = get_current_user_id();
@@ -158,7 +158,7 @@ class OSV18AjaxActions
 
         $content = sanitize_textarea_field(wp_unslash($_POST['content'] ?? ''));
         if (empty($content)) {
-            wp_send_json_error(['message' => __('内容为空', 'linked3-ai')], 400);
+            wp_send_json_error(['message' => __('内容为空', 'linked3')], 400);
         }
 
         $level = self::detect_cognitive_level($content);
@@ -203,7 +203,7 @@ class OSV18AjaxActions
         $content = sanitize_textarea_field(wp_unslash($_POST['content'] ?? ''));
 
         if (empty($content)) {
-            wp_send_json_error(['message' => __('内容为空', 'linked3-ai')], 400);
+            wp_send_json_error(['message' => __('内容为空', 'linked3')], 400);
         }
 
         $frequency = self::calculate_visual_frequency($content, $module_type);
@@ -226,9 +226,9 @@ class OSV18AjaxActions
     {
         $plan = [];
         $phases = [
-            1 => ['label' => '基础期 (Day 1-30)', 'focus' => 'core_skills', 'desc' => '建立核心技能基础'],
-            2 => ['label' => '进阶期 (Day 31-70)', 'focus' => 'advanced_application', 'desc' => '进阶应用与实战'],
-            3 => ['label' => '突破期 (Day 71-100)', 'focus' => 'mastery_innovation', 'desc' => '精通与创新突破'],
+            1 => ['label' => __('基础期 (Day 1-30)', 'linked3'), 'focus' => 'core_skills', 'desc' => __('建立核心技能基础', 'linked3')],
+            2 => ['label' => __('进阶期 (Day 31-70)', 'linked3'), 'focus' => 'advanced_application', 'desc' => __('进阶应用与实战', 'linked3')],
+            3 => ['label' => __('突破期 (Day 71-100)', 'linked3'), 'focus' => 'mastery_innovation', 'desc' => __('精通与创新突破', 'linked3')],
         ];
 
         $platform_context = $platform ? "在{$platform}平台" : '';
@@ -348,27 +348,27 @@ class OSV18AjaxActions
             $level = 'stage_3';
             $label = __('三阶·元认知', 'linked3');
             $indicators = ['自我反思', '元认知', '认知监控'];
-            $confidence = '高';
+            $confidence = __('高', 'linked3');
         } elseif ($has_synthesis) {
             $level = 'stage_3';
             $label = __('三阶·综合', 'linked3');
             $indicators = ['跨域综合', '本质抽象', '范式创新'];
-            $confidence = '高';
+            $confidence = __('高', 'linked3');
         } elseif ($has_reasoning) {
             $level = 'stage_2';
             $label = __('二阶·推理', 'linked3');
             $indicators = ['因果推理', '逻辑链', '系统思考'];
-            $confidence = '中';
+            $confidence = __('中', 'linked3');
         } elseif ($has_question) {
             $level = 'stage_2';
             $label = __('二阶·提问', 'linked3');
             $indicators = ['主动提问', '假设构建'];
-            $confidence = '中';
+            $confidence = __('中', 'linked3');
         } else {
             $level = 'stage_1';
             $label = __('一阶·感知', 'linked3');
             $indicators = ['信息接收', '模式识别'];
-            $confidence = '低';
+            $confidence = __('低', 'linked3');
         }
 
         return [
@@ -387,33 +387,33 @@ class OSV18AjaxActions
     {
         $stages = [
             'stage_1' => [
-                'name' => '一阶·感知层',
-                'desc' => '信息接收与模式识别',
+                'name' => __('一阶·感知层', 'linked3'),
+                'desc' => __('信息接收与模式识别', 'linked3'),
                 'practices' => [
-                    ['name' => '信息获取', 'desc' => '主动收集多源信息'],
-                    ['name' => '模式识别', 'desc' => '识别重复出现的结构'],
-                    ['name' => '分类归纳', 'desc' => '将信息按维度分类'],
+                    ['name' => __('信息获取', 'linked3'), 'desc' => __('主动收集多源信息', 'linked3')],
+                    ['name' => __('模式识别', 'linked3'), 'desc' => __('识别重复出现的结构', 'linked3')],
+                    ['name' => __('分类归纳', 'linked3'), 'desc' => __('将信息按维度分类', 'linked3')],
                 ],
             ],
             'stage_2' => [
-                'name' => '二阶·推理层',
-                'desc' => '提问驱动与因果建模',
+                'name' => __('二阶·推理层', 'linked3'),
+                'desc' => __('提问驱动与因果建模', 'linked3'),
                 'practices' => [
-                    ['name' => '提问驱动', 'desc' => '用问题引导思考方向'],
-                    ['name' => '假设构建', 'desc' => '提出可验证的假设'],
-                    ['name' => '因果建模', 'desc' => '构建因果关系图'],
-                    ['name' => '验证修正', 'desc' => '通过实践验证假设'],
+                    ['name' => __('提问驱动', 'linked3'), 'desc' => __('用问题引导思考方向', 'linked3')],
+                    ['name' => __('假设构建', 'linked3'), 'desc' => __('提出可验证的假设', 'linked3')],
+                    ['name' => __('因果建模', 'linked3'), 'desc' => __('构建因果关系图', 'linked3')],
+                    ['name' => __('验证修正', 'linked3'), 'desc' => __('通过实践验证假设', 'linked3')],
                 ],
             ],
             'stage_3' => [
-                'name' => '三阶·综合层',
-                'desc' => '跨域迁移与元认知',
+                'name' => __('三阶·综合层', 'linked3'),
+                'desc' => __('跨域迁移与元认知', 'linked3'),
                 'practices' => [
-                    ['name' => '跨域迁移', 'desc' => '将模型应用到新领域'],
-                    ['name' => '本质抽象', 'desc' => '提取底层不变的结构'],
-                    ['name' => '范式创新', 'desc' => '创造新的认知框架'],
-                    ['name' => '认知监控', 'desc' => '觉察自己的认知过程'],
-                    ['name' => '偏见矫正', 'desc' => '识别并修正认知偏差'],
+                    ['name' => __('跨域迁移', 'linked3'), 'desc' => __('将模型应用到新领域', 'linked3')],
+                    ['name' => __('本质抽象', 'linked3'), 'desc' => __('提取底层不变的结构', 'linked3')],
+                    ['name' => __('范式创新', 'linked3'), 'desc' => __('创造新的认知框架', 'linked3')],
+                    ['name' => __('认知监控', 'linked3'), 'desc' => __('觉察自己的认知过程', 'linked3')],
+                    ['name' => __('偏见矫正', 'linked3'), 'desc' => __('识别并修正认知偏差', 'linked3')],
                 ],
             ],
         ];

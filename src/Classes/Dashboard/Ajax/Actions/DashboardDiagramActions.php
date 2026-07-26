@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 class DashboardDiagramActions extends DashboardBaseAjaxAction
 {
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         add_action('wp_ajax_linked3_diagram_generate', [__CLASS__, 'diagram_generate']);
         add_action('wp_ajax_linked3_diagram_validate', [__CLASS__, 'diagram_validate']);

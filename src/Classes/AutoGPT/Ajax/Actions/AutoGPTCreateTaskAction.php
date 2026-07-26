@@ -29,7 +29,7 @@ final class AutoGPTCreateTaskAction extends AutoGPTBaseAjaxAction
         $this->send_success(['id' => $res]);
     }
 
-    private function parse_config() : bool {
+    private function parse_config() : array {
         $cfg = wp_unslash($_POST['config'] ?? []);
         if (is_string($cfg)) $cfg = json_decode(wp_unslash($cfg), true) ?: [];
         return is_array($cfg) ? $cfg : [];

@@ -49,7 +49,7 @@ class GenesisJobRunner
             'status'       => 'pending',
             'progress'     => 0,
             'stage'        => 'init',
-            'message'      => __('任务已创建, 等待执行...', 'linked3-ai'),
+            'message'      => __('任务已创建, 等待执行...', 'linked3'),
             'params'       => $params,
             'result'       => null,
             'error'        => null,
@@ -64,7 +64,7 @@ class GenesisJobRunner
 
         // v7.1.6: 记录可用执行策略 (用于诊断)
         $job['exec_mode'] = self::detectExecMode();
-        $job['logs'][] = '[' . date('H:i:s') . '] 任务创建, 执行模式: ' . $job['exec_mode'];
+        $job['logs'][] = '[' . date('H:i:s') . __('] 任务创建, 执行模式: ', 'linked3') . $job['exec_mode'];
         set_transient(self::JOB_PREFIX . $jobId, $job, self::JOB_TTL);
 
         return [
@@ -138,7 +138,7 @@ class GenesisJobRunner
             $job['status'] = 'running';
             $job['stage'] = 'lazy_start';
             $job['message'] = __('懒执行模式: 在轮询时执行 (无异步机制可用)...', 'linked3');
-            $job['logs'][] = '[' . date('H:i:s') . '] 懒执行启动';
+            $job['logs'][] = '[' . date('H:i:s') . __('] 懒执行启动', 'linked3');
         }
 
         $job['exec_mode'] = 'lazy';
@@ -156,12 +156,15 @@ class GenesisJobRunner
     private static function spawnCron(): void
     {
         $cronUrl = site_url('/wp-cron.php?doing_wp_cron=' . time());
+        $cronHost = (string) wp_parse_url($cronUrl, PHP_URL_HOST);
         $args = [
-            'timeout'   => 0.01,
-            'blocking'  => false,
-            'sslverify' => false,
+            'timeout'       => 0.01,
+            'blocking'      => false,
+            'sslverify'     => false,
+            'allowed_hosts' => [$cronHost],
+            'skip_ssrf'     => true, // Internal self-cron call to site_url() — not an external URL.
         ];
-        wp_remote_get($cronUrl, $args);
+        \Linked3\Includes\Http\SafeRemote::get($cronUrl, $args);
     }
 
     /**
@@ -263,7 +266,7 @@ class GenesisJobRunner
             ];
 
             // 预检
-            self::updateProgress($jobId, 5, 'preflight', '预检: 验证 API 配置...');
+            self::updateProgress($jobId, 5, 'preflight', __('预检: 验证 API 配置...', 'linked3'));
 
             // v7.1.8: 修复命名空间问题 — 必须用全限定名
             $registrarClass = '\\Linked3\\Classes\\Dashboard\\GenesisProcessor';
@@ -271,7 +274,7 @@ class GenesisJobRunner
             if (method_exists($registrarClass, 'genesisPreflightCheck')) {
                 $preflight = $registrarClass::genesisPreflightCheck();
                 if (!$preflight['ok']) {
-                    throw new \RuntimeException('预检失败: ' . $preflight['message'], 1);
+                    throw new \RuntimeException(__('预检失败: ', 'linked3') . $preflight['message'], 1);
                 }
             }
 
@@ -288,7 +291,7 @@ class GenesisJobRunner
                 $job['result'] = $result;
                 $job['heartbeat'] = time();
                 $job['updated_at'] = time();
-                $job['logs'][] = '[' . date('H:i:s') . '] 完成, 生成 ' . count($result['panels'] ?? []) . ' 个分镜';
+                $job['logs'][] = '[' . date('H:i:s') . __('] 完成, 生成 ', 'linked3') . count($result['panels'] ?? []) . __(' 个分镜', 'linked3');
                 set_transient(self::JOB_PREFIX . $jobId, $job, self::JOB_TTL);
             }
         } catch (\Throwable $e) {
@@ -300,7 +303,7 @@ class GenesisJobRunner
                 $job['stage'] = 'exception';
                 $job['heartbeat'] = time();
                 $job['updated_at'] = time();
-                $job['logs'][] = '[' . date('H:i:s') . '] 错误: ' . $e->getMessage();
+                $job['logs'][] = '[' . date('H:i:s') . __('] 错误: ', 'linked3') . $e->getMessage();
                 set_transient(self::JOB_PREFIX . $jobId, $job, self::JOB_TTL);
             }
         }
@@ -330,7 +333,7 @@ class GenesisJobRunner
             'mode'        => 'error',
             'fp_cores'    => 0,
             'is_auto'     => $panelCountRaw === 'auto',
-            'error'       => 'genesisGenerateMultiInternal 方法不存在。类: ' . $registrarClass . ', method_exists: ' . (method_exists($registrarClass, 'genesisGenerateMultiInternal') ? 'true' : 'false') . ', class_exists: ' . (class_exists($registrarClass) ? 'true' : 'false'),
+            'error'       => __('genesisGenerateMultiInternal 方法不存在。类: ', 'linked3') . $registrarClass . ', method_exists: ' . (method_exists($registrarClass, 'genesisGenerateMultiInternal') ? 'true' : 'false') . ', class_exists: ' . (class_exists($registrarClass) ? 'true' : 'false'),
             'diagnostic'  => [
                 'registrar_class'     => $registrarClass,
                 'class_exists'        => class_exists($registrarClass),
@@ -370,7 +373,7 @@ class GenesisJobRunner
             return [
                 'job_id' => $jobId,
                 'status' => 'not_found',
-                'message' => __('任务不存在或已过期 (超过 1 小时)', 'linked3-ai'),
+                'message' => __('任务不存在或已过期 (超过 1 小时)', 'linked3'),
             ];
         }
 
@@ -379,7 +382,7 @@ class GenesisJobRunner
 
         // v7.1.6: 如果任务 pending 且可用懒执行, 立即执行一块
         if ($job['status'] === 'pending' && self::detectExecMode() === 'lazy') {
-            $job['logs'][] = '[' . date('H:i:s') . '] 懒执行触发 (poll)';
+            $job['logs'][] = '[' . date('H:i:s') . __('] 懒执行触发 (poll)', 'linked3');
             set_transient(self::JOB_PREFIX . $jobId, $job, self::JOB_TTL);
             self::lazyExecute($jobId);
             $job = get_transient(self::JOB_PREFIX . $jobId);

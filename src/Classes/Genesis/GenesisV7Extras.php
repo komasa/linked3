@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) exit;
  */
 class GenesisV7Extras
 {
-    public static function instance() : self { return new self(); }
+    public static function instance() : mixed { return new self(); }
 
     public static function loadAll() : mixed { return GenesisV7Helpers::loadAll(); }
 }

@@ -35,7 +35,7 @@ class GenesisException extends \Exception {
     /**
      * 从普通异常/错误转换
      */
-    public static function from($e, $context = []) : self {
+    public static function from($e, $context = []) : mixed {
         if ($e instanceof self) {
             if (!empty($context)) {
                 $e->context = array_merge($e->context, $context);
@@ -43,7 +43,7 @@ class GenesisException extends \Exception {
             return $e;
         }
         $code = GenesisErrorCode::infer($e);
-        $msg = is_string($e) ? $e : ($e instanceof \Throwable ? $e->getMessage() : '未知错误');
+        $msg = is_string($e) ? $e : ($e instanceof \Throwable ? $e->getMessage() : __('未知错误', 'linked3'));
         return new self($msg, $code, $context, $e instanceof \Exception ? $e : null);
     }
 }

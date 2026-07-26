@@ -102,32 +102,5 @@ if (class_exists('\Linked3\Classes\SEO\Adapter\SEOAdapterDetector')) {
         </p>
     <?php endif; ?>
 
-    <script>
-    (function () {
-        var nonce = <?php echo wp_json_encode($nonce); ?>;
-        var ajaxUrl = <?php echo wp_json_encode($ajax_url); ?>;
-        document.querySelectorAll('.linked3-push-now').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                btn.disabled = true;
-                var body = new FormData();
-                body.append('action', 'linked3_push_now');
-                body.append('nonce', nonce);
-                body.append('engine', btn.dataset.engine);
-                body.append('url', <?php echo wp_json_encode(esc_url_raw(site_url())); ?>);
-                fetch(ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' })
-                    .then(function (r) { return r.json(); })
-                    .then(function (res) {
-                        btn.disabled = false;
-                        if (res.success) {
-                            var r = res.data.results[btn.dataset.engine] || { ok: false };
-                            alert(r.message || (r.ok ? 'OK' : 'Failed'));
-                        } else {
-                            alert((res.data && res.data.message) || 'Error');
-                        }
-                    })
-                    .catch(function (e) { btn.disabled = false; alert(String(e)); });
-            });
-        });
-    })();
-    </script>
+    <?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-seo-dashboard.js ?>
 </div>

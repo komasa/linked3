@@ -40,7 +40,7 @@ class OSTextCreationAjax {
     public static function ajax_reverse() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSTextCreationAjax {
     public static function ajax_types() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSTextCreationAjax {
     public static function ajax_dimensions() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -132,11 +132,11 @@ class OSTextCreationAjax {
      */
     private static function execute_reverse(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSTextCreation')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $json_raw = $params['json_raw'] ?? '';
         if (empty($json_raw)) {
-            return ['error' => 'json_raw参数为空'];
+            return ['error' => __('json_raw参数为空', 'linked3')];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
         $result = call_user_func(['OSTextCreation', 'reverse_parse'], $json_raw, $engineer_type);
@@ -181,7 +181,7 @@ class OSTextCreationAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSTextCreation')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSTextCreation', 'get_all_options')) {
             $options = call_user_func(['OSTextCreation', 'get_all_options']);
@@ -271,7 +271,7 @@ class OSTextCreationAjax {
             'ajax_version' => '14.6.0',
             'target_class' => 'OSTextCreation',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '逆向文本AJAX接口',
+            'title' => __('逆向文本AJAX接口', 'linked3'),
         ];
     }
 
@@ -279,7 +279,7 @@ class OSTextCreationAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_text_reverse' => '文本逆向', 'linked3_text_types' => '获取类型', 'linked3_text_dimensions' => '获取维度'];
+        return ['linked3_text_reverse' => __('文本逆向', 'linked3'), 'linked3_text_types' => __('获取类型', 'linked3'), 'linked3_text_dimensions' => __('获取维度', 'linked3')];
     }
 
 }

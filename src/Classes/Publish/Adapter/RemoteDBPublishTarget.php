@@ -81,7 +81,7 @@ final class RemoteDBPublishTarget implements PublishTargetInterface
      * @param array $config
      * @return \wpdb|\WP_Error
      */
-    private function connect(array $config) : WP_Error {
+    private function connect(array $config) : mixed {
         $host = $config['db_host'] ?? '';
         $user = $config['db_user'] ?? '';
         $pass = $config['db_password'] ?? '';

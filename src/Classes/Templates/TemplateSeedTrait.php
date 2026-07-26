@@ -45,10 +45,10 @@ trait TemplateSeedTrait
         //   tags   → (无需 V15,只生成标签)
 
         // V15 后缀片段 (复用,避免重复)
-        $v15_title  = "\n品牌调性: {mood}\n文化背景: {culture}";
-        $v15_content= "\n品牌调性: {mood}\n目标读者: {culture}\n平台: {platform}";
-        $v15_meta   = "\n品牌调性: {mood}";
-        $v15_excerpt= "\n品牌调性: {mood}";
+        $v15_title  = __('\n品牌调性: {mood}\n文化背景: {culture}', 'linked3');
+        $v15_content= __('\n品牌调性: {mood}\n目标读者: {culture}\n平台: {platform}', 'linked3');
+        $v15_meta   = __('\n品牌调性: {mood}', 'linked3');
+        $v15_excerpt= __('\n品牌调性: {mood}', 'linked3');
 
         return [
             [

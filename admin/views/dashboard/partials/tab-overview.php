@@ -18,39 +18,39 @@ if (!defined('ABSPATH')) {
                 ?>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:20px 0;">
                     <div class="card" style="padding:15px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
-                        <h3 style="margin-top:0;">当前套餐</h3>
+                        <h3 style="margin-top:0;"><?php echo esc_html__('当前套餐', 'linked3'); ?></h3>
                         <p style="font-size:24px;font-weight:bold;margin:0;"><?php echo esc_html(ucfirst($overview['plan'])); ?></p>
                     </div>
                     <div class="card" style="padding:15px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
-                        <h3 style="margin-top:0;">今日 Token 用量</h3>
+                        <h3 style="margin-top:0;"><?php echo esc_html__('今日 Token 用量', 'linked3'); ?></h3>
                         <p style="font-size:24px;font-weight:bold;margin:0;"><?php echo esc_html(number_format($overview['tokens_today'])); ?> / <?php echo esc_html(number_format($overview['tokens_quota'])); ?></p>
                         <p style="color:#666;margin:5px 0 0;">剩余 <?php echo esc_html(number_format($overview['tokens_remaining'])); ?></p>
                     </div>
                     <div class="card" style="padding:15px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
-                        <h3 style="margin-top:0;">近 30 天 AI 调用</h3>
+                        <h3 style="margin-top:0;"><?php echo esc_html__('近 30 天 AI 调用', 'linked3'); ?></h3>
                         <p style="font-size:24px;font-weight:bold;margin:0;"><?php echo esc_html(number_format($overview['ai_calls_30d'])); ?></p>
                     </div>
                     <div class="card" style="padding:15px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
-                        <h3 style="margin-top:0;">活跃 Agent</h3>
+                        <h3 style="margin-top:0;"><?php echo esc_html__('活跃 Agent', 'linked3'); ?></h3>
                         <p style="font-size:24px;font-weight:bold;margin:0;"><?php echo esc_html((string)$overview['tasks_active']); ?></p>
                         <?php if (empty($overview['tasks_active'])) : ?>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=linked3-dashboard&tab=automation&au_sub=autogpt')); ?>" style="font-size:12px;">→ 创建第一个 Agent</a>
                         <?php endif; ?>
                     </div>
                     <div class="card" style="padding:15px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
-                        <h3 style="margin-top:0;">已配置 Provider</h3>
+                        <h3 style="margin-top:0;"><?php echo esc_html__('已配置 Provider', 'linked3'); ?></h3>
                         <p style="font-size:24px;font-weight:bold;margin:0;"><?php echo esc_html((string)$overview['providers_configured']); ?></p>
                         <?php if (empty($overview['providers_configured'])) : ?>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=api')); ?>" style="font-size:12px;">→ 配置 API Provider</a>
                         <?php endif; ?>
                     </div>
                 </div>
-                <h2>近 30 天用量趋势</h2>
+                <h2><?php echo esc_html__('近 30 天用量趋势', 'linked3'); ?></h2>
                 <div style="background:#fff;border:1px solid #e5e7eb;padding:15px;border-radius:8px;">
                     <?php if (empty($chart)) : ?>
                         <div style="text-align:center;padding:30px;color:#71717A;">
-                            <p style="font-size:14px;margin:0 0 8px 0;">📊 暂无用量数据</p>
-                            <p style="font-size:12px;color:#9ca3af;margin:0 0 12px 0;">配置 API Key 后即可开始使用, 用量数据将在此显示。</p>
+                            <p style="font-size:14px;margin:0 0 8px 0;"><?php echo esc_html__('📊 暂无用量数据', 'linked3'); ?></p>
+                            <p style="font-size:12px;color:#9ca3af;margin:0 0 12px 0;"><?php echo esc_html__('配置 API Key 后即可开始使用, 用量数据将在此显示。', 'linked3'); ?></p>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=api')); ?>" class="button button-primary">→ 去配置 API Key</a>
                         </div>
                     <?php else : ?>
@@ -60,7 +60,7 @@ if (!defined('ABSPATH')) {
                             foreach ($chart as $row) :
                                 $height = $max_tokens > 0 ? max(2, (int)($row['tokens'] / $max_tokens * 140)) : 2;
                             ?>
-                            <div title="<?php echo esc_attr($row['d'] . ': ' . number_format($row['calls']) . ' 次调用, ' . number_format($row['tokens']) . ' tokens'); ?>"
+                            <div title="<?php echo esc_attr($row['d'] . ': ' . number_format($row['calls']) . __(' 次调用, ', 'linked3') . number_format($row['tokens']) . ' tokens'); ?>"
                                  style="flex:1;background:#2563eb;height:<?php echo esc_attr($height); ?>px;border-radius:2px 2px 0 0;"></div>
                             <?php endforeach; ?>
                         </div>
@@ -93,7 +93,7 @@ if (!defined('ABSPATH')) {
                     $v18_color = $v18_pct >= 80 ? '#46b450' : ($v18_pct >= 50 ? '#ffb900' : '#dc3232');
                 ?>
                 <div style="background:#fff;border:1px solid #e5e7eb;padding:15px;border-radius:8px;margin:20px 0;">
-                    <h3 style="margin-top:0;">🔮 V18 子系统状态</h3>
+                    <h3 style="margin-top:0;"><?php echo esc_html__('🔮 V18 子系统状态', 'linked3'); ?></h3>
                     <p style="font-size:14px;">
                         模块加载: <strong style="color:<?php echo esc_attr($v18_color); ?>"><?php echo esc_html("{$v18_loaded}/{$v18_total}"); ?></strong>
                         (<?php echo esc_html($v18_pct); ?>%)
@@ -120,27 +120,27 @@ if (!defined('ABSPATH')) {
 
                 $workflow_steps = [
                     'creation' => [
-                        'icon' => '✍️', 'label' => '创作中心',
-                        'desc' => '写作生态 + 视觉生态 + 云模版',
+                        'icon' => '✍️', 'label' => __('创作中心', 'linked3'),
+                        'desc' => __('写作生态 + 视觉生态 + 云模版', 'linked3'),
                         'count' => $wf_cloud_count . ' 类母版',
                         'url' => admin_url('admin.php?page=linked3-dashboard&tab=creation'),
-                        'btn' => '去创作',
+                        'btn' => __('去创作', 'linked3'),
                         'ok' => $wf_cloud_count > 0,
                     ],
                     'distribution' => [
-                        'icon' => '📤', 'label' => '分发中心',
-                        'desc' => '发布目标 + 社交分发 + 电商',
+                        'icon' => '📤', 'label' => __('分发中心', 'linked3'),
+                        'desc' => __('发布目标 + 社交分发 + 电商', 'linked3'),
                         'count' => $wf_publish_count . ' 个发布目标',
                         'url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution'),
-                        'btn' => '去分发',
+                        'btn' => __('去分发', 'linked3'),
                         'ok' => $wf_publish_count > 0,
                     ],
                     'automation' => [
-                        'icon' => '🤖', 'label' => '自动化',
-                        'desc' => '自动Agent + AI对话',
+                        'icon' => '🤖', 'label' => __('自动化', 'linked3'),
+                        'desc' => __('自动Agent + AI对话', 'linked3'),
                         'count' => $wf_agent_count . ' 个活跃Agent',
                         'url' => admin_url('admin.php?page=linked3-dashboard&tab=automation'),
-                        'btn' => '去配置',
+                        'btn' => __('去配置', 'linked3'),
                         'ok' => $wf_agent_count > 0,
                     ],
                 ];
@@ -153,7 +153,7 @@ if (!defined('ABSPATH')) {
                 <div style="margin:15px 0;padding:12px;background:#FAFAFA;border:1px solid #E4E4E7;border-radius:8px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
                     <span style="font-size:20px;">📋</span>
                     <div>
-                        <strong style="font-size:14px;color:#0F172A;">长尾词库</strong>
+                        <strong style="font-size:14px;color:#0F172A;"><?php echo esc_html__('长尾词库', 'linked3'); ?></strong>
                         <span style="font-size:12px;color:#0F172A;margin-left:8px;">热词: <?php echo (int)$wf_hot_count; ?> | 长尾词: <?php echo (int)$wf_tail_count; ?></span>
                     </div>
                     <a href="<?php echo esc_url(admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&eco_sub=keywords')); ?>" class="button button-small button-primary">→ 管理长尾词库</a>
@@ -162,7 +162,7 @@ if (!defined('ABSPATH')) {
                     <?php endif; ?>
                 </div>
 
-                <h2 style="margin-top:30px;">🔗 工作流联动 <span style="font-size:12px;color:#71717A;font-weight:normal;">创作 → 分发 → 自动化</span></h2>
+                <h2 style="margin-top:30px;"><?php echo esc_html__('🔗 工作流联动', 'linked3'); ?><span style="font-size:12px;color:#71717A;font-weight:normal;"><?php echo esc_html__('创作 → 分发 → 自动化', 'linked3'); ?></span></h2>
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0;">
                     <?php foreach ($workflow_steps as $step): ?>
                     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:15px;position:relative;">
@@ -177,14 +177,14 @@ if (!defined('ABSPATH')) {
                     </div>
                     <?php endforeach; ?>
                 </div>
-                <p style="font-size:11px;color:#9ca3af;margin:0 0 20px 0;">💡 完整工作流: 在创作中心生成内容 → 一键推送到分发中心多平台发布 → 在自动化中心配置Agent定时执行全流程</p>
+                <p style="font-size:11px;color:#9ca3af;margin:0 0 20px 0;"><?php echo esc_html__('💡 完整工作流: 在创作中心生成内容 → 一键推送到分发中心多平台发布 → 在自动化中心配置Agent定时执行全流程', 'linked3'); ?></p>
 
                 <?php
                 // v11.5.3: 工作流模板预设 (P4) — 一键配置场景化工作流
                 $workflow_presets = [
                     'ecommerce' => [
-                        'icon' => '🛒', 'name' => '电商内容矩阵',
-                        'desc' => '商品描述批量生成 → 多平台发布 → 定时上新',
+                        'icon' => '🛒', 'name' => __('电商内容矩阵', 'linked3'),
+                        'desc' => __('商品描述批量生成 → 多平台发布 → 定时上新', 'linked3'),
                         'steps' => ['创作中心选电商行业', 'CSV批量生成', '分发到社交+电商', 'Agent定时执行'],
                         'urls' => [
                             admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&cw_mode=csv'),
@@ -193,8 +193,8 @@ if (!defined('ABSPATH')) {
                         ],
                     ],
                     'selfmedia' => [
-                        'icon' => '📱', 'name' => '自媒体日更',
-                        'desc' => '热点采集 → AI改写 → 多平台同步',
+                        'icon' => '📱', 'name' => __('自媒体日更', 'linked3'),
+                        'desc' => __('热点采集 → AI改写 → 多平台同步', 'linked3'),
                         'steps' => ['采集URL', 'AI改写', '社交分发', 'Agent日更'],
                         'urls' => [
                             admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish'),
@@ -203,8 +203,8 @@ if (!defined('ABSPATH')) {
                         ],
                     ],
                     'knowledge' => [
-                        'icon' => '📚', 'name' => '知识库建设',
-                        'desc' => '长文写作 → SEO优化 → 内链建设',
+                        'icon' => '📚', 'name' => __('知识库建设', 'linked3'),
+                        'desc' => __('长文写作 → SEO优化 → 内链建设', 'linked3'),
                         'steps' => ['长文写作', 'SEO关键词', 'Schema标记', '推送收录'],
                         'urls' => [
                             admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&cw_mode=longform'),
@@ -212,8 +212,8 @@ if (!defined('ABSPATH')) {
                         ],
                     ],
                     'visual' => [
-                        'icon' => '🎨', 'name' => '视觉内容工厂',
-                        'desc' => '图示/漫画/视频脚本 → 多形态输出',
+                        'icon' => '🎨', 'name' => __('视觉内容工厂', 'linked3'),
+                        'desc' => __('图示/漫画/视频脚本 → 多形态输出', 'linked3'),
                         'steps' => ['云模版选母版', '图示脚本', '漫画脚本', '视频脚本'],
                         'urls' => [
                             admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=cloud'),
@@ -222,7 +222,7 @@ if (!defined('ABSPATH')) {
                     ],
                 ];
                 ?>
-                <h2 style="margin-top:20px;">🎯 工作流模板预设 <span style="font-size:12px;color:#71717A;font-weight:normal;">一键配置场景化工作流</span></h2>
+                <h2 style="margin-top:20px;"><?php echo esc_html__('🎯 工作流模板预设', 'linked3'); ?><span style="font-size:12px;color:#71717A;font-weight:normal;"><?php echo esc_html__('一键配置场景化工作流', 'linked3'); ?></span></h2>
                 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:15px 0;">
                     <?php foreach ($workflow_presets as $preset): ?>
                     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:14px;">
@@ -247,7 +247,7 @@ if (!defined('ABSPATH')) {
                     </div>
                     <?php endforeach; ?>
                 </div>
-                <p style="font-size:11px;color:#9ca3af;margin:0 0 20px 0;">💡 v11.6.2: 点击"向导式配置"打开4步引导浮层，逐步完成配置并跳转。</p>
+                <p style="font-size:11px;color:#9ca3af;margin:0 0 20px 0;"><?php echo esc_html__('💡 v11.6.2: 点击"向导式配置"打开4步引导浮层，逐步完成配置并跳转。', 'linked3'); ?></p>
 
                 <!-- v11.6.2: 工作流向导浮层 (G5-P2) -->
                 <div id="lk3-wizard-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99998;align-items:center;justify-content:center;">
@@ -268,88 +268,15 @@ if (!defined('ABSPATH')) {
                                 <div class="lk3-wizard-dot" data-step="2" style="flex:1;height:4px;background:#e5e7eb;border-radius:2px;"></div>
                                 <div class="lk3-wizard-dot" data-step="3" style="flex:1;height:4px;background:#e5e7eb;border-radius:2px;"></div>
                             </div>
-                            <div id="lk3-wizard-stepnum" style="font-size:11px;color:#9ca3af;margin-bottom:8px;">步骤 1/4</div>
+                            <div id="lk3-wizard-stepnum" style="font-size:11px;color:#9ca3af;margin-bottom:8px;"><?php echo esc_html__('步骤 1/4', 'linked3'); ?></div>
                             <div id="lk3-wizard-body" style="font-size:14px;line-height:1.6;min-height:60px;"></div>
                         </div>
                         <div style="padding:12px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;">
-                            <button type="button" id="lk3-wizard-prev" class="button" disabled>← 上一步</button>
+                            <button type="button" id="lk3-wizard-prev" class="button" disabled><?php echo esc_html__('← 上一步', 'linked3'); ?></button>
                             <span id="lk3-wizard-hint" style="font-size:11px;color:#9ca3af;align-self:center;"></span>
-                            <button type="button" id="lk3-wizard-next" class="button button-primary">下一步 →</button>
+                            <button type="button" id="lk3-wizard-next" class="button button-primary"><?php echo esc_html__('下一步 →', 'linked3'); ?></button>
                         </div>
                     </div>
                 </div>
-                <script>
-                (function(){
-                    var overlay = document.getElementById('lk3-wizard-overlay');
-                    var stepIdx = 0;
-                    var curSteps = [], curUrls = [];
-
-                    function openWizard(icon, name, desc, stepsJson, urlsJson) {
-                        stepIdx = 0;
-                        curSteps = JSON.parse(stepsJson);
-                        curUrls = JSON.parse(urlsJson);
-                        document.getElementById('lk3-wizard-icon').textContent = icon;
-                        document.getElementById('lk3-wizard-title').textContent = name;
-                        document.getElementById('lk3-wizard-desc').textContent = desc;
-                        overlay.style.display = 'flex';
-                        renderStep();
-                    }
-                    function renderStep() {
-                        document.getElementById('lk3-wizard-stepnum').textContent = '步骤 ' + (stepIdx+1) + '/' + curSteps.length;
-                        document.getElementById('lk3-wizard-body').innerHTML =
-                            '<div style="background:#F4F4F5;border:1px solid #bbf7d0;padding:12px;border-radius:6px;margin-bottom:12px;">'
-                            + '<strong>✅ 当前步骤:</strong> ' + curSteps[stepIdx] + '</div>'
-                            + '<p style="font-size:12px;color:#71717A;">点击"前往完成"跳转到对应配置页，完成后返回此向导继续下一步。</p>';
-                        // 进度条
-                        document.querySelectorAll('.lk3-wizard-dot').forEach(function(d, i){
-                            d.style.background = i <= stepIdx ? '#2563eb' : '#e5e7eb';
-                        });
-                        // 按钮
-                        document.getElementById('lk3-wizard-prev').disabled = (stepIdx === 0);
-                        var nextBtn = document.getElementById('lk3-wizard-next');
-                        if (stepIdx === curSteps.length - 1) {
-                            nextBtn.textContent = '🎉 完成';
-                        } else if (curUrls[stepIdx]) {
-                            nextBtn.textContent = '前往完成 →';
-                        } else {
-                            // v16.0.24: 无url的说明步骤, 显示"下一步"
-                            nextBtn.textContent = '下一步 →';
-                        }
-                        document.getElementById('lk3-wizard-hint').textContent = curUrls[stepIdx] ? '将跳转: ' + curUrls[stepIdx].split('tab=')[1] : '本步骤为说明性步骤, 点击下一步继续';
-                    }
-                    document.querySelectorAll('.lk3-wizard-btn').forEach(function(btn){
-                        btn.addEventListener('click', function(){
-                            openWizard(this.dataset.icon, this.dataset.preset, this.dataset.desc, this.dataset.steps, this.dataset.urls);
-                        });
-                    });
-                    document.getElementById('lk3-wizard-close').addEventListener('click', function(){ overlay.style.display = 'none'; });
-                    document.getElementById('lk3-wizard-prev').addEventListener('click', function(){ if (stepIdx > 0) { stepIdx--; renderStep(); } });
-                    document.getElementById('lk3-wizard-next').addEventListener('click', function(){
-                        if (stepIdx === curSteps.length - 1) {
-                            overlay.style.display = 'none';
-                            alert('🎉 工作流配置完成! 你可以开始使用了。');
-                        } else {
-                            // v16.0.24修复: 无url的步骤(如纯说明步骤)不跳转, 直接前进
-                            var targetUrl = curUrls[stepIdx];
-                            if (targetUrl) {
-                                window.open(targetUrl, '_blank');
-                            }
-                            stepIdx++;
-                            renderStep();
-                        }
-                    });
-                    // v27.9.0 (P1-B): 修复鼠标拖选文本时浮层误关 — 追踪 mousedown 起点
-                    var wizardMouseDownTarget = null;
-                    overlay.addEventListener('mousedown', function(e){
-                        wizardMouseDownTarget = e.target;
-                    });
-                    overlay.addEventListener('click', function(e){
-                        // 只有 mousedown 和 mouseup 都在 overlay 背景上才关闭
-                        if (e.target === overlay && wizardMouseDownTarget === overlay) {
-                            overlay.style.display = 'none';
-                        }
-                        wizardMouseDownTarget = null;
-                    });
-                })();
-                </script>
+                <?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-tab-overview.js ?>
                 <?php

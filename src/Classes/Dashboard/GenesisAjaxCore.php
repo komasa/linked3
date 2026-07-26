@@ -6,17 +6,17 @@ if (!defined('ABSPATH')) exit;
 class GenesisAjaxCore
 {
     static function ajax_genesis_generate(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
         $styleId = sanitize_text_field($_POST['style'] ?? 'exorcism_dark_ink');
         $platform = sanitize_text_field($_POST['platform'] ?? 'midjourney');
         if (empty($script)) {
-            wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('请输入剧本', 'linked3')]);
         }
         if (!class_exists('\Linked3\Classes\Genesis\GenesisPlotParser')) {
-            wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3')]);
         }
         // v7.0.3: 统一走 AI 拆分路径 (不再用旧 PlotParser 直接解析)
         $panelCountRaw = sanitize_text_field($_POST['panel_count'] ?? 'auto');
@@ -34,10 +34,10 @@ class GenesisAjaxCore
                     'location' => mb_substr($script, 0, 20),
                     'characters' => [],
                     'action' => mb_substr($script, 0, 100),
-                    'mood' => '紧张',
-                    'shot' => '中景',
-                    'angle' => '平视',
-                    'comp' => '三分法',
+                    'mood' => __('紧张', 'linked3'),
+                    'shot' => __('中景', 'linked3'),
+                    'angle' => __('平视', 'linked3'),
+                    'comp' => __('三分法', 'linked3'),
                 ]];
             }
             // 用 AI 拆分结果组装 Prompt
@@ -95,11 +95,11 @@ class GenesisAjaxCore
     }
 
     static function ajax_genesis_styles(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         if (!class_exists('\Linked3\Classes\Dashboard\GenesisAtomIndex')) {
-            wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('Genesis 引擎未加载', 'linked3')]);
         }
         $index = \GenesisAtomIndex::instance();
         $styles = $index->getStyles();
@@ -125,7 +125,7 @@ class GenesisAjaxCore
                 echo wp_json_encode([
                     'success' => false,
                     'data'    => [
-                        'message'   => __('服务器内部错误: ', 'linked3-ai') . $err['message'],
+                        'message'   => __('服务器内部错误: ', 'linked3') . $err['message'],
                         'error_type'=> 'fatal',
                         'file'      => WP_DEBUG ? basename($err['file']) : '',
                         'line'      => WP_DEBUG ? $err['line'] : 0,
@@ -138,15 +138,15 @@ class GenesisAjaxCore
             while (ob_get_level() > 0) ob_end_clean();
             ob_start();
         }
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
         $styleId = sanitize_text_field($_POST['style'] ?? 'exorcism_dark_ink');
         $platform = sanitize_text_field($_POST['platform'] ?? 'midjourney');
         $panelCountRaw = sanitize_text_field($_POST['panel_count'] ?? 'auto');
         if (empty($script)) {
-            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3')]);
         }
         // v7.1.0: 确定分镜数量
         $isAuto = ($panelCountRaw === 'auto');
@@ -183,9 +183,9 @@ class GenesisAjaxCore
     }
 
     static function ajax_genesis_test_connection(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         $t0 = microtime(true);
         // 预检
         $preflight = GenesisProcessorDelegates::genesisPreflightCheck();
@@ -215,7 +215,7 @@ class GenesisAjaxCore
             $elapsed = (int)((microtime(true) - $t0) * 1000);
             $content = trim($result['content'] ?? '');
             wp_send_json_success([
-                'message'    => __('连接成功', 'linked3-ai'),
+                'message'    => __('连接成功', 'linked3'),
                 'provider'   => $providerSlug,
                 'model'      => $model,
                 'response'   => mb_substr($content, 0, 50),
@@ -225,7 +225,7 @@ class GenesisAjaxCore
         } catch (\Throwable $e) {
             $elapsed = (int)((microtime(true) - $t0) * 1000);
             wp_send_json_error([
-                'message'    => __('AI 调用失败: ', 'linked3-ai') . $e->getMessage(),
+                'message'    => __('AI 调用失败: ', 'linked3') . $e->getMessage(),
                 'stage'      => 'ai_call',
                 'elapsed_ms' => $elapsed,
                 'error_class'=> get_class($e),
@@ -244,14 +244,14 @@ class GenesisAjaxCore
                 }
                 echo wp_json_encode([
                     'success' => false,
-                    'data'    => ['message' => __('服务器内部错误: ', 'linked3-ai') . $err['message'], 'error_type' => 'fatal'],
+                    'data'    => ['message' => __('服务器内部错误: ', 'linked3') . $err['message'], 'error_type' => 'fatal'],
                 ]);
             }
         });
         while (ob_get_level() > 0) ob_end_clean();
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
         $styleId = sanitize_text_field($_POST['style'] ?? 'exorcism_dark_ink');
         $platform = sanitize_text_field($_POST['platform'] ?? 'midjourney');
@@ -261,7 +261,7 @@ class GenesisAjaxCore
         $chapterMarker = sanitize_text_field($_POST['chapter_marker'] ?? 'auto');
         // v8.0.0: seed_id
         $seedId = sanitize_text_field($_POST['seed_id'] ?? '');
-        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
+        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3')]);
         // 预检 (50ms 内快速失败)
         $preflight = GenesisProcessorDelegates::genesisPreflightCheck();
         if (!$preflight['ok']) {
@@ -294,7 +294,7 @@ class GenesisAjaxCore
                     'status'           => 'pending',
                     'poll_interval_ms' => $jobInfo['poll_interval_ms'],
                     'exec_mode'        => $execMode,
-                    'message'          => __('任务已创建, 后台执行中 (fastcgi_finish_request)', 'linked3-ai'),
+                    'message'          => __('任务已创建, 后台执行中 (fastcgi_finish_request)', 'linked3'),
                 ],
             ];
             echo wp_json_encode($response);
@@ -316,7 +316,7 @@ class GenesisAjaxCore
                 'status'           => 'pending',
                 'poll_interval_ms' => $jobInfo['poll_interval_ms'],
                 'exec_mode'        => $execMode,
-                'message'          => __('任务已创建, 执行模式: ', 'linked3-ai') . $execMode,
+                'message'          => __('任务已创建, 执行模式: ', 'linked3') . $execMode,
             ]);
         }
     }

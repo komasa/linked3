@@ -73,7 +73,7 @@ class FPExtractor
             $cached = get_transient($cache_key);
             if (is_array($cached) && !empty($cached['action_en'])) {
                 if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
-                    GenesisLogger::debug('FP缓存命中', ['cache_key' => $cache_key], 'fp_extract');
+                    GenesisLogger::debug(__('FP缓存命中', 'linked3'), ['cache_key' => $cache_key], 'fp_extract');
                 }
                 $cached['source'] = 'cache';
                 return $cached;
@@ -91,7 +91,7 @@ class FPExtractor
             }
             // AI失败, 记录日志
             if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
-                GenesisLogger::warn('FP AI提取失败, 降级本地兜底', [
+                GenesisLogger::warn(__('FP AI提取失败, 降级本地兜底', 'linked3'), [
                     'text_preview' => mb_substr($text, 0, 50),
                 ], 'fp_extract');
             }
@@ -117,7 +117,7 @@ class FPExtractor
         if ($this->token_bucket && !$this->token_bucket->acquire(1, 5)) {
             // 5秒内拿不到令牌, 直接降级本地兜底
             if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
-                GenesisLogger::warn('FP令牌桶限流, 降级本地兜底', [
+                GenesisLogger::warn(__('FP令牌桶限流, 降级本地兜底', 'linked3'), [
                     'text_preview' => mb_substr($text, 0, 50),
                 ], 'fp_extract');
             }
@@ -132,10 +132,10 @@ class FPExtractor
             "- what: main action in English (e.g. 'boarding the first high-speed train')\n" .
             "- where: location in English (e.g. 'Jingmen station')\n" .
             "- when: time context in English (e.g. 'opening day', 'night', 'morning')\n" .
-            "- emotion: one Chinese word from: 振奋/期待/专注/温情/希望/决心/宁静/愉悦/紧张/焦虑/悲伤/愤怒/恐惧/释然/自豪/孤独/怀念/惊讶/平和\n" .
+            __("- emotion: one Chinese word from: 振奋/期待/专注/温情/希望/决心/宁静/愉悦/紧张/焦虑/悲伤/愤怒/恐惧/释然/自豪/孤独/怀念/惊讶/平和\n", 'linked3') .
             "- theme: one sentence theme in English\n" .
             "- action_en: a complete English phrase describing the action for image generation (15-30 words)\n\n" .
-            "Example for '去年荆荆高铁开通':\n" .
+            __("Example for '去年荆荆高铁开通':\n", 'linked3') .
             "{\"who\":\"a traveler\",\"what\":\"boarding the first high-speed train\",\"where\":\"Jingmen station\",\"when\":\"opening day\",\"emotion\":\"振奋\",\"theme\":\"transportation milestone\",\"action_en\":\"a traveler boarding the first high-speed train at Jingmen station on opening day, warm golden hour light\"}\n\n" .
             "Return only JSON, no explanation.",
             mb_substr($text, 0, 500)

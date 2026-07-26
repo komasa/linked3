@@ -13,12 +13,12 @@ if (!defined('ABSPATH')) exit;
 
 class DiagramCognitive6Level {
     private array $levels = [
-        'R'  => ['name_zh' => '记忆', 'name_en' => 'Remember', 'desc' => '识别/回忆'],
-        'U'  => ['name_zh' => '理解', 'name_en' => 'Understand', 'desc' => '解释/概括'],
-        'A'  => ['name_zh' => '应用', 'name_en' => 'Apply', 'desc' => '执行/实施'],
-        'An' => ['name_zh' => '分析', 'name_en' => 'Analyze', 'desc' => '分解/比较'],
-        'E'  => ['name_zh' => '评价', 'name_en' => 'Evaluate', 'desc' => '判断/批判'],
-        'C'  => ['name_zh' => '创造', 'name_en' => 'Create', 'desc' => '设计/生成'],
+        'R'  => ['name_zh' => __('记忆', 'linked3'), 'name_en' => 'Remember', 'desc' => __('识别/回忆', 'linked3')],
+        'U'  => ['name_zh' => __('理解', 'linked3'), 'name_en' => 'Understand', 'desc' => __('解释/概括', 'linked3')],
+        'A'  => ['name_zh' => __('应用', 'linked3'), 'name_en' => 'Apply', 'desc' => __('执行/实施', 'linked3')],
+        'An' => ['name_zh' => __('分析', 'linked3'), 'name_en' => 'Analyze', 'desc' => __('分解/比较', 'linked3')],
+        'E'  => ['name_zh' => __('评价', 'linked3'), 'name_en' => 'Evaluate', 'desc' => __('判断/批判', 'linked3')],
+        'C'  => ['name_zh' => __('创造', 'linked3'), 'name_en' => 'Create', 'desc' => __('设计/生成', 'linked3')],
     ];
 
     private array $bandDefaults = [

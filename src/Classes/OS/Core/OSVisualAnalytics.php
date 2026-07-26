@@ -163,7 +163,7 @@ class OSVisualAnalytics {
             'total_scenes' => self::SVG_STATS_BASELINE['total_scenes'],
             'total_meta_dims' => self::SVG_STATS_BASELINE['total_meta_dims'],
             'chart_types_count' => count(self::CHART_TYPE_DISTRIBUTION),
-            'source' => 'V18法篇6 + svg原子级meta全量.xlsx',
+            'source' => __('V18法篇6 + svg原子级meta全量.xlsx', 'linked3'),
         ];
     }
 }

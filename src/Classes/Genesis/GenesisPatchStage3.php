@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Genesis;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class GenesisPatchStage3
 {
     public static function ajax_seed_generate_full() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
         $styleId = sanitize_text_field($_POST['style'] ?? 'documentary_photo');
-        $seedName = sanitize_text_field($_POST['seed_name'] ?? '未命名 Seed');
+        $seedName = sanitize_text_field($_POST['seed_name'] ?? __('未命名 Seed', 'linked3'));
         $scriptType = sanitize_text_field($_POST['script_type'] ?? 'comic');
 
-        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
+        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3')]);
 
         @set_time_limit(120);
         @ini_set('memory_limit', '512M');
@@ -26,7 +28,7 @@ class GenesisPatchStage3
             $created = ['characters' => [], 'scenes' => [], 'props' => [], 'style' => null, 'palette' => null, 'brand' => null, 'total' => 0];
 
             if (!class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT') || !method_exists('\Linked3\Classes\Genesis\GenesisSeedCPT', 'create')) {
-                wp_send_json_error(['message' => __('Seed CPT 不可用', 'linked3-ai')]);
+                wp_send_json_error(['message' => __('Seed CPT 不可用', 'linked3')]);
             }
 
             self::createCharacterSeeds($dna['characters'] ?? [], $seedName, $created);
@@ -40,10 +42,10 @@ class GenesisPatchStage3
                 'seed_id' => $seedName,
                 'dna' => $dna,
                 'created' => $created,
-                'message' => __('SEED 库生成成功, 共 ', 'linked3-ai') . $created['total'] . ' 个 SEED',
+                'message' => __('SEED 库生成成功, 共 ', 'linked3') . $created['total'] . __(' 个 SEED', 'linked3'),
             ]);
         } catch (\Throwable $e) {
-            wp_send_json_error(['message' => __('SEED 生成失败: ', 'linked3-ai') . $e->getMessage()]);
+            wp_send_json_error(['message' => __('SEED 生成失败: ', 'linked3') . $e->getMessage()]);
         }
     }
 
@@ -60,9 +62,8 @@ class GenesisPatchStage3
             try {
                 $dna = \GenesisSeedDNA::generate($script, $styleId, $styleName);
             } catch (\Throwable $e) {
-                if (function_exists('error_log')) {
-                    error_log('[linked3 v10.1.0] SeedDNA::generate failed: ' . $e->getMessage());
-                }
+                Logger::instance()->error('ai', '[linked3 v10.1.0] SeedDNA::generate failed: ' . $e->getMessage());
+
             }
         }
 
@@ -91,7 +92,7 @@ class GenesisPatchStage3
     {
         if (empty($characters)) return;
         foreach ($characters as $idx => $char) {
-            $charName = is_array($char) ? ($char['name'] ?? '角色' . ($idx + 1)) : (string)$char;
+            $charName = is_array($char) ? ($char['name'] ?? __('角色', 'linked3') . ($idx + 1)) : (string)$char;
             if (empty($charName)) continue;
             $seedId = 'CHAR_' . date('md') . '_' . $idx . '_' . mb_substr(md5($charName), 0, 6);
             $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
@@ -102,7 +103,7 @@ class GenesisPatchStage3
             $features = is_array($char) ? ($char['distinctive_features'] ?? '') : '';
 
             $postId = \GenesisSeedCPT::create([
-                'title' => $charName . ' (角色)',
+                'title' => $charName . __(' (角色)', 'linked3'),
                 'seed_id' => $seedId,
                 'seed_type' => 'fixed',
                 'seed_category' => 'char',
@@ -125,7 +126,7 @@ class GenesisPatchStage3
     {
         if (empty($scenes)) return;
         foreach ($scenes as $idx => $scene) {
-            $sceneName = is_array($scene) ? ($scene['name'] ?? '场景' . ($idx + 1)) : (string)$scene;
+            $sceneName = is_array($scene) ? ($scene['name'] ?? __('场景', 'linked3') . ($idx + 1)) : (string)$scene;
             if (empty($sceneName)) continue;
             $seedId = 'SCENE_' . date('md') . '_' . $idx . '_' . mb_substr(md5($sceneName), 0, 6);
             $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
@@ -136,7 +137,7 @@ class GenesisPatchStage3
             $atmosphere = is_array($scene) ? ($scene['atmosphere'] ?? '') : '';
 
             $postId = \GenesisSeedCPT::create([
-                'title' => $sceneName . ' (场景)',
+                'title' => $sceneName . __(' (场景)', 'linked3'),
                 'seed_id' => $seedId,
                 'seed_type' => 'variable',
                 'seed_category' => 'scene',
@@ -163,9 +164,9 @@ class GenesisPatchStage3
             $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
             if ($existing) continue;
             $postId = \GenesisSeedCPT::create([
-                'title' => $propName . ' (道具)',
+                'title' => $propName . __(' (道具)', 'linked3'),
                 'seed_id' => $seedId, 'seed_type' => 'fixed', 'seed_category' => 'prop',
-                'visual_dna' => ['name' => $propName, 'description' => '从剧本提取的关键道具'],
+                'visual_dna' => ['name' => $propName, 'description' => __('从剧本提取的关键道具', 'linked3')],
                 'personality_dna' => [],
                 'priority' => ['critical' => ['name'], 'important' => [], 'flexible' => []],
                 'lock' => ['name'],
@@ -188,7 +189,7 @@ class GenesisPatchStage3
         $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
         if (!$existing) {
             $postId = \GenesisSeedCPT::create([
-                'title' => $styleNameCn . ' (风格)',
+                'title' => $styleNameCn . __(' (风格)', 'linked3'),
                 'seed_id' => $seedId, 'seed_type' => 'fixed', 'seed_category' => 'style',
                 'visual_dna' => [
                     'prompt_keywords' => $styleConfig['meta_prompt'] ?? '',
@@ -218,7 +219,7 @@ class GenesisPatchStage3
         $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
         if (!$existing) {
             $postId = \GenesisSeedCPT::create([
-                'title' => $seedName . ' (色板)',
+                'title' => $seedName . __(' (色板)', 'linked3'),
                 'seed_id' => $seedId, 'seed_type' => 'fixed', 'seed_category' => 'palette',
                 'visual_dna' => ['color_palette' => $palette],
                 'personality_dna' => [],
@@ -241,9 +242,9 @@ class GenesisPatchStage3
         $existing = \GenesisSeedCPT::get_by_seed_id($seedId);
         if (!$existing) {
             $postId = \GenesisSeedCPT::create([
-                'title' => $brandName . ' (品牌)',
+                'title' => $brandName . __(' (品牌)', 'linked3'),
                 'seed_id' => $seedId, 'seed_type' => 'fixed', 'seed_category' => 'brand',
-                'visual_dna' => ['name' => $brandName, 'description' => '从剧本提取的品牌/IP元素'],
+                'visual_dna' => ['name' => $brandName, 'description' => __('从剧本提取的品牌/IP元素', 'linked3')],
                 'personality_dna' => [],
                 'priority' => ['critical' => ['name'], 'important' => [], 'flexible' => []],
                 'lock' => ['name'],
@@ -255,9 +256,9 @@ class GenesisPatchStage3
     }
 
     public static function ajax_v9_stage1_fixed() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $inputs = self::parseStage1Inputs();
         $script = $inputs['script'];
@@ -278,7 +279,7 @@ class GenesisPatchStage3
             $styleId = GenesisPatchV1006::auto_detect_style($script);
         }
 
-        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
+        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3')]);
 
         @set_time_limit(120);
         @ini_set('memory_limit', '512M');
@@ -309,7 +310,7 @@ class GenesisPatchStage3
 
             $skeletonId = 'documentary_photo';
             if (class_exists('\Linked3\Classes\Genesis\SceneAxis')) {
-                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+                try { $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) @ob_end_clean();
@@ -331,7 +332,7 @@ class GenesisPatchStage3
             ]);
         } catch (\Throwable $e) {
             if (function_exists('ob_end_clean')) @ob_end_clean();
-            wp_send_json_error(['message' => __('Stage 1 失败: ', 'linked3-ai') . $e->getMessage(), 'file' => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '']);
+            wp_send_json_error(['message' => __('Stage 1 失败: ', 'linked3') . $e->getMessage(), 'file' => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '']);
         } finally {
             error_reporting($prev_er_v1006);
         }
@@ -403,7 +404,7 @@ class GenesisPatchStage3
             $beats = $storyData['beats'] ?? [];
             $characters = $storyData['characters'] ?? [];
             $theme = $storyData['theme'] ?? '';
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         return [$beats, $characters, $theme, $storySource];
     }
 

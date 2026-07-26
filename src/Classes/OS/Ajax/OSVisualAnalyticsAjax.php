@@ -41,12 +41,12 @@ class OSVisualAnalyticsAjax {
     public static function ajax_get_stats() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
             if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
-                wp_send_json_error(['message' => __('SVG统计核心类未加载', 'linked3-ai')], 500);
+                wp_send_json_error(['message' => __('SVG统计核心类未加载', 'linked3')], 500);
             }
 
             // v18复审: 返回完整统计基线 (面向客户的功能化输出)
@@ -93,7 +93,7 @@ class OSVisualAnalyticsAjax {
                 'available_chart_types' => $chart_types,
                 'available_scenes' => $scenes,
                 'type_specific_stats' => $type_stats,
-                'usage_hint' => '此基线来自1297个真实SVG实例的39维meta统计。设计新图示时，可参考平均值预估复杂度，参考最大值避免超载。',
+                'usage_hint' => __('此基线来自1297个真实SVG实例的39维meta统计。设计新图示时，可参考平均值预估复杂度，参考最大值避免超载。', 'linked3'),
             ];
             wp_send_json_success($result);
         } catch (\Throwable $e) {
@@ -111,7 +111,7 @@ class OSVisualAnalyticsAjax {
     public static function ajax_predict() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -133,7 +133,7 @@ class OSVisualAnalyticsAjax {
     public static function ajax_baseline() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -211,7 +211,7 @@ class OSVisualAnalyticsAjax {
      */
     private static function execute_predict(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $chart_type = $params['chart_type'] ?? 'D08';
         $prediction = call_user_func(['OSVisualAnalytics', 'predict_atom_count'], $chart_type);
@@ -223,7 +223,7 @@ class OSVisualAnalyticsAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSVisualAnalytics', 'get_all_options')) {
             $options = call_user_func(['OSVisualAnalytics', 'get_all_options']);
@@ -313,7 +313,7 @@ class OSVisualAnalyticsAjax {
             'ajax_version' => '14.2.0',
             'target_class' => 'OSVisualAnalytics',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => 'SVG统计AJAX接口',
+            'title' => __('SVG统计AJAX接口', 'linked3'),
         ];
     }
 
@@ -321,7 +321,7 @@ class OSVisualAnalyticsAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_svg_stats' => '获取统计', 'linked3_svg_predict' => '预测原子数', 'linked3_svg_baseline' => '获取基线'];
+        return ['linked3_svg_stats' => __('获取统计', 'linked3'), 'linked3_svg_predict' => __('预测原子数', 'linked3'), 'linked3_svg_baseline' => __('获取基线', 'linked3')];
     }
 
 }

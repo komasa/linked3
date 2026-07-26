@@ -13,15 +13,15 @@ if (!trait_exists('ScriptFactoryTrait')) {
 
 class ChartsFactory {
     private $bands = [
-        'hook'  => ['name' => '开头钩子', 'min_words' => 20, 'max_words' => 80],
-        'body'  => ['name' => '正文展开', 'min_words' => 100, 'max_words' => 400],
-        'proof' => ['name' => '信任背书', 'min_words' => 50, 'max_words' => 200],
-        'cta'   => ['name' => '行动号召', 'min_words' => 15, 'max_words' => 60],
+        'hook'  => ['name' => __('开头钩子', 'linked3'), 'min_words' => 20, 'max_words' => 80],
+        'body'  => ['name' => __('正文展开', 'linked3'), 'min_words' => 100, 'max_words' => 400],
+        'proof' => ['name' => __('信任背书', 'linked3'), 'min_words' => 50, 'max_words' => 200],
+        'cta'   => ['name' => __('行动号召', 'linked3'), 'min_words' => 15, 'max_words' => 60],
     ];
 
         public function __construct() { return ChartsFactoryHelpers::__construct(); }
 
-        public function compile(array $context) : mixed { return ChartsFactoryHelpers::compile($context); }
+        protected function compile(array $context): array { return ChartsFactoryHelpers::compile($context); }
 
         public function split_long_article(string $article, int $target_count) : mixed { return ChartsFactoryHelpers::split_long_article($article, $target_count); }
 
@@ -63,7 +63,7 @@ class ChartsFactory {
         $first_line = trim(explode("\n", $section)[0]);
         $first_line = preg_replace('/^(?:[一二三四五六七八九十]+[、．\.]|（[一二三四五六七八九十]+）|[0-9]+[、．\.]|第[一二三四五六七八九十]+[部分章节])\s*/', '', $first_line);
         $title = mb_substr($first_line, 0, 30);
-        return $title ?: ('第' . ($idx + 1) . '部分');
+        return $title ?: (__('第', 'linked3') . ($idx + 1) . __('部分', 'linked3'));
     }
 
     private function extract_section_summary(string $section): string {
@@ -133,7 +133,7 @@ class ChartsFactory {
                 'scene_summary' => $scene_summary,
                 'scene_content' => mb_substr($scene_topic, 0, 500),
                 'structure_id' => $structure_id,
-                'structure_label' => $structure_config['label'] ?? '4Band 信息图',
+                'structure_label' => $structure_config['label'] ?? __('4Band 信息图', 'linked3'),
                 'structure_zones' => $structure_zones, // v19.52: 输出 zones 供前端布局
                 'bands' => $scene_bands, // v19.52: 按结构 zones 生成（非硬编码 4Band）
                 'visual_prompt' => $unified_prompt,
@@ -207,7 +207,7 @@ class ChartsFactory {
             }
         }
         return [
-            'label' => '4Band 信息图',
+            'label' => __('4Band 信息图', 'linked3'),
             'layout_desc' => '4Band vertical layout',
             'visual_keywords' => '4-band layout',
             'prompt_template' => 'with 4Band vertical layout structure: [Top Hook zone] big title; [Middle Body zone] info points; [Lower Proof zone] data charts; [Bottom CTA zone] action button.',
@@ -222,7 +222,7 @@ class ChartsFactory {
         $bands_expected = ['hook', 'body', 'proof', 'cta'];
         $bands_complete = count(array_intersect($bands_present, $bands_expected)) === 4;
         $checks['bands_complete'] = [
-            'name' => '4Band完整',
+            'name' => __('4Band完整', 'linked3'),
             'passed' => $bands_complete,
             'value' => $bands_present,
         ];
@@ -230,7 +230,7 @@ class ChartsFactory {
 
         $cta_present = !empty($output['bands']['cta']['text_overlay']);
         $checks['cta_present'] = [
-            'name' => 'CTA存在',
+            'name' => __('CTA存在', 'linked3'),
             'passed' => $cta_present,
             'value' => $cta_present,
         ];
@@ -239,14 +239,14 @@ class ChartsFactory {
         $hook_text = $output['bands']['hook']['text_overlay'] ?? '';
         $hook_engaging = preg_match('/[?？]|\d|!！/', $hook_text);
         $checks['hook_engaging'] = [
-            'name' => 'Hook吸引力',
+            'name' => __('Hook吸引力', 'linked3'),
             'passed' => (bool)$hook_engaging,
             'value' => $hook_text,
         ];
         if ($hook_engaging) $score += 20;
 
         $checks['word_count'] = [
-            'name' => '字数合规',
+            'name' => __('字数合规', 'linked3'),
             'passed' => true,
             'value' => 'all bands within range',
         ];
@@ -257,7 +257,7 @@ class ChartsFactory {
             if (!empty($band['visual_prompt'])) $image_suggestions++;
         }
         $checks['image_suggestions'] = [
-            'name' => '图片建议存在',
+            'name' => __('图片建议存在', 'linked3'),
             'passed' => $image_suggestions >= 3,
             'value' => $image_suggestions,
         ];
@@ -287,10 +287,10 @@ class ChartsFactory {
         $snippet = $scene_summary ?: mb_substr($scene_content, 0, 30);
 
         $templates = [
-            'hook' => $keyword . '：关键要点速览',
-            'body' => $snippet . '… 详细解读见下图',
-            'proof' => '核心数据与政策依据：' . $keyword,
-            'cta' => '收藏本页，随时查阅' . $keyword,
+            'hook' => $keyword . __('：关键要点速览', 'linked3'),
+            'body' => $snippet . __('… 详细解读见下图', 'linked3'),
+            'proof' => __('核心数据与政策依据：', 'linked3') . $keyword,
+            'cta' => __('收藏本页，随时查阅', 'linked3') . $keyword,
         ];
         return $templates[$band] ?? '';
     }

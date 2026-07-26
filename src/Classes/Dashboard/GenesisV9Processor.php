@@ -4,6 +4,8 @@
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
 
+use Linked3\Includes\Log\Logger;
+
 use Linked3\Classes\Templates\TemplateManager;
 use Linked3\Classes\Core\AIDispatcher;
 
@@ -15,9 +17,9 @@ if (!defined('ABSPATH')) {
 final class GenesisV9Processor
 {
     static function ajax_genesis_generate_v9(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
         $styleId = sanitize_text_field($_POST['style'] ?? 'documentary_photo');
@@ -43,7 +45,7 @@ final class GenesisV9Processor
         }
 
         if (empty($script)) {
-            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3')]);
         }
 
         @set_time_limit(900);
@@ -61,9 +63,8 @@ final class GenesisV9Processor
                     $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => true]);
                     $storySource = 'ai';
                 } catch (\Throwable $eA) {
-                    if (function_exists('error_log')) {
-                        error_log('[linked3 v9] Story Parser AI failed, fallback to local: ' . $eA->getMessage());
-                    }
+                    Logger::instance()->warning('general', '[linked3 v9] Story Parser AI failed, fallback to local: ' . $eA->getMessage());
+
                     try {
                         $storyData = \StoryPipeline::parse($scriptTrimmed, ['use_ai' => false]);
                         $storySource = 'local_fallback';
@@ -103,7 +104,7 @@ final class GenesisV9Processor
             if (class_exists('\SceneAxis')) {
                 try {
                     $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
-                } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+                } catch (\Throwable $e) { Logger::instance()->warning('general', $e->getMessage()); }
             }
 
             $fpExtractor = class_exists('\FPExtractor') ? new \FPExtractor() : null;
@@ -136,7 +137,7 @@ final class GenesisV9Processor
 
                     $color = '';
                     if (class_exists('\StoryPipeline')) {
-                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
                     }
 
                     $shotData = [
@@ -167,7 +168,7 @@ final class GenesisV9Processor
 
                     $pqs = ['passed_count' => 0, 'total' => 13];
                     if (class_exists('\QualityLoop')) {
-                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
                     }
 
                     $pqsScores[] = $pqs['passed_count'] ?? 0;
@@ -200,22 +201,21 @@ final class GenesisV9Processor
                         'beat_index' => $i,
                         'error'      => $eBeat->getMessage(),
                     ];
-                    if (function_exists('error_log')) {
-                        error_log('[linked3 v9] Beat #' . ($i + 1) . ' failed, skipped: ' . $eBeat->getMessage());
-                    }
+                    Logger::instance()->warning('general', '[linked3 v9] Beat #' . ($i + 1) . ' failed, skipped: ' . $eBeat->getMessage());
+
                 }
             }
 
             if (empty($results) && !empty($beatErrors)) {
                 wp_send_json_error([
-                    'message' => __('所有分镜生成失败: ', 'linked3-ai') . $beatErrors[0]['error'],
+                    'message' => __('所有分镜生成失败: ', 'linked3') . $beatErrors[0]['error'],
                     'beat_errors' => $beatErrors,
                 ]);
             }
 
             $batchReport = null;
             if (class_exists('\QualityLoop') && count($results) > 1) {
-                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
             }
 
             wp_send_json_success([
@@ -250,7 +250,7 @@ final class GenesisV9Processor
         }
     }
 
-        public static function ajax_genesis_v9_stage1() : bool { return GenesisV9Stages::ajax_genesis_v9_stage1(); }
+        public static function ajax_genesis_v9_stage1() : mixed { return GenesisV9Stages::ajax_genesis_v9_stage1(); }
 
-        public static function ajax_genesis_v9_stage2() : bool { return GenesisV9Stages::ajax_genesis_v9_stage2(); }
+        public static function ajax_genesis_v9_stage2() : mixed { return GenesisV9Stages::ajax_genesis_v9_stage2(); }
 }

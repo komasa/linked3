@@ -32,11 +32,11 @@ class CompositeDeai5d implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'FP' => ['name' => '语义溯源院', 'mission' => '剥骨：剥离一切修饰→提取纯语义核', 'lever' => 'meta_essence', 'kpi' => '语义零遗漏'],
-            'EX' => ['name' => '语法突变军', 'mission' => '破壁：消灭连接词+粉碎SVO→输出破碎结构体', 'lever' => 'meta_reverse', 'kpi' => '逻辑连接词清零'],
-            'C'  => ['name' => '特征绞杀局', 'mission' => '找茬：扫描SVO+节奏→输出AI特征毒瘤清单', 'lever' => 'meta_critique', 'kpi' => 'AI特征清零'],
-            'O'  => ['name' => '语境降维站', 'mission' => '盲区：强制注入极性情绪+口语盐+微观偏见', 'lever' => 'meta_questioning', 'kpi' => '零机械中立感'],
-            'A'  => ['name' => '伪装交付厂', 'mission' => '缝合：同位替换+字数对齐+瑕疵植入→输出终稿', 'lever' => 'meta_execution', 'kpi' => '字数误差≤5%'],
+            'FP' => ['name' => __('语义溯源院', 'linked3'), 'mission' => __('剥骨：剥离一切修饰→提取纯语义核', 'linked3'), 'lever' => 'meta_essence', 'kpi' => __('语义零遗漏', 'linked3')],
+            'EX' => ['name' => __('语法突变军', 'linked3'), 'mission' => __('破壁：消灭连接词+粉碎SVO→输出破碎结构体', 'linked3'), 'lever' => 'meta_reverse', 'kpi' => __('逻辑连接词清零', 'linked3')],
+            'C'  => ['name' => __('特征绞杀局', 'linked3'), 'mission' => __('找茬：扫描SVO+节奏→输出AI特征毒瘤清单', 'linked3'), 'lever' => 'meta_critique', 'kpi' => __('AI特征清零', 'linked3')],
+            'O'  => ['name' => __('语境降维站', 'linked3'), 'mission' => __('盲区：强制注入极性情绪+口语盐+微观偏见', 'linked3'), 'lever' => 'meta_questioning', 'kpi' => __('零机械中立感', 'linked3')],
+            'A'  => ['name' => __('伪装交付厂', 'linked3'), 'mission' => __('缝合：同位替换+字数对齐+瑕疵植入→输出终稿', 'linked3'), 'lever' => 'meta_execution', 'kpi' => __('字数误差≤5%', 'linked3')],
         ];
     }
 

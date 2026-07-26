@@ -19,6 +19,8 @@ declare(strict_types=1);
  */
 
 namespace Linked3\Classes\Content;
+
+use Linked3\Includes\Log\Logger;
     use ContentEcosystemTrait;
 
 
@@ -33,11 +35,11 @@ if (!trait_exists(__NAMESPACE__ . '\\ContentEcosystemTrait')) {
 class ContentWriterFactory {
     /** @var array feicai4.0 5阶段法 */
     private $copywriting_phases = [
-        'context_gather' => '上下文收集: 受众/目标/产品/流量来源',
-        'brief_lock'     => '文案简报锁定: 4-6要点硬门禁',
-        'draft_generate' => '草稿生成: 结构化输出',
-        'self_check'     => '自检: 诚实/清晰/可测',
-        'deliver'        => '交付: 含AB测试建议',
+        'context_gather' => __('上下文收集: 受众/目标/产品/流量来源', 'linked3'),
+        'brief_lock'     => __('文案简报锁定: 4-6要点硬门禁', 'linked3'),
+        'draft_generate' => __('草稿生成: 结构化输出', 'linked3'),
+        'self_check'     => __('自检: 诚实/清晰/可测', 'linked3'),
+        'deliver'        => __('交付: 含AB测试建议', 'linked3'),
     ];
 
     public function __construct() {
@@ -82,7 +84,7 @@ class ContentWriterFactory {
                     $prompt = $mgr->build_prompt($title, $content);
                     return [['prompt' => $prompt, 'source' => 'content_writer_factory']];
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         return [];
     }
@@ -121,7 +123,7 @@ class ContentWriterFactory {
                 if (method_exists($writer, 'generate')) {
                     return $writer->generate($topic, implode(',', $keywords), ['word_count' => $word_count]);
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
 
         // 降级: 模板化生成

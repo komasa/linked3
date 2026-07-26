@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\CognitiveOS\Ajax;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class COSAjaxEvolve
 {
@@ -69,17 +71,15 @@ class COSAjaxEvolve
 
             // v27.8.9-fix: 记录耗时, 帮助诊断
             $elapsed = round(microtime(true) - $start_time, 2);
-            if (function_exists('error_log')) {
-                error_log(sprintf('[linked3 COS] %s 演化完成, 耗时 %ss, status=%s', $gen, $elapsed, $result['status'] ?? 'unknown'));
-            }
+            Logger::instance()->error('ai', sprintf('[linked3 COS] %s 演化完成, 耗时 %ss, status=%s', $gen, $elapsed, $result['status'] ?? 'unknown'));
+
 
             // v27.8.10 (审计Phase1): 如果演化状态非 pass, 返回详细诊断信息
             if (isset($result['status']) && $result['status'] !== 'pass') {
                 $diag = self::build_evolve_diagnosis($result);
                 $result['diagnosis'] = $diag;
-                if (function_exists('error_log')) {
-                    error_log('[linked3 COS] ' . $gen . ' 演化失败诊断: ' . wp_json_encode($diag));
-                }
+                Logger::instance()->error('ai', '[linked3 COS] ' . $gen . ' 演化失败诊断: ' . wp_json_encode($diag));
+
             }
 
             // v27.8.14: 确保输出缓冲干净 — 清理所有层级的缓冲, 防止 warning/notice 破坏 JSON
@@ -90,9 +90,8 @@ class COSAjaxEvolve
             wp_send_json_success($result);
         } catch (\Throwable $e) {
             $elapsed = round(microtime(true) - $start_time, 2);
-            if (function_exists('error_log')) {
-                error_log(sprintf('[linked3 COS] %s 演化异常 (%ss): %s in %s:%d', $gen, $elapsed, $e->getMessage(), basename($e->getFile()), $e->getLine()));
-            }
+            Logger::instance()->error('ai', sprintf('[linked3 COS] %s 演化异常 (%ss): %s in %s:%d', $gen, $elapsed, $e->getMessage(), basename($e->getFile()), $e->getLine()));
+
             // v27.8.14: 异常时也清理输出缓冲
             while (ob_get_level() > 0) {
                 ob_end_clean();
@@ -315,7 +314,7 @@ class COSAjaxEvolve
                 // v20.4-fix11: 诊断测试也绕过陈旧熔断器, 否则熔断器打开时诊断永远失败
                 $result = $dispatcher->chat(
                     [
-                        ['role' => 'user', 'content' => '回复OK'],
+                        ['role' => 'user', 'content' => __('回复OK', 'linked3')],
                     ],
                     [
                         'max_tokens' => 10,
@@ -382,7 +381,7 @@ class COSAjaxEvolve
 
         wp_send_json_success([
             'recommended' => $recommendations,
-            'reason' => '基于问题领域和方案特征自适配推荐',
+            'reason' => __('基于问题领域和方案特征自适配推荐', 'linked3'),
         ]);
     }
 
@@ -409,7 +408,7 @@ class COSAjaxEvolve
             $rc = new \ReflectionClass('\\Linked3\\Classes\\CognitiveOS\\Core\\COSDepartments');
             $m = $rc->getMethod('extract_rules');
             $checks['extract_rules_is_public'] = $m->isPublic();
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
 
         try {
             // v27.6.19-fix: 修正文件名大小写 — CosEngine.php → COSEngine.php
@@ -418,13 +417,13 @@ class COSAjaxEvolve
             $checks['chat_has_3_args'] = ($content !== false)
                 && (strpos($content, 'fallback_providers') !== false)
                 && (strpos($content, 'cos_lever') !== false);
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
 
         try {
             $reg_file = __DIR__ . '/../../MetaLever/MetaLeverRegistry.php';
             $content = file_get_contents($reg_file);
             $checks['registry_auto_init'] = (strpos($content, 'if (!self::$initialized)') !== false);
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
 
         // v20.4-fix10: 验证杠杆链已改为分块串行 (前端 runOneLever 函数)
         // v20.4-fix11: 修正路径 — dirname(__DIR__, 3) 解析到 src/ 而非插件根目录
@@ -442,7 +441,7 @@ class COSAjaxEvolve
                 && (strpos($content, 'runOneLever') !== false)
                 && (strpos($content, 'linked3_cos_run_lever') !== false)
                 && (strpos($content, 'AbortController') !== false);
-        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
 
         wp_send_json_success([
             'patch_version' => $patch,

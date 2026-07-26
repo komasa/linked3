@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\BookFactory;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class BookFactoryUtils
 {
-    public static function smart_split_outline( $content ) : array {
+    public static function smart_split_outline( $content ) : mixed {
         // 先尝试标准解析
         $outline = self::parse_outline( $content );
         if ( count( $outline['chapters'] ) >= 3 ) {
@@ -120,8 +122,8 @@ class BookFactoryUtils
                 $title = __('内容', 'linked3') . ( $i + 1 );
             }
             $chapters[] = array(
-                'title' => '第' . ( $i + 1 ) . '章 ' . $title,
-                'sections' => array( array( 'title' => '正文' ) ),
+                'title' => __('第', 'linked3') . ( $i + 1 ) . '章 ' . $title,
+                'sections' => array( array( 'title' => __('正文', 'linked3') ) ),
             );
         }
         return $chapters;
@@ -135,8 +137,8 @@ class BookFactoryUtils
         $chapters = array();
         for ( $i = 0; $i < 4; $i++ ) {
             $chapters[] = array(
-                'title' => '第' . ( $i + 1 ) . '章',
-                'sections' => array( array( 'title' => '正文' ) ),
+                'title' => __('第', 'linked3') . ( $i + 1 ) . '章',
+                'sections' => array( array( 'title' => __('正文', 'linked3') ) ),
             );
         }
         return $chapters;
@@ -148,7 +150,7 @@ class BookFactoryUtils
     private static function ensure_min_sections( array &$chapters ) : void {
         foreach ( $chapters as &$ch ) {
             if ( empty( $ch['sections'] ) ) {
-                $ch['sections'] = array( array( 'title' => '正文' ) );
+                $ch['sections'] = array( array( 'title' => __('正文', 'linked3') ) );
             }
         }
     }
@@ -173,10 +175,10 @@ class BookFactoryUtils
         // v18.9.2: 如果解析出0章, 用AI原始输出作为单章兜底
         if ( empty( $outline['chapters'] ) ) {
             $outline['chapters'][] = array(
-                'title' => '正文内容',
-                'sections' => array( array( 'title' => '完整内容' ) ),
+                'title' => __('正文内容', 'linked3'),
+                'sections' => array( array( 'title' => __('完整内容', 'linked3') ) ),
             );
-            error_log( '[linked3 book_factory] parse_outline未匹配到章节, 原始输出前500字: ' . mb_substr( $content, 0, 500 ) );
+            Logger::instance()->error('ai',  '[linked3 book_factory] parse_outline未匹配到章节, 原始输出前500字: ' . mb_substr( $content, 0, 500 ) );
         }
 
         return $outline;

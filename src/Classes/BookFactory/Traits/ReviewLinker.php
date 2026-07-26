@@ -32,7 +32,7 @@ trait ReviewLinker {
         $book_title = $state->get( 'book_title', '' );
 
         if ( empty( $draft_markdown ) ) {
-            return new \WP_Error( 'no_draft', __( '草稿为空, 无法审校', 'linked3-ai' ) );
+            return new \WP_Error( 'no_draft', __( '草稿为空, 无法审校', 'linked3' ) );
         }
 
         // 截取前 8000 字供 AI 审阅 (避免 token 超限)
@@ -51,7 +51,7 @@ trait ReviewLinker {
                 $options = array( 'temperature' => 0.3, 'max_tokens' => 2048 );
                 $response = $dispatcher->chat( $messages, $options, array() );
             } else {
-                return new \WP_Error( 'ai_unavailable', __( 'AI 引擎未加载', 'linked3-ai' ) );
+                return new \WP_Error( 'ai_unavailable', __( 'AI 引擎未加载', 'linked3' ) );
             }
         } catch ( \Throwable $e ) {
             return new \WP_Error( 'ai_call_failed', $e->getMessage() );
@@ -75,7 +75,7 @@ trait ReviewLinker {
 
         return array(
             'review'  => $review_text,
-            'message' => __( '审校完成', 'linked3-ai' ),
+            'message' => __( '审校完成', 'linked3' ),
         );
     }
 }

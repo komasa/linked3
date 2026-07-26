@@ -117,7 +117,7 @@ final class Scraper
      */
     private function extract_text(string $html) : mixed {
         $body = preg_replace('#<script[^>]*>.*?</script>#is', '', $html);
-        $body = preg_replace('#<style[^>]*>.*?</style>#is', '', $body);
+        $body = preg_replace('#\x3Cstyle[^>]*>.*?\x3C/style>#is', '', $body);
         $body = preg_replace('#<noscript[^>]*>.*?</noscript>#is', '', $body);
         $body = wp_strip_all_tags($body);
         return trim(preg_replace('/\s+/', ' ', $body));
@@ -129,7 +129,7 @@ final class Scraper
      * @param string $text
      * @return string Hex string.
      */
-    private function simhash(string $text) : string     {
+    private function simhash(string $text) : mixed     {
         $text = mb_strtolower($text);
         // Tokenise by CJK char + ASCII word.
         $tokens = [];

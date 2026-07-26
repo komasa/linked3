@@ -9,13 +9,13 @@ class EcosystemAjaxAdvanced
         return EcosystemAjax::call_ai_internal($prompt, $max_tokens);
     }
     public static function ajax_generate_images() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $images_json = wp_unslash($_POST['images'] ?? '[]');
         $images = json_decode($images_json, true);
-        if (!is_array($images) || empty($images)) wp_send_json_error(['message' => __('图片列表为空', 'linked3-ai')]);
+        if (!is_array($images) || empty($images)) wp_send_json_error(['message' => __('图片列表为空', 'linked3')]);
 
         // 读取图片API配置
         $provider = get_option(LINKED3_OPTION_PREFIX . 'image_provider', 'siliconflow');
@@ -31,7 +31,7 @@ class EcosystemAjaxAdvanced
             $api_key = $text_keys['siliconflow'] ?? '';
         }
         if (empty($api_key)) {
-            wp_send_json_error(['message' => __('未配置API Key, 请先在API设置页配置硅基流动Key', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('未配置API Key, 请先在API设置页配置硅基流动Key', 'linked3')]);
         }
 
         // 默认API地址
@@ -52,7 +52,7 @@ class EcosystemAjaxAdvanced
             $img_type = sanitize_text_field($img['type'] ?? 'img_' . $idx);
 
             if (empty($prompt)) {
-                $results[] = ['type' => $img_type, 'success' => false, 'error' => 'Prompt为空'];
+                $results[] = ['type' => $img_type, 'success' => false, 'error' => __('Prompt为空', 'linked3')];
                 continue;
             }
 
@@ -66,13 +66,19 @@ class EcosystemAjaxAdvanced
                     'size' => $width . 'x' . $height,
                 ];
 
-                $response = wp_remote_post($endpoint, [
+                $response = \Linked3\Includes\Http\SafeRemote::post($endpoint, [
                     'timeout' => 120,
                     'headers' => [
                         'Authorization' => 'Bearer ' . $api_key,
                         'Content-Type' => 'application/json',
                     ],
                     'body' => wp_json_encode($body),
+                    'allowed_hosts' => [
+                        'api.siliconflow.cn',
+                        'api.openai.com',
+                        'dashscope.aliyuncs.com',
+                        wp_parse_url($api_base, PHP_URL_HOST),
+                    ],
                 ]);
 
                 if (is_wp_error($response)) {
@@ -114,9 +120,9 @@ class EcosystemAjaxAdvanced
     }
 
     public static function ajax_hot_collect() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $source = sanitize_key($_POST['source'] ?? 'all'); // v16.0.15: 默认 all
         $count = max(5, min(100, intval($_POST['count'] ?? 20)));
@@ -127,12 +133,12 @@ class EcosystemAjaxAdvanced
 
         // v10.9.0: 真实AI热词生成 (绞杀假大空硬编码seeds)
         $source_names = [
-            'baidu'  => '百度热搜',
-            'sogou'  => '搜狗热词',
-            '360'    => '360热词',
-            'zhihu'  => '知乎热榜',
-            'weibo'  => '微博热搜',
-            'douyin' => '抖音热词',
+            'baidu'  => __('百度热搜', 'linked3'),
+            'sogou'  => __('搜狗热词', 'linked3'),
+            '360'    => __('360热词', 'linked3'),
+            'zhihu'  => __('知乎热榜', 'linked3'),
+            'weibo'  => __('微博热搜', 'linked3'),
+            'douyin' => __('抖音热词', 'linked3'),
         ];
         $source_label = $source_names[$source] ?? '百度热搜';
 
@@ -165,7 +171,7 @@ class EcosystemAjaxAdvanced
                 $hot_words = array_slice(array_unique($hot_words), 0, $count);
             }
             if (empty($hot_words)) {
-                wp_send_json_error(['message' => __('采集失败, 请检查AI API Key配置 (设置→API设置)', 'linked3-ai')]);
+                wp_send_json_error(['message' => __('采集失败, 请检查AI API Key配置 (设置→API设置)', 'linked3')]);
             }
             $extra_meta = ['aggregated' => true];
         } else {
@@ -201,10 +207,10 @@ class EcosystemAjaxAdvanced
             $hot_words = array_slice(array_unique($hot_words), 0, $count);
             // 如果清洗后为空, 报错让用户重试
             if (empty($hot_words)) {
-                wp_send_json_error(['message' => __('AI返回格式异常, 请重新采集 (已强化提示词, 重试通常可成功)', 'linked3-ai')]);
+                wp_send_json_error(['message' => __('AI返回格式异常, 请重新采集 (已强化提示词, 重试通常可成功)', 'linked3')]);
             }
         } else {
-            wp_send_json_error(['message' => __('热词采集需要配置AI API Key (设置→API设置)。当前AI不可用, 拒绝返回假数据。', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('热词采集需要配置AI API Key (设置→API设置)。当前AI不可用, 拒绝返回假数据。', 'linked3')]);
         }
         } // end else (single source)
 
@@ -220,19 +226,19 @@ class EcosystemAjaxAdvanced
             'hot_words' => $hot_words,
             'total_saved' => count($merged),
             'failed_sources' => $extra_meta['failed_sources'] ?? [],
-            'message' => __('采集成功: ', 'linked3-ai') . count($hot_words) . '个热词' . (!empty($extra_meta['failed_sources']) ? ' (部分源失败: ' . implode(',', $extra_meta['failed_sources']) . ')' : ''),
+            'message' => __('采集成功: ', 'linked3') . count($hot_words) . '个热词' . (!empty($extra_meta['failed_sources']) ? ' (部分源失败: ' . implode(',', $extra_meta['failed_sources']) . ')' : ''),
         ]);
     }
 
     public static function ajax_longform_outline() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $topic = sanitize_text_field($_POST['topic'] ?? '');
         $section_count = max(3, min(20, intval($_POST['section_count'] ?? 5)));
 
-        if (empty($topic)) wp_send_json_error(['message' => __('请输入主题', 'linked3-ai')]);
+        if (empty($topic)) wp_send_json_error(['message' => __('请输入主题', 'linked3')]);
 
         // v10.9.1: 真实AI大纲生成 (绞杀假大空模板字符串)
         $prompt = sprintf(
@@ -252,7 +258,7 @@ class EcosystemAjaxAdvanced
                 ];
             }
         } else {
-            wp_send_json_error(['message' => __('大纲生成需要配置AI API Key。当前AI不可用, 拒绝返回假大纲。', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('大纲生成需要配置AI API Key。当前AI不可用, 拒绝返回假大纲。', 'linked3')]);
         }
 
         wp_send_json_success([
@@ -263,16 +269,16 @@ class EcosystemAjaxAdvanced
     }
 
     public static function ajax_longform_section() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $topic = sanitize_text_field($_POST['topic'] ?? '');
         $section_title = sanitize_text_field($_POST['section_title'] ?? '');
         $section_index = intval($_POST['section_index'] ?? 0);
         $word_count = max(200, min(2000, intval($_POST['word_count'] ?? 500)));
 
-        if (empty($topic) || empty($section_title)) wp_send_json_error(['message' => __('参数缺失', 'linked3-ai')]);
+        if (empty($topic) || empty($section_title)) wp_send_json_error(['message' => __('参数缺失', 'linked3')]);
 
         @set_time_limit(120);
 
@@ -280,7 +286,7 @@ class EcosystemAjaxAdvanced
         // v11.8.0: 贯彻全局require_html格式变量
         $adv_settings = wp_parse_args((array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []), ['require_html' => false]);
         $format_req = !empty($adv_settings['require_html'])
-            ? "2. HTML标签格式, 以 <h2> 章节标题开头, 段落用 <p> 标签"
+            ? "2. HTML标签格式, 以 <h2><?php echo esc_html__('章节标题开头, 段落用', 'linked3'); ?><p> 标签"
             : "2. Markdown格式, 以 ## 章节标题开头";
         $prompt = sprintf(
             "你是专业写手。请为主题「%s」撰写章节「%s」的正文。\n\n要求:\n1. 字数约%d字\n%s\n3. 内容具体、有信息量, 不要空话套话\n4. 适合长文阅读, 段落分明\n5. 不要使用「赋能/闭环/抓手/底层逻辑」等AI高频词\n\n直接输出正文内容。",
@@ -289,7 +295,7 @@ class EcosystemAjaxAdvanced
         $content = self::call_ai($prompt, $max_tokens = max(800, intval($word_count * 1.5)));
 
         if (empty($content)) {
-            wp_send_json_error(['message' => __('段落生成需要配置AI API Key。当前AI不可用, 拒绝返回假内容。', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('段落生成需要配置AI API Key。当前AI不可用, 拒绝返回假内容。', 'linked3')]);
         }
 
         wp_send_json_success([
@@ -301,12 +307,12 @@ class EcosystemAjaxAdvanced
     }
 
     public static function ajax_csv_batch(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         [$topics, $target_status, $keywords_list] = self::parse_csv_batch_input();
-        if (empty($topics)) wp_send_json_error(['message' => __('请输入至少一个主题', 'linked3-ai')]);
+        if (empty($topics)) wp_send_json_error(['message' => __('请输入至少一个主题', 'linked3')]);
 
         @set_time_limit(300);
 
@@ -322,7 +328,7 @@ class EcosystemAjaxAdvanced
             'total' => count($results),
             'saved_count' => $saved_count,
             'target_status' => $target_status,
-            'message' => __('批量生成完成: ', 'linked3-ai') . count($results) . '篇, 落地' . $saved_count . '篇' . ($target_status === 'publish' ? '(已发布)' : '(草稿)'),
+            'message' => __('批量生成完成: ', 'linked3') . count($results) . '篇, 落地' . $saved_count . '篇' . ($target_status === 'publish' ? '(已发布)' : '(草稿)'),
         ]);
     }
 
@@ -353,13 +359,13 @@ class EcosystemAjaxAdvanced
         if (!$ai_available) {
             return [
                 'topic' => $topic, 'success' => false, 'word_count' => 0,
-                'content' => '', 'error' => 'AI API未配置', 'post_id' => 0, 'post_status' => '',
+                'content' => '', 'error' => __('AI API未配置', 'linked3'), 'post_id' => 0, 'post_status' => '',
             ];
         }
 
         $adv_csv = wp_parse_args((array) get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', []), ['require_html' => false]);
         $csv_format = !empty($adv_csv['require_html'])
-            ? "1. HTML标签格式, 含<h1>标题, 段落用<p>标签"
+            ? "1. HTML标签格式, 含<h1><?php echo esc_html__('标题, 段落用', 'linked3'); ?><p>标签"
             : "1. Markdown格式, 含H1标题";
         $prompt = sprintf(
             "请为主题「%s」撰写一篇约800字的文章。要求:\n%s\n2. 内容具体有信息量, 不要空话\n3. 适合博客/公众号发布\n4. 不要使用「赋能/闭环/抓手」等AI高频词\n\n直接输出正文。",

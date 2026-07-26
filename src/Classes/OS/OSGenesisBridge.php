@@ -132,7 +132,7 @@ class OSGenesisBridge {
 
         // Step 2: 转换为SEED DNA (模拟AI返回的逆向结果)
         $mock_reverse_result = [
-            'D1_overall_style' => '从优秀作品提取的风格',
+            'D1_overall_style' => __('从优秀作品提取的风格', 'linked3'),
             'D2_character_dna' => ['gender_age' => '', 'hair' => '', 'face' => ''],
             'D3_color_system' => ['primary' => '', 'secondary' => '', 'accent' => ''],
             'D6_scene_background' => ['location' => '', 'atmosphere' => ''],
@@ -146,7 +146,7 @@ class OSGenesisBridge {
             'status' => 'ok',
             'reverse_prompt' => $reverse_prompt,
             'enhanced_seed' => $seed,
-            'message' => __('优秀作品已逆向为Genesis SEED模板，可用于后续生产', 'linked3-ai'),
+            'message' => __('优秀作品已逆向为Genesis SEED模板，可用于后续生产', 'linked3'),
         ];
     }
 

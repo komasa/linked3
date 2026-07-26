@@ -113,7 +113,7 @@ final class SchemaMarkup
      *
      * @return string
      */
-    public function for_current_request() : string {
+    public function for_current_request() : mixed {
         if (!is_singular()) {
             return '';
         }
@@ -128,7 +128,7 @@ final class SchemaMarkup
      * @param \WP_Post $post
      * @return string
      */
-    public function for_post(WP_Post $post) : string     {
+    public function for_post(WP_Post $post) : mixed     {
         $payloads = [];
         foreach ($this->builders as $type => $builder) {
             if (!empty($this->enabled) && empty($this->enabled[$type])) {

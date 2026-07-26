@@ -128,7 +128,7 @@ final class KeyRotator
      * @param int    $index
      * @return int
      */
-    private function failure_ts(string $provider_slug, int $index) : bool     {
+    private function failure_ts(string $provider_slug, int $index) : array {
         $v = get_transient($this->health_key($provider_slug, $index));
         return is_array($v) && isset($v['failed_at']) ? (int) $v['failed_at'] : 0;
     }

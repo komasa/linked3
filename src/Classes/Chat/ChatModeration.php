@@ -50,7 +50,7 @@ final class ChatModeration
      * @param array  $context {ip, user_id}
      * @return array{ok:bool, reason:string, layer:string}
      */
-    public function check(string $message, array $context = []) : array {
+    public function check(string $message, array $context = []) : mixed {
         $message = (string) $message;
         $ip = isset($context['ip']) ? (string) $context['ip'] : RateLimiter::client_ip();
 
@@ -245,7 +245,7 @@ final class ChatModeration
      *
      * @return string
      */
-    private function get_openai_key() : bool {
+    private function get_openai_key() : array {
         $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         return is_array($keys) && isset($keys['openai']) ? (string) $keys['openai'] : '';
     }
@@ -256,7 +256,7 @@ final class ChatModeration
      * @param string $raw
      * @return string[]
      */
-    private function parse_lines(string $raw) : array     {
+    private function parse_lines(string $raw) : mixed     {
         $raw = (string) $raw;
         if ($raw === '') return [];
         $lines = preg_split('/\r\n|\r|\n/', $raw);

@@ -31,8 +31,8 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
 ?>
 
 <div class="linked3-eco-card">
-    <h3>图片设置 — 全功能链 (AI生成 + 图库API + 图片站采集 + 插入位置)</h3>
-    <p style="color:#71717A;font-size:13px;margin-bottom:12px;">feicai4.0万相5分辨率 + 宝玉20布局 + 多源图片采集</p>
+    <h3><?php echo esc_html__('图片设置 — 全功能链 (AI生成 + 图库API + 图片站采集 + 插入位置)', 'linked3'); ?></h3>
+    <p style="color:#71717A;font-size:13px;margin-bottom:12px;"><?php echo esc_html__('feicai4.0万相5分辨率 + 宝玉20布局 + 多源图片采集', 'linked3'); ?></p>
 
     <!-- 图片模式切换 -->
     <div style="display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid #e5e7eb;">
@@ -48,7 +48,7 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
 
     <?php if ($img_mode === 'ai'): ?>
     <!-- AI生成模式 -->
-    <h4 style="font-size:13px;margin-bottom:8px;">🎨 AI图片生成 (万相5分辨率)</h4>
+    <h4 style="font-size:13px;margin-bottom:8px;"><?php echo esc_html__('🎨 AI图片生成 (万相5分辨率)', 'linked3'); ?></h4>
 
     <!-- v11.2.0 #1: 去同质化提示 — 图片API在API设置页统一配置 -->
     <div style="background:#FAFAFA;border:1px solid #0F172A;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#0F172A;">
@@ -57,7 +57,7 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div>
-            <label style="font-size:12px;color:#71717A;">图片供应商</label>
+            <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('图片供应商', 'linked3'); ?></label>
             <select class="linked3-eco-select" id="img-provider" style="width:100%;">
                 <!-- v11.2.0 #1: 补充硅基流动(默认) + 阿里万相(5分辨率) -->
                 <option value="siliconflow" <?php selected($img_settings['provider'] ?? 'siliconflow', 'siliconflow'); ?>>硅基流动 (Kwai-Kolors, 推荐)</option>
@@ -68,7 +68,7 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
             </select>
         </div>
         <div>
-            <label style="font-size:12px;color:#71717A;">分辨率 (万相5分辨率)</label>
+            <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('分辨率 (万相5分辨率)', 'linked3'); ?></label>
             <select class="linked3-eco-select" id="img-resolution" style="width:100%;">
                 <option value="1280*1280" <?php selected($saved_resolution, '1280*1280'); ?>>1280×1280 (方形)</option>
                 <option value="720*1280" <?php selected($saved_resolution, '720*1280'); ?>>720×1280 (竖版)</option>
@@ -85,8 +85,8 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
     $cur_model = get_option(LINKED3_OPTION_PREFIX . 'image_model', 'Kwai-Kolors/Kolors');
     $cur_key = get_option(LINKED3_OPTION_PREFIX . 'image_api_key', '');
     $provider_labels = [
-        'siliconflow' => '硅基流动',
-        'wanx' => '阿里万相',
+        'siliconflow' => __('硅基流动', 'linked3'),
+        'wanx' => __('阿里万相', 'linked3'),
         'openai' => 'OpenAI',
         'stability' => 'Stability AI',
         'midjourney' => 'Midjourney',
@@ -99,10 +99,10 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
 
     <?php elseif ($img_mode === 'stock'): ?>
     <!-- 图库API模式 -->
-    <h4 style="font-size:13px;margin-bottom:8px;">📷 图库API (免费图库)</h4>
+    <h4 style="font-size:13px;margin-bottom:8px;"><?php echo esc_html__('📷 图库API (免费图库)', 'linked3'); ?></h4>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div>
-            <label style="font-size:12px;color:#71717A;">图库供应商</label>
+            <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('图库供应商', 'linked3'); ?></label>
             <select class="linked3-eco-select" id="img-stock-provider" style="width:100%;">
                 <option value="unsplash" <?php selected($img_settings['stock_provider'] ?? '', 'unsplash'); ?>>Unsplash (免费)</option>
                 <option value="pexels" <?php selected($img_settings['stock_provider'] ?? '', 'pexels'); ?>>Pexels (免费)</option>
@@ -110,32 +110,32 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
             </select>
         </div>
         <div>
-            <label style="font-size:12px;color:#71717A;">API Key (可选, 免费申请)</label>
+            <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('API Key (可选, 免费申请)', 'linked3'); ?></label>
             <input type="text" class="linked3-eco-input" id="img-stock-key" value="<?php echo esc_attr($img_settings['stock_api_key'] ?? ''); ?>" placeholder="留空用公共配额" style="width:100%;">
         </div>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:#9ca3af;">💡 免费图库API, 无需付费。建议申请自己的API Key以获得更高配额。</div>
+    <div style="margin-top:8px;font-size:11px;color:#9ca3af;"><?php echo esc_html__('💡 免费图库API, 无需付费。建议申请自己的API Key以获得更高配额。', 'linked3'); ?></div>
 
     <?php elseif ($img_mode === 'site'): ?>
     <!-- 图片站采集模式 -->
-    <h4 style="font-size:13px;margin-bottom:8px;">🌐 图片站采集 (自定义URL)</h4>
+    <h4 style="font-size:13px;margin-bottom:8px;"><?php echo esc_html__('🌐 图片站采集 (自定义URL)', 'linked3'); ?></h4>
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;">
         <div>
-            <label style="font-size:12px;color:#71717A;">图片站URL (采集源)</label>
+            <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('图片站URL (采集源)', 'linked3'); ?></label>
             <input type="text" class="linked3-eco-input" id="img-site-url" value="<?php echo esc_attr($img_settings['image_site_url'] ?? ''); ?>" placeholder="https://example.com/images" style="width:100%;">
         </div>
         <div>
-            <label style="font-size:12px;color:#71717A;">每篇采集数量</label>
+            <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('每篇采集数量', 'linked3'); ?></label>
             <input type="number" class="linked3-eco-input" id="img-site-count" value="<?php echo esc_attr($img_settings['image_site_count'] ?? 3); ?>" min="1" max="20" style="width:100%;">
         </div>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:#9ca3af;">💡 从指定图片站URL采集图片, 自动插入文章。支持RSS/HTML页面解析。</div>
+    <div style="margin-top:8px;font-size:11px;color:#9ca3af;"><?php echo esc_html__('💡 从指定图片站URL采集图片, 自动插入文章。支持RSS/HTML页面解析。', 'linked3'); ?></div>
 
     <?php else: ?>
     <!-- 插入位置模式 -->
-    <h4 style="font-size:13px;margin-bottom:8px;">📍 图片插入位置设置</h4>
+    <h4 style="font-size:13px;margin-bottom:8px;"><?php echo esc_html__('📍 图片插入位置设置', 'linked3'); ?></h4>
     <div>
-        <label style="font-size:12px;color:#71717A;">默认插入位置</label>
+        <label style="font-size:12px;color:#71717A;"><?php echo esc_html__('默认插入位置', 'linked3'); ?></label>
         <select class="linked3-eco-select" id="img-insert-position" style="width:100%;">
             <option value="after_first_h2" <?php selected($img_settings['insert_position'], 'after_first_h2'); ?>>第一个H2后 (推荐)</option>
             <option value="before_first_h2" <?php selected($img_settings['insert_position'], 'before_first_h2'); ?>>第一个H2前</option>
@@ -145,15 +145,15 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
         </select>
     </div>
 
-    <h4 style="font-size:13px;margin:16px 0 8px;">📐 信息图20布局 (宝玉布局)</h4>
+    <h4 style="font-size:13px;margin:16px 0 8px;"><?php echo esc_html__('📐 信息图20布局 (宝玉布局)', 'linked3'); ?></h4>
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;font-size:11px;">
         <?php
         $all_layouts = [
-            'title_top' => '标题顶部', 'title_bottom' => '标题底部', 'title_left' => '标题左侧', 'title_right' => '标题右侧',
-            'hero_full' => '全屏Hero', 'hero_half' => '半屏Hero', 'split_left' => '左分栏', 'split_right' => '右分栏',
-            'grid_2x2' => '2×2网格', 'grid_3x1' => '3×1网格', 'list_vertical' => '纵向列表', 'list_horizontal' => '横向列表',
-            'carousel' => '轮播', 'stack' => '堆叠', 'mosaic' => '马赛克', 'timeline' => '时间线',
-            'comparison' => '对比', 'flow' => '流程', 'pyramid' => '金字塔', 'radial' => '放射',
+            'title_top' => __('标题顶部', 'linked3'), 'title_bottom' => __('标题底部', 'linked3'), 'title_left' => __('标题左侧', 'linked3'), 'title_right' => __('标题右侧', 'linked3'),
+            'hero_full' => __('全屏Hero', 'linked3'), 'hero_half' => __('半屏Hero', 'linked3'), 'split_left' => __('左分栏', 'linked3'), 'split_right' => __('右分栏', 'linked3'),
+            'grid_2x2' => __('2×2网格', 'linked3'), 'grid_3x1' => __('3×1网格', 'linked3'), 'list_vertical' => __('纵向列表', 'linked3'), 'list_horizontal' => __('横向列表', 'linked3'),
+            'carousel' => __('轮播', 'linked3'), 'stack' => __('堆叠', 'linked3'), 'mosaic' => __('马赛克', 'linked3'), 'timeline' => __('时间线', 'linked3'),
+            'comparison' => __('对比', 'linked3'), 'flow' => __('流程', 'linked3'), 'pyramid' => __('金字塔', 'linked3'), 'radial' => __('放射', 'linked3'),
         ];
         foreach ($all_layouts as $key => $label):
             $checked = in_array($key, $saved_layouts) ? 'checked' : '';
@@ -164,12 +164,12 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
         </label>
         <?php endforeach; ?>
     </div>
-    <div style="margin-top:6px;font-size:11px;color:#9ca3af;">💡 勾选的布局将用于信息图生成 (宝玉20布局系统)</div>
+    <div style="margin-top:6px;font-size:11px;color:#9ca3af;"><?php echo esc_html__('💡 勾选的布局将用于信息图生成 (宝玉20布局系统)', 'linked3'); ?></div>
     <?php endif; ?>
 
     <!-- 保存按钮 (所有模式共用) -->
     <div style="margin-top:16px;padding-top:12px;border-top:1px solid #e5e7eb;">
-        <button class="linked3-eco-btn" id="img-save">💾 保存设置</button>
+        <button class="linked3-eco-btn" id="img-save"><?php echo esc_html__('💾 保存设置', 'linked3'); ?></button>
         <span id="img-status" style="margin-left:12px;"></span>
     </div>
 </div>
@@ -177,84 +177,4 @@ $img_mode = isset($_GET['img_mode']) ? sanitize_key($_GET['img_mode']) : 'ai';
 <!-- v16.1.0: 引入生态共享JS库 (收敛 escHtml 重复定义) -->
 <?php include __DIR__ . '/eco-shared-js.php'; ?>
 
-<script>
-(function(){
-    var ajaxUrl = '<?php echo esc_js($ajax_url); ?>';
-    var nonce = '<?php echo esc_js($nonce_img); ?>';
-
-    // v16.1.0: escHtml 优先复用 Linked3EcoShared.escapeHtml (消除三处重复定义)
-    var escHtml = (window.Linked3EcoShared && window.Linked3EcoShared.escapeHtml) ? window.Linked3EcoShared.escapeHtml : function(s) {
-        if (s == null) return '';
-        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    };
-
-    document.addEventListener('DOMContentLoaded', function(){
-        var saveBtn = document.getElementById('img-save');
-        if (!saveBtn) return;
-
-        saveBtn.addEventListener('click', function(){
-            var settings = {};
-
-            // AI模式字段
-            var provider = document.getElementById('img-provider');
-            if (provider) settings.provider = provider.value;
-            var resolution = document.getElementById('img-resolution');
-            if (resolution) settings.resolution = resolution.value;
-
-            // 图库模式字段
-            var stockProvider = document.getElementById('img-stock-provider');
-            if (stockProvider) settings.stock_provider = stockProvider.value;
-            var stockKey = document.getElementById('img-stock-key');
-            if (stockKey) settings.stock_api_key = stockKey.value;
-
-            // 图片站模式字段
-            var siteUrl = document.getElementById('img-site-url');
-            if (siteUrl) settings.image_site_url = siteUrl.value;
-            var siteCount = document.getElementById('img-site-count');
-            if (siteCount) settings.image_site_count = parseInt(siteCount.value) || 3;
-
-            // 插入位置字段
-            var insertPos = document.getElementById('img-insert-position');
-            if (insertPos) settings.insert_position = insertPos.value;
-
-            // 布局checkbox
-            var layouts = [];
-            document.querySelectorAll('input[name="img-layouts[]"]:checked').forEach(function(cb){
-                layouts.push(cb.value);
-            });
-            settings.layouts = layouts;
-
-            saveBtn.disabled = true;
-            saveBtn.textContent = '保存中...';
-
-            var fd = new FormData();
-            fd.append('action', 'linked3_eco_image_save');
-            fd.append('nonce', nonce);
-            fd.append('settings', JSON.stringify(settings));
-
-            fetch(ajaxUrl, {method:'POST', body:fd, credentials:'same-origin'})
-                .then(function(r){
-                    if (!r.ok) throw new Error('HTTP ' + r.status);
-                    return r.json();
-                })
-                .then(function(data){
-                    saveBtn.disabled = false;
-                    saveBtn.textContent = '💾 保存设置';
-                    var status = document.getElementById('img-status');
-                    if (data.success) {
-                        status.innerHTML = '<span style="color:#10B981;font-size:12px;">✅ 已保存</span>';
-                    } else {
-                        status.innerHTML = '<span style="color:#EF4444;font-size:12px;">❌ ' + escHtml(data.data && data.data.message ? data.data.message : '保存失败') + '</span>';
-                    }
-                    setTimeout(function(){ status.innerHTML = ''; }, 4000);
-                })
-                .catch(function(e){
-                    saveBtn.disabled = false;
-                    saveBtn.textContent = '💾 保存设置';
-                    document.getElementById('img-status').innerHTML =
-                        '<span style="color:#EF4444;font-size:12px;">❌ 错误: ' + escHtml(e.message) + '</span>';
-                });
-        });
-    });
-})();
-</script>
+<?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-eco-images.js ?>

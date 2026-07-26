@@ -27,13 +27,13 @@ class DiagramTextEmbedValidator {
                     $len = mb_strlen($text);
                     if ($len < 2 || $len > 6) {
                         $lengthIssues++;
-                        $issues[] = "文字\"{$text}\"长度{$len}不在2-6字范围";
+                        $issues[] = __("文字\"{$text}\"长度{$len}不在2-6字范围", 'linked3');
                     }
                 }
                 // 校验未嵌入的文字 (漂浮文字)
                 foreach ($module['floating_text'] ?? [] as $text) {
                     $totalTexts++;
-                    $issues[] = "文字\"{$text}\"未嵌入图示";
+                    $issues[] = __("文字\"{$text}\"未嵌入图示", 'linked3');
                 }
             }
         }

@@ -7,7 +7,7 @@ class ChartsFactoryHelpers
 {
     public function __construct() { return ChartsRenderer::__construct(); }
 
-    public function compile(array $context) : mixed { return ChartsRenderer::compile($context); }
+    public function compile(array $context): array { return ChartsRenderer::compile($context); }
 
     public function split_long_article(string $article, int $target_count) : mixed { return ChartsRenderer::split_long_article($article, $target_count); }
 

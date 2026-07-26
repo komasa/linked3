@@ -60,10 +60,10 @@ final class V15BrandProfileManager
      */
     public function get_default_profile(): array {
         return [
-            'profile_name'       => '默认品牌',
-            'brand_name'         => '我的品牌',
+            'profile_name'       => __('默认品牌', 'linked3'),
+            'brand_name'         => __('我的品牌', 'linked3'),
             'brand_logo'         => '',
-            'brand_font'         => '思源宋体+思源黑体',
+            'brand_font'         => __('思源宋体+思源黑体', 'linked3'),
             'signature_name'     => '',
             'signature_title'    => '',
             'signature_slogan'   => '',
@@ -71,17 +71,17 @@ final class V15BrandProfileManager
             'color_secondary'    => '#C8403C',
             'color_neutral'      => '#E8E4DD',
             'color_accent'       => '#C9A961',
-            'mood_primary'       => '冷静理性',
-            'mood_secondary'     => '严肃紧迫',
-            'culture_region'     => '中国大陆一二线城市',
-            'culture_age'        => '28-45岁',
-            'culture_occupation' => '企业主与中产',
+            'mood_primary'       => __('冷静理性', 'linked3'),
+            'mood_secondary'     => __('严肃紧迫', 'linked3'),
+            'culture_region'     => __('中国大陆一二线城市', 'linked3'),
+            'culture_age'        => __('28-45岁', 'linked3'),
+            'culture_occupation' => __('企业主与中产', 'linked3'),
             'culture_subculture' => '',
-            'platform_name'      => '小红书',
+            'platform_name'      => __('小红书', 'linked3'),
             'platform_size'      => '1080x1440',
             'platform_ratio'     => '3:4',
-            'density'            => '标准16节点',
-            'product_type'       => '单图Card',
+            'density'            => __('标准16节点', 'linked3'),
+            'product_type'       => __('单图Card', 'linked3'),
         ];
     }
 

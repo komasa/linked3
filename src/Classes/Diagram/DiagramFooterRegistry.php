@@ -21,10 +21,10 @@ class DiagramFooterRegistry {
     }
 
     private function __construct() {
-        $this->register('values', ['name_zh' => '价值观型', 'template' => '{品牌}·{价值观}', 'suitable_for' => '品牌传达']);
-        $this->register('method', ['name_zh' => '方法论型', 'template' => '{品牌}·{方法论}', 'suitable_for' => '方法论输出']);
-        $this->register('principle', ['name_zh' => '原则型', 'template' => '{品牌}·{原则}', 'suitable_for' => '原则宣导']);
-        $this->register('formula', ['name_zh' => '公式型', 'template' => '{品牌}·{公式}', 'suitable_for' => '公式总结']);
+        $this->register('values', ['name_zh' => __('价值观型', 'linked3'), 'template' => __('{品牌}·{价值观}', 'linked3'), 'suitable_for' => __('品牌传达', 'linked3')]);
+        $this->register('method', ['name_zh' => __('方法论型', 'linked3'), 'template' => __('{品牌}·{方法论}', 'linked3'), 'suitable_for' => __('方法论输出', 'linked3')]);
+        $this->register('principle', ['name_zh' => __('原则型', 'linked3'), 'template' => __('{品牌}·{原则}', 'linked3'), 'suitable_for' => __('原则宣导', 'linked3')]);
+        $this->register('formula', ['name_zh' => __('公式型', 'linked3'), 'template' => __('{品牌}·{公式}', 'linked3'), 'suitable_for' => __('公式总结', 'linked3')]);
     }
 
     public function register(string $id, array $config): void {

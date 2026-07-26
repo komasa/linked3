@@ -36,18 +36,18 @@ class SeedUnified {
 
     /** @var array SEED分类定义 */
     public static $categories = [
-        'character' => ['icon' => '👤', 'label' => '角色', 'desc' => '人物外貌/性格/服装', 'color' => '#3b82f6'],
-        'scene'     => ['icon' => '🏞️', 'label' => '场景', 'desc' => '地点/环境/氛围', 'color' => '#10b981'],
-        'prop'      => ['icon' => '⚔️', 'label' => '道具', 'desc' => '关键物品/武器/信物', 'color' => '#f59e0b'],
-        'style'     => ['icon' => '🎨', 'label' => '风格', 'desc' => '画风/色调/笔触', 'color' => '#8b5cf6'],
-        'brand'     => ['icon' => '🏷️', 'label' => '品牌', 'desc' => 'IP标识/水印/字体', 'color' => '#ec4899'],
-        'palette'   => ['icon' => '🌈', 'label' => '色板', 'desc' => '色彩方案/情绪色调', 'color' => '#06b6d4'],
+        'character' => ['icon' => '👤', 'label' => __('角色', 'linked3'), 'desc' => __('人物外貌/性格/服装', 'linked3'), 'color' => '#3b82f6'],
+        'scene'     => ['icon' => '🏞️', 'label' => __('场景', 'linked3'), 'desc' => __('地点/环境/氛围', 'linked3'), 'color' => '#10b981'],
+        'prop'      => ['icon' => '⚔️', 'label' => __('道具', 'linked3'), 'desc' => __('关键物品/武器/信物', 'linked3'), 'color' => '#f59e0b'],
+        'style'     => ['icon' => '🎨', 'label' => __('风格', 'linked3'), 'desc' => __('画风/色调/笔触', 'linked3'), 'color' => '#8b5cf6'],
+        'brand'     => ['icon' => '🏷️', 'label' => __('品牌', 'linked3'), 'desc' => __('IP标识/水印/字体', 'linked3'), 'color' => '#ec4899'],
+        'palette'   => ['icon' => '🌈', 'label' => __('色板', 'linked3'), 'desc' => __('色彩方案/情绪色调', 'linked3'), 'color' => '#06b6d4'],
     ];
 
     /** @var array SEED类型定义 */
     public static $types = [
-        'fixed'    => ['icon' => '🔒', 'label' => '不可变', 'desc' => '人物五官/体型/性格等恒定属性'],
-        'variable' => ['icon' => '🔄', 'label' => '可变', 'desc' => '服装/天气/光照等可变属性'],
+        'fixed'    => ['icon' => '🔒', 'label' => __('不可变', 'linked3'), 'desc' => __('人物五官/体型/性格等恒定属性', 'linked3')],
+        'variable' => ['icon' => '🔄', 'label' => __('可变', 'linked3'), 'desc' => __('服装/天气/光照等可变属性', 'linked3')],
     ];
 
     /**
@@ -138,7 +138,7 @@ class SeedUnified {
         return [
             'seed_id'      => $raw['seed_id'] ?? ('opt_' . md5($raw['name'] ?? '')),
             'post_id'      => 0,
-            'name'         => $raw['name'] ?? '未命名',
+            'name'         => $raw['name'] ?? __('未命名', 'linked3'),
             'description'  => $raw['description'] ?? '',
             'category'     => $raw['category'] ?? 'character',
             'seed_type'    => $raw['seed_type'] ?? 'fixed',
@@ -252,9 +252,9 @@ class SeedUnified {
      * @param array $data SEED数据
      * @return int|WP_Error
      */
-    public static function create(array $data) : WP_Error {
+    public static function create(array $data) : mixed {
         if (!post_type_exists(self::CPT)) {
-            return new WP_Error('cpt_missing', 'SEED CPT未注册');
+            return new WP_Error('cpt_missing', __('SEED CPT未注册', 'linked3'));
         }
 
         $defaults = [
@@ -271,7 +271,7 @@ class SeedUnified {
         $data = wp_parse_args($data, $defaults);
 
         if (empty($data['name'])) {
-            return new WP_Error('empty_name', 'SEED名称不能为空');
+            return new WP_Error('empty_name', __('SEED名称不能为空', 'linked3'));
         }
 
         $post_id = wp_insert_post([
@@ -303,7 +303,7 @@ class SeedUnified {
      */
     public static function update($seed_id, $data) : mixed {
         $post_id = self::extract_post_id($seed_id);
-        if (!$post_id) return new WP_Error('invalid_id', '无效的SEED ID');
+        if (!$post_id) return new WP_Error('invalid_id', __('无效的SEED ID', 'linked3'));
 
         $update_args = [];
         if (isset($data['name'])) $update_args['post_title'] = $data['name'];
@@ -327,7 +327,7 @@ class SeedUnified {
     /**
      * 删除SEED
      */
-    public static function delete($seed_id) : bool {
+    public static function delete($seed_id) : mixed {
         $post_id = self::extract_post_id($seed_id);
         if (!$post_id) return false;
         return wp_delete_post($post_id, true) !== false;
@@ -336,7 +336,7 @@ class SeedUnified {
     /**
      * 获取单个SEED
      */
-    public static function get($seed_id) : null {
+    public static function get($seed_id) : mixed {
         $post_id = self::extract_post_id($seed_id);
         if (!$post_id) return null;
         $post = get_post($post_id);
@@ -398,7 +398,7 @@ class SeedUnified {
 
     public static function ajax_import_templates() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('权限不足', 'linked3-ai')]);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('权限不足', 'linked3')]);
 
         $result = self::import_from_templates();
         wp_send_json_success($result);
@@ -406,7 +406,7 @@ class SeedUnified {
 
     public static function ajax_create() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('权限不足', 'linked3-ai')]);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('权限不足', 'linked3')]);
 
         $data = [
             'name'        => sanitize_text_field($_POST['name'] ?? ''),
@@ -427,7 +427,7 @@ class SeedUnified {
 
     public static function ajax_update() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('权限不足', 'linked3-ai')]);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('权限不足', 'linked3')]);
 
         $seed_id = sanitize_text_field($_POST['seed_id'] ?? '');
         $result = self::update($seed_id, $_POST);

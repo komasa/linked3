@@ -25,7 +25,7 @@ final class MediumDistributor implements DistributeAdapterInterface
 
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
-        if (!$token) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3-ai')];
+        if (!$token) return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3')];
         $body = [
             'title' => $post_data['title'] ?? '',
             'contentFormat' => 'html',
@@ -42,12 +42,12 @@ final class MediumDistributor implements DistributeAdapterInterface
         $code = (int) wp_remote_retrieve_response_code($resp);
         $json = json_decode(wp_remote_retrieve_body($resp), true);
         if ($code >= 400) return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['errors'][0]['message'] ?? '')];
-        return ['ok' => true, 'remote_id' => (string) ($json['data']['id'] ?? ''), 'message' => __('已发布到 Medium', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => (string) ($json['data']['id'] ?? ''), 'message' => __('已发布到 Medium', 'linked3')];
     }
 
     public function test(array $config): array {
         $token = $config['access_token'] ?? '';
-        if (!$token) return ['ok' => false, 'message' => __('缺少 Integration Token', 'linked3-ai')];
+        if (!$token) return ['ok' => false, 'message' => __('缺少 Integration Token', 'linked3')];
         // v3.0.0: 真实 ping Medium API 验证 token
         $resp = SafeRemote::get('https://api.medium.com/v1/me', [
             'timeout' => 15,

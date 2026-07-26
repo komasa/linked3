@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 /**
  * GenesisV9Stages — G8 extraction.
@@ -10,9 +12,9 @@ if (!defined('ABSPATH')) exit;
 class GenesisV9Stages
 {
     static function ajax_genesis_v9_stage1(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $script = wp_strip_all_tags(wp_unslash($_POST['script'] ?? ''));
         $styleId = sanitize_text_field($_POST['style'] ?? 'documentary_photo');
@@ -22,7 +24,7 @@ class GenesisV9Stages
         $genMode = sanitize_text_field($_POST['gen_mode'] ?? 'local');
 
         if (empty($script)) {
-            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('请输入剧本或故事', 'linked3')]);
         }
 
         @set_time_limit(120);
@@ -92,7 +94,7 @@ class GenesisV9Stages
                         'id' => $i + 1,
                         'text' => mb_substr($s, 0, 200),
                         'emotion' => 'neutral',
-                        'arc_position' => $i < 3 ? '开场' : ($i >= count($unique) - 2 ? '收尾' : '发展'),
+                        'arc_position' => $i < 3 ? __('开场', 'linked3') : ($i >= count($unique) - 2 ? __('收尾', 'linked3') : __('发展', 'linked3')),
                     ];
                 }
                 $storySource = 'sentence_split';
@@ -107,7 +109,7 @@ class GenesisV9Stages
             if (class_exists('\SceneAxis')) {
                 try {
                     $skeletonId = \SceneAxis::route_skeleton($l1_type, $l2_column, $l3_soul);
-                } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
             }
 
             $autoSeeds = [];
@@ -126,7 +128,7 @@ class GenesisV9Stages
                         $existing = null;
                         try {
                             $existing = \Linked3\Classes\Genesis\GenesisSeedCPT::get_by_seed_id($seedId);
-                        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
 
                         if (!$existing) {
                             try {
@@ -144,7 +146,7 @@ class GenesisV9Stages
                                 ];
 
                                 $postData = [
-                                    'title'          => $charName . ' (自动生成)',
+                                    'title'          => $charName . __(' (自动生成)', 'linked3'),
                                     'seed_id'        => $seedId,
                                     'seed_type'      => 'fixed',
                                     'seed_category'  => 'char',
@@ -169,9 +171,8 @@ class GenesisV9Stages
                                     $autoSeedRefs[] = $seedId;
                                 }
                             } catch (\Throwable $e) {
-                                if (function_exists('error_log')) {
-                                    error_log('[linked3 v9 stage1] Auto Seed creation failed for ' . $charName . ': ' . $e->getMessage());
-                                }
+                                Logger::instance()->error('general', '[linked3 v9 stage1] Auto Seed creation failed for ' . $charName . ': ' . $e->getMessage());
+
                             }
                         } else {
                             $autoSeeds[] = [
@@ -191,12 +192,12 @@ class GenesisV9Stages
                     $existingScene = null;
                     try {
                         $existingScene = \Linked3\Classes\Genesis\GenesisSeedCPT::get_by_seed_id($sceneSeedId);
-                    } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                    } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
 
                     if (!$existingScene) {
                         try {
                             $postData = [
-                                'title'          => $theme . ' (场景自动生成)',
+                                'title'          => $theme . __(' (场景自动生成)', 'linked3'),
                                 'seed_id'        => $sceneSeedId,
                                 'seed_type'      => 'variable',
                                 'seed_category'  => 'scene',
@@ -219,7 +220,7 @@ class GenesisV9Stages
                                 ];
                                 $autoSeedRefs[] = $sceneSeedId;
                             }
-                        } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
                     } else {
                         $autoSeeds[] = [
                             'seed_id'   => $sceneSeedId,
@@ -255,7 +256,7 @@ class GenesisV9Stages
                 @ob_end_clean();
             }
             wp_send_json_error([
-                'message' => __('Stage 1 失败: ', 'linked3-ai') . $e->getMessage(),
+                'message' => __('Stage 1 失败: ', 'linked3') . $e->getMessage(),
                 'file'    => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '',
             ]);
         } finally {
@@ -265,9 +266,9 @@ class GenesisV9Stages
     }
 
     static function ajax_genesis_v9_stage2(): void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $beatsJson = wp_unslash($_POST['beats'] ?? '[]');
         $charactersJson = wp_unslash($_POST['characters'] ?? '[]');
@@ -280,7 +281,7 @@ class GenesisV9Stages
 
         $beats = json_decode($beatsJson, true);
         if (!is_array($beats) || empty($beats)) {
-            wp_send_json_error(['message' => __('beats 数据为空', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('beats 数据为空', 'linked3')]);
         }
         $characters = json_decode($charactersJson, true);
         if (!is_array($characters)) $characters = [];
@@ -325,7 +326,7 @@ class GenesisV9Stages
 
                     $color = '';
                     if (class_exists('\StoryPipeline')) {
-                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
                     }
 
                     $shotData = [
@@ -399,7 +400,7 @@ class GenesisV9Stages
 
                     $pqs = ['passed_count' => 0, 'total' => 13];
                     if (class_exists('\QualityLoop')) {
-                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                        try { $pqs = \QualityLoop::pqs_check($shotData); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
                     }
 
                     $pqsScores[] = $pqs['passed_count'] ?? 0;
@@ -429,22 +430,21 @@ class GenesisV9Stages
                     ];
                 } catch (\Throwable $eBeat) {
                     $beatErrors[] = ['beat_index' => $i, 'error' => $eBeat->getMessage()];
-                    if (function_exists('error_log')) {
-                        error_log('[linked3 v9 stage2] Beat #' . ($i + 1) . ' failed, skipped: ' . $eBeat->getMessage());
-                    }
+                    Logger::instance()->warning('general', '[linked3 v9 stage2] Beat #' . ($i + 1) . ' failed, skipped: ' . $eBeat->getMessage());
+
                 }
             }
 
             if (empty($results) && !empty($beatErrors)) {
                 wp_send_json_error([
-                    'message' => __('所有分镜生成失败: ', 'linked3-ai') . $beatErrors[0]['error'],
+                    'message' => __('所有分镜生成失败: ', 'linked3') . $beatErrors[0]['error'],
                     'beat_errors' => $beatErrors,
                 ]);
             }
 
             $batchReport = null;
             if (class_exists('\QualityLoop') && count($results) > 1) {
-                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("genesis_v9", "warning", $e->getMessage()); }
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) {
@@ -472,7 +472,7 @@ class GenesisV9Stages
                 @ob_end_clean();
             }
             wp_send_json_error([
-                'message' => __('Stage 2 失败: ', 'linked3-ai') . $e->getMessage(),
+                'message' => __('Stage 2 失败: ', 'linked3') . $e->getMessage(),
                 'file'    => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '',
             ]);
         } finally {

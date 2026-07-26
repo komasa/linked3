@@ -32,11 +32,11 @@ class CompositeDeepStrategy implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'L1' => ['name' => '战略洞察层', 'mission' => '格局扫描+矛盾挖掘，绘制三轴雷达图', 'lever' => 'meta_strategy', 'kpi' => '识别≥3个隐性矛盾'],
-            'L2' => ['name' => '系统设计层', 'mission' => '动态建模+博弈推演，预埋可逆决策点', 'lever' => 'meta_system', 'kpi' => '模型含≥2个反馈环'],
-            'L3' => ['name' => '资源编排层', 'mission' => '杠杆组合+链式激活，非常规资源调配', 'lever' => 'meta_reverse', 'kpi' => '识别≥1个认知剩余资源'],
-            'L4' => ['name' => '执行暗线层', 'mission' => '明暗双轨+节奏控制，脉冲式推进', 'lever' => 'meta_dynamics', 'kpi' => '定义≥3个节奏节点'],
-            'L5' => ['name' => '效果监测层', 'mission' => '非显性指标+动态校准，混沌接种', 'lever' => 'meta_stress_test', 'kpi' => '定义≥2个深层信号'],
+            'L1' => ['name' => __('战略洞察层', 'linked3'), 'mission' => __('格局扫描+矛盾挖掘，绘制三轴雷达图', 'linked3'), 'lever' => 'meta_strategy', 'kpi' => __('识别≥3个隐性矛盾', 'linked3')],
+            'L2' => ['name' => __('系统设计层', 'linked3'), 'mission' => __('动态建模+博弈推演，预埋可逆决策点', 'linked3'), 'lever' => 'meta_system', 'kpi' => __('模型含≥2个反馈环', 'linked3')],
+            'L3' => ['name' => __('资源编排层', 'linked3'), 'mission' => __('杠杆组合+链式激活，非常规资源调配', 'linked3'), 'lever' => 'meta_reverse', 'kpi' => __('识别≥1个认知剩余资源', 'linked3')],
+            'L4' => ['name' => __('执行暗线层', 'linked3'), 'mission' => __('明暗双轨+节奏控制，脉冲式推进', 'linked3'), 'lever' => 'meta_dynamics', 'kpi' => __('定义≥3个节奏节点', 'linked3')],
+            'L5' => ['name' => __('效果监测层', 'linked3'), 'mission' => __('非显性指标+动态校准，混沌接种', 'linked3'), 'lever' => 'meta_stress_test', 'kpi' => __('定义≥2个深层信号', 'linked3')],
         ];
     }
 

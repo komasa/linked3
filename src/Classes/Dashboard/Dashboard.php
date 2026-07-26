@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Dashboard;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -56,9 +58,8 @@ final class Dashboard
                 }
             } catch (\Throwable $e) {
                 // V18 health check failed — record but don't break the dashboard
-                if (function_exists('error_log')) {
-                    error_log('[Linked3] V18 health check failed: ' . $e->getMessage());
-                }
+                Logger::instance()->error('general', '[Linked3] V18 health check failed: ' . $e->getMessage());
+
             }
         }
 

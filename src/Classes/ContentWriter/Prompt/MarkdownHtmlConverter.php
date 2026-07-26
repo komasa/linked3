@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * 安全保障:
  *   - 已是 HTML 的内容跳过 (检测到 <p>/<h2> 等标签)
- *   - 不允许 <script>/<iframe>/<style>/<object> 等危险标签
+ *   - 不允许 script/iframe/style/object 等危险标签
  *   - 不输出 <!DOCTYPE>/<html>/<head>/<body>
  *
  * @package Linked3
@@ -85,7 +85,7 @@ final class MarkdownHtmlConverter
     /**
      * Markdown → HTML 转换。
      */
-    private static function markdown_to_html($content) : string     {
+    private static function markdown_to_html($content) : mixed     {
         // 标准化换行
         $content = str_replace(["\r\n", "\r"], "\n", $content);
 
@@ -177,7 +177,7 @@ final class MarkdownHtmlConverter
     /**
      * 转换列表(无序+有序)。
      */
-    private static function convert_lists($content) : string {
+    private static function convert_lists($content) : mixed {
         $lines = explode("\n", $content);
         $out = [];
         $in_ul = false;
@@ -212,7 +212,7 @@ final class MarkdownHtmlConverter
     /**
      * 将连续非空非块级行包裹为 <p>。
      */
-    private static function wrap_paragraphs($content) : string     {
+    private static function wrap_paragraphs($content) : mixed     {
         $blocks = preg_split('/\n{2,}/', $content);
         $result = [];
         $block_tags = ['<h1', '<h2', '<h3', '<h4', '<h5', '<h6',

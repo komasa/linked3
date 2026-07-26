@@ -19,7 +19,7 @@ class DiagramVisualScriptTransform {
                 'scene' => $i + 1,
                 'band' => $band['title'] ?? "Band {$i}",
                 'visual' => $band['modules'] ?? [],
-                'narration' => '画面展示' . ($band['title'] ?? ''),
+                'narration' => __('画面展示', 'linked3') . ($band['title'] ?? ''),
                 'duration' => 3,
             ];
         }

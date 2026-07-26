@@ -55,7 +55,7 @@ class BookAjaxPipeline {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3-ai' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3' ) ), 403 );
 		}
 
 		$args = array(
@@ -84,7 +84,7 @@ class BookAjaxPipeline {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3-ai' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3' ) ), 403 );
 		}
 
 		$args = array(
@@ -121,18 +121,18 @@ class BookAjaxPipeline {
 		$project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
 
 		if ( empty( $project_id ) ) {
-			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3' ) ) );
 		}
 
 		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
-			wp_send_json_error( array( 'message' => __( '项目不存在', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目不存在', 'linked3' ) ) );
 		}
 
 		$state->set( 'status', 'cancelled' );
 		$state->save_state();
 
-		wp_send_json_success( array( 'message' => __( '已取消', 'linked3-ai' ) ) );
+		wp_send_json_success( array( 'message' => __( '已取消', 'linked3' ) ) );
 	}
 
 	/**
@@ -146,7 +146,7 @@ class BookAjaxPipeline {
 		$project_id = isset( $_REQUEST['project_id'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['project_id'] ) ) : '';
 
 		if ( empty( $project_id ) ) {
-			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3' ) ) );
 		}
 
 		$result = self::orchestrator()->get_progress( $project_id );
@@ -171,7 +171,7 @@ class BookAjaxPipeline {
 		$section_index  = isset( $_POST['section_index'] ) ? absint( $_POST['section_index'] ) : 0;
 
 		if ( empty( $project_id ) ) {
-			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3' ) ) );
 		}
 
 		$result = self::orchestrator()->regenerate_section( $project_id, $chapter_index, $section_index );
@@ -188,19 +188,19 @@ class BookAjaxPipeline {
 	 *
 	 * @return mixed
 	 */
-	public static function download(): mixed {
+	public static function download(): void {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		$project_id = isset( $_GET['project_id'] ) ? sanitize_text_field( wp_unslash( $_GET['project_id'] ) ) : '';
 		$format     = isset( $_GET['format'] ) ? sanitize_text_field( wp_unslash( $_GET['format'] ) ) : 'txt';
 
 		if ( empty( $project_id ) ) {
-			wp_die( __( '项目ID不能为空', 'linked3-ai' ) );
+			wp_die( __( '项目ID不能为空', 'linked3' ) );
 		}
 
 		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
-			wp_die( __( '项目不存在', 'linked3-ai' ) );
+			wp_die( __( '项目不存在', 'linked3' ) );
 		}
 
 		$content = $state->get( 'final_content', '' );
@@ -227,12 +227,12 @@ class BookAjaxPipeline {
 		$project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
 
 		if ( empty( $project_id ) ) {
-			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3' ) ) );
 		}
 
 		$state = BookProjectState::get_project( $project_id );
 		if ( ! $state ) {
-			wp_send_json_error( array( 'message' => __( '项目不存在', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目不存在', 'linked3' ) ) );
 		}
 
 		$state->set( 'status', 'running' );
@@ -241,7 +241,7 @@ class BookAjaxPipeline {
 		// Schedule next step
 		wp_schedule_single_event( time(), 'linked3_book_factory_run_step', array( $project_id ) );
 
-		wp_send_json_success( array( 'message' => __( '已恢复', 'linked3-ai' ) ) );
+		wp_send_json_success( array( 'message' => __( '已恢复', 'linked3' ) ) );
 	}
 
 	/**
@@ -275,7 +275,7 @@ class BookAjaxPipeline {
 		$project_id = isset( $_POST['project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['project_id'] ) ) : '';
 
 		if ( empty( $project_id ) ) {
-			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '项目ID不能为空', 'linked3' ) ) );
 		}
 
 		$result = self::orchestrator()->run_step( $project_id );

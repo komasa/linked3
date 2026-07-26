@@ -27,7 +27,7 @@ final class BloggerDistributor implements DistributeAdapterInterface
         $token = $config['access_token'] ?? '';
         $blog_id = $config['blog_id'] ?? '';
         if (!$token || !$blog_id) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token 或 Blog ID', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token 或 Blog ID', 'linked3')];
         }
         $body = [
             'kind' => 'blogger#post',
@@ -45,13 +45,13 @@ final class BloggerDistributor implements DistributeAdapterInterface
         $code = (int) wp_remote_retrieve_response_code($resp);
         $json = json_decode(wp_remote_retrieve_body($resp), true);
         if ($code >= 400) return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['error']['message'] ?? '')];
-        return ['ok' => true, 'remote_id' => (string) ($json['id'] ?? ''), 'message' => __('已发布到 Blogger', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => (string) ($json['id'] ?? ''), 'message' => __('已发布到 Blogger', 'linked3')];
     }
 
     public function test(array $config): array {
         $token = $config['access_token'] ?? '';
         $blog_id = $config['blog_id'] ?? '';
-        if (!$token || !$blog_id) return ['ok' => false, 'message' => __('缺少 Access Token 或 Blog ID', 'linked3-ai')];
+        if (!$token || !$blog_id) return ['ok' => false, 'message' => __('缺少 Access Token 或 Blog ID', 'linked3')];
         // v3.0.0: 真实 ping Blogger API 验证 token + blog_id
         $resp = SafeRemote::get('https://www.googleapis.com/blogger/v3/blogs/' . urlencode($blog_id), [
             'timeout' => 15,

@@ -13,9 +13,9 @@ class CompositeWritingDepth implements CompositeLeverInterface
     public function orchestrated_levers(): array { return ['meta_cognition', 'meta_metacognition', 'meta_folding']; }
     public function departments(): array {
         return [
-            'COG' => ['name' => '认知层', 'mission' => '分析主题的认知结构', 'lever' => 'meta_cognition'],
-            'META' => ['name' => '元认知层', 'mission' => '反思思考过程本身', 'lever' => 'meta_metacognition'],
-            'FOLD' => ['name' => '折叠层', 'mission' => '多层信息压缩为精炼表达', 'lever' => 'meta_folding'],
+            'COG' => ['name' => __('认知层', 'linked3'), 'mission' => __('分析主题的认知结构', 'linked3'), 'lever' => 'meta_cognition'],
+            'META' => ['name' => __('元认知层', 'linked3'), 'mission' => __('反思思考过程本身', 'linked3'), 'lever' => 'meta_metacognition'],
+            'FOLD' => ['name' => __('折叠层', 'linked3'), 'mission' => __('多层信息压缩为精炼表达', 'linked3'), 'lever' => 'meta_folding'],
         ];
     }
     public function system_prompt(): string {

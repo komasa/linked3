@@ -36,30 +36,30 @@ class OSTextCreation {
      * 10类文本类型
      */
     const TEXT_TYPES = [
-        'novel' => '小说创作',
-        'poetry' => '诗歌创作',
-        'ad' => '广告创作',
-        'tech_doc' => '技术文档',
-        'news' => '新闻创作',
-        'academic' => '学术论文',
-        'copywriting' => '文案',
-        'screenplay' => '剧本',
-        'comic_strip' => '条漫',
-        'short_drama' => '短剧',
+        'novel' => __('小说创作', 'linked3'),
+        'poetry' => __('诗歌创作', 'linked3'),
+        'ad' => __('广告创作', 'linked3'),
+        'tech_doc' => __('技术文档', 'linked3'),
+        'news' => __('新闻创作', 'linked3'),
+        'academic' => __('学术论文', 'linked3'),
+        'copywriting' => __('文案', 'linked3'),
+        'screenplay' => __('剧本', 'linked3'),
+        'comic_strip' => __('条漫', 'linked3'),
+        'short_drama' => __('短剧', 'linked3'),
     ];
 
     /**
      * T1-T8文本专属8维度
      */
     const TEXT_DIMENSIONS = [
-        'T1' => ['key' => 'T1', 'name' => '题材', 'fields' => '类型/领域/目标市场'],
-        'T2' => ['key' => 'T2', 'name' => '结构', 'fields' => '叙事结构/章节划分/节奏'],
-        'T3' => ['key' => 'T3', 'name' => '角色', 'fields' => '主角/配角/用户画像'],
-        'T4' => ['key' => 'T4', 'name' => '语言', 'fields' => '语言风格/语调/用词'],
-        'T5' => ['key' => 'T5', 'name' => '节奏', 'fields' => '信息密度/场景切换/时长'],
-        'T6' => ['key' => 'T6', 'name' => '爽点', 'fields' => '痛点/利益点/情感共鸣'],
-        'T7' => ['key' => 'T7', 'name' => '伏笔', 'fields' => '暗示/铺垫/回收'],
-        'T8' => ['key' => 'T8', 'name' => '质量', 'fields' => '转化路径/可测试性/合规性'],
+        'T1' => ['key' => 'T1', 'name' => __('题材', 'linked3'), 'fields' => __('类型/领域/目标市场', 'linked3')],
+        'T2' => ['key' => 'T2', 'name' => __('结构', 'linked3'), 'fields' => __('叙事结构/章节划分/节奏', 'linked3')],
+        'T3' => ['key' => 'T3', 'name' => __('角色', 'linked3'), 'fields' => __('主角/配角/用户画像', 'linked3')],
+        'T4' => ['key' => 'T4', 'name' => __('语言', 'linked3'), 'fields' => __('语言风格/语调/用词', 'linked3')],
+        'T5' => ['key' => 'T5', 'name' => __('节奏', 'linked3'), 'fields' => __('信息密度/场景切换/时长', 'linked3')],
+        'T6' => ['key' => 'T6', 'name' => __('爽点', 'linked3'), 'fields' => __('痛点/利益点/情感共鸣', 'linked3')],
+        'T7' => ['key' => 'T7', 'name' => __('伏笔', 'linked3'), 'fields' => __('暗示/铺垫/回收', 'linked3')],
+        'T8' => ['key' => 'T8', 'name' => __('质量', 'linked3'), 'fields' => __('转化路径/可测试性/合规性', 'linked3')],
     ];
 
     /**
@@ -107,7 +107,7 @@ class OSTextCreation {
             'module_version' => '12.6.0',
             'text_types_count' => count(self::TEXT_TYPES),
             'dimensions_count' => count(self::TEXT_DIMENSIONS),
-            'source' => 'V18用篇28-30 逆向文本创作8维度',
+            'source' => __('V18用篇28-30 逆向文本创作8维度', 'linked3'),
         ];
     }
 }

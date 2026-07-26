@@ -50,23 +50,23 @@ class DiagramE2ETestSuite {
 
     private function testMasterTemplate(): array {
         $ok = class_exists('\Linked3\Classes\Diagram\DiagramMasterTemplate');
-        return ['passed' => $ok, 'msg' => $ok ? 'OK' : '主模板缺失'];
+        return ['passed' => $ok, 'msg' => $ok ? 'OK' : __('主模板缺失', 'linked3')];
     }
     private function testTypeRegistry(): array {
         $count = DiagramTypeRegistry::instance()->getStats()['total'] ?? 0;
-        return ['passed' => $count === 16, 'msg' => "16种图示: {$count}/16"];
+        return ['passed' => $count === 16, 'msg' => __("16种图示: {$count}/16", 'linked3')];
     }
     private function testSpectrum30(): array {
         $count = Diagram30Spectrum::instance()->count();
-        return ['passed' => $count === 30, 'msg' => "30种全谱: {$count}/30"];
+        return ['passed' => $count === 30, 'msg' => __("30种全谱: {$count}/30", 'linked3')];
     }
     private function testEndpoint6(): array {
         $count = count(DiagramEndpointRegistry::instance()->all());
-        return ['passed' => $count === 6, 'msg' => "6种Endpoint: {$count}/6"];
+        return ['passed' => $count === 6, 'msg' => __("6种Endpoint: {$count}/6", 'linked3')];
     }
     private function testValidation13Dim(): array {
         $ok = class_exists('\Linked3\Classes\Diagram\DiagramValidation13Dim');
-        return ['passed' => $ok, 'msg' => $ok ? 'OK' : '13维校验缺失'];
+        return ['passed' => $ok, 'msg' => $ok ? 'OK' : __('13维校验缺失', 'linked3')];
     }
     private function testPromptCompiler(): array {
         $ok = class_exists('\Linked3\Classes\Diagram\DiagramPromptCompiler');
@@ -74,11 +74,11 @@ class DiagramE2ETestSuite {
     }
     private function testSeedSystem(): array {
         $ok = class_exists('\Linked3\Classes\Diagram\DiagramCharacterSeedManager') && class_exists('\Linked3\Classes\Diagram\DiagramProductSeedManager');
-        return ['passed' => $ok, 'msg' => $ok ? 'OK' : 'Seed系统缺失'];
+        return ['passed' => $ok, 'msg' => $ok ? 'OK' : __('Seed系统缺失', 'linked3')];
     }
     private function testCommercialHardening(): array {
         $result = (new DiagramCommercialHardening())->harden();
-        return ['passed' => $result['hardened'], 'msg' => "加固: {$result['passed']}/{$result['total']}"];
+        return ['passed' => $result['hardened'], 'msg' => __("加固: {$result['passed']}/{$result['total']}", 'linked3')];
     }
 }
 

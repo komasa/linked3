@@ -53,36 +53,36 @@ class OSCapabilityLock {
      * 来源: V18 道篇2.4
      */
     const READER_STATES = [
-        'curious'    => ['label' => '好奇', 'desc' => '用户带着问题来，想找到答案', 'best_for' => 'T1法律科普'],
-        'anxious'    => ['label' => '焦虑', 'desc' => '用户遇到问题，担心后果', 'best_for' => 'T3法律警示'],
-        'confused'   => ['label' => '困惑', 'desc' => '用户不懂术语，需要大白话', 'best_for' => 'T2案例分析'],
-        'seeking'    => ['label' => '求助', 'desc' => '用户需要具体解决方案', 'best_for' => 'T4共情答疑'],
-        'comparing'  => ['label' => '比较', 'desc' => '用户在多个选项中抉择', 'best_for' => 'T5避坑提示'],
-        'preparing'  => ['label' => '准备', 'desc' => '用户即将行动，需要清单', 'best_for' => 'T6法庭出庭'],
-        'connecting' => ['label' => '连接', 'desc' => '用户想了解创作者', 'best_for' => 'T7品牌互动'],
+        'curious'    => ['label' => __('好奇', 'linked3'), 'desc' => __('用户带着问题来，想找到答案', 'linked3'), 'best_for' => __('T1法律科普', 'linked3')],
+        'anxious'    => ['label' => __('焦虑', 'linked3'), 'desc' => __('用户遇到问题，担心后果', 'linked3'), 'best_for' => __('T3法律警示', 'linked3')],
+        'confused'   => ['label' => __('困惑', 'linked3'), 'desc' => __('用户不懂术语，需要大白话', 'linked3'), 'best_for' => __('T2案例分析', 'linked3')],
+        'seeking'    => ['label' => __('求助', 'linked3'), 'desc' => __('用户需要具体解决方案', 'linked3'), 'best_for' => __('T4共情答疑', 'linked3')],
+        'comparing'  => ['label' => __('比较', 'linked3'), 'desc' => __('用户在多个选项中抉择', 'linked3'), 'best_for' => __('T5避坑提示', 'linked3')],
+        'preparing'  => ['label' => __('准备', 'linked3'), 'desc' => __('用户即将行动，需要清单', 'linked3'), 'best_for' => __('T6法庭出庭', 'linked3')],
+        'connecting' => ['label' => __('连接', 'linked3'), 'desc' => __('用户想了解创作者', 'linked3'), 'best_for' => __('T7品牌互动', 'linked3')],
     ];
 
     /**
      * 能知模式枚举 (Reader-Mode)
      */
     const READER_MODES = [
-        'skimming'   => ['label' => '浏览', 'desc' => '3秒扫一眼，只看标题和图', 'attention_span' => 3],
-        'scanning'   => ['label' => '扫读', 'desc' => '15秒翻9页，找关键信息', 'attention_span' => 15],
-        'reading'    => ['label' => '精读', 'desc' => '1分钟读全文，理解逻辑', 'attention_span' => 60],
-        'studying'   => ['label' => '研读', 'desc' => '5分钟深读，收藏备用', 'attention_span' => 300],
-        'acting'     => ['label' => '行动', 'desc' => '看完即行动，私信咨询', 'attention_span' => 600],
+        'skimming'   => ['label' => __('浏览', 'linked3'), 'desc' => __('3秒扫一眼，只看标题和图', 'linked3'), 'attention_span' => 3],
+        'scanning'   => ['label' => __('扫读', 'linked3'), 'desc' => __('15秒翻9页，找关键信息', 'linked3'), 'attention_span' => 15],
+        'reading'    => ['label' => __('精读', 'linked3'), 'desc' => __('1分钟读全文，理解逻辑', 'linked3'), 'attention_span' => 60],
+        'studying'   => ['label' => __('研读', 'linked3'), 'desc' => __('5分钟深读，收藏备用', 'linked3'), 'attention_span' => 300],
+        'acting'     => ['label' => __('行动', 'linked3'), 'desc' => __('看完即行动，私信咨询', 'linked3'), 'attention_span' => 600],
     ];
 
     /**
      * 能知期望枚举 (Reader-Expectation)
      */
     const READER_EXPECTATIONS = [
-        'answer'     => ['label' => '求答案', 'desc' => '想得到一个明确的结论'],
-        'method'     => ['label' => '求方法', 'desc' => '想得到可执行的步骤'],
-        'case'       => ['label' => '求案例', 'desc' => '想看到真实的判例'],
-        'template'   => ['label' => '求模板', 'desc' => '想下载可复用的模板'],
-        'emotion'    => ['label' => '求共鸣', 'desc' => '想获得情绪上的认同'],
-        'warning'    => ['label' => '求警示', 'desc' => '想避免踩坑'],
+        'answer'     => ['label' => __('求答案', 'linked3'), 'desc' => __('想得到一个明确的结论', 'linked3')],
+        'method'     => ['label' => __('求方法', 'linked3'), 'desc' => __('想得到可执行的步骤', 'linked3')],
+        'case'       => ['label' => __('求案例', 'linked3'), 'desc' => __('想看到真实的判例', 'linked3')],
+        'template'   => ['label' => __('求模板', 'linked3'), 'desc' => __('想下载可复用的模板', 'linked3')],
+        'emotion'    => ['label' => __('求共鸣', 'linked3'), 'desc' => __('想获得情绪上的认同', 'linked3')],
+        'warning'    => ['label' => __('求警示', 'linked3'), 'desc' => __('想避免踩坑', 'linked3')],
     ];
 
     /**
@@ -127,7 +127,7 @@ class OSCapabilityLock {
     public static function inject_into_prompt(string $prompt, array $neng_constraint): string {
         if (empty($neng_constraint)) return $prompt;
 
-        $constraint_block = "\n# 能知约束（V18李善友能所结构）\n";
+        $constraint_block = __('\n# 能知约束（V18李善友能所结构）\n', 'linked3');
         $constraint_block .= "Reader-State: {$neng_constraint['reader_state']} ({$neng_constraint['reader_state_label']} - {$neng_constraint['reader_state_desc']})\n";
         $constraint_block .= "Reader-Mode: {$neng_constraint['reader_mode']} ({$neng_constraint['reader_mode_label']} - 注意力{$neng_constraint['attention_span_sec']}秒)\n";
         $constraint_block .= "Reader-Expectation: {$neng_constraint['reader_expectation']} ({$neng_constraint['reader_expectation_label']} - {$neng_constraint['reader_expectation_desc']})\n";
@@ -240,7 +240,7 @@ class OSCapabilityLock {
             'reader_states_count' => count(self::READER_STATES),
             'reader_modes_count' => count(self::READER_MODES),
             'reader_expectations_count' => count(self::READER_EXPECTATIONS),
-            'source' => 'V18道篇2.4 + 李善友2026大课能所结构',
+            'source' => __('V18道篇2.4 + 李善友2026大课能所结构', 'linked3'),
         ];
     }
 }

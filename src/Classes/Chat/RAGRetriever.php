@@ -25,7 +25,7 @@ final class RAGRetriever
      * @param int    $top_k
      * @return array<int,array{content:string, title:string, url:string, score:float}>
      */
-    public function retrieve(string $query, int $top_k = 5) : array {
+    public function retrieve(string $query, int $top_k = 5) : mixed {
         $config = get_option(LINKED3_OPTION_PREFIX . 'vector_config', []);
         if (empty($config['enabled'])) return [];
         $provider = VectorFactory::instance()->make($config['provider'] ?? 'local');
@@ -58,7 +58,7 @@ final class RAGRetriever
      * @param array $context
      * @return string
      */
-    public function build_context_prompt(array $context) : string     {
+    public function build_context_prompt(array $context) : mixed     {
         if (empty($context)) return '';
         $lines = [__('使用以下站点知识库的上下文来回答。通过 URL 引用来源。如果上下文不足,请说明。', 'linked3')];
         foreach ($context as $i => $c) {

@@ -35,11 +35,11 @@ class CompositeContentEngine implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'C1' => ['name' => '叙事构建部', 'mission' => '设计叙事结构(英雄之旅/三幕剧/起承转合)+故事弧线+开头抓注意力', 'lever' => 'meta_narrative', 'kpi' => '叙事结构完整+开头3秒抓人'],
-            'C2' => ['name' => '情绪共鸣部', 'mission' => '识别受众核心情感需求+设计情感触点+从知道升级为感受到', 'lever' => 'meta_emotion', 'kpi' => '≥3个情感共鸣点'],
-            'C3' => ['name' => '说服力工程部', 'mission' => '修辞手法运用+论证结构设计+影响力技巧植入', 'lever' => 'meta_persuasion', 'kpi' => '论证链完整+修辞≥2种'],
-            'C4' => ['name' => '语境适配部', 'mission' => '情境理解+文化敏感+语境适配+平台调性匹配', 'lever' => 'meta_context', 'kpi' => '平台调性零违和'],
-            'C5' => ['name' => '认知折叠部', 'mission' => '将内容压缩为可记忆的核心模型+视觉锚点+听觉锚点', 'lever' => 'meta_folding', 'kpi' => '1句话核心+1个视觉锚点'],
+            'C1' => ['name' => __('叙事构建部', 'linked3'), 'mission' => __('设计叙事结构(英雄之旅/三幕剧/起承转合)+故事弧线+开头抓注意力', 'linked3'), 'lever' => 'meta_narrative', 'kpi' => __('叙事结构完整+开头3秒抓人', 'linked3')],
+            'C2' => ['name' => __('情绪共鸣部', 'linked3'), 'mission' => __('识别受众核心情感需求+设计情感触点+从知道升级为感受到', 'linked3'), 'lever' => 'meta_emotion', 'kpi' => __('≥3个情感共鸣点', 'linked3')],
+            'C3' => ['name' => __('说服力工程部', 'linked3'), 'mission' => __('修辞手法运用+论证结构设计+影响力技巧植入', 'linked3'), 'lever' => 'meta_persuasion', 'kpi' => __('论证链完整+修辞≥2种', 'linked3')],
+            'C4' => ['name' => __('语境适配部', 'linked3'), 'mission' => __('情境理解+文化敏感+语境适配+平台调性匹配', 'linked3'), 'lever' => 'meta_context', 'kpi' => __('平台调性零违和', 'linked3')],
+            'C5' => ['name' => __('认知折叠部', 'linked3'), 'mission' => __('将内容压缩为可记忆的核心模型+视觉锚点+听觉锚点', 'linked3'), 'lever' => 'meta_folding', 'kpi' => __('1句话核心+1个视觉锚点', 'linked3')],
         ];
     }
 

@@ -90,7 +90,7 @@ final class AutoGPTTaskRepository extends BaseRepository
         return $row;
     }
 
-    public function create(array $data) : WP_Error     {
+    public function create(array $data) : mixed     {
         global $wpdb;
         $table = $this->get_table();
         $type = sanitize_text_field($data['task_type'] ?? 'content-writing');

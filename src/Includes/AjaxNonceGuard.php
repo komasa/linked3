@@ -181,8 +181,11 @@ final class AjaxNonceGuard
      */
     public static function print_nonce_script(): void
     {
+        // v29.1.0 Step 4: Inline <script> removed — nonce now passed via
+        // wp_localize_script('linked3-fetch', 'linked3_config', ['nonce' => ...])
+        // in linked3.php. This method kept for backward compat.
         $nonce = self::create_nonce();
-        echo "<script>window.linked3AjaxNonce = '{$nonce}';</script>\n";
+        wp_add_inline_script('linked3-fetch', 'window.linked3AjaxNonce = ' . wp_json_encode($nonce) . ';', 'before');
     }
 
     /**

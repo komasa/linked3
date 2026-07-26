@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Genesis;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class GenesisPatchStage2
 {
@@ -10,9 +12,9 @@ class GenesisPatchStage2
         public static function ajax_v9_stage1_fixed() : mixed { return GenesisPatchStage3::ajax_v9_stage1_fixed(); }
 
     public static function ajax_v9_stage2_fixed() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $beatsJson = wp_unslash($_POST['beats'] ?? '[]');
         $charactersJson = wp_unslash($_POST['characters'] ?? '[]');
@@ -24,7 +26,7 @@ class GenesisPatchStage2
         $genMode2 = sanitize_text_field($_POST['gen_mode'] ?? 'local');
 
         $beats = json_decode($beatsJson, true);
-        if (!is_array($beats) || empty($beats)) wp_send_json_error(['message' => __('beats 数据为空', 'linked3-ai')]);
+        if (!is_array($beats) || empty($beats)) wp_send_json_error(['message' => __('beats 数据为空', 'linked3')]);
         $characters = json_decode($charactersJson, true);
         if (!is_array($characters)) $characters = [];
 
@@ -62,7 +64,7 @@ class GenesisPatchStage2
 
             $batchReport = null;
             if (class_exists('\Linked3\Classes\Genesis\QualityLoop') && method_exists('\Linked3\Classes\Genesis\QualityLoop', 'batch_consistency_check') && count($results) > 1) {
-                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+                try { $batchReport = \QualityLoop::batch_consistency_check($results); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
             }
 
             if (function_exists('ob_end_clean')) @ob_end_clean();
@@ -81,7 +83,7 @@ class GenesisPatchStage2
             ]);
         } catch (\Throwable $e) {
             if (function_exists('ob_end_clean')) @ob_end_clean();
-            wp_send_json_error(['message' => __('Stage 2 失败: ', 'linked3-ai') . $e->getMessage(), 'file' => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '']);
+            wp_send_json_error(['message' => __('Stage 2 失败: ', 'linked3') . $e->getMessage(), 'file' => WP_DEBUG ? $e->getFile() . ':' . $e->getLine() : '']);
         } finally {
             error_reporting($prev_er_v1006);
         }
@@ -126,7 +128,7 @@ class GenesisPatchStage2
         // 情绪色彩
         $color = '';
         if (class_exists('\Linked3\Classes\Genesis\StoryPipeline')) {
-            try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            try { $color = \StoryPipeline::emotion_to_color($emotion); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
 
         $shotData = self::buildShotData($beat, $skeletonId, $seedRefs, $arcPosition, $emotion, $platform, $fpCore);
@@ -146,7 +148,7 @@ class GenesisPatchStage2
                 $pqs = \QualityLoop::pqs_check($shotData);
                 if (!empty($pqs['overall_score'])) $pqsScore = $pqs['overall_score'];
                 $pqsInfo = ['passed' => $pqs['passed_count'] ?? 0, 'total' => $pqs['total'] ?? 13];
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
 
         return [

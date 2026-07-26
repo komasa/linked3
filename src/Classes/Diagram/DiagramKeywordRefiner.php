@@ -55,7 +55,7 @@ class DiagramKeywordRefiner {
     }
 
     private function verbToNoun(string $keyword): string {
-        $verbMap = ['实现' => '实现法', '优化' => '优化法', '提升' => '提升法', '管理' => '管理法'];
+        $verbMap = ['实现' => __('实现法', 'linked3'), '优化' => __('优化法', 'linked3'), '提升' => __('提升法', 'linked3'), '管理' => __('管理法', 'linked3')];
         return $verbMap[$keyword] ?? $keyword;
     }
 

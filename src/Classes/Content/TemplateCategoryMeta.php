@@ -50,32 +50,32 @@ class TemplateCategoryMeta {
 
     private function get_role(string $category): string {
         $roles = [
-            'content' => '专业内容创作者',
-            'seo' => 'SEO优化专家',
-            'social' => '社交媒体运营',
-            'video' => '视频脚本编剧',
-            'comic' => '漫画脚本作者',
-            'charts' => '图示内容设计师',
-            'genesis' => '漫画分镜作者',
-            'tutorial' => '技术教程作者',
-            'review' => '产品评测师',
-            'news' => '科技资讯编辑',
+            'content' => __('专业内容创作者', 'linked3'),
+            'seo' => __('SEO优化专家', 'linked3'),
+            'social' => __('社交媒体运营', 'linked3'),
+            'video' => __('视频脚本编剧', 'linked3'),
+            'comic' => __('漫画脚本作者', 'linked3'),
+            'charts' => __('图示内容设计师', 'linked3'),
+            'genesis' => __('漫画分镜作者', 'linked3'),
+            'tutorial' => __('技术教程作者', 'linked3'),
+            'review' => __('产品评测师', 'linked3'),
+            'news' => __('科技资讯编辑', 'linked3'),
         ];
         return $roles[$category] ?? '内容创作者';
     }
 
     private function get_scene(string $category): string {
         $scenes = [
-            'content' => '博客文章/公众号/知识库',
-            'seo' => '搜索引擎优化场景',
-            'social' => '小红书/微博/抖音',
-            'video' => '短视频/中视频',
-            'comic' => '漫画分镜',
-            'charts' => '信息图/图文卡片',
-            'genesis' => '漫画分镜/连环画',
-            'tutorial' => '教程/攻略/How-to',
-            'review' => '产品评测/对比测评',
-            'news' => '新闻资讯/快讯',
+            'content' => __('博客文章/公众号/知识库', 'linked3'),
+            'seo' => __('搜索引擎优化场景', 'linked3'),
+            'social' => __('小红书/微博/抖音', 'linked3'),
+            'video' => __('短视频/中视频', 'linked3'),
+            'comic' => __('漫画分镜', 'linked3'),
+            'charts' => __('信息图/图文卡片', 'linked3'),
+            'genesis' => __('漫画分镜/连环画', 'linked3'),
+            'tutorial' => __('教程/攻略/How-to', 'linked3'),
+            'review' => __('产品评测/对比测评', 'linked3'),
+            'news' => __('新闻资讯/快讯', 'linked3'),
         ];
         return $scenes[$category] ?? '通用内容';
     }
@@ -146,16 +146,16 @@ class TemplateCategoryMeta {
 
     private function get_output_format(string $category): string {
         $formats = [
-            'content' => 'Markdown格式, 含H1/H2/H3',
-            'seo' => '标题+描述+正文+关键词列表',
-            'social' => '标题+正文+标签+发布建议',
-            'video' => '分镜脚本+台词+动作指导',
-            'comic' => '分镜列表+Prompt+角色DNA',
-            'charts' => '模块列表+视觉Prompt+文字叠加',
-            'genesis' => '分镜列表+Prompt+角色DNA+对话',
-            'tutorial' => '步骤列表+截图+代码+FAQ',
-            'review' => '对比表格+优缺点+购买建议',
-            'news' => '标题+导语+要点+正文',
+            'content' => __('Markdown格式, 含H1/H2/H3', 'linked3'),
+            'seo' => __('标题+描述+正文+关键词列表', 'linked3'),
+            'social' => __('标题+正文+标签+发布建议', 'linked3'),
+            'video' => __('分镜脚本+台词+动作指导', 'linked3'),
+            'comic' => __('分镜列表+Prompt+角色DNA', 'linked3'),
+            'charts' => __('模块列表+视觉Prompt+文字叠加', 'linked3'),
+            'genesis' => __('分镜列表+Prompt+角色DNA+对话', 'linked3'),
+            'tutorial' => __('步骤列表+截图+代码+FAQ', 'linked3'),
+            'review' => __('对比表格+优缺点+购买建议', 'linked3'),
+            'news' => __('标题+导语+要点+正文', 'linked3'),
         ];
         return $formats[$category] ?? 'Markdown';
     }

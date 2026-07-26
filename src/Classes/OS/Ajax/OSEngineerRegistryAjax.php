@@ -40,7 +40,7 @@ class OSEngineerRegistryAjax {
     public static function ajax_list() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSEngineerRegistryAjax {
     public static function ajax_register() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSEngineerRegistryAjax {
     public static function ajax_categories() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -167,7 +167,7 @@ class OSEngineerRegistryAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_all_options')) {
             $options = call_user_func(['OSEngineerRegistry', 'get_all_options']);
@@ -212,7 +212,7 @@ class OSEngineerRegistryAjax {
      */
     private static function execute_list(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'get_all_engineers')) {
             $list = call_user_func(['OSEngineerRegistry', 'get_all_engineers']);
@@ -229,7 +229,7 @@ class OSEngineerRegistryAjax {
      */
     private static function execute_register(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $engineer_type = $params['engineer_type'] ?? '';
         if (method_exists('\Linked3\Classes\OS\Core\OSEngineerRegistry', 'register_engineer')) {
@@ -280,7 +280,7 @@ class OSEngineerRegistryAjax {
             'ajax_version' => '14.5.0',
             'target_class' => 'OSEngineerRegistry',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '31类工程师AJAX接口',
+            'title' => __('31类工程师AJAX接口', 'linked3'),
         ];
     }
 
@@ -288,7 +288,7 @@ class OSEngineerRegistryAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_engineer_list' => '列出工程师', 'linked3_engineer_register' => '注册工程师', 'linked3_engineer_categories' => '获取分类'];
+        return ['linked3_engineer_list' => __('列出工程师', 'linked3'), 'linked3_engineer_register' => __('注册工程师', 'linked3'), 'linked3_engineer_categories' => __('获取分类', 'linked3')];
     }
 
 }

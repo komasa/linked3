@@ -39,7 +39,7 @@ final class TemplateManager
     /**
      * 获取用户模板 + 预置模板。
      */
-    public function get_all() : bool     {
+    public function get_all() : array {
         $custom = get_option(LINKED3_OPTION_PREFIX . 'templates', []);
         $defaults = $this->default_templates();
         return array_merge($defaults, is_array($custom) ? $custom : []);

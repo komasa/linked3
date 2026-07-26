@@ -26,7 +26,7 @@ final class CSDNDistributor implements DistributeAdapterInterface
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token (Cookie)', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token (Cookie)', 'linked3')];
         }
 
         $body = [
@@ -50,12 +50,12 @@ final class CSDNDistributor implements DistributeAdapterInterface
         if ($code >= 400 || empty($json['data']['blogId'])) {
             return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['msg'] ?? '')];
         }
-        return ['ok' => true, 'remote_id' => $json['data']['blogId'], 'message' => __('已发布到 CSDN', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => $json['data']['blogId'], 'message' => __('已发布到 CSDN', 'linked3')];
     }
 
     public function test(array $config): array {
         $token = $config['access_token'] ?? '';
-        if (!$token) return ['ok' => false, 'message' => __('缺少 Cookie', 'linked3-ai')];
+        if (!$token) return ['ok' => false, 'message' => __('缺少 Cookie', 'linked3')];
         // v3.0.0: 真实 ping CSDN 用户接口验证 Cookie
         $resp = SafeRemote::get('https://bizapi.csdn.net/user-api/v1/user/info', [
             'timeout' => 15,

@@ -101,7 +101,7 @@ final class CustomAPIPublishTarget implements PublishTargetInterface
         return ['ok' => false, 'remote_id' => '', 'message' => __('重试次数已用完。', 'linked3'), 'response_code' => 0];
     }
 
-    public function test(array $config) : array {
+    public function test(array $config) : mixed {
         $url = $config['webhook_url'] ?? '';
         if (!$url) {
             return ['ok' => false, 'message' => __('缺少 Webhook URL。', 'linked3')];

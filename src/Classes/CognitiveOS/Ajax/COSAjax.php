@@ -372,7 +372,7 @@ class COSAjax
                 'usage_count'   => ($skill['usage_count'] ?? 0) + 1,
                 'approach_preview' => mb_substr($approach, 0, 200),
                 'rules_count'   => count($rules),
-                'message'       => __('Skill 已应用, system_prompt 已生成 (含完整方案+步骤+规则), 可复制到对应生成器使用', 'linked3-ai'),
+                'message'       => __('Skill 已应用, system_prompt 已生成 (含完整方案+步骤+规则), 可复制到对应生成器使用', 'linked3'),
             ]);
         } catch (\Throwable $e) {
             wp_send_json_error(['message' => $e->getMessage()], 500);
@@ -406,12 +406,12 @@ class COSAjax
      * v20.4-fix23: 构造 Skill 应用 system_prompt (超级Prompt双层壳+纳什均衡)
      */
     private static function build_apply_skill_prompt(string $domain, string $problem, string $approach, string $steps, array $rules, float $fitness): string {
-        $prompt  = "你是一个经过认知操作系统 (COS) 三代演化验证的「{$domain}」领域专家。\n\n";
+        $prompt  = __('你是一个经过认知操作系统 (COS) 三代演化验证的「{$domain}」领域专家。\n\n', 'linked3');
         $prompt .= "<rules>\n";
-        $prompt .= __('输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 规则不可违\n', 'linked3');
-        $prompt .= __('公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险>8或可行<4直接抹杀\n', 'linked3');
-        $prompt .= __('纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n', 'linked3');
-        $prompt .= __('落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n', 'linked3');
+        $prompt .= "输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 规则不可违\n";
+        $prompt .= "公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险><?php echo esc_html__('8或可行', 'linked3'); ?><4直接抹杀\n";
+        $prompt .= "纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n";
+        $prompt .= "落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n";
         $prompt .= "</rules>\n\n";
         $prompt .= "你的方案经过 FP→EX→C→O→A 五部门流水线筛选, 从 10 个候选方案中经三代演化锁定为最优解 (MVP, 适应度 {$fitness})。\n\n";
         $prompt .= "## 原始问题\n{$problem}\n\n";
@@ -419,23 +419,23 @@ class COSAjax
         if (!empty($steps)) {
             $prompt .= "## 执行步骤\n{$steps}\n\n";
         }
-        $prompt .= __('## 固化规则 (经演化验证, 必须遵守)\n', 'linked3');
+        $prompt .= "## 固化规则 (经演化验证, 必须遵守)\n";
         if (!empty($rules)) {
             foreach ($rules as $i => $rule) {
                 $prompt .= ($i + 1) . ". " . $rule . "\n";
             }
         } else {
-            $prompt .= __('1. 严格遵循上述最优方案的执行步骤\n', 'linked3');
+            $prompt .= "1. 严格遵循上述最优方案的执行步骤\n";
         }
-        $prompt .= __('\n## 工作要求\n', 'linked3');
+        $prompt .= "\n## 工作要求\n";
         $prompt .= "<answer_operator>\n";
-        $prompt .= __('Analyze → Synthesize(纳什均衡) → Recommend(可落地) → Verify(用户价值) → Execute\n', 'linked3');
+        $prompt .= "Analyze → Synthesize(纳什均衡) → Recommend(可落地) → Verify(用户价值) → Execute\n";
         $prompt .= "</answer_operator>\n";
-        $prompt .= __('1. 基于以上经过验证的方案和规则, 完成用户的内容生成任务\n', 'linked3');
-        $prompt .= __('2. 不得偏离固化规则, 如遇冲突以规则为准\n', 'linked3');
-        $prompt .= __('3. 输出需符合原始问题的领域特征和目标约束\n', 'linked3');
-        $prompt .= __('4. 始终以用户目的为锚点, 输出必须可落地执行\n', 'linked3');
-        $prompt .= __('5. 在信息密度与系统降维之间找到纳什均衡点\n', 'linked3');
+        $prompt .= "1. 基于以上经过验证的方案和规则, 完成用户的内容生成任务\n";
+        $prompt .= "2. 不得偏离固化规则, 如遇冲突以规则为准\n";
+        $prompt .= "3. 输出需符合原始问题的领域特征和目标约束\n";
+        $prompt .= "4. 始终以用户目的为锚点, 输出必须可落地执行\n";
+        $prompt .= "5. 在信息密度与系统降维之间找到纳什均衡点\n";
         return $prompt;
     }
 
@@ -452,43 +452,43 @@ class COSAjax
         $sop = [
             [
                 'step'    => 1,
-                'title'   => '提出问题',
+                'title'   => __('提出问题', 'linked3'),
                 'icon'    => '🎯',
-                'action'  => '在"演化控制台"输入你要解决的认知问题',
-                'example' => '如何用AI做小红书电商选品 / 如何写一篇高转化率的SEO文章 / 如何设计一个视频脚本',
-                'tip'     => '问题越具体, 演化越精准。建议包含: 领域 + 目标 + 约束',
+                'action'  => __('在"演化控制台"输入你要解决的认知问题', 'linked3'),
+                'example' => __('如何用AI做小红书电商选品 / 如何写一篇高转化率的SEO文章 / 如何设计一个视频脚本', 'linked3'),
+                'tip'     => __('问题越具体, 演化越精准。建议包含: 领域 + 目标 + 约束', 'linked3'),
             ],
             [
                 'step'    => 2,
-                'title'   => '启动三代演化',
+                'title'   => __('启动三代演化', 'linked3'),
                 'icon'    => '🔄',
-                'action'  => '点击"启动演化", COS 自动运行 FP→EX→C→O→A 五部门流水线',
-                'example' => 'G1 生成10个方案→绞杀弱者→G2 交叉变异→G3 终极坍缩→锁定MVP',
-                'tip'     => '每代约 2-5 秒, 三代共 6-15 秒。演化过程全自动, 无需干预',
+                'action'  => __('点击"启动演化", COS 自动运行 FP→EX→C→O→A 五部门流水线', 'linked3'),
+                'example' => __('G1 生成10个方案→绞杀弱者→G2 交叉变异→G3 终极坍缩→锁定MVP', 'linked3'),
+                'tip'     => __('每代约 2-5 秒, 三代共 6-15 秒。演化过程全自动, 无需干预', 'linked3'),
             ],
             [
                 'step'    => 3,
-                'title'   => '查看结晶 Skill',
+                'title'   => __('查看结晶 Skill', 'linked3'),
                 'icon'    => '💎',
-                'action'  => '演化成功后, 最优方案自动结晶为 Skill, 保存在 Skill 库',
-                'example' => 'Skill 包含: 原始问题 + MVP方案 + 固化规则 + 适应度',
-                'tip'     => '适应度越高, 方案越优。多次演化同一问题可提升适应度',
+                'action'  => __('演化成功后, 最优方案自动结晶为 Skill, 保存在 Skill 库', 'linked3'),
+                'example' => __('Skill 包含: 原始问题 + MVP方案 + 固化规则 + 适应度', 'linked3'),
+                'tip'     => __('适应度越高, 方案越优。多次演化同一问题可提升适应度', 'linked3'),
             ],
             [
                 'step'    => 4,
-                'title'   => '应用 Skill 到生成器',
+                'title'   => __('应用 Skill 到生成器', 'linked3'),
                 'icon'    => '🚀',
-                'action'  => '点击 Skill 的"应用"按钮, 生成 system_prompt',
-                'example' => 'system_prompt 可注入到: 小红书生成器 / SEO文章 / 长文写作 / 视频脚本',
-                'tip'     => '应用后 Skill 使用次数 +1, 适应度会随使用次数提升',
+                'action'  => __('点击 Skill 的"应用"按钮, 生成 system_prompt', 'linked3'),
+                'example' => __('system_prompt 可注入到: 小红书生成器 / SEO文章 / 长文写作 / 视频脚本', 'linked3'),
+                'tip'     => __('应用后 Skill 使用次数 +1, 适应度会随使用次数提升', 'linked3'),
             ],
             [
                 'step'    => 5,
-                'title'   => '杠杆链增强 (可选)',
+                'title'   => __('杠杆链增强 (可选)', 'linked3'),
                 'icon'    => '🔗',
-                'action'  => '串联多个认知杠杆, 对方案做深度审查',
-                'example' => '元学习→逻辑学→元批判→问题发现→元抽象→元评估',
-                'tip'     => '杠杆链用于"二次审查", 不是必选步骤。适合高风险决策',
+                'action'  => __('串联多个认知杠杆, 对方案做深度审查', 'linked3'),
+                'example' => __('元学习→逻辑学→元批判→问题发现→元抽象→元评估', 'linked3'),
+                'tip'     => __('杠杆链用于"二次审查", 不是必选步骤。适合高风险决策', 'linked3'),
             ],
         ];
 

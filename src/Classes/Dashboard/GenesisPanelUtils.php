@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class GenesisPanelUtils
 {
@@ -88,7 +90,7 @@ class GenesisPanelUtils
                 'scene_id' => 'S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT),
                 'location' => $locs[1][$i],
                 'action' => $acts[1][$i],
-                'mood' => '紧张', 'shot' => '中景', 'angle' => '平视', 'comp' => '三分法',
+                'mood' => __('紧张', 'linked3'), 'shot' => __('中景', 'linked3'), 'angle' => __('平视', 'linked3'), 'comp' => __('三分法', 'linked3'),
                 'prompt_en' => '',
             ];
         }
@@ -102,10 +104,10 @@ class GenesisPanelUtils
             if (!is_array($p)) continue;
             $result[] = [
                 'scene_id'   => $p['scene_id'] ?? ('S' . str_pad((string)($i + 1), 3, '0', STR_PAD_LEFT)),
-                'location'   => $p['location'] ?? '场景' . ($i + 1),
+                'location'   => $p['location'] ?? __('场景', 'linked3') . ($i + 1),
                 'characters' => $p['characters'] ?? [],
                 'action'     => $p['action'] ?? '',
-                'mood'       => $p['mood'] ?? '紧张',
+                'mood'       => $p['mood'] ?? __('紧张', 'linked3'),
                 'shot'       => $p['shot'] ?? '中景',
                 'angle'      => $p['angle'] ?? '平视',
                 'comp'       => $p['comp'] ?? '三分法',
@@ -174,9 +176,8 @@ class GenesisPanelUtils
 
             return $panels;
         } catch (\Throwable $e) {
-            if (function_exists('error_log')) {
-                error_log('[linked3 genesis] AI split failed: ' . $e->getMessage());
-            }
+            Logger::instance()->error('general', '[linked3 genesis] AI split failed: ' . $e->getMessage());
+
             return [];
         }
     }
@@ -192,10 +193,10 @@ class GenesisPanelUtils
                 if (is_array($decoded) && !empty($decoded['action'])) {
                     $panels[] = [
                         'scene_id'   => $decoded['scene_id'] ?? ('S' . str_pad((string)(count($panels) + 1), 3, '0', STR_PAD_LEFT)),
-                        'location'   => $decoded['location'] ?? '场景',
+                        'location'   => $decoded['location'] ?? __('场景', 'linked3'),
                         'characters' => $decoded['characters'] ?? [],
                         'action'     => $decoded['action'] ?? '',
-                        'mood'       => $decoded['mood'] ?? '紧张',
+                        'mood'       => $decoded['mood'] ?? __('紧张', 'linked3'),
                         'shot'       => $decoded['shot'] ?? '中景',
                         'angle'      => $decoded['angle'] ?? '平视',
                         'comp'       => $decoded['comp'] ?? '三分法',
@@ -216,8 +217,8 @@ class GenesisPanelUtils
                         'location' => $m1[1],
                         'characters' => [],
                         'action' => $m2[1],
-                        'mood' => '紧张',
-                        'shot' => '中景', 'angle' => '平视', 'comp' => '三分法',
+                        'mood' => __('紧张', 'linked3'),
+                        'shot' => __('中景', 'linked3'), 'angle' => __('平视', 'linked3'), 'comp' => __('三分法', 'linked3'),
                     ];
                 }
             }
@@ -250,7 +251,7 @@ class GenesisPanelUtils
             if (!is_array($p)) continue;
             $result[] = [
                 'scene_id'   => $p['scene_id'] ?? ('S' . str_pad((string)(count($result) + 1), 3, '0', STR_PAD_LEFT)),
-                'location'   => $p['location'] ?? '场景',
+                'location'   => $p['location'] ?? __('场景', 'linked3'),
                 'characters' => $p['characters'] ?? [],
                 'action'     => $p['action'] ?? '',
                 'mood'       => $p['mood'] ?? '',

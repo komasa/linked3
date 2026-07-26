@@ -66,7 +66,7 @@ class HealthMonitor {
         }
 
         if ($passed === $total) {
-            $lines[] = __('\n✅ 所有系统就绪 — v6.0.0 商业生产级', 'linked3');
+            $lines[] = "\n✅ 所有系统就绪 — v6.0.0 商业生产级";
         } else {
             $lines[] = "\n⚠️  " . ($total - $passed) . " 个系统需要关注";
         }

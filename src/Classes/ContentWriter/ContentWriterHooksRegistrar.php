@@ -19,6 +19,7 @@ final class ContentWriterHooksRegistrar
     /**
      * @return void
      */
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         // Ensure default templates exist for the current user.
         add_action('admin_init', static function () {

@@ -118,11 +118,11 @@ class DashboardConfigAjax
         $count = max(1, min(20, (int) ($_POST['count'] ?? 5)));
 
         if (empty($url)) {
-            wp_send_json_error(['message' => __('请填写图片站 URL', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('请填写图片站 URL', 'linked3')]);
         }
 
         if (!class_exists('\\Linked3\\Classes\\Media\\ImageManager')) {
-            wp_send_json_error(['message' => __('图片模块未加载', 'linked3-ai')]);
+            wp_send_json_error(['message' => __('图片模块未加载', 'linked3')]);
         }
 
         $mgr = new \Linked3\Classes\Media\ImageManager();
@@ -198,7 +198,7 @@ class DashboardConfigAjax
             'models' => array_slice($img_models, 0, 50),
             'count' => count($img_models),
             'total_available' => count($all_models),
-            'message' => sprintf('已同步 %d 个模型 (共 %d 个可用)', count($img_models), count($all_models)),
+            'message' => sprintf(__('已同步 %d 个模型 (共 %d 个可用)', 'linked3'), count($img_models), count($all_models)),
         ]);
     }
 
@@ -254,7 +254,7 @@ class DashboardConfigAjax
         // v3.1.1: 返回保存的 key 数量,方便用户验证
         wp_send_json_success([
             'saved' => true,
-            'message' => sprintf('Provider 配置已保存 (%d 个 provider 有 key)', $saved_keys_count),
+            'message' => sprintf(__('Provider 配置已保存 (%d 个 provider 有 key)', 'linked3'), $saved_keys_count),
             'saved_keys_count' => $saved_keys_count,
             'default_provider' => $default_provider,
         ]);

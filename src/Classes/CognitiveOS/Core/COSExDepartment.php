@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\CognitiveOS\Core;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -105,7 +107,7 @@ class COSExDepartment
         $domain = $info_core['context']['domain'] ?? '通用';
 
         // 构建 system prompt — 教 AI 如何生成多样化方案
-        $sys_prompt = "你是一位认知操作系统 (COS) 的方案生成专家。"
+        $sys_prompt = __('你是一位认知操作系统 (COS) 的方案生成专家。', 'linked3')
             . "你的任务是为给定问题生成 {$count} 个**不同思路**的解决方案。\n\n"
             . "要求:\n"
             . "1. 每个方案必须有独立的 approach (方案描述, 50-100字)\n"
@@ -117,7 +119,7 @@ class COSExDepartment
             . '[{"approach":"方案描述","steps":"步骤1;步骤2;步骤3","risk":5,"feasibility":8,"novelty":7}]';
 
         // 构建 user prompt
-        $user_prompt = "问题: {$problem}\n";
+        $user_prompt = __('问题: {$problem}\n', 'linked3');
         $user_prompt .= "领域: {$domain}\n";
         $user_prompt .= "代际: {$generation} (需生成 {$count} 个方案)\n";
 
@@ -191,17 +193,15 @@ class COSExDepartment
         } catch (\Throwable $e) {
             // v27.8.14: catch \Throwable 而非 \Exception — 捕获 TypeError/Error 等
             // v27.8.10 (审计Phase1): AI 调用失败时返回 fallback 方案 (带标记), 而非空数组
-            if (function_exists('error_log')) {
-                error_log('[linked3 COS] EX 部门 AI 调用失败, 使用 fallback: ' . $e->getMessage());
-            }
+            Logger::instance()->warning('ai', '[linked3 COS] EX 部门 AI 调用失败, 使用 fallback: ' . $e->getMessage());
+
             return self::build_fallback_variants($problem, $generation, $count, $baseline);
         }
 
         if (empty($content)) {
             // v27.8.10: AI 返回空内容时也用 fallback
-            if (function_exists('error_log')) {
-                error_log('[linked3 COS] EX 部门 AI 返回空内容, 使用 fallback');
-            }
+            Logger::instance()->warning('ai', '[linked3 COS] EX 部门 AI 返回空内容, 使用 fallback');
+
             return self::build_fallback_variants($problem, $generation, $count, $baseline);
         }
 
@@ -221,9 +221,8 @@ class COSExDepartment
 
         if (!is_array($parsed) || empty($parsed)) {
             // v27.8.10: JSON 解析失败也用 fallback
-            if (function_exists('error_log')) {
-                error_log('[linked3 COS] EX 部门 AI 返回 JSON 解析失败, 使用 fallback');
-            }
+            Logger::instance()->warning('ai', '[linked3 COS] EX 部门 AI 返回 JSON 解析失败, 使用 fallback');
+
             return self::build_fallback_variants($problem, $generation, $count, $baseline);
         }
 
@@ -301,7 +300,7 @@ class COSExDepartment
         $variants = [];
         $i = 1;
         foreach ($selected as $s) {
-            $approach = "【{$s['tag']}】针对「{$problem}」, {$s['desc']}。核心动作: {$s['steps']}。";
+            $approach = __('【{$s[\'tag\']}】针对「{$problem}」, {$s[\'desc\']}。核心动作: {$s[\'steps\']}。', 'linked3');
             $variants[] = [
                 'id'         => $generation . '_V' . str_pad((string)$i, 2, '0', STR_PAD_LEFT),
                 'generation' => $generation,
@@ -446,14 +445,14 @@ class COSExDepartment
         $strategies = [
             [
                 'approach' => sprintf('【系统建议·趋势跟随】针对「%s」, 监控热点话题和上升期品类, 借势流量红利, 在趋势早期快速入场获取自然流量。', $problem),
-                'steps'    => '监控热点榜单;识别上升品类;分析竞争密度;快速选品上架;借势内容投放',
+                'steps'    => __('监控热点榜单;识别上升品类;分析竞争密度;快速选品上架;借势内容投放', 'linked3'),
                 'risk'     => 6,
                 'feas'     => 7,
                 'nov'      => 5,
             ],
             [
                 'approach' => sprintf('【系统建议·差异化定位】针对「%s」, 分析竞品空白点, 找到未被满足的细分需求, 用差异化内容建立壁垒。', $problem),
-                'steps'    => '竞品分析;空白点识别;细分定位;差异化内容;壁垒构建',
+                'steps'    => __('竞品分析;空白点识别;细分定位;差异化内容;壁垒构建', 'linked3'),
                 'risk'     => 5,
                 'feas'     => 6,
                 'nov'      => 7,

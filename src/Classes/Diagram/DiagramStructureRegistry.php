@@ -50,8 +50,8 @@ class DiagramStructureRegistry
         // 1. 4Band — 通用营销信息图（兜底）
         // ═══════════════════════════════════════════════════════════════
         self::register('4band', [
-            'label'       => '4Band 信息图',
-            'description' => 'Hook/Body/Proof/CTA 四层垂直布局，适合通用营销',
+            'label'       => __('4Band 信息图', 'linked3'),
+            'description' => __('Hook/Body/Proof/CTA 四层垂直布局，适合通用营销', 'linked3'),
             'icon'        => '📊',
             'layout_desc' => '4Band vertical layout: top hook, middle body, lower proof, bottom CTA',
             'visual_keywords' => '4-band layout, hook zone, body zone, proof zone, CTA zone',
@@ -59,10 +59,10 @@ class DiagramStructureRegistry
             'prompt_template' => 'with 4Band vertical layout structure: [Top Hook zone] big title, strong contrast; [Middle Body zone] info points with icons; [Lower Proof zone] data charts; [Bottom CTA zone] action button.',
             'zones' => ['hook', 'body', 'proof', 'cta'],
             'text_templates' => [
-                'hook'  => '{title}：关键要点速览',
-                'body'  => '{summary}… 详细解读见下图',
-                'proof' => '核心数据与政策依据：{title}',
-                'cta'   => '收藏本页，随时查阅{title}',
+                'hook'  => __('{title}：关键要点速览', 'linked3'),
+                'body'  => __('{summary}… 详细解读见下图', 'linked3'),
+                'proof' => __('核心数据与政策依据：{title}', 'linked3'),
+                'cta'   => __('收藏本页，随时查阅{title}', 'linked3'),
             ],
         ]);
 
@@ -70,8 +70,8 @@ class DiagramStructureRegistry
         // 2. 时间轴 — 历程/节点/计划
         // ═══════════════════════════════════════════════════════════════
         self::register('timeline', [
-            'label'       => '时间轴',
-            'description' => '纵向里程碑布局，适合历程/节点/计划',
+            'label'       => __('时间轴', 'linked3'),
+            'description' => __('纵向里程碑布局，适合历程/节点/计划', 'linked3'),
             'icon'        => '📅',
             'layout_desc' => 'vertical timeline with milestone markers and dates',
             'visual_keywords' => 'timeline, milestones, chronological, vertical axis, date markers',
@@ -79,10 +79,10 @@ class DiagramStructureRegistry
             'prompt_template' => 'with vertical timeline layout: chronological milestones along a central vertical axis, each milestone has a date marker and event description card.',
             'zones' => ['era', 'milestone', 'event', 'outcome'],
             'text_templates' => [
-                'era'       => '{title} · 时间阶段',
-                'milestone' => '关键节点：{summary}',
-                'event'     => '重要事件：{content_snippet}',
-                'outcome'   => '阶段成果：{title}',
+                'era'       => __('{title} · 时间阶段', 'linked3'),
+                'milestone' => __('关键节点：{summary}', 'linked3'),
+                'event'     => __('重要事件：{content_snippet}', 'linked3'),
+                'outcome'   => __('阶段成果：{title}', 'linked3'),
             ],
         ]);
 
@@ -90,8 +90,8 @@ class DiagramStructureRegistry
         // 3. 流程图 — 操作步骤/SOP
         // ═══════════════════════════════════════════════════════════════
         self::register('flowchart', [
-            'label'       => '流程图',
-            'description' => '横向箭头节点，适合操作步骤/SOP',
+            'label'       => __('流程图', 'linked3'),
+            'description' => __('横向箭头节点，适合操作步骤/SOP', 'linked3'),
             'icon'        => '🔄',
             'layout_desc' => 'horizontal flowchart with numbered steps and arrows',
             'visual_keywords' => 'flowchart, step-by-step, arrows, process flow, numbered nodes',
@@ -99,10 +99,10 @@ class DiagramStructureRegistry
             'prompt_template' => 'with horizontal flowchart layout: numbered step nodes connected by arrows, sequential process flow from left to right.',
             'zones' => ['start', 'step', 'decision', 'end'],
             'text_templates' => [
-                'start'    => '开始：{title}',
-                'step'     => '步骤：{summary}',
-                'decision' => '判断：{content_snippet}',
-                'end'      => '完成：{title}',
+                'start'    => __('开始：{title}', 'linked3'),
+                'step'     => __('步骤：{summary}', 'linked3'),
+                'decision' => __('判断：{content_snippet}', 'linked3'),
+                'end'      => __('完成：{title}', 'linked3'),
             ],
         ]);
 
@@ -110,8 +110,8 @@ class DiagramStructureRegistry
         // 4. 二栏对比 — A vs B
         // ═══════════════════════════════════════════════════════════════
         self::register('comparison', [
-            'label'       => '二栏对比',
-            'description' => '左右分栏 A vs B，适合对比分析',
+            'label'       => __('二栏对比', 'linked3'),
+            'description' => __('左右分栏 A vs B，适合对比分析', 'linked3'),
             'icon'        => '⚖️',
             'layout_desc' => 'binary comparison layout with two columns A vs B',
             'visual_keywords' => 'comparison, VS layout, split screen, contrast columns, before after',
@@ -119,10 +119,10 @@ class DiagramStructureRegistry
             'prompt_template' => 'with binary comparison layout: two columns side by side, left column A vs right column B, clear visual contrast between the two sides.',
             'zones' => ['left_title', 'left_items', 'right_title', 'right_items'],
             'text_templates' => [
-                'left_title'   => '方案 A：{title}',
-                'left_items'   => '特点：{summary}',
-                'right_title'  => '方案 B：{title}',
-                'right_items'  => '特点：{summary}',
+                'left_title'   => __('方案 A：{title}', 'linked3'),
+                'left_items'   => __('特点：{summary}', 'linked3'),
+                'right_title'  => __('方案 B：{title}', 'linked3'),
+                'right_items'  => __('特点：{summary}', 'linked3'),
             ],
         ]);
 
@@ -130,8 +130,8 @@ class DiagramStructureRegistry
         // 5. 数据图表 — 统计/比例/趋势
         // ═══════════════════════════════════════════════════════════════
         self::register('data_chart', [
-            'label'       => '数据图表',
-            'description' => '柱状/饼图/折线，适合统计/比例/趋势',
+            'label'       => __('数据图表', 'linked3'),
+            'description' => __('柱状/饼图/折线，适合统计/比例/趋势', 'linked3'),
             'icon'        => '📈',
             'layout_desc' => 'data visualization with bar chart, pie chart, or line graph',
             'visual_keywords' => 'bar chart, pie chart, data visualization, statistics, percentage, trend line',
@@ -139,10 +139,10 @@ class DiagramStructureRegistry
             'prompt_template' => 'with data visualization layout: prominent bar chart or pie chart showing key statistics, percentage rings, trend indicators.',
             'zones' => ['chart_title', 'chart_data', 'chart_insight', 'data_source'],
             'text_templates' => [
-                'chart_title'   => '{title} · 数据透视',
-                'chart_data'    => '核心数据：{summary}',
-                'chart_insight' => '数据洞察：{content_snippet}',
-                'data_source'   => '数据来源：{title}',
+                'chart_title'   => __('{title} · 数据透视', 'linked3'),
+                'chart_data'    => __('核心数据：{summary}', 'linked3'),
+                'chart_insight' => __('数据洞察：{content_snippet}', 'linked3'),
+                'data_source'   => __('数据来源：{title}', 'linked3'),
             ],
         ]);
 
@@ -150,8 +150,8 @@ class DiagramStructureRegistry
         // 6. 编号清单 — 标准/规范/要点
         // ═══════════════════════════════════════════════════════════════
         self::register('checklist', [
-            'label'       => '编号清单',
-            'description' => '编号卡片列表，适合标准/规范/要点',
+            'label'       => __('编号清单', 'linked3'),
+            'description' => __('编号卡片列表，适合标准/规范/要点', 'linked3'),
             'icon'        => '📋',
             'layout_desc' => 'checklist card layout with numbered badges',
             'visual_keywords' => 'checklist, numbered list, badge icons, card stack, organized items',
@@ -159,10 +159,10 @@ class DiagramStructureRegistry
             'prompt_template' => 'with checklist card layout: numbered badges 01-08, organized list with icons, each item in a rounded card.',
             'zones' => ['list_title', 'item_1', 'item_2', 'item_3'],
             'text_templates' => [
-                'list_title' => '{title} · 核心要点',
-                'item_1'     => '要点一：{summary}',
-                'item_2'     => '要点二：{content_snippet}',
-                'item_3'     => '要点三：{title}',
+                'list_title' => __('{title} · 核心要点', 'linked3'),
+                'item_1'     => __('要点一：{summary}', 'linked3'),
+                'item_2'     => __('要点二：{content_snippet}', 'linked3'),
+                'item_3'     => __('要点三：{title}', 'linked3'),
             ],
         ]);
 
@@ -170,8 +170,8 @@ class DiagramStructureRegistry
         // 7. 思维导图 — 知识体系/概念
         // ═══════════════════════════════════════════════════════════════
         self::register('mindmap', [
-            'label'       => '思维导图',
-            'description' => '放射状节点，适合知识体系/概念',
+            'label'       => __('思维导图', 'linked3'),
+            'description' => __('放射状节点，适合知识体系/概念', 'linked3'),
             'icon'        => '🧠',
             'layout_desc' => 'radial mind map with central topic and branching sub-topics',
             'visual_keywords' => 'mind map, radial layout, branching nodes, knowledge graph, central hub',
@@ -180,9 +180,9 @@ class DiagramStructureRegistry
             'zones' => ['center', 'branch_1', 'branch_2', 'branch_3'],
             'text_templates' => [
                 'center'    => '{title}',
-                'branch_1'  => '分支一：{summary}',
-                'branch_2'  => '分支二：{content_snippet}',
-                'branch_3'  => '分支三：{title}',
+                'branch_1'  => __('分支一：{summary}', 'linked3'),
+                'branch_2'  => __('分支二：{content_snippet}', 'linked3'),
+                'branch_3'  => __('分支三：{title}', 'linked3'),
             ],
         ]);
 
@@ -190,8 +190,8 @@ class DiagramStructureRegistry
         // 8. 引用卡片 — 金句/政策原文
         // ═══════════════════════════════════════════════════════════════
         self::register('quote_card', [
-            'label'       => '引用卡片',
-            'description' => '大字+小字，适合金句/政策原文',
+            'label'       => __('引用卡片', 'linked3'),
+            'description' => __('大字+小字，适合金句/政策原文', 'linked3'),
             'icon'        => '💬',
             'layout_desc' => 'large quote card with prominent text overlay',
             'visual_keywords' => 'quote card, large text, bold typography, minimal design, text-focused',
@@ -201,8 +201,8 @@ class DiagramStructureRegistry
             'text_templates' => [
                 'quote'       => '"{content_snippet}"',
                 'attribution' => '—— {title}',
-                'context'     => '背景：{summary}',
-                'source'      => '来源：{title}',
+                'context'     => __('背景：{summary}', 'linked3'),
+                'source'      => __('来源：{title}', 'linked3'),
             ],
         ]);
 

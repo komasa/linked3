@@ -27,9 +27,9 @@ class DiagramScriptLayer {
         return [
             'arc'          => $arc,
             'dialogue'     => [
-                'main_title' => $config['main_title'] ?? "《{$config['brand']}全景图谱》",
+                'main_title' => $config['main_title'] ?? __("《{$config['brand']}全景图谱》", 'linked3'),
                 'top_left'   => "ID: " . ($config['id'] ?? 'DIAGRAM_001'),
-                'top_right'  => "01/01 | " . ucfirst($config['density'] ?? 'deep') . "版",
+                'top_right'  => "01/01 | " . ucfirst($config['density'] ?? 'deep') . __("版", 'linked3'),
             ],
             'emotion_map'  => $config['emotion_map'] ?? $this->defaultEmotionMap(),
             'transition'   => 'THICK GRAY SPINE lines connect bands. THIN GRAY ARROWS connect modules. LONG DASHED LINE from endpoint back to ID.',
@@ -42,8 +42,8 @@ class DiagramScriptLayer {
 
     private function defaultEmotionMap(): array {
         return [
-            'band1' => '稳重·基础', 'band2' => '活力·执行',
-            'band3' => '深度·框架', 'band4' => '成就·结果', 'endpoint' => '闭环·飞轮',
+            'band1' => __('稳重·基础', 'linked3'), 'band2' => __('活力·执行', 'linked3'),
+            'band3' => __('深度·框架', 'linked3'), 'band4' => __('成就·结果', 'linked3'), 'endpoint' => __('闭环·飞轮', 'linked3'),
         ];
     }
 

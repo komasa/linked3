@@ -21,13 +21,13 @@ if (!defined('ABSPATH')) {
 final class JuejinDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'juejin'; }
-    public function label() : string { return __('掘金', 'linked3'); }
+    public function label() : string { return '掘金'; }
 
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         $category = $config['category_id'] ?? '6809637767543259144'; // 默认"前端"
         if (!$token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3')];
         }
 
         $body = [
@@ -52,12 +52,12 @@ final class JuejinDistributor implements DistributeAdapterInterface
         if ($code >= 400 || empty($json['data']['article_id'])) {
             return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['message'] ?? '')];
         }
-        return ['ok' => true, 'remote_id' => $json['data']['article_id'], 'message' => __('已发布到掘金', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => $json['data']['article_id'], 'message' => __('已发布到掘金', 'linked3')];
     }
 
     public function test(array $config): array {
         $token = $config['access_token'] ?? '';
-        if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
+        if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3')];
         // v3.0.0: 真实 ping 掘金用户接口验证 token (注意: 掘金实际用 cookie 鉴权,Bearer 可能不通)
         $resp = SafeRemote::get('https://api.juejin.cn/user_api/v1/user/get', [
             'timeout' => 15,

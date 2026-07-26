@@ -30,9 +30,9 @@ class CompositeCreativeEngine implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'GEN' => ['name' => '生成', 'mission' => '无约束发散→产生原始素材', 'lever' => 'meta_creativity'],
-            'MAP' => ['name' => '类比', 'mission' => '跨域映射→找到结构同构', 'lever' => 'meta_analogy'],
-            'CROSS' => ['name' => '跨界', 'mission' => '异域融合→产生新颖组合', 'lever' => 'meta_crossover'],
+            'GEN' => ['name' => __('生成', 'linked3'), 'mission' => __('无约束发散→产生原始素材', 'linked3'), 'lever' => 'meta_creativity'],
+            'MAP' => ['name' => __('类比', 'linked3'), 'mission' => __('跨域映射→找到结构同构', 'linked3'), 'lever' => 'meta_analogy'],
+            'CROSS' => ['name' => __('跨界', 'linked3'), 'mission' => __('异域融合→产生新颖组合', 'linked3'), 'lever' => 'meta_crossover'],
         ];
     }
 

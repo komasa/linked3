@@ -222,12 +222,12 @@ class MetaLeverRegistry
         ];
 
         $domain_labels = [
-            'cognitive' => '🔍 认知与元认知',
-            'logic' => '🧠 逻辑与推理',
-            'creative' => '🎨 创造与突破',
-            'analytical' => '📊 分析与评估',
-            'strategic' => '🎯 战略与行动',
-            'communication' => '💬 沟通与协作',
+            'cognitive' => __('🔍 认知与元认知', 'linked3'),
+            'logic' => __('🧠 逻辑与推理', 'linked3'),
+            'creative' => __('🎨 创造与突破', 'linked3'),
+            'analytical' => __('📊 分析与评估', 'linked3'),
+            'strategic' => __('🎯 战略与行动', 'linked3'),
+            'communication' => __('💬 沟通与协作', 'linked3'),
         ];
 
         $info = [];

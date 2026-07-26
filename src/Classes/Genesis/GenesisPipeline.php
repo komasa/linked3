@@ -76,7 +76,7 @@ class GenesisPipeline {
                     'culled_count' => count($culled),
                 ];
                 if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
-                    GenesisLogger::warn('v7_pipeline', '全灭兜底: ' . $panelId, [
+                    GenesisLogger::warn('v7_pipeline', __('全灭兜底: ', 'linked3') . $panelId, [
                         'culled_count' => count($culled),
                         'feedback' => $culled[0]['feedback'] ?? [],
                     ]);
@@ -118,7 +118,7 @@ class GenesisPipeline {
         }
 
         if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
-            GenesisLogger::info('v7_pipeline', 'Pipeline完成', [
+            GenesisLogger::info('v7_pipeline', __('Pipeline完成', 'linked3'), [
                 'total' => $manifest['total'],
                 'survivors' => $manifest['survivors'],
                 'culled' => $manifest['culled'],
@@ -154,20 +154,20 @@ class GenesisPipeline {
 
         $charRef = 'C1:calm';
         $charText = $panel['action'] ?? '';
-        if (mb_strpos($charText, '愤怒') !== false || mb_strpos($charText, '怒') !== false) {
+        if (mb_strpos($charText, __('愤怒', 'linked3')) !== false || mb_strpos($charText, '怒') !== false) {
             $charRef = 'C1:angry';
-        } elseif (mb_strpos($charText, '悲伤') !== false || mb_strpos($charText, '哭') !== false) {
+        } elseif (mb_strpos($charText, __('悲伤', 'linked3')) !== false || mb_strpos($charText, '哭') !== false) {
             $charRef = 'C1:sad';
-        } elseif (mb_strpos($charText, '绝望') !== false) {
+        } elseif (mb_strpos($charText, __('绝望', 'linked3')) !== false) {
             $charRef = 'C1:exhausted';
         }
 
         $sceneId = 'S1';
         $location = $panel['location'] ?? '';
-        if (mb_strpos($location, '古宅') !== false) $sceneId = 'S2';
-        elseif (mb_strpos($location, '荒野') !== false || mb_strpos($location, '战场') !== false) $sceneId = 'S3';
-        elseif (mb_strpos($location, '山') !== false) $sceneId = 'S4';
-        elseif (mb_strpos($location, '地府') !== false || mb_strpos($location, '阴间') !== false) $sceneId = 'S5';
+        if (mb_strpos($location, __('古宅', 'linked3')) !== false) $sceneId = 'S2';
+        elseif (mb_strpos($location, __('荒野', 'linked3')) !== false || mb_strpos($location, '战场') !== false) $sceneId = 'S3';
+        elseif (mb_strpos($location, __('山', 'linked3')) !== false) $sceneId = 'S4';
+        elseif (mb_strpos($location, __('地府', 'linked3')) !== false || mb_strpos($location, '阴间') !== false) $sceneId = 'S5';
 
         $moodMap = [
             '阴森神秘' => 'mysterious', '肃杀紧张' => 'tense', '恐怖压迫' => 'horror',

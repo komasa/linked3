@@ -21,12 +21,12 @@ if (!defined('ABSPATH')) {
 final class WeiboDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'weibo'; }
-    public function label() : string { return __('微博', 'linked3'); }
+    public function label() : string { return '微博'; }
 
     public function publish(array $post_data, array $config): array {
         $token = $config['access_token'] ?? '';
         if (!$token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 Access Token', 'linked3')];
         }
 
         $content = $post_data['title'] ?? '';
@@ -50,12 +50,12 @@ final class WeiboDistributor implements DistributeAdapterInterface
         if ($code >= 400) {
             return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['error'] ?? '')];
         }
-        return ['ok' => true, 'remote_id' => (string) ($json['id'] ?? ''), 'message' => __('已发布到微博', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => (string) ($json['id'] ?? ''), 'message' => __('已发布到微博', 'linked3')];
     }
 
     public function test(array $config): array {
         $token = $config['access_token'] ?? '';
-        if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3-ai')];
+        if (!$token) return ['ok' => false, 'message' => __('缺少 Access Token', 'linked3')];
         // v3.0.0: 真实 ping 微博 API 验证 token
         $resp = SafeRemote::get('https://api.weibo.com/2/account/get_uid.json?access_token=' . urlencode($token), [
             'timeout' => 15,

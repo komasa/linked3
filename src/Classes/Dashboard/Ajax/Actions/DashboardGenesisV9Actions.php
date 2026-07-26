@@ -23,13 +23,14 @@ class DashboardGenesisV9Actions extends DashboardBaseAjaxAction
     const NONCE_ACTION = 'linked3_content_writer';
     const REQUIRED_CAP = 'edit_posts';
 
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         add_action('wp_ajax_linked3_genesis_generate_v9', [__CLASS__, 'genesis_generate_v9']);
         add_action('wp_ajax_linked3_genesis_v9_stage1', [__CLASS__, 'genesis_v9_stage1']);
         add_action('wp_ajax_linked3_genesis_v9_stage2', [__CLASS__, 'genesis_v9_stage2']);
     }
 
-    public static function genesis_generate_v9() : bool { return GenesisV9Processor::ajax_genesis_generate_v9(); }
-    public static function genesis_v9_stage1() : bool { return GenesisV9Processor::ajax_genesis_v9_stage1(); }
-    public static function genesis_v9_stage2() : bool { return GenesisV9Processor::ajax_genesis_v9_stage2(); }
+    public static function genesis_generate_v9() : mixed { return GenesisV9Processor::ajax_genesis_generate_v9(); }
+    public static function genesis_v9_stage1() : mixed { return GenesisV9Processor::ajax_genesis_v9_stage1(); }
+    public static function genesis_v9_stage2() : mixed { return GenesisV9Processor::ajax_genesis_v9_stage2(); }
 }

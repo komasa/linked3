@@ -61,12 +61,12 @@ final class CollectRewriteProcessor implements AutoGPTProcessorInterface
                 $scraper = new \Linked3\Classes\Collect\Scraper();
                 $scraped = $scraper->fetch($url);
                 if (is_wp_error($scraped) || empty($scraped['content'])) {
-                    $errors[] = "URL {$url} 采集失败: " . (is_wp_error($scraped) ? $scraped->get_error_message() : __('无内容', 'linked3'));
+                    $errors[] = "URL {$url} 采集失败: " . (is_wp_error($scraped) ? $scraped->get_error_message() : '无内容');
                     // 采集失败入队重试
                     $repo->enqueue($task['id'], [
                         'type' => 'scrape_retry',
                         'url' => $url,
-                        'reason' => '采集失败',
+                        'reason' => __('采集失败', 'linked3'),
                     ], gmdate('Y-m-d H:i:s', time() + 5 * MINUTE_IN_SECONDS));
                     continue;
                 }
@@ -136,7 +136,7 @@ final class CollectRewriteProcessor implements AutoGPTProcessorInterface
             ? sprintf(__('已采集改写 %d 篇文章。', 'linked3'), $processed)
             : sprintf(__('%d 个 URL 处理失败。已入队重试。', 'linked3'), $count);
         if (!empty($errors)) {
-            $message .= __(' 错误: ', 'linked3') . implode('; ', array_slice($errors, 0, 3));
+            $message .= ' 错误: ' . implode('; ', array_slice($errors, 0, 3));
         }
         return ['ok' => $ok, 'message' => $message, 'items_processed' => $processed];
     }

@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Content;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) exit;
 
 class CloudMasterAjax {
@@ -35,24 +37,23 @@ class CloudMasterAjax {
         add_action('wp_ajax_linked3_cloud_promote', [__CLASS__, 'ajax_promote_to_master']);
         add_action('wp_ajax_linked3_cloud_sync_to_local', [__CLASS__, 'ajax_sync_to_local']);
 
-        if (function_exists('error_log')) {
-            error_log('[linked3 v10.8.1] Cloud Master AJAX registered (7 endpoints)');
-        }
+        Logger::instance()->info('ai', '[linked3 v10.8.1] Cloud Master AJAX registered (7 endpoints)');
+
     }
 
     /**
      * Fork母版到写作生态本地 (隔离修改, 不污染母版)
      */
     public static function ajax_fork() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $category = sanitize_key($_POST['category'] ?? '');
         $source = sanitize_key($_POST['source'] ?? 'builtin'); // builtin | custom
         $master_id = sanitize_text_field($_POST['master_id'] ?? '');
 
-        if (empty($category)) wp_send_json_error(['message' => __('分类不能为空', 'linked3-ai')]);
+        if (empty($category)) wp_send_json_error(['message' => __('分类不能为空', 'linked3')]);
 
         // 加载母版
         $master = null;
@@ -67,12 +68,12 @@ class CloudMasterAjax {
                     $master = $factory->load_template_by_category($category);
                     $master['name'] = $master['name'] ?? $category . '_default';
                 } catch (\Throwable $e) {
-                    wp_send_json_error(['message' => __('母版加载失败: ', 'linked3-ai') . $e->getMessage()]);
+                    wp_send_json_error(['message' => __('母版加载失败: ', 'linked3') . $e->getMessage()]);
                 }
             }
         }
 
-        if (!$master) wp_send_json_error(['message' => __('母版不存在', 'linked3-ai')]);
+        if (!$master) wp_send_json_error(['message' => __('母版不存在', 'linked3')]);
 
         // 创建本地Fork副本 (隔离修改)
         $option_key = LINKED3_OPTION_PREFIX . 'cloud_templates';
@@ -93,7 +94,7 @@ class CloudMasterAjax {
 
         wp_send_json_success([
             'fork_id' => $fork_id,
-            'message' => __('已Fork到写作生态本地: ', 'linked3-ai') . $local_forks[$fork_id]['name'],
+            'message' => __('已Fork到写作生态本地: ', 'linked3') . $local_forks[$fork_id]['name'],
         ]);
     }
 
@@ -101,9 +102,9 @@ class CloudMasterAjax {
      * 预览母版 (内置或自定义)
      */
     public static function ajax_preview() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $category = sanitize_key($_POST['category'] ?? '');
         $master_id = sanitize_text_field($_POST['master_id'] ?? '');
@@ -123,29 +124,29 @@ class CloudMasterAjax {
                 $tpl = $factory->load_template_by_category($category);
                 wp_send_json_success(['template' => $tpl]);
             } catch (\Throwable $e) {
-                wp_send_json_error(['message' => __('加载失败: ', 'linked3-ai') . $e->getMessage()]);
+                wp_send_json_error(['message' => __('加载失败: ', 'linked3') . $e->getMessage()]);
             }
         }
 
-        wp_send_json_error(['message' => __('母版不存在', 'linked3-ai')]);
+        wp_send_json_error(['message' => __('母版不存在', 'linked3')]);
     }
 
     /**
      * 保存/编辑自定义母版 (写入母版库, 跨生态可见)
      */
     public static function ajax_master_save() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $edit_id = sanitize_text_field($_POST['master_id'] ?? '');
         $template_json = wp_unslash($_POST['template'] ?? '');
         $template = json_decode($template_json, true);
-        if (!is_array($template)) wp_send_json_error(['message' => __('数据格式错误', 'linked3-ai')]);
+        if (!is_array($template)) wp_send_json_error(['message' => __('数据格式错误', 'linked3')]);
 
         $name = sanitize_text_field($template['name'] ?? '');
         $type = sanitize_key($template['type'] ?? 'content');
-        if (empty($name)) wp_send_json_error(['message' => __('名称不能为空', 'linked3-ai')]);
+        if (empty($name)) wp_send_json_error(['message' => __('名称不能为空', 'linked3')]);
 
         // 安全清洗10字段
         $config = [
@@ -195,45 +196,45 @@ class CloudMasterAjax {
      * 删除自定义母版 (内置母版不可删)
      */
     public static function ajax_master_delete() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $master_id = sanitize_text_field($_POST['master_id'] ?? '');
-        if (empty($master_id)) wp_send_json_error(['message' => __('ID不能为空', 'linked3-ai')]);
+        if (empty($master_id)) wp_send_json_error(['message' => __('ID不能为空', 'linked3')]);
 
         $option_key = LINKED3_OPTION_PREFIX . 'cloud_master_templates';
         $masters = (array) get_option($option_key, []);
 
-        if (!isset($masters[$master_id])) wp_send_json_error(['message' => __('母版不存在', 'linked3-ai')]);
-        if (!empty($masters[$master_id]['is_builtin'])) wp_send_json_error(['message' => __('内置母版不可删除', 'linked3-ai')]);
+        if (!isset($masters[$master_id])) wp_send_json_error(['message' => __('母版不存在', 'linked3')]);
+        if (!empty($masters[$master_id]['is_builtin'])) wp_send_json_error(['message' => __('内置母版不可删除', 'linked3')]);
 
         unset($masters[$master_id]);
         update_option($option_key, $masters, false);
 
-        wp_send_json_success(['message' => __('自定义母版已删除 (已Fork的本地副本不受影响)', 'linked3-ai')]);
+        wp_send_json_success(['message' => __('自定义母版已删除 (已Fork的本地副本不受影响)', 'linked3')]);
     }
 
     /**
      * 删除本地Fork副本 (不影响母版)
      */
     public static function ajax_fork_delete() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $fork_id = sanitize_text_field($_POST['fork_id'] ?? '');
-        if (empty($fork_id)) wp_send_json_error(['message' => __('ID不能为空', 'linked3-ai')]);
+        if (empty($fork_id)) wp_send_json_error(['message' => __('ID不能为空', 'linked3')]);
 
         $option_key = LINKED3_OPTION_PREFIX . 'cloud_templates';
         $forks = (array) get_option($option_key, []);
 
-        if (!isset($forks[$fork_id])) wp_send_json_error(['message' => __('本地实例不存在', 'linked3-ai')]);
+        if (!isset($forks[$fork_id])) wp_send_json_error(['message' => __('本地实例不存在', 'linked3')]);
 
         unset($forks[$fork_id]);
         update_option($option_key, $forks, false);
 
-        wp_send_json_success(['message' => __('本地实例已删除 (母版不受影响)', 'linked3-ai')]);
+        wp_send_json_success(['message' => __('本地实例已删除 (母版不受影响)', 'linked3')]);
     }
 
     /**
@@ -241,15 +242,15 @@ class CloudMasterAjax {
      * 场景: 用户在本地Fork上反复修改后, 觉得满意, 想收录到母版库供其他生态使用
      */
     public static function ajax_promote_to_master() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $fork_id = sanitize_text_field($_POST['fork_id'] ?? '');
-        if (empty($fork_id)) wp_send_json_error(['message' => __('Fork ID不能为空', 'linked3-ai')]);
+        if (empty($fork_id)) wp_send_json_error(['message' => __('Fork ID不能为空', 'linked3')]);
 
         $forks = (array) get_option(LINKED3_OPTION_PREFIX . 'cloud_templates', []);
-        if (!isset($forks[$fork_id])) wp_send_json_error(['message' => __('本地实例不存在', 'linked3-ai')]);
+        if (!isset($forks[$fork_id])) wp_send_json_error(['message' => __('本地实例不存在', 'linked3')]);
 
         $fork = $forks[$fork_id];
 
@@ -269,7 +270,7 @@ class CloudMasterAjax {
 
         wp_send_json_success([
             'master_id' => $master_id,
-            'message'   => __('已收录为自定义母版: ', 'linked3-ai') . $masters[$master_id]['name'],
+            'message'   => __('已收录为自定义母版: ', 'linked3') . $masters[$master_id]['name'],
         ]);
     }
 
@@ -278,15 +279,15 @@ class CloudMasterAjax {
      * 场景: 母版被更新后, 本地Fork想拉取最新版
      */
     public static function ajax_sync_to_local() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $fork_id = sanitize_text_field($_POST['fork_id'] ?? '');
-        if (empty($fork_id)) wp_send_json_error(['message' => __('Fork ID不能为空', 'linked3-ai')]);
+        if (empty($fork_id)) wp_send_json_error(['message' => __('Fork ID不能为空', 'linked3')]);
 
         $forks = (array) get_option(LINKED3_OPTION_PREFIX . 'cloud_templates', []);
-        if (!isset($forks[$fork_id])) wp_send_json_error(['message' => __('本地实例不存在', 'linked3-ai')]);
+        if (!isset($forks[$fork_id])) wp_send_json_error(['message' => __('本地实例不存在', 'linked3')]);
 
         $fork = $forks[$fork_id];
         $source_master = $fork['source_master'] ?? '';
@@ -300,7 +301,7 @@ class CloudMasterAjax {
                     $factory = new \CloudTemplateFactory();
                     $master = $factory->load_template_by_category($cat);
                 } catch (\Throwable $e) {
-                    wp_send_json_error(['message' => __('母版加载失败: ', 'linked3-ai') . $e->getMessage()]);
+                    wp_send_json_error(['message' => __('母版加载失败: ', 'linked3') . $e->getMessage()]);
                 }
             }
         } else {
@@ -308,7 +309,7 @@ class CloudMasterAjax {
             $master = $masters[$source_master] ?? null;
         }
 
-        if (empty($master)) wp_send_json_error(['message' => __('源母版不存在', 'linked3-ai')]);
+        if (empty($master)) wp_send_json_error(['message' => __('源母版不存在', 'linked3')]);
 
         // 覆盖本地Fork的config (保留fork_id/name/source_master)
         $forks[$fork_id]['config'] = $master['config'] ?? $master;
@@ -318,7 +319,7 @@ class CloudMasterAjax {
 
         wp_send_json_success([
             'fork_id' => $fork_id,
-            'message' => __('本地实例已从母版同步最新内容', 'linked3-ai'),
+            'message' => __('本地实例已从母版同步最新内容', 'linked3'),
         ]);
     }
 }

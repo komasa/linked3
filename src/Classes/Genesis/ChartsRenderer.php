@@ -41,7 +41,7 @@ class ChartsRenderer
     public function split_long_article(string $article, int $target_count): array {
         $article = trim($article);
         if (empty($article)) {
-            return [['title' => '默认', 'summary' => '', 'content' => '']];
+            return [['title' => __('默认', 'linked3'), 'summary' => '', 'content' => '']];
         }
 
         // 策略1: 按中文序号标题切分（一、二、三 / （一）（二） / 1. 2. 3.）
@@ -143,7 +143,7 @@ class ChartsRenderer
         $first_line = trim(explode("\n", $section)[0]);
         $first_line = preg_replace('/^(?:[一二三四五六七八九十]+[、．\.]|（[一二三四五六七八九十]+）|[0-9]+[、．\.]|第[一二三四五六七八九十]+[部分章节])\s*/', '', $first_line);
         $title = mb_substr($first_line, 0, 30);
-        return $title ?: ('第' . ($idx + 1) . '部分');
+        return $title ?: (__('第', 'linked3') . ($idx + 1) . __('部分', 'linked3'));
     }
 
     private function extract_section_summary(string $section): string {

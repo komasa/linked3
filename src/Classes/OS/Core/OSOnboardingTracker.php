@@ -41,35 +41,35 @@ class OSOnboardingTracker {
     const RU_LIU_STATES = [
         'seeing' => [
             'key' => 'seeing',
-            'label' => '看见',
+            'label' => __('看见', 'linked3'),
             'label_en' => 'seeing',
-            'desc' => '看见时代背后的结构性变化',
+            'desc' => __('看见时代背后的结构性变化', 'linked3'),
             'day_range' => [1, 7],
-            'core_action' => '刷对标5账号',
+            'core_action' => __('刷对标5账号', 'linked3'),
         ],
         'believing' => [
             'key' => 'believing',
-            'label' => '相信',
+            'label' => __('相信', 'linked3'),
             'label_en' => 'believing',
-            'desc' => '相信这个变化不是短期热点',
+            'desc' => __('相信这个变化不是短期热点', 'linked3'),
             'day_range' => [8, 33],
-            'core_action' => '定6类SEED+30篇验证',
+            'core_action' => __('定6类SEED+30篇验证', 'linked3'),
         ],
         'carrying' => [
             'key' => 'carrying',
-            'label' => '承担',
+            'label' => __('承担', 'linked3'),
             'label_en' => 'carrying',
-            'desc' => '愿意用自己的现实行动承接它',
+            'desc' => __('愿意用自己的现实行动承接它', 'linked3'),
             'day_range' => [34, 66],
-            'core_action' => '30篇爆款+私域',
+            'core_action' => __('30篇爆款+私域', 'linked3'),
         ],
         'amplifying' => [
             'key' => 'amplifying',
-            'label' => '放大',
+            'label' => __('放大', 'linked3'),
             'label_en' => 'amplifying',
-            'desc' => '让更多人因为他的存在而看见',
+            'desc' => __('让更多人因为他的存在而看见', 'linked3'),
             'day_range' => [67, 100],
-            'core_action' => '5级变现+4平台分发',
+            'core_action' => __('5级变现+4平台分发', 'linked3'),
         ],
     ];
 
@@ -109,7 +109,7 @@ class OSOnboardingTracker {
                 return ['state' => $key] + $state;
             }
         }
-        return ['state' => 'unknown', 'label' => '未知', 'desc' => ''];
+        return ['state' => 'unknown', 'label' => __('未知', 'linked3'), 'desc' => ''];
     }
 
     /**
@@ -156,7 +156,7 @@ class OSOnboardingTracker {
             'module_version' => '12.4.0',
             'states_count' => count(self::RU_LIU_STATES),
             'total_days' => 100,
-            'source' => 'V18道篇2.7 + 李善友2026大课入流四状态',
+            'source' => __('V18道篇2.7 + 李善友2026大课入流四状态', 'linked3'),
         ];
     }
 

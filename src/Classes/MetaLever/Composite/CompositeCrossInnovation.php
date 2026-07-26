@@ -32,11 +32,11 @@ class CompositeCrossInnovation implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'S1' => ['name' => '强制关联部', 'mission' => '随机抽取三个无关名词强制构建新功能', 'lever' => 'meta_crossover', 'kpi' => '生成≥3个跨界组合'],
-            'S2' => ['name' => '隐喻工程部', 'mission' => '表层类比→结构映射→原理迁移', 'lever' => 'meta_metaphor', 'kpi' => '完成3层转化'],
-            'S3' => ['name' => '压力测试部', 'mission' => '破坏性检验+二阶效应+反常识验证', 'lever' => 'meta_stress_test', 'kpi' => '识别≥2个失效点'],
-            'S4' => ['name' => '认知折叠部', 'mission' => '符号公式+视觉谚语+听觉锚点', 'lever' => 'meta_folding', 'kpi' => '压缩为1句话核心'],
-            'S5' => ['name' => '逆生长部', 'mission' => '功能每年减20%，保留什么才能不死', 'lever' => 'meta_reverse', 'kpi' => '识别核心骨架'],
+            'S1' => ['name' => __('强制关联部', 'linked3'), 'mission' => __('随机抽取三个无关名词强制构建新功能', 'linked3'), 'lever' => 'meta_crossover', 'kpi' => __('生成≥3个跨界组合', 'linked3')],
+            'S2' => ['name' => __('隐喻工程部', 'linked3'), 'mission' => __('表层类比→结构映射→原理迁移', 'linked3'), 'lever' => 'meta_metaphor', 'kpi' => __('完成3层转化', 'linked3')],
+            'S3' => ['name' => __('压力测试部', 'linked3'), 'mission' => __('破坏性检验+二阶效应+反常识验证', 'linked3'), 'lever' => 'meta_stress_test', 'kpi' => __('识别≥2个失效点', 'linked3')],
+            'S4' => ['name' => __('认知折叠部', 'linked3'), 'mission' => __('符号公式+视觉谚语+听觉锚点', 'linked3'), 'lever' => 'meta_folding', 'kpi' => __('压缩为1句话核心', 'linked3')],
+            'S5' => ['name' => __('逆生长部', 'linked3'), 'mission' => __('功能每年减20%，保留什么才能不死', 'linked3'), 'lever' => 'meta_reverse', 'kpi' => __('识别核心骨架', 'linked3')],
         ];
     }
 

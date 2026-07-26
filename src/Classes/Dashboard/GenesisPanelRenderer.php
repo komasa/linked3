@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class GenesisPanelRenderer
 {
@@ -53,11 +55,11 @@ class GenesisPanelRenderer
                 'location'   => mb_substr($s, 0, 10),
                 'characters' => [],
                 'action'     => $s,
-                'mood'       => '紧张',
+                'mood'       => __('紧张', 'linked3'),
                 'shot'       => ['远景','中景','近景','特写'][count($nodes) % 4],
                 'angle'      => ['平视','仰视','俯视'][count($nodes) % 3],
                 'comp'       => ['三分法','对角线','中心构图'][count($nodes) % 3],
-                'plot_point' => '补充节点',
+                'plot_point' => __('补充节点', 'linked3'),
             ];
             $added++;
         }
@@ -89,7 +91,7 @@ class GenesisPanelRenderer
         $chapters = [];
         foreach (array_values($rawChapters) as $i => $ch) {
             if (mb_strlen($ch['content']) < 5) continue;
-            $chapters[] = self::buildChapterNode($i + 1, $ch['title'], $ch['content'], $ch['mood'] ?? '紧张');
+            $chapters[] = self::buildChapterNode($i + 1, $ch['title'], $ch['content'], $ch['mood'] ?? __('紧张', 'linked3'));
         }
         return $chapters;
     }
@@ -277,7 +279,7 @@ class GenesisPanelRenderer
                     ['fallback_providers' => ['deepseek', 'zhipu'], 'force_bypass_circuit' => true]
                 );
                 } catch (\Throwable $e) {
-                    wp_send_json_error(['message' => __('AI 调用失败: ', 'linked3-ai') . $e->getMessage()], 502);
+                    wp_send_json_error(['message' => __('AI 调用失败: ', 'linked3') . $e->getMessage()], 502);
                 }
                 $retryNodes = GenesisFPUtils::parseFPNodesJson($retry['content'] ?? '');
                 if (count($retryNodes) > count($nodes)) {
@@ -287,9 +289,8 @@ class GenesisPanelRenderer
 
             return $nodes;
         } catch (\Throwable $e) {
-            if (function_exists('error_log')) {
-                error_log('[linked3 genesis] refine and split failed: ' . $e->getMessage());
-            }
+            Logger::instance()->error('general', '[linked3 genesis] refine and split failed: ' . $e->getMessage());
+
             return [];
         }
     }

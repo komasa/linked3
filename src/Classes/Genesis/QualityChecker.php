@@ -40,7 +40,7 @@ class QualityChecker
         if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
             $panel_id = $shot_data['panel_id'] ?? ($shot_data['id'] ?? 'unknown');
             GenesisLogger::stage('pqs', sprintf(
-                'PQS分层校验 panel=%s core=%s warn_failed=%d retry=%d/%d score=%.1f',
+                __('PQS分层校验 panel=%s core=%s warn_failed=%d retry=%d/%d score=%.1f', 'linked3'),
                 $panel_id,
                 $core_passed ? 'PASS' : 'FAIL',
                 $warn_failed,
@@ -82,7 +82,7 @@ class QualityChecker
         $core_dims['prompt_non_empty'] = [
             'passed' => $prompt_ok,
             'score'  => $prompt_ok ? 100 : 0,
-            'msg'    => $prompt_ok ? 'prompt 非空' : 'prompt 为空, 无法生成图像',
+            'msg'    => $prompt_ok ? __('prompt 非空', 'linked3') : __('prompt 为空, 无法生成图像', 'linked3'),
         ];
 
         // 核心维度2: visual_consistency (从 system_color + visual_ratio 派生)
@@ -91,7 +91,7 @@ class QualityChecker
         $core_dims['visual_consistency'] = [
             'passed' => $sys_passed || $vr_passed,
             'score'  => ($sys_passed ? 50 : 0) + ($vr_passed ? 50 : 0),
-            'msg'    => ($sys_passed && $vr_passed) ? '视觉系统完备' : '视觉系统不完整 (色彩或比例缺失)',
+            'msg'    => ($sys_passed && $vr_passed) ? __('视觉系统完备', 'linked3') : __('视觉系统不完整 (色彩或比例缺失)', 'linked3'),
         ];
 
         // 核心维度3: narrative_completeness (从 four_anchor 派生)
@@ -99,7 +99,7 @@ class QualityChecker
         $core_dims['narrative_completeness'] = [
             'passed' => $anchor_passed,
             'score'  => $dims['four_anchor']['score'] ?? 0,
-            'msg'    => $anchor_passed ? '叙事锚点完整' : '叙事锚点缺失 (subject/location/action/mood)',
+            'msg'    => $anchor_passed ? __('叙事锚点完整', 'linked3') : __('叙事锚点缺失 (subject/location/action/mood)', 'linked3'),
         ];
 
         // 核心维度4: character_consistency (从 seed_refs 派生)
@@ -109,7 +109,7 @@ class QualityChecker
         $core_dims['character_consistency'] = [
             'passed' => $has_char,
             'score'  => $has_char ? 100 : 0,
-            'msg'    => $has_char ? '角色 SEED 已引用' : '未引用角色 SEED, 角色可能漂移',
+            'msg'    => $has_char ? __('角色 SEED 已引用', 'linked3') : __('未引用角色 SEED, 角色可能漂移', 'linked3'),
         ];
 
         // 核心维度5: skeleton_matched (从 scene_type/skeleton 派生)
@@ -119,7 +119,7 @@ class QualityChecker
         $core_dims['skeleton_matched'] = [
             'passed' => $has_skeleton,
             'score'  => $has_skeleton ? 100 : 0,
-            'msg'    => $has_skeleton ? '骨架已匹配' : '骨架未匹配, 三轴路由可能失败',
+            'msg'    => $has_skeleton ? __('骨架已匹配', 'linked3') : __('骨架未匹配, 三轴路由可能失败', 'linked3'),
         ];
 
         return $core_dims;
@@ -167,7 +167,7 @@ class QualityChecker
                 // 核心通过 OR 回流耗尽
                 if (!$result['core_passed'] && $retry >= self::MAX_RETRY) {
                     $result['error_code'] = 'E_PQS_RETRY_EXHAUST';
-                    $result['error_msg'] = sprintf('核心维度回流 %d 次仍未通过', self::MAX_RETRY);
+                    $result['error_msg'] = sprintf(__('核心维度回流 %d 次仍未通过', 'linked3'), self::MAX_RETRY);
                 }
                 return $result;
             }
@@ -210,7 +210,7 @@ class QualityChecker
             'density_4'         => 'Set density: one of [low|mid|high|ultra]. Default "mid" for narrative shots.',
             'image_text_fit'    => 'Align dialogue with action_en: ensure the on-screen caption is the literal subject of action_en. Regenerate fp_core if mismatched.',
             'vertical_16'       => 'Trim dialogue to ≤16 Chinese characters. Split long captions into 2 shots.',
-            'followup_choice'   => 'Add followup/CTA field: "followup: 下期预告 / 评论区聊聊" to close the engagement loop.',
+            'followup_choice'   => __('Add followup/CTA field: "followup: 下期预告 / 评论区聊聊" to close the engagement loop.', 'linked3'),
             'relation_encoding' => 'Inject spatial relations: "subject left-of center, secondary element behind, background gradient above horizon".',
             'three_layer_depth' => 'Rebuild via Prompt_Assembler::assemble() — META/Script/Validation all three layers must be non-empty.',
             'four_anchor'       => 'Fill fp_core{who/where/action_en} and script.emotion — all 4 anchors required.',
@@ -222,8 +222,8 @@ class QualityChecker
             $suggestions[] = [
                 'layer'         => $layer,
                 'dimension'     => $key,
-                'issue'         => $d['msg'] ?? '未通过',
-                'fix_snippet'   => $fixSnippets[$key] ?? '请人工补充该维度所需字段',
+                'issue'         => $d['msg'] ?? __('未通过', 'linked3'),
+                'fix_snippet'   => $fixSnippets[$key] ?? __('请人工补充该维度所需字段', 'linked3'),
                 'apply_action'  => sprintf('Re-run %s layer build with the fix snippet, then re-invoke pqs_check().', $layer),
             ];
         }
@@ -273,7 +273,7 @@ class QualityChecker
         foreach ($charAppearances as $sid => $hashes) {
             $unique = array_unique(array_values($hashes));
             if (count($unique) > 1) {
-                $char_issues[] = sprintf('角色 %s 在镜 %s 出现 VisualDNA 不一致 (%d 种变体)', $sid, implode(',', array_keys($hashes)), count($unique));
+                $char_issues[] = sprintf(__('角色 %s 在镜 %s 出现 VisualDNA 不一致 (%d 种变体)', 'linked3'), $sid, implode(',', array_keys($hashes)), count($unique));
             }
         }
         $char_score = $n > 0 && empty($char_issues) ? 100 : (empty($charAppearances) ? 80 : max(0, 100 - count($char_issues) * 20));
@@ -296,7 +296,7 @@ class QualityChecker
             $prev = QualityLoop::color_family($colors[$i - 1]);
             $curr = QualityLoop::color_family($colors[$i]);
             if ($prev !== $curr && $prev !== 'unknown' && $curr !== 'unknown') {
-                $color_issues[] = sprintf('镜 %d→%d 色调弧线突变: %s → %s', $i, $i+1, $prev, $curr);
+                $color_issues[] = sprintf(__('镜 %d→%d 色调弧线突变: %s → %s', 'linked3'), $i, $i+1, $prev, $curr);
             }
         }
         $color_score = $n > 0 && empty($color_issues) ? 100 : max(0, 100 - count($color_issues) * 15);
@@ -319,7 +319,7 @@ class QualityChecker
             $prev = QualityLoop::emotion_polarity($emotions[$i - 1]);
             $curr = QualityLoop::emotion_polarity($emotions[$i]);
             if ($prev !== 'unknown' && $curr !== 'unknown' && abs($prev - $curr) >= 2) {
-                $emotion_issues[] = sprintf('镜 %d→%d 情绪弧线跳跃: %s(%d) → %s(%d)', $i, $i+1, $emotions[$i-1], $prev, $emotions[$i], $curr);
+                $emotion_issues[] = sprintf(__('镜 %d→%d 情绪弧线跳跃: %s(%d) → %s(%d)', 'linked3'), $i, $i+1, $emotions[$i-1], $prev, $emotions[$i], $curr);
             }
         }
         $emotion_score = $n > 0 && empty($emotion_issues) ? 100 : max(0, 100 - count($emotion_issues) * 10);

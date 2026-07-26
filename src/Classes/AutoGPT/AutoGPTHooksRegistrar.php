@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 final class AutoGPTHooksRegistrar
 {
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         // Cron init.
         AutoGPTCron::init();

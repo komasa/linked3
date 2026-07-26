@@ -19,7 +19,7 @@ final class DiagramPipeline implements ContentPipelineInterface
         // v27.17.9-fix1: 读取前端发送的 structure 参数 (替代旧 diagram_type)
         $structure = sanitize_key($input['structure'] ?? ($input['options']['diagram_type'] ?? 'auto'));
         $density = $input['options']['density'] ?? 'auto';
-        $brand = $input['options']['brand'] ?? '知识图谱';
+        $brand = $input['options']['brand'] ?? __('知识图谱', 'linked3');
         
         return [
             'topic'     => $topic,
@@ -57,7 +57,7 @@ final class DiagramPipeline implements ContentPipelineInterface
         $config = [
             'id'         => 'DIAGRAM_' . date('Ymd_His'),
             'brand'      => $context['brand'],
-            'main_title' => "《{$context['topic']}全景图谱》",
+            'main_title' => __("《{$context['topic']}全景图谱》", 'linked3'),
             'bands'      => $zones, // v27.17.9-fix1: 使用结构 zones 替代硬编码4Band
             'structure'  => $structure_id,
             'endpoint'   => ['type' => 'auto'],

@@ -24,7 +24,7 @@ trait OutlineMerger {
      * @param array $versions 大纲版本数组
      * @return array 最终大纲
      */
-    protected function merge_outlines(array $versions) : array {
+    protected function merge_outlines(array $versions) : mixed {
         if ( empty( $versions ) ) {
             return array( 'chapters' => array() );
         }
@@ -77,20 +77,20 @@ trait OutlineMerger {
         $max_chapters = isset( $route['yaml_config']['max_chapters'] ) ? $route['yaml_config']['max_chapters'] : 12;
         $max_sections = isset( $route['yaml_config']['max_sections_per_chapter'] ) ? $route['yaml_config']['max_sections_per_chapter'] : 5;
 
-        $prompt = "请为《{$book_title}》这{$type_unit}{$type_label}撰写大纲。\n\n";
-        $prompt .= __('要求:\n', 'linked3');
+        $prompt = __('请为《{$book_title}》这{$type_unit}{$type_label}撰写大纲。\n\n', 'linked3');
+        $prompt .= "要求:\n";
         $prompt .= "- 章节数: {$max_chapters}章\n";
         $prompt .= "- 每章小节数: {$max_sections}节\n";
-        $prompt .= __('- 格式: 第X章 章标题 / 第X节 节标题\n\n', 'linked3');
+        $prompt .= "- 格式: 第X章 章标题 / 第X节 节标题\n\n";
 
         if ( $iteration > 1 && ! empty( $previous_versions ) ) {
             $last_version = end( $previous_versions );
             $prompt .= "这是第{$iteration}次迭代，请基于上一版本优化:\n";
-            $prompt .= __('- 保留优质章节\n', 'linked3');
-            $prompt .= __('- 合并重复内容\n', 'linked3');
-            $prompt .= __('- 补充遗漏主题\n', 'linked3');
-            $prompt .= __('- 调整章节顺序\n\n', 'linked3');
-            $prompt .= __('上一版本大纲:\n', 'linked3');
+            $prompt .= "- 保留优质章节\n";
+            $prompt .= "- 合并重复内容\n";
+            $prompt .= "- 补充遗漏主题\n";
+            $prompt .= "- 调整章节顺序\n\n";
+            $prompt .= "上一版本大纲:\n";
             foreach ( $last_version['chapters'] as $idx => $ch ) {
                 $prompt .= "第" . ( $idx + 1 ) . "章 " . $ch['title'] . "\n";
                 foreach ( $ch['sections'] as $sec ) {
@@ -100,7 +100,7 @@ trait OutlineMerger {
             $prompt .= "\n";
         }
 
-        $prompt .= __('请输出完整大纲(仅Markdown格式，不要解释):', 'linked3');
+        $prompt .= "请输出完整大纲(仅Markdown格式，不要解释):";
 
         return $prompt;
     }

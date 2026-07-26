@@ -90,7 +90,7 @@ final class ContentTemplateManager
      * @param array $data
      * @return int|\WP_Error Inserted ID or error.
      */
-    public function create(array $data) : WP_Error     {
+    public function create(array $data) : mixed     {
         global $wpdb;
         $table = $wpdb->prefix . 'linked3_content_templates';
         $config = $this->sanitize_config($data['config'] ?? []);

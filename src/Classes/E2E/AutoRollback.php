@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\E2E;
 
+use Linked3\Includes\Log\Logger;
+
 use Linked3\Includes\EventBus;
 
 if (!defined('ABSPATH')) exit;
@@ -48,9 +50,8 @@ class AutoRollback {
             'failed' => $failed,
             'version' => LINKED3_VERSION,
         ]);
-        if (function_exists('error_log')) {
-            error_log('[linked3] AUTO ROLLBACK TRIGGERED: ' . implode(', ', $failed));
-        }
+        Logger::instance()->error('general', '[linked3] AUTO ROLLBACK TRIGGERED: ' . implode(', ', $failed));
+
     }
 
 }

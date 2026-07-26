@@ -27,7 +27,7 @@ class StoryPipeline
      * @param array  $opts {chapter_marker, split_mode, panel_count, use_cache, use_ai}
      * @return array {scenes, total_shots, total_scenes, source, cached, elapsed_ms}
      */
-    public static function parse(string $script, array $opts = []): mixed
+    public static function parse(string $script, array $opts = []): array
     {
         return StoryParser::parse($script, $opts);
     }

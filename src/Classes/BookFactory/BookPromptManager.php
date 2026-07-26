@@ -64,7 +64,7 @@ class BookPromptManager {
      * @param string $step_key step1_demo|step2_explore|step3_outline|step4_expand|step5_complete|step6_review
      * @return array
      */
-    public static function get_step_prompts(string $step_key) : mixed {
+    public static function get_step_prompts(string $step_key) : array {
         $all = self::get_all();
         return isset( $all[ $step_key ] ) ? $all[ $step_key ] : array();
     }
@@ -137,12 +137,12 @@ class BookPromptManager {
      */
     private static function get_builtin_default(string $step_key): string {
         $defaults = array(
-            'step1_demo' => '请系统演示如何一步一步写一本书《{book_title}》。',
-            'step2_explore' => '请开放探索有长期价值的{book_type}类别和《{book_title}》名,带{book_type}和人群定位说明。',
-            'step3_outline' => '请为{book_type}《{book_title}》系统设计有长期价值的大纲目录，每章{sections_per_chapter}小节，每次输出{chapters_per_output}章。只返回Markdown格式的大纲，不要解释。',
-            'step4_expand' => '开始完善《{book_title}》这{type_unit}{book_type}的小节。当前章节: {chapter_title}。当前小节: {section_title}。请深入系统详细完善扩写，生成{word_count}字正文内容。直接输出内容，不要标题和解释。',
+            'step1_demo' => __('请系统演示如何一步一步写一本书《{book_title}》。', 'linked3'),
+            'step2_explore' => __('请开放探索有长期价值的{book_type}类别和《{book_title}》名,带{book_type}和人群定位说明。', 'linked3'),
+            'step3_outline' => __('请为{book_type}《{book_title}》系统设计有长期价值的大纲目录，每章{sections_per_chapter}小节，每次输出{chapters_per_output}章。只返回Markdown格式的大纲，不要解释。', 'linked3'),
+            'step4_expand' => __('开始完善《{book_title}》这{type_unit}{book_type}的小节。当前章节: {chapter_title}。当前小节: {section_title}。请深入系统详细完善扩写，生成{word_count}字正文内容。直接输出内容，不要标题和解释。', 'linked3'),
             'step5_complete' => '',
-            'step6_review' => '请以审稿人身份审阅《{book_title}》的初稿，指出3个最薄弱的逻辑环节并给出改进建议。',
+            'step6_review' => __('请以审稿人身份审阅《{book_title}》的初稿，指出3个最薄弱的逻辑环节并给出改进建议。', 'linked3'),
         );
         return isset( $defaults[ $step_key ] ) ? $defaults[ $step_key ] : '';
     }
@@ -240,10 +240,10 @@ class BookPromptManager {
     private static function get_hardcoded_defaults() : array {
         return array(
             'step3_outline' => array(
-                'name' => '撰写大纲',
-                'desc' => '根据书名生成章节大纲',
+                'name' => __('撰写大纲', 'linked3'),
+                'desc' => __('根据书名生成章节大纲', 'linked3'),
                 'variables' => array(
-                    'book_title' => '写书式学习',
+                    'book_title' => __('写书式学习', 'linked3'),
                     'sections_per_chapter' => 5,
                     'chapters_per_output' => 12,
                 ),
@@ -251,29 +251,29 @@ class BookPromptManager {
                     array(
                         'id' => 'p1',
                         'text' => "请为{book_type}《{book_title}》系统设计有长期价值的大纲目录，每章{sections_per_chapter}小节，每次输出{chapters_per_output}章。\n\n格式要求:\n第X章 章标题\n第X节 节标题\n\n只输出大纲，不要解释。",
-                        'note' => '基础版',
+                        'note' => __('基础版', 'linked3'),
                         'tool' => 'Deepseek/GLM',
                     ),
                 ),
             ),
             'step4_expand' => array(
-                'name' => '扩写小节',
-                'desc' => '逐节扩写正文内容',
+                'name' => __('扩写小节', 'linked3'),
+                'desc' => __('逐节扩写正文内容', 'linked3'),
                 'variables' => array(
-                    'book_title' => '写书式学习',
-                    'type_unit' => '本书',
-                    'book_type' => '图书',
-                    'language' => '中文',
-                    'readers' => '所有人群',
-                    'thinking_mode' => '第一性原理',
+                    'book_title' => __('写书式学习', 'linked3'),
+                    'type_unit' => __('本书', 'linked3'),
+                    'book_type' => __('图书', 'linked3'),
+                    'language' => __('中文', 'linked3'),
+                    'readers' => __('所有人群', 'linked3'),
+                    'thinking_mode' => __('第一性原理', 'linked3'),
                     'word_count' => 1500,
                 ),
                 'prompts' => array(
                     array(
                         'id' => 'p1',
                         'text' => "开始完善《{book_title}》这{type_unit}{book_type}的小节，全文符合{book_type}{language}语言表述习惯，用{readers}能听懂的方式，采用{thinking_mode}深入系统详细完善扩写{section_name}，生成{word_count}字更加丰富的正文内容，依据内容需要，给出适当2-3个例子，不输出总结和解释。",
-                        'note' => '高级扩写',
-                        'tool' => 'Deepseek/GLM(中文好), GPT/Claude(英文好)',
+                        'note' => __('高级扩写', 'linked3'),
+                        'tool' => __('Deepseek/GLM(中文好), GPT/Claude(英文好)', 'linked3'),
                     ),
                 ),
             ),
@@ -315,8 +315,8 @@ class BookPromptManager {
     public static function build_context_vars(string $book_title, string $type, string $mode, string $level = 'standard') : array {
         $type_labels = TypeModeRouter::get_all_types();
         $type_unit_map = array(
-            'book' => '本', 'thesis' => '篇', 'script' => '部',
-            'manual' => '本', 'textbook' => '本', 'whitepaper' => '份',
+            'book' => __('本', 'linked3'), 'thesis' => __('篇', 'linked3'), 'script' => __('部', 'linked3'),
+            'manual' => __('本', 'linked3'), 'textbook' => __('本', 'linked3'), 'whitepaper' => __('份', 'linked3'),
         );
 
         $level_iterations = array(
@@ -332,9 +332,9 @@ class BookPromptManager {
             'outline_iterations'     => isset( $level_iterations[ $level ] ) ? $level_iterations[ $level ] : 3,
             'sections_per_chapter'   => 5,
             'chapters_per_output'    => 12,
-            'language'               => '中文',
-            'readers'                => '所有人群',
-            'thinking_mode'          => '第一性原理',
+            'language'               => __('中文', 'linked3'),
+            'readers'                => __('所有人群', 'linked3'),
+            'thinking_mode'          => __('第一性原理', 'linked3'),
             'word_count'             => 1500,
         );
     }

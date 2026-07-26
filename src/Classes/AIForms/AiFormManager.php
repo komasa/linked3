@@ -211,28 +211,29 @@ final class AiFormManager
             <p><button type="submit" class="button"><?php echo esc_html($form['submit_label'] ?? __('提交', 'linked3')); ?></button></p>
             <div class="linked3-ai-form-result" style="display:none;"></div>
         </form>
-        <script>
-        (function(){
-            var f=document.querySelector('.linked3-ai-form[data-id="<?php echo esc_js($id); ?>"]');
-            if(!f||f.dataset.init)return;f.dataset.init='1';
-            f.addEventListener('submit',function(e){
-                e.preventDefault();
-                var fd=new FormData(f);fd.append('action','linked3_form_submit');fd.append('form_id',f.dataset.id);fd.append('nonce',f.dataset.nonce);
-                fetch(f.dataset.ajax,{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){return r.json();}).then(function(res){
-                    var el=f.querySelector('.linked3-ai-form-result');el.style.display='block';
-                    if(res.success){el.innerHTML='<div class="linked3-form-ok">'+(res.data.analysis||'<?php echo esc_js(__('Thank you!','linked3'));?>')+'</div>';}
-                    else{el.innerHTML='<div class="linked3-form-err">'+(res.data.message||'Error')+'</div>';}
-                });
-            });
-        })();
-        </script>
         <?php
+        // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-ai-form.js
         return ob_get_clean();
     }
 
     static function enqueue(): void {
-        add_action('wp_head', static function () {
-            echo '<style>.linked3-ai-form{max-width:600px;margin:1em 0;}.linked3-ai-form label{display:block;margin-bottom:8px;font-weight:600;}.linked3-ai-form input,.linked3-ai-form textarea,.linked3-ai-form select{width:100%;padding:8px;border:1px solid #d1d5db;border-radius:4px;font-weight:400;}.linked3-ai-form button{padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer;}.linked3-form-ok{background:#dcfce7;padding:12px;border-radius:4px;margin-top:12px;}.linked3-form-err{background:#fee2e2;padding:12px;border-radius:4px;margin-top:12px;}</style>';
+        add_action('wp_enqueue_scripts', static function () {
+            wp_enqueue_style(
+                'linked3-ai-form',
+                LINKED3_URL . 'assets/css/linked3-ai-form.css',
+                [],
+                LINKED3_VERSION
+            );
+            wp_enqueue_script(
+                'linked3-ai-form',
+                LINKED3_URL . 'assets/js/linked3-ai-form.js',
+                [],
+                LINKED3_VERSION,
+                true
+            );
+            wp_localize_script('linked3-ai-form', 'linked3_form_i18n', [
+                'thank_you' => __('Thank you!', 'linked3'),
+            ]);
         });
     }
 

@@ -32,12 +32,12 @@ class DiagramMETALayer {
      */
     public function build(array $config): array {
         return [
-            'brand'      => $config['brand'] ?? '知识图谱',
-            'signature'  => $config['signature'] ?? '带状切片全景图(独立线框模块+微观饱和卡片+精准图文咬合)',
+            'brand'      => $config['brand'] ?? __('知识图谱', 'linked3'),
+            'signature'  => $config['signature'] ?? __('带状切片全景图(独立线框模块+微观饱和卡片+精准图文咬合)', 'linked3'),
             'color'      => $this->buildColorSystem($config),
-            'mood'       => $config['mood'] ?? '宏大严密·克制高级·信息密集·竖屏16字',
-            'culture'    => $config['culture'] ?? '结构化知识图谱',
-            'platform'   => $config['platform'] ?? '9:16竖版无UI长图',
+            'mood'       => $config['mood'] ?? __('宏大严密·克制高级·信息密集·竖屏16字', 'linked3'),
+            'culture'    => $config['culture'] ?? __('结构化知识图谱', 'linked3'),
+            'platform'   => $config['platform'] ?? __('9:16竖版无UI长图', 'linked3'),
         ];
     }
 

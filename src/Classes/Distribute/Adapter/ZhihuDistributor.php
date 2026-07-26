@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
 final class ZhihuDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'zhihu'; }
-    public function label() : string { return __('知乎 (MCP 中转)', 'linked3'); }
+    public function label() : string { return '知乎 (MCP 中转)'; }
 
     public function publish(array $post_data, array $config): array {
         $api_url = $config['api_url'] ?? '';
@@ -41,7 +41,7 @@ final class ZhihuDistributor implements DistributeAdapterInterface
         $column_id = $config['column_id'] ?? '';
 
         if (!$api_url || !$token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 MCP API 地址或 Access Token (需自备知乎 MCP 中转服务)', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 MCP API 地址或 Access Token (需自备知乎 MCP 中转服务)', 'linked3')];
         }
 
         $body = [
@@ -72,14 +72,14 @@ final class ZhihuDistributor implements DistributeAdapterInterface
         }
 
         $remote_id = (string) ($json['id'] ?? ($json['article_id'] ?? ''));
-        return ['ok' => true, 'remote_id' => $remote_id, 'message' => __('已通过 MCP 推送到知乎', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => $remote_id, 'message' => __('已通过 MCP 推送到知乎', 'linked3')];
     }
 
     public function test(array $config): array {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {
-            return ['ok' => false, 'message' => __('缺少 MCP API 地址或 Access Token', 'linked3-ai')];
+            return ['ok' => false, 'message' => __('缺少 MCP API 地址或 Access Token', 'linked3')];
         }
         // 验证: GET {api_url}/me (MCP 服务通常提供 /me 端点)
         $me_url = rtrim($api_url, '/') . '/me';

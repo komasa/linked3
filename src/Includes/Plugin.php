@@ -60,14 +60,6 @@ final class Plugin
         // 1) Load all required files (pure require_once, no hooks).
         DependencyLoader::load();
 
-        // 1.5) Register AjaxNonceGuard — intercept all wp_ajax_* before handlers.
-        if (class_exists(__NAMESPACE__ . '\\AjaxNonceGuard')) {
-            add_action('admin_init', [__NAMESPACE__ . '\\AjaxNonceGuard', 'guard_all_ajax'], 0);
-            add_action('wp_ajax_linked3_create_nonce', function() {
-                wp_send_json_success(['nonce' => \Linked3\Includes\AjaxNonceGuard::create_nonce()]);
-            });
-        }
-
         // 2) Register all WordPress hooks (instantiates handlers, registers actions).
         HookManager::register_hooks($this->version);
 

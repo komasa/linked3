@@ -50,46 +50,46 @@ trait SeedAdminConstants
 
     /** Seed category → human label map. Used in list/edit/export views. */
     const CATEGORIES = [
-        'char'    => '角色',
-        'scene'   => '场景',
-        'prop'    => '道具',
-        'style'   => '风格',
-        'palette' => '色板',
-        'brand'   => '品牌',
-        'soul'    => '灵魂',
+        'char'    => __('角色', 'linked3'),
+        'scene'   => __('场景', 'linked3'),
+        'prop'    => __('道具', 'linked3'),
+        'style'   => __('风格', 'linked3'),
+        'palette' => __('色板', 'linked3'),
+        'brand'   => __('品牌', 'linked3'),
+        'soul'    => __('灵魂', 'linked3'),
     ];
 
     /** Seed type → human label map. fixed = locked DNA, variable = evolving. */
     const TYPES = [
-        'fixed'    => '固定',
-        'variable' => '可变',
+        'fixed'    => __('固定', 'linked3'),
+        'variable' => __('可变', 'linked3'),
     ];
 
     /** Visual DNA field key → label map. Used in new-seed wizard + export. */
     const VISUAL_FIELDS = [
-        'color_palette'  => '色彩调色板',
-        'lighting'       => '光影风格',
-        'composition'    => '构图法则',
-        'camera_angle'   => '镜头角度',
-        'texture'        => '材质纹理',
-        'mood'           => '情绪氛围',
+        'color_palette'  => __('色彩调色板', 'linked3'),
+        'lighting'       => __('光影风格', 'linked3'),
+        'composition'    => __('构图法则', 'linked3'),
+        'camera_angle'   => __('镜头角度', 'linked3'),
+        'texture'        => __('材质纹理', 'linked3'),
+        'mood'           => __('情绪氛围', 'linked3'),
     ];
 
     /** Personality DNA field key → label map. Used in edit + export. */
     const PERSONALITY_FIELDS = [
-        'voice'       => '语调',
-        'tone'        => '语气',
-        'vocabulary'  => '词汇偏好',
-        'humor'       => '幽默感',
-        'formality'   => '正式程度',
+        'voice'       => __('语调', 'linked3'),
+        'tone'        => __('语气', 'linked3'),
+        'vocabulary'  => __('词汇偏好', 'linked3'),
+        'humor'       => __('幽默感', 'linked3'),
+        'formality'   => __('正式程度', 'linked3'),
     ];
 
     /** Priority group key → label map. Used in new-seed wizard + export. */
     const PRIORITY_GROUPS = [
-        'must_have'    => '必须包含',
-        'should_have'  => '应当包含',
-        'could_have'   => '可以包含',
-        'wont_have'    => '排除项',
+        'must_have'    => __('必须包含', 'linked3'),
+        'should_have'  => __('应当包含', 'linked3'),
+        'could_have'   => __('可以包含', 'linked3'),
+        'wont_have'    => __('排除项', 'linked3'),
     ];
 
     /** AI platform key → label map. Used in adapter export. */

@@ -41,7 +41,7 @@ final class UrlInputSource implements InputSourceInterface
             }
             // Crude body extraction: strip scripts/styles, then tags.
             $body = preg_replace('#<script[^>]*>.*?</script>#is', '', $html);
-            $body = preg_replace('#<style[^>]*>.*?</style>#is', '', $body);
+            $body = preg_replace('#\x3Cstyle[^>]*>.*?\x3C/style>#is', '', $body);
             $body = wp_strip_all_tags($body);
             $body = trim(preg_replace('/\s+/', ' ', $body));
             $items[] = [

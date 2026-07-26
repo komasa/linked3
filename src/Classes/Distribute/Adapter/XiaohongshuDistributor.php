@@ -24,13 +24,13 @@ if (!defined('ABSPATH')) {
 final class XiaohongshuDistributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'xiaohongshu'; }
-    public function label() : string { return __('小红书', 'linked3'); }
+    public function label() : string { return '小红书'; }
 
     public function publish(array $post_data, array $config): array {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 API 地址或 Access Token', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 API 地址或 Access Token', 'linked3')];
         }
 
         $title = $post_data['title'] ?? '';
@@ -63,15 +63,15 @@ final class XiaohongshuDistributor implements DistributeAdapterInterface
         if ($code >= 400) {
             return ['ok' => false, 'remote_id' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['message'] ?? '')];
         }
-        return ['ok' => true, 'remote_id' => (string) ($json['note_id'] ?? ''), 'message' => __('已发布到小红书', 'linked3-ai')];
+        return ['ok' => true, 'remote_id' => (string) ($json['note_id'] ?? ''), 'message' => __('已发布到小红书', 'linked3')];
     }
 
     public function test(array $config): array {
         $api_url = $config['api_url'] ?? '';
         $token = $config['access_token'] ?? '';
         if (!$api_url || !$token) {
-            return ['ok' => false, 'message' => __('缺少 API 地址或 Access Token', 'linked3-ai')];
+            return ['ok' => false, 'message' => __('缺少 API 地址或 Access Token', 'linked3')];
         }
-        return ['ok' => true, 'message' => __('配置已保存(实际连通性在发布时验证)', 'linked3-ai')];
+        return ['ok' => true, 'message' => __('配置已保存(实际连通性在发布时验证)', 'linked3')];
     }
 }

@@ -35,9 +35,9 @@ class CompositeUniversalTrio implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'FP' => ['name' => '本质追问', 'mission' => '剥离表象→找到第一性原理', 'lever' => 'meta_essence'],
-            'EX' => ['name' => '反向思考', 'mission' => '从终局倒推→发现隐藏假设', 'lever' => 'meta_reverse'],
-            'SYS' => ['name' => '系统思维', 'mission' => '拉高视角→看到全局因果', 'lever' => 'meta_system'],
+            'FP' => ['name' => __('本质追问', 'linked3'), 'mission' => __('剥离表象→找到第一性原理', 'linked3'), 'lever' => 'meta_essence'],
+            'EX' => ['name' => __('反向思考', 'linked3'), 'mission' => __('从终局倒推→发现隐藏假设', 'linked3'), 'lever' => 'meta_reverse'],
+            'SYS' => ['name' => __('系统思维', 'linked3'), 'mission' => __('拉高视角→看到全局因果', 'linked3'), 'lever' => 'meta_system'],
         ];
     }
 

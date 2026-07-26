@@ -1,0 +1,75 @@
+/**
+ * Linked3 Dashboard Forms CSS
+ * Form-heavy views: settings, content writer, book factory
+ */
+
+/* === Settings Panels === */
+.l3-settings-section { margin-bottom: 32px; }
+.l3-settings-section-title {
+  font-size: 18px; font-weight: 600; padding-bottom: 8px;
+  border-bottom: 2px solid var(--l3-border); margin-bottom: 16px;
+}
+.l3-settings-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+.l3-settings-label { flex: 0 0 200px; font-size: 14px; font-weight: 500; padding-top: 8px; }
+.l3-settings-field { flex: 1; }
+.l3-settings-field .l3-input, .l3-settings-field .l3-select { max-width: 400px; }
+
+/* === Toggle Switch === */
+.l3-toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+.l3-toggle input { opacity: 0; width: 0; height: 0; }
+.l3-toggle-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--l3-border); border-radius: 22px; transition: 0.3s;
+}
+.l3-toggle-slider:before {
+  content: ''; position: absolute; height: 18px; width: 18px;
+  left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: 0.3s;
+}
+.l3-toggle input:checked + .l3-toggle-slider { background: var(--l3-primary); }
+.l3-toggle input:checked + .l3-toggle-slider:before { transform: translateX(18px); }
+
+/* === Content Writer Pipeline === */
+.l3-pipeline-step {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border: 1px solid var(--l3-border);
+  border-radius: var(--l3-radius-sm); margin-bottom: 8px;
+  background: var(--l3-surface);
+}
+.l3-pipeline-step.active { border-color: var(--l3-primary); background: var(--l3-primary-light); }
+.l3-pipeline-step.done { border-color: var(--l3-success); }
+.l3-pipeline-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.l3-pipeline-content { flex: 1; }
+.l3-pipeline-title { font-size: 14px; font-weight: 500; }
+.l3-pipeline-status { font-size: 12px; color: var(--l3-text-muted); }
+
+/* === Book Factory Steps === */
+.l3-book-step {
+  background: var(--l3-surface); border-radius: var(--l3-radius);
+  padding: 20px; margin-bottom: 16px; box-shadow: var(--l3-shadow-sm);
+}
+.l3-book-step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.l3-book-step-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--l3-primary); color: #fff; font-weight: 600; font-size: 14px;
+}
+
+/* === AI Model Selector === */
+.l3-model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.l3-model-card {
+  border: 2px solid var(--l3-border); border-radius: var(--l3-radius);
+  padding: 16px; cursor: pointer; transition: border-color 0.2s;
+}
+.l3-model-card:hover { border-color: var(--l3-primary); }
+.l3-model-card.selected { border-color: var(--l3-primary); background: var(--l3-primary-light); }
+.l3-model-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.l3-model-provider { font-size: 12px; color: var(--l3-text-muted); }
+
+/* ============================================================
+ * Extracted from: content-writer/editor.php (inline <style> block)
+ * ============================================================ */
+.linked3-cw-grid { display:grid; grid-template-columns: 1fr 2fr; gap:20px; }
+@media (max-width: 960px) { .linked3-cw-grid { grid-template-columns: 1fr; } }
+.linked3-cw-result { background:#fff; border:1px solid #ddd; padding:12px; min-height:300px; max-height:70vh; overflow:auto; }
+.linked3-cw-result pre { white-space: pre-wrap; font-family: inherit; }
+.linked3-cw-placeholder { color:#999; }

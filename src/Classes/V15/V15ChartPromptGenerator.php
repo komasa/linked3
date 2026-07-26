@@ -170,7 +170,7 @@ final class V15ChartPromptGenerator
     /**
      * 解析 AI 输出的图示提示词 JSON。
      */
-    private function parse_chart_prompts($raw, array $targets) : array {
+    private function parse_chart_prompts($raw, array $targets) : mixed {
         if (empty($raw)) return [];
 
         $text = trim($raw);
@@ -225,36 +225,36 @@ final class V15ChartPromptGenerator
     public function get_chart_dna_index(): array {
         // 内联 30 种图示 (避免依赖 DB 表, v5.3.3 简化)
         return [
-            ['dna_code' => 'D01', 'chart_name_zh' => '架构图', 'chart_name_en' => 'Architecture', 'category' => '结构关系', 'use_case' => '系统架构展示', 'prompt_template' => 'Draw a system architecture diagram showing component hierarchy'],
-            ['dna_code' => 'D02', 'chart_name_zh' => '框架图', 'chart_name_en' => 'Framework', 'category' => '结构关系', 'use_case' => '方法论框架', 'prompt_template' => 'Draw a framework diagram showing methodology 4 elements'],
-            ['dna_code' => 'D03', 'chart_name_zh' => '思维导图', 'chart_name_en' => 'MindMap', 'category' => '结构关系', 'use_case' => '知识体系展开', 'prompt_template' => 'Draw a mind map with central topic expanding outward'],
-            ['dna_code' => 'D04', 'chart_name_zh' => '韦恩图', 'chart_name_en' => 'Venn', 'category' => '结构关系', 'use_case' => '集合交集分析', 'prompt_template' => 'Draw a Venn diagram showing 3 set intersections'],
-            ['dna_code' => 'D05', 'chart_name_zh' => 'ER图', 'chart_name_en' => 'ER', 'category' => '结构关系', 'use_case' => '实体关系建模', 'prompt_template' => 'Draw an ER diagram showing entity relationships'],
-            ['dna_code' => 'D06', 'chart_name_zh' => '网络图', 'chart_name_en' => 'Network', 'category' => '结构关系', 'use_case' => '社交网络/拓扑', 'prompt_template' => 'Draw a network graph showing node connections'],
-            ['dna_code' => 'D07', 'chart_name_zh' => '树形图', 'chart_name_en' => 'Tree', 'category' => '结构关系', 'use_case' => '组织结构/分类', 'prompt_template' => 'Draw a tree diagram showing hierarchy'],
-            ['dna_code' => 'D08', 'chart_name_zh' => '流程图', 'chart_name_en' => 'Flowchart', 'category' => '流程时序', 'use_case' => '操作流程', 'prompt_template' => 'Draw a flowchart showing step transitions'],
-            ['dna_code' => 'D09', 'chart_name_zh' => '时序图', 'chart_name_en' => 'Sequence', 'category' => '流程时序', 'use_case' => '交互时序', 'prompt_template' => 'Draw a sequence diagram showing message order'],
-            ['dna_code' => 'D10', 'chart_name_zh' => '类图', 'chart_name_en' => 'ClassDiagram', 'category' => '流程时序', 'use_case' => 'UML类关系', 'prompt_template' => 'Draw a UML class diagram'],
-            ['dna_code' => 'D11', 'chart_name_zh' => '甘特图', 'chart_name_en' => 'Gantt', 'category' => '流程时序', 'use_case' => '项目排期', 'prompt_template' => 'Draw a Gantt chart showing task timeline'],
-            ['dna_code' => 'D12', 'chart_name_zh' => '泳道图', 'chart_name_en' => 'Swimlane', 'category' => '流程时序', 'use_case' => '跨角色流程', 'prompt_template' => 'Draw a swimlane diagram showing roles'],
-            ['dna_code' => 'D13', 'chart_name_zh' => '时间线', 'chart_name_en' => 'Timeline', 'category' => '流程时序', 'use_case' => '发展历程', 'prompt_template' => 'Draw a timeline showing key milestones'],
-            ['dna_code' => 'D14', 'chart_name_zh' => '图表', 'chart_name_en' => 'Chart', 'category' => '数据分析', 'use_case' => '数据可视化', 'prompt_template' => 'Draw a data chart'],
-            ['dna_code' => 'D15', 'chart_name_zh' => '科研绘图', 'chart_name_en' => 'Scientific', 'category' => '数据分析', 'use_case' => '实验数据', 'prompt_template' => 'Draw a scientific data plot'],
-            ['dna_code' => 'D16', 'chart_name_zh' => '技术路线图', 'chart_name_en' => 'TechRoadmap', 'category' => '数据分析', 'use_case' => '技术演进', 'prompt_template' => 'Draw a technology roadmap'],
-            ['dna_code' => 'D17', 'chart_name_zh' => '信息图', 'chart_name_en' => 'Infographic', 'category' => '数据分析', 'use_case' => '信息传播', 'prompt_template' => 'Draw an infographic with data + visuals'],
-            ['dna_code' => 'D18', 'chart_name_zh' => '知识卡片', 'chart_name_en' => 'KnowledgeCard', 'category' => '数据分析', 'use_case' => '知识浓缩', 'prompt_template' => 'Draw a knowledge card with key info + visual'],
-            ['dna_code' => 'D19', 'chart_name_zh' => '金字塔', 'chart_name_en' => 'Pyramid', 'category' => '数据分析', 'use_case' => '层次优先级', 'prompt_template' => 'Draw a pyramid showing hierarchy priority'],
-            ['dna_code' => 'D20', 'chart_name_zh' => '鱼骨图', 'chart_name_en' => 'Fishbone', 'category' => '数据分析', 'use_case' => '因果分析', 'prompt_template' => 'Draw a fishbone diagram analyzing root causes'],
-            ['dna_code' => 'D21', 'chart_name_zh' => '矩阵', 'chart_name_en' => 'Matrix', 'category' => '数据分析', 'use_case' => '多维对比', 'prompt_template' => 'Draw a matrix for 2D comparison'],
-            ['dna_code' => 'D22', 'chart_name_zh' => '堆叠图', 'chart_name_en' => 'Stacked', 'category' => '数据分析', 'use_case' => '构成分析', 'prompt_template' => 'Draw a stacked chart showing proportions'],
-            ['dna_code' => 'D23', 'chart_name_zh' => 'SWOT', 'chart_name_en' => 'SWOT', 'category' => '战略分析', 'use_case' => '优劣势分析', 'prompt_template' => 'Draw a SWOT analysis diagram'],
-            ['dna_code' => 'D24', 'chart_name_zh' => 'PEST', 'chart_name_en' => 'PEST', 'category' => '战略分析', 'use_case' => '宏观环境', 'prompt_template' => 'Draw a PEST analysis diagram'],
-            ['dna_code' => 'D25', 'chart_name_zh' => '用户画像', 'chart_name_en' => 'Persona', 'category' => '战略分析', 'use_case' => '目标用户', 'prompt_template' => 'Draw a user persona profile'],
-            ['dna_code' => 'D26', 'chart_name_zh' => '用户故事', 'chart_name_en' => 'UserStory', 'category' => '战略分析', 'use_case' => '需求描述', 'prompt_template' => 'Draw a user story map'],
-            ['dna_code' => 'D27', 'chart_name_zh' => '精益画布', 'chart_name_en' => 'LeanCanvas', 'category' => '战略分析', 'use_case' => '商业模式', 'prompt_template' => 'Draw a lean canvas'],
-            ['dna_code' => 'D28', 'chart_name_zh' => '矩形树图', 'chart_name_en' => 'Treemap', 'category' => '其他', 'use_case' => '层级占比', 'prompt_template' => 'Draw a treemap'],
-            ['dna_code' => 'D29', 'chart_name_zh' => '简易流程', 'chart_name_en' => 'SimpleFlowchart', 'category' => '其他', 'use_case' => '封面钩子', 'prompt_template' => 'Draw a simple flowchart'],
-            ['dna_code' => 'D30', 'chart_name_zh' => '辐射图', 'chart_name_en' => 'Radial', 'category' => '其他', 'use_case' => '总结升华', 'prompt_template' => 'Draw a radial diagram with center expanding outward'],
+            ['dna_code' => 'D01', 'chart_name_zh' => __('架构图', 'linked3'), 'chart_name_en' => 'Architecture', 'category' => __('结构关系', 'linked3'), 'use_case' => __('系统架构展示', 'linked3'), 'prompt_template' => 'Draw a system architecture diagram showing component hierarchy'],
+            ['dna_code' => 'D02', 'chart_name_zh' => __('框架图', 'linked3'), 'chart_name_en' => 'Framework', 'category' => __('结构关系', 'linked3'), 'use_case' => __('方法论框架', 'linked3'), 'prompt_template' => 'Draw a framework diagram showing methodology 4 elements'],
+            ['dna_code' => 'D03', 'chart_name_zh' => __('思维导图', 'linked3'), 'chart_name_en' => 'MindMap', 'category' => __('结构关系', 'linked3'), 'use_case' => __('知识体系展开', 'linked3'), 'prompt_template' => 'Draw a mind map with central topic expanding outward'],
+            ['dna_code' => 'D04', 'chart_name_zh' => __('韦恩图', 'linked3'), 'chart_name_en' => 'Venn', 'category' => __('结构关系', 'linked3'), 'use_case' => __('集合交集分析', 'linked3'), 'prompt_template' => 'Draw a Venn diagram showing 3 set intersections'],
+            ['dna_code' => 'D05', 'chart_name_zh' => __('ER图', 'linked3'), 'chart_name_en' => 'ER', 'category' => __('结构关系', 'linked3'), 'use_case' => __('实体关系建模', 'linked3'), 'prompt_template' => 'Draw an ER diagram showing entity relationships'],
+            ['dna_code' => 'D06', 'chart_name_zh' => __('网络图', 'linked3'), 'chart_name_en' => 'Network', 'category' => __('结构关系', 'linked3'), 'use_case' => __('社交网络/拓扑', 'linked3'), 'prompt_template' => 'Draw a network graph showing node connections'],
+            ['dna_code' => 'D07', 'chart_name_zh' => __('树形图', 'linked3'), 'chart_name_en' => 'Tree', 'category' => __('结构关系', 'linked3'), 'use_case' => __('组织结构/分类', 'linked3'), 'prompt_template' => 'Draw a tree diagram showing hierarchy'],
+            ['dna_code' => 'D08', 'chart_name_zh' => __('流程图', 'linked3'), 'chart_name_en' => 'Flowchart', 'category' => __('流程时序', 'linked3'), 'use_case' => __('操作流程', 'linked3'), 'prompt_template' => 'Draw a flowchart showing step transitions'],
+            ['dna_code' => 'D09', 'chart_name_zh' => __('时序图', 'linked3'), 'chart_name_en' => 'Sequence', 'category' => __('流程时序', 'linked3'), 'use_case' => __('交互时序', 'linked3'), 'prompt_template' => 'Draw a sequence diagram showing message order'],
+            ['dna_code' => 'D10', 'chart_name_zh' => __('类图', 'linked3'), 'chart_name_en' => 'ClassDiagram', 'category' => __('流程时序', 'linked3'), 'use_case' => __('UML类关系', 'linked3'), 'prompt_template' => 'Draw a UML class diagram'],
+            ['dna_code' => 'D11', 'chart_name_zh' => __('甘特图', 'linked3'), 'chart_name_en' => 'Gantt', 'category' => __('流程时序', 'linked3'), 'use_case' => __('项目排期', 'linked3'), 'prompt_template' => 'Draw a Gantt chart showing task timeline'],
+            ['dna_code' => 'D12', 'chart_name_zh' => __('泳道图', 'linked3'), 'chart_name_en' => 'Swimlane', 'category' => __('流程时序', 'linked3'), 'use_case' => __('跨角色流程', 'linked3'), 'prompt_template' => 'Draw a swimlane diagram showing roles'],
+            ['dna_code' => 'D13', 'chart_name_zh' => __('时间线', 'linked3'), 'chart_name_en' => 'Timeline', 'category' => __('流程时序', 'linked3'), 'use_case' => __('发展历程', 'linked3'), 'prompt_template' => 'Draw a timeline showing key milestones'],
+            ['dna_code' => 'D14', 'chart_name_zh' => __('图表', 'linked3'), 'chart_name_en' => 'Chart', 'category' => __('数据分析', 'linked3'), 'use_case' => __('数据可视化', 'linked3'), 'prompt_template' => 'Draw a data chart'],
+            ['dna_code' => 'D15', 'chart_name_zh' => __('科研绘图', 'linked3'), 'chart_name_en' => 'Scientific', 'category' => __('数据分析', 'linked3'), 'use_case' => __('实验数据', 'linked3'), 'prompt_template' => 'Draw a scientific data plot'],
+            ['dna_code' => 'D16', 'chart_name_zh' => __('技术路线图', 'linked3'), 'chart_name_en' => 'TechRoadmap', 'category' => __('数据分析', 'linked3'), 'use_case' => __('技术演进', 'linked3'), 'prompt_template' => 'Draw a technology roadmap'],
+            ['dna_code' => 'D17', 'chart_name_zh' => __('信息图', 'linked3'), 'chart_name_en' => 'Infographic', 'category' => __('数据分析', 'linked3'), 'use_case' => __('信息传播', 'linked3'), 'prompt_template' => 'Draw an infographic with data + visuals'],
+            ['dna_code' => 'D18', 'chart_name_zh' => __('知识卡片', 'linked3'), 'chart_name_en' => 'KnowledgeCard', 'category' => __('数据分析', 'linked3'), 'use_case' => __('知识浓缩', 'linked3'), 'prompt_template' => 'Draw a knowledge card with key info + visual'],
+            ['dna_code' => 'D19', 'chart_name_zh' => __('金字塔', 'linked3'), 'chart_name_en' => 'Pyramid', 'category' => __('数据分析', 'linked3'), 'use_case' => __('层次优先级', 'linked3'), 'prompt_template' => 'Draw a pyramid showing hierarchy priority'],
+            ['dna_code' => 'D20', 'chart_name_zh' => __('鱼骨图', 'linked3'), 'chart_name_en' => 'Fishbone', 'category' => __('数据分析', 'linked3'), 'use_case' => __('因果分析', 'linked3'), 'prompt_template' => 'Draw a fishbone diagram analyzing root causes'],
+            ['dna_code' => 'D21', 'chart_name_zh' => __('矩阵', 'linked3'), 'chart_name_en' => 'Matrix', 'category' => __('数据分析', 'linked3'), 'use_case' => __('多维对比', 'linked3'), 'prompt_template' => 'Draw a matrix for 2D comparison'],
+            ['dna_code' => 'D22', 'chart_name_zh' => __('堆叠图', 'linked3'), 'chart_name_en' => 'Stacked', 'category' => __('数据分析', 'linked3'), 'use_case' => __('构成分析', 'linked3'), 'prompt_template' => 'Draw a stacked chart showing proportions'],
+            ['dna_code' => 'D23', 'chart_name_zh' => 'SWOT', 'chart_name_en' => 'SWOT', 'category' => __('战略分析', 'linked3'), 'use_case' => __('优劣势分析', 'linked3'), 'prompt_template' => 'Draw a SWOT analysis diagram'],
+            ['dna_code' => 'D24', 'chart_name_zh' => 'PEST', 'chart_name_en' => 'PEST', 'category' => __('战略分析', 'linked3'), 'use_case' => __('宏观环境', 'linked3'), 'prompt_template' => 'Draw a PEST analysis diagram'],
+            ['dna_code' => 'D25', 'chart_name_zh' => __('用户画像', 'linked3'), 'chart_name_en' => 'Persona', 'category' => __('战略分析', 'linked3'), 'use_case' => __('目标用户', 'linked3'), 'prompt_template' => 'Draw a user persona profile'],
+            ['dna_code' => 'D26', 'chart_name_zh' => __('用户故事', 'linked3'), 'chart_name_en' => 'UserStory', 'category' => __('战略分析', 'linked3'), 'use_case' => __('需求描述', 'linked3'), 'prompt_template' => 'Draw a user story map'],
+            ['dna_code' => 'D27', 'chart_name_zh' => __('精益画布', 'linked3'), 'chart_name_en' => 'LeanCanvas', 'category' => __('战略分析', 'linked3'), 'use_case' => __('商业模式', 'linked3'), 'prompt_template' => 'Draw a lean canvas'],
+            ['dna_code' => 'D28', 'chart_name_zh' => __('矩形树图', 'linked3'), 'chart_name_en' => 'Treemap', 'category' => __('其他', 'linked3'), 'use_case' => __('层级占比', 'linked3'), 'prompt_template' => 'Draw a treemap'],
+            ['dna_code' => 'D29', 'chart_name_zh' => __('简易流程', 'linked3'), 'chart_name_en' => 'SimpleFlowchart', 'category' => __('其他', 'linked3'), 'use_case' => __('封面钩子', 'linked3'), 'prompt_template' => 'Draw a simple flowchart'],
+            ['dna_code' => 'D30', 'chart_name_zh' => __('辐射图', 'linked3'), 'chart_name_en' => 'Radial', 'category' => __('其他', 'linked3'), 'use_case' => __('总结升华', 'linked3'), 'prompt_template' => 'Draw a radial diagram with center expanding outward'],
         ];
     }
 
@@ -365,7 +365,7 @@ final class V15ChartPromptGenerator
             'prompt_en'     => $chart_item['prompt_template'],
             'caption_zh'    => '',
             'design_notes'  => '',
-            'placement'     => '段落间',
+            'placement'     => __('段落间', 'linked3'),
         ];
 
         if (empty($raw)) return $default;

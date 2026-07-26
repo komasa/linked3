@@ -238,7 +238,7 @@ final class ChatManager
      * @param string $provider
      * @return string
      */
-    private function get_api_key(string $provider) : bool {
+    private function get_api_key(string $provider) : array {
         $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         return is_array($keys) && isset($keys[$provider]) ? $keys[$provider] : '';
     }

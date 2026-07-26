@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Dashboard;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class GenesisFPUtils
 {
@@ -111,7 +113,7 @@ class GenesisFPUtils
                     ['fallback_providers' => ['deepseek', 'zhipu'], 'force_bypass_circuit' => true]
                 );
                 } catch (\Throwable $e) {
-                    wp_send_json_error(['message' => __('AI 调用失败: ', 'linked3-ai') . $e->getMessage()], 502);
+                    wp_send_json_error(['message' => __('AI 调用失败: ', 'linked3') . $e->getMessage()], 502);
                 }
                 $retryNodes = self::parseFPNodesJson($retry['content'] ?? '');
                 if (count($retryNodes) > count($nodes)) {
@@ -121,9 +123,8 @@ class GenesisFPUtils
 
             return $nodes;
         } catch (\Throwable $e) {
-            if (function_exists('error_log')) {
-                error_log('[linked3 genesis] FP extract cores failed: ' . $e->getMessage());
-            }
+            Logger::instance()->error('general', '[linked3 genesis] FP extract cores failed: ' . $e->getMessage());
+
             return [];
         }
     }

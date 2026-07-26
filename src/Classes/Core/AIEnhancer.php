@@ -36,11 +36,11 @@ final class AIEnhancer
         $settings = wp_parse_args($settings, $this->default_settings());
 
         if (!empty($settings['require_html'])) {
-            $prompt .= __('\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。', 'linked3');
+            $prompt .= "\n返回的文章内容必须用 HTML 标签格式,不要加 CSS 代码,不需要 <!DOCTYPE html>、<html>、<head>、<body> 标签。文章标题用 H1 标签。";
         }
 
         if (!empty($settings['enable_ai_summary'])) {
-            $prompt .= __(' 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。\n', 'linked3');
+            $prompt .= " 请在文章尾部嵌入一段适配搜索引擎精选摘要,格式为:摘要:xxx。\n";
         }
 
         if (!empty($settings['require_tag'])) {

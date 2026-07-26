@@ -54,7 +54,7 @@ class DiagramValidation13Dim {
 
     private function checkVisual(array $d): array {
         $ok = isset($d['bands']) && count($d['bands']) >= 3;
-        return ['passed' => $ok, 'score' => $ok ? 100 : 40, 'msg' => $ok ? 'OK' : 'Band不足3个'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 40, 'msg' => $ok ? 'OK' : __('Band不足3个', 'linked3')];
     }
     private function checkTextEmbed(array $d): array {
         $ok = true; $issues = [];
@@ -62,7 +62,7 @@ class DiagramValidation13Dim {
             foreach ($band['modules'] ?? [] as $m) {
                 foreach ($m['text_embedded'] ?? [] as $t) {
                     $len = mb_strlen($t);
-                    if ($len < 2 || $len > 6) { $ok = false; $issues[] = "{$t}长度{$len}"; }
+                    if ($len < 2 || $len > 6) { $ok = false; $issues[] = __("{$t}长度{$len}", 'linked3'); }
                 }
             }
         }
@@ -70,10 +70,10 @@ class DiagramValidation13Dim {
     }
     private function checkSystem(array $d): array {
         $ok = !empty($d['badge_colors']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 30, 'msg' => $ok ? 'OK' : '徽章色缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 30, 'msg' => $ok ? 'OK' : __('徽章色缺失', 'linked3')];
     }
     private function checkVertical(array $d): array {
-        return ['passed' => true, 'score' => 80, 'msg' => '9:16竖版'];
+        return ['passed' => true, 'score' => 80, 'msg' => __('9:16竖版', 'linked3')];
     }
     private function checkDepth(array $d): array {
         $ok = true;
@@ -82,40 +82,40 @@ class DiagramValidation13Dim {
                 if (count($m['sub_topics'] ?? []) < 2) { $ok = false; break 2; }
             }
         }
-        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : '子主题不足'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : __('子主题不足', 'linked3')];
     }
     private function checkAnchor(array $d): array {
         $ok = !empty($d['anchors']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 40, 'msg' => $ok ? 'OK' : '锚点缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 40, 'msg' => $ok ? 'OK' : __('锚点缺失', 'linked3')];
     }
     private function checkDiagramType(array $d): array {
         $ok = !empty($d['diagram_type']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 30, 'msg' => $ok ? 'OK' : '图示类型缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 30, 'msg' => $ok ? 'OK' : __('图示类型缺失', 'linked3')];
     }
     private function checkEndpoint(array $d): array {
         $ok = !empty($d['endpoint']['type']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 30, 'msg' => $ok ? 'OK' : 'Endpoint缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 30, 'msg' => $ok ? 'OK' : __('Endpoint缺失', 'linked3')];
     }
     private function checkFooter(array $d): array {
         $ok = !empty($d['footer']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : 'Footer缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : __('Footer缺失', 'linked3')];
     }
     private function checkFollowup(array $d): array {
         $ok = !empty($d['followup_type']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : '追问缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : __('追问缺失', 'linked3')];
     }
     private function checkRelationship(array $d): array {
         $count = count($d['relationships'] ?? []);
         $ok = $count <= 9 && $count > 0;
-        return ['passed' => $ok, 'score' => $ok ? 100 : 40, 'msg' => "{$count}条关系"];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 40, 'msg' => __("{$count}条关系", 'linked3')];
     }
     private function checkCognitive(array $d): array {
         $ok = !empty($d['cognitive_level']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : '认知层级缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $ok ? 'OK' : __('认知层级缺失', 'linked3')];
     }
     private function checkDensity(array $d): array {
         $ok = in_array($d['density'] ?? '', ['极简', '标准', '深度', '极致']);
-        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $d['density'] ?? '缺失'];
+        return ['passed' => $ok, 'score' => $ok ? 100 : 50, 'msg' => $d['density'] ?? __('缺失', 'linked3')];
     }
 }
 

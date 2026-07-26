@@ -25,6 +25,7 @@ final class SEOHooksRegistrar
     /**
      * @return void
      */
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         // Register AJAX actions (all admin-only, nonce+cap gated via base class).
         $actions = [

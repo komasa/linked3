@@ -111,7 +111,7 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
 <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <h1 style="margin:0;">Settings</h1>
-        <a href="admin.php?page=linked3-dashboard" class="button">← 返回总览</a>
+        <a href="admin.php?page=linked3-dashboard" class="button"><?php echo esc_html__('← 返回总览', 'linked3'); ?></a>
     </div>
     <h1><?php echo esc_html__('Linked3 SEO 设置', 'linked3'); ?></h1>
 
@@ -191,8 +191,8 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
 
     <!-- v3.1.0: SEO 增强 UI (内链/Schema/外链) -->
     <hr style="margin:30px 0;border:none;border-top:2px solid #ddd;">
-    <h2>SEO 增强 (v3.1.0)</h2>
-    <p>智能内链 / Schema Markup / 外链处理。这些功能后端类已实现,这里是配置开关。</p>
+    <h2><?php echo esc_html__('SEO 增强 (v3.1.0)', 'linked3'); ?></h2>
+    <p><?php echo esc_html__('智能内链 / Schema Markup / 外链处理。这些功能后端类已实现,这里是配置开关。', 'linked3'); ?></p>
 
     <?php
     $seo_enhance = wp_parse_args((array) get_option(LINKED3_OPTION_PREFIX . 'seo_enhance', []), [
@@ -210,15 +210,15 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
     $nonce_enhance = wp_create_nonce('linked3_settings');
     ?>
     <form id="linked3-seo-enhance-form">
-        <h3>智能内链</h3>
-        <p>自动给文章内容中的关键词加内链,指向站内其他相关文章。</p>
+        <h3><?php echo esc_html__('智能内链', 'linked3'); ?></h3>
+        <p><?php echo esc_html__('自动给文章内容中的关键词加内链,指向站内其他相关文章。', 'linked3'); ?></p>
         <table class="form-table">
             <tr>
-                <th>启用</th>
+                <th><?php echo esc_html__('启用', 'linked3'); ?></th>
                 <td><label><input type="checkbox" id="se_interlink_enabled" <?php checked($seo_enhance['interlink_enabled']); ?> /> 自动添加内链</label></td>
             </tr>
             <tr>
-                <th>策略</th>
+                <th><?php echo esc_html__('策略', 'linked3'); ?></th>
                 <td>
                     <select id="se_interlink_strategy">
                         <option value="popular" <?php selected($seo_enhance['interlink_strategy'], 'popular'); ?>>热门文章 (访问量高优先)</option>
@@ -228,13 +228,13 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
                 </td>
             </tr>
             <tr>
-                <th>每篇最大内链数</th>
+                <th><?php echo esc_html__('每篇最大内链数', 'linked3'); ?></th>
                 <td><input type="number" id="se_interlink_max" value="<?php echo esc_attr($seo_enhance['interlink_max_per_post']); ?>" min="1" max="20" /></td>
             </tr>
         </table>
 
-        <h3>Schema Markup (结构化数据)</h3>
-        <p>自动输出 JSON-LD 结构化数据到文章页 head,提升搜索引擎富结果展示。</p>
+        <h3><?php echo esc_html__('Schema Markup (结构化数据)', 'linked3'); ?></h3>
+        <p><?php echo esc_html__('自动输出 JSON-LD 结构化数据到文章页 head,提升搜索引擎富结果展示。', 'linked3'); ?></p>
         <table class="form-table">
             <tr>
                 <th>Article</th>
@@ -254,64 +254,30 @@ if (isset($_POST['linked3_seo_settings_nonce']) && wp_verify_nonce(sanitize_text
             </tr>
         </table>
 
-        <h3>外链处理</h3>
-        <p>对外部链接自动添加 nofollow + target=_blank,保留权重。白名单内的域名不加 nofollow。</p>
+        <h3><?php echo esc_html__('外链处理', 'linked3'); ?></h3>
+        <p><?php echo esc_html__('对外部链接自动添加 nofollow + target=_blank,保留权重。白名单内的域名不加 nofollow。', 'linked3'); ?></p>
         <table class="form-table">
             <tr>
-                <th>添加 nofollow</th>
+                <th><?php echo esc_html__('添加 nofollow', 'linked3'); ?></th>
                 <td><label><input type="checkbox" id="se_ext_nofollow" <?php checked($seo_enhance['external_link_nofollow']); ?> /> 自动给外链加 rel="nofollow"</label></td>
             </tr>
             <tr>
-                <th>新窗口打开</th>
+                <th><?php echo esc_html__('新窗口打开', 'linked3'); ?></th>
                 <td><label><input type="checkbox" id="se_ext_target" <?php checked($seo_enhance['external_link_target_blank']); ?> /> 自动给外链加 target="_blank"</label></td>
             </tr>
             <tr>
-                <th>白名单域名</th>
+                <th><?php echo esc_html__('白名单域名', 'linked3'); ?></th>
                 <td>
                     <textarea id="se_ext_whitelist" rows="3" class="large-text" placeholder="每行一个域名,如:&#10;example.com&#10;trusted-site.org"><?php echo esc_textarea($seo_enhance['external_link_whitelist']); ?></textarea>
-                    <p class="description">白名单内的域名不加 nofollow (友好站点)。</p>
+                    <p class="description"><?php echo esc_html__('白名单内的域名不加 nofollow (友好站点)。', 'linked3'); ?></p>
                 </td>
             </tr>
         </table>
 
         <p>
-            <button type="button" class="button button-primary" id="linked3-save-seo-enhance">保存 SEO 增强</button>
+            <button type="button" class="button button-primary" id="linked3-save-seo-enhance"><?php echo esc_html__('保存 SEO 增强', 'linked3'); ?></button>
             <span id="linked3-seo-enhance-status" style="margin-left:10px;"></span>
         </p>
     </form>
-    <script>
-    document.getElementById('linked3-save-seo-enhance').addEventListener('click', function(){
-        var btn = this;
-        var s = document.getElementById('linked3-seo-enhance-status');
-        btn.disabled = true;
-        s.textContent = '保存中...';
-        s.style.color = '#666';
-        var fd = new FormData();
-        fd.append('action', 'linked3_save_seo_enhance');
-        fd.append('nonce', <?php echo wp_json_encode($nonce_enhance); ?>);
-        fd.append('interlink_enabled', document.getElementById('se_interlink_enabled').checked ? 1 : 0);
-        fd.append('interlink_strategy', document.getElementById('se_interlink_strategy').value);
-        fd.append('interlink_max_per_post', document.getElementById('se_interlink_max').value);
-        fd.append('schema_article', document.getElementById('se_schema_article').checked ? 1 : 0);
-        fd.append('schema_faq', document.getElementById('se_schema_faq').checked ? 1 : 0);
-        fd.append('schema_howto', document.getElementById('se_schema_howto').checked ? 1 : 0);
-        fd.append('schema_product', document.getElementById('se_schema_product').checked ? 1 : 0);
-        fd.append('external_link_nofollow', document.getElementById('se_ext_nofollow').checked ? 1 : 0);
-        fd.append('external_link_target_blank', document.getElementById('se_ext_target').checked ? 1 : 0);
-        fd.append('external_link_whitelist', document.getElementById('se_ext_whitelist').value);
-        fetch(<?php echo wp_json_encode(admin_url('admin-ajax.php')); ?>, {method:'POST', body:fd, credentials:'same-origin'})
-            .then(function(r){return r.json();})
-            .then(function(res){
-                btn.disabled = false;
-                s.textContent = res.success ? '✓ ' + (res.data.message || '已保存') : '✗ ' + (res.data.message || '保存失败');
-                s.style.color = res.success ? '#080' : '#800';
-                setTimeout(function(){ s.textContent = ''; }, 3000);
-            })
-            .catch(function(e){
-                btn.disabled = false;
-                s.textContent = '✗ 网络错误: ' + e.message;
-                s.style.color = '#800';
-            });
-    });
-    </script>
+    <?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-seo-settings.js ?>
 </div>

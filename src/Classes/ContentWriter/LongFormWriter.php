@@ -186,7 +186,7 @@ final class LongFormWriter
             $style = \Linked3\Classes\ContentWriter\Prompt\SystemInstructionBuilder::get_style_dna($style_dna);
             $style_prompt = '';
             if (!empty($style['prompt_dna'])) {
-                $style_prompt = "\n## 写作风格DNA\n" . $style['prompt_dna'] . "\n";
+                $style_prompt = __('\n## 写作风格DNA\n', 'linked3') . $style['prompt_dna'] . "\n";
             }
             if (!empty($style['anti_ai_rules'])) {
                 $style_prompt .= "\n## 反AI规则\n";
@@ -249,10 +249,10 @@ final class LongFormWriter
     static function build_default_outline($topic, $target_words): array {
         $section_words = (int) ($target_words / 4);
         return [
-            ['h2' => '引言: ' . $topic, 'target_words' => $section_words, 'key_points' => ['背景介绍', '问题阐述'], 'keywords' => []],
-            ['h2' => '核心内容', 'target_words' => $section_words * 2, 'key_points' => ['主要观点', '实例分析'], 'keywords' => []],
-            ['h2' => '实践应用', 'target_words' => $section_words, 'key_points' => ['操作步骤', '注意事项'], 'keywords' => []],
-            ['h2' => '总结', 'target_words' => $section_words, 'key_points' => ['要点回顾', '未来展望'], 'keywords' => []],
+            ['h2' => __('引言: ', 'linked3') . $topic, 'target_words' => $section_words, 'key_points' => ['背景介绍', '问题阐述'], 'keywords' => []],
+            ['h2' => __('核心内容', 'linked3'), 'target_words' => $section_words * 2, 'key_points' => ['主要观点', '实例分析'], 'keywords' => []],
+            ['h2' => __('实践应用', 'linked3'), 'target_words' => $section_words, 'key_points' => ['操作步骤', '注意事项'], 'keywords' => []],
+            ['h2' => __('总结', 'linked3'), 'target_words' => $section_words, 'key_points' => ['要点回顾', '未来展望'], 'keywords' => []],
         ];
     }
 }

@@ -35,6 +35,8 @@ declare(strict_types=1);
 
 namespace Linked3\Includes;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -301,9 +303,8 @@ final class DependencyLoader
                     $e->getFile(),
                     $e->getLine()
                 );
-                if (function_exists('error_log')) {
-                    error_log('[linked3] module load fail: ' . $loader_class . ' → ' . $e->getMessage());
-                }
+                Logger::instance()->error('general', '[linked3] module load fail: ' . $loader_class . ' → ' . $e->getMessage());
+
             }
         }
     }
@@ -335,9 +336,8 @@ final class DependencyLoader
                 $e->getFile(),
                 $e->getLine()
             );
-            if (function_exists('error_log')) {
-                error_log('[linked3] load fail: ' . $relative . ' → ' . $e->getMessage());
-            }
+            Logger::instance()->error('general', '[linked3] load fail: ' . $relative . ' → ' . $e->getMessage());
+
         }
     }
 }

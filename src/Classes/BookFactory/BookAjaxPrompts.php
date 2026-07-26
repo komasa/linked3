@@ -34,7 +34,7 @@ class BookAjaxPrompts {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3-ai' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3' ) ), 403 );
 		}
 
 		$result = BookPromptManager::get_all();
@@ -55,14 +55,14 @@ class BookAjaxPrompts {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3-ai' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3' ) ), 403 );
 		}
 
 		$step_key    = isset( $_POST['step_key'] ) ? sanitize_text_field( wp_unslash( $_POST['step_key'] ) ) : '';
 		$prompt_text = isset( $_POST['prompt_text'] ) ? wp_unslash( $_POST['prompt_text'] ) : '';
 
 		if ( empty( $step_key ) ) {
-			wp_send_json_error( array( 'message' => __( '步骤key不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '步骤key不能为空', 'linked3' ) ) );
 		}
 
 		$result = BookPromptManager::save_prompt( $step_key, $prompt_text );
@@ -71,7 +71,7 @@ class BookAjaxPrompts {
 			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 		}
 
-		wp_send_json_success( array( 'message' => __( '已保存', 'linked3-ai' ) ) );
+		wp_send_json_success( array( 'message' => __( '已保存', 'linked3' ) ) );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class BookAjaxPrompts {
 		check_ajax_referer( 'linked3_book_factory', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3-ai' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( '权限不足', 'linked3' ) ), 403 );
 		}
 
 		$step_key   = isset( $_POST['step_key'] ) ? sanitize_text_field( wp_unslash( $_POST['step_key'] ) ) : '';
@@ -93,7 +93,7 @@ class BookAjaxPrompts {
 		$level      = isset( $_POST['iteration_level'] ) ? sanitize_text_field( wp_unslash( $_POST['iteration_level'] ) ) : 'standard';
 
 		if ( empty( $step_key ) ) {
-			wp_send_json_error( array( 'message' => __( '步骤key不能为空', 'linked3-ai' ) ) );
+			wp_send_json_error( array( 'message' => __( '步骤key不能为空', 'linked3' ) ) );
 		}
 
 		$vars   = BookPromptManager::build_context_vars( $book_title, $type, $mode, $level );

@@ -32,11 +32,11 @@ class CompositeCognitiveAudit implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'A1' => ['name' => '偏差检测部', 'mission' => '扫描确认偏差/锚定效应/幸存者偏差/群体思维', 'lever' => 'meta_self_calibration', 'kpi' => '识别≥3个认知偏差'],
-            'A2' => ['name' => '谬误审查部', 'mission' => '检测滑坡/虚假两难/诉诸权威/循环论证/稻草人', 'lever' => 'meta_logic', 'kpi' => '识别≥2个逻辑谬误'],
-            'A3' => ['name' => '证据评估部', 'mission' => '评估证据强度(强/中/弱/无)+样本偏差+数据可靠性', 'lever' => 'meta_evaluation', 'kpi' => '每条结论有证据评级'],
-            'A4' => ['name' => '盲区扫描部', 'mission' => '识别未知未知+隐性假设+边界条件失效', 'lever' => 'meta_cognition', 'kpi' => '识别≥2个盲区'],
-            'A5' => ['name' => '校准建议部', 'mission' => '置信度校准+纠偏方案+持续改进循环', 'lever' => 'meta_questioning', 'kpi' => '输出校准报告'],
+            'A1' => ['name' => __('偏差检测部', 'linked3'), 'mission' => __('扫描确认偏差/锚定效应/幸存者偏差/群体思维', 'linked3'), 'lever' => 'meta_self_calibration', 'kpi' => __('识别≥3个认知偏差', 'linked3')],
+            'A2' => ['name' => __('谬误审查部', 'linked3'), 'mission' => __('检测滑坡/虚假两难/诉诸权威/循环论证/稻草人', 'linked3'), 'lever' => 'meta_logic', 'kpi' => __('识别≥2个逻辑谬误', 'linked3')],
+            'A3' => ['name' => __('证据评估部', 'linked3'), 'mission' => __('评估证据强度(强/中/弱/无)+样本偏差+数据可靠性', 'linked3'), 'lever' => 'meta_evaluation', 'kpi' => __('每条结论有证据评级', 'linked3')],
+            'A4' => ['name' => __('盲区扫描部', 'linked3'), 'mission' => __('识别未知未知+隐性假设+边界条件失效', 'linked3'), 'lever' => 'meta_cognition', 'kpi' => __('识别≥2个盲区', 'linked3')],
+            'A5' => ['name' => __('校准建议部', 'linked3'), 'mission' => __('置信度校准+纠偏方案+持续改进循环', 'linked3'), 'lever' => 'meta_questioning', 'kpi' => __('输出校准报告', 'linked3')],
         ];
     }
 

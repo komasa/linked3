@@ -56,7 +56,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param int $user_id
      * @return array
      */
-    public function all_for_user(int $user_id) : array {
+    public function all_for_user(int $user_id) : mixed {
         global $wpdb;
         $table = $this->get_table();
         $rows = $wpdb->get_results($wpdb->prepare(
@@ -77,7 +77,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param int $user_id
      * @return array|null
      */
-    public function get(int $id, int $user_id) : null     {
+    public function get(int $id, int $user_id) : mixed     {
         global $wpdb;
         $table = $this->get_table();
         $row = $wpdb->get_row($wpdb->prepare(
@@ -95,7 +95,7 @@ final class PublishTargetRepository extends BaseRepository
      * @param array $data {user_id, name, type, config, is_default}
      * @return int|\WP_Error
      */
-    public function create(array $data) : WP_Error     {
+    public function create(array $data) : mixed     {
         global $wpdb;
         $table = $this->get_table();
         $user_id = (int) ($data['user_id'] ?? get_current_user_id());

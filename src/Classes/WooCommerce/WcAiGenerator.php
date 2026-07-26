@@ -127,7 +127,7 @@ final class WcAiGenerator
      * @param array $opts {provider, model, size, quality, prompt_override}
      * @return array{ok:bool, message:string, attachment_id?:int}
      */
-    public function generate_image(int $product_id, array $opts = []) : array {
+    public function generate_image(int $product_id, array $opts = []) : mixed {
         if (!class_exists('WooCommerce')) {
             return ['ok' => false, 'message' => __('WooCommerce 未启用。', 'linked3')];
         }
@@ -221,7 +221,7 @@ final class WcAiGenerator
             try {
                 $user_id = isset($opts['user_id']) ? (int) $opts['user_id'] : get_current_user_id();
                 \Linked3\Classes\Core\TokenManager::instance()->record($user_id, 'woocommerce', 0);
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("wc", "warning", "Billing record failed: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('billing', "Billing record failed: " . $e->getMessage()); }
         }
 
         return [
@@ -231,7 +231,7 @@ final class WcAiGenerator
         ];
     }
 
-    private function get_api_key($provider) : bool    {
+    private function get_api_key($provider) : array {
         $keys = get_option(LINKED3_OPTION_PREFIX . 'provider_keys', []);
         return is_array($keys) && isset($keys[$provider]) ? $keys[$provider] : '';
     }

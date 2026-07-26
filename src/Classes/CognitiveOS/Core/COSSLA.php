@@ -34,27 +34,27 @@ class COSSLA
     const SLA_CONTRACTS = [
         'FP_to_EX' => [
             'check'        => 'info_core_has_problem',
-            'violation'    => '信息核缺少 problem 字段',
+            'violation'    => __('信息核缺少 problem 字段', 'linked3'),
             'rollback_to'  => 'FP',
         ],
         'EX_to_C' => [
             'check'        => 'variants_count_gte_2',
-            'violation'    => '方案种群少于 2 个',
+            'violation'    => __('方案种群少于 2 个', 'linked3'),
             'rollback_to'  => 'EX',
         ],
         'C_to_O' => [
             'check'        => 'survivors_count_gte_1',
-            'violation'    => '无存活方案',
+            'violation'    => __('无存活方案', 'linked3'),
             'rollback_to'  => 'EX',
         ],
         'O_to_A' => [
             'check'        => 'blind_spots_lte_2',
-            'violation'    => '盲区超过 2 个',
+            'violation'    => __('盲区超过 2 个', 'linked3'),
             'rollback_to'  => 'EX',
         ],
         'A_to_archive' => [
             'check'        => 'mvp_fitness_gte_10',
-            'violation'    => 'MVP 适应度低于 10',
+            'violation'    => __('MVP 适应度低于 10', 'linked3'),
             'rollback_to'  => 'G1',
         ],
     ];
@@ -72,7 +72,7 @@ class COSSLA
             return [
                 'passed'       => false,
                 'contract'     => $contract_key,
-                'message'      => __('未知契约: ', 'linked3-ai') . $contract_key,
+                'message'      => __('未知契约: ', 'linked3') . $contract_key,
                 'rollback_to'  => null,
             ];
         }

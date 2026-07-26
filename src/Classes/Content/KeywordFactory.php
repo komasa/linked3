@@ -17,6 +17,8 @@ declare(strict_types=1);
  */
 
 namespace Linked3\Classes\Content;
+
+use Linked3\Includes\Log\Logger;
     use ContentEcosystemTrait;
 
 
@@ -56,7 +58,7 @@ class KeywordFactory {
                         $keywords = array_merge($keywords, $tail);
                     }
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
 
         // 降级: 本地生成

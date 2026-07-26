@@ -32,11 +32,11 @@ class CompositeKnowledgeSynthesis implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'K1' => ['name' => '图谱构建部', 'mission' => '知识节点提取+关系映射+层级结构', 'lever' => 'meta_knowledge_graph', 'kpi' => '节点≥10+关系≥15'],
-            'K2' => ['name' => '模式提取部', 'mission' => '从图谱中识别重复模式+结构模式+演化模式', 'lever' => 'meta_pattern', 'kpi' => '识别≥3个模式'],
-            'K3' => ['name' => '跨域连接部', 'mission' => '将模式映射到其他领域+发现远距离类比', 'lever' => 'meta_analogy', 'kpi' => '建立≥2个跨域连接'],
-            'K4' => ['name' => '认知折叠部', 'mission' => '将复杂图谱压缩为可记忆的核心模型', 'lever' => 'meta_folding', 'kpi' => '压缩为1-3个核心概念'],
-            'K5' => ['name' => '缺口识别部', 'mission' => '识别知识图谱中的缺失节点和断裂连接', 'lever' => 'meta_abstraction', 'kpi' => '识别≥2个知识缺口'],
+            'K1' => ['name' => __('图谱构建部', 'linked3'), 'mission' => __('知识节点提取+关系映射+层级结构', 'linked3'), 'lever' => 'meta_knowledge_graph', 'kpi' => __('节点≥10+关系≥15', 'linked3')],
+            'K2' => ['name' => __('模式提取部', 'linked3'), 'mission' => __('从图谱中识别重复模式+结构模式+演化模式', 'linked3'), 'lever' => 'meta_pattern', 'kpi' => __('识别≥3个模式', 'linked3')],
+            'K3' => ['name' => __('跨域连接部', 'linked3'), 'mission' => __('将模式映射到其他领域+发现远距离类比', 'linked3'), 'lever' => 'meta_analogy', 'kpi' => __('建立≥2个跨域连接', 'linked3')],
+            'K4' => ['name' => __('认知折叠部', 'linked3'), 'mission' => __('将复杂图谱压缩为可记忆的核心模型', 'linked3'), 'lever' => 'meta_folding', 'kpi' => __('压缩为1-3个核心概念', 'linked3')],
+            'K5' => ['name' => __('缺口识别部', 'linked3'), 'mission' => __('识别知识图谱中的缺失节点和断裂连接', 'linked3'), 'lever' => 'meta_abstraction', 'kpi' => __('识别≥2个知识缺口', 'linked3')],
         ];
     }
 

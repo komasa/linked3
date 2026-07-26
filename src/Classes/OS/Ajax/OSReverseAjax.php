@@ -40,7 +40,7 @@ class OSReverseAjax {
     public static function ajax_parse() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSReverseAjax {
     public static function ajax_to_seed() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSReverseAjax {
     public static function ajax_compare() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -132,11 +132,11 @@ class OSReverseAjax {
      */
     private static function execute_reverse(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $json_raw = $params['json_raw'] ?? '';
         if (empty($json_raw)) {
-            return ['error' => 'json_raw参数为空'];
+            return ['error' => __('json_raw参数为空', 'linked3')];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
         $result = call_user_func(['OSReverseEngine', 'reverse_parse'], $json_raw, $engineer_type);
@@ -151,11 +151,11 @@ class OSReverseAjax {
      */
     private static function execute_to_seed(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $json_raw = $params['json_raw'] ?? '';
         if (empty($json_raw)) {
-            return ['error' => 'json_raw参数为空'];
+            return ['error' => __('json_raw参数为空', 'linked3')];
         }
         $parsed = call_user_func(['OSReverseEngine', 'reverse_parse'], $json_raw);
         if (is_wp_error($parsed)) {
@@ -170,7 +170,7 @@ class OSReverseAjax {
      */
     private static function execute_compare(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSReverseEngine')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $a = $params['result_a'] ?? '';
         $b = $params['result_b'] ?? '';
@@ -265,7 +265,7 @@ class OSReverseAjax {
             'ajax_version' => '14.0.0',
             'target_class' => 'OSReverseEngine',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '逆向引擎AJAX接口',
+            'title' => __('逆向引擎AJAX接口', 'linked3'),
         ];
     }
 
@@ -273,7 +273,7 @@ class OSReverseAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_reverse_parse' => '逆向解析', 'linked3_reverse_to_seed' => '逆向转SEED', 'linked3_reverse_compare' => '逆向对比'];
+        return ['linked3_reverse_parse' => __('逆向解析', 'linked3'), 'linked3_reverse_to_seed' => __('逆向转SEED', 'linked3'), 'linked3_reverse_compare' => __('逆向对比', 'linked3')];
     }
 
 }

@@ -147,7 +147,7 @@ final class ExternalLinkProcessor
      * @param string $inner
      * @return string
      */
-    private static function ensure_target_blank_safety(string $original, string $attrs, string $inner) : string {
+    private static function ensure_target_blank_safety(string $original, string $attrs, string $inner) : mixed {
         if (!preg_match('/\btarget\s*=\s*(["\'])_blank\1/iu', $attrs)) {
             return $original;
         }

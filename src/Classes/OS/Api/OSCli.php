@@ -138,7 +138,7 @@ class OSCli {
     public static function get_version_info(): array {
         return [
             'module_version' => '15.0.0-rc6',
-            'title' => 'WP-CLI命令',
+            'title' => __('WP-CLI命令', 'linked3'),
             'commands' => ['linked3 reverse', 'linked3 svg-stats', 'linked3 health', 'linked3 modules'],
         ];
     }

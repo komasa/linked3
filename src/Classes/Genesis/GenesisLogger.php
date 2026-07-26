@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Genesis;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) exit;
 
 class GenesisLogger {
@@ -64,7 +66,7 @@ class GenesisLogger {
     /**
      * 创建日志表 (首次写入时延迟创建)
      */
-    private static function ensure_table() : bool {
+    private static function ensure_table() : mixed {
         if (self::$table_ready) return true;
         global $wpdb;
         $table = self::$table;
@@ -109,7 +111,7 @@ class GenesisLogger {
 
         if (!self::ensure_table()) {
             // 表创建失败, 降级到 error_log
-            error_log('[Linked3 Genesis] [' . $level . '] ' . $message . ' ' . json_encode($context, JSON_UNESCAPED_UNICODE));
+            Logger::instance()->error('ai', '[Linked3 Genesis] [' . $level . '] ' . $message . ' ' . json_encode($context, JSON_UNESCAPED_UNICODE));
             return;
         }
 
@@ -135,12 +137,12 @@ class GenesisLogger {
     public static function error($message, $context = [], $stage = '') : void {
         self::log(self::LEVEL_ERROR, $message, $context, $stage);
         // ERROR 级别同时写 error_log (便于服务器监控)
-        error_log('[Linked3 Genesis ERROR] ' . $message . ' ' . json_encode($context, JSON_UNESCAPED_UNICODE));
+        Logger::instance()->error('ai', '[Linked3 Genesis ERROR] ' . $message . ' ' . json_encode($context, JSON_UNESCAPED_UNICODE));
     }
 
     public static function fatal($message, $context = [], $stage = '') : void {
         self::log(self::LEVEL_FATAL, $message, $context, $stage);
-        error_log('[Linked3 Genesis FATAL] ' . $message . ' ' . json_encode($context, JSON_UNESCAPED_UNICODE));
+        Logger::instance()->error('ai', '[Linked3 Genesis FATAL] ' . $message . ' ' . json_encode($context, JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -177,7 +179,7 @@ class GenesisLogger {
         } else {
             $context = $extra_context;
             $level = self::LEVEL_ERROR;
-            $message = is_string($e) ? $e : '未知异常';
+            $message = is_string($e) ? $e : __('未知异常', 'linked3');
         }
         self::log($level, $message, $context, $stage);
     }
@@ -185,7 +187,7 @@ class GenesisLogger {
     /**
      * 获取统计 (按级别)
      */
-    public static function get_stats($hours = 24) : array {
+    public static function get_stats($hours = 24) : mixed {
         if (!self::ensure_table()) return [];
         global $wpdb;
         // ── FIX v16.0.1: Use PHP-computed timestamp for SQLite compatibility ──

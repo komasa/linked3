@@ -13,9 +13,9 @@ class CompositeIntentDecoder implements CompositeLeverInterface
     public function orchestrated_levers(): array { return ['meta_context', 'meta_emotion', 'meta_persuasion']; }
     public function departments(): array {
         return [
-            'CTX' => ['name' => '语境感知', 'mission' => '理解用户所处的语境和背景', 'lever' => 'meta_context'],
-            'EMO' => ['name' => '情绪识别', 'mission' => '识别用户的情绪状态和需求', 'lever' => 'meta_emotion'],
-            'PER' => ['name' => '说服路径', 'mission' => '设计最佳说服路径', 'lever' => 'meta_persuasion'],
+            'CTX' => ['name' => __('语境感知', 'linked3'), 'mission' => __('理解用户所处的语境和背景', 'linked3'), 'lever' => 'meta_context'],
+            'EMO' => ['name' => __('情绪识别', 'linked3'), 'mission' => __('识别用户的情绪状态和需求', 'linked3'), 'lever' => 'meta_emotion'],
+            'PER' => ['name' => __('说服路径', 'linked3'), 'mission' => __('设计最佳说服路径', 'linked3'), 'lever' => 'meta_persuasion'],
         ];
     }
     public function system_prompt(): string {

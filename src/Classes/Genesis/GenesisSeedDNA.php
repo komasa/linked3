@@ -51,7 +51,7 @@ class GenesisSeedDNA
             "【输出格式】\n" .
             "返回 JSON:\n" .
             "{\"characters\":[{\"name\":\"角色名\",\"appearance\":\"外观描述\",\"clothing\":\"服装描述\",\"distinctive_features\":\"显著特征\"}],\"scenes\":[{\"name\":\"场景名\",\"description\":\"场景描述\",\"lighting\":\"光照\",\"atmosphere\":\"氛围\"}],\"color_palette\":{\"primary\":\"主色\",\"secondary\":\"辅色\",\"accent\":\"点缀色\"},\"style_fingerprint\":\"风格关键词\"}\n\n" .
-            "只返回 JSON,不要解释。",
+            __("只返回 JSON,不要解释。", 'linked3'),
             $styleName, $metaPrompt, $scriptTrimmed, $styleName
         );
 

@@ -19,14 +19,27 @@ final class ConsentComplianceAddon implements AddonInterface
     public function execute() : void
     {
         add_action('wp_footer', [$this, 'render_banner']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
     }
+
+    public function enqueue_assets() : void
+    {
+        wp_enqueue_script(
+            'linked3-consent',
+            LINKED3_URL . 'assets/js/linked3-consent.js',
+            [],
+            LINKED3_VERSION,
+            true
+        );
+    }
+
     public function render_banner() : void
     {
         if (is_admin()) return;
         echo '<div id="linked3-consent" style="position:fixed;bottom:0;left:0;right:0;background:#1f2937;color:#fff;padding:12px;text-align:center;z-index:99998;font-size:14px;">'
             . esc_html__('我们使用 Cookie 改善您的体验,继续使用即表示同意。', 'linked3')
             . ' <button onclick="document.getElementById(\'linked3-consent\').style.display=\'none\';localStorage.setItem(\'linked3_consent\',\'1\');" style="margin-left:10px;padding:4px 12px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer;">'
-            . esc_html__('成功', 'linked3') . '</button></div>'
-            . '<script>if(localStorage.getItem(\'linked3_consent\')){document.getElementById(\'linked3-consent\').style.display=\'none\';}</script>';
+            . esc_html__('成功', 'linked3') . '</button></div>';
+        // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-consent.js
     }
 }

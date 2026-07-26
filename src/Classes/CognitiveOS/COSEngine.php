@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\CognitiveOS;
 
+use Linked3\Includes\Log\Logger;
+
 use Linked3\Classes\CognitiveOS\Core\COSAxioms;
 use Linked3\Classes\CognitiveOS\Core\COSDepartments;
 use Linked3\Classes\CognitiveOS\Core\COSSLA;
@@ -120,9 +122,8 @@ class COSEngine
                 ]);
             } catch (\Throwable $e) {
                 // 归档失败不影响演化主流程
-                if (function_exists('error_log')) {
-                    error_log('[linked3 COS] 归档保存失败: ' . $e->getMessage());
-                }
+                Logger::instance()->error('ai', '[linked3 COS] 归档保存失败: ' . $e->getMessage());
+
             }
         }
 
@@ -248,7 +249,7 @@ class COSEngine
         $steps     = $input['steps']     ?? '';
         $prev_analysis = $input['accumulated_analysis'] ?? '';
 
-        $user_msg = "## 待审查的认知方案\n\n";
+        $user_msg = __('## 待审查的认知方案\n\n', 'linked3');
         $user_msg .= "### 原始问题\n{$problem}\n\n";
         $user_msg .= "### 最优方案 (MVP)\n{$approach}\n\n";
         if (!empty($steps)) {
@@ -440,10 +441,10 @@ class COSEngine
         // v20.4-fix13: 清理累积分析 — 去掉 JSON 代码块、多余空格、重复字符
         $accumulated_clean = self::clean_ai_output($accumulated);
 
-        $enhanced  = "你是一个经过认知操作系统 (COS) 三代演化 + 杠杆链深度审查的专家。\n\n";
+        $enhanced  = __('你是一个经过认知操作系统 (COS) 三代演化 + 杠杆链深度审查的专家。\n\n', 'linked3');
         $enhanced .= "<rules>\n";
         $enhanced .= "输出≤3×原始 | 装饰≤20% | 核心目标不偏离 | 杠杆使命不可违\n";
-        $enhanced .= "公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险>8或可行<4直接抹杀\n";
+        $enhanced .= "公理刚性：需求必由[信息熵减]+[系统降维]推导 | 证伪至死：风险><?php echo esc_html__('8或可行', 'linked3'); ?><4直接抹杀\n";
         $enhanced .= "纳什均衡：信息密度与系统降维的平衡点 | 用户目的性优先于技术优雅\n";
         $enhanced .= "落地性：每条建议必须含具体操作步骤或工具示例, 禁止抽象方向\n";
         $enhanced .= "差异化：各杠杆审查结论已去重, 请综合而非重复\n";

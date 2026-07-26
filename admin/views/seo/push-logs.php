@@ -36,7 +36,7 @@ $total_pages = max(1, (int) ceil($total / $per_page));
 <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <h1 style="margin:0;">Push-Logs</h1>
-        <a href="admin.php?page=linked3-dashboard" class="button">← 返回总览</a>
+        <a href="admin.php?page=linked3-dashboard" class="button"><?php echo esc_html__('← 返回总览', 'linked3'); ?></a>
     </div>
     <h1><?php echo esc_html__('推送日志', 'linked3'); ?></h1>
 
@@ -120,33 +120,5 @@ $total_pages = max(1, (int) ceil($total / $per_page));
         </p>
     </form>
 
-    <script>
-    (function () {
-        var nonce = <?php echo wp_json_encode($nonce); ?>;
-        var ajaxUrl = <?php echo wp_json_encode($ajax_url); ?>;
-        document.getElementById('linked3-select-all').addEventListener('change', function (e) {
-            document.querySelectorAll('.linked3-log-id').forEach(function (cb) { cb.checked = e.target.checked; });
-        });
-        document.getElementById('linked3-retry-selected').addEventListener('click', function () {
-            var ids = [];
-            document.querySelectorAll('.linked3-log-id:checked').forEach(function (cb) { ids.push(cb.value); });
-            if (ids.length === 0) { alert(<?php echo wp_json_encode(__('Select at least one failed log.', 'linked3')); ?>); return; }
-            var body = new FormData();
-            body.append('action', 'linked3_push_retry');
-            body.append('nonce', nonce);
-            ids.forEach(function (id) { body.append('log_ids[]', id); });
-            fetch(ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' })
-                .then(function (r) { return r.json(); })
-                .then(function (res) {
-                    if (res.success) {
-                        alert((res.data.results ? Object.keys(res.data.results).length : 0) + ' engines re-pushed.');
-                        window.location.reload();
-                    } else {
-                        alert((res.data && res.data.message) || 'Error');
-                    }
-                })
-                .catch(function (e) { alert(String(e)); });
-        });
-    })();
-    </script>
+    <?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-seo-push-logs.js ?>
 </div>

@@ -116,10 +116,10 @@ final class ImageManager
      * @param string $prompt 图片提示词
      * @return array{ok:bool, url:string, message:string}
      */
-    public function generate_image(string $prompt) : array {
+    public function generate_image(string $prompt) : mixed {
         $settings = $this->get_settings();
         if (!$settings['auto_generate']) {
-            return ['ok' => false, 'url' => '', 'message' => __('图片生成未启用', 'linked3-ai')];
+            return ['ok' => false, 'url' => '', 'message' => __('图片生成未启用', 'linked3')];
         }
 
         $provider = $settings['provider'];
@@ -131,7 +131,7 @@ final class ImageManager
             $key = $key_lines[0] ?? '';
         }
         if (!$key) {
-            return ['ok' => false, 'url' => '', 'message' => __('缺少 API Key', 'linked3-ai')];
+            return ['ok' => false, 'url' => '', 'message' => __('缺少 API Key', 'linked3')];
         }
 
         switch ($provider) {
@@ -228,7 +228,7 @@ final class ImageManager
         if ($code >= 400) return ['ok' => false, 'url' => '', 'message' => sprintf('HTTP %d: %s', $code, $json['message'] ?? '')];
         // 阿里云是异步的,返回 task_id
         $task_id = $json['output']['task_id'] ?? '';
-        if (!$task_id) return ['ok' => false, 'url' => '', 'message' => __('未返回 task_id', 'linked3-ai')];
+        if (!$task_id) return ['ok' => false, 'url' => '', 'message' => __('未返回 task_id', 'linked3')];
         // 轮询结果 (简化:等待 10 秒后查询)
         sleep(10);
         $poll = SafeRemote::get("https://dashscope.aliyuncs.com/api/v1/tasks/{$task_id}", [
@@ -236,10 +236,10 @@ final class ImageManager
             'headers' => ['Authorization' => 'Bearer ' . $key],
             'allowed_hosts' => ['dashscope.aliyuncs.com'],
         ]);
-        if (is_wp_error($poll)) return ['ok' => false, 'url' => '', 'message' => __('轮询失败', 'linked3-ai')];
+        if (is_wp_error($poll)) return ['ok' => false, 'url' => '', 'message' => __('轮询失败', 'linked3')];
         $poll_json = json_decode(wp_remote_retrieve_body($poll), true);
         $url = $poll_json['output']['results'][0]['url'] ?? '';
-        if (!$url) return ['ok' => false, 'url' => '', 'message' => __('图片生成中,请稍后', 'linked3-ai')];
+        if (!$url) return ['ok' => false, 'url' => '', 'message' => __('图片生成中,请稍后', 'linked3')];
         return ['ok' => true, 'url' => $url, 'message' => 'ok'];
     }
 
@@ -250,7 +250,7 @@ final class ImageManager
      * @param int $count 采集数量
      * @return string[] 图片 URL 列表
      */
-    public function fetch_from_station(string $station_url, int $count = 5) : array     {
+    public function fetch_from_station(string $station_url, int $count = 5) : array {
         if (empty($station_url)) return [];
         $resp = SafeRemote::get($station_url, [
             'timeout' => 15,

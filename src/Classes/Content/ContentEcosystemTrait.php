@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Content;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) exit;
 
 trait ContentEcosystemTrait {
@@ -51,7 +53,7 @@ trait ContentEcosystemTrait {
                         return $mgr->generate_tail_keywords($seed, $context['keyword_count'] ?? 10);
                     }
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         return [];
     }
@@ -68,7 +70,7 @@ trait ContentEcosystemTrait {
                     $templates = $mgr->get_by_category($category);
                     if (!empty($templates)) return $templates[0];
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         return [];
     }
@@ -77,16 +79,16 @@ trait ContentEcosystemTrait {
         $checks = [];
         $score = 0;
 
-        $checks['keywords_present'] = ['name' => '关键词已加载', 'passed' => !empty($ir['keywords']), 'value' => count($ir['keywords'] ?? [])];
+        $checks['keywords_present'] = ['name' => __('关键词已加载', 'linked3'), 'passed' => !empty($ir['keywords']), 'value' => count($ir['keywords'] ?? [])];
         if (!empty($ir['keywords'])) $score += 25;
 
-        $checks['template_present'] = ['name' => '模版已加载', 'passed' => !empty($ir['template'])];
+        $checks['template_present'] = ['name' => __('模版已加载', 'linked3'), 'passed' => !empty($ir['template'])];
         if (!empty($ir['template'])) $score += 25;
 
-        $checks['content_present'] = ['name' => '内容已生成', 'passed' => !empty($ir['content']), 'value' => mb_strlen($ir['content'] ?? '')];
+        $checks['content_present'] = ['name' => __('内容已生成', 'linked3'), 'passed' => !empty($ir['content']), 'value' => mb_strlen($ir['content'] ?? '')];
         if (!empty($ir['content'])) $score += 25;
 
-        $checks['images_present'] = ['name' => '图片已生成', 'passed' => !empty($ir['images']), 'value' => count($ir['images'] ?? [])];
+        $checks['images_present'] = ['name' => __('图片已生成', 'linked3'), 'passed' => !empty($ir['images']), 'value' => count($ir['images'] ?? [])];
         if (!empty($ir['images'])) $score += 25;
 
         return ['score' => $score, 'checks' => $checks, 'passed' => $score >= 60];

@@ -39,27 +39,27 @@ class Diagram30Spectrum {
         // 结构关系7种
         $struct = ['Stacked架构图', 'Tree树形图', 'Pyramid金字塔', 'Network网络图', 'Radial辐射图', 'Venn韦恩图', 'Matrix矩阵'];
         foreach ($struct as $i => $name) {
-            $this->register('D' . str_pad($i + 1, 2, '0', STR_PAD_LEFT), $name, '结构关系');
+            $this->register('D' . str_pad($i + 1, 2, '0', STR_PAD_LEFT), $name, __('结构关系', 'linked3'));
         }
         // 流程时序6种
         $flow = ['Flow流程图', 'Swimlane泳道图', 'Timeline时间线', 'Fishbone鱼骨图', 'Loop循环图', 'Staircase阶梯图'];
         foreach ($flow as $i => $name) {
-            $this->register('D' . str_pad($i + 8, 2, '0', STR_PAD_LEFT), $name, '流程时序');
+            $this->register('D' . str_pad($i + 8, 2, '0', STR_PAD_LEFT), $name, __('流程时序', 'linked3'));
         }
         // 数据分析9种
         $data = ['Chart图表', 'Science科研绘图', 'TechRoadmap技术路线图', 'Infographic信息图', 'KnowledgeCard知识卡片', 'PyramidData数据金字塔', 'FishboneData数据鱼骨', 'MatrixData数据矩阵', 'StackedChart堆叠图'];
         foreach ($data as $i => $name) {
-            $this->register('D' . str_pad($i + 14, 2, '0', STR_PAD_LEFT), $name, '数据分析');
+            $this->register('D' . str_pad($i + 14, 2, '0', STR_PAD_LEFT), $name, __('数据分析', 'linked3'));
         }
         // 战略分析5种
         $strategy = ['SWOT', 'PEST', 'Persona用户画像', 'UserStory用户故事', 'LeanCanvas精益画布'];
         foreach ($strategy as $i => $name) {
-            $this->register('D' . str_pad($i + 23, 2, '0', STR_PAD_LEFT), $name, '战略分析');
+            $this->register('D' . str_pad($i + 23, 2, '0', STR_PAD_LEFT), $name, __('战略分析', 'linked3'));
         }
         // 其他3种
         $other = ['Treemap矩形树图', 'SimpleFlowchart简易流程', 'RadialSummary辐射总结'];
         foreach ($other as $i => $name) {
-            $this->register('D' . str_pad($i + 28, 2, '0', STR_PAD_LEFT), $name, '其他');
+            $this->register('D' . str_pad($i + 28, 2, '0', STR_PAD_LEFT), $name, __('其他', 'linked3'));
         }
     }
 

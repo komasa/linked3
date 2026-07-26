@@ -32,8 +32,8 @@ class Diagram3LayerDepth {
             if (count($subTopics) < 2) {
                 // 不足2个, 补充默认
                 $subTopics = array_merge($subTopics, [
-                    ['title' => '核心概念', 'details' => ['定义', '特征']],
-                    ['title' => '应用场景', 'details' => ['场景A', '场景B']],
+                    ['title' => __('核心概念', 'linked3'), 'details' => ['定义', '特征']],
+                    ['title' => __('应用场景', 'linked3'), 'details' => ['场景A', '场景B']],
                 ]);
             } elseif (count($subTopics) > 4) {
                 $subTopics = array_slice($subTopics, 0, 4);
@@ -68,8 +68,8 @@ class Diagram3LayerDepth {
             $issues[] = __('子主题超过4个', 'linked3');
         }
         foreach ($module['layer3'] ?? [] as $st => $details) {
-            if (count($details) < 2) $issues[] = "子主题{$st}细节不足2个";
-            if (count($details) > 3) $issues[] = "子主题{$st}细节超过3个";
+            if (count($details) < 2) $issues[] = __("子主题{$st}细节不足2个", 'linked3');
+            if (count($details) > 3) $issues[] = __("子主题{$st}细节超过3个", 'linked3');
         }
         return ['passed' => empty($issues), 'issues' => $issues];
     }

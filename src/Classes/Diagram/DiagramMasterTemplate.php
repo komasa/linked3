@@ -39,7 +39,7 @@ if (!defined('ABSPATH')) {
  *   Footer: 底部全局价值观
  */
 class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
-    const SIGNATURE = '带状切片全景图(独立线框模块+微观饱和卡片+精准图文咬合)';
+    const SIGNATURE = __('带状切片全景图(独立线框模块+微观饱和卡片+精准图文咬合)', 'linked3');
     const GLOBAL_PRIMARY = '#2F4F4F';
     const BACKGROUND = '#F8F8FF';
     const BADGE_COLORS = [
@@ -105,7 +105,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
 
     private function buildMetaLayer(array $config): array {
         return [
-            'brand' => $config['brand'] ?? '知识图谱',
+            'brand' => $config['brand'] ?? __('知识图谱', 'linked3'),
             'signature' => self::SIGNATURE,
             'color' => [
                 'background' => self::BACKGROUND,
@@ -113,9 +113,9 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
                 'theme_color' => $config['theme_color'] ?? self::GLOBAL_PRIMARY,
                 'badge_colors' => $config['badge_colors'] ?? array_values(self::BADGE_COLORS),
             ],
-            'mood' => $config['mood'] ?? '宏大严密·克制高级·信息密集·竖屏16字',
-            'culture' => $config['culture'] ?? '结构化知识图谱',
-            'platform' => '9:16竖版无UI长图',
+            'mood' => $config['mood'] ?? __('宏大严密·克制高级·信息密集·竖屏16字', 'linked3'),
+            'culture' => $config['culture'] ?? __('结构化知识图谱', 'linked3'),
+            'platform' => __('9:16竖版无UI长图', 'linked3'),
             'density' => $config['density'] ?? 'deep',
         ];
     }
@@ -132,13 +132,13 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         return [
             'arc' => $arc,
             'dialogue' => [
-                'main_title' => $config['main_title'] ?? "《{$config['brand']}全景图谱》",
-                'top_left' => "ID: " . ($config['id'] ?? 'DIAGRAM_001') . " | 出品: " . ($config['publisher'] ?? 'Linked3'),
-                'top_right' => "S00 | 01/01 | " . ucfirst($config['density'] ?? 'deep') . "版",
+                'main_title' => $config['main_title'] ?? __("《{$config['brand']}全景图谱》", 'linked3'),
+                'top_left' => "ID: " . ($config['id'] ?? 'DIAGRAM_001') . __(" | 出品: ", 'linked3') . ($config['publisher'] ?? 'Linked3'),
+                'top_right' => "S00 | 01/01 | " . ucfirst($config['density'] ?? 'deep') . __("版", 'linked3'),
             ],
             'emotion_map' => $config['emotion_map'] ?? [
-                'band1' => '稳重·基础', 'band2' => '活力·执行',
-                'band3' => '深度·框架', 'band4' => '成就·结果', 'endpoint' => '闭环·飞轮',
+                'band1' => __('稳重·基础', 'linked3'), 'band2' => __('活力·执行', 'linked3'),
+                'band3' => __('深度·框架', 'linked3'), 'band4' => __('成就·结果', 'linked3'), 'endpoint' => __('闭环·飞轮', 'linked3'),
             ],
             'transition' => 'THICK GRAY SPINE lines connect bands. THIN GRAY ARROWS connect modules. LONG DASHED LINE from endpoint back to ID, forming giant closed loop.',
             'pacing' => 'extremely dense, like textbook page. NOT a slide.',
@@ -150,22 +150,22 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
 
     private function buildValidationLayer(array $config): array {
         return [
-            'visual' => ['ratio' => '9:16竖版', 'border' => '细线圆角边框0.75pt', 'padding' => '内边距15%', 'bg_tint' => '极淡底色'],
-            'text_embed' => ['keyword_length' => '2-6字', 'golden_length' => '4字占比≥60%', 'font_ratio' => '4:3:2:1.5', 'min_font_size' => '18pt', 'image_text_ratio' => '6:4'],
-            'system' => ['color_restraint' => '主色灰+强调色克制', 'badge_distinct' => '9徽章色互不相同', 'endpoint_visible' => '右下角终点清晰', 'dashboard_quality' => '咨询级看板质感'],
-            'vertical_16char' => '竖屏构图·大图少字·内容浅显易懂·视觉引导',
-            'depth_3layer' => '每模块3层: 模块标题→子主题(2-4个)→细节项(每子主题2-3个)',
-            'anchor_4layer' => '每子主题选1代表细节, 增Case+Metric+Action 3锚点',
-            'diagram_16type' => '16种图示按决策树匹配',
-            'endpoint_6type' => '6种Endpoint按决策树匹配',
-            'footer_4type' => '4种Footer按案例性质选择',
-            'followup_4type' => '4种追问按案例性质选择',
-            'relationship_6code' => '6种关系编码, 最多9条, 每模块≤2条',
-            'cognitive_6level' => '6级标注[R][U][A][An][E][C], 4Band默认映射',
-            'density_4level' => '4档可选: 极简/标准/深度/极致',
+            'visual' => ['ratio' => __('9:16竖版', 'linked3'), 'border' => __('细线圆角边框0.75pt', 'linked3'), 'padding' => __('内边距15%', 'linked3'), 'bg_tint' => __('极淡底色', 'linked3')],
+            'text_embed' => ['keyword_length' => __('2-6字', 'linked3'), 'golden_length' => __('4字占比≥60%', 'linked3'), 'font_ratio' => '4:3:2:1.5', 'min_font_size' => '18pt', 'image_text_ratio' => '6:4'],
+            'system' => ['color_restraint' => __('主色灰+强调色克制', 'linked3'), 'badge_distinct' => __('9徽章色互不相同', 'linked3'), 'endpoint_visible' => __('右下角终点清晰', 'linked3'), 'dashboard_quality' => __('咨询级看板质感', 'linked3')],
+            'vertical_16char' => __('竖屏构图·大图少字·内容浅显易懂·视觉引导', 'linked3'),
+            'depth_3layer' => __('每模块3层: 模块标题→子主题(2-4个)→细节项(每子主题2-3个)', 'linked3'),
+            'anchor_4layer' => __('每子主题选1代表细节, 增Case+Metric+Action 3锚点', 'linked3'),
+            'diagram_16type' => __('16种图示按决策树匹配', 'linked3'),
+            'endpoint_6type' => __('6种Endpoint按决策树匹配', 'linked3'),
+            'footer_4type' => __('4种Footer按案例性质选择', 'linked3'),
+            'followup_4type' => __('4种追问按案例性质选择', 'linked3'),
+            'relationship_6code' => __('6种关系编码, 最多9条, 每模块≤2条', 'linked3'),
+            'cognitive_6level' => __('6级标注[R][U][A][An][E][C], 4Band默认映射', 'linked3'),
+            'density_4level' => __('4档可选: 极简/标准/深度/极致', 'linked3'),
             // v18复审 [公理α: H↓ 消除"视觉频率缺失"不确定性] [公理β: dim↓ 第9维度统一校验]
             // 第9维度·视觉频率校验: [HF]高频/[MF]中频/[LF]低频 三层递进分布 + 色彩映射
-            'visual_frequency_9th' => '第9维度: 视觉频率三层递进 [HF]高频锚点(前1/3画面密集)→[MF]中频叙事(中段支撑)→[LF]低频氛围(底部收束), 色彩映射 HF暖亮/MF中性/LF冷暗, 禁止全频均匀分布',
+            'visual_frequency_9th' => __('第9维度: 视觉频率三层递进 [HF]高频锚点(前1/3画面密集)→[MF]中频叙事(中段支撑)→[LF]低频氛围(底部收束), 色彩映射 HF暖亮/MF中性/LF冷暗, 禁止全频均匀分布', 'linked3'),
         ];
     }
 
@@ -190,9 +190,9 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $prompt .= "[Title: " . $script['dialogue']['main_title'] . "]\n";
         $prompt .= "[META:diagram_master_template]\n";
         $prompt .= "Brand:{$meta['brand']} | Signature:" . self::SIGNATURE . " | ";
-        $prompt .= "Color:#F8F8FF(底)+#2F4F4F(全局主色)+9大模块专属强调色 | ";
+        $prompt .= __("Color:#F8F8FF(底)+#2F4F4F(全局主色)+9大模块专属强调色 | ", 'linked3');
         $prompt .= "Mood:{$meta['mood']} | Culture:{$meta['culture']} | ";
-        $prompt .= "Platform:9:16竖版无UI长图 | Density:" . ucfirst($meta['density']) . "版\n\n";
+        $prompt .= __("Platform:9:16竖版无UI长图 | Density:", 'linked3') . ucfirst($meta['density']) . __("版\n\n", 'linked3');
         $prompt .= "# Script: " . ($config['english_title'] ?? 'System Architecture Map') . "\n";
         $prompt .= "Arc: {$script['arc']}\n";
         $prompt .= "Main Title: \"{$script['dialogue']['main_title']}\"\n\n";
@@ -269,7 +269,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
             return $footer ? "Footer: \"{$footer}\".\n" : '';
         }
         $epType = $endpoint['type'] ?? 'Flywheel';
-        $epQuestion = $endpoint['question'] ?? '飞轮：4个齿轮如何互相加速？';
+        $epQuestion = $endpoint['question'] ?? __('飞轮：4个齿轮如何互相加速？', 'linked3');
         $epMilestones = $endpoint['milestones'] ?? ['阶段1', '阶段2', '阶段3', '阶段4'];
         $prompt = "# Endpoint & Footer\n";
         $prompt .= "Endpoint Type: {$epType}. Visual: " . $this->getEndpointVisual($epType) . ".\n";
@@ -301,12 +301,12 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $prompt .= "LONG DASHED LINE from " . ($endpoint['type'] ?? 'flywheel') . " back to ID, forming giant closed loop. ";
         $prompt .= "Professional, dense, hierarchically clear content marketing infographic.\n";
 
-        $prompt .= "\n# Validation (13维汇总)\n";
-        $prompt .= "视觉/咬合/系统/竖屏: 9:16竖版" . count($bands) . "带状切片，细线圆角边框0.75pt，图文咬合严格嵌入，主色灰+强调色克制，字号比4:3:2:1.5。\n";
-        $prompt .= "深度/锚点/图示/Endpoint: 4层(模块->子主题->细节->锚点)，16种图示按决策树匹配，Endpoint=" . ($endpoint['type'] ?? 'Flywheel') . "。\n";
+        $prompt .= __("\n# Validation (13维汇总)\n", 'linked3');
+        $prompt .= __("视觉/咬合/系统/竖屏: 9:16竖版", 'linked3') . count($bands) . __("带状切片，细线圆角边框0.75pt，图文咬合严格嵌入，主色灰+强调色克制，字号比4:3:2:1.5。\n", 'linked3');
+        $prompt .= __("深度/锚点/图示/Endpoint: 4层(模块->子主题->细节->锚点)，16种图示按决策树匹配，Endpoint=", 'linked3') . ($endpoint['type'] ?? 'Flywheel') . __("。\n", 'linked3');
         $prompt .= "Footer/追问/关系/认知/密度: Footer=" . ($config['footer_type'] ?? '公式型') . "，追问=" . ($config['followup_type'] ?? '预测型') . "，";
-        $prompt .= count($config['relationships'] ?? []) . "条关系，认知6级[R][A][U][An][E][C]，Density=" . ucfirst($meta['density']) . "版。\n";
-        $prompt .= "视觉频率(第9维度): [HF]高频锚点前1/3密集→[MF]中频叙事中段支撑→[LF]低频氛围底部收束, 色彩HF暖亮/MF中性/LF冷暗, 禁止全频均匀分布。\n";
+        $prompt .= count($config['relationships'] ?? []) . __("条关系，认知6级[R][A][U][An][E][C]，Density=", 'linked3') . ucfirst($meta['density']) . __("版。\n", 'linked3');
+        $prompt .= __("视觉频率(第9维度): [HF]高频锚点前1/3密集→[MF]中频叙事中段支撑→[LF]低频氛围底部收束, 色彩HF暖亮/MF中性/LF冷暗, 禁止全频均匀分布。\n", 'linked3');
         return $prompt;
     }
 
@@ -341,7 +341,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         $this->validateRelationships($diagram, $issues, $score);
 
         return [
-            'passed' => $score >= 70 && empty(array_filter($issues, fn($i) => strpos($i, '不足') !== false)),
+            'passed' => $score >= 70 && empty(array_filter($issues, fn($i) => strpos($i, __('不足', 'linked3')) !== false)),
             'score' => max(0, $score),
             'issues' => $issues,
         ];
@@ -349,7 +349,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
 
     private function validateBandCount(array $diagram, array &$issues, int &$score): void {
         if (!isset($diagram['bands']) || count($diagram['bands']) < 3) {
-            $issues[] = 'Band数量不足(最少3个)';
+            $issues[] = __('Band数量不足(最少3个)', 'linked3');
             $score -= 20;
         }
     }
@@ -358,12 +358,12 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
         foreach ($diagram['bands'] ?? [] as $band) {
             foreach ($band['modules'] ?? [] as $module) {
                 if (!isset($module['sub_topics']) || count($module['sub_topics']) < 2) {
-                    $issues[] = "模块{$module['title']}子主题不足(最少2个)";
+                    $issues[] = __("模块{$module['title']}子主题不足(最少2个)", 'linked3');
                     $score -= 5;
                 }
                 foreach ($module['sub_topics'] ?? [] as $subTopic) {
                     if (!isset($subTopic['details']) || count($subTopic['details']) < 2) {
-                        $issues[] = "子主题{$subTopic['title']}细节项不足(最少2个)";
+                        $issues[] = __("子主题{$subTopic['title']}细节项不足(最少2个)", 'linked3');
                         $score -= 3;
                     }
                 }
@@ -378,7 +378,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
                 foreach ($module['text_embedded'] as $text) {
                     $len = mb_strlen($text);
                     if ($len < 2 || $len > 6) {
-                        $issues[] = "嵌入文字\"{$text}\"长度{$len}不在2-6字范围";
+                        $issues[] = __("嵌入文字\"{$text}\"长度{$len}不在2-6字范围", 'linked3');
                         $score -= 2;
                     }
                 }
@@ -394,14 +394,14 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
             }
         }
         if (count($badgeNums) !== count(array_unique($badgeNums))) {
-            $issues[] = '徽章编号有重复';
+            $issues[] = __('徽章编号有重复', 'linked3');
             $score -= 10;
         }
     }
 
     private function validateEndpoint(array $diagram, array &$issues, int &$score): void {
         if (!isset($diagram['endpoint']['type'])) {
-            $issues[] = 'Endpoint类型缺失';
+            $issues[] = __('Endpoint类型缺失', 'linked3');
             $score -= 10;
         }
     }
@@ -409,7 +409,7 @@ class DiagramMasterTemplate implements DiagramMasterTemplateInterface {
     private function validateRelationships(array $diagram, array &$issues, int &$score): void {
         $relCount = count($diagram['relationships'] ?? []);
         if ($relCount > 9) {
-            $issues[] = "关系线{$relCount}条超过上限9条";
+            $issues[] = __("关系线{$relCount}条超过上限9条", 'linked3');
             $score -= 5;
         }
     }

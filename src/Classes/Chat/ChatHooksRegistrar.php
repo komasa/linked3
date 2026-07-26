@@ -14,7 +14,8 @@ if (!defined('ABSPATH')) exit;
 
 final class ChatHooksRegistrar
 {
-    public static function register() : void
+    public /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
+    static function register() : void
     {
         // AJAX actions.
         add_action('wp_ajax_linked3_chat_send', [new Ajax\Actions\ChatSendAction(), 'dispatch']);

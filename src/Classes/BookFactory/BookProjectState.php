@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\BookFactory;
 
+use Linked3\Includes\Log\Logger;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class BookProjectState {
@@ -185,7 +187,7 @@ class BookProjectState {
      *
      * @return self
      */
-    public function save_state() : mixed {
+    public function save_state() : static {
         $this->state['updated_at'] = current_time( 'mysql' );
 
         // v18.10.3: 序列化state, 检查大小
@@ -227,7 +229,7 @@ class BookProjectState {
         } catch ( \RuntimeException $e ) {
             // 原子写入失败时记录日志，但不中断流程（transient 已写入）。
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( '[BookFactory] 状态文件原子写入失败: ' . $e->getMessage() );
+                Logger::instance()->error('ai',  '[BookFactory] 状态文件原子写入失败: ' . $e->getMessage() );
             }
         }
 

@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) exit;
 
 class DashboardChartActions extends DashboardBaseAjaxAction
 {
+    /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
     static function register(): void {
         add_action('wp_ajax_linked3_chart_outline', [__CLASS__, 'chart_outline']);
         add_action('wp_ajax_linked3_chart_segment', [__CLASS__, 'chart_segment']);

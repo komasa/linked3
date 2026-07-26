@@ -30,9 +30,9 @@ class CompositeQualityGauntlet implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'C' => ['name' => '批判', 'mission' => '找逻辑漏洞+事实错误', 'lever' => 'meta_critique'],
-            'P' => ['name' => '压力测试', 'mission' => '极端场景+边界条件', 'lever' => 'meta_stress_test'],
-            'SC' => ['name' => '校准', 'mission' => '自我评分+置信度', 'lever' => 'meta_self_calibration'],
+            'C' => ['name' => __('批判', 'linked3'), 'mission' => __('找逻辑漏洞+事实错误', 'linked3'), 'lever' => 'meta_critique'],
+            'P' => ['name' => __('压力测试', 'linked3'), 'mission' => __('极端场景+边界条件', 'linked3'), 'lever' => 'meta_stress_test'],
+            'SC' => ['name' => __('校准', 'linked3'), 'mission' => __('自我评分+置信度', 'linked3'), 'lever' => 'meta_self_calibration'],
         ];
     }
 

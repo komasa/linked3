@@ -25,12 +25,12 @@ class DiagramSeedCheck {
     private function checkVisualDNA(array $seed, array $gen): array {
         $vd = $seed['visual_dna'] ?? [];
         $passed = !empty($vd['face']) && !empty($vd['costume']);
-        return ['passed' => $passed, 'msg' => $passed ? 'OK' : 'VisualDNA不完整'];
+        return ['passed' => $passed, 'msg' => $passed ? 'OK' : __('VisualDNA不完整', 'linked3')];
     }
     private function checkPersonality(array $seed, array $gen): array {
         $pd = $seed['personality_dna'] ?? [];
         $passed = !empty($pd['personality']);
-        return ['passed' => $passed, 'msg' => $passed ? 'OK' : '性格DNA缺失'];
+        return ['passed' => $passed, 'msg' => $passed ? 'OK' : __('性格DNA缺失', 'linked3')];
     }
     private function checkPriority(array $seed, array $gen): array {
         $locker = new DiagramSeedLock();
@@ -41,11 +41,11 @@ class DiagramSeedCheck {
     private function checkLock(array $seed, array $gen): array {
         $lock = $seed['lock'] ?? [];
         $passed = ($lock['character_lock'] ?? false) && ($lock['personality_lock'] ?? false);
-        return ['passed' => $passed, 'msg' => $passed ? 'OK' : '锁定未启用'];
+        return ['passed' => $passed, 'msg' => $passed ? 'OK' : __('锁定未启用', 'linked3')];
     }
     private function checkConsistency(array $seed, array $gen): array {
         $passed = true; // 简化
-        return ['passed' => $passed, 'msg' => '一致性检查通过'];
+        return ['passed' => $passed, 'msg' => __('一致性检查通过', 'linked3')];
     }
 }
 

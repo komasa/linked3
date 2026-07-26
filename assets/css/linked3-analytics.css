@@ -1,0 +1,90 @@
+/**
+ * Linked3 Dashboard Analytics CSS
+ * Dashboard overview, stats, billing, logs
+ */
+
+/* === Dashboard Overview === */
+.l3-overview-hero {
+  background: linear-gradient(135deg, var(--l3-primary) 0%, var(--l3-primary-dark) 100%);
+  color: #fff; padding: 32px; border-radius: var(--l3-radius-lg);
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+}
+.l3-overview-hero h2 { margin: 0 0 8px; font-size: 24px; }
+.l3-overview-hero p { margin: 0; opacity: 0.9; }
+.l3-overview-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+@media (max-width: 782px) { .l3-overview-stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* === Usage Chart === */
+.l3-usage-chart {
+  background: var(--l3-surface); border-radius: var(--l3-radius);
+  padding: 20px; box-shadow: var(--l3-shadow-sm);
+}
+.l3-usage-chart-header { display: flex; justify-content: space-between; margin-bottom: 16px; }
+.l3-usage-chart-title { font-size: 16px; font-weight: 600; }
+.l3-usage-chart-body { height: 200px; position: relative; }
+
+/* === Billing === */
+.l3-billing-plan {
+  border: 2px solid var(--l3-border); border-radius: var(--l3-radius-lg);
+  padding: 24px; text-align: center;
+}
+.l3-billing-plan.current { border-color: var(--l3-primary); }
+.l3-billing-plan-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.l3-billing-plan-price { font-size: 32px; font-weight: 700; color: var(--l3-primary); }
+.l3-billing-plan-period { font-size: 14px; color: var(--l3-text-muted); }
+.l3-billing-features { list-style: none; padding: 0; margin: 16px 0; text-align: left; }
+.l3-billing-features li { padding: 6px 0; font-size: 14px; }
+.l3-billing-features li::before { content: '✓'; color: var(--l3-success); margin-right: 8px; }
+
+/* === Activity Log === */
+.l3-log-container {
+  background: var(--l3-surface); border: 1px solid var(--l3-border);
+  border-radius: var(--l3-radius); overflow: hidden;
+}
+.l3-log-entry {
+  display: flex; gap: 12px; padding: 12px 16px;
+  border-bottom: 1px solid var(--l3-border); font-size: 13px;
+}
+.l3-log-entry:last-child { border-bottom: none; }
+.l3-log-time { color: var(--l3-text-muted); flex-shrink: 0; width: 120px; }
+.l3-log-level { font-weight: 600; width: 60px; flex-shrink: 0; }
+.l3-log-level.info { color: var(--l3-primary); }
+.l3-log-level.success { color: var(--l3-success); }
+.l3-log-level.warning { color: var(--l3-warning); }
+.l3-log-level.error { color: var(--l3-danger); }
+.l3-log-message { flex: 1; color: var(--l3-text); }
+
+/* === License Status === */
+.l3-license-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px; border-radius: var(--l3-radius);
+  background: var(--l3-surface); box-shadow: var(--l3-shadow-sm);
+}
+.l3-license-icon { font-size: 40px; }
+.l3-license-info { flex: 1; }
+.l3-license-key { font-family: monospace; font-size: 14px; color: var(--l3-text-muted); }
+.l3-license-status { display: inline-block; }
+
+/* === OS/Cognitive === */
+.l3-cognitive-state {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;
+}
+.l3-cognitive-card {
+  text-align: center; padding: 16px;
+  border: 1px solid var(--l3-border); border-radius: var(--l3-radius-sm);
+}
+.l3-cognitive-value { font-size: 24px; font-weight: 700; color: var(--l3-primary); }
+.l3-cognitive-label { font-size: 12px; color: var(--l3-text-muted); margin-top: 4px; }
+
+/* === Vector Search === */
+.l3-search-bar {
+  display: flex; gap: 8px; margin-bottom: 16px;
+}
+.l3-search-bar .l3-input { flex: 1; }
+.l3-search-results { display: flex; flex-direction: column; gap: 8px; }
+.l3-search-result {
+  padding: 12px; border: 1px solid var(--l3-border);
+  border-radius: var(--l3-radius-sm); cursor: pointer; transition: border-color 0.2s;
+}
+.l3-search-result:hover { border-color: var(--l3-primary); }
+.l3-search-score { float: right; font-size: 12px; color: var(--l3-text-muted); }

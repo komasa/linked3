@@ -79,7 +79,7 @@ final class PushManager
      * @param string|null $engine  Specific engine slug, or null = all configured.
      * @return array<string,array{ok:bool,code:int,pushed:int,message:string}>
      */
-    public function push_url(string $url, ?string $engine = null) : array {
+    public function push_url(string $url, ?string $engine = null) : mixed {
         $url = esc_url_raw($url);
         if ($url === '') {
             return [];
@@ -97,7 +97,7 @@ final class PushManager
      * @param string|null $engine
      * @return array<string,array{ok:bool,code:int,pushed:int,message:string}>
      */
-    public function push_batch(array $urls, ?string $engine = null) : array     {
+    public function push_batch(array $urls, ?string $engine = null) : mixed     {
         $urls = array_values(array_filter(array_map('esc_url_raw', $urls)));
         if (empty($urls)) {
             return [];

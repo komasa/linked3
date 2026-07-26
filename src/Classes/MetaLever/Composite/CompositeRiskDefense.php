@@ -35,11 +35,11 @@ class CompositeRiskDefense implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'R1' => ['name' => '压力测试部', 'mission' => '破坏性检验+二阶效应+反常识验证', 'lever' => 'meta_stress_test', 'kpi' => '识别≥3个失效点'],
-            'R2' => ['name' => '因果推断部', 'mission' => '因果模型构建+反事实推理+混淆变量识别', 'lever' => 'meta_causal', 'kpi' => '识别≥2个伪因果'],
-            'R3' => ['name' => '博弈对抗部', 'mission' => '博弈树构建+纳什均衡+对手最优策略推演', 'lever' => 'meta_game', 'kpi' => '推演≥2个对手策略'],
-            'R4' => ['name' => '伦理审查部', 'mission' => '伦理边界检验+价值冲突+预防性原则', 'lever' => 'meta_ethics', 'kpi' => '识别≥1个伦理风险'],
-            'R5' => ['name' => '自我校准部', 'mission' => '偏差检测+置信度校准+纠偏方案', 'lever' => 'meta_self_calibration', 'kpi' => '校准≥2个偏差'],
+            'R1' => ['name' => __('压力测试部', 'linked3'), 'mission' => __('破坏性检验+二阶效应+反常识验证', 'linked3'), 'lever' => 'meta_stress_test', 'kpi' => __('识别≥3个失效点', 'linked3')],
+            'R2' => ['name' => __('因果推断部', 'linked3'), 'mission' => __('因果模型构建+反事实推理+混淆变量识别', 'linked3'), 'lever' => 'meta_causal', 'kpi' => __('识别≥2个伪因果', 'linked3')],
+            'R3' => ['name' => __('博弈对抗部', 'linked3'), 'mission' => __('博弈树构建+纳什均衡+对手最优策略推演', 'linked3'), 'lever' => 'meta_game', 'kpi' => __('推演≥2个对手策略', 'linked3')],
+            'R4' => ['name' => __('伦理审查部', 'linked3'), 'mission' => __('伦理边界检验+价值冲突+预防性原则', 'linked3'), 'lever' => 'meta_ethics', 'kpi' => __('识别≥1个伦理风险', 'linked3')],
+            'R5' => ['name' => __('自我校准部', 'linked3'), 'mission' => __('偏差检测+置信度校准+纠偏方案', 'linked3'), 'lever' => 'meta_self_calibration', 'kpi' => __('校准≥2个偏差', 'linked3')],
         ];
     }
 

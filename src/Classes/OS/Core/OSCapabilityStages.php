@@ -43,36 +43,36 @@ class OSCapabilityStages {
     const THREE_STAGES = [
         'stage_1' => [
             'key' => 'stage_1',
-            'label' => '一阶·时空意识',
+            'label' => __('一阶·时空意识', 'linked3'),
             'label_en' => 'spacetime_consciousness',
-            'cognition_method' => '归纳法',
-            'civilization' => '农业文明',
-            'knowledge_form' => '经验',
-            'hardware' => '眼耳鼻舌身',
+            'cognition_method' => __('归纳法', 'linked3'),
+            'civilization' => __('农业文明', 'linked3'),
+            'knowledge_form' => __('经验', 'linked3'),
+            'hardware' => __('眼耳鼻舌身', 'linked3'),
             'cognitive_level' => 'R',
-            'level_label' => '入门读者',
+            'level_label' => __('入门读者', 'linked3'),
         ],
         'stage_2' => [
             'key' => 'stage_2',
-            'label' => '二阶·逻辑意识',
+            'label' => __('二阶·逻辑意识', 'linked3'),
             'label_en' => 'logical_consciousness',
-            'cognition_method' => '演绎法',
-            'civilization' => '工业文明',
-            'knowledge_form' => '模型',
-            'hardware' => '前额叶',
+            'cognition_method' => __('演绎法', 'linked3'),
+            'civilization' => __('工业文明', 'linked3'),
+            'knowledge_form' => __('模型', 'linked3'),
+            'hardware' => __('前额叶', 'linked3'),
             'cognitive_level' => 'A',
-            'level_label' => '进阶读者',
+            'level_label' => __('进阶读者', 'linked3'),
         ],
         'stage_3' => [
             'key' => 'stage_3',
-            'label' => '三阶·纯粹意识',
+            'label' => __('三阶·纯粹意识', 'linked3'),
             'label_en' => 'pure_consciousness',
-            'cognition_method' => '灵感共振',
-            'civilization' => '智能文明',
-            'knowledge_form' => '理念',
-            'hardware' => '心灵',
+            'cognition_method' => __('灵感共振', 'linked3'),
+            'civilization' => __('智能文明', 'linked3'),
+            'knowledge_form' => __('理念', 'linked3'),
+            'hardware' => __('心灵', 'linked3'),
             'cognitive_level' => 'E',
-            'level_label' => '专家读者',
+            'level_label' => __('专家读者', 'linked3'),
         ],
     ];
 
@@ -145,7 +145,7 @@ class OSCapabilityStages {
         return [
             'module_version' => '12.8.0',
             'stages_count' => count(self::THREE_STAGES),
-            'source' => 'V18道篇2.5 能知三阶 + 李善友2026大课能知三阶模型',
+            'source' => __('V18道篇2.5 能知三阶 + 李善友2026大课能知三阶模型', 'linked3'),
         ];
     }
 }

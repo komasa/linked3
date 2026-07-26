@@ -32,11 +32,11 @@ class CompositeGenesis implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'FP' => ['name' => '溯源部', 'mission' => '假设前提皆伪，用双公理重构问题原点→输出[绝对信息核]', 'lever' => 'meta_essence', 'kpi' => '100%第一性对齐'],
-            'EX' => ['name' => '变异部', 'mission' => '假设方案空间无限，正交组合+跨域突变→生成[N代方案种群]', 'lever' => 'meta_creativity', 'kpi' => '单代方案≥10且含跨界'],
-            'C'  => ['name' => '绞杀部', 'mission' => '假设种群含致命缺陷，极限压力测试抹杀弱者→输出[生存者清单]', 'lever' => 'meta_critique', 'kpi' => '零致命缺陷存活'],
-            'O'  => ['name' => '降维部', 'mission' => '假设视角受限，脱离行业语境查幻觉→重构[隐性约束与边界]', 'lever' => 'meta_questioning', 'kpi' => '零盲区遗漏'],
-            'A'  => ['name' => '结晶部', 'mission' => '共识→演化体，计算适应度+锁定MVP+指定变异方向→输出[演化JSON]', 'lever' => 'meta_evaluation', 'kpi' => '按时按规交付'],
+            'FP' => ['name' => __('溯源部', 'linked3'), 'mission' => __('假设前提皆伪，用双公理重构问题原点→输出[绝对信息核]', 'linked3'), 'lever' => 'meta_essence', 'kpi' => __('100%第一性对齐', 'linked3')],
+            'EX' => ['name' => __('变异部', 'linked3'), 'mission' => __('假设方案空间无限，正交组合+跨域突变→生成[N代方案种群]', 'linked3'), 'lever' => 'meta_creativity', 'kpi' => __('单代方案≥10且含跨界', 'linked3')],
+            'C'  => ['name' => __('绞杀部', 'linked3'), 'mission' => __('假设种群含致命缺陷，极限压力测试抹杀弱者→输出[生存者清单]', 'linked3'), 'lever' => 'meta_critique', 'kpi' => __('零致命缺陷存活', 'linked3')],
+            'O'  => ['name' => __('降维部', 'linked3'), 'mission' => __('假设视角受限，脱离行业语境查幻觉→重构[隐性约束与边界]', 'linked3'), 'lever' => 'meta_questioning', 'kpi' => __('零盲区遗漏', 'linked3')],
+            'A'  => ['name' => __('结晶部', 'linked3'), 'mission' => __('共识→演化体，计算适应度+锁定MVP+指定变异方向→输出[演化JSON]', 'linked3'), 'lever' => 'meta_evaluation', 'kpi' => __('按时按规交付', 'linked3')],
         ];
     }
 
@@ -66,7 +66,7 @@ EX部|创新与扩张军|指挥官:EX
 
 C部|风控与质检局|指挥官:C
   编制:审查员(找茬)+破坏者(反例)+审计员(失败点)
-  使命:绞杀|假设种群含致命缺陷|极限压力测试抹杀弱者(风险>8或可行<4直接抹杀)→输出[生存者清单]
+  使命:绞杀|假设种群含致命缺陷|极限压力测试抹杀弱者(风险><?php echo esc_html__('8或可行', 'linked3'); ?><4直接抹杀)→输出[生存者清单]
   KPI:零致命缺陷存活 | 交付:低分项标红+绞杀否决书
 
 O部|盲区与用户观测站|指挥官:O

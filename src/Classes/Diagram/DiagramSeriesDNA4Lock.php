@@ -13,10 +13,10 @@ if (!defined('ABSPATH')) exit;
 
 class DiagramSeriesDNA4Lock {
     private array $locks = [
-        'layer1' => ['name' => 'META签名锁', 'field' => 'signature', 'lock_level' => 'Critical 100%'],
-        'layer2' => ['name' => '角标系统锁', 'field' => 'badge_system', 'lock_level' => 'Critical 100%'],
-        'layer3' => ['name' => '徽章色系锁', 'field' => 'badge_colors', 'lock_level' => 'Critical 100%'],
-        'layer4' => ['name' => '排版骨架锁', 'field' => 'layout_skeleton', 'lock_level' => 'Important >95%'],
+        'layer1' => ['name' => __('META签名锁', 'linked3'), 'field' => 'signature', 'lock_level' => 'Critical 100%'],
+        'layer2' => ['name' => __('角标系统锁', 'linked3'), 'field' => 'badge_system', 'lock_level' => 'Critical 100%'],
+        'layer3' => ['name' => __('徽章色系锁', 'linked3'), 'field' => 'badge_colors', 'lock_level' => 'Critical 100%'],
+        'layer4' => ['name' => __('排版骨架锁', 'linked3'), 'field' => 'layout_skeleton', 'lock_level' => 'Important >95%'],
     ];
 
     public function verifyLocks(array $lockedConfig, array $generated): array {

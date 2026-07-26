@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 namespace Linked3\Classes\Genesis;
+
+use Linked3\Includes\Log\Logger;
 if (!defined('ABSPATH')) exit;
 class ScriptPatchHandlers
 {
     public static function ajax_video_generate() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $inputs = self::parseVideoInputs();
         $script = $inputs['script'];
@@ -18,21 +20,21 @@ class ScriptPatchHandlers
         $motionAuto = $inputs['motionAuto'];
         $seedRefs = $inputs['seedRefs'];
 
-        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3-ai')]);
+        if (empty($script)) wp_send_json_error(['message' => __('请输入剧本', 'linked3')]);
 
         if ($styleId === 'auto' && class_exists('\Linked3\Classes\Genesis\GenesisPatchV1006')) {
             try {
                 $detected = \Linked3\Classes\Genesis\GenesisPatchV1006::auto_detect_style($script);
                 if (!empty($detected)) {
                     $styleId = $detected;
-                    error_log("[Linked3] auto_detect_style: script → {$styleId}");
+                    Logger::instance()->error('ai', "[Linked3] auto_detect_style: script → {$styleId}");
                 } else {
                     $styleId = 'cinematic_still'; // safe fallback
-                    error_log("[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
+                    Logger::instance()->warning('ai', "[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
                 }
             } catch (\Throwable $e) {
                 $styleId = 'cinematic_still'; // safe fallback
-                error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
+                Logger::instance()->warning('ai', "[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
             }
         }
 
@@ -61,7 +63,7 @@ class ScriptPatchHandlers
                 'mode' => 'v10_video',
             ]);
         } catch (\Throwable $e) {
-            wp_send_json_error(['message' => __('视频脚本生成失败: ', 'linked3-ai') . $e->getMessage()]);
+            wp_send_json_error(['message' => __('视频脚本生成失败: ', 'linked3') . $e->getMessage()]);
         }
     }
 
@@ -105,12 +107,12 @@ class ScriptPatchHandlers
     ): array {
         $beatText = is_array($beat) ? ($beat['text'] ?? '') : (string)$beat;
         $emotion = is_array($beat) ? ($beat['emotion'] ?? 'neutral') : 'neutral';
-        $arcPosition = is_array($beat) ? ($beat['arc_position'] ?? '发展') : '发展';
+        $arcPosition = is_array($beat) ? ($beat['arc_position'] ?? __('发展', 'linked3')) : __('发展', 'linked3');
 
         // FP提取语义核
         $fpCore = ['action_en' => 'a scene depicting daily life', 'who' => 'a figure', 'where' => '', 'emotion' => $emotion];
         if ($fpExtractor) {
-            try { $fpCore = $fpExtractor->extract($beatText, ['use_ai' => false]); } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            try { $fpCore = $fpExtractor->extract($beatText, ['use_ai' => false]); } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
 
         $firstFrame = ScriptPatchV1010::build_frame_prompt($fpCore, $styleKeywords, $styleNegative, $seedDna, 'first');
@@ -186,9 +188,9 @@ class ScriptPatchHandlers
     }
 
     public static function ajax_charts_generate() : void {
-        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+        if (!current_user_can('edit_posts')) wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
-        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+        if (!wp_verify_nonce($nonce, 'linked3_content_writer')) wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
 
         $inputs = self::parseChartsInputs();
         $topic = $inputs['topic'];
@@ -201,7 +203,7 @@ class ScriptPatchHandlers
         $infographicLayout = $inputs['infographicLayout'];
         $infographicStyle = $inputs['infographicStyle'];
 
-        if (empty($topic)) wp_send_json_error(['message' => __('请输入主题', 'linked3-ai')]);
+        if (empty($topic)) wp_send_json_error(['message' => __('请输入主题', 'linked3')]);
 
         [$cloudSource, $cloudPalette, $cloudTone] = self::loadCloudTemplate($cloudCategory);
 
@@ -210,14 +212,14 @@ class ScriptPatchHandlers
                 $detected = \Linked3\Classes\Genesis\GenesisPatchV1006::auto_detect_style($topic);
                 if (!empty($detected)) {
                     $styleId = $detected;
-                    error_log("[Linked3] auto_detect_style: topic → {$styleId}");
+                    Logger::instance()->error('ai', "[Linked3] auto_detect_style: topic → {$styleId}");
                 } else {
                     $styleId = 'cinematic_still'; // safe fallback
-                    error_log("[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
+                    Logger::instance()->warning('ai', "[Linked3] auto_detect_style: empty result, fallback to cinematic_still");
                 }
             } catch (\Throwable $e) {
                 $styleId = 'cinematic_still'; // safe fallback
-                error_log("[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
+                Logger::instance()->warning('ai', "[Linked3] auto_detect_style FAILED: " . $e->getMessage() . " — fallback to cinematic_still");
             }
         }
 
@@ -241,7 +243,7 @@ class ScriptPatchHandlers
                 'cloud_palette' => $cloudPalette,
             ]);
         } catch (\Throwable $e) {
-            wp_send_json_error(['message' => __('图文脚本生成失败: ', 'linked3-ai') . $e->getMessage()]);
+            wp_send_json_error(['message' => __('图文脚本生成失败: ', 'linked3') . $e->getMessage()]);
         }
     }
 
@@ -362,10 +364,10 @@ class ScriptPatchHandlers
     private static function buildSceneModules(int $moduleCount, string $topic, string $layoutDesc, string $styleDesc, string $styleKeywords, array $seedDna, string $infographicLayout, string $infographicStyle, string $platform, string $aspectRatio): array
     {
         $bandDefs = [
-            'Hook'  => ['desc' => '吸引注意, 大标题+冲击力画面', 'zone' => '顶部区域'],
-            'Body'  => ['desc' => '核心信息, 信息图谱+结构化', 'zone' => '中部区域'],
-            'Proof' => ['desc' => '信任背书, 数据/案例/对比',   'zone' => '下部区域'],
-            'CTA'   => ['desc' => '行动号召, 按钮引导+紧迫感',  'zone' => '底部区域'],
+            'Hook'  => ['desc' => __('吸引注意, 大标题+冲击力画面', 'linked3'), 'zone' => __('顶部区域', 'linked3')],
+            'Body'  => ['desc' => __('核心信息, 信息图谱+结构化', 'linked3'), 'zone' => __('中部区域', 'linked3')],
+            'Proof' => ['desc' => __('信任背书, 数据/案例/对比', 'linked3'),   'zone' => __('下部区域', 'linked3')],
+            'CTA'   => ['desc' => __('行动号召, 按钮引导+紧迫感', 'linked3'),  'zone' => __('底部区域', 'linked3')],
         ];
 
         $modules = [];

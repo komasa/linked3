@@ -44,21 +44,21 @@ class BookMetaMother {
 	 * 5大元规律。
 	 */
 	const META_LAWS = array(
-		'falsifiability' => '可证伪: 真理必须可被证伪，不可证伪的不是真理而是信仰',
-		'transmissibility' => '可传递: 真理必须可被传递，不可传递的不是真理而是直觉',
-		'embodiment' => '可具现: 真理必须可被具现，不可具现的不是真理而是空想',
-		'evolvability' => '可进化: 真理必须可被进化，不可进化的不是真理而是教条',
-		'protectability' => '可守护: 真理必须可被守护，不可守护的不是真理而是流言',
+		'falsifiability' => __('可证伪: 真理必须可被证伪，不可证伪的不是真理而是信仰', 'linked3'),
+		'transmissibility' => __('可传递: 真理必须可被传递，不可传递的不是真理而是直觉', 'linked3'),
+		'embodiment' => __('可具现: 真理必须可被具现，不可具现的不是真理而是空想', 'linked3'),
+		'evolvability' => __('可进化: 真理必须可被进化，不可进化的不是真理而是教条', 'linked3'),
+		'protectability' => __('可守护: 真理必须可被守护，不可守护的不是真理而是流言', 'linked3'),
 	);
 
 	/**
 	 * 4阶元流程。
 	 */
 	const META_STAGES = array(
-		'stage1_classify' => '探索方式分类',
-		'stage2_generate' => '系统原型生成',
-		'stage3_extract'  => '元规律提炼',
-		'stage4_create'   => '新系统创造',
+		'stage1_classify' => __('探索方式分类', 'linked3'),
+		'stage2_generate' => __('系统原型生成', 'linked3'),
+		'stage3_extract'  => __('元规律提炼', 'linked3'),
+		'stage4_create'   => __('新系统创造', 'linked3'),
 	);
 
 	/**
@@ -94,7 +94,7 @@ class BookMetaMother {
 			$prototype_list[] = "- {$key}: {$proto['name']} — {$proto['description']}";
 		}
 
-		$prompt = "你是真理探索系统元母体的第一阶·探索方式分类引擎。\n\n";
+		$prompt = __('你是真理探索系统元母体的第一阶·探索方式分类引擎。\n\n', 'linked3');
 		$prompt .= "## 任务\n";
 		$prompt .= "根据用户的探索意图，从以下9大探索原型中推荐最佳探索方式。\n\n";
 		$prompt .= "## 9大探索原型\n";
@@ -145,7 +145,7 @@ class BookMetaMother {
 			$laws_text[] = "- {$key}: {$desc}";
 		}
 
-		$prompt = "你是真理探索系统元母体的第三阶·元规律提炼引擎。\n\n";
+		$prompt = __('你是真理探索系统元母体的第三阶·元规律提炼引擎。\n\n', 'linked3');
 		$prompt .= "## 任务\n";
 		$prompt .= "评估以下探索结果是否符合5大元规律，给出合规性评分。\n\n";
 		$prompt .= "## 5大元规律\n";
@@ -179,7 +179,7 @@ class BookMetaMother {
 			return array(
 				'laws'          => array(),
 				'overall_score' => 0,
-				'suggestions'   => '元规律提炼失败，请手动评估',
+				'suggestions'   => __('元规律提炼失败，请手动评估', 'linked3'),
 			);
 		}
 
@@ -198,7 +198,7 @@ class BookMetaMother {
 			return new WP_Error( 'empty_name', '系统名称不能为空' );
 		}
 
-		$prompt = "你是真理探索系统元母体的第四阶·新系统创造引擎。\n\n";
+		$prompt = __('你是真理探索系统元母体的第四阶·新系统创造引擎。\n\n', 'linked3');
 		$prompt .= "## 任务\n";
 		$prompt .= "按六步创造法生成新的真理探索系统。\n\n";
 		$prompt .= "## 六步创造法\n";
@@ -238,7 +238,7 @@ class BookMetaMother {
 		if ( is_wp_error( $parsed ) ) {
 			return array(
 				'system_name'  => $system_name,
-				'description'  => '新系统创造失败，请手动设计',
+				'description'  => __('新系统创造失败，请手动设计', 'linked3'),
 				'raw_response' => $response['content'],
 			);
 		}
@@ -310,7 +310,7 @@ class BookMetaMother {
 			return array(
 				'recommended'   => 'book',
 				'alternatives'  => array( 'deductive', 'synthetic' ),
-				'reasoning'     => '未匹配到明确关键词，默认推荐写书式探索',
+				'reasoning'     => __('未匹配到明确关键词，默认推荐写书式探索', 'linked3'),
 				'custom_params' => array(),
 				'fallback'      => true,
 			);

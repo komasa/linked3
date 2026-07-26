@@ -48,7 +48,7 @@ final class CollectSourceRepository extends BaseRepository
                 'keywords_include', 'keywords_exclude', 'status', 'last_fetched'];
     }
 
-    public function all_for_user($user_id) : array {
+    public function all_for_user($user_id) : mixed {
         global $wpdb;
         $table = $this->get_table();
         $rows = $wpdb->get_results($wpdb->prepare(
@@ -64,7 +64,7 @@ final class CollectSourceRepository extends BaseRepository
         return $rows;
     }
 
-    public function get($id, $user_id) : null     {
+    public function get($id, $user_id) : mixed     {
         global $wpdb;
         $table = $this->get_table();
         $row = $wpdb->get_row($wpdb->prepare(
@@ -78,7 +78,7 @@ final class CollectSourceRepository extends BaseRepository
         return $row;
     }
 
-    public function create(array $data) : WP_Error {
+    public function create(array $data) : mixed {
         $clean = [
             'user_id'           => (int) ($data['user_id'] ?? get_current_user_id()),
             'type'              => sanitize_text_field($data['type'] ?? 'rss'),

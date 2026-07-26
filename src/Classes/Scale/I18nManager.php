@@ -16,8 +16,8 @@ class I18nManager {
     private array $translations = [];
     private string $locale = 'zh_CN';
     private array $supported = [
-        'zh_CN' => '简体中文', 'zh_TW' => '繁體中文', 'en_US' => 'English',
-        'ja_JP' => '日本語', 'ko_KR' => '한국어',
+        'zh_CN' => __('简体中文', 'linked3'), 'zh_TW' => __('繁體中文', 'linked3'), 'en_US' => 'English',
+        'ja_JP' => __('日本語', 'linked3'), 'ko_KR' => '한국어',
     ];
 
     public static function instance(): I18nManager {

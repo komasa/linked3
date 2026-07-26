@@ -13,9 +13,9 @@ class CompositeSeedRecombinator implements CompositeLeverInterface
     public function orchestrated_levers(): array { return ['meta_pattern', 'meta_recursion', 'meta_paradigm']; }
     public function departments(): array {
         return [
-            'PAT' => ['name' => '模式提取', 'mission' => '从成功SEED中提取可迁移模式', 'lever' => 'meta_pattern'],
-            'REC' => ['name' => '递归验证', 'mission' => '递归验证模式在不同层级的有效性', 'lever' => 'meta_recursion'],
-            'PAR' => ['name' => '范式转换', 'mission' => '将验证后的模式做范式级转换', 'lever' => 'meta_paradigm'],
+            'PAT' => ['name' => __('模式提取', 'linked3'), 'mission' => __('从成功SEED中提取可迁移模式', 'linked3'), 'lever' => 'meta_pattern'],
+            'REC' => ['name' => __('递归验证', 'linked3'), 'mission' => __('递归验证模式在不同层级的有效性', 'linked3'), 'lever' => 'meta_recursion'],
+            'PAR' => ['name' => __('范式转换', 'linked3'), 'mission' => __('将验证后的模式做范式级转换', 'linked3'), 'lever' => 'meta_paradigm'],
         ];
     }
     public function system_prompt(): string {

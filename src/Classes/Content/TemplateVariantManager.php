@@ -70,34 +70,34 @@ class TemplateVariantManager {
      */
     private function get_industry_overrides(string $category, string $industry): array {
         $industry_labels = [
-            'ecommerce' => '电商', 'education' => '教育',
-            'tech' => '科技', 'medical' => '医疗',
+            'ecommerce' => __('电商', 'linked3'), 'education' => __('教育', 'linked3'),
+            'tech' => __('科技', 'linked3'), 'medical' => __('医疗', 'linked3'),
         ];
 
         // 行业 × 角色调性矩阵
         $industry_profiles = [
             'ecommerce' => [
-                'role_suffix' => '（电商转化导向）',
+                'role_suffix' => __('（电商转化导向）', 'linked3'),
                 'goals_extra' => ['转化引导', '信任建立', '购买决策'],
-                'style' => '热情专业',
+                'style' => __('热情专业', 'linked3'),
                 'limit_extra' => ['含CTA', '突出卖点', '价格敏感度标注'],
             ],
             'education' => [
-                'role_suffix' => '（知识教学导向）',
+                'role_suffix' => __('（知识教学导向）', 'linked3'),
                 'goals_extra' => ['知识传递', '循序渐进', '练习巩固'],
-                'style' => '清晰耐心',
+                'style' => __('清晰耐心', 'linked3'),
                 'limit_extra' => ['含示例', '难度递进', '知识点标注'],
             ],
             'tech' => [
-                'role_suffix' => '（技术深度导向）',
+                'role_suffix' => __('（技术深度导向）', 'linked3'),
                 'goals_extra' => ['原理剖析', '最佳实践', '避坑指南'],
-                'style' => '严谨极客',
+                'style' => __('严谨极客', 'linked3'),
                 'limit_extra' => ['含代码', '版本标注', '性能考量'],
             ],
             'medical' => [
-                'role_suffix' => '（循证合规导向）',
+                'role_suffix' => __('（循证合规导向）', 'linked3'),
                 'goals_extra' => ['循证依据', '风险提示', '合规免责'],
-                'style' => '严谨客观',
+                'style' => __('严谨客观', 'linked3'),
                 'limit_extra' => ['含文献', '免责声明', '非诊断提示'],
             ],
         ];
@@ -126,11 +126,11 @@ class TemplateVariantManager {
      */
     public function get_industries(): array {
         return [
-            'general'   => ['label' => '通用', 'icon' => '📋'],
-            'ecommerce' => ['label' => '电商', 'icon' => '🛒'],
-            'education' => ['label' => '教育', 'icon' => '📚'],
-            'tech'      => ['label' => '科技', 'icon' => '⚙️'],
-            'medical'   => ['label' => '医疗', 'icon' => '⚕️'],
+            'general'   => ['label' => __('通用', 'linked3'), 'icon' => '📋'],
+            'ecommerce' => ['label' => __('电商', 'linked3'), 'icon' => '🛒'],
+            'education' => ['label' => __('教育', 'linked3'), 'icon' => '📚'],
+            'tech'      => ['label' => __('科技', 'linked3'), 'icon' => '⚙️'],
+            'medical'   => ['label' => __('医疗', 'linked3'), 'icon' => '⚕️'],
         ];
     }
 

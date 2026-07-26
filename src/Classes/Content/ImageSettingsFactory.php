@@ -17,6 +17,8 @@ declare(strict_types=1);
  */
 
 namespace Linked3\Classes\Content;
+
+use Linked3\Includes\Log\Logger;
     use ContentEcosystemTrait;
 
 
@@ -47,11 +49,11 @@ class ImageSettingsFactory {
 
     /** @var array 图片注入位置策略 */
     private $insertion_strategies = [
-        'after_h1' => 'H1标题后',
-        'after_first_paragraph' => '第一段后',
-        'middle' => '文章中间',
-        'before_conclusion' => '总结前',
-        'featured' => '特色图片',
+        'after_h1' => __('H1标题后', 'linked3'),
+        'after_first_paragraph' => __('第一段后', 'linked3'),
+        'middle' => __('文章中间', 'linked3'),
+        'before_conclusion' => __('总结前', 'linked3'),
+        'featured' => __('特色图片', 'linked3'),
     ];
 
     public function __construct() {
@@ -106,7 +108,7 @@ class ImageSettingsFactory {
                 if (method_exists($mgr, 'save_settings')) {
                     return $mgr->save_settings($settings);
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         return false;
     }

@@ -35,6 +35,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Genesis;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) exit;
 
 trait ScriptFactoryTrait {
@@ -162,7 +164,7 @@ trait ScriptFactoryTrait {
                 if (is_array($entry) && !empty($entry)) {
                     return $entry;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         // 降级 Seed_CPT::get_by_seed_id()
         if (class_exists('\Linked3\Classes\Genesis\GenesisSeedCPT')) {
@@ -171,7 +173,7 @@ trait ScriptFactoryTrait {
                 if (is_array($entry) && !empty($entry)) {
                     return $entry;
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         return null;
     }
@@ -183,7 +185,7 @@ trait ScriptFactoryTrait {
         if (class_exists('\Linked3\Classes\Genesis\GenesisStyleEngine')) {
             try {
                 return \GenesisStyleEngine::load($style_key);
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
         return ['key' => $style_key, 'name' => $style_key];
     }
@@ -232,7 +234,7 @@ trait ScriptFactoryTrait {
 
         // 基础检查1: 输出非空
         $checks['output_not_empty'] = [
-            'name' => '输出非空',
+            'name' => __('输出非空', 'linked3'),
             'passed' => !empty($output),
             'value' => is_array($output) ? count($output) : 0,
         ];
@@ -240,7 +242,7 @@ trait ScriptFactoryTrait {
 
         // 基础检查2: SEED已加载
         $checks['seed_loaded'] = [
-            'name' => 'SEED已加载',
+            'name' => __('SEED已加载', 'linked3'),
             'passed' => !empty($this->seed_dna),
             'value' => count($this->seed_dna),
         ];
@@ -248,7 +250,7 @@ trait ScriptFactoryTrait {
 
         // 基础检查3: 风格已加载
         $checks['style_loaded'] = [
-            'name' => '风格已加载',
+            'name' => __('风格已加载', 'linked3'),
             'passed' => !empty($this->style_config),
             'value' => !empty($this->style_config['name']),
         ];

@@ -3,7 +3,7 @@
  * Plugin Name:       Linked3 AI
  * Plugin URI:        https://linked3.com
  * Description:       Commercial self-evolution AI engine for WordPress — multi-model AI, SEO, content automation, SaaS billing. v18.5 adds Book Factory (YAML-driven 6-step automated book writing). Successor to Linkreate AI v2.9.6. v20.4 fixes COS: real AI generation in EX department, real Skill content, real lever chain analysis. v27.1.0: V18→OS 重构 + Genesis/Diagram/MetaLever 模块 namespace 补全（90 文件）+ 54 个 AJAX 委托方法修复 + 超长方法拆分。
- * Version:           29.0.0
+ * Version:           29.1.0
  * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            Linked3 Group
@@ -185,7 +185,7 @@ add_filter('wp_fatal_error_handler_enabled', '__return_false', 1);
 // -----------------------------------------------------------------------------
 // Core constants (single source of truth)
 // -----------------------------------------------------------------------------
-define('LINKED3_VERSION', '29.0.0');
+define('LINKED3_VERSION', '29.1.0');
 define('LINKED3_DB_VERSION', '3.4.0'); // v3.4.0 adds V15 tables (brand_profiles + seeds + chart_dna)
 define('LINKED3_FILE', __FILE__);
 define('LINKED3_DIR', plugin_dir_path(__FILE__));
@@ -271,18 +271,13 @@ add_action('admin_menu', static function () {
     );
 }, 0);
 
-// 隐藏左侧子菜单中的"编辑/新增"等 CPT 默认子项, 但保留 Seed DNA 等业务子菜单
+// 隐藏左侧子菜单中的"编辑/新增"等 CPT 默认子项 — moved to linked3-seed-admin.css (enqueued via wp_enqueue_style)
 // v9.1.2 修复: 旧代码 display:none 全部子菜单导致 Seed DNA 菜单不可见
-add_action('admin_head', static function () {
-    echo '<style>
-    /* 只隐藏 CPT 自动生成的 edit.php / post-new.php 子菜单, 保留业务子菜单 */
-    #toplevel_page_linked3-dashboard .wp-submenu li a[href*="edit.php?post_type=linked3_seed"] { display:none; }
-    #toplevel_page_linked3-dashboard .wp-submenu li a[href*="post-new.php?post_type=linked3_seed"] { display:none; }
-    </style>';
-});
+// v29.1.0: Inline <style> replaced by CSS file enqueue (Step 3 CSS extraction)
 
 // v27.8.0: Register CSS files via wp_enqueue_style (best practice)
 // Replaces inline <style> echo with proper enqueue for caching + dependency management
+// v29.1.0: Added dashboard, forms, generators CSS (Step 3 CSS extraction)
 add_action('admin_enqueue_scripts', static function ($hook) {
     // Only load on Linked3 admin pages
     if (strpos($hook, 'linked3') === false && $hook !== 'toplevel_page_linked3-dashboard') {
@@ -307,6 +302,185 @@ add_action('admin_enqueue_scripts', static function ($hook) {
     // v12.0: Global UI Design System
     if (file_exists($css_dir . 'linked3-admin-ui.css')) {
         wp_enqueue_style('linked3-admin-ui', $css_url . 'linked3-admin-ui.css', ['linked3-admin'], LINKED3_VERSION);
+    }
+    // v29.1.0 Step 3: Dashboard tab CSS (tab-v18, tab-cognitive-os, eco-synergy)
+    if (file_exists($css_dir . 'linked3-dashboard.css')) {
+        wp_enqueue_style('linked3-dashboard', $css_url . 'linked3-dashboard.css', ['linked3-admin'], LINKED3_VERSION);
+    }
+    // v29.1.0 Step 3: Forms CSS (content-writer/editor)
+    if (file_exists($css_dir . 'linked3-forms.css')) {
+        wp_enqueue_style('linked3-forms', $css_url . 'linked3-forms.css', ['linked3-admin'], LINKED3_VERSION);
+    }
+    // v29.1.0 Step 3: Generators CSS (tab-genesis, tab-charts, tab-video, style-fusion-panel-v2)
+    if (file_exists($css_dir . 'linked3-generators.css')) {
+        wp_enqueue_style('linked3-generators', $css_url . 'linked3-generators.css', ['linked3-admin'], LINKED3_VERSION);
+    }
+    // v29.1.0 Step 3: Seed admin CSS (also hides CPT submenus globally)
+    if (file_exists($css_dir . 'linked3-seed-admin.css')) {
+        wp_enqueue_style('linked3-seed-admin', $css_url . 'linked3-seed-admin.css', ['linked3-admin'], LINKED3_VERSION);
+    }
+});
+
+// v29.1.0 Step 3: SEO scorecard CSS — loaded on post-edit screens
+add_action('admin_enqueue_scripts', static function ($hook) {
+    if (!in_array($hook, ['post.php', 'post-new.php'], true)) {
+        return;
+    }
+    $css_url = plugins_url('assets/css/', LINKED3_FILE);
+    $css_dir = LINKED3_DIR . 'assets/css/';
+    if (file_exists($css_dir . 'linked3-seo-scorecard.css')) {
+        wp_enqueue_style('linked3-seo-scorecard', $css_url . 'linked3-seo-scorecard.css', [], LINKED3_VERSION);
+    }
+});
+
+// v29.1.0 Step 4: Register core JS files via wp_enqueue_script + wp_localize_script
+// linked3-fetch.js: AJAX helper (depends on nothing, provides window.linked3Fetch)
+// linked3-core.js: shared UI utilities (tab switching, modal, etc.)
+add_action('admin_enqueue_scripts', static function ($hook) {
+    if (strpos($hook, 'linked3') === false && $hook !== 'toplevel_page_linked3-dashboard') {
+        return;
+    }
+    $js_url = plugins_url('admin/js/', LINKED3_FILE);
+    $js_dir = LINKED3_DIR . 'admin/js/';
+
+    // Core AJAX helper
+    if (file_exists($js_dir . 'linked3-fetch.js')) {
+        wp_enqueue_script('linked3-fetch', $js_url . 'linked3-fetch.js', [], LINKED3_VERSION, true);
+        wp_localize_script('linked3-fetch', 'linked3_config', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('linked3_ajax'),
+        ]);
+    }
+    // Core UI utilities
+    if (file_exists($js_dir . 'linked3-core.js')) {
+        wp_enqueue_script('linked3-core', $js_url . 'linked3-core.js', ['linked3-fetch'], LINKED3_VERSION, true);
+    }
+
+    // Tab-module JS files (enqueued conditionally based on ?tab= parameter)
+    $current_tab = $_GET['tab'] ?? 'overview';
+    $tab_js_map = [
+        'genesis'       => 'tab-genesis.js',
+        'cognitive-os'  => 'tab-cognitive-os.js',
+        'v18'           => 'tab-v18.js',
+        'charts'        => 'tab-charts.js',
+        'video'         => 'tab-video.js',
+        'writing-center'=> 'tab-writing-center.js',
+        'queue'         => 'tab-queue.js',
+        'create-center' => 'tab-create-center.js',
+        'cloud'         => 'tab-cloud.js',
+    ];
+    if (isset($tab_js_map[$current_tab]) && file_exists($js_dir . $tab_js_map[$current_tab])) {
+        wp_enqueue_script('linked3-tab-' . $current_tab, $js_url . $tab_js_map[$current_tab], ['linked3-core'], LINKED3_VERSION, true);
+    }
+
+    // Eco module JS files (loaded on eco-related tabs)
+    $eco_tabs = ['eco-content', 'eco-synergy', 'eco-images', 'eco-summary', 'eco-xhs', 'eco-keywords', 'eco-style-dna-picker', 'eco-seo', 'eco-rewrite', 'eco-book', 'eco-templates', 'eco-title'];
+    if (in_array($current_tab, $eco_tabs, true)) {
+        $eco_js_files = ['eco-shared-js.js', 'eco-content.js'];
+        foreach ($eco_js_files as $eco_js) {
+            if (file_exists($js_dir . $eco_js)) {
+                wp_enqueue_script('linked3-' . preg_replace('/\.js$/', '', $eco_js), $js_url . $eco_js, ['linked3-core'], LINKED3_VERSION, true);
+            }
+        }
+        // Tab-specific eco JS
+        $eco_tab_js = $current_tab . '.js';
+        if (file_exists($js_dir . $eco_tab_js)) {
+            wp_enqueue_script('linked3-' . $current_tab, $js_url . $eco_tab_js, ['linked3-core'], LINKED3_VERSION, true);
+        }
+    }
+
+    // Dashboard tabs.php command palette JS
+    if (file_exists($js_dir . 'tab-cmdk.js')) {
+        wp_enqueue_script('linked3-cmdk', $js_url . 'tab-cmdk.js', ['linked3-core'], LINKED3_VERSION, true);
+    }
+
+    // Settings page JS
+    if ($hook === 'linked3_page_linked3-settings' || $hook === 'toplevel_page_linked3-dashboard') {
+        if (file_exists($js_dir . 'settings-api.js')) {
+            wp_enqueue_script('linked3-settings-api', $js_url . 'settings-api.js', ['linked3-core'], LINKED3_VERSION, true);
+        }
+    }
+
+    // v29.1.0 Step 4: Tab/eco module JS extracted from admin/views/dashboard/partials/
+    // All files live in assets/js/ and are loaded conditionally based on ?tab= parameter.
+    // Dynamic PHP variables are passed via wp_add_inline_script in each partial file
+    // (since variables like $cw_mode, $current_project_id are only in scope there).
+    $a_js_url  = LINKED3_URL . 'assets/js/';
+    $a_js_dir  = LINKED3_DIR . 'assets/js/';
+    $tab       = $_GET['tab'] ?? 'overview';
+
+    // Static localize for files with no partial-local variables
+    $tab_js_register = [
+        'genesis'              => ['linked3-tab-genesis', 'linked3_genesis', ['nonce' => wp_create_nonce('linked3_genesis'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'cognitive-os'         => ['linked3-tab-cognitive-os', 'linked3_cos', ['nonce' => wp_create_nonce('linked3_cos'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'v18'                  => ['linked3-tab-v18', 'linked3_v18', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('linked3_v18')]],
+        'video'                => ['linked3-tab-video', 'linked3_video', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('linked3_video'), 'publish_url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish')]],
+        'charts'               => ['linked3-tab-charts', 'linked3_charts', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('linked3_charts'), 'genesis_url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=visual&vs_sub=genesis'), 'publish_url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish')]],
+        'cloud'                => ['linked3-tab-cloud', 'linked3_cloud', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('linked3_cloud'), 'templates_url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&eco_sub=templates')]],
+        'eco-content'          => ['linked3-eco-content', 'linked3_eco_content', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('linked3_content_writer'), 'publish_url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish'), 'edit_url' => admin_url('post.php?action=edit&post='), 'preview_url' => home_url('/?p=')]],
+        'eco-book'             => ['linked3-eco-book', 'linked3_eco_book', ['ajax_url' => admin_url('admin-ajax.php'), 'factory_nonce' => wp_create_nonce('linked3_book_factory'), 'progress_nonce' => wp_create_nonce('linked3_book_progress')]],
+        'eco-synergy'          => ['linked3-eco-synergy', 'linked3_eco_synergy', ['require_html' => (!empty(get_option(LINKED3_OPTION_PREFIX . 'advanced_settings', [])['require_html']) ? 'true' : 'false'), 'ajax_url' => admin_url('admin-ajax.php'), 'content_url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&eco_sub=content'), 'publish_url' => admin_url('admin.php?page=linked3-dashboard&tab=distribution&di_sub=publish'), 'api_url' => admin_url('admin.php?page=linked3-dashboard&tab=system&sy_sub=api'), 'draft_url' => admin_url('edit.php?post_status=draft&post_type=post'), 'nonce' => wp_create_nonce('linked3_content_writer')]],
+        'eco-keywords'         => ['linked3-eco-keywords', 'linked3_eco_keywords', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('linked3_keywords'), 'csv_url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&eco_sub=content&cw_mode=csv'), 'synergy_url' => admin_url('admin.php?page=linked3-dashboard&tab=creation&cr_sub=ecosystem&eco_sub=synergy')]],
+        'eco-rewrite'          => ['linked3-eco-rewrite', 'linked3_eco_rewrite', []],
+        // v29.1.0 Step 4 batch 2: remaining admin inline JS extracted
+        'overview'             => ['linked3-tab-overview', 'linked3_tab_overview', []],
+        'writing-center'       => ['linked3-tab-writing-center', 'linked3_tab_wc', ['nonce' => wp_create_nonce('linked3_content_writer')]],
+        'create-center'        => ['linked3-tab-create-center', 'linked3_tab_cc', ['nonce' => wp_create_nonce('linked3_content_writer')]],
+        'queue'                => ['linked3-tab-queue', 'linked3_tab_queue', ['nonce_q' => wp_create_nonce('linked3_queue'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'eco-templates'        => ['linked3-eco-templates', 'linked3_eco_templates', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce_tpl' => wp_create_nonce('linked3_templates'), 'local_templates' => [], 'local_template_ids' => []]],
+        'eco-images'           => ['linked3-eco-images', 'linked3_eco_images', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce_img' => wp_create_nonce('linked3_images')]],
+        'eco-xhs'              => ['linked3-eco-xhs', 'linked3_eco_xhs', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce_xhs' => wp_create_nonce('linked3_xhs')]],
+        'eco-config-bridge'    => ['linked3-eco-config-bridge', 'linked3_eco_config_bridge', []],
+        'eco-style-dna-picker' => ['linked3-eco-style-dna-picker', 'linked3_eco_sdp', []],
+        'eco-summary'          => ['linked3-eco-summary', 'linked3_eco_summary', []],
+        'eco-seo'              => ['linked3-eco-seo', 'linked3_eco_seo', ['nonce_seo' => wp_create_nonce('linked3_eco_seo')]],
+        'eco-shared'           => ['linked3-eco-shared-js', 'linked3_eco_shared', ['ajax_url' => admin_url('admin-ajax.php'), 'nonce_content_writer' => wp_create_nonce('linked3_content_writer')]],
+        'eco-title'            => ['linked3-eco-title', 'linked3_eco_title', []],
+    ];
+
+    if (isset($tab_js_register[$tab])) {
+        [$handle, $js_var, $data] = $tab_js_register[$tab];
+        $js_filename = $handle . '.js';
+        if (file_exists($a_js_dir . $js_filename)) {
+            wp_enqueue_script($handle, $a_js_url . $js_filename, [], LINKED3_VERSION, true);
+            if (!empty($data)) {
+                wp_localize_script($handle, $js_var, $data);
+            }
+        }
+    }
+
+    // v29.1.0 Step 4 batch 2: Non-tab page JS registrations
+    $page_screen = $hook;
+    $page_js_register = [
+        'linked3_page_linked3-settings'          => ['linked3-settings-api', 'linked3_settings_api', 'linked3-settings-api.js', ['nonce_settings' => wp_create_nonce('linked3_settings'), 'ajax_url' => admin_url('admin-ajax.php'), 'img_providers' => []]],
+        'linked3_page_linked3-seo'               => ['linked3-seo-settings', 'linked3_seo_settings', 'linked3-seo-settings.js', ['nonce_enhance' => wp_create_nonce('linked3_seo_enhance'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'linked3_page_linked3-seo-push-logs'     => ['linked3-seo-push-logs', 'linked3_seo_push_logs', 'linked3-seo-push-logs.js', ['nonce' => wp_create_nonce('linked3_seo_push'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'linked3_page_linked3-seo-dashboard'     => ['linked3-seo-dashboard', 'linked3_seo_dashboard', 'linked3-seo-dashboard.js', ['nonce' => wp_create_nonce('linked3_seo'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'toplevel_page_linked3-autogpt'          => ['linked3-autogpt', 'linked3_autogpt', 'linked3-autogpt-dashboard.js', ['nonce' => wp_create_nonce('linked3_autogpt'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'toplevel_page_linked3-forms'            => ['linked3-forms', 'linked3_forms', 'linked3-forms-dashboard.js', ['nonce' => wp_create_nonce('linked3_forms'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'toplevel_page_linked3-rewriter'         => ['linked3-rewriter', 'linked3_rewriter', 'linked3-collect-rewriter.js', ['nonce' => wp_create_nonce('linked3_rewriter'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'toplevel_page_linked3-cw-editor'        => ['linked3-cw-editor', 'linked3_cw_editor', 'linked3-cw-editor.js', ['nonce' => wp_create_nonce('linked3_content_writer'), 'ajax_url' => admin_url('admin-ajax.php'), 'admin_url' => admin_url()]],
+        'toplevel_page_linked3-publish-targets'  => ['linked3-publish-targets', 'linked3_publish_targets', 'linked3-publish-targets.js', ['nonce' => wp_create_nonce('linked3_publish'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'toplevel_page_linked3-distribute'       => ['linked3-distribute', 'linked3_distribute', 'linked3-distribute-dashboard.js', ['nonce' => wp_create_nonce('linked3_distribute'), 'ajax_url' => admin_url('admin-ajax.php')]],
+        'toplevel_page_linked3-wc'               => ['linked3-wc', 'linked3_wc', 'linked3-wc-dashboard.js', ['nonce' => wp_create_nonce('linked3_wc'), 'ajax_url' => admin_url('admin-ajax.php')]],
+    ];
+    if (isset($page_js_register[$page_screen])) {
+        [$phandle, $pvar, $pfile, $pdata] = $page_js_register[$page_screen];
+        if (file_exists($a_js_dir . $pfile)) {
+            wp_enqueue_script($phandle, $a_js_url . $pfile, [], LINKED3_VERSION, true);
+            if (!empty($pdata)) {
+                wp_localize_script($phandle, $pvar, $pdata);
+            }
+        }
+    }
+
+    // Global dashboard tabs.php JS (command palette + tab switching)
+    if (file_exists($a_js_dir . 'linked3-dashboard-tabs.js')) {
+        wp_enqueue_script('linked3-dashboard-tabs', $a_js_url . 'linked3-dashboard-tabs.js', [], LINKED3_VERSION, true);
+        wp_localize_script('linked3-dashboard-tabs', 'linked3_dashboard_tabs', [
+            'cmdk_commands' => [],
+            'ajax_url' => admin_url('admin-ajax.php'),
+        ]);
     }
 });
 

@@ -232,7 +232,7 @@ final class KeywordBatchGenerator
     {
         try {
             $result = AIDispatcher::instance()->chat(
-                [['role' => 'user', 'content' => '为以下文章生成一段100字以内的摘要:\n\n' . mb_substr($content, 0, 2000)]],
+                [['role' => 'user', 'content' => __('为以下文章生成一段100字以内的摘要:\n\n', 'linked3') . mb_substr($content, 0, 2000)]],
                 ['provider' => get_option(LINKED3_OPTION_PREFIX . 'default_provider', 'siliconflow'), 'model' => 'gpt-4o-mini', 'temperature' => 0.3, 'max_tokens' => 200, 'module' => 'keyword_batch'],
                 ['fallback_providers' => []]
             );

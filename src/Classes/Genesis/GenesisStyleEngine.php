@@ -58,10 +58,10 @@ class GenesisStyleEngine
         if (empty($examples)) {
             // 通用兜底示例 (不绑定特定风格)
             return [
-                ['core_info' => '主角登场', 'location' => '故事起点', 'characters' => ['主角'], 'action' => '主角在故事起点出现,环境交代', 'mood' => '引入氛围', 'plot_point' => '开场钩子'],
-                ['core_info' => '冲突发生', 'location' => '冲突场景', 'characters' => ['主角', '对手'], 'action' => '主角遇到冲突,与对手对峙', 'mood' => '紧张升级', 'plot_point' => '冲突升级'],
-                ['core_info' => '高潮对决', 'location' => '高潮场景', 'characters' => ['主角', '对手'], 'action' => '主角与对手正面交锋,决定胜负', 'mood' => '激烈高潮', 'plot_point' => '高潮战斗'],
-                ['core_info' => '结局收尾', 'location' => '结局场景', 'characters' => ['主角'], 'action' => '主角完成旅程,故事收尾', 'mood' => '释然收束', 'plot_point' => '收尾闭环'],
+                ['core_info' => __('主角登场', 'linked3'), 'location' => __('故事起点', 'linked3'), 'characters' => ['主角'], 'action' => __('主角在故事起点出现,环境交代', 'linked3'), 'mood' => __('引入氛围', 'linked3'), 'plot_point' => __('开场钩子', 'linked3')],
+                ['core_info' => __('冲突发生', 'linked3'), 'location' => __('冲突场景', 'linked3'), 'characters' => ['主角', '对手'], 'action' => __('主角遇到冲突,与对手对峙', 'linked3'), 'mood' => __('紧张升级', 'linked3'), 'plot_point' => __('冲突升级', 'linked3')],
+                ['core_info' => __('高潮对决', 'linked3'), 'location' => __('高潮场景', 'linked3'), 'characters' => ['主角', '对手'], 'action' => __('主角与对手正面交锋,决定胜负', 'linked3'), 'mood' => __('激烈高潮', 'linked3'), 'plot_point' => __('高潮战斗', 'linked3')],
+                ['core_info' => __('结局收尾', 'linked3'), 'location' => __('结局场景', 'linked3'), 'characters' => ['主角'], 'action' => __('主角完成旅程,故事收尾', 'linked3'), 'mood' => __('释然收束', 'linked3'), 'plot_point' => __('收尾闭环', 'linked3')],
             ];
         }
         return $examples;
@@ -83,7 +83,7 @@ class GenesisStyleEngine
     {
         $config = self::load($styleId);
         $nameCn = $config['name_cn'] ?? $styleId;
-        return $config['style_constraint_cn'] ?? "【风格强制约束】当前风格: " . $nameCn . "\n✅ 请根据故事内容适配此风格的场景\n❌ 禁止照抄示例中的场景, 必须根据故事原文提取真实场景\n氛围: 与风格匹配";
+        return $config['style_constraint_cn'] ?? __("【风格强制约束】当前风格: ", 'linked3') . $nameCn . __("\n✅ 请根据故事内容适配此风格的场景\n❌ 禁止照抄示例中的场景, 必须根据故事原文提取真实场景\n氛围: 与风格匹配", 'linked3');
     }
 
     /**
@@ -145,7 +145,7 @@ class GenesisStyleEngine
         return [
             'name_cn' => $styleId,
             'name_en' => $styleId,
-            'category' => '通用',
+            'category' => __('通用', 'linked3'),
             'prompt_keywords' => '',
             'negative_keywords' => '',
             'scene_whitelist' => [],
@@ -187,7 +187,7 @@ class GenesisStyleEngine
                 if (mb_strlen($location) >= 2) {
                     return [
                         'contaminated' => true,
-                        'reason' => "场景'{$location}'在当前风格黑名单中 (匹配: {$bad})",
+                        'reason' => __("场景'{$location}'在当前风格黑名单中 (匹配: {$bad})", 'linked3'),
                         'suggestions' => array_slice($config['scene_whitelist'] ?? [], 0, 5),
                     ];
                 }
@@ -211,7 +211,7 @@ class GenesisStyleEngine
                 if (mb_strpos($location, $marker) !== false) {
                     return [
                         'contaminated' => true,
-                        'reason' => "场景'{$location}'包含其他风格({$otherStyle})的标志性词'{$marker}'",
+                        'reason' => __("场景'{$location}'包含其他风格({$otherStyle})的标志性词'{$marker}'", 'linked3'),
                         'suggestions' => array_slice($config['scene_whitelist'] ?? [], 0, 5),
                     ];
                 }
@@ -231,7 +231,7 @@ class GenesisStyleEngine
                 if (stripos($promptEn, $marker) !== false) {
                     return [
                         'contaminated' => true,
-                        'reason' => "prompt_en 包含其他风格({$otherStyle})的标志性词'{$marker}'",
+                        'reason' => __("prompt_en 包含其他风格({$otherStyle})的标志性词'{$marker}'", 'linked3'),
                         'suggestions' => array_slice($config['scene_whitelist'] ?? [], 0, 5),
                     ];
                 }

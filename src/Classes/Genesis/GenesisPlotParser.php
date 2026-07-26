@@ -47,17 +47,17 @@ class GenesisPlotParser {
 
             if ($current === null) {
                 $current = [
-                    'id' => 'S001', 'location' => '默认场景',
+                    'id' => 'S001', 'location' => __('默认场景', 'linked3'),
                     'characters' => [], 'action' => $line, 'mood' => '', 'dialogues' => [],
                 ];
                 continue;
             }
 
-            if (mb_strpos($line, '角色:') === 0 || mb_strpos($line, '角色：') === 0) {
+            if (mb_strpos($line, __('角色:', 'linked3')) === 0 || mb_strpos($line, '角色：') === 0) {
                 $current['characters'] = array_map('trim', explode('，', mb_substr($line, 3)));
-            } elseif (mb_strpos($line, '动作:') === 0 || mb_strpos($line, '动作：') === 0) {
+            } elseif (mb_strpos($line, __('动作:', 'linked3')) === 0 || mb_strpos($line, '动作：') === 0) {
                 $current['action'] = trim(mb_substr($line, 3));
-            } elseif (mb_strpos($line, '氛围:') === 0 || mb_strpos($line, '氛围：') === 0) {
+            } elseif (mb_strpos($line, __('氛围:', 'linked3')) === 0 || mb_strpos($line, '氛围：') === 0) {
                 $current['mood'] = trim(mb_substr($line, 3));
             }
         }

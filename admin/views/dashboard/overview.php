@@ -6,41 +6,41 @@ if (!defined('ABSPATH')) exit;
 
 <div class="wrap linked3-admin-wrap">
     <div class="lk3-page-header">
-        <h1 class="lk3-page-title">Linked3 仪表盘</h1>
+        <h1 class="lk3-page-title"><?php echo esc_html__('Linked3 仪表盘', 'linked3'); ?></h1>
         <p class="lk3-page-subtitle">Welcome! Your plan: <strong><?php echo esc_html(ucfirst($overview['plan'])); ?></strong></p>
     </div>
 
     <div class="lk3-grid-auto">
         <div class="lk3-card lk3-stat-card">
-            <div class="lk3-stat-label">今日 Token</div>
+            <div class="lk3-stat-label"><?php echo esc_html__('今日 Token', 'linked3'); ?></div>
             <div class="lk3-stat-value tabular-nums"><?php echo esc_html(number_format($overview['tokens_today'])); ?> <span class="lk3-stat-unit">/ <?php echo esc_html(number_format($overview['tokens_quota'])); ?></span></div>
             <div class="lk3-stat-meta">剩余 <?php echo esc_html(number_format($overview['tokens_remaining'])); ?></div>
         </div>
 
         <div class="lk3-card lk3-stat-card">
-            <div class="lk3-stat-label">近 30 天 AI 调用</div>
+            <div class="lk3-stat-label"><?php echo esc_html__('近 30 天 AI 调用', 'linked3'); ?></div>
             <div class="lk3-stat-value tabular-nums"><?php echo esc_html(number_format($overview['ai_calls_30d'])); ?></div>
             <div class="lk3-stat-meta">calls</div>
         </div>
 
         <div class="lk3-card lk3-stat-card">
-            <div class="lk3-stat-label">活跃 Agent</div>
+            <div class="lk3-stat-label"><?php echo esc_html__('活跃 Agent', 'linked3'); ?></div>
             <div class="lk3-stat-value tabular-nums"><?php echo esc_html((string) $overview['tasks_active']); ?></div>
             <div class="lk3-stat-meta">running</div>
         </div>
 
         <div class="lk3-card lk3-stat-card">
-            <div class="lk3-stat-label">Provider 数</div>
+            <div class="lk3-stat-label"><?php echo esc_html__('Provider 数', 'linked3'); ?></div>
             <div class="lk3-stat-value tabular-nums"><?php echo esc_html((string) $overview['providers_configured']); ?></div>
             <div class="lk3-stat-meta">configured</div>
         </div>
     </div>
 
     <div class="lk3-section">
-        <h2 class="lk3-section-title">用量 (近 30 天)</h2>
+        <h2 class="lk3-section-title"><?php echo esc_html__('用量 (近 30 天)', 'linked3'); ?></h2>
         <div class="lk3-card" style="padding: var(--lk3-space-5);">
             <?php if (empty($chart)) : ?>
-                <p class="lk3-text-muted">暂无用量数据。</p>
+                <p class="lk3-text-muted"><?php echo esc_html__('暂无用量数据。', 'linked3'); ?></p>
             <?php else : ?>
                 <div style="display:flex;align-items:flex-end;height:160px;gap:3px;">
                     <?php
@@ -59,7 +59,7 @@ if (!defined('ABSPATH')) exit;
     </div>
 
     <div class="lk3-section">
-        <h2 class="lk3-section-title">快捷入口</h2>
+        <h2 class="lk3-section-title"><?php echo esc_html__('快捷入口', 'linked3'); ?></h2>
         <div class="lk3-grid-auto-sm">
             <a href="<?php echo esc_url(admin_url('admin.php?page=linked3-content-writer')); ?>" class="lk3-btn lk3-btn-primary">✍️ 内容写作</a>
             <a href="<?php echo esc_url(admin_url('admin.php?page=linked3-publish')); ?>" class="lk3-btn lk3-btn-secondary">📤 发布目标</a>

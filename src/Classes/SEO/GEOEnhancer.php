@@ -283,7 +283,7 @@ final class GEOEnhancer
      *
      * @return string Empty string if no summary could be extracted.
      */
-    private static function generate_ai_summary() : string {
+    private static function generate_ai_summary() : mixed {
         $post = get_post();
         if (!$post) {
             return '';

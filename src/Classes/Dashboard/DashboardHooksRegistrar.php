@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Dashboard;
 
+use Linked3\Includes\Log\Logger;
+
 use Linked3\Classes\Addons\AddonManager;
 use Linked3\Classes\Addons\IPAnonymizationAddon;
 use Linked3\Classes\Addons\ConsentComplianceAddon;
@@ -107,14 +109,13 @@ final class DashboardHooksRegistrar
      * @return void
      */
     static function log_failure(string $label, \Throwable $e): void {
-        if (function_exists('error_log')) {
-            error_log(sprintf(
-                '[linked3] Dashboard %s register() failed: %s (in %s:%d)',
-                $label,
-                $e->getMessage(),
-                $e->getFile(),
-                $e->getLine()
-            ));
-        }
+        Logger::instance()->error('general', sprintf(
+            '[linked3] Dashboard %s register() failed: %s (in %s:%d)',
+            $label,
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine()
+        ));
+
     }
 }

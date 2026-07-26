@@ -54,7 +54,7 @@ class OSReverseEngine {
      * @param string $engineer_type 工程师类型 (用于校验专属维度)
      * @return array|\WP_Error 解析结果或错误
      */
-    public static function reverse_parse(string $json_raw, string $engineer_type = '') : WP_Error {
+    public static function reverse_parse(string $json_raw, string $engineer_type = '') : mixed {
         if (empty($json_raw)) {
             return new \WP_Error('E_PARSE_EMPTY', '逆向JSON为空');
         }
@@ -296,13 +296,13 @@ class OSReverseEngine {
 
         $feedback = [];
         if (!empty($universal_missing)) {
-            $feedback[] = __('缺失通用维度: ', 'linked3') . implode(', ', $universal_missing);
+            $feedback[] = '缺失通用维度: ' . implode(', ', $universal_missing);
         }
         if (!empty($proprietary_missing)) {
-            $feedback[] = __('缺失专属维度: ', 'linked3') . implode(', ', $proprietary_missing);
+            $feedback[] = '缺失专属维度: ' . implode(', ', $proprietary_missing);
         }
         if (empty($feedback)) {
-            $feedback[] = __('所有维度完整', 'linked3');
+            $feedback[] = '所有维度完整';
         }
 
         return [

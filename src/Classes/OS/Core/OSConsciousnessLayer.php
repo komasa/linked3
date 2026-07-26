@@ -44,33 +44,33 @@ class OSConsciousnessLayer {
     const CONSCIOUSNESS_LAYERS = [
         'L1' => [
             'key' => 'L1',
-            'name' => '纯粹意识',
+            'name' => __('纯粹意识', 'linked3'),
             'name_en' => 'pure_consciousness',
             'frequency' => 'HF',
-            'frequency_label' => '高频',
+            'frequency_label' => __('高频', 'linked3'),
             'color_tone' => 'bright',
-            'desc' => '灵感共振/理念/智能文明',
-            'maps_to' => '洞察/结论/金句',
+            'desc' => __('灵感共振/理念/智能文明', 'linked3'),
+            'maps_to' => __('洞察/结论/金句', 'linked3'),
         ],
         'L2' => [
             'key' => 'L2',
-            'name' => '逻辑意识',
+            'name' => __('逻辑意识', 'linked3'),
             'name_en' => 'logical_consciousness',
             'frequency' => 'MF',
-            'frequency_label' => '中频',
+            'frequency_label' => __('中频', 'linked3'),
             'color_tone' => 'warm',
-            'desc' => '演绎法/模型/工业文明',
-            'maps_to' => '方法论/框架/步骤',
+            'desc' => __('演绎法/模型/工业文明', 'linked3'),
+            'maps_to' => __('方法论/框架/步骤', 'linked3'),
         ],
         'L3' => [
             'key' => 'L3',
-            'name' => '时空意识',
+            'name' => __('时空意识', 'linked3'),
             'name_en' => 'spacetime_consciousness',
             'frequency' => 'LF',
-            'frequency_label' => '低频',
+            'frequency_label' => __('低频', 'linked3'),
             'color_tone' => 'cool',
-            'desc' => '归纳法/经验/农业文明',
-            'maps_to' => '数据/事实/细节',
+            'desc' => __('归纳法/经验/农业文明', 'linked3'),
+            'maps_to' => __('数据/事实/细节', 'linked3'),
         ],
     ];
 
@@ -78,9 +78,9 @@ class OSConsciousnessLayer {
      * 频率Badge定义
      */
     const FREQUENCY_BADGES = [
-        'HF' => ['label' => '高频洞察', 'color' => '#FFD700', 'tone' => '亮色', 'priority' => 1],
-        'MF' => ['label' => '中频逻辑', 'color' => '#FF8C42', 'tone' => '暖色', 'priority' => 2],
-        'LF' => ['label' => '低频信息', 'color' => '#4682B4', 'tone' => '冷色', 'priority' => 3],
+        'HF' => ['label' => __('高频洞察', 'linked3'), 'color' => '#FFD700', 'tone' => __('亮色', 'linked3'), 'priority' => 1],
+        'MF' => ['label' => __('中频逻辑', 'linked3'), 'color' => '#FF8C42', 'tone' => __('暖色', 'linked3'), 'priority' => 2],
+        'LF' => ['label' => __('低频信息', 'linked3'), 'color' => '#4682B4', 'tone' => __('冷色', 'linked3'), 'priority' => 3],
     ];
 
     /**
@@ -169,7 +169,7 @@ class OSConsciousnessLayer {
             'module_version' => '12.3.0',
             'layers_count' => count(self::CONSCIOUSNESS_LAYERS),
             'badges_count' => count(self::FREQUENCY_BADGES),
-            'source' => 'V18道篇2.5 + 李善友2026大课三层能观模型',
+            'source' => __('V18道篇2.5 + 李善友2026大课三层能观模型', 'linked3'),
         ];
     }
 }

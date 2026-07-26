@@ -85,7 +85,7 @@ class V18 {
     /**
      * 获取模块实例（懒加载）
      */
-    public static function module(string $name) : null {
+    public static function module(string $name) : mixed {
         if (!isset(self::$module_map[$name])) {
             return null;
         }
@@ -349,10 +349,10 @@ class V18 {
             'loaded_count' => count(self::$loaded),
             'subsystem' => 'src/Classes/V18/',
             'structure' => [
-                'Core/' => '11个核心模块',
-                'Ajax/' => '10个AJAX接口',
-                'Admin/' => '4个管理面板',
-                'Api/' => '7个API/集成模块',
+                'Core/' => __('11个核心模块', 'linked3'),
+                'Ajax/' => __('10个AJAX接口', 'linked3'),
+                'Admin/' => __('4个管理面板', 'linked3'),
+                'Api/' => __('7个API/集成模块', 'linked3'),
             ],
         ];
     }

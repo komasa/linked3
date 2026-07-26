@@ -26,11 +26,3 @@ $nonce = (string) ($nonce ?? '');
     <ul class="linked3-score-tips"></ul>
     <p class="linked3-score-error"></p>
 </div>
-<style>
-.linked3-score-wrap { display:flex; align-items:center; gap:12px; padding:6px 0; }
-.linked3-score-number { font-size:28px; font-weight:700; min-width:54px; text-align:center; }
-.linked3-score-grade { font-size:14px; }
-.linked3-score-tips { margin-top:8px; padding-left:18px; }
-.linked3-score-tips li { color:#666; }
-.linked3-score-error { color:#a00; }
-</style>

@@ -148,11 +148,11 @@ PROMPT;
     public function departments(): array
     {
         return [
-            'S1' => ['name' => '解构部', 'mission' => '从超级Prompt中提取核心目标/约束/双层壳规则/动词化使命', 'lever' => 'meta_essence', 'kpi' => '目标+约束+使命三要素提取完整'],
-            'S2' => ['name' => '任务原子化部', 'mission' => '将动词化使命拆解为不可再分的原子任务（每个任务1个动词+1个对象）', 'lever' => 'meta_execution', 'kpi' => '原子任务数5-15个，每个含1动词+1对象'],
-            'S3' => ['name' => '任务卡片生成部', 'mission' => '为每个原子任务生成卡片：输入/处理/输出/工具/预估耗时', 'lever' => 'meta_system', 'kpi' => '每张卡片5字段完整'],
-            'S4' => ['name' => '依赖排序部', 'mission' => '识别任务间依赖关系，生成DAG有向无环图，输出执行序列', 'lever' => 'meta_pattern', 'kpi' => '依赖关系无环，序列可并行化'],
-            'S5' => ['name' => '验收标准部', 'mission' => '为每个任务设定可量化的验收标准（通过/不通过判定条件）', 'lever' => 'meta_decision', 'kpi' => '每个任务含1-3条验收标准'],
+            'S1' => ['name' => __('解构部', 'linked3'), 'mission' => __('从超级Prompt中提取核心目标/约束/双层壳规则/动词化使命', 'linked3'), 'lever' => 'meta_essence', 'kpi' => __('目标+约束+使命三要素提取完整', 'linked3')],
+            'S2' => ['name' => __('任务原子化部', 'linked3'), 'mission' => __('将动词化使命拆解为不可再分的原子任务（每个任务1个动词+1个对象）', 'linked3'), 'lever' => 'meta_execution', 'kpi' => __('原子任务数5-15个，每个含1动词+1对象', 'linked3')],
+            'S3' => ['name' => __('任务卡片生成部', 'linked3'), 'mission' => __('为每个原子任务生成卡片：输入/处理/输出/工具/预估耗时', 'linked3'), 'lever' => 'meta_system', 'kpi' => __('每张卡片5字段完整', 'linked3')],
+            'S4' => ['name' => __('依赖排序部', 'linked3'), 'mission' => __('识别任务间依赖关系，生成DAG有向无环图，输出执行序列', 'linked3'), 'lever' => 'meta_pattern', 'kpi' => __('依赖关系无环，序列可并行化', 'linked3')],
+            'S5' => ['name' => __('验收标准部', 'linked3'), 'mission' => __('为每个任务设定可量化的验收标准（通过/不通过判定条件）', 'linked3'), 'lever' => 'meta_decision', 'kpi' => __('每个任务含1-3条验收标准', 'linked3')],
         ];
     }
 

@@ -191,7 +191,7 @@ class DashboardVideoAjax
             foreach ($frames as $f) {
                 if ($f['type'] !== 'image' || empty($f['visual_prompt'])) continue;
                 $tpl_mgr->add(
-                    sprintf('视频分镜 #%d (%s)', $f['index'], date('m-d H:i')),
+                    sprintf(__('视频分镜 #%d (%s)', 'linked3'), $f['index'], date('m-d H:i')),
                     'visual',
                     ['prompt' => $f['visual_prompt'], 'scene_index' => $f['index']]
                 );
@@ -201,7 +201,7 @@ class DashboardVideoAjax
 
         $parse_warning = '';
         if (empty($frames) && !empty($result['script'])) {
-            $parse_warning = 'AI 返回了内容但 JSON 解析失败, 请检查"原始输出"';
+            $parse_warning = __('AI 返回了内容但 JSON 解析失败, 请检查"原始输出"', 'linked3');
         }
 
         wp_send_json_success([
@@ -239,7 +239,7 @@ class DashboardVideoAjax
 
         $parse_warning = '';
         if (empty($scenes) && !empty($result['script'])) {
-            $parse_warning = 'AI 返回了内容但 JSON 解析失败, 请检查"原始输出"并调整提示词或更换模型';
+            $parse_warning = __('AI 返回了内容但 JSON 解析失败, 请检查"原始输出"并调整提示词或更换模型', 'linked3');
         }
 
         wp_send_json_success([

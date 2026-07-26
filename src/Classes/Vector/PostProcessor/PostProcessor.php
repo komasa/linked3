@@ -92,7 +92,7 @@ final class PostProcessor
      * @param int    $size
      * @return string[]
      */
-    private static function chunk(string $text, int $size) : array {
+    private static function chunk(string $text, int $size) : mixed {
         $text = trim($text);
         if (mb_strlen($text) <= $size) return [$text];
         $chunks = [];

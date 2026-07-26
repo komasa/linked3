@@ -34,9 +34,9 @@ class CompositeCodeOptimizer implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'EVAL' => ['name' => '评估', 'mission' => '评估代码质量, 找出优化点', 'lever' => 'meta_evaluation'],
-            'STRESS' => ['name' => '压测', 'mission' => '极端场景下的稳定性测试', 'lever' => 'meta_stress_test'],
-            'CAL' => ['name' => '校准', 'mission' => '自我评分+优化建议', 'lever' => 'meta_self_calibration'],
+            'EVAL' => ['name' => __('评估', 'linked3'), 'mission' => __('评估代码质量, 找出优化点', 'linked3'), 'lever' => 'meta_evaluation'],
+            'STRESS' => ['name' => __('压测', 'linked3'), 'mission' => __('极端场景下的稳定性测试', 'linked3'), 'lever' => 'meta_stress_test'],
+            'CAL' => ['name' => __('校准', 'linked3'), 'mission' => __('自我评分+优化建议', 'linked3'), 'lever' => 'meta_self_calibration'],
         ];
     }
 

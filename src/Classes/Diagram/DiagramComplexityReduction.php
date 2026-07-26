@@ -38,9 +38,9 @@ class DiagramComplexityReduction {
         $layer3 = array_slice($steps, (int)($total * 0.75));
         return [
             'method' => 'funnel',
-            'layer1' => ['name' => '输入层', 'items' => $layer1, 'count' => count($layer1)],
-            'layer2' => ['name' => '处理层', 'items' => $layer2, 'count' => count($layer2)],
-            'layer3' => ['name' => '输出层', 'items' => $layer3, 'count' => count($layer3)],
+            'layer1' => ['name' => __('输入层', 'linked3'), 'items' => $layer1, 'count' => count($layer1)],
+            'layer2' => ['name' => __('处理层', 'linked3'), 'items' => $layer2, 'count' => count($layer2)],
+            'layer3' => ['name' => __('输出层', 'linked3'), 'items' => $layer3, 'count' => count($layer3)],
         ];
     }
 
@@ -52,7 +52,7 @@ class DiagramComplexityReduction {
         $groups = array_chunk($items, (int)ceil(count($items) / $clusterCount));
         $result = [];
         for ($i = 0; $i < count($groups); $i++) {
-            $result[] = ['name' => '聚类' . ($i + 1), 'items' => $groups[$i]];
+            $result[] = ['name' => __('聚类', 'linked3') . ($i + 1), 'items' => $groups[$i]];
         }
         return ['method' => 'cluster', 'clusters' => $result];
     }

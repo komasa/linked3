@@ -74,10 +74,10 @@ trait SectionExpander {
         $sections = $state->get( 'sections', array() );
 
         if ( ! isset( $chapters[ $chapter_index ] ) ) {
-            return new \WP_Error( 'chapter_not_found', __( '章节不存在', 'linked3-ai' ) );
+            return new \WP_Error( 'chapter_not_found', __( '章节不存在', 'linked3' ) );
         }
         if ( ! isset( $chapters[ $chapter_index ]['sections'][ $section_index ] ) ) {
-            return new \WP_Error( 'section_not_found', __( '小节不存在', 'linked3-ai' ) );
+            return new \WP_Error( 'section_not_found', __( '小节不存在', 'linked3' ) );
         }
 
         $section = $chapters[ $chapter_index ]['sections'][ $section_index ];
@@ -108,7 +108,7 @@ trait SectionExpander {
                 $options = array( 'temperature' => 0.7, 'max_tokens' => 2048 );
                 $response = $dispatcher->chat( $messages, $options, array() );
             } else {
-                return new \WP_Error( 'ai_unavailable', __( 'AI 引擎未加载', 'linked3-ai' ) );
+                return new \WP_Error( 'ai_unavailable', __( 'AI 引擎未加载', 'linked3' ) );
             }
         } catch ( \Throwable $e ) {
             return new \WP_Error( 'ai_call_failed', $e->getMessage() );
@@ -139,7 +139,7 @@ trait SectionExpander {
             'chapter_index' => $chapter_index,
             'section_index' => $section_index,
             'content'       => $content,
-            'message'       => __( '小节已重新生成', 'linked3-ai' ),
+            'message'       => __( '小节已重新生成', 'linked3' ),
         );
     }
 }

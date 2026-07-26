@@ -40,7 +40,7 @@ class OSOnboardingAjax {
     public static function ajax_status() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSOnboardingAjax {
     public static function ajax_update() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -85,7 +85,7 @@ class OSOnboardingAjax {
     public static function ajax_plan() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -189,7 +189,7 @@ class OSOnboardingAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'get_all_options')) {
             $options = call_user_func(['OSOnboardingTracker', 'get_all_options']);
@@ -224,7 +224,7 @@ class OSOnboardingAjax {
      */
     private static function execute_get_status(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $day = $params['day'] ?? 1;
         if (method_exists('\Linked3\Classes\OS\Core\OSOnboardingTracker', 'calculate_state_progress')) {
@@ -295,7 +295,7 @@ class OSOnboardingAjax {
             'ajax_version' => '14.4.0',
             'target_class' => 'OSOnboardingTracker',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '入流追踪AJAX接口',
+            'title' => __('入流追踪AJAX接口', 'linked3'),
         ];
     }
 
@@ -303,7 +303,7 @@ class OSOnboardingAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_ruliu_status' => '获取状态', 'linked3_ruliu_update' => '更新状态', 'linked3_ruliu_plan' => '获取计划'];
+        return ['linked3_ruliu_status' => __('获取状态', 'linked3'), 'linked3_ruliu_update' => __('更新状态', 'linked3'), 'linked3_ruliu_plan' => __('获取计划', 'linked3')];
     }
 
 }

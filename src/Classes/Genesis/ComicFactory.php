@@ -87,7 +87,7 @@ class ComicFactory {
                     }
                 }
             } catch (\Throwable $e) {
-                if (function_exists("linked3_log")) linked3_log("genesis", "warning", "Comic AI failed, degrading: " . $e->getMessage());
+                Logger::instance()->warning('ai', "Comic AI failed, degrading: " . $e->getMessage());
             }
         }
 
@@ -112,7 +112,7 @@ class ComicFactory {
         // 检查1: 分镜数≥3
         $scene_count = count($output['scenes'] ?? $output['panels'] ?? []);
         $checks['scene_count'] = [
-            'name' => '分镜数≥3',
+            'name' => __('分镜数≥3', 'linked3'),
             'passed' => $scene_count >= 3,
             'value' => $scene_count,
         ];
@@ -120,7 +120,7 @@ class ComicFactory {
 
         // 检查2: 角色一致性
         $checks['char_consistency'] = [
-            'name' => '角色一致性',
+            'name' => __('角色一致性', 'linked3'),
             'passed' => !empty($this->seed_dna['char']),
             'value' => count($this->seed_dna['char'] ?? []),
         ];
@@ -128,7 +128,7 @@ class ComicFactory {
 
         // 检查3: 场景连贯
         $checks['scene_coherent'] = [
-            'name' => '场景连贯',
+            'name' => __('场景连贯', 'linked3'),
             'passed' => $scene_count > 0,
             'value' => $scene_count,
         ];
@@ -136,7 +136,7 @@ class ComicFactory {
 
         // 检查4: 风格已加载
         $checks['style_loaded'] = [
-            'name' => '风格已加载',
+            'name' => __('风格已加载', 'linked3'),
             'passed' => !empty($this->style_config),
             'value' => $this->style_config['name'] ?? '',
         ];
@@ -145,7 +145,7 @@ class ComicFactory {
         // 检查5: 引擎可用
         $engine = $output['engine'] ?? 'v7';
         $checks['engine_available'] = [
-            'name' => '引擎可用',
+            'name' => __('引擎可用', 'linked3'),
             'passed' => $engine !== 'fallback',
             'value' => $engine,
         ];
@@ -187,7 +187,7 @@ class ComicFactory {
                     return $parser->parse($plot);
                 }
             } catch (\Throwable $e) {
-                if (function_exists("linked3_log")) linked3_log("genesis", "warning", "Comic AI failed, degrading: " . $e->getMessage());
+                Logger::instance()->warning('ai', "Comic AI failed, degrading: " . $e->getMessage());
             }
         }
 

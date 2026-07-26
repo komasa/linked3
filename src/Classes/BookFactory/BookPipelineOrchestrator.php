@@ -150,7 +150,7 @@ class BookPipelineOrchestrator {
                 $status       = $state->get( 'status' );
 
                 if ( 'done' === $status || 'done' === $current_step ) {
-                        return array( 'done' => true, 'message' => __('已完成', 'linked3-ai') );
+                        return array( 'done' => true, 'message' => __('已完成', 'linked3') );
                 }
                 if ( 'failed' === $status ) {
                         return new WP_Error( 'project_failed', '项目已失败: ' . $state->get( 'error' ) );
@@ -168,7 +168,7 @@ class BookPipelineOrchestrator {
                 // 回退兼容。
                 switch ( $current_step ) {
                         case 'done':
-                                return array( 'done' => true, 'message' => __('已完成', 'linked3-ai') );
+                                return array( 'done' => true, 'message' => __('已完成', 'linked3') );
                         default:
                                 return new WP_Error( 'unknown_step', '未知步骤: ' . $current_step );
                 }
@@ -239,6 +239,6 @@ class BookPipelineOrchestrator {
                 $state->set( 'status', 'running' );
                 $state->save_state();
 
-                return array( 'message' => __('已回退到版本 ', 'linked3-ai') . $version_index );
+                return array( 'message' => __('已回退到版本 ', 'linked3') . $version_index );
         }
 }

@@ -38,13 +38,13 @@ final class KeywordManager
     }
 
     /** 采集百度热词 / 多源热词 (v3.2.0 多源, v5.1.3 auto 合一去重)。 */
-    public function fetch_baidu_hotwords($seed = '', $limit = 20, $source = 'auto'): mixed
+    public function fetch_baidu_hotwords($seed = '', $limit = 20, $source = 'auto'): array
     {
         return $this->fetcher->fetch($seed, $limit, $source);
     }
 
     /** v5.1.5: 7 源采集 + 合并去重,每源缓存 6 小时。 */
-    public function fetch_all_sources($seed = '', $limit = 30): mixed
+    public function fetch_all_sources($seed = '', $limit = 30): array
     {
         return $this->fetcher->fetch_all($seed, $limit);
     }

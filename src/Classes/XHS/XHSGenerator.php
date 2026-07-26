@@ -92,43 +92,43 @@ PROMPT;
     const STYLES = [
         [
             'id'           => 'lifestyle',
-            'label'        => '生活方式',
-            'prompt_suffix'=> '生活化、真实感、日常分享风格，像朋友间的推荐',
+            'label'        => __('生活方式', 'linked3'),
+            'prompt_suffix'=> __('生活化、真实感、日常分享风格，像朋友间的推荐', 'linked3'),
         ],
         [
             'id'           => 'tutorial',
-            'label'        => '教程干货',
-            'prompt_suffix'=> '干货教程风格，步骤清晰、重点突出、实用性强',
+            'label'        => __('教程干货', 'linked3'),
+            'prompt_suffix'=> __('干货教程风格，步骤清晰、重点突出、实用性强', 'linked3'),
         ],
         [
             'id'           => 'aesthetic',
-            'label'        => '美学文艺',
-            'prompt_suffix'=> '文艺美学风格，意境优美、文字精致、画面感强',
+            'label'        => __('美学文艺', 'linked3'),
+            'prompt_suffix'=> __('文艺美学风格，意境优美、文字精致、画面感强', 'linked3'),
         ],
         [
             'id'           => 'trending',
-            'label'        => '热门爆款',
-            'prompt_suffix'=> '爆款网感风格，标题党、情绪共鸣、话题性强',
+            'label'        => __('热门爆款', 'linked3'),
+            'prompt_suffix'=> __('爆款网感风格，标题党、情绪共鸣、话题性强', 'linked3'),
         ],
         [
             'id'           => 'professional',
-            'label'        => '专业科普',
-            'prompt_suffix'=> '专业科普风格，权威感、数据支撑、逻辑清晰',
+            'label'        => __('专业科普', 'linked3'),
+            'prompt_suffix'=> __('专业科普风格，权威感、数据支撑、逻辑清晰', 'linked3'),
         ],
         [
             'id'           => 'story',
-            'label'        => '故事叙事',
-            'prompt_suffix'=> '故事叙事风格，有情节、有转折、有情感',
+            'label'        => __('故事叙事', 'linked3'),
+            'prompt_suffix'=> __('故事叙事风格，有情节、有转折、有情感', 'linked3'),
         ],
         [
             'id'           => 'compare',
-            'label'        => '对比测评',
-            'prompt_suffix'=> '对比测评风格，客观比较、优缺点分析、给出建议',
+            'label'        => __('对比测评', 'linked3'),
+            'prompt_suffix'=> __('对比测评风格，客观比较、优缺点分析、给出建议', 'linked3'),
         ],
         [
             'id'           => 'checkin',
-            'label'        => '打卡探店',
-            'prompt_suffix'=> '探店打卡风格，现场感、体验感、推荐指数',
+            'label'        => __('打卡探店', 'linked3'),
+            'prompt_suffix'=> __('探店打卡风格，现场感、体验感、推荐指数', 'linked3'),
         ],
     ];
 
@@ -166,7 +166,7 @@ PROMPT;
             }
         }
         if (!empty($custom_style)) {
-            $style_prompt .= __('\n自定义风格要求: ', 'linked3') . $custom_style;
+            $style_prompt .= "\n自定义风格要求: " . $custom_style;
         }
 
         // V15 上下文
@@ -178,14 +178,14 @@ PROMPT;
 
         // 语气映射
         $tone_map = [
-            'lifestyle'   => '亲切自然，像闺蜜分享',
-            'tutorial'    => '专业但易懂，像老师教学',
-            'aesthetic'   => '文艺优雅，有画面感',
-            'trending'    => '活泼网感，有梗有料',
-            'professional'=> '权威专业，有理有据',
-            'story'       => '叙事感强，有情感共鸣',
-            'compare'     => '客观中立，有数据感',
-            'checkin'     => '现场体验感，真实生动',
+            'lifestyle'   => __('亲切自然，像闺蜜分享', 'linked3'),
+            'tutorial'    => __('专业但易懂，像老师教学', 'linked3'),
+            'aesthetic'   => __('文艺优雅，有画面感', 'linked3'),
+            'trending'    => __('活泼网感，有梗有料', 'linked3'),
+            'professional'=> __('权威专业，有理有据', 'linked3'),
+            'story'       => __('叙事感强，有情感共鸣', 'linked3'),
+            'compare'     => __('客观中立，有数据感', 'linked3'),
+            'checkin'     => __('现场体验感，真实生动', 'linked3'),
         ];
         $tone = $tone_map[$style_id] ?? '亲切自然';
 
@@ -258,7 +258,7 @@ PROMPT;
      * @param string $content
      * @return array|null
      */
-    private function parse_json_response(string $content) : null     {
+    private function parse_json_response(string $content) : mixed     {
         // 尝试 1: 直接 json_decode
         $decoded = json_decode($content, true);
         if (is_array($decoded)) {
@@ -319,7 +319,7 @@ PROMPT;
         while (count($pages) < $expected_pages) {
             $idx = count($pages);
             $pages[] = [
-                'title'        => '第' . ($idx + 1) . '页',
+                'title'        => __('第', 'linked3') . ($idx + 1) . '页',
                 'content'      => '',
                 'image_prompt' => '',
                 'is_cover'     => false,

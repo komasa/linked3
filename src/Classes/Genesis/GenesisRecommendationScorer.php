@@ -39,16 +39,16 @@ class GenesisRecommendationScorer
         }
         // 万兴场景
         if ($features['scene'] === 'wondershare-diagram') {
-            if (stripos($cat, '万兴') !== false) $score += 25;
+            if (stripos($cat, __('万兴', 'linked3')) !== false) $score += 25;
             if ($wondershare) $score += 15;
         }
         // 复杂度匹配
         if ($features['complexity'] === 'high') {
-            if (stripos($cat, '融合') !== false) $score += 20;
+            if (stripos($cat, __('融合', 'linked3')) !== false) $score += 20;
         }
         // 无障碍匹配
         if ($features['accessibility']) {
-            if (stripos($nameCn, '高对比') !== false || stripos($nameCn, '大字号') !== false) $score += 30;
+            if (stripos($nameCn, __('高对比', 'linked3')) !== false || stripos($nameCn, '大字号') !== false) $score += 30;
         }
         // 商业级
         if ($commercial) $score += 10;
@@ -76,21 +76,21 @@ class GenesisRecommendationScorer
                 if ($prodReady) $score += 25;
                 if ($commercial) $score += 15;
                 // 信息图类: 新手易上手
-                if (stripos($cat, '信息图') !== false || stripos($cat, '企业扁平') !== false) $score += 10;
+                if (stripos($cat, __('信息图', 'linked3')) !== false || stripos($cat, '企业扁平') !== false) $score += 10;
                 break;
 
             case 'designer':
                 // 设计师精选: 信息图类+融合技法 权重放大
-                if (stripos($cat, '信息图') !== false) $score += 20;
-                if (stripos($cat, '融合') !== false) $score += 25;
-                if (stripos($cat, '艺术插画') !== false) $score += 15;
+                if (stripos($cat, __('信息图', 'linked3')) !== false) $score += 20;
+                if (stripos($cat, __('融合', 'linked3')) !== false) $score += 25;
+                if (stripos($cat, __('艺术插画', 'linked3')) !== false) $score += 15;
                 break;
 
             case 'market':
                 // 万兴市场: wondershare_ready权重放大(修复后字段正确)
                 if ($wondershare) $score += 35;
                 if ($prodReady) $score += 15;
-                if (stripos($cat, '万兴') !== false) $score += 20;
+                if (stripos($cat, __('万兴', 'linked3')) !== false) $score += 20;
                 break;
 
             case 'industry':
@@ -148,9 +148,9 @@ class GenesisRecommendationScorer
     private static function scoreAccessibleMode(string $cat, string $nameCn): int
     {
         $score = 0;
-        if (stripos($nameCn, '高对比') !== false || stripos($nameCn, '大字号') !== false) $score += 30; // 翻倍
-        if (stripos($cat, '信息图') !== false || stripos($cat, '企业扁平') !== false) $score += 25;
-        if (stripos($cat, '技术蓝图') !== false) $score += 20;
+        if (stripos($nameCn, __('高对比', 'linked3')) !== false || stripos($nameCn, '大字号') !== false) $score += 30; // 翻倍
+        if (stripos($cat, __('信息图', 'linked3')) !== false || stripos($cat, '企业扁平') !== false) $score += 25;
+        if (stripos($cat, __('技术蓝图', 'linked3')) !== false) $score += 20;
         return $score;
     }
 
@@ -160,11 +160,11 @@ class GenesisRecommendationScorer
     private static function scoreConversionMode(string $cat, bool $commercial, array $genres): int
     {
         $score = 0;
-        if (stripos($cat, '真人') !== false || stripos($cat, '摄影') !== false) $score += 35;
+        if (stripos($cat, __('真人', 'linked3')) !== false || stripos($cat, '摄影') !== false) $score += 35;
         if ($commercial) $score += 20;
         // suitable_genres含营销/转化
         foreach ($genres as $g) {
-            if (stripos($g, '营销') !== false || stripos($g, '转化') !== false) $score += 15;
+            if (stripos($g, __('营销', 'linked3')) !== false || stripos($g, '转化') !== false) $score += 15;
         }
         return $score;
     }
@@ -175,8 +175,8 @@ class GenesisRecommendationScorer
     private static function scoreComplexMode(string $cat, array $genres): int
     {
         $score = 0;
-        if (stripos($cat, '融合') !== false) $score += 35;
-        if (stripos($cat, '信息图') !== false) $score += 15;
+        if (stripos($cat, __('融合', 'linked3')) !== false) $score += 35;
+        if (stripos($cat, __('信息图', 'linked3')) !== false) $score += 15;
         // suitable_genres多 = 适配复杂场景
         if (count($genres) >= 2) $score += 15;
         return $score;
@@ -325,13 +325,13 @@ class GenesisRecommendationScorer
             $cat = $s['category'] ?? '';
             $nameCn = $s['name_cn'] ?? '';
             // 信息图/企业扁平/技术蓝图类: 高对比、标准字号, 无障碍友好
-            if (stripos($cat, '信息图') !== false
-                || stripos($cat, '企业扁平') !== false
-                || stripos($cat, '技术蓝图') !== false) {
+            if (stripos($cat, __('信息图', 'linked3')) !== false
+                || stripos($cat, __('企业扁平', 'linked3')) !== false
+                || stripos($cat, __('技术蓝图', 'linked3')) !== false) {
                 return true;
             }
             // 显式标注高对比/大字号的
-            if (stripos($nameCn, '高对比') !== false || stripos($nameCn, '大字号') !== false) {
+            if (stripos($nameCn, __('高对比', 'linked3')) !== false || stripos($nameCn, '大字号') !== false) {
                 return true;
             }
             return false;
@@ -353,14 +353,14 @@ class GenesisRecommendationScorer
             $genres = $s['suitable_genres'] ?? [];
             $matched = false;
             // 真人摄影/海报类: 强CTA导向
-            if (stripos($cat, '真人') !== false || stripos($cat, '摄影') !== false) {
+            if (stripos($cat, __('真人', 'linked3')) !== false || stripos($cat, '摄影') !== false) {
                 $matched = true;
             }
             // suitable_genres含营销/转化/行动
             if (!$matched) {
                 foreach ($genres as $g) {
-                    if (stripos($g, '营销') !== false || stripos($g, '转化') !== false
-                        || stripos($g, '行动') !== false || stripos($g, 'CTA') !== false) {
+                    if (stripos($g, __('营销', 'linked3')) !== false || stripos($g, '转化') !== false
+                        || stripos($g, __('行动', 'linked3')) !== false || stripos($g, 'CTA') !== false) {
                         $matched = true;
                         break;
                     }

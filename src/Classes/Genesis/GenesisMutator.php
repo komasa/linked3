@@ -47,7 +47,7 @@ class GenesisMutator {
         }
 
         if (class_exists('\Linked3\Classes\Genesis\GenesisLogger')) {
-            GenesisLogger::stage('v7_mutate', '生成 ' . $count . ' 个变异体', [
+            GenesisLogger::stage('v7_mutate', __('生成 ', 'linked3') . $count . __(' 个变异体', 'linked3'), [
                 'atom_id' => $baseAtom['id'] ?? '',
                 'strategies_used' => array_slice(array_keys(self::$strategies), 0, $count),
             ]);

@@ -40,7 +40,7 @@ class OSQualityGateAjax {
     public static function ajax_check() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -62,7 +62,7 @@ class OSQualityGateAjax {
     public static function ajax_report() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -84,7 +84,7 @@ class OSQualityGateAjax {
     public static function ajax_thresholds() : void {
         check_ajax_referer('linked3_content_writer', 'nonce');
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('权限不足', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('权限不足', 'linked3')], 403);
         }
 
         try {
@@ -132,11 +132,11 @@ class OSQualityGateAjax {
      */
     private static function execute_reverse(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $json_raw = $params['json_raw'] ?? '';
         if (empty($json_raw)) {
-            return ['error' => 'json_raw参数为空'];
+            return ['error' => __('json_raw参数为空', 'linked3')];
         }
         $engineer_type = $params['engineer_type'] ?? 'visual_system';
         $result = call_user_func(['OSQualityGate', 'reverse_parse'], $json_raw, $engineer_type);
@@ -181,7 +181,7 @@ class OSQualityGateAjax {
      */
     private static function execute_get_options(): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         if (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'get_all_options')) {
             $options = call_user_func(['OSQualityGate', 'get_all_options']);
@@ -246,13 +246,13 @@ class OSQualityGateAjax {
      */
     private static function execute_report(array $params): array {
         if (!class_exists('\Linked3\Classes\OS\Core\OSQualityGate')) {
-            return ['error' => '目标类未加载'];
+            return ['error' => __('目标类未加载', 'linked3')];
         }
         $reverse_result = json_decode($params['reverse_result'] ?? '{}', true) ?: [];
         if (method_exists('\Linked3\Classes\OS\Core\OSQualityGate', 'generate_quality_report')) {
             $report = call_user_func(['OSQualityGate', 'generate_quality_report'], $reverse_result);
         } else {
-            $report = ['report' => '暂无报告'];
+            $report = ['report' => __('暂无报告', 'linked3')];
         }
         return ['report' => $report];
     }
@@ -282,7 +282,7 @@ class OSQualityGateAjax {
             'ajax_version' => '14.9.0',
             'target_class' => 'OSQualityGate',
             'endpoints_count' => count(self::get_endpoints()),
-            'title' => '质量门禁AJAX接口',
+            'title' => __('质量门禁AJAX接口', 'linked3'),
         ];
     }
 
@@ -290,7 +290,7 @@ class OSQualityGateAjax {
      * 获取端点列表
      */
     public static function get_endpoints(): array {
-        return ['linked3_quality_check' => '质量检查', 'linked3_quality_report' => '质量报告', 'linked3_quality_thresholds' => '获取阈值'];
+        return ['linked3_quality_check' => __('质量检查', 'linked3'), 'linked3_quality_report' => __('质量报告', 'linked3'), 'linked3_quality_thresholds' => __('获取阈值', 'linked3')];
     }
 
 }

@@ -19,7 +19,7 @@ class SeedAdminExport
 
     // v27.8.3: Shared constants now provided by SeedAdminConstants trait.
 
-    public static function export_md($post_id) : string {
+    public static function export_md($post_id) : mixed {
         $seed = GenesisSeedCPT::get($post_id);
         if (!$seed) return '';
 
@@ -166,7 +166,7 @@ class SeedAdminExport
         }
     }
 
-    public static function export_json($post_id) : string     {
+    public static function export_json($post_id) : mixed     {
         $seed = GenesisSeedCPT::get($post_id);
         if (!$seed) return '{}';
 

@@ -18,7 +18,7 @@ if (class_exists('\\Linked3\\Classes\\Publish\\PublishTargetRepository')) {
 <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <h1 style="margin:0;">Dashboard</h1>
-        <a href="admin.php?page=linked3-dashboard" class="button">← 返回总览</a>
+        <a href="admin.php?page=linked3-dashboard" class="button"><?php echo esc_html__('← 返回总览', 'linked3'); ?></a>
     </div>
     <h1><?php echo esc_html__('AutoGPT — 自进化 Agent', 'linked3'); ?>
         <button class="page-title-action" id="linked3-ag-new"><?php echo esc_html__('新建 Agent', 'linked3'); ?></button>
@@ -80,16 +80,16 @@ if (class_exists('\\Linked3\\Classes\\Publish\\PublishTargetRepository')) {
 
         <!-- v3.0.0: smart schedule 时间窗 -->
         <details style="margin:10px 0;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;padding:10px;">
-            <summary style="cursor:pointer;font-weight:600;color:#666;">⏰ 智能时间窗 (可选)</summary>
+            <summary style="cursor:pointer;font-weight:600;color:#666;"><?php echo esc_html__('⏰ 智能时间窗 (可选)', 'linked3'); ?></summary>
             <div style="margin-top:10px;">
-                <p><label>时间窗 (多个用逗号分隔,留空=不限制):<br>
-                    <input type="text" id="linked3-ag-time-window" class="regular-text" placeholder="如:09:00-12:00,14:00-18:00" />
+                <p><label><?php echo esc_html__('时间窗 (多个用逗号分隔,留空=不限制):', 'linked3'); ?><br>
+                    <input type="text" id="linked3-ag-time-window" class="regular-text" placeholder="<?php echo esc_attr__('如:09:00-12:00,14:00-18:00', 'linked3'); ?>" />
                 </label></p>
-                <p style="color:#666;font-size:12px;">只在指定时间段内执行 Agent。适合避免深夜发布。</p>
-                <p><label>精确到小时 (留空=不限制):<br>
+                <p style="color:#666;font-size:12px;"><?php echo esc_html__('只在指定时间段内执行 Agent。适合避免深夜发布。', 'linked3'); ?></p>
+                <p><label><?php echo esc_html__('精确到小时 (留空=不限制):', 'linked3'); ?><br>
                     <input type="time" id="linked3-ag-specific-time" style="width:120px;" />
                 </label></p>
-                <p style="color:#666;font-size:12px;">只在指定小时内的 cron tick 执行(实际精度受 cron 10min 粒度限制)。</p>
+                <p style="color:#666;font-size:12px;"><?php echo esc_html__('只在指定小时内的 cron tick 执行(实际精度受 cron 10min 粒度限制)。', 'linked3'); ?></p>
             </div>
         </details>
 
@@ -116,45 +116,45 @@ if (class_exists('\\Linked3\\Classes\\Publish\\PublishTargetRepository')) {
             <!-- v3.0.0: 分发平台子集 (per-task) -->
             <?php if (!empty($dist_platforms)) : ?>
             <details style="margin:10px 0;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;padding:10px;">
-                <summary style="cursor:pointer;font-weight:600;color:#666;">📡 分发平台 (勾选后,文章生成后自动分发到这些平台)</summary>
+                <summary style="cursor:pointer;font-weight:600;color:#666;"><?php echo esc_html__('📡 分发平台 (勾选后,文章生成后自动分发到这些平台)', 'linked3'); ?></summary>
                 <div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;">
                     <?php foreach ($dist_platforms as $slug => $label) : ?>
                         <label><input type="checkbox" class="linked3-ag-platform" value="<?php echo esc_attr($slug); ?>" /> <?php echo esc_html($label); ?></label>
                     <?php endforeach; ?>
                 </div>
-                <p style="color:#666;font-size:12px;margin-top:6px;">不勾选=不分发。可勾选多个。失败的平台会自动入队重试(最多 3 次)。</p>
+                <p style="color:#666;font-size:12px;margin-top:6px;"><?php echo esc_html__('不勾选=不分发。可勾选多个。失败的平台会自动入队重试(最多 3 次)。', 'linked3'); ?></p>
             </details>
             <?php endif; ?>
         </div>
 
         <!-- v3.2.0: 采集改写配置 -->
         <div id="linked3-ag-cfg-collect" style="display:none;">
-            <p><label>URL 列表 (每行一个,最多 5 个/次):<br>
+            <p><label><?php echo esc_html__('URL 列表 (每行一个,最多 5 个/次):', 'linked3'); ?><br>
                 <textarea id="linked3-ag-urls" rows="4" class="large-text" style="width:100%;" placeholder="https://example.com/article1&#10;https://example.com/article2"></textarea>
             </label></p>
             <p>
                 <label>语气:
                     <select id="linked3-ag-tone">
-                        <option value="professional">专业</option>
-                        <option value="casual">随意</option>
-                        <option value="academic">学术</option>
-                        <option value="persuasive">说服</option>
+                        <option value="professional"><?php echo esc_html__('专业', 'linked3'); ?></option>
+                        <option value="casual"><?php echo esc_html__('随意', 'linked3'); ?></option>
+                        <option value="academic"><?php echo esc_html__('学术', 'linked3'); ?></option>
+                        <option value="persuasive"><?php echo esc_html__('说服', 'linked3'); ?></option>
                     </select>
                 </label>
                 <label style="margin-left:15px;">复杂度:
                     <select id="linked3-ag-complexity">
-                        <option value="beginner">入门</option>
-                        <option value="intermediate" selected>中级</option>
-                        <option value="expert">专家</option>
+                        <option value="beginner"><?php echo esc_html__('入门', 'linked3'); ?></option>
+                        <option value="intermediate" selected><?php echo esc_html__('中级', 'linked3'); ?></option>
+                        <option value="expert"><?php echo esc_html__('专家', 'linked3'); ?></option>
                     </select>
                 </label>
             </p>
             <p>
-                <label><input type="checkbox" id="linked3-ag-seo" checked /> SEO 优化</label>
-                <label style="margin-left:15px;"><input type="checkbox" id="linked3-ag-simplify" /> 简化语言</label>
-                <label style="margin-left:15px;"><input type="checkbox" id="linked3-ag-publish-directly2" /> 直接发布</label>
+                <label><input type="checkbox" id="linked3-ag-seo" checked /><?php echo esc_html__('SEO 优化', 'linked3'); ?></label>
+                <label style="margin-left:15px;"><input type="checkbox" id="linked3-ag-simplify" /><?php echo esc_html__('简化语言', 'linked3'); ?></label>
+                <label style="margin-left:15px;"><input type="checkbox" id="linked3-ag-publish-directly2" /><?php echo esc_html__('直接发布', 'linked3'); ?></label>
             </p>
-            <p style="color:#666;font-size:12px;">工作流: 采集 URL → AI 改写 (保留原意+原创) → 保存草稿 → (可选)分发</p>
+            <p style="color:#666;font-size:12px;"><?php echo esc_html__('工作流: 采集 URL → AI 改写 (保留原意+原创) → 保存草稿 → (可选)分发', 'linked3'); ?></p>
         </div>
         <p>
             <button class="button button-primary" id="linked3-ag-save"><?php echo esc_html__('创建', 'linked3'); ?></button>
@@ -162,66 +162,5 @@ if (class_exists('\\Linked3\\Classes\\Publish\\PublishTargetRepository')) {
         </p>
     </div>
 
-    <script>
-    (function(){
-        var nonce=<?php echo wp_json_encode($nonce);?>, ajaxUrl=<?php echo wp_json_encode($ajax_url);?>;
-        function post(action,data,cb){
-            var fd=new FormData();fd.append('action',action);fd.append('nonce',nonce);
-            Object.keys(data).forEach(function(k){fd.append(k,data[k]);});
-            fetch(ajaxUrl,{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){return r.json();}).then(cb).catch(function(e){cb({success:false,data:{message:e.message}});});
-        }
-        document.getElementById('linked3-ag-new').addEventListener('click',function(){document.getElementById('linked3-ag-dialog').style.display='block';});
-        document.getElementById('linked3-ag-cancel').addEventListener('click',function(){document.getElementById('linked3-ag-dialog').style.display='none';});
-
-        // v3.2.0: 类型切换显示对应配置区
-        document.getElementById('linked3-ag-type').addEventListener('change',function(){
-            var type=this.value;
-            document.getElementById('linked3-ag-cfg-writing').style.display=(type==='content-writing')?'block':'none';
-            document.getElementById('linked3-ag-cfg-collect').style.display=(type==='collect-rewrite')?'block':'none';
-        });
-
-        document.getElementById('linked3-ag-save').addEventListener('click',function(){
-            var cfg={};
-            var type=document.getElementById('linked3-ag-type').value;
-            if(type==='content-writing'){
-                cfg.keyword=document.getElementById('linked3-ag-keyword').value;
-                cfg.count_per_run=document.getElementById('linked3-ag-count').value;
-                cfg.publish_directly=document.getElementById('linked3-ag-publish-directly').checked?1:0;
-                cfg.inject_images=document.getElementById('linked3-ag-inject-images').checked?1:0;
-                cfg.publish_target_id=document.getElementById('linked3-ag-publish-target').value;
-                // v3.0.0: 收集勾选的分发平台
-                var platforms=[];
-                document.querySelectorAll('.linked3-ag-platform:checked').forEach(function(cb){platforms.push(cb.value);});
-                cfg.distribute_platforms=platforms;
-            } else if(type==='collect-rewrite'){
-                cfg.urls=document.getElementById('linked3-ag-urls').value;
-                cfg.tone=document.getElementById('linked3-ag-tone').value;
-                cfg.complexity=document.getElementById('linked3-ag-complexity').value;
-                cfg.seo_focus=document.getElementById('linked3-ag-seo').checked?1:0;
-                cfg.simplify=document.getElementById('linked3-ag-simplify').checked?1:0;
-                cfg.publish_directly=document.getElementById('linked3-ag-publish-directly2').checked?1:0;
-            }
-            // v3.0.0: smart schedule
-            cfg.publish_time_window=document.getElementById('linked3-ag-time-window').value;
-            cfg.publish_at_specific_time=document.getElementById('linked3-ag-specific-time').value;
-
-            post('linked3_autogpt_create_task',{
-                name:document.getElementById('linked3-ag-name').value,
-                task_type:type,
-                schedule:document.getElementById('linked3-ag-schedule').value,
-                config:JSON.stringify(cfg)
-            },function(res){if(res.success){location.reload();}else{alert(res.data.message||'Error');}});
-        });
-        document.querySelectorAll('.linked3-ag-pause').forEach(function(b){b.addEventListener('click',function(){
-            post('linked3_autogpt_toggle_task',{id:b.closest('tr').dataset.id,status:'paused'},function(res){if(res.success)location.reload();});
-        });});
-        document.querySelectorAll('.linked3-ag-resume').forEach(function(b){b.addEventListener('click',function(){
-            post('linked3_autogpt_toggle_task',{id:b.closest('tr').dataset.id,status:'active'},function(res){if(res.success)location.reload();});
-        });});
-        document.querySelectorAll('.linked3-ag-del').forEach(function(b){b.addEventListener('click',function(){
-            if(!confirm('<?php echo esc_js(__('Delete this agent?','linked3'));?>'))return;
-            post('linked3_autogpt_delete_task',{id:b.closest('tr').dataset.id},function(res){if(res.success)location.reload();});
-        });});
-    })();
-    </script>
+    <?php // v29.1.0 Step 4: Inline JS extracted to assets/js/linked3-autogpt-dashboard.js ?>
 </div>

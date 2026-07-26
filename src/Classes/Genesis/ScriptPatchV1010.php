@@ -15,17 +15,19 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Genesis;
 
+use Linked3\Includes\Log\Logger;
+
 if (!defined('ABSPATH')) exit;
 
 class ScriptPatchV1010 {
 
-    public static function register() : void {
+    public /** @nonce-delegated — nonce verified in downstream processor's dispatch()/verify() */
+    static function register() : void {
         add_action('wp_ajax_linked3_video_generate_v10', [__CLASS__, 'ajax_video_generate']);
         add_action('wp_ajax_linked3_charts_generate_v10', [__CLASS__, 'ajax_charts_generate']);
 
-        if (function_exists('error_log')) {
-            error_log('[linked3 v10.1.0] Script patch registered (video+charts)');
-        }
+        Logger::instance()->info('ai', '[linked3 v10.1.0] Script patch registered (video+charts)');
+
     }
 
     // ================================================================
@@ -55,14 +57,14 @@ class ScriptPatchV1010 {
         $prompt = '';
         // 景别+环境
         $prompt .= __('中景，', 'linked3');
-        $prompt .= $where ? ($where . '。') : '一个室内场景。';
+        $prompt .= $where ? ($where . __('。', 'linked3')) : __('一个室内场景。', 'linked3');
 
         // 主体描述+动作 (首尾帧差异明确)
-        $prompt .= ucfirst($who) . '，' . $actionDesc . '。';
+        $prompt .= ucfirst($who) . __('，', 'linked3') . $actionDesc . __('。', 'linked3');
 
         // v11.2.0 #2: 基于beat_text补充场景叙事
         if (!empty($beatText)) {
-            $prompt .= __(' 场景叙事：', 'linked3') . mb_substr($beatText, 0, 60) . '。';
+            $prompt .= __(' 场景叙事：', 'linked3') . mb_substr($beatText, 0, 60) . __('。', 'linked3');
         }
 
         // 情绪氛围 (叙事式, 首尾帧情绪可有变化)
@@ -70,14 +72,14 @@ class ScriptPatchV1010 {
 
         // SEED visual_dna注入 (叙事式融入)
         if (!empty($seedDna['character'])) {
-            $prompt .= __(' 角色特征：', 'linked3') . $seedDna['character'] . '。';
+            $prompt .= __(' 角色特征：', 'linked3') . $seedDna['character'] . __('。', 'linked3');
         }
         if (!empty($seedDna['scene'])) {
-            $prompt .= __(' 场景细节：', 'linked3') . $seedDna['scene'] . '。';
+            $prompt .= __(' 场景细节：', 'linked3') . $seedDna['scene'] . __('。', 'linked3');
         }
 
         // v11.2.0 #2: 明确帧类型标记 (帮助生图工具理解)
-        $prompt .= ' 【' . $phaseLabel . '，与另一帧构成首尾帧对，用于视频生成】';
+        $prompt .= __(' 【', 'linked3') . $phaseLabel . __('，与另一帧构成首尾帧对，用于视频生成】', 'linked3');
 
         // 明确无文字 (视频帧不应有文字)
         $prompt .= __(' 画面中不包含任何文字、字母、数字或水印。', 'linked3');
@@ -132,7 +134,7 @@ class ScriptPatchV1010 {
             '温情' => $frameType === 'first' ? '暖光初现，柔和而期待。' : '暖光包裹，微笑绽放，温馨时刻。',
             '希望' => $frameType === 'first' ? '黑暗中微光初现，抬头仰望。' : '一束光照亮主体，黑暗退散，充满希望。',
             '释然' => $frameType === 'first' ? '紧张感渐消，眉头舒展。' : '光线柔和，紧张感完全消散，平静微笑。',
-            'neutral' => $frameType === 'first' ? '自然光线，平静的氛围，准备状态。' : '自然光线，平静的氛围，完成状态。',
+            'neutral' => $frameType === 'first' ? __('自然光线，平静的氛围，准备状态。', 'linked3') : __('自然光线，平静的氛围，完成状态。', 'linked3'),
         ];
         return $moodMap[$emotion] ?? $moodMap['neutral'];
     }
@@ -156,9 +158,9 @@ class ScriptPatchV1010 {
     public static function suggest_text_overlay(string $band, string $topic): string {
         $map = [
             'Hook' => mb_substr($topic, 0, 12) . '!',
-            'Body' => '3个核心要点',
-            'Proof' => '数据证明',
-            'CTA' => '立即行动',
+            'Body' => __('3个核心要点', 'linked3'),
+            'Proof' => __('数据证明', 'linked3'),
+            'CTA' => __('立即行动', 'linked3'),
         ];
         return $map[$band] ?? '';
     }
@@ -173,7 +175,7 @@ class ScriptPatchV1010 {
         if ($mode === 'sentence') {
             $sentences = preg_split('/[。！？\n]/u', $script);
             $sentences = array_filter($sentences, fn($s) => mb_strlen(trim($s)) >= 10);
-            $beats = array_map(fn($s) => ['text' => trim($s), 'emotion' => 'neutral', 'arc_position' => '发展'], array_values($sentences));
+            $beats = array_map(fn($s) => ['text' => trim($s), 'emotion' => 'neutral', 'arc_position' => __('发展', 'linked3')], array_values($sentences));
         } else {
             // auto / fixed: 按段落拆分
             $paragraphs = preg_split('/\n\s*\n/', $script);
@@ -232,7 +234,7 @@ class ScriptPatchV1010 {
                 } elseif ($category === 'style' && empty($dna['style'])) {
                     $dna['style'] = trim($desc);
                 }
-            } catch (\Throwable $e) { if (function_exists("linked3_log")) linked3_log("app", "warning", $e->getMessage()); else error_log("Linked3: " . $e->getMessage()); }
+            } catch (\Throwable $e) { Logger::instance()->warning('ai', $e->getMessage()); }
         }
 
         return $dna;

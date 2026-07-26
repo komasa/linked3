@@ -66,7 +66,7 @@ final class PushLogRepository extends BaseRepository
     // -------------------------------------------------------------------------
 
     /** @return string */
-    public static function table() : string     {
+    public static function table() : mixed     {
         global $wpdb;
         return $wpdb->prefix . 'linked3_push_logs';
     }
@@ -150,7 +150,7 @@ final class PushLogRepository extends BaseRepository
      * @param array  $fields
      * @return bool
      */
-    public static function update(int $id, array $fields) : bool     {
+    public static function update(int $id, array $fields) : mixed     {
         $allowed = ['status', 'response_code', 'response_body', 'message', 'retries'];
         $clean = [];
         foreach ($fields as $k => $v) {

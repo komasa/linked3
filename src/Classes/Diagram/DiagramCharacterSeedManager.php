@@ -81,7 +81,7 @@ class DiagramCharacterSeedManager {
         // 校验Critical项 100%保留
         foreach ($seed['priority']['critical'] as $item) {
             if (!str_contains(json_encode($generated, JSON_UNESCAPED_UNICODE), $item)) {
-                $issues[] = "Critical项「{$item}」缺失";
+                $issues[] = __("Critical项「{$item}」缺失", 'linked3');
             }
         }
         // 校验Important项 >95%
@@ -92,7 +92,7 @@ class DiagramCharacterSeedManager {
         }
         $importantRate = $importantCount > 0 ? $importantFound / $importantCount : 1;
         if ($importantRate < 0.95) {
-            $issues[] = "Important项保留率{$importantRate}<95%";
+            $issues[] = __("Important项保留率{$importantRate}<95%", 'linked3');
         }
 
         return ['passed' => empty($issues), 'issues' => $issues, 'important_rate' => $importantRate];

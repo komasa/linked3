@@ -48,7 +48,7 @@ if (isset($_POST['linked3_speech_settings_nonce']) && wp_verify_nonce(sanitize_t
 <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <h1 style="margin:0;">Dashboard</h1>
-        <a href="admin.php?page=linked3-dashboard" class="button">← 返回总览</a>
+        <a href="admin.php?page=linked3-dashboard" class="button"><?php echo esc_html__('← 返回总览', 'linked3'); ?></a>
     </div>
     <h1><?php echo esc_html__('语音 — TTS / STT', 'linked3'); ?></h1>
 

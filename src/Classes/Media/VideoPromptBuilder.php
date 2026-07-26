@@ -133,7 +133,7 @@ PROMPT;
      * @param array $extra     额外占位符 (topic/keyword/duration 等)
      * @return array 完整占位符映射
      */
-    public function build_v15_context(array $user_ctx, array $extra = []): mixed
+    public function build_v15_context(array $user_ctx, array $extra = []): array
     {
         return array_merge([
             // V15 8 维度
@@ -161,7 +161,7 @@ PROMPT;
      * @param array  $ctx
      * @return string
      */
-    public function resolve_placeholders(string $text, array $ctx): mixed
+    public function resolve_placeholders(string $text, array $ctx): array
     {
         foreach ($ctx as $key => $value) {
             $text = str_replace('{' . $key . '}', (string) $value, $text);
@@ -200,7 +200,7 @@ PROMPT;
 
         $content_clean = mb_substr(wp_strip_all_tags($content), 0, 3000);
         if (!empty($content_clean)) {
-            $prompt .= __('\n\n【文章参考内容】\n', 'linked3') . $content_clean;
+            $prompt .= "\n\n【文章参考内容】\n" . $content_clean;
         }
 
         $max_tokens = $duration <= 60 ? 2500 : ($duration <= 120 ? 4000 : 6000);
@@ -241,12 +241,12 @@ PROMPT;
         $prompt = $this->resolve_placeholders(self::FRAMES_PROMPT_TEMPLATE, $ctx);
 
         if (!empty($custom_prompt)) {
-            $prompt .= __('\n\n【附加要求】\n', 'linked3') . $custom_prompt;
+            $prompt .= "\n\n【附加要求】\n" . $custom_prompt;
         }
 
         $content_clean = mb_substr(wp_strip_all_tags($content), 0, 2000);
         if (!empty($content_clean)) {
-            $prompt .= __('\n\n【文章参考】\n', 'linked3') . $content_clean;
+            $prompt .= "\n\n【文章参考】\n" . $content_clean;
         }
 
         $timeout    = $duration <= 60 ? 120 : 180;
@@ -394,7 +394,7 @@ PROMPT;
             "- 描述 %s 的动画过渡 (镜头运动 + 画面变化 + 情绪转变)\n\n" .
             "【输出格式 — 绝对严格遵守】\n" .
             "只返回一个 JSON 对象, 绝对不要 markdown 代码块, 绝对不要前后说明文字:\n" .
-            "{\"index\":%d,\"page\":\"%s\",\"title\":\"%s\",\"image_prompt\":\"[META:animation_kf%02d] Brand:%s | Signature:%s | Color:%s | Mood:%s | FrameRate:24fps\\nA 9:16 vertical animation keyframe, frame %d of 9 for %s. <英文画面描述>\",\"script_prompt\":\"# Script: %s 过渡到 %s\\nArc: 起(0-30%%)->转(30-70%%)->合(70-100%%)\\nEmotionMap: <情绪轨迹>\\nSoundDesign: <声音设计>\\nKeyframe: K1(0s)<画面> K2(3s)<画面> K3(7s)<画面> K4(10s)<画面>\\nAtmosphere: <场景氛围>\",\"duration\":%d}",
+            "{\"index\":%d,\"page\":\"%s\",\"title\":\"%s\",\"image_prompt\":\"[META:animation_kf%02d] Brand:%s | Signature:%s | Color:%s | Mood:%s | FrameRate:24fps\\nA 9:16 vertical animation keyframe, frame %d of 9 for %s. <英文画面描述>\",\"script_prompt\":\"# Script: %s 过渡到 %s\\nArc: 起(0-30%%)->转(30-70%%)-><?php echo esc_html__('合(70-100%%)\\nEmotionMap:', 'linked3'); ?><情绪轨迹>\\nSoundDesign: <声音设计>\\nKeyframe: K1(0s)<画面> K2(3s)<画面> K3(7s)<画面> K4(10s)<画面>\\nAtmosphere: <场景氛围>\",\"duration\":%d}",
             $outline_item['index'], $outline_item['page'], $outline_item['title'],
             $title, $outline_item['title'], $outline_item['page'], $outline_item['duration'],
             $ctx['brand'], $ctx['signature'], $ctx['color'], $ctx['mood'], $ctx['culture'], $ctx['platform'], $ctx['density'], $ctx['product_type'],

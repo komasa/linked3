@@ -21,7 +21,7 @@ class PerformanceCache {
         return self::$instance;
     }
 
-    public function get(string $key) : null {
+    public function get(string $key) : mixed {
         if (!isset($this->cache[$key])) return null;
         if ((time() - $this->cache[$key]['time']) > $this->cache[$key]['ttl']) {
             unset($this->cache[$key]);

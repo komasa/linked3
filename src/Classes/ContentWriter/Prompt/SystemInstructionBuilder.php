@@ -90,7 +90,7 @@ final class SystemInstructionBuilder
         $lang_name = [
             'zh-CN' => __('简体中文', 'linked3'),
             'en' => 'English',
-            'ja' => '日本語',
+            'ja' => __('日本語', 'linked3'),
         ][$language] ?? $language;
 
         $complexity_desc = [

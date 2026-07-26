@@ -18,27 +18,27 @@ class DiagramValidationLayer {
     public function build(array $config): array {
         return [
             'visual_consistency' => [
-                'ratio'        => '9:16竖版',
-                'border'       => '细线圆角边框0.75pt',
-                'padding'      => '内边距15%',
-                'bg_tint'      => '极淡底色',
-                'badge_system' => '9徽章色互不相同',
+                'ratio'        => __('9:16竖版', 'linked3'),
+                'border'       => __('细线圆角边框0.75pt', 'linked3'),
+                'padding'      => __('内边距15%', 'linked3'),
+                'bg_tint'      => __('极淡底色', 'linked3'),
+                'badge_system' => __('9徽章色互不相同', 'linked3'),
             ],
             'text_embed' => [
-                'keyword_length'     => '2-6字',
-                'golden_length'      => '4字占比≥60%',
+                'keyword_length'     => __('2-6字', 'linked3'),
+                'golden_length'      => __('4字占比≥60%', 'linked3'),
                 'font_ratio'         => '4:3:2:1.5',
                 'min_font_size'      => '18pt',
                 'image_text_ratio'   => '6:4',
             ],
             'system_quality' => [
-                'color_restraint'    => '主色灰+强调色克制',
-                'dashboard_quality'  => '咨询级看板质感',
-                'endpoint_visible'   => '右下角终点清晰',
+                'color_restraint'    => __('主色灰+强调色克制', 'linked3'),
+                'dashboard_quality'  => __('咨询级看板质感', 'linked3'),
+                'endpoint_visible'   => __('右下角终点清晰', 'linked3'),
             ],
             'depth_anchor' => [
-                '3layer'  => '模块标题→子主题(2-4)→细节(2-3)',
-                '4layer'  => 'Case+Metric+Action 3锚点',
+                '3layer'  => __('模块标题→子主题(2-4)→细节(2-3)', 'linked3'),
+                '4layer'  => __('Case+Metric+Action 3锚点', 'linked3'),
             ],
         ];
     }

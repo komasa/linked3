@@ -69,10 +69,10 @@ class MissingAjaxEndpoints
     {
         $nonce = sanitize_text_field($_POST['nonce'] ?? '');
         if (!wp_verify_nonce($nonce, 'linked3_content_writer')) {
-            wp_send_json_error(['message' => __('安全校验失败', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('安全校验失败', 'linked3')], 403);
         }
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(['message' => __('无权限', 'linked3-ai')], 403);
+            wp_send_json_error(['message' => __('无权限', 'linked3')], 403);
         }
 
         $action = sanitize_text_field($_REQUEST['action'] ?? '');

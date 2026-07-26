@@ -32,11 +32,11 @@ class CompositeSocraticReview implements CompositeLeverInterface
     public function departments(): array
     {
         return [
-            'D1' => ['name' => '澄清部', 'mission' => '你所说的XX具体指什么？定义模糊概念', 'lever' => 'meta_socratic', 'kpi' => '所有关键词定义清晰'],
-            'D2' => ['name' => '假设挑战部', 'mission' => '这个结论依赖什么假设？假设是否成立？', 'lever' => 'meta_questioning', 'kpi' => '识别≥3个隐藏假设'],
-            'D3' => ['name' => '证据追问部', 'mission' => '有什么数据支持？数据来源是否可靠？', 'lever' => 'meta_essence', 'kpi' => '证据链完整度评估'],
-            'D4' => ['name' => '替代探索部', 'mission' => '是否有其他解释？第三种可能性？', 'lever' => 'meta_reverse', 'kpi' => '提出≥2个替代方案'],
-            'D5' => ['name' => '影响检验部', 'mission' => '如果这个结论错了，会怎样？', 'lever' => 'meta_evaluation', 'kpi' => '影响评估矩阵'],
+            'D1' => ['name' => __('澄清部', 'linked3'), 'mission' => __('你所说的XX具体指什么？定义模糊概念', 'linked3'), 'lever' => 'meta_socratic', 'kpi' => __('所有关键词定义清晰', 'linked3')],
+            'D2' => ['name' => __('假设挑战部', 'linked3'), 'mission' => __('这个结论依赖什么假设？假设是否成立？', 'linked3'), 'lever' => 'meta_questioning', 'kpi' => __('识别≥3个隐藏假设', 'linked3')],
+            'D3' => ['name' => __('证据追问部', 'linked3'), 'mission' => __('有什么数据支持？数据来源是否可靠？', 'linked3'), 'lever' => 'meta_essence', 'kpi' => __('证据链完整度评估', 'linked3')],
+            'D4' => ['name' => __('替代探索部', 'linked3'), 'mission' => __('是否有其他解释？第三种可能性？', 'linked3'), 'lever' => 'meta_reverse', 'kpi' => __('提出≥2个替代方案', 'linked3')],
+            'D5' => ['name' => __('影响检验部', 'linked3'), 'mission' => __('如果这个结论错了，会怎样？', 'linked3'), 'lever' => 'meta_evaluation', 'kpi' => __('影响评估矩阵', 'linked3')],
         ];
     }
 

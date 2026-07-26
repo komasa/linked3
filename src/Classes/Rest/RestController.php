@@ -113,7 +113,7 @@ final class RestController
         return true;
     }
 
-    public static function chat(WP_REST_Request $req) : WP_Error {
+    public static function chat(WP_REST_Request $req) : mixed {
         $message = sanitize_textarea_field($req->get_param('message') ?? '');
         $bot_id = (int) ($req->get_param('bot_id') ?? 0);
         $session_id = sanitize_text_field($req->get_param('session_id') ?? wp_generate_password(24, false));
@@ -134,7 +134,7 @@ final class RestController
         return rest_ensure_response($result);
     }
 
-    public static function generate($req) : WP_Error     {
+    public static function generate($req) : mixed     {
         $keyword = sanitize_text_field($req->get_param('keyword') ?? '');
         $title = sanitize_text_field($req->get_param('title') ?? '');
         if (empty($keyword) && empty($title)) {

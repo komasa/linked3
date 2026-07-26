@@ -35,51 +35,51 @@ class MotionVocabulary {
         return [
             'dolly_in' => [
                 'en' => 'dolly in / push in',
-                'cn' => '推近',
+                'cn' => __('推近', 'linked3'),
                 'emotion' => ['focus', 'tension', 'intimacy', 'curiosity'],
-                'desc' => '镜头向主体推进, 聚焦、紧张、亲密',
+                'desc' => __('镜头向主体推进, 聚焦、紧张、亲密', 'linked3'),
             ],
             'dolly_out' => [
                 'en' => 'dolly out / pull back',
-                'cn' => '拉远',
+                'cn' => __('拉远', 'linked3'),
                 'emotion' => ['reveal', 'isolation', 'loneliness', 'ending'],
-                'desc' => '镜头从主体拉远, 揭示、孤立、孤独',
+                'desc' => __('镜头从主体拉远, 揭示、孤立、孤独', 'linked3'),
             ],
             'pan_left' => [
                 'en' => 'pan left',
-                'cn' => '左摇',
+                'cn' => __('左摇', 'linked3'),
                 'emotion' => ['discovery', 'search', 'transition'],
-                'desc' => '镜头水平向左转动, 发现、搜索',
+                'desc' => __('镜头水平向左转动, 发现、搜索', 'linked3'),
             ],
             'pan_right' => [
                 'en' => 'pan right',
-                'cn' => '右摇',
+                'cn' => __('右摇', 'linked3'),
                 'emotion' => ['discovery', 'search', 'transition'],
-                'desc' => '镜头水平向右转动, 发现、搜索',
+                'desc' => __('镜头水平向右转动, 发现、搜索', 'linked3'),
             ],
             'tilt_up' => [
                 'en' => 'tilt up',
-                'cn' => '上仰',
+                'cn' => __('上仰', 'linked3'),
                 'emotion' => ['awe', 'grandeur', 'aspiration'],
-                'desc' => '镜头垂直向上转动, 敬畏、宏伟',
+                'desc' => __('镜头垂直向上转动, 敬畏、宏伟', 'linked3'),
             ],
             'tilt_down' => [
                 'en' => 'tilt down',
-                'cn' => '下俯',
+                'cn' => __('下俯', 'linked3'),
                 'emotion' => ['contemplation', 'sadness', 'reflection'],
-                'desc' => '镜头垂直向下转动, 沉思、悲伤',
+                'desc' => __('镜头垂直向下转动, 沉思、悲伤', 'linked3'),
             ],
             'orbit_cw' => [
                 'en' => 'orbit clockwise',
-                'cn' => '顺时针环绕',
+                'cn' => __('顺时针环绕', 'linked3'),
                 'emotion' => ['showcase', 'hero', 'epic'],
-                'desc' => '镜头顺时针环绕主体, 展示、英雄感',
+                'desc' => __('镜头顺时针环绕主体, 展示、英雄感', 'linked3'),
             ],
             'static_wide' => [
                 'en' => 'static wide shot',
-                'cn' => '固定广角',
+                'cn' => __('固定广角', 'linked3'),
                 'emotion' => ['establish', 'context', 'calm'],
-                'desc' => '固定广角镜头, 建立、平静',
+                'desc' => __('固定广角镜头, 建立、平静', 'linked3'),
             ],
         ];
     }
@@ -91,32 +91,32 @@ class MotionVocabulary {
         return [
             'standing_still' => [
                 'en' => 'stands still',
-                'cn' => '站立不动',
+                'cn' => __('站立不动', 'linked3'),
                 'emotion' => ['calm', 'contemplation', 'resolve'],
             ],
             'walk_forward' => [
                 'en' => 'walks forward',
-                'cn' => '向前走',
+                'cn' => __('向前走', 'linked3'),
                 'emotion' => ['progress', 'determination', 'journey'],
             ],
             'turn_around' => [
                 'en' => 'turns around',
-                'cn' => '转身',
+                'cn' => __('转身', 'linked3'),
                 'emotion' => ['surprise', 'realization', 'change'],
             ],
             'look_back' => [
                 'en' => 'looks back',
-                'cn' => '回头看',
+                'cn' => __('回头看', 'linked3'),
                 'emotion' => ['nostalgia', 'reluctance', 'memory'],
             ],
             'reach_out' => [
                 'en' => 'reaches out hand',
-                'cn' => '伸出手',
+                'cn' => __('伸出手', 'linked3'),
                 'emotion' => ['connection', 'plea', 'offering'],
             ],
             'head_turn' => [
                 'en' => 'turns head',
-                'cn' => '转头',
+                'cn' => __('转头', 'linked3'),
                 'emotion' => ['attention', 'curiosity', 'alert'],
             ],
         ];
@@ -129,17 +129,17 @@ class MotionVocabulary {
         return [
             'slow' => [
                 'en' => 'slowly, gently',
-                'cn' => '缓慢',
+                'cn' => __('缓慢', 'linked3'),
                 'emotion' => ['calm', 'tender', 'melancholic'],
             ],
             'normal' => [
                 'en' => 'smoothly, naturally',
-                'cn' => '正常',
+                'cn' => __('正常', 'linked3'),
                 'emotion' => ['neutral', 'steady'],
             ],
             'fast' => [
                 'en' => 'quickly, rapidly',
-                'cn' => '快速',
+                'cn' => __('快速', 'linked3'),
                 'emotion' => ['tension', 'urgency', 'excitement'],
             ],
         ];

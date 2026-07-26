@@ -16,9 +16,9 @@ class DiagramBrandSystem5D {
         return [
             'dimension1_logo' => $brandConfig['logo'] ?? '',
             'dimension2_color' => $brandConfig['color'] ?? ['#2F4F4F'],
-            'dimension3_typography' => $brandConfig['typography'] ?? '思源宋体+思源黑体',
-            'dimension4_texture' => $brandConfig['texture'] ?? '磨砂质感',
-            'dimension5_motion' => $brandConfig['motion'] ?? '克制缓慢',
+            'dimension3_typography' => $brandConfig['typography'] ?? __('思源宋体+思源黑体', 'linked3'),
+            'dimension4_texture' => $brandConfig['texture'] ?? __('磨砂质感', 'linked3'),
+            'dimension5_motion' => $brandConfig['motion'] ?? __('克制缓慢', 'linked3'),
         ];
     }
 

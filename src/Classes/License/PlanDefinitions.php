@@ -98,7 +98,7 @@ final class PlanDefinitions
      * @param string $feature
      * @return mixed
      */
-    public static function feature(string $plan, string $feature) : null {
+    public static function feature(string $plan, string $feature) : mixed {
         $def = self::get($plan);
         if (!$def) {
             return null;

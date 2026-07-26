@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace Linked3\Classes\Dashboard\Ajax;
 
+use Linked3\Includes\Log\Logger;
+
 use Linked3\Classes\Dashboard\GenesisProcessor;
 use Linked3\Classes\Dashboard\GenesisV9Processor;
 
@@ -53,8 +55,8 @@ final class DashboardAjaxGenesis
      */
     static function register(): void {
         // v28.0.0: Permanently disabled — all Genesis AJAX registered by DashboardGenesisActions.
-        if (defined('WP_DEBUG') && WP_DEBUG && function_exists('error_log')) {
-            error_log('[linked3] DashboardAjaxGenesis::register() — dead code (v28.0.0)');
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            Logger::instance()->warning('general', '[linked3] DashboardAjaxGenesis::register() — dead code (v28.0.0)');
         }
         return;
 

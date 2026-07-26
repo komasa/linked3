@@ -51,7 +51,7 @@ class BookAsyncRunner {
         public static function add_cron_interval(array $schedules) : mixed {
                 $schedules['linked3_15s'] = array(
                         'interval' => 15,
-                        'display'  => __( 'Linked3 每15秒', 'linked3-ai' ),
+                        'display'  => __( 'Linked3 每15秒', 'linked3' ),
                 );
                 return $schedules;
         }

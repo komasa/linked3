@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
 final class Alibaba1688Distributor implements DistributeAdapterInterface
 {
     public function slug() : string { return 'alibaba1688'; }
-    public function label() : string { return __('1688 开放平台', 'linked3'); }
+    public function label() : string { return '1688 开放平台'; }
 
     const API_BASE = 'https://gw.open.1688.com/openapi';
 
@@ -44,7 +44,7 @@ final class Alibaba1688Distributor implements DistributeAdapterInterface
         $member_id = $config['member_id'] ?? '';
 
         if (!$app_key || !$app_secret || !$access_token) {
-            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 app_key/app_secret/access_token', 'linked3-ai')];
+            return ['ok' => false, 'remote_id' => '', 'message' => __('缺少 app_key/app_secret/access_token', 'linked3')];
         }
 
         // 步骤 1: 上传产品主图
@@ -99,7 +99,7 @@ final class Alibaba1688Distributor implements DistributeAdapterInterface
         $app_secret = $config['app_secret'] ?? '';
         $access_token = $config['access_token'] ?? '';
         if (!$app_key || !$app_secret || !$access_token) {
-            return ['ok' => false, 'message' => __('缺少 app_key/app_secret/access_token', 'linked3-ai')];
+            return ['ok' => false, 'message' => __('缺少 app_key/app_secret/access_token', 'linked3')];
         }
         // v3.0.0: 调用产品列表 API 验证凭证
         $api_name = 'com.alibaba.product/alibaba.product.list';
